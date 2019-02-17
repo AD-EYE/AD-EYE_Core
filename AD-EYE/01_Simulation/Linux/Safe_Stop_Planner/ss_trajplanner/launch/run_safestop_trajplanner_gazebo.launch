@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="ss_trajplanner" type="ss_trajplanner_node" name="ss_trajplanner_node" output="screen">
+  <param name="robot_frame" value="base_link"/>
+  <param name="costmap_base_topic" value="/costmap_base"/>
+  <param name="odom_topic" value="/base_pose_ground_truth"/>
+  <param name="trajectory_set_filename" value="$(find ss_trajplanner)/data/SSMPset_2018-1-3--11-58-48.csv"/>
+  <remap from="/costmap_base/costmap" to="/occ_grid" />
+  <remap from="/costmap_base/footprint" to="/rcv_move_base_local/move_base_local/local_costmap/footprint"/>
+  </node>
+</launch>
