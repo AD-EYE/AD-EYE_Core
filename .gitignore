@@ -5,7 +5,7 @@
 # Python bytecode
 *.pyc
 
-# Simulink and PreScan generated files
+# Simulink and PreScan generated files. May need to add more based on .pex configuration
 *.pb
 *.pepb
 *.autosave
@@ -20,4 +20,21 @@
 *.ps3d
 *.vwe
 *.osgt
-#all folders that are generated add *.png
+
+# All folders that are generated. May need to add more based on .pex configuration
+*/PreScan_Experiments/**/Actors
+*/PreScan_Experiments/**/CameraSensorConfig
+*/PreScan_Experiments/**/RemoteViewerPlugin
+*/PreScan_Experiments/**/Temp
+*/PreScan_Experiments/**/Trajectories
+*/PreScan_Experiments/**/Models
+*/PreScan_Experiments/**/Resources
+*/PreScan_Experiments/**/V2XPlugin
+*/PreScan_Experiments/**/cameraeffects
+*/PreScan_Experiments/**/cameras
+*/PreScan_Experiments/**/Pictures
+
+# May have to re-include
+*/PreScan_Experiments/**/*hash.mat
+*/PreScan_Experiments/**/*old.slx
+*/PreScan_Experiments/**/*.png
