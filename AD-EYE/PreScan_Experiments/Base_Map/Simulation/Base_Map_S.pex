@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_S" UniqueId="0" Authors="S. de Hair" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableTestAutomation="false" ExperimentDescription="This demo illustrates the use of changing vehicle colors for visualization depending on criteria set&#xD;&#xA;&#xD;&#xA;Keywords:&#xD;&#xA;- C2C&#xD;&#xA;- closest vehicle&#xD;&#xA;- changing vehicle color" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="8.6.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="D78AB666F586D74F0B99C88D570768A6015602C2AEB1BABDC61CF47FFFB1CB12" UniqueExperimentIdentifier="718190a2-bae3-4a5e-902b-3b36c0f45e2c" UniqueIdCounter="8021" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_S" UniqueId="0" Authors="S. de Hair" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableTestAutomation="false" ExperimentDescription="This demo illustrates the use of changing vehicle colors for visualization depending on criteria set&#xD;&#xA;&#xD;&#xA;Keywords:&#xD;&#xA;- C2C&#xD;&#xA;- closest vehicle&#xD;&#xA;- changing vehicle color" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="8.6.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="E300B1BEF6E6197C77537F7A04B7A0AD956F4EF4C946C5B028770976E222742E" UniqueExperimentIdentifier="718190a2-bae3-4a5e-902b-3b36c0f45e2c" UniqueIdCounter="8146" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of an Audi A8 Sedan" id="Audi_A8_Sedan_1" UniqueId="642" SensorDetectability="Detectable" NumericalID="1" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="true" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Audi_A8_Sedan" AnimatedActor="false" CompilationSheetPicture="Audi_A8_HighPoly.png" HashCode="d771622804618130053427da08a6d484" ModelFile="Vehicles\Audi_A8\Audi_A8.osgb" GenericModelSourceFile="Vehicles\Audi_A8\Audi_A8.pgmb" FileLocationType="ModelDepo" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="70.127597808837891" Y="171.54455947875977" Z="0.550000011920929">
@@ -351,7 +351,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="8016" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="8141" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -376,7 +376,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="8017" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="8142" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -401,7 +401,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="8018" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="8143" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -426,7 +426,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="8019" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="8144" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -461,7 +461,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="8020" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="8145" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -7126,7 +7126,7 @@
     </Actor>
   </Actors>
   <VehicleTypeSpecificDatas />
-  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="3" InterpretedSimulink="S_base_world" />
+  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="3" InterpretedSimulink="Base_Map_S" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="1" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
@@ -11101,7 +11101,7 @@
       </item>
     </ObjectProperties>
   </PreScanObjectTypeSettings>
-  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="300" VisualizationUpdateRatio="100" DisableVisualWorld="false" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\S_base_world.swi" TerminationVisScriptFile="Temp\S_base_world.swt" />
+  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="300" VisualizationUpdateRatio="100" DisableVisualWorld="false" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\Base_Map_S.swi" TerminationVisScriptFile="Temp\Base_Map_S.swt" />
   <Sky Description="Sky" id="Sky" UniqueId="418" SkyBoxName="SKY_Air" UseImageBasedSky="true" GenerateSkyAlbedo="0.5" GeneratedSkyTurbidity="4" ObjectTypeID="50" NumericalID="45" />
   <SpeedProfiles>
     <SpeedProfileBase xsi:type="SpeedProfile" Description="Derived from old (before conversion) RouteObject_1" id="SpeedProfile_1" UniqueId="119">
