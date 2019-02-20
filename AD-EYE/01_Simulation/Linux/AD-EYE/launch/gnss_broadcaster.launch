@@ -1,0 +1,4 @@
+<launch>
+   <node type="gnss_broadcaster.py" pkg="adeye"
+        name="gnss_broadcaster" respawn="true"/>
+</launch>
