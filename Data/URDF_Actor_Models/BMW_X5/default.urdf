@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="car">
+  <link name="base_link">
+    <visual name="base_visual">
+      <origin xyz="1 0 0.0" rpy="0 0 3.14" />
+      <geometry>
+        <mesh filename="package://model_publisher/../../../.config/bmw_x5/BMW X5 4.3ds" scale="0.03 0.03 0.03"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
