@@ -8,7 +8,7 @@
 	<param name="fileLane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv"/>
     <param name="fileNode" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/node.csv"/>
     <param name="fileDtlane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv"/>
-	<param name="filePex" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/model.pex"/>
+	<param name="filePex" value="$(env HOME)/AD-EYE-WASP/AD-EYE/PreScan_Experiments/Base_Map/Simulation/Base_Map_S.pex"/>
   </node>
 
   <node pkg="adeye" type="flattening" name="flattening" output="screen" />
