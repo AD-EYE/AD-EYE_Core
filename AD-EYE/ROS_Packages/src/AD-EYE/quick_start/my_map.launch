@@ -76,19 +76,19 @@
 
   <!-- Vector Map -->
   <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
-    $(env HOME)/adeye-data/map/vector_map/dtlane.csv
-    $(env HOME)/adeye-data/map/vector_map/lane.csv
-    $(env HOME)/adeye-data/map/vector_map/line.csv
-    $(env HOME)/adeye-data/map/vector_map/node.csv
-    $(env HOME)/adeye-data/map/vector_map/point.csv
-    $(env HOME)/adeye-data/map/vector_map/roadedge.csv
-    $(env HOME)/adeye-data/map/vector_map/whiteline.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/node.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/point.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
+    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv
 
 
 "/>
 
 </launch>
 
-<!--$(find Home)/adeye-data/map/vector_map/line.csv
-$(find Home)/adeye-data/map/vector_map/roadedge.csv
-$(find Home)/adeye-data/map/vector_map/whiteline.csv-->
+<!--$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
+$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
+$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv-->
