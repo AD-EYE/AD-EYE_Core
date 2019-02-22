@@ -27,7 +27,7 @@ launch6 = roslaunch.parent.ROSLaunchParent(uuid6, ["/home/naveenm/AD-EYE-WASP/AD
 
 uuid7 = roslaunch.rlutil.get_or_generate_uuid(None, False)
 roslaunch.configure_logging(uuid7)
-launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/aunch/switch.launch"])
+launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/launch/switch.launch"])
 
 pmap_stat_bool=False
 
