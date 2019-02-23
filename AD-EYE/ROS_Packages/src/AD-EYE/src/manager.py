@@ -7,9 +7,9 @@ from std_msgs.msg import Bool
 from roslaunch import rlutil, parent, configure_logging
 
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
-# TODO add subscriber to get config from Simulink for enabled features
-
-FEATURE_ENABLED = [True for i in range(6)]
+# TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
+FEATURE_ENABLED = [True for i in range(8)]
+# Symbolic names to access FEATURE_ENABLED
 RVIZ = 1
 MAPPING = 2
 LOCALIZATION = 3
@@ -19,6 +19,7 @@ SWITCH = 6
 MISSION_PLANNING = 7
 MOTION_PLANNING = 8
 
+print FEATURE_ENABLED
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
 QUICK_START_LOCATION = "quick_start/"
