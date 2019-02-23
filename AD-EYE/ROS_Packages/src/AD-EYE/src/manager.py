@@ -19,7 +19,6 @@ SWITCH = 6
 MISSION_PLANNING = 7
 MOTION_PLANNING = 8
 
-print FEATURE_ENABLED
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
 QUICK_START_LOCATION = "quick_start/"
@@ -63,77 +62,77 @@ POINT_MAP_SLEEP_TIME = 0.05
 state = 0  # 0=wait | 1=run
 point_map_ready = False
 
-uuid3 = rlutil.get_or_generate_uuid(None, False)
-configure_logging(uuid3)
-launch3 = parent.ROSLaunchParent(uuid3, [LOCALIZATION_FULL_PATH])
+Localization_uuid = rlutil.get_or_generate_uuid(None, False)
+configure_logging(Localization_uuid)
+Localization_launch = parent.ROSLaunchParent(Localization_uuid, [LOCALIZATION_FULL_PATH])
 
-uuid4 = rlutil.get_or_generate_uuid(None, False)
-configure_logging(uuid4)
-launch4 = parent.ROSLaunchParent(uuid4, [DETECTION_FULL_PATH])
+Detection_uuid = rlutil.get_or_generate_uuid(None, False)
+configure_logging(Detection_uuid)
+Detection_launch = parent.ROSLaunchParent(Detection_uuid, [DETECTION_FULL_PATH])
 
-uuid5 = rlutil.get_or_generate_uuid(None, False)
-configure_logging(uuid5)
-launch5 = parent.ROSLaunchParent(uuid5, [MISSION_PLANNING_FULL_PATH])
+Mission_planning_uuid = rlutil.get_or_generate_uuid(None, False)
+configure_logging(Mission_planning_uuid)
+Mission_planning_launch = parent.ROSLaunchParent(Mission_planning_uuid, [MISSION_PLANNING_FULL_PATH])
 
-uuid6 = rlutil.get_or_generate_uuid(None, False)
-configure_logging(uuid6)
-launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_FULL_PATH])
+Motion_planning_uuid = rlutil.get_or_generate_uuid(None, False)
+configure_logging(Motion_planning_uuid)
+Motion_planning_launch = parent.ROSLaunchParent(Motion_planning_uuid, [MOTION_PLANNING_FULL_PATH])
 
-uuid7 = rlutil.get_or_generate_uuid(None, False)
-configure_logging(uuid7)
-launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
+Switch_uuid = rlutil.get_or_generate_uuid(None, False)
+configure_logging(Switch_uuid)
+Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
 
 
 def mycallback(data):
     global state
-    global launch3
-    global uuid3
-    global launch4
-    global uuid4
-    global launch5
-    global uuid5
-    global launch6
-    global uuid6
-    global launch7
-    global uuid7
+    global Localization_launch
+    global Localization_uuid
+    global Detection_launch
+    global Detection_uuid
+    global Mission_planning_launch
+    global Mission_planning_uuid
+    global Motion_planning_launch
+    global Motion_planning_uuid
+    global Switch_launch
+    global Switch_uuid
 
     if data.data == 1 and state == 0:
         state = 1
         rospy.loginfo(state)
-        launch3 = parent.ROSLaunchParent(uuid3, [LOCALIZATION_FULL_PATH])
-        launch3.start()
+        Localization_launch = parent.ROSLaunchParent(Localization_uuid, [LOCALIZATION_FULL_PATH])
+        Localization_launch.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
-        launch4 = parent.ROSLaunchParent(uuid4, [DETECTION_FULL_PATH])
-        launch4.start()
+        Detection_launch = parent.ROSLaunchParent(Detection_uuid, [DETECTION_FULL_PATH])
+        Detection_launch.start()
         rospy.loginfo("started4")
 
-        launch5 = parent.ROSLaunchParent(uuid5, [MISSION_PLANNING_FULL_PATH])
-        launch5.start()
+        Mission_planning_launch = parent.ROSLaunchParent(Mission_planning_uuid, [MISSION_PLANNING_FULL_PATH])
+        Mission_planning_launch.start()
         time.sleep(MISSION_PLANNING_START_WAIT_TIME)
         rospy.loginfo("started5")
 
-        launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_FULL_PATH])
-        launch6.start()
+        Motion_planning_launch = parent.ROSLaunchParent(Motion_planning_uuid, [MOTION_PLANNING_FULL_PATH])
+        Motion_planning_launch.start()
         rospy.loginfo("started6")
 
-        launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
-        launch7.start()
+        Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
+        Switch_launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
     if data.data == 0 and state == 1:
         state = 0
         rospy.loginfo(state)
-        launch3.shutdown()
+        Localization_launch.shutdown()
         time.sleep(LOCALIZATION_STOP_WAIT_TIME)
-        launch5.shutdown()
+        Mission_planning_launch.shutdown()
         time.sleep(MISSION_PLANNING_STOP_WAIT_TIME)
-        # launch4.shutdown()
+        # Detection_launch.shutdown()
         # time.sleep(DETECTION_STOP_WAIT_TIME)
-        launch6.shutdown()
+        Motion_planning_launch.shutdown()
         time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
-        launch7.shutdown()
+        Switch_launch.shutdown()
         # state=0
 
 
@@ -147,10 +146,10 @@ if __name__ == '__main__':
     rospy.loginfo(" Hello , ROS! ")
 
     # Launch Switch
-    uuid7 = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(uuid7)
-    launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
-    launch7.start()
+    Switch_uuid = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(Switch_uuid)
+    Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
+    Switch_launch.start()
     rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
