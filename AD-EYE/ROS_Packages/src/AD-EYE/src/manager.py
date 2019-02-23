@@ -37,12 +37,13 @@ MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
-DETECTION_STOP_WAIT_TIME = 10
-MOTION_PLANNING_STOP_WAIT_TIME = 10
-MISSION_PLANNING_STOP_WAIT_TIME = 10
-LOCALIZATION_STOP_WAIT_TIME = 10
-MISSION_PLANNING_WAIT_TIME = 5
 LOCALIZATION_START_WAIT_TIME = 10
+LOCALIZATION_STOP_WAIT_TIME = 10
+DETECTION_STOP_WAIT_TIME = 10
+MISSION_PLANNING_START_WAIT_TIME = 5
+MISSION_PLANNING_STOP_WAIT_TIME = 10
+MOTION_PLANNING_STOP_WAIT_TIME = 10
+
 PMAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
@@ -86,21 +87,21 @@ def mycallback(data):
     if data.data == 1 and state == 0:
         state = 1
         rospy.loginfo(state)
-        launch3 = parent.ROSLaunchParent(uuid3, [LOCALIZATION_LAUNCH_FILE_NAME])
+        launch3 = parent.ROSLaunchParent(uuid3, [LOCALIZATION_FULL_PATH])
         launch3.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
-        launch4 = parent.ROSLaunchParent(uuid4, [DETECTION_LAUNCH_FILE_NAME])
+        launch4 = parent.ROSLaunchParent(uuid4, [DETECTION_FULL_PATH])
         launch4.start()
         rospy.loginfo("started4")
 
-        launch5 = parent.ROSLaunchParent(uuid5, [MISSION_PLANNING_LAUNCH_FILE_NAME])
+        launch5 = parent.ROSLaunchParent(uuid5, [MISSION_PLANNING_FULL_PATH])
         launch5.start()
-        time.sleep(MISSION_PLANNING_WAIT_TIME)
+        time.sleep(MISSION_PLANNING_START_WAIT_TIME)
         rospy.loginfo("started5")
 
-        launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_LAUNCH_FILE_NAME])
+        launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_FULL_PATH])
         launch6.start()
         rospy.loginfo("started6")
 
