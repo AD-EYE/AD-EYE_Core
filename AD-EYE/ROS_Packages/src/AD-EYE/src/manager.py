@@ -124,7 +124,7 @@ def mycallback(data):
         # state=0
 
 
-def pmap_stat_callback(data):
+def point_map_status_callback(data):
     global pmap_stat_bool
     pmap_stat_bool = data.data
 
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     launch1 = parent.ROSLaunchParent(uuid1, [MAPPING_FULL_PATH])
     launch1.start()
     rospy.loginfo("MANAGER: Map launched")
-    rospy.Subscriber("/pmap_stat", Bool, pmap_stat_callback)
+    rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
 
     while not pmap_stat_bool:
         time.sleep(PMAP_SLEEP_TIME)
