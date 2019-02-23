@@ -6,7 +6,11 @@ from std_msgs.msg import Int32
 from std_msgs.msg import Bool
 from roslaunch import rlutil, parent, configure_logging
 
+
+# Config: Common to more files and will be exported out
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
+QUICK_START_LOCATION = "quick_start/"
+LAUNCH_FOLDER_LOCATION = "launch/"
 
 RVIZ_LAUNCH_FILE_NAME = "my_rviz.launch"
 MAPPING_LAUNCH_FILE_NAME = "my_map.launch"
@@ -22,7 +26,7 @@ state = 0  # 0=wait | 1=run
 uuid3 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid3)
 launch3 = parent.ROSLaunchParent(uuid3, [
-    ("%squick_start/%s" % (ADEYE_PACKAGE_LOCATION, LOCALIZATION_LAUNCH_FILE_NAME))])
+    ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LOCALIZATION_LAUNCH_FILE_NAME,))])
 
 uuid4 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid4)
@@ -42,7 +46,7 @@ launch6 = parent.ROSLaunchParent(uuid6, [
 uuid7 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid7)
 launch7 = parent.ROSLaunchParent(uuid7, [
-    ("%squick_start/launch/%s" % (ADEYE_PACKAGE_LOCATION, SWITCH_LAUNCH_FILE_NAME))])
+    ("%s%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, SWITCH_LAUNCH_FILE_NAME,))])
 
 pmap_stat_bool = False
 
@@ -86,7 +90,7 @@ def mycallback(data):
         rospy.loginfo("started6")
 
         launch7 = parent.ROSLaunchParent(uuid7, [
-            ("%slaunch/%s" % (ADEYE_PACKAGE_LOCATION, SWITCH_LAUNCH_FILE_NAME))])
+            ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, SWITCH_LAUNCH_FILE_NAME, LAUNCH_FOLDER_LOCATION))])
         launch7.start()
         rospy.loginfo("MANAGER: Switch launched")
 
