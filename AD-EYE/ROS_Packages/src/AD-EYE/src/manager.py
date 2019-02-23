@@ -44,11 +44,11 @@ MISSION_PLANNING_START_WAIT_TIME = 5
 MISSION_PLANNING_STOP_WAIT_TIME = 10
 MOTION_PLANNING_STOP_WAIT_TIME = 10
 
-PMAP_SLEEP_TIME = 0.05
+POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
 state = 0  # 0=wait | 1=run
-pmap_stat_bool = False
+point_map_ready = False
 
 uuid3 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid3)
@@ -125,8 +125,8 @@ def mycallback(data):
 
 
 def point_map_status_callback(data):
-    global pmap_stat_bool
-    pmap_stat_bool = data.data
+    global point_map_ready
+    point_map_ready = data.data
 
 
 if __name__ == '__main__':
@@ -155,8 +155,9 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Map launched")
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
 
-    while not pmap_stat_bool:
-        time.sleep(PMAP_SLEEP_TIME)
+    # Wait for point map to be loaded and signal to be received
+    while not point_map_ready:
+        time.sleep(POINT_MAP_SLEEP_TIME)
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
