@@ -1,37 +1,36 @@
 #!/usr/bin/env python
 # license removed for brevity
+import time
 import rospy
-import roslaunch
-# import math as m
 from std_msgs.msg import Int32
 from std_msgs.msg import Bool
-import time
+from roslaunch import rlutil, parent, configure_logging
 
 state = 0  # 0=wait | 1=run
 
-uuid3 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid3)
-launch3 = roslaunch.parent.ROSLaunchParent(uuid3, [
+uuid3 = rlutil.get_or_generate_uuid(None, False)
+configure_logging(uuid3)
+launch3 = parent.ROSLaunchParent(uuid3, [
     "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_localization.launch"])
 
-uuid4 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid4)
-launch4 = roslaunch.parent.ROSLaunchParent(uuid4, [
+uuid4 = rlutil.get_or_generate_uuid(None, False)
+configure_logging(uuid4)
+launch4 = parent.ROSLaunchParent(uuid4, [
     "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_detection.launch"])
 
-uuid5 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid5)
-launch5 = roslaunch.parent.ROSLaunchParent(uuid5, [
+uuid5 = rlutil.get_or_generate_uuid(None, False)
+configure_logging(uuid5)
+launch5 = parent.ROSLaunchParent(uuid5, [
     "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_mission_planning.launch"])
 
-uuid6 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid6)
-launch6 = roslaunch.parent.ROSLaunchParent(uuid6, [
+uuid6 = rlutil.get_or_generate_uuid(None, False)
+configure_logging(uuid6)
+launch6 = parent.ROSLaunchParent(uuid6, [
     "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_motion_planning.launch"])
 
-uuid7 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-roslaunch.configure_logging(uuid7)
-launch7 = roslaunch.parent.ROSLaunchParent(uuid7, [
+uuid7 = rlutil.get_or_generate_uuid(None, False)
+configure_logging(uuid7)
+launch7 = parent.ROSLaunchParent(uuid7, [
     "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/launch/switch.launch"])
 
 pmap_stat_bool = False
@@ -53,29 +52,29 @@ def mycallback(data):
     if data.data == 1 and state == 0:
         state = 1
         rospy.loginfo(state)
-        launch3 = roslaunch.parent.ROSLaunchParent(uuid3, [
+        launch3 = parent.ROSLaunchParent(uuid3, [
             "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_localization.launch"])
         launch3.start()
         time.sleep(10)
         rospy.loginfo("started3")
 
-        launch4 = roslaunch.parent.ROSLaunchParent(uuid4, [
+        launch4 = parent.ROSLaunchParent(uuid4, [
             "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_detection.launch"])
         launch4.start()
         rospy.loginfo("started4")
 
-        launch5 = roslaunch.parent.ROSLaunchParent(uuid5, [
+        launch5 = parent.ROSLaunchParent(uuid5, [
             "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_mission_planning.launch"])
         launch5.start()
         time.sleep(5)
         rospy.loginfo("started5")
 
-        launch6 = roslaunch.parent.ROSLaunchParent(uuid6, [
+        launch6 = parent.ROSLaunchParent(uuid6, [
             "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_motion_planning.launch"])
         launch6.start()
         rospy.loginfo("started6")
 
-        launch7 = roslaunch.parent.ROSLaunchParent(uuid7, [
+        launch7 = parent.ROSLaunchParent(uuid7, [
             "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
         launch7.start()
         rospy.loginfo("MANAGER: Switch launched")
@@ -106,24 +105,24 @@ if __name__ == '__main__':
     rospy.loginfo(" Hello , ROS! ")
 
     # Launch Switch
-    # uuid7 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    # roslaunch.configure_logging(uuid7)
-    # launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
+    # uuid7 = rlutil.get_or_generate_uuid(None, False)
+    # configure_logging(uuid7)
+    # launch7 = parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
     # launch7.start()
     # rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
-    uuid0 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    roslaunch.configure_logging(uuid0)
-    launch0 = roslaunch.parent.ROSLaunchParent(uuid0, [
+    uuid0 = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(uuid0)
+    launch0 = parent.ROSLaunchParent(uuid0, [
         "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_rviz.launch"])
     launch0.start()
     rospy.loginfo("MANAGER: Rviz launched")
 
     # Launch the map
-    uuid1 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    roslaunch.configure_logging(uuid1)
-    launch1 = roslaunch.parent.ROSLaunchParent(uuid1, [
+    uuid1 = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(uuid1)
+    launch1 = parent.ROSLaunchParent(uuid1, [
         "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_map.launch"])
     launch1.start()
     rospy.loginfo("MANAGER: Map launched")
@@ -134,9 +133,9 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
-    uuid2 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    roslaunch.configure_logging(uuid2)
-    launch2 = roslaunch.parent.ROSLaunchParent(uuid2, [
+    uuid2 = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(uuid2)
+    launch2 = parent.ROSLaunchParent(uuid2, [
         "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_sensing.launch"])
     launch2.start()
     rospy.loginfo("MANAGER: Sensing launched")
