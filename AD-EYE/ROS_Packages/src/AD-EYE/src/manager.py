@@ -6,7 +6,7 @@ from std_msgs.msg import Int32
 from std_msgs.msg import Bool
 from roslaunch import rlutil, parent, configure_logging
 
-# Config: Common to more files and will be exported out
+#  --------------Config: Common to more files and will be exported out--------------------------------------------------
 
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
@@ -34,6 +34,7 @@ MISSION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME))
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
+#  ---------------------------------------------------------------------------------------------------------------------
 
 state = 0  # 0=wait | 1=run
 
