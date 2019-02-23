@@ -7,6 +7,7 @@ from std_msgs.msg import Bool
 from roslaunch import rlutil, parent, configure_logging
 
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
+# TODO add subscriber to get config from Simulink for enabled features
 
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
@@ -37,6 +38,7 @@ MOTION_PLANNING_FULL_PATH = (
 #  ---------------------------------------------------------------------------------------------------------------------
 
 state = 0  # 0=wait | 1=run
+pmap_stat_bool = False
 
 uuid3 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid3)
@@ -57,8 +59,6 @@ launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_FULL_PATH])
 uuid7 = rlutil.get_or_generate_uuid(None, False)
 configure_logging(uuid7)
 launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
-
-pmap_stat_bool = False
 
 
 def mycallback(data):
@@ -116,7 +116,6 @@ def mycallback(data):
         launch6.shutdown()
         time.sleep(10)
         launch7.shutdown()
-
         # state=0
 
 
@@ -150,8 +149,8 @@ if __name__ == '__main__':
     launch1.start()
     rospy.loginfo("MANAGER: Map launched")
     rospy.Subscriber("/pmap_stat", Bool, pmap_stat_callback)
-    global pmap_stat_bool
-    while pmap_stat_bool == False:
+
+    while not pmap_stat_bool:
         time.sleep(0.05)
     rospy.loginfo("MANAGER: Map finished")
 
