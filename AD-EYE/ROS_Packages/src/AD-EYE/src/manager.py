@@ -2,12 +2,12 @@
 # license removed for brevity
 import rospy
 import roslaunch
-#import math as m
+# import math as m
 from std_msgs.msg import Int32
 from std_msgs.msg import Bool
 import time
 
-state=0 # 0=wait | 1=run
+state = 0  # 0=wait | 1=run
 
 uuid3 = roslaunch.rlutil.get_or_generate_uuid(None, False)
 roslaunch.configure_logging(uuid3)
@@ -31,6 +31,7 @@ launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD
 
 pmap_stat_bool=False
 
+
 def mycallback(data):
     global state
     global launch3
@@ -44,7 +45,7 @@ def mycallback(data):
     global launch7
     global uuid7
 
-    if (data.data==1 and state==0):
+    if  data.data==1 and state==0:
         state=1
         rospy.loginfo(state)
         launch3 = roslaunch.parent.ROSLaunchParent(uuid3, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/quick_start/my_localization.launch"])
@@ -69,8 +70,8 @@ def mycallback(data):
         launch7.start()
         rospy.loginfo("MANAGER: Switch launched")
 
-    if (data.data==0 and state==1):
-        state=0
+    if data.data == 0 and state == 1:
+        state = 0
         rospy.loginfo(state)
         launch3.shutdown()
         time.sleep(10)
@@ -84,6 +85,7 @@ def mycallback(data):
 
         #state=0
 
+
 def pmap_stat_callback(data):
     global pmap_stat_bool
     pmap_stat_bool=data.data
@@ -91,14 +93,14 @@ def pmap_stat_callback(data):
 
 if __name__ == '__main__':
     rospy.init_node('manager', anonymous=True)
-    rospy.loginfo( " Hello , ROS! " );
+    rospy.loginfo(" Hello , ROS! ")
 
     # Launch Switch
-    #uuid7 = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    #roslaunch.configure_logging(uuid7)
-    #launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
-    #launch7.start()
-    #rospy.loginfo("MANAGER: Switch launched")
+    # uuid7 = roslaunch.rlutil.get_or_generate_uuid(None, False)
+    # roslaunch.configure_logging(uuid7)
+    # launch7 = roslaunch.parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
+    # launch7.start()
+    # rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
     uuid0 = roslaunch.rlutil.get_or_generate_uuid(None, False)
