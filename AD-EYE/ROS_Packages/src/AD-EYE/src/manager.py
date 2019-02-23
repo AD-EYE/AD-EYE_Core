@@ -35,6 +35,15 @@ MISSION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME))
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
+
+# Sleep times for system to finish resource intensive tasks/ receive control signals
+DETECTION_STOP_WAIT_TIME = 10
+MOTION_PLANNING_STOP_WAIT_TIME = 10
+MISSION_PLANNING_STOP_WAIT_TIME = 10
+LOCALIZATION_STOP_WAIT_TIME = 10
+MISSION_PLANNING_WAIT_TIME = 5
+LOCALIZATION_START_WAIT_TIME = 10
+PMAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
 state = 0  # 0=wait | 1=run
@@ -77,30 +86,25 @@ def mycallback(data):
     if data.data == 1 and state == 0:
         state = 1
         rospy.loginfo(state)
-        launch3 = parent.ROSLaunchParent(uuid3, [
-            LOCALIZATION_LAUNCH_FILE_NAME])
+        launch3 = parent.ROSLaunchParent(uuid3, [LOCALIZATION_LAUNCH_FILE_NAME])
         launch3.start()
-        time.sleep(10)
+        time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
-        launch4 = parent.ROSLaunchParent(uuid4, [
-            DETECTION_LAUNCH_FILE_NAME])
+        launch4 = parent.ROSLaunchParent(uuid4, [DETECTION_LAUNCH_FILE_NAME])
         launch4.start()
         rospy.loginfo("started4")
 
-        launch5 = parent.ROSLaunchParent(uuid5, [
-            MISSION_PLANNING_LAUNCH_FILE_NAME])
+        launch5 = parent.ROSLaunchParent(uuid5, [MISSION_PLANNING_LAUNCH_FILE_NAME])
         launch5.start()
-        time.sleep(5)
+        time.sleep(MISSION_PLANNING_WAIT_TIME)
         rospy.loginfo("started5")
 
-        launch6 = parent.ROSLaunchParent(uuid6, [
-            MOTION_PLANNING_LAUNCH_FILE_NAME])
+        launch6 = parent.ROSLaunchParent(uuid6, [MOTION_PLANNING_LAUNCH_FILE_NAME])
         launch6.start()
         rospy.loginfo("started6")
 
-        launch7 = parent.ROSLaunchParent(uuid7, [
-            SWITCH_FULL_PATH])
+        launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
         launch7.start()
         rospy.loginfo("MANAGER: Switch launched")
 
@@ -108,13 +112,13 @@ def mycallback(data):
         state = 0
         rospy.loginfo(state)
         launch3.shutdown()
-        time.sleep(10)
+        time.sleep(LOCALIZATION_STOP_WAIT_TIME)
         launch5.shutdown()
-        time.sleep(10)
+        time.sleep(MISSION_PLANNING_STOP_WAIT_TIME)
         # launch4.shutdown()
-        # time.sleep(10)
+        # time.sleep(DETECTION_STOP_WAIT_TIME)
         launch6.shutdown()
-        time.sleep(10)
+        time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
         launch7.shutdown()
         # state=0
 
@@ -151,7 +155,7 @@ if __name__ == '__main__':
     rospy.Subscriber("/pmap_stat", Bool, pmap_stat_callback)
 
     while not pmap_stat_bool:
-        time.sleep(0.05)
+        time.sleep(PMAP_SLEEP_TIME)
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
