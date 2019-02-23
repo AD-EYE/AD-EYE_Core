@@ -31,9 +31,9 @@ SENSING_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, S
 DETECTION_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, DETECTION_LAUNCH_FILE_NAME))
 SWITCH_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SWITCH_LAUNCH_FILE_NAME))
 MISSION_PLANNING_FULL_PATH = (
-            "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME))
+        "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME))
 MOTION_PLANNING_FULL_PATH = (
-            "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
+        "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 
 state = 0  # 0=wait | 1=run
 
@@ -129,11 +129,11 @@ if __name__ == '__main__':
     rospy.loginfo(" Hello , ROS! ")
 
     # Launch Switch
-    # uuid7 = rlutil.get_or_generate_uuid(None, False)
-    # configure_logging(uuid7)
-    # launch7 = parent.ROSLaunchParent(uuid7, ["/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"])
-    # launch7.start()
-    # rospy.loginfo("MANAGER: Switch launched")
+    uuid7 = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(uuid7)
+    launch7 = parent.ROSLaunchParent(uuid7, [SWITCH_FULL_PATH])
+    launch7.start()
+    rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
     uuid0 = rlutil.get_or_generate_uuid(None, False)
