@@ -9,6 +9,16 @@ from roslaunch import rlutil, parent, configure_logging
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
 # TODO add subscriber to get config from Simulink for enabled features
 
+FEATURE_ENABLED = [True for i in range(6)]
+RVIZ = 1
+MAPPING = 2
+LOCALIZATION = 3
+SENSING = 4
+DETECTION = 5
+SWITCH = 6
+MISSION_PLANNING = 7
+MOTION_PLANNING = 8
+
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
 QUICK_START_LOCATION = "quick_start/"
@@ -43,6 +53,8 @@ DETECTION_STOP_WAIT_TIME = 10
 MISSION_PLANNING_START_WAIT_TIME = 5
 MISSION_PLANNING_STOP_WAIT_TIME = 10
 MOTION_PLANNING_STOP_WAIT_TIME = 10
+
+DEFAULT_WAIT_TIME = 0.1
 
 POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
