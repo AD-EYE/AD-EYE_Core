@@ -153,17 +153,17 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
-    uuid0 = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(uuid0)
-    launch0 = parent.ROSLaunchParent(uuid0, [RVIZ_FULL_PATH])
-    launch0.start()
+    Rviz_uuid = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(Rviz_uuid)
+    Rviz_launch = parent.ROSLaunchParent(Rviz_uuid, [RVIZ_FULL_PATH])
+    Rviz_launch.start()
     rospy.loginfo("MANAGER: Rviz launched")
 
     # Launch the map
-    uuid1 = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(uuid1)
-    launch1 = parent.ROSLaunchParent(uuid1, [MAPPING_FULL_PATH])
-    launch1.start()
+    Mapping_uuid = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(Mapping_uuid)
+    Mapping_launch = parent.ROSLaunchParent(Mapping_uuid, [MAPPING_FULL_PATH])
+    Mapping_launch.start()
     rospy.loginfo("MANAGER: Map launched")
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
 
@@ -173,10 +173,10 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
-    uuid2 = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(uuid2)
-    launch2 = parent.ROSLaunchParent(uuid2, [SENSING_FULL_PATH])
-    launch2.start()
+    Sensing_uuid = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(Sensing_uuid)
+    Sensing_launch = parent.ROSLaunchParent(Sensing_uuid, [SENSING_FULL_PATH])
+    Sensing_launch.start()
     rospy.loginfo("MANAGER: Sensing launched")
 
     # Subscribe to the Simulink_state topic
