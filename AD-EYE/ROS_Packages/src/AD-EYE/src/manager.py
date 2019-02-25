@@ -62,25 +62,12 @@ POINT_MAP_SLEEP_TIME = 0.05
 state = 0  # 0=wait | 1=run
 point_map_ready = False
 
-Localization_uuid = rlutil.get_or_generate_uuid(None, False)
-configure_logging(Localization_uuid)
-Localization_launch = parent.ROSLaunchParent(Localization_uuid, [LOCALIZATION_FULL_PATH])
 
-Detection_uuid = rlutil.get_or_generate_uuid(None, False)
-configure_logging(Detection_uuid)
-Detection_launch = parent.ROSLaunchParent(Detection_uuid, [DETECTION_FULL_PATH])
-
-Mission_planning_uuid = rlutil.get_or_generate_uuid(None, False)
-configure_logging(Mission_planning_uuid)
-Mission_planning_launch = parent.ROSLaunchParent(Mission_planning_uuid, [MISSION_PLANNING_FULL_PATH])
-
-Motion_planning_uuid = rlutil.get_or_generate_uuid(None, False)
-configure_logging(Motion_planning_uuid)
-Motion_planning_launch = parent.ROSLaunchParent(Motion_planning_uuid, [MOTION_PLANNING_FULL_PATH])
-
-Switch_uuid = rlutil.get_or_generate_uuid(None, False)
-configure_logging(Switch_uuid)
-Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
+def initialize_launch(t_path):
+    t_uuid = rlutil.get_or_generate_uuid(None, False)
+    configure_logging(t_uuid)
+    t_launch = parent.ROSLaunchParent(t_uuid, [t_path])
+    return t_launch
 
 
 def mycallback(data):
@@ -99,25 +86,20 @@ def mycallback(data):
     if data.data == 1 and state == 0:
         state = 1
         rospy.loginfo(state)
-        Localization_launch = parent.ROSLaunchParent(Localization_uuid, [LOCALIZATION_FULL_PATH])
         Localization_launch.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
-        Detection_launch = parent.ROSLaunchParent(Detection_uuid, [DETECTION_FULL_PATH])
         Detection_launch.start()
         rospy.loginfo("started4")
 
-        Mission_planning_launch = parent.ROSLaunchParent(Mission_planning_uuid, [MISSION_PLANNING_FULL_PATH])
         Mission_planning_launch.start()
         time.sleep(MISSION_PLANNING_START_WAIT_TIME)
         rospy.loginfo("started5")
 
-        Motion_planning_launch = parent.ROSLaunchParent(Motion_planning_uuid, [MOTION_PLANNING_FULL_PATH])
         Motion_planning_launch.start()
         rospy.loginfo("started6")
 
-        Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
         Switch_launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
@@ -145,37 +127,35 @@ if __name__ == '__main__':
     rospy.init_node('manager', anonymous=True)
     rospy.loginfo(" Hello , ROS! ")
 
+    # Initializing launch files
+    Localization_launch = initialize_launch(LOCALIZATION_FULL_PATH)
+    Detection_launch = initialize_launch(DETECTION_FULL_PATH)
+    Mission_planning_launch = initialize_launch(MISSION_PLANNING_FULL_PATH)
+    Motion_planning_launch = initialize_launch(MOTION_PLANNING_FULL_PATH)
+    Rviz_launch = initialize_launch(RVIZ_FULL_PATH)
+    Switch_launch = initialize_launch(SWITCH_FULL_PATH)
+    Mapping_launch = initialize_launch(MAPPING_FULL_PATH)
+    Sensing_launch = initialize_launch(SENSING_FULL_PATH)
+
     # Launch Switch
-    Switch_uuid = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(Switch_uuid)
-    Switch_launch = parent.ROSLaunchParent(Switch_uuid, [SWITCH_FULL_PATH])
     Switch_launch.start()
     rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
-    Rviz_uuid = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(Rviz_uuid)
-    Rviz_launch = parent.ROSLaunchParent(Rviz_uuid, [RVIZ_FULL_PATH])
     Rviz_launch.start()
     rospy.loginfo("MANAGER: Rviz launched")
 
     # Launch the map
-    Mapping_uuid = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(Mapping_uuid)
-    Mapping_launch = parent.ROSLaunchParent(Mapping_uuid, [MAPPING_FULL_PATH])
     Mapping_launch.start()
     rospy.loginfo("MANAGER: Map launched")
-    rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
 
+    rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
     # Wait for point map to be loaded and signal to be received
     while not point_map_ready:
         time.sleep(POINT_MAP_SLEEP_TIME)
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
-    Sensing_uuid = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(Sensing_uuid)
-    Sensing_launch = parent.ROSLaunchParent(Sensing_uuid, [SENSING_FULL_PATH])
     Sensing_launch.start()
     rospy.loginfo("MANAGER: Sensing launched")
 
