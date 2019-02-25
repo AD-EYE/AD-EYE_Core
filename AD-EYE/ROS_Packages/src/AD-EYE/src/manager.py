@@ -72,7 +72,7 @@ class FeatureControl:
         self.FeatureName = feature_name
 
 
-def mycallback(data):
+def simulink_state_callback(data):
     global state
     global Localization_launch
     global Localization_uuid
@@ -162,5 +162,5 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Sensing launched")
 
     # Subscribe to the Simulink_state topic
-    rospy.Subscriber("/Simulink_state", Int32, mycallback)
+    rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
     rospy.spin()
