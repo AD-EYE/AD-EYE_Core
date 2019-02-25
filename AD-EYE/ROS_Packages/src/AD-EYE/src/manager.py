@@ -8,6 +8,7 @@ from roslaunch import rlutil, parent, configure_logging
 
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
 # TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
+ENABLED = 1
 FEATURE_ENABLED = [True for i in range(8)]
 # Symbolic names to access FEATURE_ENABLED
 RVIZ = 1
@@ -85,8 +86,8 @@ def simulink_state_callback(data):
     global Switch_launch
     global Switch_uuid
 
-    if data.data == 1 and state == 0:
-        state = 1
+    if data.data == ENABLED and state == DISABLED:
+        state = ENABLED
         rospy.loginfo(state)
         Localization_launch.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
@@ -105,7 +106,7 @@ def simulink_state_callback(data):
         Switch.Launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
-    if data.data == 0 and state == 1:
+    if data.data == 0 and state == ENABLED:
         state = 0
         rospy.loginfo(state)
         Localization_launch.shutdown()
