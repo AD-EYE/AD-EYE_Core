@@ -102,13 +102,11 @@ def simulink_state_callback(current_simulink_state):
             Detection.start()
             Mission_planning.start()
             Motion_planning.start()
-            Switch.start()
 
         if current_simulink_state.data == DISABLED:
 
             Localization.stop()
             Detection.stop()
-            Switch.stop()
             Mission_planning.stop()
             Motion_planning.stop()
 
