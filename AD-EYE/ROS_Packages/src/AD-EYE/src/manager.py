@@ -9,6 +9,7 @@ from roslaunch import rlutil, parent, configure_logging
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
 # TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
 ENABLED = 1
+DISABLED = 1
 FEATURE_ENABLED = [True for i in range(8)]
 # Symbolic names to access FEATURE_ENABLED
 RVIZ = 1
@@ -60,7 +61,7 @@ DEFAULT_WAIT_TIME = 0.1
 POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
-state = 0  # 0=wait | 1=run
+state = DISABLED  # DISABLED = 0 = wait | ENABLED = 1 = run
 point_map_ready = False
 
 
@@ -106,8 +107,8 @@ def simulink_state_callback(data):
         Switch.Launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
-    if data.data == 0 and state == ENABLED:
-        state = 0
+    if data.data == DISABLED and state == ENABLED:
+        state = DISABLED
         rospy.loginfo(state)
         Localization_launch.shutdown()
         time.sleep(LOCALIZATION_STOP_WAIT_TIME)
@@ -118,7 +119,7 @@ def simulink_state_callback(data):
         Motion_planning_launch.shutdown()
         time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
         Switch_launch.shutdown()
-        # state=0
+        # state=DISABLED
 
 
 def point_map_status_callback(point_map_loader_status):
