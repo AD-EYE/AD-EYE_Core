@@ -104,10 +104,10 @@ def simulink_state_callback(current_simulink_state):
         rospy.loginfo(previous_simulink_state)
 
         Localization.stop()
-        Mission_planning.stop()
         Detection.stop()
-        Motion_planning.stop()
         Switch.stop()
+        Mission_planning.stop()
+        Motion_planning.stop()
 
 
 def point_map_status_callback(point_map_loader_status):
