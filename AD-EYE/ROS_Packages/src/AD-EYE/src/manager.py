@@ -77,6 +77,11 @@ class FeatureControl:
         self.Launch.start()
         rospy.loginfo("AD-EYE MANAGER: Started feature - %s", self.FeatureName)
 
+    def stop(self):
+        self.Launch.shutdown()
+        rospy.loginfo("AD-EYE MANAGER: Stopped feature - %s", self.FeatureName)
+
+
 
 def simulink_state_callback(current_simulink_state):
     global previous_simulink_state
@@ -84,6 +89,7 @@ def simulink_state_callback(current_simulink_state):
     if current_simulink_state.data == ENABLED and previous_simulink_state == DISABLED:
         previous_simulink_state = ENABLED
         rospy.loginfo(previous_simulink_state)
+
         Localization.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
 
@@ -98,15 +104,20 @@ def simulink_state_callback(current_simulink_state):
     if current_simulink_state.data == DISABLED and previous_simulink_state == ENABLED:
         previous_simulink_state = DISABLED
         rospy.loginfo(previous_simulink_state)
-        Localization.Launch.shutdown()
+
+        Localization.stop()
         time.sleep(LOCALIZATION_STOP_WAIT_TIME)
-        Mission_planning.Launch.shutdown()
+
+        Mission_planning.stop()
         time.sleep(MISSION_PLANNING_STOP_WAIT_TIME)
-        Detection.Launch.shutdown()
+
+        Detection.stop()
         time.sleep(DETECTION_STOP_WAIT_TIME)
-        Motion_planning.Launch.shutdown()
+
+        Motion_planning.stop()
         time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
-        Switch.Launch.shutdown()
+
+        Switch.stop()
 
 
 def point_map_status_callback(point_map_loader_status):
