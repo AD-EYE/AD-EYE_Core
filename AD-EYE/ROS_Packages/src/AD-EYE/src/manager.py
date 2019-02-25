@@ -10,7 +10,7 @@ from roslaunch import rlutil, parent, configure_logging
 # TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
 ENABLED = 1
 DISABLED = 0
-FEATURE_ENABLED = [True for i in range(8)]
+FEATURE_ENABLED = [True for i in range(9)]
 
 # Symbolic names to access FEATURE_ENABLED
 RVIZ = 1
@@ -21,6 +21,7 @@ DETECTION = 5
 SWITCH = 6
 MISSION_PLANNING = 7
 MOTION_PLANNING = 8
+SSMP = 9
 
 # Basic folder locations
 ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
@@ -36,6 +37,7 @@ DETECTION_LAUNCH_FILE_NAME = "my_detection.launch"
 SWITCH_LAUNCH_FILE_NAME = "switch.launch"
 MISSION_PLANNING_LAUNCH_FILE_NAME = "my_mission_planning.launch"
 MOTION_PLANNING_LAUNCH_FILE_NAME = "my_motion_planning.launch"
+SSMP_LAUNCH_FILE_NAME="SSMP.launch"
 
 # Full path to each launch file
 RVIZ_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, RVIZ_LAUNCH_FILE_NAME))
@@ -48,6 +50,7 @@ MISSION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME))
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
+SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
 LOCALIZATION_START_WAIT_TIME = 10
@@ -102,6 +105,7 @@ def simulink_state_callback(current_simulink_state):
             Detection.start()
             Mission_planning.start()
             Motion_planning.start()
+            Ssmp.start()
 
         if current_simulink_state.data == DISABLED:
 
@@ -109,6 +113,7 @@ def simulink_state_callback(current_simulink_state):
             Detection.stop()
             Mission_planning.stop()
             Motion_planning.stop()
+            Ssmp.stop()
 
         previous_simulink_state = current_simulink_state.data
         rospy.loginfo("Simulink command change registered")
@@ -132,6 +137,7 @@ if __name__ == '__main__':
     Switch = FeatureControl(SWITCH_FULL_PATH, "Switch")
     Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME, MISSION_PLANNING_STOP_WAIT_TIME)
     Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning", sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
+    Ssmp=FeatureControl(SSMP_FULL_PATH, "SSMP")
 
     # Launch Switch
     Switch.start()
