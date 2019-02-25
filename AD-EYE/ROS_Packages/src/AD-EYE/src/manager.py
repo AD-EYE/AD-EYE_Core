@@ -75,7 +75,7 @@ class FeatureControl:
 
     def start(self):
         self.Launch.start()
-        rospy.loginfo("AD-EYE MANAGER: Started feature %s", self.FeatureName)
+        rospy.loginfo("AD-EYE MANAGER: Started feature - %s", self.FeatureName)
 
 
 def simulink_state_callback(current_simulink_state):
@@ -130,25 +130,20 @@ if __name__ == '__main__':
 
     # Launch Switch
     Switch.start()
-    rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
     Rviz.start()
-    rospy.loginfo("MANAGER: Rviz launched")
 
     # Launch the map (s)
     Mapping.start()
-    rospy.loginfo("MANAGER: Map launched")
 
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
     # Wait for point map to be loaded and signal to be received
     while not point_map_ready:
         time.sleep(POINT_MAP_SLEEP_TIME)
-    rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
     Sensing.start()
-    rospy.loginfo("MANAGER: Sensing launched")
 
     # Subscribe to the Simulink_state topic
     rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
