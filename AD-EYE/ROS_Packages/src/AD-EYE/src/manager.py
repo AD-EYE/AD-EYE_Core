@@ -63,11 +63,12 @@ state = 0  # 0=wait | 1=run
 point_map_ready = False
 
 
-def initialize_launch(t_path):
-    t_uuid = rlutil.get_or_generate_uuid(None, False)
-    configure_logging(t_uuid)
-    t_launch = parent.ROSLaunchParent(t_uuid, [t_path])
-    return t_launch
+class FeatureControl:
+
+    def __init__(self, filepath):
+        self.uuid = rlutil.get_or_generate_uuid(None, False)
+        configure_logging(self.uuid)
+        self.Launch = parent.ROSLaunchParent(self.uuid, [filepath])
 
 
 def mycallback(data):
@@ -90,17 +91,17 @@ def mycallback(data):
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
-        Detection_launch.start()
+        Detection.Launch.start()
         rospy.loginfo("started4")
 
-        Mission_planning_launch.start()
+        Mission_planning.Launch.start()
         time.sleep(MISSION_PLANNING_START_WAIT_TIME)
         rospy.loginfo("started5")
 
-        Motion_planning_launch.start()
+        Motion_planning.Launch.start()
         rospy.loginfo("started6")
 
-        Switch_launch.start()
+        Switch.Launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
     if data.data == 0 and state == 1:
@@ -127,26 +128,26 @@ if __name__ == '__main__':
     rospy.init_node('manager', anonymous=True)
     rospy.loginfo(" Hello , ROS! ")
 
-    # Initializing launch files
-    Localization_launch = initialize_launch(LOCALIZATION_FULL_PATH)
-    Detection_launch = initialize_launch(DETECTION_FULL_PATH)
-    Mission_planning_launch = initialize_launch(MISSION_PLANNING_FULL_PATH)
-    Motion_planning_launch = initialize_launch(MOTION_PLANNING_FULL_PATH)
-    Rviz_launch = initialize_launch(RVIZ_FULL_PATH)
-    Switch_launch = initialize_launch(SWITCH_FULL_PATH)
-    Mapping_launch = initialize_launch(MAPPING_FULL_PATH)
-    Sensing_launch = initialize_launch(SENSING_FULL_PATH)
+    # Create Feature Control object
+    Rviz = FeatureControl(RVIZ_FULL_PATH)
+    Mapping = FeatureControl(MAPPING_FULL_PATH)
+    Localization = FeatureControl(LOCALIZATION_FULL_PATH)
+    Sensing = FeatureControl(SENSING_FULL_PATH)
+    Detection = FeatureControl(DETECTION_FULL_PATH)
+    Switch = FeatureControl(SWITCH_FULL_PATH)
+    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH)
+    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH)
 
     # Launch Switch
-    Switch_launch.start()
+    Switch.Launch.start()
     rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
-    Rviz_launch.start()
+    Rviz.Launch.start()
     rospy.loginfo("MANAGER: Rviz launched")
 
     # Launch the map
-    Mapping_launch.start()
+    Mapping.Launch.start()
     rospy.loginfo("MANAGER: Map launched")
 
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
@@ -156,7 +157,7 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
-    Sensing_launch.start()
+    Sensing.Launch.start()
     rospy.loginfo("MANAGER: Sensing launched")
 
     # Subscribe to the Simulink_state topic
