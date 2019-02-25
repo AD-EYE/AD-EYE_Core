@@ -74,7 +74,7 @@ class FeatureControl:
         self.FeatureName = feature_name
 
 
-def simulink_state_callback(data):
+def simulink_state_callback(current_simulink_state):
     global state
     global Localization_launch
     global Localization_uuid
@@ -87,7 +87,7 @@ def simulink_state_callback(data):
     global Switch_launch
     global Switch_uuid
 
-    if data.data == ENABLED and state == DISABLED:
+    if current_simulink_state.data == ENABLED and state == DISABLED:
         state = ENABLED
         rospy.loginfo(state)
         Localization_launch.start()
@@ -107,7 +107,7 @@ def simulink_state_callback(data):
         Switch.Launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
-    if data.data == DISABLED and state == ENABLED:
+    if current_simulink_state.data == DISABLED and state == ENABLED:
         state = DISABLED
         rospy.loginfo(state)
         Localization_launch.shutdown()
