@@ -73,6 +73,10 @@ class FeatureControl:
         self.Launch = parent.ROSLaunchParent(self.uuid, [filepath])
         self.FeatureName = feature_name
 
+    def start(self):
+        self.Launch.start()
+        rospy.loginfo("AD-EYE MANAGER: Started feature %s", self.FeatureName)
+
 
 def simulink_state_callback(current_simulink_state):
     global previous_simulink_state
@@ -80,22 +84,16 @@ def simulink_state_callback(current_simulink_state):
     if current_simulink_state.data == ENABLED and previous_simulink_state == DISABLED:
         previous_simulink_state = ENABLED
         rospy.loginfo(previous_simulink_state)
-        Localization.Launch.start()
+        Localization.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
-        rospy.loginfo("started3")
 
-        Detection.Launch.start()
-        rospy.loginfo("started4")
+        Detection.start()
 
-        Mission_planning.Launch.start()
+        Mission_planning.start()
         time.sleep(MISSION_PLANNING_START_WAIT_TIME)
-        rospy.loginfo("started5")
 
-        Motion_planning.Launch.start()
-        rospy.loginfo("started6")
-
-        Switch.Launch.start()
-        rospy.loginfo("MANAGER: Switch launched")
+        Motion_planning.start()
+        Switch.start()
 
     if current_simulink_state.data == DISABLED and previous_simulink_state == ENABLED:
         previous_simulink_state = DISABLED
@@ -120,7 +118,7 @@ if __name__ == '__main__':
     rospy.init_node('manager', anonymous=True)
     rospy.loginfo(" Hello , ROS! ")
 
-    # Create Feature Control object
+    # Create Feature Control objects
     Rviz = FeatureControl(RVIZ_FULL_PATH, "Rviz")
     Mapping = FeatureControl(MAPPING_FULL_PATH, "Mapping")
     Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization")
@@ -131,15 +129,15 @@ if __name__ == '__main__':
     Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning")
 
     # Launch Switch
-    Switch.Launch.start()
+    Switch.start()
     rospy.loginfo("MANAGER: Switch launched")
 
     # Launch Rviz
-    Rviz.Launch.start()
+    Rviz.start()
     rospy.loginfo("MANAGER: Rviz launched")
 
-    # Launch the map
-    Mapping.Launch.start()
+    # Launch the map (s)
+    Mapping.start()
     rospy.loginfo("MANAGER: Map launched")
 
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
@@ -149,7 +147,7 @@ if __name__ == '__main__':
     rospy.loginfo("MANAGER: Map finished")
 
     # Launch the sensing
-    Sensing.Launch.start()
+    Sensing.start()
     rospy.loginfo("MANAGER: Sensing launched")
 
     # Subscribe to the Simulink_state topic
