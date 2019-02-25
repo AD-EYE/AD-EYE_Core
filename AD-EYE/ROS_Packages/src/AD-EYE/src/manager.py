@@ -67,12 +67,13 @@ point_map_ready = False
 
 class FeatureControl:
 
-    def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME):
+    def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME, sleep_time_on_stop=DEFAULT_WAIT_TIME):
         self.uuid = rlutil.get_or_generate_uuid(None, False)
         configure_logging(self.uuid)
         self.Launch = parent.ROSLaunchParent(self.uuid, [filepath])
         self.FeatureName = feature_name
         self.sleep_time_on_start = sleep_time_on_start
+        self.sleep_time_on_stop = sleep_time_on_stop
 
     def start(self):
         self.Launch.start()
@@ -82,6 +83,7 @@ class FeatureControl:
     def stop(self):
         self.Launch.shutdown()
         rospy.loginfo("AD-EYE MANAGER: Stopped feature - %s", self.FeatureName)
+        time.sleep(self.sleep_time_on_stop)
 
 
 def simulink_state_callback(current_simulink_state):
@@ -92,11 +94,8 @@ def simulink_state_callback(current_simulink_state):
         rospy.loginfo(previous_simulink_state)
 
         Localization.start()
-
         Detection.start()
-
         Mission_planning.start()
-
         Motion_planning.start()
         Switch.start()
 
@@ -105,17 +104,9 @@ def simulink_state_callback(current_simulink_state):
         rospy.loginfo(previous_simulink_state)
 
         Localization.stop()
-        time.sleep(LOCALIZATION_STOP_WAIT_TIME)
-
         Mission_planning.stop()
-        time.sleep(MISSION_PLANNING_STOP_WAIT_TIME)
-
         Detection.stop()
-        time.sleep(DETECTION_STOP_WAIT_TIME)
-
         Motion_planning.stop()
-        time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
-
         Switch.stop()
 
 
@@ -131,12 +122,12 @@ if __name__ == '__main__':
     # Create Feature Control objects
     Rviz = FeatureControl(RVIZ_FULL_PATH, "Rviz")
     Mapping = FeatureControl(MAPPING_FULL_PATH, "Mapping")
-    Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME)
+    Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME, LOCALIZATION_STOP_WAIT_TIME)
     Sensing = FeatureControl(SENSING_FULL_PATH, "Sensing")
-    Detection = FeatureControl(DETECTION_FULL_PATH, "Detection")
+    Detection = FeatureControl(DETECTION_FULL_PATH, "Detection", sleep_time_on_stop=DETECTION_STOP_WAIT_TIME)
     Switch = FeatureControl(SWITCH_FULL_PATH, "Switch")
-    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME)
-    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning")
+    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME, MISSION_PLANNING_STOP_WAIT_TIME)
+    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning", sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
 
     # Launch Switch
     Switch.start()
