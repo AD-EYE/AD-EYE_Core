@@ -9,8 +9,9 @@ from roslaunch import rlutil, parent, configure_logging
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
 # TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
 ENABLED = 1
-DISABLED = 1
+DISABLED = 0
 FEATURE_ENABLED = [True for i in range(8)]
+
 # Symbolic names to access FEATURE_ENABLED
 RVIZ = 1
 MAPPING = 2
@@ -89,25 +90,26 @@ class FeatureControl:
 def simulink_state_callback(current_simulink_state):
     global previous_simulink_state
 
-    if current_simulink_state.data == ENABLED and previous_simulink_state == DISABLED:
-        previous_simulink_state = ENABLED
-        rospy.loginfo(previous_simulink_state)
+    if previous_simulink_state != current_simulink_state.data:
 
-        Localization.start()
-        Detection.start()
-        Mission_planning.start()
-        Motion_planning.start()
-        Switch.start()
+        if current_simulink_state.data == ENABLED:
 
-    if current_simulink_state.data == DISABLED and previous_simulink_state == ENABLED:
-        previous_simulink_state = DISABLED
-        rospy.loginfo(previous_simulink_state)
+            Localization.start()
+            Detection.start()
+            Mission_planning.start()
+            Motion_planning.start()
+            Switch.start()
 
-        Localization.stop()
-        Detection.stop()
-        Switch.stop()
-        Mission_planning.stop()
-        Motion_planning.stop()
+        if current_simulink_state.data == DISABLED:
+
+            Localization.stop()
+            Detection.stop()
+            Switch.stop()
+            Mission_planning.stop()
+            Motion_planning.stop()
+
+        previous_simulink_state = current_simulink_state.data
+        rospy.loginfo("Simulink command change registered")
 
 
 def point_map_status_callback(point_map_loader_status):
