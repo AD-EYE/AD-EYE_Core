@@ -61,7 +61,7 @@ DEFAULT_WAIT_TIME = 0.1
 POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
-state = DISABLED  # DISABLED = 0 = wait | ENABLED = 1 = run
+previous_simulink_state = DISABLED  # DISABLED = 0 = wait | ENABLED = 1 = run
 point_map_ready = False
 
 
@@ -75,7 +75,7 @@ class FeatureControl:
 
 
 def simulink_state_callback(current_simulink_state):
-    global state
+    global previous_simulink_state
     global Localization_launch
     global Localization_uuid
     global Detection_launch
@@ -87,9 +87,9 @@ def simulink_state_callback(current_simulink_state):
     global Switch_launch
     global Switch_uuid
 
-    if current_simulink_state.data == ENABLED and state == DISABLED:
-        state = ENABLED
-        rospy.loginfo(state)
+    if current_simulink_state.data == ENABLED and previous_simulink_state == DISABLED:
+        previous_simulink_state = ENABLED
+        rospy.loginfo(previous_simulink_state)
         Localization_launch.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
@@ -107,9 +107,9 @@ def simulink_state_callback(current_simulink_state):
         Switch.Launch.start()
         rospy.loginfo("MANAGER: Switch launched")
 
-    if current_simulink_state.data == DISABLED and state == ENABLED:
-        state = DISABLED
-        rospy.loginfo(state)
+    if current_simulink_state.data == DISABLED and previous_simulink_state == ENABLED:
+        previous_simulink_state = DISABLED
+        rospy.loginfo(previous_simulink_state)
         Localization_launch.shutdown()
         time.sleep(LOCALIZATION_STOP_WAIT_TIME)
         Mission_planning_launch.shutdown()
@@ -119,7 +119,7 @@ def simulink_state_callback(current_simulink_state):
         Motion_planning_launch.shutdown()
         time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
         Switch_launch.shutdown()
-        # state=DISABLED
+        # previous_simulink_state=DISABLED
 
 
 def point_map_status_callback(point_map_loader_status):
