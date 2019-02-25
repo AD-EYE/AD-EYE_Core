@@ -76,21 +76,11 @@ class FeatureControl:
 
 def simulink_state_callback(current_simulink_state):
     global previous_simulink_state
-    global Localization_launch
-    global Localization_uuid
-    global Detection_launch
-    global Detection_uuid
-    global Mission_planning_launch
-    global Mission_planning_uuid
-    global Motion_planning_launch
-    global Motion_planning_uuid
-    global Switch_launch
-    global Switch_uuid
 
     if current_simulink_state.data == ENABLED and previous_simulink_state == DISABLED:
         previous_simulink_state = ENABLED
         rospy.loginfo(previous_simulink_state)
-        Localization_launch.start()
+        Localization.Launch.start()
         time.sleep(LOCALIZATION_START_WAIT_TIME)
         rospy.loginfo("started3")
 
@@ -110,16 +100,15 @@ def simulink_state_callback(current_simulink_state):
     if current_simulink_state.data == DISABLED and previous_simulink_state == ENABLED:
         previous_simulink_state = DISABLED
         rospy.loginfo(previous_simulink_state)
-        Localization_launch.shutdown()
+        Localization.Launch.shutdown()
         time.sleep(LOCALIZATION_STOP_WAIT_TIME)
-        Mission_planning_launch.shutdown()
+        Mission_planning.Launch.shutdown()
         time.sleep(MISSION_PLANNING_STOP_WAIT_TIME)
-        # Detection_launch.shutdown()
+        # Detection.Launch.shutdown()
         # time.sleep(DETECTION_STOP_WAIT_TIME)
-        Motion_planning_launch.shutdown()
+        Motion_planning.Launch.shutdown()
         time.sleep(MOTION_PLANNING_STOP_WAIT_TIME)
-        Switch_launch.shutdown()
-        # previous_simulink_state=DISABLED
+        Switch.Launch.shutdown()
 
 
 def point_map_status_callback(point_map_loader_status):
