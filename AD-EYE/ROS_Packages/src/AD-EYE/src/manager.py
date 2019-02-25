@@ -119,9 +119,9 @@ def mycallback(data):
         # state=0
 
 
-def point_map_status_callback(data):
+def point_map_status_callback(point_map_loader_status):
     global point_map_ready
-    point_map_ready = data.data
+    point_map_ready = point_map_loader_status.data
 
 
 if __name__ == '__main__':
