@@ -65,10 +65,11 @@ point_map_ready = False
 
 class FeatureControl:
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, feature_name):
         self.uuid = rlutil.get_or_generate_uuid(None, False)
         configure_logging(self.uuid)
         self.Launch = parent.ROSLaunchParent(self.uuid, [filepath])
+        self.FeatureName = feature_name
 
 
 def mycallback(data):
@@ -129,14 +130,14 @@ if __name__ == '__main__':
     rospy.loginfo(" Hello , ROS! ")
 
     # Create Feature Control object
-    Rviz = FeatureControl(RVIZ_FULL_PATH)
-    Mapping = FeatureControl(MAPPING_FULL_PATH)
-    Localization = FeatureControl(LOCALIZATION_FULL_PATH)
-    Sensing = FeatureControl(SENSING_FULL_PATH)
-    Detection = FeatureControl(DETECTION_FULL_PATH)
-    Switch = FeatureControl(SWITCH_FULL_PATH)
-    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH)
-    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH)
+    Rviz = FeatureControl(RVIZ_FULL_PATH, "Rviz")
+    Mapping = FeatureControl(MAPPING_FULL_PATH, "Mapping")
+    Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization")
+    Sensing = FeatureControl(SENSING_FULL_PATH, "Sensing")
+    Detection = FeatureControl(DETECTION_FULL_PATH, "Detection")
+    Switch = FeatureControl(SWITCH_FULL_PATH, "Switch")
+    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning")
+    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning")
 
     # Launch Switch
     Switch.Launch.start()
