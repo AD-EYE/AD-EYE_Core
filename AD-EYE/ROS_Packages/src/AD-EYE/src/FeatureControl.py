@@ -7,7 +7,8 @@ DEFAULT_WAIT_TIME = 0.1
 
 class FeatureControl:
 
-    def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME, sleep_time_on_stop=DEFAULT_WAIT_TIME):
+    def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME,
+                 sleep_time_on_stop=DEFAULT_WAIT_TIME):
         self.uuid = rlutil.get_or_generate_uuid(None, False)
         configure_logging(self.uuid)
         self.filepath = filepath
