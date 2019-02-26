@@ -1,27 +1,29 @@
 <launch>
-  <rosparam>
+    <rosparam>
         use_sim_time: true
-  </rosparam>
+    </rosparam>
 
-  <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
-	<param name="filePoint" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/point.csv"/>
-	<param name="fileLane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv"/>
-    <param name="fileNode" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/node.csv"/>
-    <param name="fileDtlane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv"/>
-	<param name="filePex" value="$(env HOME)/AD-EYE-WASP/AD-EYE/PreScan_Experiments/Base_Map/Simulation/Base_Map_S.pex"/>
-  </node>
+    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
+        <param name="filePoint" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/point.csv"/>
+        <param name="fileLane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv"/>
+        <param name="fileNode" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/node.csv"/>
+        <param name="fileDtlane" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv"/>
+        <param name="filePex"
+               value="$(env HOME)/AD-EYE-WASP/AD-EYE/PreScan_Experiments/Base_Map/Simulation/Base_Map_S.pex"/>
+    </node>
 
-  <node pkg="adeye" type="flattening" name="flattening" output="screen" />
-
-
-  <node pkg="ss_trajplanner" type="ss_trajplanner_node" name="ss_trajplanner_node" output="screen"> 
-  <param name="trajectory_set_filename" value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
-	<param name="costmap_base_topic" value="/costmap_base"/>
-  <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
-  <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
-  </node>
+    <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
 
 
-  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
-
+    <node pkg="ss_trajplanner"
+          type="ss_trajplanner_node"
+          name="ss_trajplanner_node"
+          output="screen">
+        <param name="trajectory_set_filename"
+               value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
+        <param name="costmap_base_topic" value="/costmap_base"/>
+        <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
+        <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
+    </node>
+    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
 </launch>

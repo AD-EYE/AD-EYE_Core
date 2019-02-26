@@ -1,4 +1,6 @@
 <launch>
-  <node pkg="adeye" type="camera_info_publisher.py" name="camera_info_publisher" output="screen" />
-
+    <node pkg="adeye"
+          type="camera_info_publisher.py"
+          name="camera_info_publisher"
+          output="screen"/>
 </launch>

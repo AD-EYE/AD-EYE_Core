@@ -1,15 +1,15 @@
 <launch>
-  <rosparam>
+    <rosparam>
         use_sim_time: true
-  </rosparam>
-   <node
-      type="tracked_objects_adapter.py"
-      pkg="adeye"
-      name="tracked_objects_adapter"
-      respawn="false"
-      output="screen"
-   />
-  <rosparam>
+    </rosparam>
+    <node
+            type="tracked_objects_adapter.py"
+            pkg="adeye"
+            name="tracked_objects_adapter"
+            respawn="false"
+            output="screen"
+    />
+    <rosparam>
         use_sim_time: true
-  </rosparam>
+    </rosparam>
 </launch>
