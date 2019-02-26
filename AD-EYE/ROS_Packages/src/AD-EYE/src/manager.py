@@ -85,12 +85,12 @@ class FeatureControl:
         configure_logging(self.uuid)
         self.Launch = parent.ROSLaunchParent(self.uuid, [self.filepath])
         self.Launch.start()
-        rospy.loginfo("AD-EYE MANAGER: Started feature - %s", self.FeatureName)
+        rospy.loginfo("%s: Started feature - %s", rospy.get_name(), self.FeatureName)
         time.sleep(self.sleep_time_on_start)
 
     def stop(self):
         self.Launch.shutdown()
-        rospy.loginfo("AD-EYE MANAGER: Stopped feature - %s", self.FeatureName)
+        rospy.loginfo("%s: Stopped feature - %s", rospy.get_name(), self.FeatureName)
         time.sleep(self.sleep_time_on_stop)
 
 
@@ -125,7 +125,7 @@ def point_map_status_callback(point_map_loader_status):
 
 
 if __name__ == '__main__':
-    rospy.init_node('manager', anonymous=True)
+    rospy.init_node('ADEYE_Manager')
     rospy.loginfo(" Hello , ROS! ")
 
     # Create Feature Control objects
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     Switch = FeatureControl(SWITCH_FULL_PATH, "Switch")
     Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME, MISSION_PLANNING_STOP_WAIT_TIME)
     Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning", sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
-    Ssmp=FeatureControl(SSMP_FULL_PATH, "SSMP")
+    Ssmp = FeatureControl(SSMP_FULL_PATH, "SSMP")
 
     # Launch Switch
     Switch.start()
