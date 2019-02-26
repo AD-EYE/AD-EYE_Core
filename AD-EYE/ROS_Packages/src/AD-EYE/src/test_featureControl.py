@@ -49,11 +49,10 @@ class TestFeatureControl(TestCase):
         test_feature.stop()
         with self.assertRaises(Exception):
             X = rosnode.get_node_names()
-        print "rereesss"
 
 
 if __name__ == '__main__':
     # Ros unit testing framework is used to run all tests and save in .xml format
     import rosunit
 
-    rosunit.unitrun('Feature_ctrl', 'test_bare_bones', TestFeatureControl)
+    rosunit.unitrun('Feature_ctrl', 'Feature_control_test_results', TestFeatureControl)
