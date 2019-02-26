@@ -112,13 +112,8 @@ if __name__ == '__main__':
     Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning", sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
     Ssmp = FeatureControl(SSMP_FULL_PATH, "SSMP")
 
-    # Launch Switch
     Switch.start()
-
-    # Launch Rviz
     Rviz.start()
-
-    # Launch the map (s)
     Mapping.start()
 
     rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
@@ -127,9 +122,7 @@ if __name__ == '__main__':
     while not point_map_ready:
         time.sleep(POINT_MAP_SLEEP_TIME)
 
-    # Launch the sensing
     Sensing.start()
 
-    # Subscribe to the Simulink_state topic
     rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
     rospy.spin()
