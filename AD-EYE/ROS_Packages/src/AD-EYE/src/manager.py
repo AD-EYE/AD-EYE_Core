@@ -37,7 +37,7 @@ DETECTION_LAUNCH_FILE_NAME = "my_detection.launch"
 SWITCH_LAUNCH_FILE_NAME = "switch.launch"
 MISSION_PLANNING_LAUNCH_FILE_NAME = "my_mission_planning.launch"
 MOTION_PLANNING_LAUNCH_FILE_NAME = "my_motion_planning.launch"
-SSMP_LAUNCH_FILE_NAME="SSMP.launch"
+SSMP_LAUNCH_FILE_NAME = "SSMP.launch"
 
 # Full path to each launch file
 RVIZ_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, QUICK_START_LOCATION, RVIZ_LAUNCH_FILE_NAME))
@@ -53,6 +53,7 @@ MOTION_PLANNING_FULL_PATH = (
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
+MAPPING_START_WAIT_TIME = 10
 LOCALIZATION_START_WAIT_TIME = 10
 LOCALIZATION_STOP_WAIT_TIME = 10
 DETECTION_STOP_WAIT_TIME = 10
@@ -60,7 +61,6 @@ MISSION_PLANNING_START_WAIT_TIME = 5
 MISSION_PLANNING_STOP_WAIT_TIME = 10
 MOTION_PLANNING_STOP_WAIT_TIME = 10
 
-POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
 previous_simulink_state = DISABLED  # DISABLED = 0 = wait | ENABLED = 1 = run
@@ -73,7 +73,6 @@ def simulink_state_callback(current_simulink_state):
     if previous_simulink_state != current_simulink_state.data:
 
         if current_simulink_state.data == ENABLED:
-
             Localization.start()
             Detection.start()
             Mission_planning.start()
@@ -81,7 +80,6 @@ def simulink_state_callback(current_simulink_state):
             Ssmp.start()
 
         if current_simulink_state.data == DISABLED:
-
             Localization.stop()
             Detection.stop()
             Mission_planning.stop()
@@ -92,37 +90,31 @@ def simulink_state_callback(current_simulink_state):
         rospy.loginfo("Simulink command change registered")
 
 
-def point_map_status_callback(point_map_loader_status):
-    global point_map_ready
-    point_map_ready = point_map_loader_status.data
-
-
 if __name__ == '__main__':
     rospy.init_node('ADEYE_Manager')
     rospy.loginfo(" Hello , ROS! ")
 
+    # Set up subscribers for registering simulink control command
+    rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
+
     # Create Feature Control objects
     Rviz = FeatureControl(RVIZ_FULL_PATH, "Rviz")
-    Mapping = FeatureControl(MAPPING_FULL_PATH, "Mapping")
-    Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME, LOCALIZATION_STOP_WAIT_TIME)
+    Mapping = FeatureControl(MAPPING_FULL_PATH, "Mapping", MAPPING_START_WAIT_TIME)
+    Localization = FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME,
+                                  LOCALIZATION_STOP_WAIT_TIME)
     Sensing = FeatureControl(SENSING_FULL_PATH, "Sensing")
     Detection = FeatureControl(DETECTION_FULL_PATH, "Detection", sleep_time_on_stop=DETECTION_STOP_WAIT_TIME)
     Switch = FeatureControl(SWITCH_FULL_PATH, "Switch")
-    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME, MISSION_PLANNING_STOP_WAIT_TIME)
-    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning", sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
+    Mission_planning = FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME,
+                                      MISSION_PLANNING_STOP_WAIT_TIME)
+    Motion_planning = FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning",
+                                     sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME)
     Ssmp = FeatureControl(SSMP_FULL_PATH, "SSMP")
 
+    # Launch basic features
     Switch.start()
     Rviz.start()
     Mapping.start()
-
-    rospy.Subscriber("/pmap_stat", Bool, point_map_status_callback)
-
-    # Wait for point map to be loaded and ready signal to be received
-    while not point_map_ready:
-        time.sleep(POINT_MAP_SLEEP_TIME)
-
     Sensing.start()
 
-    rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
     rospy.spin()
