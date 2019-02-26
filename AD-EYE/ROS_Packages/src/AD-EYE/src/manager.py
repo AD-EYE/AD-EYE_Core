@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # license removed for brevity
-import time
 import rospy
 from std_msgs.msg import Int32
-from std_msgs.msg import Bool
 from FeatureControl import FeatureControl
 
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
@@ -92,7 +90,7 @@ def simulink_state_callback(current_simulink_state):
 
 if __name__ == '__main__':
     rospy.init_node('ADEYE_Manager')
-    rospy.loginfo(" Hello , ROS! ")
+    rospy.loginfo("ADEYE Manager: Started")
 
     # Set up subscribers for registering simulink control command
     rospy.Subscriber("/Simulink_state", Int32, simulink_state_callback)
