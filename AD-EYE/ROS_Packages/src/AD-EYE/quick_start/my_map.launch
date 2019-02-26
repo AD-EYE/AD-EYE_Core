@@ -1,14 +1,14 @@
 <!-- -->
 <launch>
 
-  <!-- world_to_map -->
-  <node pkg="tf"  type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
+    <!-- world_to_map -->
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>
 
-  <!-- map_to_mobility -->
-  <node pkg="tf"  type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10" />
+    <!-- map_to_mobility -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10"/>
 
-  <!-- Point Cloud -->
-  <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
+    <!-- Point Cloud -->
+    <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151353839.pcd
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151355738.pcd
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151357541.pcd
@@ -72,10 +72,10 @@
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15159110.pcd
 "/>
 
--->
+    -->
 
-  <!-- Vector Map -->
-  <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
+    <!-- Vector Map -->
+    <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv
     $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
@@ -89,6 +89,6 @@
 
 </launch>
 
-<!--$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
-$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
-$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv-->
+        <!--$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
+        $(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
+        $(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv-->
