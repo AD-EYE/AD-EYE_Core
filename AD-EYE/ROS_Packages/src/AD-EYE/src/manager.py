@@ -4,7 +4,7 @@ import time
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import Bool
-from roslaunch import rlutil, parent, configure_logging
+from FeatureControl import FeatureControl
 
 #  --------------Config: Common to more files and will be exported out--------------------------------------------------
 # TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
@@ -60,38 +60,11 @@ MISSION_PLANNING_START_WAIT_TIME = 5
 MISSION_PLANNING_STOP_WAIT_TIME = 10
 MOTION_PLANNING_STOP_WAIT_TIME = 10
 
-DEFAULT_WAIT_TIME = 0.1
-
 POINT_MAP_SLEEP_TIME = 0.05
 #  ---------------------------------------------------------------------------------------------------------------------
 
 previous_simulink_state = DISABLED  # DISABLED = 0 = wait | ENABLED = 1 = run
 point_map_ready = False
-
-
-class FeatureControl:
-
-    def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME, sleep_time_on_stop=DEFAULT_WAIT_TIME):
-        self.uuid = rlutil.get_or_generate_uuid(None, False)
-        configure_logging(self.uuid)
-        self.filepath = filepath
-        self.Launch = parent.ROSLaunchParent(self.uuid, [filepath])
-        self.FeatureName = feature_name
-        self.sleep_time_on_start = sleep_time_on_start
-        self.sleep_time_on_stop = sleep_time_on_stop
-
-    def start(self):
-        self.uuid = rlutil.get_or_generate_uuid(None, False)
-        configure_logging(self.uuid)
-        self.Launch = parent.ROSLaunchParent(self.uuid, [self.filepath])
-        self.Launch.start()
-        rospy.loginfo("%s: Started feature - %s", rospy.get_name(), self.FeatureName)
-        time.sleep(self.sleep_time_on_start)
-
-    def stop(self):
-        self.Launch.shutdown()
-        rospy.loginfo("%s: Stopped feature - %s", rospy.get_name(), self.FeatureName)
-        time.sleep(self.sleep_time_on_stop)
 
 
 def simulink_state_callback(current_simulink_state):
