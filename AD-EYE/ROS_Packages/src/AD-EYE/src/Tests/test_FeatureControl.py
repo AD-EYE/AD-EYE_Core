@@ -5,7 +5,7 @@ import rosnode
 
 Node_to_check = '/controlSwitch'
 
-SECS = 0.5
+SECS = 0.1
 filepath = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"
 
 
@@ -54,5 +54,4 @@ class TestFeatureControl(TestCase):
 if __name__ == '__main__':
     # Ros unit testing framework is used to run all tests and save in .xml format
     import rosunit
-
-    rosunit.unitrun('Feature_ctrl', 'Feature_control_test_results', TestFeatureControl)
+    rosunit.unitrun('adeye', 'test/Feature_control_test_results', TestFeatureControl)
