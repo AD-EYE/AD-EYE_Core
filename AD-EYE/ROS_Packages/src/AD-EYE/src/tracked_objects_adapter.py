@@ -28,12 +28,12 @@ def mycallback1(data):
         # yf = current_pose.pose.position.y
         # zf = current_pose.pose.position.z
         # angles = transformations.euler_from_quaternion([current_pose.pose.orientation.x, current_pose.pose.orientation.y, current_pose.pose.orientation.z, current_pose.pose.orientation.w])
-        # tita = angles [2]
+        # theta = angles [2]
         xf = trans[0]
         yf = trans[1]
         zf = trans[2]
         angles = transformations.euler_from_quaternion([rot[0], rot[1], rot[2], rot[3]])
-        tita = angles[2]
+        theta = angles[2]
         # rospy.loginfo(len(data.objects))
 
         for i in range(len(data.objects)):
@@ -46,8 +46,8 @@ def mycallback1(data):
             yp = data.objects[i].pose.position.y
             zp = data.objects[i].pose.position.z
 
-            data.objects[i].pose.position.x = xf + xp * m.cos(tita) - yp * m.sin(tita)
-            data.objects[i].pose.position.y = yf + xp * m.sin(tita) + yp * m.cos(tita)
+            data.objects[i].pose.position.x = xf + xp * m.cos(theta) - yp * m.sin(theta)
+            data.objects[i].pose.position.y = yf + xp * m.sin(theta) + yp * m.cos(theta)
             data.objects[i].pose.position.z = zf + zp
 
             # rospy.loginfo(data.objects[i].pose.position.x)
@@ -59,7 +59,7 @@ def mycallback1(data):
                 [data.objects[i].pose.orientation.x, data.objects[i].pose.orientation.y,
                  data.objects[i].pose.orientation.z, data.objects[i].pose.orientation.w])
             titap = anglesp[2]
-            titat = tita + titap
+            titat = theta + titap
             rotp = transformations.quaternion_from_euler(0.0, 0.0, titat)
             data.objects[i].pose.orientation.z = rotp[2]
             data.objects[i].pose.orientation.w = rotp[3]
@@ -69,8 +69,8 @@ def mycallback1(data):
                 yp = data.objects[i].convex_hull.polygon.points[j].y
                 zp = data.objects[i].convex_hull.polygon.points[j].z
 
-                data.objects[i].convex_hull.polygon.points[j].x = xf + xp * m.cos(tita) - yp * m.sin(tita)
-                data.objects[i].convex_hull.polygon.points[j].y = yf + xp * m.sin(tita) + yp * m.cos(tita)
+                data.objects[i].convex_hull.polygon.points[j].x = xf + xp * m.cos(theta) - yp * m.sin(theta)
+                data.objects[i].convex_hull.polygon.points[j].y = yf + xp * m.sin(theta) + yp * m.cos(theta)
                 data.objects[i].convex_hull.polygon.points[j].z = zf + zp
 
         pub.publish(data)
