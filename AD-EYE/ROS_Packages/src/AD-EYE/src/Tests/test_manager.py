@@ -74,7 +74,8 @@ class TestManager(TestCase):
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
-    # Test_5 checks that an invalid simulink state command does not have any effect i.e. does not launch any new nodes
+    # Test_5 checks that an invalid simulink state command does not have any effect i.e. does not launch
+    # or kill  any new nodes
 
     def Test_5(self):
         subprocess.Popen('roscore')
@@ -85,7 +86,8 @@ class TestManager(TestCase):
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
-
+    # Test_6 checks that a sequence of invalid simulink state commands does not have any effect i.e. does not launch
+    # or kill  any new nodes
     def Test_6(self):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
@@ -97,9 +99,22 @@ class TestManager(TestCase):
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
+    # Test_7 checks that a invalid  simulink state command followed by a valid enable command,
+    # launches nodes as expected
+    def Test_7(self):
+        subprocess.Popen('roscore')
+        rospy.sleep(ROSCORE_SLEEP_TIME)
+        initial_node_count = len(rosnode.get_node_names())
+        manager.simulink_state_callback(INVALID_VALUE_SIMULINK_STATE_1)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
+        manager.simulink_state_callback(ENABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
+        final_node_count = len(rosnode.get_node_names())
+        self.assertGreater(final_node_count, initial_node_count)
 
 if __name__ == '__main__':
     # Ros unit testing framework is used to run all tests and save in .xml format
     import rosunit
 
     rosunit.unitrun('adeye', 'Manager_test_results', TestManager)
+
