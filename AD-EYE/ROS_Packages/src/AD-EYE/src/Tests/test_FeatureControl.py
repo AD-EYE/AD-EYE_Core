@@ -54,4 +54,5 @@ class TestFeatureControl(TestCase):
 if __name__ == '__main__':
     # Ros unit testing framework is used to run all tests and save in .xml format
     import rosunit
-    rosunit.unitrun('adeye', 'test/Feature_control_test_results', TestFeatureControl)
+
+    rosunit.unitrun('adeye', 'Feature_control_test_results', TestFeatureControl)
