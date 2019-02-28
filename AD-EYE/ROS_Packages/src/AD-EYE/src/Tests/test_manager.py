@@ -8,10 +8,12 @@ import subprocess
 import rospy
 
 ROSCORE_SLEEP_TIME = 1
+TIME_BETWEEN_SIMULINK_STATE_CHANGES = 5
 
 ENABLE_SIMULINK_STATE = Int32(1)
 DISABLE_SIMULINK_STATE = Int32(0)
-INVALID_VALUE_SIMULINK_STATE = Int32(5)
+INVALID_VALUE_SIMULINK_STATE_1 = Int32(5)
+INVALID_VALUE_SIMULINK_STATE_2 = Int32(12)
 
 manager = importlib.import_module('manager')
 
@@ -20,7 +22,6 @@ manager.Detection = FeatureControl(manager.DETECTION_FULL_PATH, "Detection")
 manager.Mission_planning = FeatureControl(manager.MISSION_PLANNING_FULL_PATH, "Mission_Planning")
 manager.Motion_planning = FeatureControl(manager.MOTION_PLANNING_FULL_PATH, "Motion_Planning")
 manager.Ssmp = FeatureControl(manager.SSMP_FULL_PATH, "SSMP")
-
 
 
 class TestManager(TestCase):
@@ -33,8 +34,10 @@ class TestManager(TestCase):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
         manager.simulink_state_callback(DISABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         initial_node_count = len(rosnode.get_node_names())
         manager.simulink_state_callback(ENABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         final_node_count = len(rosnode.get_node_names())
         self.assertLess(initial_node_count, final_node_count)
 
@@ -42,8 +45,10 @@ class TestManager(TestCase):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
         manager.simulink_state_callback(ENABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         initial_node_count = len(rosnode.get_node_names())
         manager.simulink_state_callback(DISABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         final_node_count = len(rosnode.get_node_names())
         self.assertLess(final_node_count, initial_node_count)
 
@@ -51,8 +56,10 @@ class TestManager(TestCase):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
         manager.simulink_state_callback(ENABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         initial_node_count = len(rosnode.get_node_names())
         manager.simulink_state_callback(ENABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
@@ -60,8 +67,10 @@ class TestManager(TestCase):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
         manager.simulink_state_callback(DISABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         initial_node_count = len(rosnode.get_node_names())
         manager.simulink_state_callback(DISABLE_SIMULINK_STATE)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
@@ -71,7 +80,20 @@ class TestManager(TestCase):
         subprocess.Popen('roscore')
         rospy.sleep(ROSCORE_SLEEP_TIME)
         initial_node_count = len(rosnode.get_node_names())
-        manager.simulink_state_callback(INVALID_VALUE_SIMULINK_STATE)
+        manager.simulink_state_callback(INVALID_VALUE_SIMULINK_STATE_1)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
+        final_node_count = len(rosnode.get_node_names())
+        self.assertEqual(final_node_count, initial_node_count)
+
+
+    def Test_6(self):
+        subprocess.Popen('roscore')
+        rospy.sleep(ROSCORE_SLEEP_TIME)
+        initial_node_count = len(rosnode.get_node_names())
+        manager.simulink_state_callback(INVALID_VALUE_SIMULINK_STATE_1)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
+        manager.simulink_state_callback(INVALID_VALUE_SIMULINK_STATE_2)
+        rospy.sleep(TIME_BETWEEN_SIMULINK_STATE_CHANGES)
         final_node_count = len(rosnode.get_node_names())
         self.assertEqual(final_node_count, initial_node_count)
 
