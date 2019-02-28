@@ -1,0 +1,6 @@
+<launch>
+    <node type="sender.py"
+          pkg="adeye"
+          name="sender"
+          respawn="true"/>
+</launch>

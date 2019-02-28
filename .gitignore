@@ -1,0 +1,50 @@
+# Compiled Object files
+*.o
+*.so
+
+# Python bytecode
+*.pyc
+
+# Simulink and PreScan generated files. May need to add more based on .pex configuration
+*.pb
+*.pepb
+*.autosave
+*.original
+*.r2010b
+*.r2013b
+*.r2017b
+*.r2018b
+*.vwrs
+*.osgt
+*.osgb
+*.ps3d
+*.vwe
+*.osgt
+
+# All folders that are generated. May need to add more based on .pex configuration
+*/PreScan_Experiments/**/Actors
+*/PreScan_Experiments/**/CameraSensorConfig
+*/PreScan_Experiments/**/RemoteViewerPlugin
+*/PreScan_Experiments/**/Temp
+*/PreScan_Experiments/**/Trajectories
+*/PreScan_Experiments/**/Models
+*/PreScan_Experiments/**/Resources
+*/PreScan_Experiments/**/V2XPlugin
+*/PreScan_Experiments/**/cameraeffects
+*/PreScan_Experiments/**/cameras
+*/PreScan_Experiments/**/Pictures
+*/PreScan_Experiments/**/slprj
+
+# May have to re-include
+*/PreScan_Experiments/**/*hash.mat
+*/PreScan_Experiments/**/*hws.mat
+*/PreScan_Experiments/**/*old.slx
+*/PreScan_Experiments/**/*.png
+
+
+#Catkin/ROS build files
+*/ROS_Packages/build
+*/ROS_Packages/devel
+*/ROS_Packages/build
+*/ROS_Packages/src/CMakeLists.txt
+*/ROS_Packages/.catkin_workspace
