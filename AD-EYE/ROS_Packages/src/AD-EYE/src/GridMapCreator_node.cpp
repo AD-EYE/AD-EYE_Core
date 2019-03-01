@@ -76,7 +76,7 @@ public:
     // for now there is no easy way to send the dimensions of the actors, it is assumed all actors are 5x2x2 meters
     float length_ego = 5;
     float width_ego = 2;
-    float height_ego = 2;
+    //float height_ego = 2; //Height is not critical for now
     float length_other = 5;
     float width_other = 2;
     float heigth_other = 2;
@@ -108,7 +108,7 @@ public:
     float highest_x = veclane.point_x.at(veclane.node_pid.at(0)-1);
     float lowest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
     float highest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
-    for(int i = 1; i < veclane.point_id.size(); i++){
+    for(int i = 1; i < (int)veclane.point_id.size(); i++){
       if(veclane.point_x.at(veclane.node_pid.at(i)-1) < lowest_x){
         lowest_x = veclane.point_x.at(veclane.node_pid.at(i)-1);
       }
@@ -142,7 +142,7 @@ public:
     }
 
     // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
-    for(int i = 0; i < pexObjects.ID.size(); i++){
+    for(int i = 0; i < (int)pexObjects.ID.size(); i++){
       // building objects are always considered to be rectangles, and as such, a rectangle is created and the PolygonIterator is used. The number 0.01745 is a conversion from degrees to radians
       if(pexObjects.type.at(i) == BUILDING){
         grid_map::Polygon polygon = rectangle_creator(pexObjects.posX.at(i), pexObjects.posY.at(i), pexObjects.sizeX.at(i), pexObjects.sizeY.at(i), 0.01745*pexObjects.yaw.at(i));
@@ -176,7 +176,7 @@ public:
 
     // the Vectormap is used to fill in the lane layers, this is done by drawing a polygon per lane set. Every lane set starts and ends with a 0 in the vectormap, so you can look at that
     int lanepartID = 1;
-    for(int i = 0; i < veclane.lane_id.size(); i++){
+    for(int i = 0; i < (int)veclane.lane_id.size(); i++){
       if(veclane.lane_prevlane.at(i) == 0){
         int j = i;
         grid_map::Polygon polygon;
@@ -288,7 +288,7 @@ public:
         float x_other;
         float y_other;
         float yaw_other;
-        for(int i = 0; i < N_actors; i++){
+        for(int i = 0; i < (int)N_actors; i++){
           //remove old location of other actors by looking at the position of the previous iteration
           if(DynamicObjectsInitialized == true){
             x_other = otherActorsOld.poses.at(i).position.x;
