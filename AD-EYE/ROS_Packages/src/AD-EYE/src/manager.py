@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # license removed for brevity
 import rospy
+import rospkg
 from std_msgs.msg import Int32
 from FeatureControl import FeatureControl
 
@@ -21,8 +22,11 @@ MISSION_PLANNING = 7
 MOTION_PLANNING = 8
 SSMP = 9
 
+rospack = rospkg.RosPack()
+
+
 # Basic folder locations
-ADEYE_PACKAGE_LOCATION = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/"
+ADEYE_PACKAGE_LOCATION = rospack.get_path('adeye')+"/"
 QUICK_START_LOCATION = "quick_start/"
 LAUNCH_FOLDER_LOCATION = "launch/"
 
