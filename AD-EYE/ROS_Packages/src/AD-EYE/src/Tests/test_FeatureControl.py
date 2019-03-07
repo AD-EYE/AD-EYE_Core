@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 from unittest import TestCase
 from FeatureControl import FeatureControl
+import rospkg
 import rosnode
 
 Node_to_check = '/controlSwitch'
 
 SECS = 0.1
-filepath = "/home/naveenm/AD-EYE-WASP/AD-EYE/ROS_Packages/src/AD-EYE/launch/switch.launch"
+rospack = rospkg.RosPack()
+filepath = rospack.get_path('adeye')+"/launch/switch.launch"
 
 
 class TestFeatureControl(TestCase):

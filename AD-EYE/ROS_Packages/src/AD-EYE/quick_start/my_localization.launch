@@ -19,7 +19,7 @@
 
     <!-- Vehicle Model -->
     <include file="$(find model_publisher)/launch/vehicle_model.launch">
-        <arg name="model_path" value="$(env HOME)/AD-EYE-WASP/AD-EYE/Data/URDF_Actor_Models/BMW_X5/default.urdf"/>
+        <arg name="model_path" value="$(find adeye)/../../../../AD-EYE/Data/URDF_Actor_Models/BMW_X5/default.urdf"/>
     </include>
 
     <!-- Points Downsampler -->
