@@ -1,6 +1,7 @@
 <!-- -->
 <launch>
-
+    <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../../AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/"/>
+    <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../../AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/"/>
     <!-- world_to_map -->
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>
 
@@ -9,86 +10,79 @@
 
     <!-- Point Cloud -->
     <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151353839.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151355738.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151357541.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151359355.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151410099.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15141154.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151411895.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151413666.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151415460.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151417258.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151419068.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151420887.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151422741.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151424566.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151426355.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151428160.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15142952.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151429926.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151431702.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151433481.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151435259.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151437031.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151438807.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151440593.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151442385.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151444170.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151445959.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15144747.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151447748.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151449528.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151451313.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151453095.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151454877.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151456655.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151458438.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15146528.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15148321.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151510872.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151512640.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151514422.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151516195.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151517975.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151519732.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15151984.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd1515203.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151521497.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151523269.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151525034.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151526819.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151528587.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151530371.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151532137.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151533903.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151535675.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151537451.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15153752.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151539223.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd151540987.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15155519.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15157287.pcd
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Pointcloud_Files/pcd15159110.pcd
+    $(arg PointCloud_Files_Folder)pcd151353839.pcd
+    $(arg PointCloud_Files_Folder)pcd151355738.pcd
+    $(arg PointCloud_Files_Folder)pcd151357541.pcd
+    $(arg PointCloud_Files_Folder)pcd151359355.pcd
+    $(arg PointCloud_Files_Folder)pcd151410099.pcd
+    $(arg PointCloud_Files_Folder)pcd15141154.pcd
+    $(arg PointCloud_Files_Folder)pcd151411895.pcd
+    $(arg PointCloud_Files_Folder)pcd151413666.pcd
+    $(arg PointCloud_Files_Folder)pcd151415460.pcd
+    $(arg PointCloud_Files_Folder)pcd151419068.pcd
+    $(arg PointCloud_Files_Folder)pcd151420887.pcd
+    $(arg PointCloud_Files_Folder)pcd151422741.pcd
+    $(arg PointCloud_Files_Folder)pcd151424566.pcd
+    $(arg PointCloud_Files_Folder)pcd151426355.pcd
+    $(arg PointCloud_Files_Folder)pcd151428160.pcd
+    $(arg PointCloud_Files_Folder)pcd15142952.pcd
+    $(arg PointCloud_Files_Folder)pcd151429926.pcd
+    $(arg PointCloud_Files_Folder)pcd151431702.pcd
+    $(arg PointCloud_Files_Folder)pcd151433481.pcd
+    $(arg PointCloud_Files_Folder)pcd151435259.pcd
+    $(arg PointCloud_Files_Folder)pcd151437031.pcd
+    $(arg PointCloud_Files_Folder)pcd151438807.pcd
+    $(arg PointCloud_Files_Folder)pcd151440593.pcd
+    $(arg PointCloud_Files_Folder)pcd151442385.pcd
+    $(arg PointCloud_Files_Folder)pcd151444170.pcd
+    $(arg PointCloud_Files_Folder)pcd151445959.pcd
+    $(arg PointCloud_Files_Folder)pcd15144747.pcd
+    $(arg PointCloud_Files_Folder)pcd151447748.pcd
+    $(arg PointCloud_Files_Folder)pcd151449528.pcd
+    $(arg PointCloud_Files_Folder)pcd151451313.pcd
+    $(arg PointCloud_Files_Folder)pcd151453095.pcd
+    $(arg PointCloud_Files_Folder)pcd151454877.pcd
+    $(arg PointCloud_Files_Folder)pcd151456655.pcd
+    $(arg PointCloud_Files_Folder)pcd151458438.pcd
+    $(arg PointCloud_Files_Folder)pcd15146528.pcd
+    $(arg PointCloud_Files_Folder)pcd15148321.pcd
+    $(arg PointCloud_Files_Folder)pcd151510872.pcd
+    $(arg PointCloud_Files_Folder)pcd151512640.pcd
+    $(arg PointCloud_Files_Folder)pcd151514422.pcd
+    $(arg PointCloud_Files_Folder)pcd151516195.pcd
+    $(arg PointCloud_Files_Folder)pcd151517975.pcd
+    $(arg PointCloud_Files_Folder)pcd151519732.pcd
+    $(arg PointCloud_Files_Folder)pcd15151984.pcd
+    $(arg PointCloud_Files_Folder)pcd1515203.pcd
+    $(arg PointCloud_Files_Folder)pcd151521497.pcd
+    $(arg PointCloud_Files_Folder)pcd151523269.pcd
+    $(arg PointCloud_Files_Folder)pcd151525034.pcd
+    $(arg PointCloud_Files_Folder)pcd151526819.pcd
+    $(arg PointCloud_Files_Folder)pcd151528587.pcd
+    $(arg PointCloud_Files_Folder)pcd151530371.pcd
+    $(arg PointCloud_Files_Folder)pcd151532137.pcd
+    $(arg PointCloud_Files_Folder)pcd151533903.pcd
+    $(arg PointCloud_Files_Folder)pcd151535675.pcd
+    $(arg PointCloud_Files_Folder)pcd151537451.pcd
+    $(arg PointCloud_Files_Folder)pcd15153752.pcd
+    $(arg PointCloud_Files_Folder)pcd151539223.pcd
+    $(arg PointCloud_Files_Folder)pcd151540987.pcd
+    $(arg PointCloud_Files_Folder)pcd15155519.pcd
+    $(arg PointCloud_Files_Folder)pcd15157287.pcd
+    $(arg PointCloud_Files_Folder)pcd15159110.pcd
 "/>
 
     -->
 
     <!-- Vector Map -->
     <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/dtlane.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/lane.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/node.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/point.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
-    $(env HOME)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv
-
-
+    $(arg VectorMap_Files_Folder)dtlane.csv
+    $(arg VectorMap_Files_Folder)lane.csv
+    $(arg VectorMap_Files_Folder)line.csv
+    $(arg VectorMap_Files_Folder)node.csv
+    $(arg VectorMap_Files_Folder)point.csv
+    $(arg VectorMap_Files_Folder)roadedge.csv
+    $(arg VectorMap_Files_Folder)whiteline.csv
 "/>
 
 </launch>
-
-        <!--$(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/line.csv
-        $(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/roadedge.csv
-        $(find Home)/AD-EYE-WASP/AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/whiteline.csv-->
