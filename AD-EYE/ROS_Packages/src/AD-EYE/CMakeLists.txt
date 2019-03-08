@@ -86,6 +86,13 @@ target_link_libraries(
 #  ${catkin_EXPORTED_TARGETS}
 #)
 
+add_dependencies(controlSwitch
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(GridMapCreator
+  ${catkin_EXPORTED_TARGETS}
+)
 # Mark executables and/or libraries for installation
 install(
   TARGETS GridMapCreator flattening controlSwitch
