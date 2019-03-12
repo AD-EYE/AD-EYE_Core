@@ -2,7 +2,7 @@
 <launch>
 
     <!-- op_common_params settings -->
-    <arg name="pathDensity" default="0.5"/>
+    <arg name="pathDensity" default="0.75"/>
     <arg name="rollOutDensity" default="0.5"/>
     <arg name="rollOutsNumber" default="6"/>
 
@@ -110,7 +110,7 @@
 
     <!-- op_trajectory_evaluator -->
     <include file="$(find op_local_planner)/launch/op_trajectory_evaluator.launch">
-        <arg name="enablePrediction" value="true"/>
+        <arg name="enablePrediction" value="false"/>
         <arg name="horizontalSafetyDistance" value="1.2"/>
         <arg name="verticalSafetyDistance" value="0.8"/>
     </include>

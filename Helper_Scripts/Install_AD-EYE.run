@@ -1,0 +1,28 @@
+#clone repo
+cd $HOME
+sudo rm -rf AD-EYE_Core
+git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
+cd AD-EYE_Core
+git checkout TransitionToOrg
+git submodule init
+git submodule update --recursive
+#meet AD-EYE dependencies
+sudo apt-get install ros-kinetic-costmap-2d
+sudo apt-get install ros-kinetic-navigation
+sudo apt-get install ros-kinetic-grid-map
+#build adeye
+cd AD-EYE/ROS_Packages
+catkin_make
+#meet Autoware dependencies
+sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin libmosquitto-dev
+#build autoware
+cd ../../
+cd Autoware_Private_Fork/ros/src/
+catkin_init_workspace
+cd ../
+./catkin_make_release
+# make modifications to bashrc to source the right workspaces
+echo "source $HOME/AD-EYE_Core/AD-EYE/ROS_Packages/devel/setup.bash --extend" >> ~/.bashrc
+echo "source $HOME/AD-EYE_Core/Autoware_Private_Fork/ros/devel/setup.bash --extend" >> ~/.bashrc
+#refresh bash
+exec bash
