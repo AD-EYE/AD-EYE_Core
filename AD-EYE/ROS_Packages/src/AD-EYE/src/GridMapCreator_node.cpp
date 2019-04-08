@@ -69,9 +69,9 @@ public:
 
     // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
     float submap_dimensions = 35;               // Both the length and the width of the submap in meters, increasing this value will cause the flattening node to become slower, 35 is the minimum value
-    float mapresolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution, 
+    float mapresolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
     float frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
-    ros::Rate rate(frequency);      
+    ros::Rate rate(frequency);
 
     // for now there is no easy way to send the dimensions of the actors, it is assumed all actors are 5x2x2 meters
     float length_ego = 5;
@@ -96,7 +96,7 @@ public:
     VectorMapLoader vecmap_loader;
     VectorMapLoader::vecmap veclane;
     vecmap_loader.load_vectormap(filePoint, fileLane, fileNode, fileDtlane, veclane);
-    
+
     // read out prescanmap from the pex file and store all information in 'pexObjects'
     std::string filePex = p_nh.param<std::string>("filePex","");
     PrescanModelLoader pexmap_loader;
@@ -108,7 +108,7 @@ public:
     float highest_x = veclane.point_x.at(veclane.node_pid.at(0)-1);
     float lowest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
     float highest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
-    for(int i = 1; i < (int)veclane.point_id.size(); i++){
+    for(int i = 1; i < (int)veclane.node_pid.size(); i++){
       if(veclane.point_x.at(veclane.node_pid.at(i)-1) < lowest_x){
         lowest_x = veclane.point_x.at(veclane.node_pid.at(i)-1);
       }
@@ -131,7 +131,7 @@ public:
     float maplength_y = highest_y-lowest_y;
     map.setGeometry(Length(maplength_x, maplength_y), mapresolution, Position(lowest_x+0.5*maplength_x, lowest_y+0.5*maplength_y));
     ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map.getLength().x(), map.getLength().y(), map.getSize()(0), map.getSize()(1));
-    
+
     // use data from pex file and vectormap to fill in the layers of the gridmap
     // All cells in all layers must first be initialized to 0
     for (GridMapIterator it(map); !it.isPastEnd(); ++it) {
@@ -213,7 +213,7 @@ public:
           angle = angle+HALF_PI;
           lanewidth = veclane.dtlane_rightwidth.at(veclane.lane_did.at(j)-1);
           polygon.addVertex(Position(point1.x()+lanewidth*cos(angle), point1.y()+lanewidth*sin(angle)));
-          polygon.addVertex(Position(point2.x()+lanewidth*cos(angle), point2.y()+lanewidth*sin(angle)));       
+          polygon.addVertex(Position(point2.x()+lanewidth*cos(angle), point2.y()+lanewidth*sin(angle)));
           if(veclane.lane_prevlane.at(j) != 0){
             j = veclane.lane_prevlane.at(j)-1;
           }
@@ -265,7 +265,7 @@ public:
 
     while (nh.ok()) {
       float rostime = ros::Time::now().toSec();
-      ros::spinOnce(); 
+      ros::spinOnce();
 
       // Transform between gridmap frame and ego frame
       static tf::TransformBroadcaster br;
@@ -293,24 +293,24 @@ public:
           if(DynamicObjectsInitialized == true){
             x_other = otherActorsOld.poses.at(i).position.x;
             y_other = otherActorsOld.poses.at(i).position.y;
-            yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);     
+            yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);
             grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
             if(x_other-x_egoOld < submap_dimensions && x_other-x_egoOld > -submap_dimensions && y_other-y_egoOld < submap_dimensions && y_other-y_egoOld > -submap_dimensions){
               for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
                 map.at("DynamicObjects", *iterator) = 0;
               }
-            }         
+            }
           }
           //add new location of other actors by looking at the new position as send by prescan
           x_other = otherActors.poses.at(i).position.x;
           y_other = otherActors.poses.at(i).position.y;
-          yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);  
-          grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);   
+          yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);
+          grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
           if(x_other-x_ego < submap_dimensions && x_other-x_ego > -submap_dimensions && y_other-y_ego < submap_dimensions && y_other-y_ego > -submap_dimensions){
             for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
               map.at("DynamicObjects", *iterator) = heigth_other;
             }
-          }       
+          }
         }
         x_egoOld = x_ego;
         y_egoOld = y_ego;
@@ -337,7 +337,7 @@ public:
       rostime = ros::Time::now().toSec() - rostime;
       if(rostime > 1/frequency){
         ROS_INFO("frequency is not met!");
-      }     
+      }
       rate.sleep();
     }
   }
