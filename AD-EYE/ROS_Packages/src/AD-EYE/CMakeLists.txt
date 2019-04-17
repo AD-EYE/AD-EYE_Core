@@ -66,6 +66,11 @@ add_executable(
   src/controlSwitch_node.cpp
 )
 
+add_executable(
+  safetySupervisor
+  src/safetySupervisor.cpp
+)
+
 
 target_link_libraries(
   GridMapCreator
@@ -82,6 +87,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  safetySupervisor
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -93,9 +103,13 @@ add_dependencies(controlSwitch
 add_dependencies(GridMapCreator
   ${catkin_EXPORTED_TARGETS}
 )
+
+add_dependencies(safetySupervisor
+  ${catkin_EXPORTED_TARGETS}
+)
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -108,10 +122,3 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
 )
-
-
-
-
-
-
-
