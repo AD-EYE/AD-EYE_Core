@@ -5,6 +5,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
+#include <autoware_msgs/Lane.h>
 
 //using namespace grid_map;
 
@@ -22,6 +23,7 @@ public:
 
     subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &safetySupervisor::gnss_callback, this);
     subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &safetySupervisor::gridmap_callback, this);
+    subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &safetySupervisor::autowareTrajectory_callback, this);
 
     // Initialize the variables
     state = SAFE;
@@ -63,6 +65,16 @@ public:
     gridmap_flag = 1;
   }
 
+  void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
+  {
+    autowareTrajectory = *msg;
+    //for (int i = 0; i < autowareTrajectory.waypoints.size(); i++)
+    //{
+    //  ROS_INFO("%f", autowareTrajectory.waypoints[0].pose.pose.position.x);
+    //}
+    autowareTrajectory_flag = 1;
+  }
+
   void loop()
   {
     ros::Rate rate(20);
@@ -89,15 +101,18 @@ private:
   ros::Publisher pubSwitch;
   ros::Subscriber subGnss;
   ros::Subscriber subGridmap;
+  ros::Subscriber subAutowareTrajectory;
 
   // variables
   geometry_msgs::Pose pose;
   bool state;
   bool gnss_flag;
   bool gridmap_flag;
+  bool autowareTrajectory_flag;
   std_msgs::Int32 msg;
   //grid_map_msgs::GridMap gridmap;
   grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+  autoware_msgs::Lane autowareTrajectory;
 };
 
 int main(int argc, char **argv)
