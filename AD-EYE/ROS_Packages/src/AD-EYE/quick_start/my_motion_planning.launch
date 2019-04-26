@@ -110,7 +110,7 @@
 
     <!-- op_trajectory_evaluator -->
     <include file="$(find op_local_planner)/launch/op_trajectory_evaluator.launch">
-        <arg name="enablePrediction" value="false"/>
+        <arg name="enablePrediction" value="true"/>
         <arg name="horizontalSafetyDistance" value="1.2"/>
         <arg name="verticalSafetyDistance" value="0.8"/>
     </include>

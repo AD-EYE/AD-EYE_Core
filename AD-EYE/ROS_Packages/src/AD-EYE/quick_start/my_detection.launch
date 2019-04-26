@@ -25,6 +25,13 @@
         <arg name="image_src" value="/image_raw"/>
     </include>
 
+    <!-- vision_beyond_track-->
+    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
+        <arg name="camera_height" value="1.2"/>
+    </include>
+
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
         <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
@@ -67,7 +74,7 @@
     <!-- range_vision_fusion -->
     <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
         <arg name="detected_objects_range" value="/detection/lidar_detector/objects"/>
-        <arg name="detected_objects_vision" value="/detection/image_detector/objects"/>
+        <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="min_car_dimensions" value="[3,2,2]"/>
         <arg name="min_person_dimensions" value="[1,2,1]"/>
