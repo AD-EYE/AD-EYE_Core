@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   rcv_common_msgs
   cpp_utils
   planner_utils
+  autoware_msgs
 )
 
 
@@ -31,6 +32,7 @@ catkin_package(
     nav_msgs
     std_msgs
     geometry_msgs
+    autoware_msgs
   DEPENDS
 )
 
