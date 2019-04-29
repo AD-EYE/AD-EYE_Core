@@ -39,7 +39,7 @@ SENSING_LAUNCH_FILE_NAME = "my_sensing.launch"
 DETECTION_LAUNCH_FILE_NAME = "my_detection.launch"
 SWITCH_LAUNCH_FILE_NAME = "switch.launch"
 MISSION_PLANNING_LAUNCH_FILE_NAME = "my_mission_planning.launch"
-MOTION_PLANNING_LAUNCH_FILE_NAME = "my_motion_planning.launch"
+MOTION_PLANNING_LAUNCH_FILE_NAME = "my_naive_motion_planning.launch"
 SSMP_LAUNCH_FILE_NAME = "SSMP.launch"
 
 # Full path to each launch file

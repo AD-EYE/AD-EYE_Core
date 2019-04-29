@@ -1,0 +1,148 @@
+<!-- -->
+<launch>
+
+    <!-- op_common_params settings -->
+    <arg name="pathDensity" default="0.75"/>
+    <arg name="rollOutDensity" default="0.5"/>
+    <arg name="rollOutsNumber" default="6"/>
+
+    <arg name="maxVelocity" default="11.1"/>
+    <arg name="minVelocity" default="0.1"/>
+    <arg name="maxLocalPlanDistance" default="50"/>
+    <arg name="horizonDistance" default="200"/>
+
+    <arg name="minFollowingDistance" default="20.0"/> <!-- should be bigger than Distance to follow -->
+    <arg name="minDistanceToAvoid"
+         default="15.0"/> <!-- should be smaller than minFollowingDistance and larger than maxDistanceToAvoid -->
+    <arg name="maxDistanceToAvoid" default="5.0"/> <!-- should be smaller than minDistanceToAvoid -->
+    <arg name="speedProfileFactor" default="1.2"/>
+
+    <arg name="smoothingDataWeight" default="0.45"/>
+    <arg name="smoothingSmoothWeight" default="0.4"/>
+
+    <arg name="horizontalSafetyDistance" default="1.2"/>
+    <arg name="verticalSafetyDistance" default="0.8"/>
+
+    <arg name="enableSwerving" default="true"/>
+    <arg name="enableFollowing" default="true"/>
+    <arg name="enableTrafficLightBehavior" default="true"/>
+    <arg name="enableStopSignBehavior" default="false"/>
+    <arg name="enableLaneChange" default="true"/>
+
+    <arg name="width" default="1.85"/>
+    <arg name="length" default="4.2"/>
+    <arg name="wheelBaseLength" default="2.7"/>
+    <arg name="turningRadius" default="1.0"/> <!-- The original value was 5.2-->
+    <arg name="maxSteerAngle" default="0.8"/> <!-- The original value was 0.45-->
+
+    <arg name="steeringDelay" default="1.2"/>
+    <arg name="minPursuiteDistance" default="3.0"/>
+    <arg name="additionalBrakingDistance" default="5.0"/>
+
+    <arg name="giveUpDistance" default="-4.0"/>
+
+    <arg name="maxAcceleration" default="3.0"/>
+    <arg name="maxDeceleration" default="-3.0"/>
+
+    <arg name="velocitySource"
+         default="1"/> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
+
+    <!--waypoint_follower pure_pursuit settings-->
+    <arg name="is_linear_interpolation" default="true"/>
+    <arg name="publishes_for_steering_robot" default="true"/>
+
+    <!-- Link to Simulink -->
+    <include file="$(find adeye)/launch/sender.launch"/>
+
+    <!-- op_common_params -->
+    <include file="$(find op_local_planner)/launch/op_common_params.launch">
+        <arg name="pathDensity" value="$(arg pathDensity)"/>
+        <arg name="rollOutDensity" value="$(arg rollOutDensity)"/>
+        <arg name="rollOutsNumber" value="$(arg rollOutsNumber)"/>
+
+        <arg name="maxVelocity" value="$(arg maxVelocity)"/>
+        <arg name="minVelocity" value="$(arg minVelocity)"/>
+        <arg name="maxLocalPlanDistance" value="$(arg maxLocalPlanDistance)"/>
+        <arg name="horizonDistance" value="$(arg horizonDistance)"/>
+
+        <arg name="minFollowingDistance" value="$(arg minFollowingDistance)"/>
+        <arg name="minDistanceToAvoid" value="$(arg minDistanceToAvoid)"/>
+        <arg name="maxDistanceToAvoid" value="$(arg maxDistanceToAvoid)"/>
+        <arg name="speedProfileFactor" value="$(arg speedProfileFactor)"/>
+
+        <arg name="smoothingDataWeight" value="$(arg smoothingDataWeight)"/>
+        <arg name="smoothingSmoothWeight" value="$(arg smoothingSmoothWeight)"/>
+
+        <arg name="horizontalSafetyDistance" value="$(arg horizontalSafetyDistance)"/>
+        <arg name="verticalSafetyDistance" value="$(arg verticalSafetyDistance)"/>
+
+        <arg name="enableSwerving" value="$(arg enableSwerving)"/>
+        <arg name="enableFollowing" value="$(arg enableFollowing)"/>
+        <arg name="enableTrafficLightBehavior" value="$(arg enableTrafficLightBehavior)"/>
+        <arg name="enableStopSignBehavior" value="$(arg enableStopSignBehavior)"/>
+        <arg name="enableLaneChange" value="$(arg enableLaneChange)"/>
+
+        <arg name="width" value="$(arg width)"/>
+        <arg name="length" value="$(arg length)"/>
+        <arg name="wheelBaseLength" value="$(arg wheelBaseLength)"/>
+        <arg name="turningRadius" value="$(arg turningRadius)"/>
+        <arg name="maxSteerAngle" value="$(arg maxSteerAngle)"/>
+
+        <arg name="steeringDelay" value="$(arg steeringDelay)"/>
+        <arg name="minPursuiteDistance" value="$(arg minPursuiteDistance)"/>
+        <arg name="additionalBrakingDistance" value="$(arg additionalBrakingDistance)"/>
+
+        <arg name="giveUpDistance" value="$(arg giveUpDistance)"/>
+
+        <arg name="maxAcceleration" value="$(arg maxAcceleration)"/>
+        <arg name="maxDeceleration" value="$(arg maxDeceleration)"/>
+
+        <arg name="velocitySource" value="$(arg velocitySource)"/>
+    </include>
+
+    <!-- op_trajectory_generator -->
+    <include file="$(find op_local_planner)/launch/op_trajectory_generator.launch">
+    </include>
+
+    <!-- Detection to Naive motion predictor -->
+    <node pkg="topic_tools" type="relay" name="naive_relay1" output="log" args="/tracked_objects_pre /detection/objects"/>
+
+    <!-- naive_motion_predictor -->
+    <include file="$(find naive_motion_predict)/launch/naive_motion_predict.launch">
+        <arg name="interval_sec" value="0.1" />
+        <arg name="num_prediction" value="10" />
+        <arg name="sensor_height" value="2.0" />
+        <!--<arg name="input_topic" value="/tracked_objects" /> FOR SOME REASON, THIS DOES NOT WORK-->
+    </include>
+
+    <!-- Naive motion predictor to op_local_planner Connection -->
+    <node pkg="topic_tools" type="relay" name="naive_relay2" output="log" args="/prediction/motion_predictor/objects /predicted_objects"/>
+
+    <!-- op_trajectory_evaluator -->
+    <include file="$(find op_local_planner)/launch/op_trajectory_evaluator.launch">
+        <arg name="enablePrediction" value="true"/>
+        <arg name="horizontalSafetyDistance" value="1.2"/>
+        <arg name="verticalSafetyDistance" value="0.8"/>
+    </include>
+
+    <!-- op_behavior_selector -->
+    <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
+        <param name="evidence_tust_number" value="25"/>
+    </include>
+
+    <!-- pure_pursuit config -->
+    <node pkg="rostopic" type="rostopic" name="config_waypoint_follower_rostopic"
+          args="pub -l /config/waypoint_follower autoware_config_msgs/ConfigWaypointFollower
+        '{ header: auto, param_flag: 0, velocity: 20.0, lookahead_distance: 4.0, lookahead_ratio: 1.0, minimum_lookahead_distance: 6.0, displacement_threshold: 0.0, relative_angle_threshold: 0.0 }' "
+    />
+
+    <!-- rosrun waypoint_follower pure_pursuit -->
+    <node pkg="waypoint_follower" type="pure_pursuit" name="pure_pursuit" output="log" respawn="true">
+        <param name="is_linear_interpolation" value="$(arg is_linear_interpolation)"/>
+        <param name="publishes_for_steering_robot" value="$(arg publishes_for_steering_robot)"/>
+    </node>
+
+    <!-- twist_filter -->
+    <include file="$(find waypoint_follower)/launch/twist_filter.launch"/>
+
+</launch>
