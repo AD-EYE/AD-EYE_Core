@@ -89,7 +89,7 @@ if __name__ == '__main__':
     # global pos_flag
     rospy.init_node('tracked_objects_adapter', anonymous=True)
     tflistener = tf.TransformListener()
-    rospy.Subscriber("tracked_objects_pre", DetectedObjectArray, mycallback1)
+    rospy.Subscriber("detection/fusion_tools/objects", DetectedObjectArray, mycallback1)
     # rospy.Subscriber("current_pose", PoseStamped, mycallback2)
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():

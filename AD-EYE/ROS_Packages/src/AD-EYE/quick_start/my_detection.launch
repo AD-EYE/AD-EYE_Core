@@ -104,9 +104,6 @@
         <arg name="namespace" value="/detection/object_tracker/"/>
     </include>
 
-    <!-- Pose Connect -->
-    <node pkg="topic_tools" type="relay" name="fusion_relay" output="log" args="/detection/fusion_tools/objects /tracked_objects_pre"/>
-
     <!-- tracked_objects_adapter -->
     <include file="$(find adeye)/launch/tracked_objects_adapter.launch"/>
 
