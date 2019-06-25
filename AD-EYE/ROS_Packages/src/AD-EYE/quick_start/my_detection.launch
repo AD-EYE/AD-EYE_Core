@@ -18,9 +18,9 @@
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
         <arg name="network_definition_file"
-             value="$(env HOME)/ssdcaffe/models/VGGNet/VOC0712/SSD_512x512/deploy.prototxt"/>
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/deploy.prototxt"/>
         <arg name="pretrained_model_file"
-             value="$(env HOME)/ssdcaffe/models/VGGNet/VOC0712/SSD_512x512/VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"/>
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"/>
         <arg name="camera_id" value="/"/>
         <arg name="image_src" value="/image_raw"/>
     </include>
