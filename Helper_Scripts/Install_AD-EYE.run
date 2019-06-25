@@ -32,6 +32,14 @@ cd ../../
 cd AD-EYE/ROS_Packages
 catkin_make
 
+#combine the ssdCaffe models
+cd ../../
+cd AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_300x300
+cat modelPart.* > VGG_VOC0712_SSD_300x300_iter_120000.caffemodel
+cd ..
+cd SSD_512x512
+cat modelPart.* > VGG_VOC0712_SSD_512x512_iter_120000.caffemodel
+
 # make modifications to bashrc to source the right workspaces
 echo "source $HOME/AD-EYE_Core/AD-EYE/ROS_Packages/devel/setup.bash --extend" >> ~/.bashrc
 #refresh bash
