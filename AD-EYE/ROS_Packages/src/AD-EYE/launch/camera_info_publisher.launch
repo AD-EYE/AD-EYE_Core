@@ -1,6 +1,9 @@
 <launch>
+    <arg name="node_name" default="-"/>
+    <arg name="args_list" default="-"/>
     <node pkg="adeye"
           type="camera_info_publisher.py"
-          name="camera_info_publisher"
-          output="screen"/>
+          name="$(arg node_name)"
+          output="screen"
+          args="$(arg args_list)"/>
 </launch>
