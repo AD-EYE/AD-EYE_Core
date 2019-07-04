@@ -1,5 +1,5 @@
 #clone repo
-#cd $HOME
+cd $HOME
 #sudo rm -rf AD-EYE_Core
 #git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
 cd AD-EYE_Core
@@ -10,21 +10,38 @@ git submodule update --recursive
 sudo apt-get install ros-kinetic-costmap-2d
 sudo apt-get install ros-kinetic-navigation
 sudo apt-get install ros-kinetic-grid-map
-#build adeye
-cd AD-EYE/ROS_Packages
-catkin_make
+
 #meet Autoware dependencies
 sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin libmosquitto-dev
+
 #build autoware
-cd ../../
 cd Autoware_Private_Fork/ros/src/
 catkin_init_workspace
 cd ../
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 ./catkin_make_release
+
 # make modifications to bashrc to source the right workspaces
-echo "source $HOME/AD-EYE_Core/AD-EYE/ROS_Packages/devel/setup.bash --extend" >> ~/.bashrc
 echo "source $HOME/AD-EYE_Core/Autoware_Private_Fork/ros/devel/setup.bash --extend" >> ~/.bashrc
 #refresh bash
 exec bash
+
+#build adeye
+cd ../../
+cd AD-EYE/ROS_Packages
+catkin_make
+
+#combine the ssdCaffe models
+cd ../../
+cd AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_300x300
+cat modelPart.* > VGG_VOC0712_SSD_300x300_iter_120000.caffemodel
+cd ..
+cd SSD_512x512
+cat modelPart.* > VGG_VOC0712_SSD_512x512_iter_120000.caffemodel
+
+# make modifications to bashrc to source the right workspaces
+echo "source $HOME/AD-EYE_Core/AD-EYE/ROS_Packages/devel/setup.bash --extend" >> ~/.bashrc
+#refresh bash
+exec bash
+

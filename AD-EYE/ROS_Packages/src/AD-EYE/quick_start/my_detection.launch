@@ -10,7 +10,16 @@
           args="-0.49 0.0 1.11 -0.5 0.5 -0.5 0.5 base_link tl_camera 10"/>
 
     <!-- camera_info -->
-    <include file="$(find adeye)/launch/camera_info_publisher.launch"/>
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="camera_info_publisher"/>
+        <arg name="args_list" value="/camera_info camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+    </include>
+
+    <!-- traffic_light_camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="traffic_light_camera_info_publisher"/>
+        <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+    </include>
 
     <!-- vision_ssd_detect-->
     <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
@@ -18,9 +27,9 @@
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
         <arg name="network_definition_file"
-             value="$(env HOME)/ssdcaffe/models/VGGNet/VOC0712/SSD_512x512/deploy.prototxt"/>
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/deploy.prototxt"/>
         <arg name="pretrained_model_file"
-             value="$(env HOME)/ssdcaffe/models/VGGNet/VOC0712/SSD_512x512/VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"/>
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"/>
         <arg name="camera_id" value="/"/>
         <arg name="image_src" value="/image_raw"/>
     </include>

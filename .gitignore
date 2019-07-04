@@ -34,6 +34,8 @@
 */PreScan_Experiments/**/cameras
 */PreScan_Experiments/**/Pictures
 */PreScan_Experiments/**/slprj
+*/PreScan_Experiments/**/Vissim
+*/PreScan_Experiments/**/PBCameraPlugin
 
 # May have to re-include
 */PreScan_Experiments/**/*hash.mat
@@ -47,3 +49,7 @@
 */ROS_Packages/build
 */ROS_Packages/src/CMakeLists.txt
 */ROS_Packages/.catkin_workspace
+
+# Ssdcaffe models
+*.caffemodel
+
