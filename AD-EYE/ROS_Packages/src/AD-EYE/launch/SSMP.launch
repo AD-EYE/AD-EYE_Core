@@ -2,8 +2,8 @@
     <rosparam>
         use_sim_time: true
     </rosparam>
-    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Data/Maps/Base_Map/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/PreScan_Experiments/Base_Map/Simulation/"/>
+    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/Base_Map/Vector_Map_Files/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/Base_Map/Simulation/"/>
 
     <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
