@@ -1,0 +1,54 @@
+
+##############################
+# INSTALL SSDCaffe ON UBUNTU #
+##############################
+
+# | THIS SCRIPT IS TESTED CORRECTLY ON  |
+# |-------------------------------------|
+# | OS             | Test | Last test   |
+# |----------------|------|-------------|
+# | Ubuntu 16.04   | OK   | 11 Jul 2019 |
+
+
+
+cd $HOME
+
+#clone repo
+git clone -b ssd https://github.com/weiliu89/caffe.git ssdcaffe
+cd ssdcaffe
+git checkout 4817bf8b4200b35ada8ed0dc378dceaf38c539e4
+
+#clone AD-EYE repo to copy Makefile.config to ssdcaffe installation folder
+git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
+cd AD-EYE-CORE
+checkout dev
+cd AD-EYE
+cd Data
+cp Makefile.config $HOME/ssdcaffe
+
+#install ssdcaffe
+
+clear
+
+echo '/!\/!\/!\/!\/!\/!\/!\/!\'
+echo 'MAKE SURE YOU HAVE cuDNN INSTALLED AND OpenCV 2 (if you have version 3, modify the Makefile.config file in $HOME/ssdCaffe)'
+echo '/!\/!\/!\/!\/!\/!\/!\/!\'
+echo ''
+echo ''
+
+cd $HOME/ssdcaffe
+
+echo '/!\/!\/!\/!\/!\/!\/!\/!\'
+echo 'If the installation bug shortly after this try to comment out the next line in the script (make distribute, cf wiki)'
+echo '/!\/!\/!\/!\/!\/!\/!\/!\'
+
+make distribute 
+
+
+nb_cores=$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
+
+make all -j$((nb_cores/2))
+make test -j$((nb_cores/2))
+make runtest -j$((nb_cores/2))
+
+echo The configuration of ssdCaffe is finished!
