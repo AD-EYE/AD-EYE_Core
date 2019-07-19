@@ -22,26 +22,29 @@
 *.osgt
 
 # All folders that are generated. May need to add more based on .pex configuration
-*/PreScan_Experiments/**/Actors
-*/PreScan_Experiments/**/CameraSensorConfig
-*/PreScan_Experiments/**/RemoteViewerPlugin
-*/PreScan_Experiments/**/Temp
-*/PreScan_Experiments/**/Trajectories
-*/PreScan_Experiments/**/Models
-*/PreScan_Experiments/**/Resources
-*/PreScan_Experiments/**/V2XPlugin
-*/PreScan_Experiments/**/cameraeffects
-*/PreScan_Experiments/**/cameras
-*/PreScan_Experiments/**/Pictures
-*/PreScan_Experiments/**/slprj
-*/PreScan_Experiments/**/Vissim
-*/PreScan_Experiments/**/PBCameraPlugin
+*/Experiments/**/Actors
+*/Experiments/**/CameraSensorConfig
+*/Experiments/**/RemoteViewerPlugin
+*/Experiments/**/Temp
+*/Experiments/**/Trajectories
+*/Experiments/**/Models
+*/Experiments/**/Resources
+*/Experiments/**/V2XPlugin
+*/Experiments/**/cameraeffects
+*/Experiments/**/cameras
+*/Experiments/**/Pictures
+*/Experiments/**/slprj
+*/Experiments/**/Vissim
+*/Experiments/**/PBCameraPlugin
+*/Experiments/**/LidarSensorConfig
 
 # May have to re-include
-*/PreScan_Experiments/**/*hash.mat
-*/PreScan_Experiments/**/*old.slx
-*/PreScan_Experiments/**/*.png
+*/Experiments/**/*hash.mat
+*/Experiments/**/*old.slx
+*/Experiments/**/*.png
 
+#The Results folder
+*/Experiments/**/Results
 
 #Catkin/ROS build files
 */ROS_Packages/build
