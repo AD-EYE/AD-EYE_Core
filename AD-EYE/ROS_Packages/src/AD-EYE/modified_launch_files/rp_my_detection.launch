@@ -1,0 +1,135 @@
+<!-- -->
+<launch>
+
+    <!-- base_link to camera tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+          args="0.31 0 0.63 -0.5 0.5 -0.5 0.5 base_link camera 10"/>
+
+    <!-- base_link to traffic_light_camera tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
+          args="-0.49 0 1.11 -0.5 0.5 -0.5 0.5 base_link tl_camera 10"/>
+
+    <!-- camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="camera_info_publisher"/>
+        <arg name="args_list" value="/camera_info camera 720 960 0 0 0 0 0 1125 0 480 0 1125 360 0 0 1 1 0 0 0 1 0 0 0 1 1125 0 480 0 0 1125 360 0 0 0 1 0"/>
+    </include>
+
+    <!-- traffic_light_camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="traffic_light_camera_info_publisher"/>
+        <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0 0 0 0 0 1125 0 480 0 1125 360 0 0 1 1 0 0 0 1 0 0 0 1 1125 0 480 0 0 1125 360 0 0 0 1 0"/>
+    </include>
+
+    <!-- vision_ssd_detect-->
+    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+        <arg name="use_gpu" value="true"/>
+        <arg name="gpu_device_id" value="0"/>
+        <arg name="score_threshold" value="0.5"/>
+        <arg name="network_definition_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/deploy.prototxt"/>
+        <arg name="pretrained_model_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/VGGNet/VOC0712/SSD_512x512/VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"/>
+        <arg name="camera_id" value="/"/>
+        <arg name="image_src" value="/image_raw"/>
+    </include>
+
+    <!-- vision_beyond_track-->
+    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
+        <arg name="camera_height" value="1.2"/>
+    </include>
+
+    <!-- lidar_euclidean_cluster_detect -->
+    <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
+        <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
+        <arg name="remove_ground" value="true"/>
+        <arg name="downsample_cloud" value="false"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
+        <arg name="leaf_size" value="0.1"/><!-- Voxel Grid Filter leaf size-->
+        <arg name="cluster_size_min" value="20"/><!-- Minimum number of points to consider a cluster as valid-->
+        <arg name="cluster_size_max" value="100000"/><!-- Maximum number of points to allow inside a cluster-->
+        <arg name="sync" value="false"/>
+        <arg name="use_diffnormals" value="false"/>
+        <arg name="pose_estimation" value="true"/>
+        <arg name="clip_min_height" value="-1.5"/>
+        <arg name="clip_max_height" value="0.5"/>
+
+        <arg name="keep_lanes" value="false"/>
+        <arg name="keep_lane_left_distance" value="5"/>
+        <arg name="keep_lane_right_distance" value="5"/>
+        <arg name="max_boundingbox_side" value="10"/>
+        <arg name="cluster_merge_threshold" value="1.5"/>
+        <arg name="clustering_distance" value="0.75"/>
+
+        <arg name="use_vector_map" value="false"/>
+        <arg name="vectormap_frame" value="map"/>
+        <arg name="wayarea_gridmap_topic" value="grid_map_wayarea"/>
+        <arg name="wayarea_gridmap_layer" value="wayarea"/>
+        <arg name="wayarea_no_road_value" value="255"/>
+
+        <arg name="output_frame" value="velodyne"/>
+
+        <arg name="remove_points_upto" value="0"/>
+
+        <arg name="use_gpu" value="false"/>
+
+        <arg name="use_multiple_thres" value="false"/>
+        <arg name="clustering_ranges" value="[15,30,45,60]"/><!-- Distances to segment pointcloud -->
+        <arg name="clustering_distances"
+             value="[0.5,1.1,1.6,2.1,2.6]"/><!-- Euclidean Clustering threshold distance for each segment -->
+    </include>
+
+    <!-- range_vision_fusion -->
+    <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
+        <arg name="detected_objects_range" value="/detection/lidar_tracker/objects"/>
+        <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="min_car_dimensions" value="[3,2,2]"/>
+        <arg name="min_person_dimensions" value="[1,2,1]"/>
+        <arg name="min_truck_dimensions" value="[4,2,2]"/>
+        <arg name="sync_topics" value="false"/>
+        <arg name="overlap_threshold" value="0.4"/>
+    </include>
+
+    <!-- imm_ukf_pda_track -->
+    <include file="$(find imm_ukf_pda_track)/launch/imm_ukf_pda_track.launch">
+        <arg name="gating_thres" value="9.22"/>
+        <arg name="gate_probability" value="0.99"/>
+        <arg name="detection_probability" value="0.9"/>
+        <arg name="life_time_thres" value="8"/>
+        <arg name="static_velocity_thres" value="0.5"/>
+        <arg name="static_num_history_thres" value="3"/>
+        <arg name="prevent_explosion_thres" value="1000"/>
+        <arg name="lane_direction_chi_thres" value="2.71"/>
+        <arg name="nearest_lane_distance_thres" value="1.0"/>
+        <arg name="tracker_input_topic" value="/detection/lidar_detector/objects"/>
+        <arg name="tracker_output_topic" value="/detection/lidar_tracker/objects"/>
+        <arg name="use_sukf" value="use_sukf"/>
+        <arg name="use_vectormap" value="false"/>
+        <arg name="tracking_frame" value="/world"/>
+        <arg name="lane_frame" value="/map"/>
+        <arg name="merge_distance_threshold" value="0.5"/>
+        <arg name="namespace" value="/detection/object_tracker/"/>
+    </include>
+
+    <!-- tracked_objects_adapter -->
+    <include file="$(find adeye)/launch/tracked_objects_adapter.launch"/>
+
+    <!-- feat_proj -->
+    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">
+        <arg name="camera_id" value="/tl_camera"/>
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
+    </include>
+
+    <!-- traffic_light_recognition -->
+    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
+        <arg name="camera_id" default="/"/>
+        <arg name="image_src" default="/tl/image_raw"/>
+        <arg name="light_src" default="/light_color" />
+        <arg name="camera_light_src" default="/camera_light_color" />
+        <arg name="ams_light_src" default="/ams_light_color" />
+    </include>
+
+</launch>

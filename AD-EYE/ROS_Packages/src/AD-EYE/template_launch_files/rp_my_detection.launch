@@ -1,0 +1,135 @@
+<!-- -->
+<launch>
+
+    <!-- base_link to camera tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+          args="/adeye/detection/BaseLink_to_camera/tf_x /adeye/detection/BaseLink_to_camera/tf_y /adeye/detection/BaseLink_to_camera/tf_z /adeye/detection/BaseLink_to_camera/tf_a /adeye/detection/BaseLink_to_camera/tf_b /adeye/detection/BaseLink_to_camera/tf_c /adeye/detection/BaseLink_to_camera/tf_d base_link camera 10"/>
+
+    <!-- base_link to traffic_light_camera tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
+          args="/adeye/detection/BaseLink_to_traffic_light_camera/tf_x /adeye/detection/BaseLink_to_traffic_light_camera/tf_y /adeye/detection/BaseLink_to_traffic_light_camera/tf_z /adeye/detection/BaseLink_to_traffic_light_camera/tf_a /adeye/detection/BaseLink_to_traffic_light_camera/tf_b /adeye/detection/BaseLink_to_traffic_light_camera/tf_c /adeye/detection/BaseLink_to_traffic_light_camera/tf_d base_link tl_camera 10"/>
+
+    <!-- camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="/adeye/detection/camera_info/node_name"/>
+        <arg name="args_list" value="/adeye/detection/camera_info/topic /adeye/detection/camera_info/frame_id /adeye/detection/camera_info/height /adeye/detection/camera_info/width /adeye/detection/camera_info/D1 /adeye/detection/camera_info/D2 /adeye/detection/camera_info/D3 /adeye/detection/camera_info/D4 /adeye/detection/camera_info/D5 /adeye/detection/camera_info/K1 /adeye/detection/camera_info/K2 /adeye/detection/camera_info/K3 /adeye/detection/camera_info/K4 /adeye/detection/camera_info/K5 /adeye/detection/camera_info/K6 /adeye/detection/camera_info/K7 /adeye/detection/camera_info/K8 /adeye/detection/camera_info/K9 /adeye/detection/camera_info/R1 /adeye/detection/camera_info/R2 /adeye/detection/camera_info/R3 /adeye/detection/camera_info/R4 /adeye/detection/camera_info/R5 /adeye/detection/camera_info/R6 /adeye/detection/camera_info/R7 /adeye/detection/camera_info/R8 /adeye/detection/camera_info/R9 /adeye/detection/camera_info/P1 /adeye/detection/camera_info/P2 /adeye/detection/camera_info/P3 /adeye/detection/camera_info/P4 /adeye/detection/camera_info/P5 /adeye/detection/camera_info/P6 /adeye/detection/camera_info/P7 /adeye/detection/camera_info/P8 /adeye/detection/camera_info/P9 /adeye/detection/camera_info/P10 /adeye/detection/camera_info/P11 /adeye/detection/camera_info/P12"/>
+    </include>
+
+    <!-- traffic_light_camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="/adeye/detection/traffic_light_camera_info/node_name"/>
+        <arg name="args_list" value="/adeye/detection/traffic_light_camera_info/topic /adeye/detection/traffic_light_camera_info/frame_id /adeye/detection/traffic_light_camera_info/height /adeye/detection/traffic_light_camera_info/width /adeye/detection/traffic_light_camera_info/D1 /adeye/detection/traffic_light_camera_info/D2 /adeye/detection/traffic_light_camera_info/D3 /adeye/detection/traffic_light_camera_info/D4 /adeye/detection/traffic_light_camera_info/D5 /adeye/detection/traffic_light_camera_info/K1 /adeye/detection/traffic_light_camera_info/K2 /adeye/detection/traffic_light_camera_info/K3 /adeye/detection/traffic_light_camera_info/K4 /adeye/detection/traffic_light_camera_info/K5 /adeye/detection/traffic_light_camera_info/K6 /adeye/detection/traffic_light_camera_info/K7 /adeye/detection/traffic_light_camera_info/K8 /adeye/detection/traffic_light_camera_info/K9 /adeye/detection/traffic_light_camera_info/R1 /adeye/detection/traffic_light_camera_info/R2 /adeye/detection/traffic_light_camera_info/R3 /adeye/detection/traffic_light_camera_info/R4 /adeye/detection/traffic_light_camera_info/R5 /adeye/detection/traffic_light_camera_info/R6 /adeye/detection/traffic_light_camera_info/R7 /adeye/detection/traffic_light_camera_info/R8 /adeye/detection/traffic_light_camera_info/R9 /adeye/detection/traffic_light_camera_info/P1 /adeye/detection/traffic_light_camera_info/P2 /adeye/detection/traffic_light_camera_info/P3 /adeye/detection/traffic_light_camera_info/P4 /adeye/detection/traffic_light_camera_info/P5 /adeye/detection/traffic_light_camera_info/P6 /adeye/detection/traffic_light_camera_info/P7 /adeye/detection/traffic_light_camera_info/P8 /adeye/detection/traffic_light_camera_info/P9 /adeye/detection/traffic_light_camera_info/P10 /adeye/detection/traffic_light_camera_info/P11 /adeye/detection/traffic_light_camera_info/P12"/>
+    </include>
+
+    <!-- vision_ssd_detect-->
+    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+        <arg name="use_gpu" value="/adeye/detection/vision_ssd_detect/use_gpu"/>
+        <arg name="gpu_device_id" value="/adeye/detection/vision_ssd_detect/gpu_device_id"/>
+        <arg name="score_threshold" value="/adeye/detection/vision_ssd_detect/score_threshold"/>
+        <arg name="network_definition_file"
+             value="/adeye/detection/vision_ssd_detect/network_definition_file"/>
+        <arg name="pretrained_model_file"
+             value="/adeye/detection/vision_ssd_detect/pretrained_model_file"/>
+        <arg name="camera_id" value="/adeye/detection/vision_ssd_detect/camera_id"/>
+        <arg name="image_src" value="/adeye/detection/vision_ssd_detect/image_src"/>
+    </include>
+
+    <!-- vision_beyond_track-->
+    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+        <arg name="camera_info_src" value="/adeye/detection/vision_beyond_track/camera_info_src"/>
+        <arg name="objects_topic_src" value="/adeye/detection/vision_beyond_track/objects_topic_src"/>
+        <arg name="camera_height" value="/adeye/detection/vision_beyond_track/camera_height"/>
+    </include>
+
+    <!-- lidar_euclidean_cluster_detect -->
+    <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
+        <arg name="points_node" value="/adeye/detection/lidar_euclidean_cluster_detect/points_node"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
+        <arg name="remove_ground" value="/adeye/detection/lidar_euclidean_cluster_detect/remove_ground"/>
+        <arg name="downsample_cloud" value="/adeye/detection/lidar_euclidean_cluster_detect/downsample_cloud"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
+        <arg name="leaf_size" value="/adeye/detection/lidar_euclidean_cluster_detect/leaf_size"/><!-- Voxel Grid Filter leaf size-->
+        <arg name="cluster_size_min" value="/adeye/detection/lidar_euclidean_cluster_detect/cluster_size_min"/><!-- Minimum number of points to consider a cluster as valid-->
+        <arg name="cluster_size_max" value="/adeye/detection/lidar_euclidean_cluster_detect/cluster_size_max"/><!-- Maximum number of points to allow inside a cluster-->
+        <arg name="sync" value="/adeye/detection/lidar_euclidean_cluster_detect/sync"/>
+        <arg name="use_diffnormals" value="/adeye/detection/lidar_euclidean_cluster_detect/use_diffnormals"/>
+        <arg name="pose_estimation" value="/adeye/detection/lidar_euclidean_cluster_detect/pose_estimation"/>
+        <arg name="clip_min_height" value="/adeye/detection/lidar_euclidean_cluster_detect/clip_min_height"/>
+        <arg name="clip_max_height" value="/adeye/detection/lidar_euclidean_cluster_detect/clip_max_height"/>
+
+        <arg name="keep_lanes" value="/adeye/detection/lidar_euclidean_cluster_detect/keep_lanes"/>
+        <arg name="keep_lane_left_distance" value="/adeye/detection/lidar_euclidean_cluster_detect/keep_lane_left_distance"/>
+        <arg name="keep_lane_right_distance" value="/adeye/detection/lidar_euclidean_cluster_detect/keep_lane_right_distance"/>
+        <arg name="max_boundingbox_side" value="/adeye/detection/lidar_euclidean_cluster_detect/max_boundingbox_side"/>
+        <arg name="cluster_merge_threshold" value="/adeye/detection/lidar_euclidean_cluster_detect/cluster_merge_threshold"/>
+        <arg name="clustering_distance" value="/adeye/detection/lidar_euclidean_cluster_detect/clustering_distance"/>
+
+        <arg name="use_vector_map" value="/adeye/detection/lidar_euclidean_cluster_detect/use_vector_map"/>
+        <arg name="vectormap_frame" value="/adeye/detection/lidar_euclidean_cluster_detect/vectormap_frame"/>
+        <arg name="wayarea_gridmap_topic" value="/adeye/detection/lidar_euclidean_cluster_detect/wayarea_gridmap_topic"/>
+        <arg name="wayarea_gridmap_layer" value="/adeye/detection/lidar_euclidean_cluster_detect/wayarea_gridmap_layer"/>
+        <arg name="wayarea_no_road_value" value="/adeye/detection/lidar_euclidean_cluster_detect/wayarea_no_road_value"/>
+
+        <arg name="output_frame" value="/adeye/detection/lidar_euclidean_cluster_detect/output_frame"/>
+
+        <arg name="remove_points_upto" value="/adeye/detection/lidar_euclidean_cluster_detect/remove_points_upto"/>
+
+        <arg name="use_gpu" value="/adeye/detection/lidar_euclidean_cluster_detect/use_gpu"/>
+
+        <arg name="use_multiple_thres" value="/adeye/detection/lidar_euclidean_cluster_detect/use_multiple_thres"/>
+        <arg name="clustering_ranges" value="/adeye/detection/lidar_euclidean_cluster_detect/clustering_ranges"/><!-- Distances to segment pointcloud -->
+        <arg name="clustering_distances"
+             value="/adeye/detection/lidar_euclidean_cluster_detect/clustering_distances"/><!-- Euclidean Clustering threshold distance for each segment -->
+    </include>
+
+    <!-- range_vision_fusion -->
+    <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
+        <arg name="detected_objects_range" value="/adeye/detection/range_vision_fusion/detected_objects_range"/>
+        <arg name="detected_objects_vision" value="/adeye/detection/range_vision_fusion/detected_objects_vision"/>
+        <arg name="camera_info_src" value="/adeye/detection/range_vision_fusion/camera_info_src"/>
+        <arg name="min_car_dimensions" value="/adeye/detection/range_vision_fusion/min_car_dimensions"/>
+        <arg name="min_person_dimensions" value="/adeye/detection/range_vision_fusion/min_person_dimensions"/>
+        <arg name="min_truck_dimensions" value="/adeye/detection/range_vision_fusion/min_truck_dimensions"/>
+        <arg name="sync_topics" value="/adeye/detection/range_vision_fusion/sync_topics"/>
+        <arg name="overlap_threshold" value="/adeye/detection/range_vision_fusion/overlap_threshold"/>
+    </include>
+
+    <!-- imm_ukf_pda_track -->
+    <include file="$(find imm_ukf_pda_track)/launch/imm_ukf_pda_track.launch">
+        <arg name="gating_thres" value="9.22"/>
+        <arg name="gate_probability" value="0.99"/>
+        <arg name="detection_probability" value="0.9"/>
+        <arg name="life_time_thres" value="8"/>
+        <arg name="static_velocity_thres" value="0.5"/>
+        <arg name="static_num_history_thres" value="3"/>
+        <arg name="prevent_explosion_thres" value="1000"/>
+        <arg name="lane_direction_chi_thres" value="2.71"/>
+        <arg name="nearest_lane_distance_thres" value="1.0"/>
+        <arg name="tracker_input_topic" value="/detection/lidar_detector/objects"/>
+        <arg name="tracker_output_topic" value="/detection/lidar_tracker/objects"/>
+        <arg name="use_sukf" value="use_sukf"/>
+        <arg name="use_vectormap" value="false"/>
+        <arg name="tracking_frame" value="/world"/>
+        <arg name="lane_frame" value="/map"/>
+        <arg name="merge_distance_threshold" value="0.5"/>
+        <arg name="namespace" value="/detection/object_tracker/"/>
+    </include>
+
+    <!-- tracked_objects_adapter -->
+    <include file="$(find adeye)/launch/tracked_objects_adapter.launch"/>
+
+    <!-- feat_proj -->
+    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">
+        <arg name="camera_id" value="/adeye/detection/feat_proj/camera_id"/>
+        <arg name="camera_info_src" value="/adeye/detection/feat_proj/camera_info_src"/>
+        <arg name="use_path_info" value="/adeye/detection/feat_proj/use_path_info"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
+    </include>
+
+    <!-- traffic_light_recognition -->
+    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
+        <arg name="camera_id" default="/adeye/detection/traffic_light_recognition/camera_id"/>
+        <arg name="image_src" default="/adeye/detection/traffic_light_recognition/image_src"/>
+        <arg name="light_src" default="/adeye/detection/traffic_light_recognition/light_src" />
+        <arg name="camera_light_src" default="/adeye/detection/traffic_light_recognition/camera_light_src" />
+        <arg name="ams_light_src" default="/adeye/detection/traffic_light_recognition/ams_light_src" />
+    </include>
+
+</launch>

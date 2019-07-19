@@ -1,0 +1,33 @@
+<!-- -->
+<launch>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <arg name="Vector_Map_Folder" value="/adeye/SSMP/GridMapCreator/Vector_Map_Folder"/>
+    <arg name="Pex_Folder" value="/adeye/SSMP/GridMapCreator/Pex_Folder"/>
+
+    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
+        <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
+        <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
+        <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
+        <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
+        <param name="filePex"
+               value="$(arg Pex_Folder)/adeye/SSMP/GridMapCreator/filePex"/>
+    </node>
+
+    <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
+
+
+    <node pkg="ss_trajplanner"
+          type="ss_trajplanner_node"
+          name="ss_trajplanner_node"
+          output="screen"
+          launch-prefix="xterm -e">
+        <param name="trajectory_set_filename"
+               value="/adeye/SSMP/ss_trajplanner/trajectory_set_filename"/>
+        <param name="costmap_base_topic" value="/costmap_base"/>
+        <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
+        <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
+    </node>
+    <!--<node name="rviz" pkg="rviz" type="rviz" args="/adeye/SSMP/rviz/args" />-->
+</launch>

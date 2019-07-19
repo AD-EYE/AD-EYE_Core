@@ -1,0 +1,32 @@
+<!-- -->
+<launch>
+    <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/map/points_map_loader/PointCloud_Files_Folder/Pointcloud_Files/"/>
+    <arg name="VectorMap_Files_Folder" value="/adeye/map/vector_map_loader/VectorMap_files_Folder"/>
+    <!-- world_to_map -->
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>
+
+    <!-- map_to_mobility -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10"/>
+
+    <!-- Point Cloud -->
+    <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
+    /adeye/map/points_map_loader/args
+"/>
+
+    -->
+
+    <!-- Vector Map -->
+    <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
+    $(arg VectorMap_Files_Folder)dtlane.csv
+    $(arg VectorMap_Files_Folder)lane.csv
+    $(arg VectorMap_Files_Folder)line.csv
+    $(arg VectorMap_Files_Folder)node.csv
+    $(arg VectorMap_Files_Folder)point.csv
+    $(arg VectorMap_Files_Folder)roadedge.csv
+    $(arg VectorMap_Files_Folder)whiteline.csv
+    $(arg VectorMap_Files_Folder)vector.csv
+    $(arg VectorMap_Files_Folder)signaldata.csv
+    $(arg VectorMap_Files_Folder)stopline.csv
+"/>
+
+</launch>

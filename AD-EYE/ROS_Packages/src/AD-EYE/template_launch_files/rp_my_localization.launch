@@ -1,0 +1,67 @@
+<!-- -->
+<launch>
+
+    <!-- Set localization method: -->
+    <arg name="topic_pose_stamped" default="/ndt_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
+
+    <!-- Set args defining tf_transform: base_link to velodyne-->
+    <arg name="tf_x" default="/adeye/localization/BaseLink_to_velodyne/tf_x"/>
+    <arg name="tf_y" default="/adeye/localization/BaseLink_to_velodyne/tf_y"/>
+    <arg name="tf_z" default="/adeye/localization/BaseLink_to_velodyne/tf_z"/>
+    <arg name="tf_yaw" default="/adeye/localization/BaseLink_to_velodyne/tf1_yaw"/>
+    <arg name="tf_pitch" default="/adeye/localization/BaseLink_to_velodyne/tf_pitch"/>
+    <arg name="tf_roll" default="/adeye/localization/BaseLink_to_velodyne/tf_roll"/>
+
+    <!-- tf_transform: base_link to velodyne -->
+    <include file="$(find runtime_manager)/scripts/setup_tf.launch">
+        <arg name="x" value="$(arg tf_x)"/>
+        <arg name="y" value="$(arg tf_y)"/>
+        <arg name="z" value="$(arg tf_z)"/>
+        <arg name="yaw" value="$(arg tf_yaw)"/>
+        <arg name="pitch" value="$(arg tf_pitch)"/>
+        <arg name="roll" value="$(arg tf_roll)"/>
+        <arg name="frame_id" value="base_link"/>
+        <arg name="child_frame_id" value="/velodyne"/>
+        <arg name="period_in_ms" value="10"/>
+    </include>
+
+    <!-- Set params-->
+    <param name="localizer" value="velodyne"/>
+    <param name="tf_x" value="$(arg tf_x)"/>
+    <param name="tf_y" value="$(arg tf_y)"/>
+    <param name="tf_z" value="$(arg tf_z)"/>
+    <param name="tf_yaw" value="$(arg tf_yaw)"/>
+    <param name="tf_pitch" value="$(arg tf_pitch)"/>
+    <param name="tf_roll" value="$(arg tf_roll)"/>
+
+    <!-- Vehicle Model -->
+    <include file="$(find model_publisher)/launch/vehicle_model.launch">
+        <arg name="model_path" value="/adeye/localization/vehicle_model/model_path"/>
+    </include>
+
+    <!-- Points Downsampler -->
+    <node pkg="rostopic" type="rostopic" name="config_voxel_grid_filter_rostopic"
+          args="pub -l /config/voxel_grid_filter autoware_config_msgs/ConfigVoxelGridFilter
+        '{voxel_leaf_size: /adeye/localization/voxel_grid_filter/voxel_leaf_size , measurement_range: /adeye/localization/voxel_grid_filter/measurement_range}' "
+    />
+    <include file="$(find points_downsampler)/launch/points_downsample.launch"/>
+
+    <!-- ndt_matching --> <!-- METHOD TIPE: pcl_generic=0, pcl_anh=1, pcl_anh_gpu=2, pcl_openmp=3 -->
+    <include file="$(find lidar_localizer)/launch/ndt_matching.launch">
+      <arg name="method_type" value="/adeye/localization/ndt_matching/method_type" />
+      <arg name="use_gnss" value="/adeye/localization/ndt_matching/use_gnss" />
+      <arg name="use_odom" value="/adeye/localization/ndt_matching/use_odom" />
+      <arg name="use_imu" value="/adeye/localization/ndt_matching/use_imu" />
+      <arg name="imu_upside_down" value="/adeye/localization/ndt_matching/imu_upside_down" />
+      <arg name="imu_topic" value="/adeye/localization/ndt_matching/imu_topic" />
+      <arg name="queue_size" value="/adeye/localization/ndt_matching/queue_size" />
+      <arg name="offset" value="/adeye/localization/ndt_matching/offset" />
+      <arg name="get_height" value="/adeye/localization/ndt_matching/get_height" />
+      <arg name="use_local_transform" value="/adeye/localization/ndt_matching/use_local_transform" />
+      <arg name="sync" value="/adeye/localization/ndt_matching/sync" />
+    </include>
+
+    <!-- Pose Connect -->
+    <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>
+
+</launch>
