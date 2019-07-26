@@ -1,7 +1,6 @@
 %% set-up variables
 %setting up experiment
-BasePath = 'C:\Users\adeye\AD-EYE_Core\AD-EYE\TA';
-cd(BasePath); %optional
+BasePath = pwd;
 setupVariableTable = '.\TAsetup.xlsx'; ...
  ...%Table containing all the variables required for setting up the device
 setupVariables(setupVariableTable);
@@ -267,16 +266,16 @@ end
 %% function goalpoints
 function goalpoints(pub, msg, table)
 TAgoal = readtable(table,'ReadRowNames',true);
-for w = 1 : width(TAgoal)-1
+for w = 1 : width(TAgoal)
     msg.Header.Seq = typecast(uint32(w), 'int32');
-    msg.Pose.Position.X = str2double(table2array(TAgoal(1, w+1)));
-    msg.Pose.Position.Y = str2double(table2array(TAgoal(2, w+1)));
-    msg.Pose.Position.Z = str2double(table2array(TAgoal(3, w+1)));
-    msg.Pose.Orientation.X = str2double(table2array(TAgoal(4, w+1)));
-    msg.Pose.Orientation.Y = str2double(table2array(TAgoal(5, w+1)));
-    msg.Pose.Orientation.Z = str2double(table2array(TAgoal(6, w+1)));
-    msg.Pose.Orientation.W = str2double(table2array(TAgoal(7, w+1)));
-    msg.Header.FrameId = string(table2array(TAgoal(8, w+1)));  
+    msg.Pose.Position.X = str2double(table2array(TAgoal(1, w)));
+    msg.Pose.Position.Y = str2double(table2array(TAgoal(2, w)));
+    msg.Pose.Position.Z = str2double(table2array(TAgoal(3, w)));
+    msg.Pose.Orientation.X = str2double(table2array(TAgoal(4, w)));
+    msg.Pose.Orientation.Y = str2double(table2array(TAgoal(5, w)));
+    msg.Pose.Orientation.Z = str2double(table2array(TAgoal(6, w)));
+    msg.Pose.Orientation.W = str2double(table2array(TAgoal(7, w)));
+    msg.Header.FrameId = string(table2array(TAgoal(8, w)));  
     send(pub,msg);
     pause(1);
 end
