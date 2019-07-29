@@ -1,0 +1,15 @@
+<launch>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <node
+            type="rp_manager.py" 
+            pkg="adeye"
+            name="rp_manager"
+            respawn="false"
+            output="screen"
+    />
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+</launch>
