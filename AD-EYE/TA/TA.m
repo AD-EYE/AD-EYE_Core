@@ -22,36 +22,48 @@ clear Results Run; %clear any earlier tags or values
 %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to ...
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
 Run(1).Settings ={
-    }; %PreScan
-Run(1).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
-Run(1).AdeyeParams = './TArosparam1.xlsx'; %matlab script for setting up ros parameters
-Run(1).TAgoal = './TAgoal1.xlsx';
-Run(1).ExpName = 'Test_World_1';
-Run(1).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
-Run(1).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
-Run(1).SimConstant = './TAconstant1.xlsx'; %simulink comnstant blocks
+    }; 
+Run(1).ExpDir = '.././Experiments/Base_Map/Simulation';
+Run(1).AdeyeParams = 'TArosparam4.xlsx';
+Run(1).TAgoal = './TAgoal4.xlsx';
+Run(1).ExpName = 'Base_Map';
+Run(1).ExpPexName = 'Base_Map.pex';
+Run(1).ExpSlxName = 'Base_Map_cs.slx';
+Run(1).SimConstant = './TAconstant4.xlsx';
 
 Run(2).Settings ={
     'fog', 'True';
+    'fog_visible', '85';
     }; 
-Run(2).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
-Run(2).AdeyeParams = './TArosparam1.xlsx'; %matlab script for setting up ros parameters
-Run(2).TAgoal = './TAgoal1.xlsx';
-Run(2).ExpName = 'Test_World_1';
-Run(2).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
-Run(2).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
-Run(2).SimConstant = './TAconstant1.xlsx'; %simulink comnstant blocks
+Run(2).ExpDir = '.././Experiments/Base_Map/Simulation';
+Run(2).AdeyeParams = 'TArosparam4.xlsx';
+Run(2).TAgoal = './TAgoal4.xlsx';
+Run(2).ExpName = 'Base_Map';
+Run(2).ExpPexName = 'Base_Map.pex';
+Run(2).ExpSlxName = 'Base_Map_cs.slx';
+Run(2).SimConstant = './TAconstant4.xlsx';
 
-Run(2).Settings ={
-    'fl', '7.5';
+Run(3).Settings ={
+    }; %PreScan
+Run(3).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
+Run(3).AdeyeParams = 'TArosparam1.xlsx'; %matlab script for setting up ros parameters
+Run(3).TAgoal = './TAgoal1.xlsx';
+Run(3).ExpName = 'Test_World_1';
+Run(3).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
+Run(3).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
+Run(3).SimConstant = './TAconstant1.xlsx'; %simulink comnstant blocks
+
+Run(4).Settings ={
+    'weather_type', 'Rain';
+    'fl', '12';
     }; 
-Run(3).ExpDir = '.././Experiments/Base_Map/Simulation';
-Run(3).AdeyeParams = 'TArosparam4.xlsx';
-Run(3).TAgoal = './TAgoal4.xlsx';
-Run(3).ExpName = 'Base_Map';
-Run(3).ExpPexName = 'Base_Map.pex';
-Run(3).ExpSlxName = 'Base_Map_cs.slx';
-Run(3).SimConstant = './TAconstant4.xlsx';
+Run(4).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
+Run(4).AdeyeParams = 'TArosparam1.xlsx'; %matlab script for setting up ros parameters
+Run(4).TAgoal = './TAgoal1.xlsx';
+Run(4).ExpName = 'Test_World_1';
+Run(4).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
+Run(4).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
+Run(4).SimConstant = './TAconstant2.xlsx'; %simulink comnstant blocks
 
 disp('Setting-up variables...');
 NrOfRuns = length(Run); % Number of simulations
