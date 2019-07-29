@@ -22,9 +22,9 @@ MODIFIED_LAUNCH_FILES_FULL_PATH = ("%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LA
 PARENT_NAME = "/adeye"
 POINTCLOUD_DIRECTORY1 = "/home/adeye/AD-EYE_Core/AD-EYE/Experiments/"
 POINTCLOUD_DIRECTORY2 = "/Pointcloud_Files/"
-AREA_MAP = "map"
-NODE_MAP = "points_map_loader"
-VARIABLE_MAP = "PointCloud_Files_Folder"
+AREA_MAP = "config"
+NODE_MAP = "manager"
+VARIABLE_MAP = "WorldName"
 SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
 
 def listener():
