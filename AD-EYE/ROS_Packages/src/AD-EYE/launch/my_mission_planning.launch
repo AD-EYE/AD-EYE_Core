@@ -12,6 +12,7 @@
     <arg name="mapSource" default="0"/> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
     <arg name="mapFileName" default=""/> <!-- incase of kml map source -->
     <arg name="enableDynamicMapUpdate" default="false"/>
+	  <arg name="adeyeGoalMarkerSize" 			default="3.25" />
 
     <!-- op_global_planner -->
     <include file="$(find op_global_planner)/launch/op_global_planner.launch">
@@ -24,6 +25,7 @@
         <arg name="mapSource" value="$(arg mapSource)"/>
         <arg name="mapFileName" value="$(arg mapFileName)"/>
         <arg name="enableDynamicMapUpdate" value="$(arg enableDynamicMapUpdate)"/>
+        <arg name="adeyeGoalMarkerSize" value="$(arg adeyeGoalMarkerSize)"/>
     </include>
 
 
