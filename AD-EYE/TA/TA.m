@@ -23,12 +23,12 @@ clear Results Run; %clear any earlier tags or values
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
 Run(1).Settings ={
     }; 
-Run(1).ExpDir = '.././Experiments/Base_Map/Simulation';
+Run(1).ExpDir = '.././Experiments/Base_Map_Closed/Simulation';
 Run(1).AdeyeParams = 'TArosparam.xlsx';
 Run(1).TAgoal = './TAgoal.xlsx';
-Run(1).ExpName = 'Base_Map';
-Run(1).ExpPexName = 'Base_Map.pex';
-Run(1).ExpSlxName = 'Base_Map_cs.slx';
+Run(1).ExpName = 'Base_Map_Closed';
+Run(1).ExpPexName = 'Base_Map_Closed.pex';
+Run(1).ExpSlxName = 'Base_Map_Closed_cs.slx';
 Run(1).SimConstant = './TAconstant.xlsx';
 
 %Run(2).Settings ={

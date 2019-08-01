@@ -1,6 +1,8 @@
 %% gitPush
 system('git checkout dev')
-system('git push')
+system('git add .')
+system("git commit -m 'test'")
+system('git push --all')
 
 
 %% gitPull
@@ -17,5 +19,9 @@ device.CatkinWorkspace = catkin_workspace; %setting up the catkin workspace
 device.ROSFolder = ROS_folder; %setting up the ROS folder
 
 % This is the new part
+GitBranch = 'TA';
+
+
 shFolderPath = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
-gitPull = strcat(shFolderPath, '/' , 'gitPull.sh');
+gitPullcommand = strcat(shFolderPath, '/' , 'gitPull.sh ', GitBranch);
+system(device, gitPullcommand);
