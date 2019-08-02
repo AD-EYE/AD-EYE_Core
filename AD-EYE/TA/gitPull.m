@@ -1,5 +1,5 @@
 %% gitPush
-system('git checkout dev')
+system('git checkout TA')
 system('git add .')
 system("git commit -m 'test'")
 system('git push --all')
