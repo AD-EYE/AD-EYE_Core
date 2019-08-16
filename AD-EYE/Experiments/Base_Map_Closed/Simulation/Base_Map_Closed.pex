@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_Closed" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="FCCAAFC9D982838E88ECE4E02FEED767B8795FA0A2E7C2E654D0BC9F08D50D89" UniqueExperimentIdentifier="f4658f0d-8a5a-49f2-b870-8f0f14651421" UniqueIdCounter="20427" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_Closed" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="DAE722BEC00A01C2CBCB2AD930DEF239DA171C4424E63AD19B57CA937F307731" UniqueExperimentIdentifier="c787846c-5485-4590-bf59-d68cee41088e" UniqueIdCounter="20430" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="68.105796813964844" Y="208.26841735839844" Z="0.52999997138977051" />
@@ -9014,7 +9014,25 @@
         <PriorityLineOffset>0</PriorityLineOffset>
         <RoadSignalAppearance Description="" id="MarkerAppearance_90" UniqueId="4466" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadPriorityLineAppearance Description="" id="MarkerAppearance_91" UniqueId="4467" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadMarkings />
+        <RoadMarkings>
+          <RoadMarking xsi:type="BitmapRoadMarker" Description="" id="BitmapRoadMarker_1" UniqueId="20427" PreventDragging="true" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="23" ParticipateInCollisionDetection="false">
+            <Location X="12.425140682337997" Y="-1.5537622876203159" Z="0" />
+            <Orientation Bank="0" Tilt="0" Heading="0" />
+            <Origin X="0.5" Y="0.5" Z="0" />
+            <Size X="2.0999999046325684" Y="2.7599999904632568" Z="0" />
+            <CoGOffset X="0" Y="0" Z="0" />
+            <SensorInfo>
+              <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+                <UserSpecifiedModels />
+              </TISSensorInfo>
+            </SensorInfo>
+            <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+              <VisualizationActuators />
+            </ObjectSimulatorInfo>
+            <RoadMarkingAppearance Description="" id="MarkerAppearance_242" UniqueId="20429" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <PreserveAspectRatio>true</PreserveAspectRatio>
+          </RoadMarking>
+        </RoadMarkings>
         <DirtSpots />
         <RoadJointsStart>
           <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
@@ -9563,25 +9581,7 @@
         <PriorityLineOffset>0</PriorityLineOffset>
         <RoadSignalAppearance Description="" id="MarkerAppearance_38" UniqueId="4385" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadPriorityLineAppearance Description="" id="MarkerAppearance_39" UniqueId="4386" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadMarkings>
-          <RoadMarking xsi:type="BitmapRoadMarker" Description="" id="BitmapRoadMarker_1" UniqueId="20425" PreventDragging="true" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="23" ParticipateInCollisionDetection="false">
-            <Location X="8.0345461999162353" Y="-1.4258631176984409" Z="0" />
-            <Orientation Bank="0" Tilt="0" Heading="0" />
-            <Origin X="0.5" Y="0.5" Z="0" />
-            <Size X="2.0999999046325684" Y="2.7599999904632568" Z="0" />
-            <CoGOffset X="0" Y="0" Z="0" />
-            <SensorInfo>
-              <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
-                <UserSpecifiedModels />
-              </TISSensorInfo>
-            </SensorInfo>
-            <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-              <VisualizationActuators />
-            </ObjectSimulatorInfo>
-            <RoadMarkingAppearance Description="" id="MarkerAppearance_242" UniqueId="20426" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-            <PreserveAspectRatio>true</PreserveAspectRatio>
-          </RoadMarking>
-        </RoadMarkings>
+        <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
           <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
@@ -12644,7 +12644,7 @@
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="20425" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="20427" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
@@ -12992,8 +12992,8 @@
     <ObjectColorID Color="FF9F7F00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="19289" />
     </ObjectColorID>
-    <ObjectColorID Color="FF7F009F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="20425" />
+    <ObjectColorID Color="FF007F9F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="20427" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="154">
