@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_Closed" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="9F559F668069862EDD363E6CD3B8C4416C0A4A8CD5A979203EF403D2E544FFAE" UniqueExperimentIdentifier="7d743835-6b95-44e6-83fa-ced6fbbc08f1" UniqueIdCounter="20648" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Base_Map_Closed" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="8177DD9814450E6382D4D5B6ED7C8820F4009C5723381829BACB4DE8C3A48426" UniqueExperimentIdentifier="1344c3f0-822f-4ce2-8c28-153da86ab422" UniqueIdCounter="20859" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="68.105796813964844" Y="208.26841735839844" Z="0.52999997138977051" />
@@ -3959,7 +3959,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20597" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20852" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3984,7 +3984,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20598" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20853" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4009,7 +4009,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20599" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20854" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4034,7 +4034,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20600" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20855" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4072,7 +4072,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20601" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20856" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4107,7 +4107,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20602" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20857" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4145,7 +4145,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="20603" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="20858" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -7731,8 +7731,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -7823,8 +7839,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -7953,8 +7985,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -8120,8 +8168,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -8229,8 +8293,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -8346,8 +8426,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -8417,8 +8513,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -11915,7 +12027,7 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_3" UniqueId="20632" SensorDetectability="Occluding" NumericalID="125" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="20639" SidewalkUniqueId="20640" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="6" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="40.885658264160156">
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_3" UniqueId="20632" SensorDetectability="Occluding" NumericalID="125" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="20639" SidewalkUniqueId="20640" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="40.885658264160156">
         <Location X="135.8369442785995" Y="125.01434883547182" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="90" />
         <Origin X="0" Y="0.5" Z="0" />
