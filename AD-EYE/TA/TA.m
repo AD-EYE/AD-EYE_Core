@@ -21,14 +21,24 @@ clear Results Run; %clear any earlier tags or values
 
 %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to ...
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
+% Run(1).Settings ={
+%     }; 
+% Run(1).ExpDir = '.././Experiments/Base_Map_Closed/Simulation';
+% Run(1).AdeyeParams = 'TArosparam.xlsx';
+% Run(1).TAgoal = './TAgoal.xlsx';
+% Run(1).ExpName = 'Base_Map_Closed';
+% Run(1).ExpPexName = 'Base_Map_Closed.pex';
+% Run(1).ExpSlxName = 'Base_Map_Closed_cs.slx';
+% Run(1).SimConstant = './TAconstant.xlsx';
+
 Run(1).Settings ={
     }; 
-Run(1).ExpDir = '.././Experiments/Base_Map_Closed/Simulation';
+Run(1).ExpDir = '.././Experiments/VM_Test_XYCross/Simulation';
 Run(1).AdeyeParams = 'TArosparam.xlsx';
 Run(1).TAgoal = './TAgoal.xlsx';
-Run(1).ExpName = 'Base_Map_Closed';
-Run(1).ExpPexName = 'Base_Map_Closed.pex';
-Run(1).ExpSlxName = 'Base_Map_Closed_cs.slx';
+Run(1).ExpName = 'VM_Test_XYCross';
+Run(1).ExpPexName = 'VM_Test_XYCross.pex';
+Run(1).ExpSlxName = 'VM_Test_XYCross_cs.slx';
 Run(1).SimConstant = './TAconstant.xlsx';
 
 %Run(2).Settings ={
