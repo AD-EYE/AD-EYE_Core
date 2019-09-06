@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Test_World_2" UniqueId="0" Authors="Adeye" TotalSimulationTime="48.646666666666668" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="BAF8B453EEE6626C79CFA5781531BE4B013E0B0C5599D51A09BC0E69A10C059A" UniqueExperimentIdentifier="718e7802-2f57-4d1e-8b5e-1cc688f0e58f" UniqueIdCounter="16111" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Test_World_2" UniqueId="0" Authors="Adeye" TotalSimulationTime="48.646666666666668" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="FFD83FFF309721383A9D0EDEC8E30B9E5B65E0A18B7A884AABD609EF3159E522" UniqueExperimentIdentifier="718e7802-2f57-4d1e-8b5e-1cc688f0e58f" UniqueIdCounter="16205" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="9040" SensorDetectability="Invisible" NumericalID="55" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="65.897109985351562" Y="138.82435607910156" Z="0.68999999761581421" />
@@ -395,7 +395,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16104" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16201" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -420,7 +420,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16105" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16202" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -445,7 +445,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16106" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16203" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -470,7 +470,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16107" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16204" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -485,7 +485,7 @@
       </Sensors>
       <ConnectionPoints />
       <Trajectories>
-        <TrajectoryBase xsi:type="Trajectory" Description="" id="Trajectory_1" UniqueId="16103" GenerateAbstractTrajectory="false" IsActive="true" MatFile="Trajectory_1.mat" MatPosFile="" ReferencePathName="InheritedPath_1" SampleFrequency="300" SpeedProfileName="SpeedProfile_21" SyncTimePoint="0" TrajectoryColor="FF996600" CompareActorToTrajectory="false">
+        <TrajectoryBase xsi:type="Trajectory" Description="" id="Trajectory_1" UniqueId="16103" IsActive="true" ReferencePathName="InheritedPath_1" SampleFrequency="300" SpeedProfileName="SpeedProfile_21" SyncTimePoint="0" TrajectoryColor="FF996600" CompareActorToTrajectory="false">
           <Location X="0" Y="0" Z="0" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0.5" Y="0.5" Z="0" />
@@ -2066,7 +2066,7 @@
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
       <Underlay xsi:type="Grass" Description="" id="Grass_1" UniqueId="15359" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="154.61740112304688" Y="156.11669921875006" Z="0" />
+        <Location X="154.61740112304688" Y="156.11669921875009" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="256" Y="256" Z="0.0099999997764825821" />
@@ -2079,7 +2079,7 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0.003797600045800209">
           <Longitude Degrees="0" Minutes="0" Seconds="5.0002262853287034" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="5.0827383921838951" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="5.082738392183896" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -4721,56 +4721,51 @@
       </Segments>
       <LinePlacements />
       <PathShapes>
-        <Spline StartPointX="65.897109985351562" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="69.9804433187016" StartControlPointY="138.82435607912757" StartControlPointZ="0" EndControlPointX="74.063776652006126" EndControlPointY="138.82435607911259" EndControlPointZ="0" EndPointX="78.147109985351563" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="78.147109985351563" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="81.980443318690121" StartControlPointY="138.82435607912598" StartControlPointZ="0" EndControlPointX="85.813776652023023" EndControlPointY="138.8243560791033" EndControlPointZ="0" EndPointX="89.647109985351562" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="89.647109985351562" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="93.730443318707174" StartControlPointY="138.82435607912757" StartControlPointZ="0" EndControlPointX="97.813776651998879" EndControlPointY="138.82435607911259" EndControlPointZ="0" EndPointX="101.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="101.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="123.56377665202069" StartControlPointY="138.82435607910895" StartControlPointZ="0" EndControlPointX="145.23044331868721" EndControlPointY="138.82435607908846" EndControlPointZ="0" EndPointX="166.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="166.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="170.98044331871088" StartControlPointY="138.82435607912757" StartControlPointZ="0" EndControlPointX="175.06377665198551" EndControlPointY="138.82435607911259" EndControlPointZ="0" EndPointX="179.14710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="179.14710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="182.98044331871975" StartControlPointY="138.82435607912598" StartControlPointZ="0" EndControlPointX="186.8137766519724" EndControlPointY="138.8243560791033" EndControlPointZ="0" EndPointX="190.64710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="190.64710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="194.73044331870346" StartControlPointY="138.82435607912757" StartControlPointZ="0" EndControlPointX="198.81377665204516" EndControlPointY="138.82435607911259" EndControlPointZ="0" EndPointX="202.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="202.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="216.23044331866672" StartControlPointY="138.82435607909247" StartControlPointZ="0" EndControlPointX="229.5637766520004" EndControlPointY="138.82435607909076" EndControlPointZ="0" EndPointX="242.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="242.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="246.98044331875175" StartControlPointY="138.82435607912757" StartControlPointZ="0" EndControlPointX="251.06377665195049" EndControlPointY="138.82435607911259" EndControlPointZ="0" EndPointX="255.14710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
-        <Spline StartPointX="255.14710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="256.42245198223065" StartControlPointY="138.82067251137588" StartControlPointZ="0" EndControlPointX="257.86724266201833" EndControlPointY="138.99133813326634" EndControlPointZ="0" EndPointX="258.96657120653271" EndPointY="139.70852483232844" EndPointZ="0" />
-        <Spline StartPointX="258.96657120653271" StartPointY="139.70852483232844" StartPointZ="0" StartControlPointX="259.4936509292196" StartControlPointY="140.052384334879" StartControlPointZ="0" EndControlPointX="259.88211553954551" EndControlPointY="140.49294242241444" EndControlPointZ="0" EndPointX="260.16802841357969" EndPointY="141.00937469538854" EndPointZ="0" />
-        <Spline StartPointX="260.16802841357969" StartPointY="141.00937469538854" StartPointZ="0" StartControlPointX="260.76891511229678" StartControlPointY="142.09473080139324" StartControlPointZ="0" EndControlPointX="260.88566496132" EndControlPointY="143.361241073222" EndControlPointZ="0" EndPointX="260.89708995819092" EndPointY="144.57435607910156" EndPointZ="0" />
-        <Spline StartPointX="260.89708998535156" StartPointY="144.57435607910156" StartPointZ="0" StartControlPointX="260.89708998537384" StartControlPointY="148.65768941244403" StartControlPointZ="0" EndControlPointX="260.89708998535878" EndControlPointY="152.74102274578891" EndControlPointZ="0" EndPointX="260.89708998535156" EndPointY="156.82435607911788" EndPointZ="0" />
-        <Spline StartPointX="260.89708998535156" StartPointY="156.82435607911788" StartPointZ="0" StartControlPointX="260.89708998530608" StartControlPointY="161.82435607909514" StartControlPointZ="0" EndControlPointX="260.89708998529846" EndControlPointY="166.82435607910332" EndControlPointZ="0" EndPointX="260.89708998535156" EndPointY="171.82435607911788" EndPointZ="0" />
-        <Spline StartPointX="260.89710998535156" StartPointY="171.82435607911788" StartPointZ="0" StartControlPointX="260.89710998534412" StartControlPointY="175.90768941244323" StartControlPointZ="0" EndControlPointX="260.8971099853228" EndControlPointY="179.99102274584752" EndControlPointZ="0" EndPointX="260.89710998535156" EndPointY="184.07435607912737" EndPointZ="0" />
-        <Spline StartPointX="260.89710998535156" StartPointY="184.07435607912737" StartPointZ="0" StartControlPointX="260.90079354964115" StartControlPointY="185.34969810415814" StartControlPointZ="0" EndControlPointX="260.73012780449648" EndControlPointY="186.79448877843328" EndControlPointZ="0" EndPointX="260.01294114339476" EndPointY="187.89381739154425" EndPointZ="0" />
-        <Spline StartPointX="260.01294114339476" StartPointY="187.89381739154425" StartPointZ="0" StartControlPointX="259.66908150095986" StartControlPointY="188.42089738943781" StartControlPointZ="0" EndControlPointX="259.22852171973437" EndControlPointY="188.80935864454065" EndControlPointZ="0" EndPointX="258.71209112678082" EndPointY="189.09527450953456" EndPointZ="0" />
-        <Spline StartPointX="258.71209112678082" StartPointY="189.09527450953456" StartPointZ="0" StartControlPointX="257.62673352356745" StartControlPointY="189.69617027788107" StartControlPointZ="0" EndControlPointX="256.36022440175452" EndControlPointY="189.81289954829776" EndControlPointZ="0" EndPointX="255.14710998535156" EndPointY="189.82435607912737" EndPointZ="0" />
-        <Spline StartPointX="255.14710998535156" StartPointY="189.82435607912737" StartPointZ="0" StartControlPointX="251.06377665207393" StartControlPointY="189.82435607915707" StartControlPointZ="0" EndControlPointX="246.98044331862494" EndControlPointY="189.82435607911029" EndControlPointZ="0" EndPointX="242.89710998535156" EndPointY="189.82435607912737" EndPointZ="0" />
-        <Spline StartPointX="242.89710998535156" StartPointY="189.82435607912737" StartPointZ="0" StartControlPointX="229.56377665200003" StartControlPointY="189.82435607905157" StartControlPointZ="0" EndControlPointX="216.23044331872393" EndControlPointY="189.82435607915582" EndControlPointZ="0" EndPointX="202.89710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
-        <Spline StartPointX="202.89710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="198.81377665207023" StartControlPointY="189.82435607914968" StartControlPointZ="0" EndControlPointX="194.73044331865813" EndControlPointY="189.82435607912115" EndControlPointZ="0" EndPointX="190.64710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
-        <Spline StartPointX="190.64710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="186.81377665205309" StartControlPointY="189.82435607916574" StartControlPointZ="0" EndControlPointX="182.98044331864062" EndControlPointY="189.82435607911975" EndControlPointZ="0" EndPointX="179.14710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
-        <Spline StartPointX="179.14710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="175.06377665205164" StartControlPointY="189.82435607914968" StartControlPointZ="0" EndControlPointX="170.98044331862152" EndControlPointY="189.82435607912115" EndControlPointZ="0" EndPointX="166.89710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
-        <Spline StartPointX="166.89710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="145.23044331868735" StartControlPointY="189.82435607903872" StartControlPointZ="0" EndControlPointX="123.56377665200529" EndControlPointY="189.82435607912075" EndControlPointZ="0" EndPointX="101.89710998535156" EndPointY="189.82435607912743" EndPointZ="0" />
-        <Spline StartPointX="101.89710998535156" StartPointY="189.82435607912743" StartPointZ="0" StartControlPointX="97.813776652027514" StartControlPointY="189.82435607916085" StartControlPointZ="0" EndControlPointX="93.730443318708041" EndControlPointY="189.82435607910321" EndControlPointZ="0" EndPointX="89.647109985351562" EndPointY="189.82435607912743" EndPointZ="0" />
-        <Spline StartPointX="89.647109985351562" StartPointY="189.82435607912743" StartPointZ="0" StartControlPointX="88.371767960289446" StartControlPointY="189.82803964343628" StartControlPointZ="0" EndControlPointX="86.926977286067014" EndControlPointY="189.65737389830514" EndControlPointZ="0" EndPointX="85.827648672934686" EndPointY="188.94018723717062" EndPointZ="0" />
-        <Spline StartPointX="85.827648672934686" StartPointY="188.94018723717062" StartPointZ="0" StartControlPointX="85.3005686750458" StartControlPointY="188.59632759472973" StartControlPointZ="0" EndControlPointX="84.91210741993882" EndControlPointY="188.15576781350745" EndControlPointZ="0" EndPointX="84.62619155494437" EndPointY="187.63933722055668" EndPointZ="0" />
-        <Spline StartPointX="84.62619155494437" StartPointY="187.63933722055668" StartPointZ="0" StartControlPointX="84.02529578658951" StartControlPointY="186.5539796173361" StartControlPointZ="0" EndControlPointX="83.908566516160619" EndControlPointY="185.28747049555753" EndControlPointZ="0" EndPointX="83.897109985351563" EndPointY="184.07435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351563" StartPointY="184.07435607912743" StartPointZ="0" StartControlPointX="83.897109985373845" StartControlPointY="179.99102274583495" StartControlPointZ="0" EndControlPointX="83.897109985330516" EndControlPointY="175.90768941243547" EndControlPointZ="0" EndPointX="83.897109985351548" EndPointY="171.82435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351548" StartPointY="171.82435607912743" StartPointZ="0" StartControlPointX="83.897109985347" StartControlPointY="166.82435607910469" StartControlPointZ="0" EndControlPointX="83.897109985335561" EndControlPointY="161.82435607915389" EndControlPointZ="0" EndPointX="83.897109985351534" EndPointY="156.82435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351534" StartPointY="156.82435607912743" StartPointZ="0" StartControlPointX="83.897109985368246" StartControlPointY="152.74102274582381" StartControlPointZ="0" EndControlPointX="83.897109985345949" EndControlPointY="148.65768941245332" EndControlPointZ="0" EndPointX="83.89710998535152" EndPointY="144.57435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.89710998535152" StartPointY="144.57435607912743" StartPointZ="0" StartControlPointX="83.897109985365461" StartControlPointY="140.741022745822" StartControlPointZ="0" EndControlPointX="83.897109985334424" EndControlPointY="136.90768941245588" EndControlPointZ="0" EndPointX="83.8971099853515" EndPointY="133.07435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.8971099853515" StartPointY="133.07435607912743" StartPointZ="0" StartControlPointX="83.89710998537565" StartControlPointY="128.99102274582194" StartControlPointZ="0" EndControlPointX="83.897109985335135" EndControlPointY="124.90768941243077" EndControlPointZ="0" EndPointX="83.897109985351491" EndPointY="120.82435607912743" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351491" StartPointY="120.82435607912743" StartPointZ="0" StartControlPointX="83.897109985356039" StartControlPointY="110.82435607914789" StartControlPointZ="0" EndControlPointX="83.897109985355456" EndControlPointY="100.8243560791083" EndControlPointZ="0" EndPointX="83.897109985351477" EndPointY="90.824356079127426" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351477" StartPointY="90.824356079127426" StartPointZ="0" StartControlPointX="83.897109985366328" StartControlPointY="86.741022745803377" StartControlPointZ="0" EndControlPointX="83.897109985341217" EndControlPointY="82.65768941245463" EndControlPointZ="0" EndPointX="83.897109985351463" EndPointY="78.574356079127426" EndPointZ="0" />
-        <Spline StartPointX="83.897109985351463" StartPointY="78.574356079127426" StartPointZ="0" StartControlPointX="83.893426421031762" StartControlPointY="77.299014054073751" StartControlPointZ="0" EndControlPointX="84.064092166185972" EndControlPointY="75.854223379841557" EndControlPointZ="0" EndPointX="84.781278827308256" EndPointY="74.754894766710549" EndPointZ="0" />
-        <Spline StartPointX="84.781278827308256" StartPointY="74.754894766710549" StartPointZ="0" StartControlPointX="85.1251384697432" StartControlPointY="74.227814768822412" StartControlPointZ="0" EndControlPointX="85.565698250976212" EndControlPointY="73.8393535137144" EndControlPointZ="0" EndPointX="86.0821288439222" EndPointY="73.553437648720234" EndPointZ="0" />
-        <Spline StartPointX="86.0821288439222" StartPointY="73.553437648720234" StartPointZ="0" StartControlPointX="87.167486447125881" StartControlPointY="72.952541880369751" StartControlPointZ="0" EndControlPointX="88.4339955689616" EndControlPointY="72.835812609956378" EndControlPointZ="0" EndPointX="89.647109985351463" EndPointY="72.824356079127426" EndPointZ="0" />
-        <Spline StartPointX="89.647109985351463" StartPointY="72.824356079127426" StartPointZ="0" StartControlPointX="93.730443318703365" StartControlPointY="72.824356079144138" StartControlPointZ="0" EndControlPointX="97.813776652015548" EndControlPointY="72.8243560791153" EndControlPointZ="0" EndPointX="101.89710998535146" EndPointY="72.824356079127412" EndPointZ="0" />
-        <Spline StartPointX="101.89710998535146" StartPointY="72.824356079127412" StartPointZ="0" StartControlPointX="123.56377665203537" StartControlPointY="72.824356079112633" StartControlPointZ="0" EndControlPointX="145.23044331863133" EndControlPointY="72.8243560791226" EndControlPointZ="0" EndPointX="166.89710998535145" EndPointY="72.824356079127355" EndPointZ="0" />
-        <Spline StartPointX="166.89710998535145" StartPointY="72.824356079127355" StartPointZ="0" StartControlPointX="170.98044331871449" StartControlPointY="72.82435607915707" StartControlPointZ="0" EndControlPointX="175.06377665200102" EndControlPointY="72.82435607908981" EndControlPointZ="0" EndPointX="179.14710998535145" EndPointY="72.824356079127341" EndPointZ="0" />
-        <Spline StartPointX="179.14710998535145" StartPointY="72.824356079127341" StartPointZ="0" StartControlPointX="180.42245201038222" StartControlPointY="72.820672514802823" StartControlPointZ="0" EndControlPointX="181.86724268466557" EndControlPointY="72.991338259970917" EndControlPointZ="0" EndPointX="182.96657129776833" EndPointY="73.708524921084134" EndPointZ="0" />
-        <Spline StartPointX="182.96657129776833" StartPointY="73.708524921084134" StartPointZ="0" StartControlPointX="183.49365129566596" StartControlPointY="74.05238456352977" StartControlPointZ="0" EndControlPointX="183.88211255076391" EndControlPointY="74.492944344752317" EndControlPointZ="0" EndPointX="184.16802841575864" EndPointY="75.009374937698084" EndPointZ="0" />
-        <Spline StartPointX="184.16802841575864" StartPointY="75.009374937698084" StartPointZ="0" StartControlPointX="184.76892418410969" StartControlPointY="76.09473254090021" StartControlPointZ="0" EndControlPointX="184.88565345452361" EndControlPointY="77.361241662732382" EndControlPointZ="0" EndPointX="184.89710998535145" EndPointY="78.574356079127341" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535145" StartPointY="78.574356079127341" StartPointZ="0" StartControlPointX="184.89710998535887" StartControlPointY="82.657689412484814" StartControlPointZ="0" EndControlPointX="184.89710998539627" EndControlPointY="86.741022745756368" EndControlPointZ="0" EndPointX="184.89710998535145" EndPointY="90.824356079127341" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535145" StartPointY="90.824356079127341" StartPointZ="0" StartControlPointX="184.89710998536964" StartControlPointY="100.82435607915008" StartControlPointZ="0" EndControlPointX="184.89710998530236" EndControlPointY="110.82435607913685" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="120.82435607912734" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535148" StartPointY="120.82435607912734" StartPointZ="0" StartControlPointX="184.89710998533661" StartControlPointY="124.90768941250896" StartControlPointZ="0" EndControlPointX="184.89710998543211" EndControlPointY="128.99102274575961" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="133.07435607912734" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535148" StartPointY="133.07435607912734" StartPointZ="0" StartControlPointX="184.89710998537936" StartControlPointY="136.90768941248857" StartControlPointZ="0" EndControlPointX="184.89710998533894" EndControlPointY="140.74102274580153" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="144.57435607912734" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535148" StartPointY="144.57435607912734" StartPointZ="0" StartControlPointX="184.89710998533661" StartControlPointY="148.65768941247183" StartControlPointZ="0" EndControlPointX="184.89710998543211" EndControlPointY="152.74102274580224" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="156.82435607912734" EndPointZ="0" />
-        <Spline StartPointX="184.89710998535148" StartPointY="156.82435607912734" StartPointZ="0" StartControlPointX="184.89710998533783" StartControlPointY="161.8243560791137" StartControlPointZ="0" EndControlPointX="184.89710998529" EndControlPointY="166.82435607910688" EndControlPointZ="0" EndPointX="184.89710998535151" EndPointY="171.82435607912734" EndPointZ="0" />
+        <Spline StartPointX="65.897109985351562" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="69.980443318684891" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="74.063776652018234" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="78.147109985351563" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="78.147109985351563" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="81.980443318684891" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="85.813776652018234" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="89.647109985351562" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="89.647109985351562" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="93.730443318684891" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="97.813776652018234" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="101.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="101.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="123.56377665201828" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="145.23044331868482" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="166.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="166.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="170.98044331868488" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="175.06377665201822" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="179.14710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="179.14710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="182.98044331868491" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="186.81377665201822" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="190.64710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="190.64710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="194.73044331868488" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="198.81377665201825" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="202.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="202.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="216.23044331868488" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="229.56377665201825" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="242.89710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="242.89710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="246.98044331868488" StartControlPointY="138.82435607910156" StartControlPointZ="0" EndControlPointX="251.06377665201825" EndControlPointY="138.82435607910156" EndControlPointZ="0" EndPointX="255.14710998535156" EndPointY="138.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="255.14710998535156" StartPointY="138.82435607910156" StartPointZ="0" StartControlPointX="257.23280623152243" StartControlPointY="138.83067328097508" StartControlPointZ="0" EndControlPointX="259.50533658583117" EndControlPointY="139.32815829829937" EndControlPointZ="0" EndPointX="260.38643125979371" EndPointY="141.45538352560652" EndPointZ="0" />
+        <Spline StartPointX="260.38643125979371" StartPointY="141.45538352560652" StartPointZ="0" StartControlPointX="260.79358014631771" StartControlPointY="142.43836232263956" StartControlPointZ="0" EndControlPointX="260.89398381976434" EndControlPointY="143.51935219715361" EndControlPointZ="0" EndPointX="260.89708995819092" EndPointY="144.57435607910156" EndPointZ="0" />
+        <Spline StartPointX="260.89708998535156" StartPointY="144.57435607910156" StartPointZ="0" StartControlPointX="260.89708998535156" StartControlPointY="148.65768941244033" StartControlPointZ="0" EndControlPointX="260.89708998535156" EndControlPointY="152.74102274577911" EndControlPointZ="0" EndPointX="260.89708998535156" EndPointY="156.82435607911788" EndPointZ="0" />
+        <Spline StartPointX="260.89708998535156" StartPointY="156.82435607911788" StartPointZ="0" StartControlPointX="260.89708998535156" StartControlPointY="161.82435607911788" StartControlPointZ="0" EndControlPointX="260.89708998535156" EndControlPointY="166.82435607911788" EndControlPointZ="0" EndPointX="260.89708998535156" EndPointY="171.82435607911788" EndPointZ="0" />
+        <Spline StartPointX="260.89710998535156" StartPointY="171.82435607911788" StartPointZ="0" StartControlPointX="260.89710998535156" StartControlPointY="175.90768941245437" StartControlPointZ="0" EndControlPointX="260.89710998535156" EndControlPointY="179.99102274579087" EndControlPointZ="0" EndPointX="260.89710998535156" EndPointY="184.07435607912737" EndPointZ="0" />
+        <Spline StartPointX="260.89710998535156" StartPointY="184.07435607912737" StartPointZ="0" StartControlPointX="260.89079277986406" StartControlPointY="186.16005243199905" StartControlPointZ="0" EndControlPointX="260.39330767888441" EndControlPointY="188.43258274947414" EndControlPointZ="0" EndPointX="258.26608232060744" EndPointY="189.31367744124225" EndPointZ="0" />
+        <Spline StartPointX="258.26608232060744" StartPointY="189.31367744124225" StartPointZ="0" StartControlPointX="257.28307728615596" StartControlPointY="189.72083717844004" StartControlPointZ="0" EndControlPointX="256.20213303131663" EndControlPointY="189.82116978358135" EndControlPointZ="0" EndPointX="255.14710998535156" EndPointY="189.82435607912737" EndPointZ="0" />
+        <Spline StartPointX="255.14710998535156" StartPointY="189.82435607912737" StartPointZ="0" StartControlPointX="251.06377665201822" StartControlPointY="189.82435607912737" StartControlPointZ="0" EndControlPointX="246.98044331868491" EndControlPointY="189.82435607912737" EndControlPointZ="0" EndPointX="242.89710998535156" EndPointY="189.82435607912737" EndPointZ="0" />
+        <Spline StartPointX="242.89710998535156" StartPointY="189.82435607912737" StartPointZ="0" StartControlPointX="229.56377665201825" StartControlPointY="189.82435607912737" StartControlPointZ="0" EndControlPointX="216.23044331868488" EndControlPointY="189.8243560791274" EndControlPointZ="0" EndPointX="202.89710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
+        <Spline StartPointX="202.89710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="198.81377665201822" StartControlPointY="189.8243560791274" StartControlPointZ="0" EndControlPointX="194.73044331868488" EndControlPointY="189.8243560791274" EndControlPointZ="0" EndPointX="190.64710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
+        <Spline StartPointX="190.64710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="186.81377665201822" StartControlPointY="189.8243560791274" StartControlPointZ="0" EndControlPointX="182.98044331868491" EndControlPointY="189.8243560791274" EndControlPointZ="0" EndPointX="179.14710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
+        <Spline StartPointX="179.14710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="175.06377665201822" StartControlPointY="189.8243560791274" StartControlPointZ="0" EndControlPointX="170.98044331868491" EndControlPointY="189.8243560791274" EndControlPointZ="0" EndPointX="166.89710998535156" EndPointY="189.8243560791274" EndPointZ="0" />
+        <Spline StartPointX="166.89710998535156" StartPointY="189.8243560791274" StartPointZ="0" StartControlPointX="145.23044331868485" StartControlPointY="189.8243560791274" StartControlPointZ="0" EndControlPointX="123.5637766520183" EndControlPointY="189.82435607912743" EndControlPointZ="0" EndPointX="101.89710998535156" EndPointY="189.82435607912743" EndPointZ="0" />
+        <Spline StartPointX="101.89710998535156" StartPointY="189.82435607912743" StartPointZ="0" StartControlPointX="97.813776652018234" StartControlPointY="189.82435607912743" StartControlPointZ="0" EndControlPointX="93.730443318684891" EndControlPointY="189.82435607912743" EndControlPointZ="0" EndPointX="89.647109985351562" EndPointY="189.82435607912743" EndPointZ="0" />
+        <Spline StartPointX="89.647109985351562" StartPointY="189.82435607912743" StartPointZ="0" StartControlPointX="87.5614136324797" StartControlPointY="189.81803887363992" StartControlPointZ="0" EndControlPointX="85.288883315005023" EndControlPointY="189.32055377266019" EndControlPointZ="0" EndPointX="84.407788623236669" EndPointY="187.1933284143833" EndPointZ="0" />
+        <Spline StartPointX="84.407788623236669" StartPointY="187.1933284143833" StartPointZ="0" StartControlPointX="84.000628886038783" StartControlPointY="186.21032337993191" StartControlPointZ="0" EndControlPointX="83.900296280897578" EndControlPointY="185.12937912509238" EndControlPointZ="0" EndPointX="83.897109985351563" EndPointY="184.07435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351563" StartPointY="184.07435607912743" StartPointZ="0" StartControlPointX="83.897109985351563" StartControlPointY="179.99102274579411" StartControlPointZ="0" EndControlPointX="83.897109985351548" EndControlPointY="175.90768941246074" EndControlPointZ="0" EndPointX="83.897109985351548" EndPointY="171.82435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351548" StartPointY="171.82435607912743" StartPointZ="0" StartControlPointX="83.897109985351548" StartControlPointY="166.82435607912743" StartControlPointZ="0" EndControlPointX="83.897109985351534" EndControlPointY="161.82435607912743" EndControlPointZ="0" EndPointX="83.897109985351534" EndPointY="156.82435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351534" StartPointY="156.82435607912743" StartPointZ="0" StartControlPointX="83.897109985351534" StartControlPointY="152.74102274579411" StartControlPointZ="0" EndControlPointX="83.89710998535152" EndControlPointY="148.65768941246074" EndControlPointZ="0" EndPointX="83.89710998535152" EndPointY="144.57435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.89710998535152" StartPointY="144.57435607912743" StartPointZ="0" StartControlPointX="83.89710998535152" StartControlPointY="140.74102274579408" StartControlPointZ="0" EndControlPointX="83.8971099853515" EndControlPointY="136.90768941246077" EndControlPointZ="0" EndPointX="83.8971099853515" EndPointY="133.07435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.8971099853515" StartPointY="133.07435607912743" StartPointZ="0" StartControlPointX="83.8971099853515" StartControlPointY="128.99102274579408" StartControlPointZ="0" EndControlPointX="83.897109985351491" EndControlPointY="124.90768941246075" EndControlPointZ="0" EndPointX="83.897109985351491" EndPointY="120.82435607912743" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351491" StartPointY="120.82435607912743" StartPointZ="0" StartControlPointX="83.897109985351491" StartControlPointY="110.82435607912745" StartControlPointZ="0" EndControlPointX="83.897109985351477" EndControlPointY="100.8243560791274" EndControlPointZ="0" EndPointX="83.897109985351477" EndPointY="90.824356079127426" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351477" StartPointY="90.824356079127426" StartPointZ="0" StartControlPointX="83.897109985351477" StartControlPointY="86.7410227457941" StartControlPointZ="0" EndControlPointX="83.897109985351463" EndControlPointY="82.657689412460755" EndControlPointZ="0" EndPointX="83.897109985351463" EndPointY="78.574356079127426" EndPointZ="0" />
+        <Spline StartPointX="83.897109985351463" StartPointY="78.574356079127426" StartPointZ="0" StartControlPointX="83.903427190838954" StartControlPointY="76.488659726255747" StartControlPointZ="0" EndControlPointX="84.400912291818642" EndControlPointY="74.216129408780674" EndControlPointZ="0" EndPointX="86.528137650095573" EndPointY="73.335034717012533" EndPointZ="0" />
+        <Spline StartPointX="86.528137650095573" StartPointY="73.335034717012533" StartPointZ="0" StartControlPointX="87.511142684547053" StartControlPointY="72.927874979814717" StartControlPointZ="0" EndControlPointX="88.592086939386419" EndControlPointY="72.827542374673442" EndControlPointZ="0" EndPointX="89.647109985351463" EndPointY="72.824356079127426" EndPointZ="0" />
+        <Spline StartPointX="89.647109985351463" StartPointY="72.824356079127426" StartPointZ="0" StartControlPointX="93.730443318684792" StartControlPointY="72.824356079127426" StartControlPointZ="0" EndControlPointX="97.813776652018134" EndControlPointY="72.824356079127412" EndControlPointZ="0" EndPointX="101.89710998535146" EndPointY="72.824356079127412" EndPointZ="0" />
+        <Spline StartPointX="101.89710998535146" StartPointY="72.824356079127412" StartPointZ="0" StartControlPointX="123.56377665201813" StartControlPointY="72.824356079127412" StartControlPointZ="0" EndControlPointX="145.23044331868473" EndControlPointY="72.824356079127355" EndControlPointZ="0" EndPointX="166.89710998535145" EndPointY="72.824356079127355" EndPointZ="0" />
+        <Spline StartPointX="166.89710998535145" StartPointY="72.824356079127355" StartPointZ="0" StartControlPointX="170.98044331868479" StartControlPointY="72.824356079127355" StartControlPointZ="0" EndControlPointX="175.06377665201811" EndControlPointY="72.824356079127341" EndControlPointZ="0" EndPointX="179.14710998535145" EndPointY="72.824356079127341" EndPointZ="0" />
+        <Spline StartPointX="179.14710998535145" StartPointY="72.824356079127341" StartPointZ="0" StartControlPointX="181.23280633822327" StartControlPointY="72.830673284614832" StartControlPointZ="0" EndControlPointX="183.50533665569804" EndControlPointY="73.328158385594548" EndControlPointZ="0" EndPointX="184.38643134746633" EndPointY="75.455383743871451" EndPointZ="0" />
+        <Spline StartPointX="184.38643134746633" StartPointY="75.455383743871451" StartPointZ="0" StartControlPointX="184.7935910846642" StartControlPointY="76.438388778322889" StartControlPointZ="0" EndControlPointX="184.89392368980543" EndControlPointY="77.519333033162326" EndControlPointZ="0" EndPointX="184.89710998535145" EndPointY="78.574356079127341" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535145" StartPointY="78.574356079127341" StartPointZ="0" StartControlPointX="184.89710998535145" StartControlPointY="82.65768941246067" StartControlPointZ="0" EndControlPointX="184.89710998535145" EndControlPointY="86.741022745794012" EndControlPointZ="0" EndPointX="184.89710998535145" EndPointY="90.824356079127341" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535145" StartPointY="90.824356079127341" StartPointZ="0" StartControlPointX="184.89710998535145" StartControlPointY="100.82435607912731" StartControlPointZ="0" EndControlPointX="184.89710998535148" EndControlPointY="110.82435607912737" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="120.82435607912734" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535148" StartPointY="120.82435607912734" StartPointZ="0" StartControlPointX="184.89710998535148" StartControlPointY="124.90768941246067" StartControlPointZ="0" EndControlPointX="184.89710998535148" EndControlPointY="128.991022745794" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="133.07435607912734" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535148" StartPointY="133.07435607912734" StartPointZ="0" StartControlPointX="184.89710998535148" StartControlPointY="136.90768941246068" StartControlPointZ="0" EndControlPointX="184.89710998535148" EndControlPointY="140.741022745794" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="144.57435607912734" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535148" StartPointY="144.57435607912734" StartPointZ="0" StartControlPointX="184.89710998535148" StartControlPointY="148.65768941246068" StartControlPointZ="0" EndControlPointX="184.89710998535148" EndControlPointY="152.741022745794" EndControlPointZ="0" EndPointX="184.89710998535148" EndPointY="156.82435607912734" EndPointZ="0" />
+        <Spline StartPointX="184.89710998535148" StartPointY="156.82435607912734" StartPointZ="0" StartControlPointX="184.89710998535148" StartControlPointY="161.82435607912734" StartControlPointZ="0" EndControlPointX="184.89710998535151" EndControlPointY="166.82435607912734" EndControlPointZ="0" EndPointX="184.89710998535151" EndPointY="171.82435607912734" EndPointZ="0" />
       </PathShapes>
       <PathOrientations>
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
@@ -4782,47 +4777,42 @@
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="0.0030288123535328151" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0.082435160425190931" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0.23650593832376599" EndPointX="0" EndPointY="0" EndPointZ="0.58463487090743371" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="0.58463487090743371" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0.730769575371288" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0.92933635288331007" EndPointX="0" EndPointY="0" EndPointZ="1.0591629215176346" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.0591629215176346" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.358410410077115" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.4921508515841357" EndPointX="0" EndPointY="0" EndPointZ="1.567852139095874" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267954188" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.5707963267950062" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267948966" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.570796326794655" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267950997" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.5707963267950946" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5738251407262105" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.6532316219188419" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.8073021324875418" EndPointX="0" EndPointY="0" EndPointZ="2.1554313470262669" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="2.1554313470262669" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="2.3015654962518797" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="2.5001331670697038" EndPointX="0" EndPointY="0" EndPointZ="2.6299592075006615" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="2.6299592075006615" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="2.9291629907021659" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="3.0630046763822913" EndPointX="0" EndPointY="0" EndPointZ="3.1385725433934075" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535910117" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535887579" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535897931" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535897634" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535910117" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535887579" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.141592653590719" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535889844" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535910117" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535887579" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535883307" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535903909" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1415926535897931" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.1415926535910117" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-3.1415926535887579" EndPointX="0" EndPointY="0" EndPointZ="-3.1415926535897931" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-3.1385638396584792" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-3.0591573584650567" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-2.9050868478963681" EndPointX="0" EndPointY="0" EndPointZ="-2.5569576333584232" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-2.5569576333584232" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-2.4108234841328784" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-2.2122558133150778" EndPointX="0" EndPointY="0" EndPointZ="-2.0824297728840282" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-2.0824297728840282" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.783225989682454" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.6493843040028839" EndPointX="0" EndPointY="0" EndPointZ="-1.5738164369912824" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267948966" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.570796326794655" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267953595" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.5707963267944922" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267949676" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.5707963267948797" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="-1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-1.5677675128635824" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-1.4883610316703106" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-1.3342905211019174" EndPointX="0" EndPointY="0" EndPointZ="-0.986161306563527" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-0.986161306563527" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-0.84002715733788036" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-0.64145948652002216" EndPointX="0" EndPointY="0" EndPointZ="-0.51163344608913142" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="-0.51163344608913142" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="-0.2124296628875661" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="-0.078587977207843274" EndPointX="0" EndPointY="0" EndPointZ="-0.0030201101963857283" />
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="0.0030288139313141608" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0.082435295124341126" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0.23650580569288576" EndPointX="0" EndPointY="0" EndPointZ="0.58463502023136971" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="0.58463502023136971" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0.7307691694569316" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0.92933684027483976" EndPointX="0" EndPointY="0" EndPointZ="1.0591628807057651" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.0591628807057651" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.3583666639072696" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.4922083495869614" EndPointX="0" EndPointY="0" EndPointZ="1.567776216598511" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267949676" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.5707963267948797" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267953595" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.5707963267944922" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267955058" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.570796326794379" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
-        <Spline StartPointX="0" StartPointY="0" StartPointZ="1.5707963267948966" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="1.5707963267948966" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="1.570796326794655" EndPointX="0" EndPointY="0" EndPointZ="1.5707963267948966" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
       </PathOrientations>
       <SelectionPoints>
         <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="0" Lane="2" RoadSegmentId="XCrossing_4" CrossSectionIndex="2">
@@ -4898,6 +4888,7 @@
     <Build Version="8.4.0 " BuildNumber="13764" BuildId="ef054d39384f" Architecture="64" BuildNumberCore="12578" BuildIdCore="bc3bbd392241" BuildNumberData="2735" BuildIdData="bc3bbd392241" BuildNumberExt="309" BuildIdExt="bc3bbd392241" />
     <Build Version="8.6.0 " BuildNumber="15210" BuildId="e16f3122b987" Architecture="64" BuildNumberCore="14740" BuildIdCore="33e9e38c9543" BuildNumberData="2959" BuildIdData="33e9e38c9543" BuildNumberExt="375" BuildIdExt="33e9e38c9543" />
     <Build Version="2019.1.0 " BuildNumber="16263" BuildId="6562ad4c7aee" Architecture="64" BuildNumberCore="16409" BuildIdCore="527fa4d1180a" BuildNumberData="3203" BuildIdData="527fa4d1180a" BuildNumberExt="425" BuildIdExt="527fa4d1180a" />
+    <Build Version="2019.2.0 " BuildNumber="16702" BuildId="e2411acde279" Architecture="64" BuildNumberCore="17351" BuildIdCore="0f2bf0122c76" BuildNumberData="3225" BuildIdData="0f2bf0122c76" BuildNumberExt="430" BuildIdExt="0f2bf0122c76" />
   </UsedPreScanBuilds>
   <Resources />
   <SceneLightSource Description="" id="SceneLightSource" UniqueId="32" UseShadows="true" UseSoftShadows="true" UseReflectiveTexture="true" UseNormalMapTexture="true" GlobalAmbientR="0" GlobalAmbientG="0" GlobalAmbientB="0" AmbientR="225" AmbientG="225" AmbientB="225" AmbientA="255" DiffuseR="225" DiffuseG="225" DiffuseB="225" DiffuseA="255" SpecularR="150" SpecularG="150" SpecularB="150" SpecularA="255" PositionX="1" PositionY="-1" PositionZ="1" Intensity="0.95" AtmTurbFactor="2" Altitude="0" UseExplicitLightPositioning="true" UseCurrentGPSLocation="true" Hours="0" Minutes="0" Seconds="0" UTCoffset="0" SceneShadowTextureSize="4096" SpotLightShadowTextureSize="1024">
@@ -4976,33 +4967,33 @@
     </RFOBUPorts>
   </SensorSettings>
   <UserObjectTypes>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" Color="FFFFFFFF" PredefinedEnumType="Car">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" HasSeparateColors="false" Color="FFFFFFFF" PredefinedEnumType="Car">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" UniqueId="9040" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="9040" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Motor" Color="FFFF0000" PredefinedEnumType="Motor">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Motor" HasSeparateColors="false" Color="FFFF0000" PredefinedEnumType="Motor">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TruckBus" Color="FF00FF00" PredefinedEnumType="TruckBus">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TruckBus" HasSeparateColors="false" Color="FF00FF00" PredefinedEnumType="TruckBus">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Human" Color="FF0000FF" PredefinedEnumType="Human">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Human" HasSeparateColors="false" Color="FF0000FF" PredefinedEnumType="Human">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="CalibrationElement" Color="FFFFFF00" PredefinedEnumType="CalibrationElement">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="CalibrationElement" HasSeparateColors="false" Color="FFFFFF00" PredefinedEnumType="CalibrationElement">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Trailer" Color="FFFF00FF" PredefinedEnumType="Trailer">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Trailer" HasSeparateColors="false" Color="FFFF00FF" PredefinedEnumType="Trailer">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="ActorOther" Color="FF00FFFF" PredefinedEnumType="ActorOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="ActorOther" HasSeparateColors="false" Color="FF00FFFF" PredefinedEnumType="ActorOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Road" Color="FF7F7F7F" PredefinedEnumType="Road">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Road" HasSeparateColors="false" Color="FF7F7F7F" PredefinedEnumType="Road">
       <CategorizedObjects>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_1" UniqueId="15185" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Markers" ParentUniqueId="15185">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15185" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15185">
           <Aliases>
             <int>15186</int>
             <int>15187</int>
@@ -5012,8 +5003,8 @@
             <int>15191</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_1" UniqueId="15192" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Markers" ParentUniqueId="15192">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15192" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15192">
           <Aliases>
             <int>15193</int>
             <int>15194</int>
@@ -5030,8 +5021,8 @@
             <int>15205</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_2" UniqueId="15206" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Markers" ParentUniqueId="15206">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15206" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15206">
           <Aliases>
             <int>15207</int>
             <int>15208</int>
@@ -5048,8 +5039,8 @@
             <int>15219</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" UniqueId="15220" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" ParentUniqueId="15220">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15220" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15220">
           <Aliases>
             <int>15221</int>
             <int>15222</int>
@@ -5059,28 +5050,28 @@
             <int>15226</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Sidewalk" ParentUniqueId="15185">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15185">
           <Aliases>
             <int>15229</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Sidewalk" ParentUniqueId="15192">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15192">
           <Aliases>
             <int>15237</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Sidewalk" ParentUniqueId="15220">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15220">
           <Aliases>
             <int>15279</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Sidewalk" ParentUniqueId="15206">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15206">
           <Aliases>
             <int>15258</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" UniqueId="15298" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" ParentUniqueId="15298">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15298" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15298">
           <Aliases>
             <int>15299</int>
             <int>15300</int>
@@ -5090,13 +5081,13 @@
             <int>15304</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Sidewalk" ParentUniqueId="15298">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15298">
           <Aliases>
             <int>15305</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_3" UniqueId="15306" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Markers" ParentUniqueId="15306">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15306" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15306">
           <Aliases>
             <int>15307</int>
             <int>15308</int>
@@ -5113,13 +5104,13 @@
             <int>15319</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Sidewalk" ParentUniqueId="15306">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15306">
           <Aliases>
             <int>15320</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" UniqueId="15360" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" ParentUniqueId="15360">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15360" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15360">
           <Aliases>
             <int>15361</int>
             <int>15362</int>
@@ -5129,13 +5120,13 @@
             <int>15366</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Sidewalk" ParentUniqueId="15360">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15360">
           <Aliases>
             <int>15367</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_4" UniqueId="15381" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Markers" ParentUniqueId="15381">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15381" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15381">
           <Aliases>
             <int>15382</int>
             <int>15383</int>
@@ -5152,13 +5143,13 @@
             <int>15394</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Sidewalk" ParentUniqueId="15381">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15381">
           <Aliases>
             <int>15395</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_1" UniqueId="15424" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Markers" ParentUniqueId="15424">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15424" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15424">
           <Aliases>
             <int>15425</int>
             <int>15426</int>
@@ -5168,13 +5159,13 @@
             <int>15430</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Sidewalk" ParentUniqueId="15424">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15424">
           <Aliases>
             <int>15431</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" UniqueId="15434" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" ParentUniqueId="15434">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15434" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15434">
           <Aliases>
             <int>15435</int>
             <int>15436</int>
@@ -5184,13 +5175,13 @@
             <int>15440</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Sidewalk" ParentUniqueId="15434">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15434">
           <Aliases>
             <int>15441</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_5" UniqueId="15465" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Markers" ParentUniqueId="15465">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15465" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15465">
           <Aliases>
             <int>15466</int>
             <int>15467</int>
@@ -5207,13 +5198,13 @@
             <int>15478</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Sidewalk" ParentUniqueId="15465">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15465">
           <Aliases>
             <int>15479</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" UniqueId="15500" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" ParentUniqueId="15500">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15500" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15500">
           <Aliases>
             <int>15501</int>
             <int>15502</int>
@@ -5223,13 +5214,13 @@
             <int>15506</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Sidewalk" ParentUniqueId="15500">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15500">
           <Aliases>
             <int>15507</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_6" UniqueId="15519" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Markers" ParentUniqueId="15519">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15519" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15519">
           <Aliases>
             <int>15520</int>
             <int>15521</int>
@@ -5246,13 +5237,13 @@
             <int>15532</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Sidewalk" ParentUniqueId="15519">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15519">
           <Aliases>
             <int>15533</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_7" UniqueId="15555" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Markers" ParentUniqueId="15555">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15555" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15555">
           <Aliases>
             <int>15556</int>
             <int>15557</int>
@@ -5262,13 +5253,13 @@
             <int>15561</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Sidewalk" ParentUniqueId="15555">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15555">
           <Aliases>
             <int>15562</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_7" UniqueId="15594" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Markers" ParentUniqueId="15594">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15594" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15594">
           <Aliases>
             <int>15595</int>
             <int>15596</int>
@@ -5285,13 +5276,13 @@
             <int>15607</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Sidewalk" ParentUniqueId="15594">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15594">
           <Aliases>
             <int>15608</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" UniqueId="15628" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" ParentUniqueId="15628">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15628" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15628">
           <Aliases>
             <int>15629</int>
             <int>15630</int>
@@ -5301,13 +5292,13 @@
             <int>15634</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Sidewalk" ParentUniqueId="15628">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15628">
           <Aliases>
             <int>15635</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_8" UniqueId="15636" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Markers" ParentUniqueId="15636">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15636" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15636">
           <Aliases>
             <int>15637</int>
             <int>15638</int>
@@ -5317,13 +5308,13 @@
             <int>15642</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Sidewalk" ParentUniqueId="15636">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15636">
           <Aliases>
             <int>15643</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_8" UniqueId="15668" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Markers" ParentUniqueId="15668">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15668" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15668">
           <Aliases>
             <int>15669</int>
             <int>15670</int>
@@ -5340,13 +5331,13 @@
             <int>15681</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Sidewalk" ParentUniqueId="15668">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15668">
           <Aliases>
             <int>15682</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_3" UniqueId="15704" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Markers" ParentUniqueId="15704">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15704" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15704">
           <Aliases>
             <int>15705</int>
             <int>15706</int>
@@ -5356,13 +5347,13 @@
             <int>15710</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Sidewalk" ParentUniqueId="15704">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15704">
           <Aliases>
             <int>15711</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_9" UniqueId="15725" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Markers" ParentUniqueId="15725">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15725" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15725">
           <Aliases>
             <int>15726</int>
             <int>15727</int>
@@ -5372,13 +5363,13 @@
             <int>15731</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Sidewalk" ParentUniqueId="15725">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15725">
           <Aliases>
             <int>15732</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_9" UniqueId="15767" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Markers" ParentUniqueId="15767">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15767" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15767">
           <Aliases>
             <int>15768</int>
             <int>15769</int>
@@ -5395,13 +5386,13 @@
             <int>15780</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Sidewalk" ParentUniqueId="15767">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15767">
           <Aliases>
             <int>15781</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_10" UniqueId="15821" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Markers" ParentUniqueId="15821">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15821" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15821">
           <Aliases>
             <int>15822</int>
             <int>15823</int>
@@ -5411,13 +5402,13 @@
             <int>15827</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Sidewalk" ParentUniqueId="15821">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15821">
           <Aliases>
             <int>15828</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_4" UniqueId="15859" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Markers" ParentUniqueId="15859">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15859" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15859">
           <Aliases>
             <int>15860</int>
             <int>15861</int>
@@ -5427,13 +5418,13 @@
             <int>15865</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Sidewalk" ParentUniqueId="15859">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15859">
           <Aliases>
             <int>15866</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_11" UniqueId="15868" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Markers" ParentUniqueId="15868">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_11" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15868" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15868">
           <Aliases>
             <int>15869</int>
             <int>15870</int>
@@ -5443,184 +5434,184 @@
             <int>15874</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Sidewalk" ParentUniqueId="15868">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15868">
           <Aliases>
             <int>15875</int>
           </Aliases>
         </SemanticItem>
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Building" Color="FF7F0000" PredefinedEnumType="Building">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Building" HasSeparateColors="false" Color="FF7F0000" PredefinedEnumType="Building">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" UniqueId="15227" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" UniqueId="15295" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" UniqueId="15296" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" UniqueId="15297" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" UniqueId="15432" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" UniqueId="15723" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" UniqueId="15745" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" UniqueId="15746" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15227" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15295" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15296" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15297" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15432" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15723" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15745" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15746" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="NatureElement" Color="FF007F00" PredefinedEnumType="NatureElement">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="NatureElement" HasSeparateColors="false" Color="FF007F00" PredefinedEnumType="NatureElement">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" UniqueId="15898" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" UniqueId="15899" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" UniqueId="15900" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15898" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15899" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15900" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TrafficSign" Color="FF00007F" PredefinedEnumType="TrafficSign">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TrafficSign" HasSeparateColors="false" Color="FF00007F" PredefinedEnumType="TrafficSign">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" HasSeparateColors="false" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" Color="FF7F007F" PredefinedEnumType="AbstractObject">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" HasSeparateColors="false" Color="FF7F007F" PredefinedEnumType="AbstractObject">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Underlay" Color="FF007F7F" PredefinedEnumType="Underlay">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Underlay" HasSeparateColors="false" Color="FF007F7F" PredefinedEnumType="Underlay">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" UniqueId="15359" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" UniqueId="15724" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15359" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15724" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" Color="FF7FFF00" PredefinedEnumType="InfraOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" HasSeparateColors="false" Color="FF7FFF00" PredefinedEnumType="InfraOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="StaticOther" Color="FFFF007F" PredefinedEnumType="StaticOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="StaticOther" HasSeparateColors="false" Color="FFFF007F" PredefinedEnumType="StaticOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="MovingOther" Color="FF007FFF" PredefinedEnumType="MovingOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="MovingOther" HasSeparateColors="false" Color="FF007FFF" PredefinedEnumType="MovingOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" Color="FF7F00FF" PredefinedEnumType="Sky">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Sky" UniqueId="418" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Sky" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="418" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Terrain" Color="FF00FF7F" PredefinedEnumType="Terrain">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Terrain" HasSeparateColors="false" Color="FF00FF7F" PredefinedEnumType="Terrain">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Terrain" UniqueId="419" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Terrain" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="419" />
       </CategorizedObjects>
     </UserObjectType>
   </UserObjectTypes>
   <ObjectColorIDs>
     <ObjectColorID Color="FF3F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" UniqueId="9040" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="9040" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_1" UniqueId="15185" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15185" />
     </ObjectColorID>
     <ObjectColorID Color="FF0000FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_1" UniqueId="15192" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15192" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_2" UniqueId="15206" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15206" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" UniqueId="15220" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15220" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" UniqueId="15227" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15227" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" UniqueId="15295" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15295" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" UniqueId="15296" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15296" />
     </ObjectColorID>
     <ObjectColorID Color="FF007F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" UniqueId="15297" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15297" />
     </ObjectColorID>
     <ObjectColorID Color="FF00007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" UniqueId="15298" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15298" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_3" UniqueId="15306" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15306" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" UniqueId="15359" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15359" />
     </ObjectColorID>
     <ObjectColorID Color="FF007F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" UniqueId="15360" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15360" />
     </ObjectColorID>
     <ObjectColorID Color="FF7FFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_4" UniqueId="15381" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15381" />
     </ObjectColorID>
     <ObjectColorID Color="FF007FFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" UniqueId="15424" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15424" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" UniqueId="15432" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15432" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" UniqueId="15434" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15434" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FF7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_5" UniqueId="15465" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15465" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFBFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" UniqueId="15500" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15500" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_6" UniqueId="15519" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15519" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_7" UniqueId="15555" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15555" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_7" UniqueId="15594" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15594" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" UniqueId="15628" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15628" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_8" UniqueId="15636" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15636" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_8" UniqueId="15668" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15668" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_3" UniqueId="15704" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15704" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" UniqueId="15723" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15723" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" UniqueId="15724" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15724" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_9" UniqueId="15725" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15725" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" UniqueId="15745" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15745" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" UniqueId="15746" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15746" />
     </ObjectColorID>
     <ObjectColorID Color="FF7FBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_9" UniqueId="15767" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15767" />
     </ObjectColorID>
     <ObjectColorID Color="FF007FBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_10" UniqueId="15821" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15821" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_4" UniqueId="15859" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15859" />
     </ObjectColorID>
     <ObjectColorID Color="FF003F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_11" UniqueId="15868" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_11" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15868" />
     </ObjectColorID>
     <ObjectColorID Color="FF00003F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" UniqueId="15898" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15898" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F3F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" UniqueId="15899" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15899" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F003F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" UniqueId="15900" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15900" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="154">

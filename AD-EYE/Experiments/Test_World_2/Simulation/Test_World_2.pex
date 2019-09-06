@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Test_World_2" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="56BC20A58318F0B87D5A57A26D784CF021F8D19503F948D51052C18CC900FA6F" UniqueExperimentIdentifier="ac0b30fb-fe81-4dd5-876b-9e075beb6e4f" UniqueIdCounter="15914" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Test_World_2" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Base World V3.3. Simulation,&#xD;&#xA;&#xD;&#xA;Using the coordinate transform block.&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="4927942626D917D0A2096813F469E1718DA3A65B3976BA79550E4F5FD0155519" UniqueExperimentIdentifier="ac0b30fb-fe81-4dd5-876b-9e075beb6e4f" UniqueIdCounter="16011" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="82.085516929626465" Y="128.98248291015625" Z="0.52999997138977051" />
@@ -4067,7 +4067,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15286" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16004" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4092,7 +4092,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15287" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16005" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4117,7 +4117,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15288" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16006" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4142,7 +4142,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15289" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16007" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4180,7 +4180,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15290" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16008" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4215,7 +4215,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15291" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16009" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4250,7 +4250,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="15292" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16010" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4272,7 +4272,7 @@
             <TestAutomationVariable VariableName="Location" VariableState="false" />
             <TestAutomationVariable VariableName="Orientation" VariableState="false" />
           </TestAutomationVariables>
-          <PluginHelpFile>C:\Program Files\Simcenter Prescan\Prescan_2019.1\Plugins\PBCameraPlugin\Manual.chm</PluginHelpFile>
+          <PluginHelpFile>C:\Program Files\Simcenter Prescan\Prescan_2019.2\Plugins\PBCameraPlugin\Manual.chm</PluginHelpFile>
         </Sensor>
       </Sensors>
       <ConnectionPoints />
@@ -5211,8 +5211,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5282,8 +5298,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5353,8 +5385,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5424,8 +5472,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5495,8 +5559,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5566,8 +5646,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5637,8 +5733,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5708,8 +5820,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -5720,7 +5848,7 @@
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
       <Underlay xsi:type="Grass" Description="" id="Grass_1" UniqueId="15359" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="154.61740112304688" Y="156.11669921875" Z="0" />
+        <Location X="154.61740112304688" Y="156.11669921875003" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="256" Y="256" Z="0.0099999997764825821" />
@@ -5739,7 +5867,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_1" UniqueId="15724" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="58.1063175201416" Y="164.13369750976562" Z="0" />
+        <Location X="58.106317520141587" Y="164.13369750976562" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="40" Y="40" Z="0.0099999997764825821" />
@@ -8063,6 +8191,7 @@
     <Build Version="8.4.0 " BuildNumber="13764" BuildId="ef054d39384f" Architecture="64" BuildNumberCore="12578" BuildIdCore="bc3bbd392241" BuildNumberData="2735" BuildIdData="bc3bbd392241" BuildNumberExt="309" BuildIdExt="bc3bbd392241" />
     <Build Version="8.6.0 " BuildNumber="15210" BuildId="e16f3122b987" Architecture="64" BuildNumberCore="14740" BuildIdCore="33e9e38c9543" BuildNumberData="2959" BuildIdData="33e9e38c9543" BuildNumberExt="375" BuildIdExt="33e9e38c9543" />
     <Build Version="2019.1.0 " BuildNumber="16263" BuildId="6562ad4c7aee" Architecture="64" BuildNumberCore="16409" BuildIdCore="527fa4d1180a" BuildNumberData="3203" BuildIdData="527fa4d1180a" BuildNumberExt="425" BuildIdExt="527fa4d1180a" />
+    <Build Version="2019.2.0 " BuildNumber="16702" BuildId="e2411acde279" Architecture="64" BuildNumberCore="17351" BuildIdCore="0f2bf0122c76" BuildNumberData="3225" BuildIdData="0f2bf0122c76" BuildNumberExt="430" BuildIdExt="0f2bf0122c76" />
   </UsedPreScanBuilds>
   <Resources />
   <SceneLightSource Description="" id="SceneLightSource" UniqueId="32" UseShadows="true" UseSoftShadows="true" UseReflectiveTexture="true" UseNormalMapTexture="true" GlobalAmbientR="0" GlobalAmbientG="0" GlobalAmbientB="0" AmbientR="225" AmbientG="225" AmbientB="225" AmbientA="255" DiffuseR="225" DiffuseG="225" DiffuseB="225" DiffuseA="255" SpecularR="150" SpecularG="150" SpecularB="150" SpecularA="255" PositionX="1" PositionY="-1" PositionZ="1" Intensity="0.95" AtmTurbFactor="2" Altitude="0" UseExplicitLightPositioning="true" UseCurrentGPSLocation="true" Hours="0" Minutes="0" Seconds="0" UTCoffset="0" SceneShadowTextureSize="4096" SpotLightShadowTextureSize="1024">
@@ -8141,36 +8270,36 @@
     </RFOBUPorts>
   </SensorSettings>
   <UserObjectTypes>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" Color="FFFFFFFF" PredefinedEnumType="Car">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" HasSeparateColors="false" Color="FFFFFFFF" PredefinedEnumType="Car">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" UniqueId="4877" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" UniqueId="4876" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" UniqueId="6648" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" UniqueId="9040" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4877" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4876" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6648" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="9040" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Motor" Color="FFFF0000" PredefinedEnumType="Motor">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Motor" HasSeparateColors="false" Color="FFFF0000" PredefinedEnumType="Motor">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TruckBus" Color="FF00FF00" PredefinedEnumType="TruckBus">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TruckBus" HasSeparateColors="false" Color="FF00FF00" PredefinedEnumType="TruckBus">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Human" Color="FF0000FF" PredefinedEnumType="Human">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Human" HasSeparateColors="false" Color="FF0000FF" PredefinedEnumType="Human">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="CalibrationElement" Color="FFFFFF00" PredefinedEnumType="CalibrationElement">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="CalibrationElement" HasSeparateColors="false" Color="FFFFFF00" PredefinedEnumType="CalibrationElement">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Trailer" Color="FFFF00FF" PredefinedEnumType="Trailer">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Trailer" HasSeparateColors="false" Color="FFFF00FF" PredefinedEnumType="Trailer">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="ActorOther" Color="FF00FFFF" PredefinedEnumType="ActorOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="ActorOther" HasSeparateColors="false" Color="FF00FFFF" PredefinedEnumType="ActorOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Road" Color="FF7F7F7F" PredefinedEnumType="Road">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Road" HasSeparateColors="false" Color="FF7F7F7F" PredefinedEnumType="Road">
       <CategorizedObjects>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_1" UniqueId="15185" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Markers" ParentUniqueId="15185">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15185" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15185">
           <Aliases>
             <int>15186</int>
             <int>15187</int>
@@ -8180,8 +8309,8 @@
             <int>15191</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_1" UniqueId="15192" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Markers" ParentUniqueId="15192">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15192" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15192">
           <Aliases>
             <int>15193</int>
             <int>15194</int>
@@ -8198,8 +8327,8 @@
             <int>15205</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_2" UniqueId="15206" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Markers" ParentUniqueId="15206">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15206" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15206">
           <Aliases>
             <int>15207</int>
             <int>15208</int>
@@ -8216,8 +8345,8 @@
             <int>15219</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" UniqueId="15220" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" ParentUniqueId="15220">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15220" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15220">
           <Aliases>
             <int>15221</int>
             <int>15222</int>
@@ -8227,28 +8356,28 @@
             <int>15226</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Sidewalk" ParentUniqueId="15185">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15185">
           <Aliases>
             <int>15229</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Sidewalk" ParentUniqueId="15192">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15192">
           <Aliases>
             <int>15237</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Sidewalk" ParentUniqueId="15220">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15220">
           <Aliases>
             <int>15279</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Sidewalk" ParentUniqueId="15206">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15206">
           <Aliases>
             <int>15258</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" UniqueId="15298" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" ParentUniqueId="15298">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15298" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15298">
           <Aliases>
             <int>15299</int>
             <int>15300</int>
@@ -8258,13 +8387,13 @@
             <int>15304</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Sidewalk" ParentUniqueId="15298">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15298">
           <Aliases>
             <int>15305</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_3" UniqueId="15306" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Markers" ParentUniqueId="15306">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15306" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15306">
           <Aliases>
             <int>15307</int>
             <int>15308</int>
@@ -8281,13 +8410,13 @@
             <int>15319</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Sidewalk" ParentUniqueId="15306">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15306">
           <Aliases>
             <int>15320</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" UniqueId="15360" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" ParentUniqueId="15360">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15360" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15360">
           <Aliases>
             <int>15361</int>
             <int>15362</int>
@@ -8297,13 +8426,13 @@
             <int>15366</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Sidewalk" ParentUniqueId="15360">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15360">
           <Aliases>
             <int>15367</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_4" UniqueId="15381" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Markers" ParentUniqueId="15381">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15381" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15381">
           <Aliases>
             <int>15382</int>
             <int>15383</int>
@@ -8320,13 +8449,13 @@
             <int>15394</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Sidewalk" ParentUniqueId="15381">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15381">
           <Aliases>
             <int>15395</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_1" UniqueId="15424" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Markers" ParentUniqueId="15424">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15424" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15424">
           <Aliases>
             <int>15425</int>
             <int>15426</int>
@@ -8336,13 +8465,13 @@
             <int>15430</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Sidewalk" ParentUniqueId="15424">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15424">
           <Aliases>
             <int>15431</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" UniqueId="15434" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" ParentUniqueId="15434">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15434" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15434">
           <Aliases>
             <int>15435</int>
             <int>15436</int>
@@ -8352,13 +8481,13 @@
             <int>15440</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Sidewalk" ParentUniqueId="15434">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15434">
           <Aliases>
             <int>15441</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_5" UniqueId="15465" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Markers" ParentUniqueId="15465">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15465" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15465">
           <Aliases>
             <int>15466</int>
             <int>15467</int>
@@ -8375,13 +8504,13 @@
             <int>15478</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Sidewalk" ParentUniqueId="15465">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_5.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15465">
           <Aliases>
             <int>15479</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" UniqueId="15500" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" ParentUniqueId="15500">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15500" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15500">
           <Aliases>
             <int>15501</int>
             <int>15502</int>
@@ -8391,13 +8520,13 @@
             <int>15506</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Sidewalk" ParentUniqueId="15500">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15500">
           <Aliases>
             <int>15507</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_6" UniqueId="15519" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Markers" ParentUniqueId="15519">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15519" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15519">
           <Aliases>
             <int>15520</int>
             <int>15521</int>
@@ -8414,13 +8543,13 @@
             <int>15532</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Sidewalk" ParentUniqueId="15519">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_6.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15519">
           <Aliases>
             <int>15533</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_7" UniqueId="15555" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Markers" ParentUniqueId="15555">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15555" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15555">
           <Aliases>
             <int>15556</int>
             <int>15557</int>
@@ -8430,13 +8559,13 @@
             <int>15561</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Sidewalk" ParentUniqueId="15555">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15555">
           <Aliases>
             <int>15562</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_7" UniqueId="15594" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Markers" ParentUniqueId="15594">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15594" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15594">
           <Aliases>
             <int>15595</int>
             <int>15596</int>
@@ -8453,13 +8582,13 @@
             <int>15607</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Sidewalk" ParentUniqueId="15594">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_7.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15594">
           <Aliases>
             <int>15608</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" UniqueId="15628" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" ParentUniqueId="15628">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15628" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15628">
           <Aliases>
             <int>15629</int>
             <int>15630</int>
@@ -8469,13 +8598,13 @@
             <int>15634</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Sidewalk" ParentUniqueId="15628">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15628">
           <Aliases>
             <int>15635</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_8" UniqueId="15636" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Markers" ParentUniqueId="15636">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15636" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15636">
           <Aliases>
             <int>15637</int>
             <int>15638</int>
@@ -8485,13 +8614,13 @@
             <int>15642</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Sidewalk" ParentUniqueId="15636">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_8.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15636">
           <Aliases>
             <int>15643</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_8" UniqueId="15668" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Markers" ParentUniqueId="15668">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15668" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15668">
           <Aliases>
             <int>15669</int>
             <int>15670</int>
@@ -8508,13 +8637,13 @@
             <int>15681</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Sidewalk" ParentUniqueId="15668">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_8.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15668">
           <Aliases>
             <int>15682</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_3" UniqueId="15704" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Markers" ParentUniqueId="15704">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15704" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15704">
           <Aliases>
             <int>15705</int>
             <int>15706</int>
@@ -8524,13 +8653,13 @@
             <int>15710</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Sidewalk" ParentUniqueId="15704">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15704">
           <Aliases>
             <int>15711</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_9" UniqueId="15725" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Markers" ParentUniqueId="15725">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15725" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15725">
           <Aliases>
             <int>15726</int>
             <int>15727</int>
@@ -8540,13 +8669,13 @@
             <int>15731</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Sidewalk" ParentUniqueId="15725">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_9.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15725">
           <Aliases>
             <int>15732</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_9" UniqueId="15767" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Markers" ParentUniqueId="15767">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="XCrossing_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15767" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15767">
           <Aliases>
             <int>15768</int>
             <int>15769</int>
@@ -8563,13 +8692,13 @@
             <int>15780</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Sidewalk" ParentUniqueId="15767">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="XCrossing_9.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15767">
           <Aliases>
             <int>15781</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_10" UniqueId="15821" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Markers" ParentUniqueId="15821">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15821" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15821">
           <Aliases>
             <int>15822</int>
             <int>15823</int>
@@ -8579,13 +8708,13 @@
             <int>15827</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Sidewalk" ParentUniqueId="15821">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_10.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15821">
           <Aliases>
             <int>15828</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_4" UniqueId="15859" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Markers" ParentUniqueId="15859">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15859" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15859">
           <Aliases>
             <int>15860</int>
             <int>15861</int>
@@ -8595,13 +8724,13 @@
             <int>15865</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Sidewalk" ParentUniqueId="15859">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_4.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15859">
           <Aliases>
             <int>15866</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_11" UniqueId="15868" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Markers" ParentUniqueId="15868">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_11" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15868" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15868">
           <Aliases>
             <int>15869</int>
             <int>15870</int>
@@ -8611,193 +8740,193 @@
             <int>15874</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Sidewalk" ParentUniqueId="15868">
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_11.Sidewalk" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="15868">
           <Aliases>
             <int>15875</int>
           </Aliases>
         </SemanticItem>
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Building" Color="FF7F0000" PredefinedEnumType="Building">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Building" HasSeparateColors="false" Color="FF7F0000" PredefinedEnumType="Building">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" UniqueId="15227" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" UniqueId="15295" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" UniqueId="15296" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" UniqueId="15297" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" UniqueId="15432" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" UniqueId="15723" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" UniqueId="15745" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" UniqueId="15746" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15227" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15295" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15296" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15297" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15432" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15723" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15745" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15746" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="NatureElement" Color="FF007F00" PredefinedEnumType="NatureElement">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="NatureElement" HasSeparateColors="false" Color="FF007F00" PredefinedEnumType="NatureElement">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" UniqueId="15898" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" UniqueId="15899" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" UniqueId="15900" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15898" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15899" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15900" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TrafficSign" Color="FF00007F" PredefinedEnumType="TrafficSign">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="TrafficSign" HasSeparateColors="false" Color="FF00007F" PredefinedEnumType="TrafficSign">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" HasSeparateColors="false" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" Color="FF7F007F" PredefinedEnumType="AbstractObject">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" HasSeparateColors="false" Color="FF7F007F" PredefinedEnumType="AbstractObject">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Underlay" Color="FF007F7F" PredefinedEnumType="Underlay">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Underlay" HasSeparateColors="false" Color="FF007F7F" PredefinedEnumType="Underlay">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" UniqueId="15359" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" UniqueId="15724" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15359" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15724" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" Color="FF7FFF00" PredefinedEnumType="InfraOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" HasSeparateColors="false" Color="FF7FFF00" PredefinedEnumType="InfraOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="StaticOther" Color="FFFF007F" PredefinedEnumType="StaticOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="StaticOther" HasSeparateColors="false" Color="FFFF007F" PredefinedEnumType="StaticOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="MovingOther" Color="FF007FFF" PredefinedEnumType="MovingOther">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="MovingOther" HasSeparateColors="false" Color="FF007FFF" PredefinedEnumType="MovingOther">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
       <CategorizedObjects />
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" Color="FF7F00FF" PredefinedEnumType="Sky">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Sky" UniqueId="418" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Sky" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="418" />
       </CategorizedObjects>
     </UserObjectType>
-    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Terrain" Color="FF00FF7F" PredefinedEnumType="Terrain">
+    <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Terrain" HasSeparateColors="false" Color="FF00FF7F" PredefinedEnumType="Terrain">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Terrain" UniqueId="419" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Terrain" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="419" />
       </CategorizedObjects>
     </UserObjectType>
   </UserObjectTypes>
   <ObjectColorIDs>
     <ObjectColorID Color="FFFF0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" UniqueId="4877" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4877" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" UniqueId="4876" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4876" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" UniqueId="6648" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6648" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" UniqueId="9040" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="9040" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_1" UniqueId="15185" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15185" />
     </ObjectColorID>
     <ObjectColorID Color="FF0000FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_1" UniqueId="15192" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15192" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_2" UniqueId="15206" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15206" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" UniqueId="15220" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15220" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" UniqueId="15227" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15227" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" UniqueId="15295" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall2_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15295" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" UniqueId="15296" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15296" />
     </ObjectColorID>
     <ObjectColorID Color="FF007F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" UniqueId="15297" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownFlat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15297" />
     </ObjectColorID>
     <ObjectColorID Color="FF00007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" UniqueId="15298" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15298" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_3" UniqueId="15306" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15306" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" UniqueId="15359" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Grass_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15359" />
     </ObjectColorID>
     <ObjectColorID Color="FF007F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" UniqueId="15360" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15360" />
     </ObjectColorID>
     <ObjectColorID Color="FF7FFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_4" UniqueId="15381" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15381" />
     </ObjectColorID>
     <ObjectColorID Color="FF007FFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" UniqueId="15424" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15424" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" UniqueId="15432" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15432" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" UniqueId="15434" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15434" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FF7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_5" UniqueId="15465" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15465" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFBFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" UniqueId="15500" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15500" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_6" UniqueId="15519" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15519" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_7" UniqueId="15555" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15555" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_7" UniqueId="15594" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15594" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" UniqueId="15628" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15628" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_8" UniqueId="15636" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15636" />
     </ObjectColorID>
     <ObjectColorID Color="FFBFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_8" UniqueId="15668" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15668" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_3" UniqueId="15704" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15704" />
     </ObjectColorID>
     <ObjectColorID Color="FF00BFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" UniqueId="15723" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15723" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" UniqueId="15724" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Concrete_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15724" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_9" UniqueId="15725" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15725" />
     </ObjectColorID>
     <ObjectColorID Color="FFBF7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" UniqueId="15745" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GasStation_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15745" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F00BF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" UniqueId="15746" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="FireBrigade_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15746" />
     </ObjectColorID>
     <ObjectColorID Color="FF7FBF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_9" UniqueId="15767" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="XCrossing_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15767" />
     </ObjectColorID>
     <ObjectColorID Color="FF007FBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_10" UniqueId="15821" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15821" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_4" UniqueId="15859" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15859" />
     </ObjectColorID>
     <ObjectColorID Color="FF003F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_11" UniqueId="15868" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_11" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15868" />
     </ObjectColorID>
     <ObjectColorID Color="FF00003F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" UniqueId="15898" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15898" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F3F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" UniqueId="15899" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15899" />
     </ObjectColorID>
     <ObjectColorID Color="FF3F003F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" UniqueId="15900" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ash_Age10_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="15900" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="154">
