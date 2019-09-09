@@ -14,7 +14,7 @@ class safetySupervisor
 {
 public:
 
-  safetySupervisor(ros::NodeHandle nh)
+  safetySupervisor(ros::NodeHandle nh) : critAreaSize(4 * car_length, 2 * car_width +1)
   {
     // Initialize the node, publishers and subscribers
     nh_ = nh;
@@ -32,16 +32,37 @@ public:
     gnss_flag = 0;
     gridmap_flag = 0;
     //rate(float 20);
+    
   }
 
   void evaluate()
   {
+  	//Is the center of the car inside the road
     state = SAFE;
     float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
-    ROS_INFO("%f", current_lane_id);
-    if (current_lane_id == 0)
-    {
+    //ROS_INFO("%f", current_lane_id);
+    if (current_lane_id == 0) {
       state = UNSAFE;
+      return;
+    }
+    
+    //Is there a dynamic object in the critical area
+    const float x = pose.position.x;    //Center is currently in the fron of the car
+    const float y = pose.position.y;
+    const float a = pose.orientation.z;
+    const grid_map::Position critAreaCenter(x + car_length*cos(a*pi)/2, y + car_length*sin(a*pi)/2);
+    bool isOk;
+    grid_map::SubmapGeometry critArea(gridmap, critAreaCenter, critAreaSize, isOk);
+    if(!isOk) {
+    	ROS_ERROR("Getting Submap from Gridmap failed");
+    	return;
+    }
+    for(grid_map::SubmapIterator areaIt(critArea) ; !areaIt.isPastEnd() ; ++areaIt) {
+    	if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
+				ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
+				state = UNSAFE;
+				return;
+    	}
     }
   }
 
@@ -87,7 +108,7 @@ public:
         publish();
       }
       rate.sleep();
-      ROS_INFO("Current state: %d", state);
+      //ROS_INFO("Current state: %d", state);
     }
   }
 
@@ -95,6 +116,11 @@ private:
   // constants
   bool SAFE = 0;
   bool UNSAFE = 1;
+  //Critical area
+  const float car_length = 5;
+  const float car_width = 2;
+  const grid_map::Length critAreaSize; //(4 * car_length, 2 * car_width +1);
+  const float pi = 3.141592654;
 
   // node, publishers and subscribers
   ros::NodeHandle nh_;
