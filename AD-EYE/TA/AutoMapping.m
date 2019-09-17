@@ -15,7 +15,7 @@ AD_EYEpath = extractBefore(pwd, "AD-EYE\"); % <AD-EYE_Core>
 
 BasePath = AD_EYEpath + "AD-EYE\Experiments\"; % <AD-EYE_Core>/AD-EYE/Experiments
 
-logFile = AD_EYEpath + "AD-EYE\TA\GrandUnifiedMapping.log";
+logFile = AD_EYEpath + "AD-EYE\TA\" + mfilename + ".log";
 
 pointCloudMapDir = "Pointcloud_Files\";
 vectorMapDir = "Vector_Map_Files\";
