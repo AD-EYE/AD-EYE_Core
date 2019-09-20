@@ -153,6 +153,7 @@ public:
         float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
         //ROS_INFO("%f", current_lane_id);
         if (current_lane_id == 0) {
+          ROS_WARN_THROTTLE(1, "The center of the car is not inside the road");
             state = UNSAFE;
             return;
         }
