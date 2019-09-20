@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "<NodeName>");
 	ros::NodeHandle nh;
 
-	StraightControler <NodeName>(nh);
+	<NodeName> <instanceName>(nh);
 	<NodeName>.run();
 }
 ```
