@@ -9,8 +9,12 @@
 
 //using namespace grid_map;
 
-
-class safetySupervisor
+/*!
+ * \brief The Safety Supervisor supervise the automated driving.
+ * \details His goal is to trigger the switch that decides if the vehicle
+ * listen to the DDT given by the nominal chanel or by the safety channel.
+ */
+class SafetySupervisor
 {
 private:
     // node, publishers and subscribers
@@ -41,16 +45,20 @@ private:
     autoware_msgs::Lane autowareTrajectory;
 
 public:
-
-    safetySupervisor(ros::NodeHandle &nh) : nh_(nh), critAreaSize(4 * car_length, 2 * car_width +1)
+    /*!
+     * \brief Constructor
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \details Initialize the node and its components such as publishers and subscribers.
+     */
+    SafetySupervisor(ros::NodeHandle &nh) : nh_(nh), critAreaSize(4 * car_length, 2 * car_width +1)
     {
         // Initialize the node, publishers and subscribers
 
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
 
-        subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &safetySupervisor::gnss_callback, this);
-        subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &safetySupervisor::gridmap_callback, this);
-        subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &safetySupervisor::autowareTrajectory_callback, this);
+        subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
+        subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
+        subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
 
         // Initialize the variables
         state = SAFE;
@@ -62,6 +70,11 @@ public:
 
     }
 
+    /*!
+     * \brief Gnss Callback : Called when the gnss information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Updates gnss information of the vehicle position.
+     */
     void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     {
         geometry_msgs::PoseStamped gnss = *msg;
@@ -69,6 +82,11 @@ public:
         gnss_flag = 1;
     }
 
+    /*!
+     * \brief Gridmap Callback : Called when the gridmap information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Updates the gridmap information.
+     */
     void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap);
@@ -76,6 +94,11 @@ public:
         gridmap_flag = 1;
     }
 
+    /*!
+     * \brief Autoware trajectory Callback : Called when the autoware trajectory information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Updates the autoware trajectory information.
+     */
     void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
     {
         autowareTrajectory = *msg;
@@ -86,6 +109,12 @@ public:
         autowareTrajectory_flag = 1;
     }
 
+    /*!
+     * \brief The main loop of the Node
+     * \details Basically checks for topics updates, then evaluate
+     * the situation and triggers (or not) the safety switch depending of
+     * the situation evaluation.
+     */
     void run()
     {
         ros::Rate rate(20);
@@ -102,13 +131,21 @@ public:
         }
     }
 
+    /*!
+     * \brief It is in this function that the switch
+     * is trigerred or not.
+     */
     void publish()
     {
         msg.data = state;
         pubSwitch.publish(msg);
     }
 
-
+    /*!
+     * \brief The function where the situation is evaluated.
+     * \details The situation is evaluated and the state of the vehicle is
+     * declared safe or unsafe.
+     */
     void evaluate()
     {
         //Is the center of the car inside the road
@@ -145,7 +182,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
-    safetySupervisor sS(nh);
-    sS.run();
+    SafetySupervisor safetySupervisor(nh);
+    safetySupervisor.run();
     return 0;
 }
