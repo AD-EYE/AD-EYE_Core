@@ -9,8 +9,8 @@
 
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
-#include <vectormaploader.h>
-#include <prescanmodelloader.h>
+#include <vectormap.h>
+#include <prescanmodel.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
 #include <rcv_common_msgs/SSMP_control.h>
@@ -93,15 +93,13 @@ public:
     std::string fileLane = p_nh.param<std::string>("fileLane","");
     std::string fileNode = p_nh.param<std::string>("fileNode","");
     std::string fileDtlane = p_nh.param<std::string>("fileDtlane","");
-    VectorMapLoader vecmap_loader;
-    VectorMapLoader::vecmap veclane;
-    vecmap_loader.load_vectormap(filePoint, fileLane, fileNode, fileDtlane, veclane);
+    VectorMap veclane;
+    veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
 
     // read out prescanmap from the pex file and store all information in 'pexObjects'
     std::string filePex = p_nh.param<std::string>("filePex","");
-    PrescanModelLoader pexmap_loader;
-    PrescanModelLoader::pexmap pexObjects;
-    pexmap_loader.load_pexmap(filePex, pexObjects);
+    PrescanModel pexObjects;
+    pexObjects.load_pexmap(filePex);
 
     // Determine the boundaries of the map based on the maximum and minimum values for x and y as saved in the vectormap
     float lowest_x = veclane.point_x.at(veclane.node_pid.at(0)-1);

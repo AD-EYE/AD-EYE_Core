@@ -1,5 +1,5 @@
-#ifndef VECTORMAPLOADER_H // keep this header file from being included multiple times
-#define VECTORMAPLOADER_H
+#ifndef VECTORMAP_H
+#define VECTORMAP_H
 
 // csv handling
 #include <iostream>
@@ -9,34 +9,29 @@
 #include <vector>
 #include <cmath>
 
-class VectorMapLoader
+struct VectorMap
 {
-public:
-  VectorMapLoader() {}
 
-  // vectormap struct
-  struct vecmap{
-    std::vector<std::string> header;
-    std::vector<int> point_id;
-    std::vector<float> point_x;
-    std::vector<float> point_y;
-    
-    std::vector<int> lane_id;
-    std::vector<int> lane_did;
-    std::vector<int> lane_prevlane;
-    std::vector<int> lane_nextlane;
-    std::vector<int> lane_startpoint;
-    std::vector<int> lane_endpoint;
+  std::vector<std::string> header;
+  std::vector<int> point_id;
+  std::vector<float> point_x;
+  std::vector<float> point_y;
 
-    std::vector<int> node_nid;
-    std::vector<int> node_pid;
+  std::vector<int> lane_id;
+  std::vector<int> lane_did;
+  std::vector<int> lane_prevlane;
+  std::vector<int> lane_nextlane;
+  std::vector<int> lane_startpoint;
+  std::vector<int> lane_endpoint;
 
-    std::vector<int> dtlane_did;
-    std::vector<float> dtlane_leftwidth;
-    std::vector<float> dtlane_rightwidth;
-  };
+  std::vector<int> node_nid;
+  std::vector<int> node_pid;
 
-  void load_vectormap(std::string filePoint, std::string fileLane, std::string fileNode, std::string fileDtlane, vecmap & vm){
+  std::vector<int> dtlane_did;
+  std::vector<float> dtlane_leftwidth;
+  std::vector<float> dtlane_rightwidth;
+
+  void load_vectormap(std::string filePoint, std::string fileLane, std::string fileNode, std::string fileDtlane) {
     // parsing variables
     std::string line;
     std::string element;
@@ -48,7 +43,7 @@ public:
     std::vector<int> point_id;
     std::vector<float> point_x;
     std::vector<float> point_y;
-    
+
     std::vector<int> lane_id;
     std::vector<int> lane_did;
     std::vector<int> lane_prevlane;
@@ -83,7 +78,7 @@ public:
               value = strtof(element.c_str(),0); // string to float
               switch (i) {
               case 0:
-                vm.point_id.push_back(value);
+                this->point_id.push_back(value);
                 break;
               case 1:
                 // is unimportant for this code
@@ -95,10 +90,10 @@ public:
                 // is unimportant for this code
                 break;
               case 4:
-                vm.point_y.push_back(value);
+                this->point_y.push_back(value);
                 break;
               case 5:
-                vm.point_x.push_back(value);
+                this->point_x.push_back(value);
                 break;
               case 6:
                 // is unimportant for this code
@@ -120,7 +115,7 @@ public:
             i++;
           }
         }
-      }         
+      }
     }
     inputFile.close();
 
@@ -143,22 +138,22 @@ public:
               value = strtof(element.c_str(),0); // string to float
               switch (i) {
               case 0:
-                vm.lane_id.push_back(value);
+                this->lane_id.push_back(value);
                 break;
               case 1:
-                vm.lane_did.push_back(value);
+                this->lane_did.push_back(value);
                 break;
               case 2:
-                vm.lane_prevlane.push_back(value);
+                this->lane_prevlane.push_back(value);
                 break;
               case 3:
-                vm.lane_nextlane.push_back(value);
+                this->lane_nextlane.push_back(value);
                 break;
               case 4:
-                vm.lane_startpoint.push_back(value);
+                this->lane_startpoint.push_back(value);
                 break;
               case 5:
-                vm.lane_endpoint.push_back(value);
+                this->lane_endpoint.push_back(value);
                 break;
               case 6:
                 // is unimportant for this code
@@ -219,7 +214,7 @@ public:
             i++;
           }
         }
-      }         
+      }
     }
     inputFile.close();
 
@@ -242,10 +237,10 @@ public:
               value = strtof(element.c_str(),0); // string to float
               switch (i) {
               case 0:
-                vm.node_nid.push_back(value);
+                this->node_nid.push_back(value);
                 break;
               case 1:
-                vm.node_pid.push_back(value);
+                this->node_pid.push_back(value);
                 break;
               default:
                 ROS_INFO_STREAM("ERROR: unknown parsing case");
@@ -255,7 +250,7 @@ public:
             i++;
           }
         }
-      }         
+      }
     }
     inputFile.close();
 
@@ -278,7 +273,7 @@ public:
               value = strtof(element.c_str(),0); // string to float
               switch (i) {
               case 0:
-                vm.dtlane_did.push_back(value);
+                this->dtlane_did.push_back(value);
                 break;
               case 1:
                 // is unimportant for this code
@@ -302,10 +297,10 @@ public:
                 // is unimportant for this code
                 break;
               case 8:
-                vm.dtlane_leftwidth.push_back(value);
+                this->dtlane_leftwidth.push_back(value);
                 break;
               case 9:
-                vm.dtlane_rightwidth.push_back(value);
+                this->dtlane_rightwidth.push_back(value);
                 break;
               default:
                 ROS_INFO_STREAM("ERROR: unknown parsing case");
@@ -315,14 +310,11 @@ public:
             i++;
           }
         }
-      }         
+      }
     }
     inputFile.close();
   }
 
-private:
-  vecmap vm;
 };
-
 
 #endif
