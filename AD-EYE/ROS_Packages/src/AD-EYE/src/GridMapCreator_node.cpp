@@ -35,18 +35,38 @@ private:
     ros::Subscriber sub_Position;
     ros::Subscriber sub_DynamicObjects;
 
-    // global variables
+    // variables
+    //Position
     float x_ego;
     float y_ego;
     float yaw_ego;
+    float x_egoOld;
+    float y_egoOld;
     geometry_msgs::Quaternion q_ego;
+    //Dimensions
+    float length_ego;
+    float width_ego;
+    float length_other;
+    float width_other;
+    float heigth_other;
+    //Environments
     geometry_msgs::PoseArray otherActors;
+    geometry_msgs::PoseArray otherActorsOld;
+    geometry_msgs::PolygonStamped footprint_ego;
+    //Parameters
     bool DynamicObjectsActive = false;
     bool connection_established = false;
+    bool DynamicObjectsInitialized = false;
+    //Map
+    GridMap map;
+    float submap_dimensions;
+    //Ros utils
+    ros::Rate rate;
+    float frequency;
 
 public:
 
-    GridMapCreator(ros::NodeHandle& nh) : nh_(nh)
+    GridMapCreator(ros::NodeHandle& nh) : nh_(nh), rate(1)
     {
         // Initialize node and publishers
         pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, true);
@@ -56,24 +76,22 @@ public:
         sub_DynamicObjects = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::DynamicObjects_callback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        float submap_dimensions = 35;               // Both the length and the width of the submap in meters, increasing this value will cause the flattening node to become slower, 35 is the minimum value
-        float mapresolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
-        float frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
-        ros::Rate rate(frequency);
+        submap_dimensions = 35;               // Both the length and the width of the submap in meters, increasing this value will cause the flattening node to become slower, 35 is the minimum value
+        float mapresolution = 0.25;           // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
+        frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
+        rate = ros::Rate(frequency);
 
         // for now there is no easy way to send the dimensions of the actors, it is assumed all actors are 5x2x2 meters
-        float length_ego = 5;
-        float width_ego = 2;
+        length_ego = 5;
+        width_ego = 2;
         //float height_ego = 2; //Height is not critical for now
-        float length_other = 5;
-        float width_other = 2;
-        float heigth_other = 2;
+        length_other = 5;
+        width_other = 2;
+        heigth_other = 2;
 
         // location data of all actors from the previous iteration are saved in these variables
-        float x_egoOld;
-        float y_egoOld;
-        geometry_msgs::PoseArray otherActorsOld;
-        bool DynamicObjectsInitialized = false;
+        x_egoOld = 0;
+        y_egoOld = 0;
 
         // read out the vectormap files and store all information in 'veclane'
         ros::NodeHandle p_nh("~");
@@ -111,7 +129,7 @@ public:
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
-        GridMap map({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
         map.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
@@ -195,7 +213,6 @@ public:
         }
 
         // Create footprint for car
-        geometry_msgs::PolygonStamped footprint_ego;
         footprint_ego.header.frame_id = "SSMP_base_link";
         geometry_msgs::Point32 point1;
         point1.x = -0.5*length_ego;
@@ -226,83 +243,6 @@ public:
         SSMPcontrol.SSMP_control = 1;
         pub_SSMP_control.publish(SSMPcontrol);
 
-        while (nh.ok()) {
-            float rostime = ros::Time::now().toSec();
-            ros::spinOnce();
-
-            // Transform between gridmap frame and ego frame
-            static tf::TransformBroadcaster br;
-            tf::Transform carTF;
-            carTF.setOrigin( tf::Vector3(x_ego, y_ego, 0) );
-            tf::Quaternion q = cpp_utils::quat_to_tf_quat(q_ego);
-            carTF.setRotation(q);
-            br.sendTransform(tf::StampedTransform(carTF, ros::Time::now(), map.getFrameId(), "SSMP_base_link"));
-
-            static tf::TransformBroadcaster br2;
-            tf::Transform mapTF;
-            mapTF.setOrigin( tf::Vector3(0, 0, 0) );
-            //tf::Quaternion map_q = cpp_utils::quat_to_tf_quat(q_ego);
-            mapTF.setRotation(tf::createQuaternionFromRPY(0, 0, 0));
-            br2.sendTransform(tf::StampedTransform(mapTF, ros::Time::now(), "map", "SSMP_map"));
-
-            // Dynamic map updates, information of which is delivered by prescan
-            if(DynamicObjectsActive == true){
-                size_t N_actors = otherActors.poses.size();
-                float x_other;
-                float y_other;
-                float yaw_other;
-                for(int i = 0; i < (int)N_actors; i++){
-                    //remove old location of other actors by looking at the position of the previous iteration
-                    if(DynamicObjectsInitialized == true){
-                        x_other = otherActorsOld.poses.at(i).position.x;
-                        y_other = otherActorsOld.poses.at(i).position.y;
-                        yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);
-                        grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
-                        if(x_other-x_egoOld < submap_dimensions && x_other-x_egoOld > -submap_dimensions && y_other-y_egoOld < submap_dimensions && y_other-y_egoOld > -submap_dimensions){
-                            for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
-                                map.at("DynamicObjects", *iterator) = 0;
-                            }
-                        }
-                    }
-                    //add new location of other actors by looking at the new position as send by prescan
-                    x_other = otherActors.poses.at(i).position.x;
-                    y_other = otherActors.poses.at(i).position.y;
-                    yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);
-                    grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
-                    if(x_other-x_ego < submap_dimensions && x_other-x_ego > -submap_dimensions && y_other-y_ego < submap_dimensions && y_other-y_ego > -submap_dimensions){
-                        for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
-                            map.at("DynamicObjects", *iterator) = heigth_other;
-                        }
-                    }
-                }
-                x_egoOld = x_ego;
-                y_egoOld = y_ego;
-                otherActorsOld = otherActors;
-                DynamicObjectsInitialized = true;
-                DynamicObjectsActive = false;
-            }
-
-            // publish stuff
-            // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
-            map.setTimestamp(ros::Time::now().toNSec());
-            bool subsucces;
-            GridMap subMap = map.getSubmap(Position(x_ego+(0.5*submap_dimensions-length_ego)*cos(yaw_ego), y_ego+(0.5*submap_dimensions-length_ego)*sin(yaw_ego)), Length(submap_dimensions, submap_dimensions), subsucces);
-            if(subsucces == false){
-                ROS_INFO("Error");
-            }
-            grid_map_msgs::GridMap message;
-            GridMapRosConverter::toMessage(subMap, message);
-            pub_GridMap.publish(message);
-
-            footprint_ego.header.stamp = ros::Time::now();
-            pub_footprint_ego.publish(footprint_ego);
-
-            rostime = ros::Time::now().toSec() - rostime;
-            if(rostime > 1/frequency){
-                ROS_INFO("frequency is not met!");
-            }
-            rate.sleep();
-        }
     }
 
     void position_callback(const nav_msgs::Odometry::ConstPtr& msg){
@@ -319,6 +259,86 @@ public:
         // This callback stores the array of poses as read out from simulink of all the non controlled actors
         otherActors = *msg;
         DynamicObjectsActive = true;
+    }
+
+    void run() {
+      while (nh_.ok()) {
+          float rostime = ros::Time::now().toSec();
+          ros::spinOnce();
+
+          // Transform between gridmap frame and ego frame
+          static tf::TransformBroadcaster br;
+          tf::Transform carTF;
+          carTF.setOrigin( tf::Vector3(x_ego, y_ego, 0) );
+          tf::Quaternion q = cpp_utils::quat_to_tf_quat(q_ego);
+          carTF.setRotation(q);
+          br.sendTransform(tf::StampedTransform(carTF, ros::Time::now(), map.getFrameId(), "SSMP_base_link"));
+
+          static tf::TransformBroadcaster br2;
+          tf::Transform mapTF;
+          mapTF.setOrigin( tf::Vector3(0, 0, 0) );
+          //tf::Quaternion map_q = cpp_utils::quat_to_tf_quat(q_ego);
+          mapTF.setRotation(tf::createQuaternionFromRPY(0, 0, 0));
+          br2.sendTransform(tf::StampedTransform(mapTF, ros::Time::now(), "map", "SSMP_map"));
+
+          // Dynamic map updates, information of which is delivered by prescan
+          if(DynamicObjectsActive == true){
+              size_t N_actors = otherActors.poses.size();
+              float x_other;
+              float y_other;
+              float yaw_other;
+              for(int i = 0; i < (int)N_actors; i++){
+                  //remove old location of other actors by looking at the position of the previous iteration
+                  if(DynamicObjectsInitialized == true){
+                      x_other = otherActorsOld.poses.at(i).position.x;
+                      y_other = otherActorsOld.poses.at(i).position.y;
+                      yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);
+                      grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
+                      if(x_other-x_egoOld < submap_dimensions && x_other-x_egoOld > -submap_dimensions && y_other-y_egoOld < submap_dimensions && y_other-y_egoOld > -submap_dimensions){
+                          for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
+                              map.at("DynamicObjects", *iterator) = 0;
+                          }
+                      }
+                  }
+                  //add new location of other actors by looking at the new position as send by prescan
+                  x_other = otherActors.poses.at(i).position.x;
+                  y_other = otherActors.poses.at(i).position.y;
+                  yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);
+                  grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
+                  if(x_other-x_ego < submap_dimensions && x_other-x_ego > -submap_dimensions && y_other-y_ego < submap_dimensions && y_other-y_ego > -submap_dimensions){
+                      for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
+                          map.at("DynamicObjects", *iterator) = heigth_other;
+                      }
+                  }
+              }
+              x_egoOld = x_ego;
+              y_egoOld = y_ego;
+              otherActorsOld = otherActors;
+              DynamicObjectsInitialized = true;
+              DynamicObjectsActive = false;
+          }
+
+          // publish stuff
+          // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
+          map.setTimestamp(ros::Time::now().toNSec());
+          bool subsucces;
+          GridMap subMap = map.getSubmap(Position(x_ego+(0.5*submap_dimensions-length_ego)*cos(yaw_ego), y_ego+(0.5*submap_dimensions-length_ego)*sin(yaw_ego)), Length(submap_dimensions, submap_dimensions), subsucces);
+          if(subsucces == false){
+              ROS_INFO("Error");
+          }
+          grid_map_msgs::GridMap message;
+          GridMapRosConverter::toMessage(subMap, message);
+          pub_GridMap.publish(message);
+
+          footprint_ego.header.stamp = ros::Time::now();
+          pub_footprint_ego.publish(footprint_ego);
+
+          rostime = ros::Time::now().toSec() - rostime;
+          if(rostime > 1/frequency){
+              ROS_INFO("frequency is not met!");
+          }
+          rate.sleep();
+      }
     }
 
     grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle){
@@ -342,5 +362,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "GridMapCreator");
     ros::NodeHandle nh;
     GridMapCreator gmc(nh);
+    gmc.run();
     return 0;
 }
