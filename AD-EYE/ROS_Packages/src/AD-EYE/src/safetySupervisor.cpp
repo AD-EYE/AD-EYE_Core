@@ -13,6 +13,13 @@
 class safetySupervisor
 {
 private:
+    // node, publishers and subscribers
+    ros::NodeHandle &nh_;
+    ros::Publisher pubSwitch;
+    ros::Subscriber subGnss;
+    ros::Subscriber subGridmap;
+    ros::Subscriber subAutowareTrajectory;
+
     // constants
     bool SAFE = 0;
     bool UNSAFE = 1;
@@ -21,13 +28,6 @@ private:
     const float car_width = 2;
     const grid_map::Length critAreaSize; //(4 * car_length, 2 * car_width +1);
     const float pi = 3.141592654;
-
-    // node, publishers and subscribers
-    ros::NodeHandle nh_;
-    ros::Publisher pubSwitch;
-    ros::Subscriber subGnss;
-    ros::Subscriber subGridmap;
-    ros::Subscriber subAutowareTrajectory;
 
     // variables
     geometry_msgs::Pose pose;
@@ -42,10 +42,9 @@ private:
 
 public:
 
-    safetySupervisor(ros::NodeHandle nh) : critAreaSize(4 * car_length, 2 * car_width +1)
+    safetySupervisor(ros::NodeHandle &nh) : nh_(nh), critAreaSize(4 * car_length, 2 * car_width +1)
     {
         // Initialize the node, publishers and subscribers
-        nh_ = nh;
 
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
 
