@@ -27,17 +27,6 @@ struct PrescanModel
     std::string element;
     float value;
 
-    // saved data from prescan model
-    std::vector<std::string> header;
-    std::vector<int> ID;
-    std::vector<int> type;
-    std::vector<float> posX;
-    std::vector<float> posY;
-    std::vector<float> yaw;
-    std::vector<float> sizeX;
-    std::vector<float> sizeY;
-    std::vector<float> sizeZ;
-
     // open file pex and save important data
     std::ifstream inputFile;
     inputFile.open (filePex);

@@ -37,27 +37,6 @@ struct VectorMap
     std::string element;
     float value;
 
-    // saved data, sorted in the four files
-    std::vector<std::string> header;
-
-    std::vector<int> point_id;
-    std::vector<float> point_x;
-    std::vector<float> point_y;
-
-    std::vector<int> lane_id;
-    std::vector<int> lane_did;
-    std::vector<int> lane_prevlane;
-    std::vector<int> lane_nextlane;
-    std::vector<int> lane_startpoint;
-    std::vector<int> lane_endpoint;
-
-    std::vector<int> node_nid;
-    std::vector<int> node_pid;
-
-    std::vector<int> dtlane_did;
-    std::vector<float> dtlane_leftwidth;
-    std::vector<float> dtlane_rightwidth;
-
     // open file point and save important data
     std::ifstream inputFile;
     inputFile.open (filePoint);
@@ -159,7 +138,6 @@ struct VectorMap
               case 19: // is unimportant for this code
               case 20: // is unimportant for this code
               case 21: // is unimportant for this code
-              case 22: // is unimportant for this code
                 break;
               default:
                 ROS_INFO_STREAM("ERROR: unknown parsing case");
