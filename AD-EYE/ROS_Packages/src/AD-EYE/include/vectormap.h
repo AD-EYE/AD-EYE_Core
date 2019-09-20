@@ -9,6 +9,10 @@
 #include <vector>
 #include <cmath>
 
+/*!
+ * \brief This structure handles data from the vector map.
+ * \details It loads the data from .csv files
+ */
 struct VectorMap
 {
 
@@ -31,6 +35,14 @@ struct VectorMap
     std::vector<float> dtlane_leftwidth;
     std::vector<float> dtlane_rightwidth;
 
+    /*!
+     * \brief Checks if a file has successfully been opened
+     * \param inputFile the std::ifstream of the file
+     * \param fileName the name of the file
+     * \return true if the file has been successfully opened
+     * \details If the file cannot be opened, the function throws a std::runtime_error
+     * and also writes a ROS_ERROR message
+     */
     bool checkFileOpening(const std::ifstream &inputFile, const std::string &fileName) {
         if (!inputFile.is_open()){
             std::stringstream ss;
@@ -43,13 +55,22 @@ struct VectorMap
         }
     }
 
+    /*!
+     * \brief Loads the data of the vector map from the given .csv files
+     * \param filePoint The path to point.csv
+     * \param fileLane The path to lane.csv
+     * \param fileNode The path to node.csv
+     * \param fileDtlane The path to dtlane.csv
+     * \details The function parses files and stores the data into the structure.
+     */
     void load_vectormap(std::string filePoint, std::string fileLane, std::string fileNode, std::string fileDtlane) {
         // parsing variables
         std::string line;
         std::string element;
         float value;
 
-        // open file point and save important data
+        // === Reading:  POINTS  ===
+
         std::ifstream inputFile;
         inputFile.open (filePoint);
 
@@ -94,7 +115,8 @@ struct VectorMap
         }
         inputFile.close();
 
-        // open file lane and save important data
+        // === Reading:  LANES  ===
+
         inputFile.open (fileLane);
 
         if(checkFileOpening(inputFile, fileLane)) {
@@ -155,7 +177,8 @@ struct VectorMap
         }
         inputFile.close();
 
-        // node file and save important data
+        // === Reading:  NODES  ===
+
         inputFile.open (fileNode);
 
         if(checkFileOpening(inputFile, fileNode)) {
@@ -187,7 +210,9 @@ struct VectorMap
         }
         inputFile.close();
 
-        // open file dtlane and save important data
+
+        // === Reading:  DT LANES  ===
+
         inputFile.open (fileDtlane);
 
         if(checkFileOpening(inputFile, fileDtlane)) {

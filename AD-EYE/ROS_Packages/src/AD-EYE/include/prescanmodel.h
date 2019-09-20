@@ -8,6 +8,10 @@
 #include <sstream>
 #include <vector>
 
+/*!
+ * \brief This structure handles data from the Prescan Experiment.
+ * \details It loads the data from .pex files
+ */
 struct PrescanModel
 {
 
@@ -21,6 +25,10 @@ struct PrescanModel
     std::vector<float> sizeY;
     std::vector<float> sizeZ;
 
+    /*!
+     * \brief Loads the data of the Prescan Experiment from the given file
+     * \param filePex The path to the .pex file
+     */
     void load_pexmap(std::string filePex) {
         // parsing variables
         std::string line;
