@@ -31,6 +31,18 @@ struct VectorMap
   std::vector<float> dtlane_leftwidth;
   std::vector<float> dtlane_rightwidth;
 
+  bool checkFileOpening(const std::ifstream &inputFile, const std::string &fileName) {
+    if (!inputFile.is_open()){
+      std::stringstream ss;
+      ss << "Couldn't open file" << fileName;
+      ROS_ERROR_STREAM(ss.str());
+      throw std::runtime_error(ss.str());
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   void load_vectormap(std::string filePoint, std::string fileLane, std::string fileNode, std::string fileDtlane) {
     // parsing variables
     std::string line;
@@ -40,12 +52,8 @@ struct VectorMap
     // open file point and save important data
     std::ifstream inputFile;
     inputFile.open (filePoint);
-    if (!inputFile.is_open()){
-      std::stringstream ss;
-      ss << "ERROR: couldn't open file" << filePoint;
-      throw std::runtime_error(ss.str());
-    }
-    else{
+
+    if(checkFileOpening(inputFile, filePoint)) {
       while (inputFile.good()){
         std::getline (inputFile,line);
         if(!line.empty()){
@@ -88,12 +96,8 @@ struct VectorMap
 
     // open file lane and save important data
     inputFile.open (fileLane);
-    if (!inputFile.is_open()){
-      std::stringstream ss;
-      ss << "ERROR: couldn't open file" << fileLane;
-      throw std::runtime_error(ss.str());
-    }
-    else{
+
+    if(checkFileOpening(inputFile, fileLane)) {
       while (inputFile.good()){
         std::getline (inputFile,line);
         if(!line.empty()){
@@ -153,12 +157,8 @@ struct VectorMap
 
     // node file and save important data
     inputFile.open (fileNode);
-    if (!inputFile.is_open()){
-      std::stringstream ss;
-      ss << "ERROR: couldn't open file" << fileNode;
-      throw std::runtime_error(ss.str());
-    }
-    else{
+
+    if(checkFileOpening(inputFile, fileNode)) {
       while (inputFile.good()){
         std::getline (inputFile,line);
         if(!line.empty()){
@@ -189,12 +189,8 @@ struct VectorMap
 
     // open file dtlane and save important data
     inputFile.open (fileDtlane);
-    if (!inputFile.is_open()){
-      std::stringstream ss;
-      ss << "ERROR: couldn't open file" << fileDtlane;
-      throw std::runtime_error(ss.str());
-    }
-    else{
+
+    if(checkFileOpening(inputFile, fileDtlane)) {
       while (inputFile.good()){
         std::getline (inputFile,line);
         if(!line.empty()){

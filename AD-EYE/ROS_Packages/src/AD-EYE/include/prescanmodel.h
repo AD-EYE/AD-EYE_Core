@@ -32,7 +32,8 @@ struct PrescanModel
     inputFile.open (filePex);
     if (!inputFile.is_open()){
       std::stringstream ss;
-      ss << "ERROR: couldn't open file" << filePex;
+      ss << "Couldn't open file" << filePex;
+      ROS_ERROR_STREAM(ss.str());
       throw std::runtime_error(ss.str());
     }
     else{
