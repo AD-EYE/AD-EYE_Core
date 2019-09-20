@@ -12,6 +12,34 @@
 
 class safetySupervisor
 {
+private:
+    // constants
+    bool SAFE = 0;
+    bool UNSAFE = 1;
+    //Critical area
+    const float car_length = 5;
+    const float car_width = 2;
+    const grid_map::Length critAreaSize; //(4 * car_length, 2 * car_width +1);
+    const float pi = 3.141592654;
+
+    // node, publishers and subscribers
+    ros::NodeHandle nh_;
+    ros::Publisher pubSwitch;
+    ros::Subscriber subGnss;
+    ros::Subscriber subGridmap;
+    ros::Subscriber subAutowareTrajectory;
+
+    // variables
+    geometry_msgs::Pose pose;
+    bool state;
+    bool gnss_flag;
+    bool gridmap_flag;
+    bool autowareTrajectory_flag;
+    std_msgs::Int32 msg;
+    //grid_map_msgs::GridMap gridmap;
+    grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+    autoware_msgs::Lane autowareTrajectory;
+
 public:
 
     safetySupervisor(ros::NodeHandle nh) : critAreaSize(4 * car_length, 2 * car_width +1)
@@ -34,6 +62,53 @@ public:
         //rate(float 20);
 
     }
+
+    void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+    {
+        geometry_msgs::PoseStamped gnss = *msg;
+        pose = gnss.pose;
+        gnss_flag = 1;
+    }
+
+    void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
+    {
+        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap);
+        //gridmap = *msg;
+        gridmap_flag = 1;
+    }
+
+    void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
+    {
+        autowareTrajectory = *msg;
+        //for (int i = 0; i < autowareTrajectory.waypoints.size(); i++)
+        //{
+        //  ROS_INFO("%f", autowareTrajectory.waypoints[0].pose.pose.position.x);
+        //}
+        autowareTrajectory_flag = 1;
+    }
+
+    void run()
+    {
+        ros::Rate rate(20);
+        while(nh_.ok())
+        {
+            ros::spinOnce();
+            if(gnss_flag == 1 && gridmap_flag == 1)
+            {
+                evaluate();
+                publish();
+            }
+            rate.sleep();
+            //ROS_INFO("Current state: %d", state);
+        }
+    }
+
+    void publish()
+    {
+        msg.data = state;
+        pubSwitch.publish(msg);
+    }
+
 
     void evaluate()
     {
@@ -65,80 +140,6 @@ public:
             }
         }
     }
-
-    void publish()
-    {
-        msg.data = state;
-        pubSwitch.publish(msg);
-    }
-
-    void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
-    {
-        geometry_msgs::PoseStamped gnss = *msg;
-        pose = gnss.pose;
-        gnss_flag = 1;
-    }
-
-    void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
-    {
-        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap);
-        //gridmap = *msg;
-        gridmap_flag = 1;
-    }
-
-    void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
-    {
-        autowareTrajectory = *msg;
-        //for (int i = 0; i < autowareTrajectory.waypoints.size(); i++)
-        //{
-        //  ROS_INFO("%f", autowareTrajectory.waypoints[0].pose.pose.position.x);
-        //}
-        autowareTrajectory_flag = 1;
-    }
-
-    void loop()
-    {
-        ros::Rate rate(20);
-        while(nh_.ok())
-        {
-            ros::spinOnce();
-            if(gnss_flag == 1 && gridmap_flag == 1)
-            {
-                evaluate();
-                publish();
-            }
-            rate.sleep();
-            //ROS_INFO("Current state: %d", state);
-        }
-    }
-
-private:
-    // constants
-    bool SAFE = 0;
-    bool UNSAFE = 1;
-    //Critical area
-    const float car_length = 5;
-    const float car_width = 2;
-    const grid_map::Length critAreaSize; //(4 * car_length, 2 * car_width +1);
-    const float pi = 3.141592654;
-
-    // node, publishers and subscribers
-    ros::NodeHandle nh_;
-    ros::Publisher pubSwitch;
-    ros::Subscriber subGnss;
-    ros::Subscriber subGridmap;
-    ros::Subscriber subAutowareTrajectory;
-
-    // variables
-    geometry_msgs::Pose pose;
-    bool state;
-    bool gnss_flag;
-    bool gridmap_flag;
-    bool autowareTrajectory_flag;
-    std_msgs::Int32 msg;
-    //grid_map_msgs::GridMap gridmap;
-    grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
-    autoware_msgs::Lane autowareTrajectory;
 };
 
 int main(int argc, char **argv)
@@ -146,6 +147,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
     safetySupervisor sS(nh);
-    sS.loop();
+    sS.run();
     return 0;
 }
