@@ -24,6 +24,11 @@ using namespace grid_map;
 #define BUILDING 1
 #define TRAFFICLIGHT 2
 
+/*!
+ * \brief The GridMapCreator maintains a grid map used to know where safe places are
+ * \details It is used by the safety channel in order to know where it is better to
+ * perform an emergency stop.
+ */
 class GridMapCreator
 {
 private:
@@ -68,6 +73,11 @@ private:
 
 public:
 
+    /*!
+     * \brief Constructor
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \details Initializes the node and its components such as publishers and subscribers.
+     */
     GridMapCreator(ros::NodeHandle& nh) : nh_(nh), rate(1)
     {
         // Initialize node and publishers
@@ -127,8 +137,12 @@ public:
 
     }
 
+    /*!
+     * \brief Position Callback : Called when the position information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the position information as read from simulink of the controlled car
+     */
     void position_callback(const nav_msgs::Odometry::ConstPtr& msg){
-        // This callback stores the location as read from simulink of the controlled car in global variables
         x_ego = msg->pose.pose.position.x;
         y_ego = msg->pose.pose.position.y;
         q_ego = msg->pose.pose.orientation;
@@ -136,12 +150,21 @@ public:
         connection_established = true;
     }
 
-    void DynamicObjects_callback(const geometry_msgs::PoseArray::ConstPtr& msg){
-        // This callback stores the array of poses as read out from simulink of all the non controlled actors
+    /*!
+     * \brief Dynamic Objects Callback : Called when the position of the dynamic objects has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the array of poses as read out from simulink of all the non controlled actors.
+     */
+    void DynamicObjects_callback(const geometry_msgs::PoseArray::ConstPtr& msg) {
         otherActors = *msg;
         DynamicObjectsActive = true;
     }
 
+    /*!
+     * \brief The main function of the Node. Contains the main loop
+     * \brief Basically, updates the gridmap with the position of the
+     * dynamic objects, and then, publish.
+     */
     void run() {
         static tf::TransformBroadcaster br;
         tf::Transform carTF;
@@ -233,6 +256,13 @@ public:
         }
     }
 
+    /*!
+     * \brief This function initialize the GridMap with the static entities.
+     * \details First, the vector map is read from the .csv found within the parameters
+     * Then, the size of the map is extracted and the map can be initialized.
+     * The .pex file is read in order to parse environment and infrastructure elements.
+     * And the map is completed after with the roads read from the vector map.
+     */
     void initializeGridMap() {
         // read out the vectormap files and store all information in 'veclane'
         ros::NodeHandle p_nh("~");
@@ -353,8 +383,17 @@ public:
         }
     }
 
-    grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle){
-        // This function creates a rectangle in which X and Y are its center location in the gridmap, length and width its dimensions, and angle the amount of tilt
+    /*!
+     * \brief This function creates a rectangle in a gridmap.
+     * \param X X coordinate of the center location in the gridmap.
+     * \param Y Y coordinate of the center location in the gridmap.
+     * \param length Length of the rectangle.
+     * \param width Width of the rectangle.
+     * \param angle The amount of tilt.
+     * \return A rectangle created corresponding to the given parameters
+     * \details This function is especially used to creates car footprint.
+     */
+    grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle) {
         length = 0.5*length;
         width = 0.5*width;
         grid_map::Polygon polygon;
