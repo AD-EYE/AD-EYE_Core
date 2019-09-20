@@ -80,14 +80,9 @@ struct VectorMap
               case 0:
                 this->point_id.push_back(value);
                 break;
-              case 1:
-                // is unimportant for this code
-                break;
-              case 2:
-                // is unimportant for this code
-                break;
-              case 3:
-                // is unimportant for this code
+              case 1: // is unimportant for this code
+              case 2: // is unimportant for this code
+              case 3: // is unimportant for this code
                 break;
               case 4:
                 this->point_y.push_back(value);
@@ -95,17 +90,10 @@ struct VectorMap
               case 5:
                 this->point_x.push_back(value);
                 break;
-              case 6:
-                // is unimportant for this code
-                break;
-              case 7:
-                // is unimportant for this code
-                break;
-              case 8:
-                // is unimportant for this code
-                break;
-              case 9:
-                // is unimportant for this code
+              case 6: // is unimportant for this code
+              case 7: // is unimportant for this code
+              case 8: // is unimportant for this code
+              case 9: // is unimportant for this code
                 break;
               default:
                 ROS_INFO_STREAM("ERROR: unknown parsing case");
@@ -155,56 +143,23 @@ struct VectorMap
               case 5:
                 this->lane_endpoint.push_back(value);
                 break;
-              case 6:
-                // is unimportant for this code
-                break;
-              case 7:
-                // is unimportant for this code
-                break;
-              case 8:
-                // is unimportant for this code
-                break;
-              case 9:
-                // is unimportant for this code
-                break;
-              case 10:
-                // is unimportant for this code
-                break;
-              case 11:
-                // is unimportant for this code
-                break;
-              case 12:
-                // is unimportant for this code
-                break;
-              case 13:
-                // is unimportant for this code
-                break;
-              case 14:
-                // is unimportant for this code
-                break;
-              case 15:
-                // is unimportant for this code
-                break;
-              case 16:
-                // is unimportant for this code
-                break;
-              case 17:
-                // is unimportant for this code
-                break;
-              case 18:
-                // is unimportant for this code
-                break;
-              case 19:
-                // is unimportant for this code
-                break;
-              case 20:
-                // is unimportant for this code
-                break;
-              case 21:
-                // is unimportant for this code
-                break;
-              case 22:
-                // is unimportant for this code
+              case 6: // is unimportant for this code
+              case 7: // is unimportant for this code
+              case 8: // is unimportant for this code
+              case 9: // is unimportant for this code
+              case 10: // is unimportant for this code
+              case 11: // is unimportant for this code
+              case 12: // is unimportant for this code
+              case 13: // is unimportant for this code
+              case 14: // is unimportant for this code
+              case 15: // is unimportant for this code
+              case 16: // is unimportant for this code
+              case 17: // is unimportant for this code
+              case 18: // is unimportant for this code
+              case 19: // is unimportant for this code
+              case 20: // is unimportant for this code
+              case 21: // is unimportant for this code
+              case 22: // is unimportant for this code
                 break;
               default:
                 ROS_INFO_STREAM("ERROR: unknown parsing case");
@@ -275,26 +230,13 @@ struct VectorMap
               case 0:
                 this->dtlane_did.push_back(value);
                 break;
-              case 1:
-                // is unimportant for this code
-                break;
-              case 2:
-                // is unimportant for this code
-                break;
-              case 3:
-                // is unimportant for this code
-                break;
-              case 4:
-                // is unimportant for this code
-                break;
-              case 5:
-                // is unimportant for this code
-                break;
-              case 6:
-                // is unimportant for this code
-                break;
-              case 7:
-                // is unimportant for this code
+              case 1: // is unimportant for this code
+              case 2: // is unimportant for this code
+              case 3: // is unimportant for this code
+              case 4: // is unimportant for this code
+              case 5: // is unimportant for this code
+              case 6: // is unimportant for this code
+              case 7: // is unimportant for this code
                 break;
               case 8:
                 this->dtlane_leftwidth.push_back(value);
