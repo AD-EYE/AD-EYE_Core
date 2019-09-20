@@ -26,41 +26,29 @@ using namespace grid_map;
 
 class GridMapCreator
 {
+private:
+    // publishers and subscribers
+    ros::NodeHandle &nh_;
+    ros::Publisher pub_GridMap;
+    ros::Publisher pub_footprint_ego;
+    ros::Publisher pub_SSMP_control;
+    ros::Subscriber sub_Position;
+    ros::Subscriber sub_DynamicObjects;
+
+    // global variables
+    float x_ego;
+    float y_ego;
+    float yaw_ego;
+    geometry_msgs::Quaternion q_ego;
+    geometry_msgs::PoseArray otherActors;
+    bool DynamicObjectsActive = false;
+    bool connection_established = false;
+
 public:
 
-    void position_callback(const nav_msgs::Odometry::ConstPtr& msg){
-        // This callback stores the location as read from simulink of the controlled car in global variables
-        nav_msgs::Odometry odom = *msg;
-        x_ego = odom.pose.pose.position.x;
-        y_ego = odom.pose.pose.position.y;
-        q_ego = odom.pose.pose.orientation;
-        yaw_ego = cpp_utils::extract_yaw(odom.pose.pose.orientation);
-        connection_established = true;
-    }
-
-    void DynamicObjects_callback(const geometry_msgs::PoseArray::ConstPtr& msg){
-        // This callback stores the array of poses as read out from simulink of all the non controlled actors
-        otherActors = *msg;
-        DynamicObjectsActive = true;
-    }
-
-    grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle){
-        // This function creates a rectangle in which X and Y are its center location in the gridmap, length and width its dimensions, and angle the amount of tilt
-        length = 0.5*length;
-        width = 0.5*width;
-        grid_map::Polygon polygon;
-        polygon.setFrameId("SSMP_map");
-        polygon.addVertex(Position(X+length*cos(angle)-width*sin(angle), Y+width*cos(angle)+length*sin(angle)));
-        polygon.addVertex(Position(X+length*cos(angle)+width*sin(angle), Y-width*cos(angle)+length*sin(angle)));
-        polygon.addVertex(Position(X-length*cos(angle)+width*sin(angle), Y-width*cos(angle)-length*sin(angle)));
-        polygon.addVertex(Position(X-length*cos(angle)-width*sin(angle), Y+width*cos(angle)-length*sin(angle)));
-        return polygon;
-    }
-
-    GridMapCreator(ros::NodeHandle nh)
+    GridMapCreator(ros::NodeHandle& nh) : nh_(nh)
     {
         // Initialize node and publishers
-        nh_ = nh;
         pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, true);
         pub_footprint_ego = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
@@ -317,23 +305,35 @@ public:
         }
     }
 
-private:
-    // publishers and subscribers
-    ros::NodeHandle nh_;
-    ros::Publisher pub_GridMap;
-    ros::Publisher pub_footprint_ego;
-    ros::Publisher pub_SSMP_control;
-    ros::Subscriber sub_Position;
-    ros::Subscriber sub_DynamicObjects;
+    void position_callback(const nav_msgs::Odometry::ConstPtr& msg){
+        // This callback stores the location as read from simulink of the controlled car in global variables
+        nav_msgs::Odometry odom = *msg;
+        x_ego = odom.pose.pose.position.x;
+        y_ego = odom.pose.pose.position.y;
+        q_ego = odom.pose.pose.orientation;
+        yaw_ego = cpp_utils::extract_yaw(odom.pose.pose.orientation);
+        connection_established = true;
+    }
 
-    // global variables
-    float x_ego;
-    float y_ego;
-    float yaw_ego;
-    geometry_msgs::Quaternion q_ego;
-    geometry_msgs::PoseArray otherActors;
-    bool DynamicObjectsActive = false;
-    bool connection_established = false;
+    void DynamicObjects_callback(const geometry_msgs::PoseArray::ConstPtr& msg){
+        // This callback stores the array of poses as read out from simulink of all the non controlled actors
+        otherActors = *msg;
+        DynamicObjectsActive = true;
+    }
+
+    grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle){
+        // This function creates a rectangle in which X and Y are its center location in the gridmap, length and width its dimensions, and angle the amount of tilt
+        length = 0.5*length;
+        width = 0.5*width;
+        grid_map::Polygon polygon;
+        polygon.setFrameId("SSMP_map");
+        polygon.addVertex(Position(X+length*cos(angle)-width*sin(angle), Y+width*cos(angle)+length*sin(angle)));
+        polygon.addVertex(Position(X+length*cos(angle)+width*sin(angle), Y-width*cos(angle)+length*sin(angle)));
+        polygon.addVertex(Position(X-length*cos(angle)+width*sin(angle), Y-width*cos(angle)-length*sin(angle)));
+        polygon.addVertex(Position(X-length*cos(angle)-width*sin(angle), Y+width*cos(angle)-length*sin(angle)));
+        return polygon;
+    }
+
 };
 
 int main(int argc, char **argv)
