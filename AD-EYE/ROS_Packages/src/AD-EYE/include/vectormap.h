@@ -83,7 +83,7 @@ struct VectorMap
               case 9: // is unimportant for this code
                 break;
               default:
-                ROS_INFO_STREAM("ERROR: unknown parsing case");
+                ROS_ERROR_STREAM("Unknown parsing case : " << i << " for Points");
                 break;
               }
             }
@@ -144,7 +144,7 @@ struct VectorMap
               case 21: // is unimportant for this code
                 break;
               default:
-                ROS_INFO_STREAM("ERROR: unknown parsing case");
+                ROS_ERROR_STREAM("Unknown parsing case : " << i << " for Lanes");
                 break;
               }
             }
@@ -176,7 +176,7 @@ struct VectorMap
                 this->node_pid.push_back(value);
                 break;
               default:
-                ROS_INFO_STREAM("ERROR: unknown parsing case");
+                ROS_ERROR_STREAM("Unknown parsing case : " << i << " for Nodes");
                 break;
               }
             }
@@ -219,7 +219,7 @@ struct VectorMap
                 this->dtlane_rightwidth.push_back(value);
                 break;
               default:
-                ROS_INFO_STREAM("ERROR: unknown parsing case");
+                ROS_ERROR_STREAM("Unknown parsing case : " << i << " for DtLanes");
                 break;
               }
             }
