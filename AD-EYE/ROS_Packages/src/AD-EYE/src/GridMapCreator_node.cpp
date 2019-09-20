@@ -174,62 +174,39 @@ public:
       }
     }
 
-    // the Vectormap is used to fill in the lane layers, this is done by drawing a polygon per lane set. Every lane set starts and ends with a 0 in the vectormap, so you can look at that
-    int lanepartID = 1;
-    for(int i = 0; i < (int)veclane.lane_id.size(); i++){
-      if(veclane.lane_prevlane.at(i) == 0){
-        int j = i;
-        grid_map::Polygon polygon;
-        polygon.setFrameId(map.getFrameId());
-        Position point1;
-        Position point2;
-        float angle;
-        float lanewidth;
-        // first, the left sides of the lane is drawn, all the way to the last part
-        while(nh.ok()){
-          point1.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_startpoint.at(j)-1)-1);
-          point1.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_startpoint.at(j)-1)-1);
-          point2.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_endpoint.at(j)-1)-1);
-          point2.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_endpoint.at(j)-1)-1);
-          angle = atan2(point2.y()-point1.y(), point2.x()-point1.x());
-          angle = angle+HALF_PI;
-          lanewidth = veclane.dtlane_leftwidth.at(veclane.lane_did.at(j)-1);
-          polygon.addVertex(Position(point1.x()+lanewidth*cos(angle), point1.y()+lanewidth*sin(angle)));
-          polygon.addVertex(Position(point2.x()+lanewidth*cos(angle), point2.y()+lanewidth*sin(angle)));
-          if(veclane.lane_nextlane.at(j) != 0){
-            j = veclane.lane_nextlane.at(j)-1;
-          }
-          else{
-            break;
-          }
-        }
-        // with the left side drawn, the right side is now drawn from the end back to the beginning
-        while(nh.ok()){
-          point1.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_endpoint.at(j)-1)-1);
-          point1.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_endpoint.at(j)-1)-1);
-          point2.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_startpoint.at(j)-1)-1);
-          point2.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_startpoint.at(j)-1)-1);
-          angle = atan2(point2.y()-point1.y(), point2.x()-point1.x());
-          angle = angle+HALF_PI;
-          lanewidth = veclane.dtlane_rightwidth.at(veclane.lane_did.at(j)-1);
-          polygon.addVertex(Position(point1.x()+lanewidth*cos(angle), point1.y()+lanewidth*sin(angle)));
-          polygon.addVertex(Position(point2.x()+lanewidth*cos(angle), point2.y()+lanewidth*sin(angle)));
-          if(veclane.lane_prevlane.at(j) != 0){
-            j = veclane.lane_prevlane.at(j)-1;
-          }
-          else{
-            break;
-          }
-        }
-        // the polygon is now completely drawn in the shape of the lane set, you can now iterate over it using the polygonIterator
-        for (grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator) {
-          map.at("DrivableAreas", *iterator) = 1;
-          map.at("Lanes", *iterator) = lanepartID;
-        }
-        lanepartID++;
+    //Map Road
+    grid_map::Polygon polygon;
+    polygon.setFrameId(map.getFrameId());
+    Position _point1;
+    Position _point2;
+    float dx;
+    float dy;
+    float angle;
+    float lanewidth;
+    for(int i = 0 ; i < static_cast<int>(veclane.lane_startpoint.size()) ; i++) { //For every lane
+      if(!nh.ok()) { break; }
+      polygon.removeVertices();
+      _point1.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_startpoint.at(i) - 1 ) - 1); //Get the first
+      _point1.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_startpoint.at(i) - 1 ) - 1);
+      _point2.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_endpoint.at(i) - 1 ) - 1); // and the second point
+      _point2.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_endpoint.at(i) - 1 ) - 1);
+      angle = atan2(_point2.y()-_point1.y(), _point2.x()-_point1.x()); //Calculate the angle
+      angle += HALF_PI;
+      lanewidth = veclane.dtlane_leftwidth.at(veclane.lane_did.at(i)-1);
+      dx = lanewidth*cos(angle);
+      dy = lanewidth*sin(angle);
+      polygon.addVertex(Position(_point2.x() + dx, _point2.y() + dy)); //Draw the rectangle around
+      polygon.addVertex(Position(_point1.x() + dx, _point1.y() + dy));
+      polygon.addVertex(Position(_point1.x() - dx, _point1.y() - dy));
+      polygon.addVertex(Position(_point2.x() - dx, _point2.y() - dy));
+      for(grid_map::PolygonIterator iterator(map, polygon) ; !iterator.isPastEnd() ; ++iterator) {
+        map.at("DrivableAreas", *iterator) = 1;
+      }
+      //Add a half-circle at the end to help filling when road turns
+      for(grid_map::CircleIterator iterator(map, _point2, lanewidth) ; !iterator.isPastEnd() ; ++iterator) {
+        map.at("DrivableAreas", *iterator) = 1;
       }
     }
-    ROS_INFO("Ammount of lane parts %i", lanepartID);
 
     // Create footprint for car
     geometry_msgs::PolygonStamped footprint_ego;
