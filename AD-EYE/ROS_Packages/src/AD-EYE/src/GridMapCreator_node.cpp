@@ -292,6 +292,10 @@ public:
                 highest_y = veclane.point_y.at(veclane.node_pid.at(i)-1);
             }
         }
+        lowest_x -= submap_dimensions * 1.5;
+        lowest_y -= submap_dimensions * 1.5;
+        highest_x += submap_dimensions * 1.5;
+        highest_y += submap_dimensions * 1.5;
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
