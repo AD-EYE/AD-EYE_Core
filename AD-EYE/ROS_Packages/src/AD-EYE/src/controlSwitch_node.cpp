@@ -117,7 +117,10 @@ public:
             if(switchCommand == AUTOWARE){
                 if(prescanPub){
                     prescanPub = false;
-                    initialSwitch = false;
+                    if(initialSwitch) {
+                        ROS_INFO("Switched back to the nominal channel");
+                        initialSwitch = false;
+                    }
                     Prescandata.header.stamp = ros::Time::now();
                     Prescandata.twist.linear.x = autoware_v_lin;
                     Prescandata.twist.angular.z = autoware_v_ang;
