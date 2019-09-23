@@ -42,7 +42,7 @@ public:
     OccMapCreator(ros::NodeHandle &nh) : nh_(nh), rate(1)
     {
         // Initialize node and publishers
-        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap",1);
+        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
         subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
 
         rate = ros::Rate(frequency);
@@ -126,14 +126,17 @@ public:
             dynamicObjectValue = (gridMap.at("DynamicObjects", *it));
             // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
             float dangerous_height = 0.20;
-            if(staticObjectValue > dangerous_height || dynamicObjectValue > dangerous_height){
+            if(staticObjectValue > dangerous_height) {
                 occValue = RED;
             }
-            if(laneValue == 1){
+            if(laneValue == 1) { // Lanes overwrite static objects
                 occValue = YELLOW;
             }
             else if(laneValue == 0 && staticObjectValue <= dangerous_height){
                 occValue = GREEN;
+            }
+            if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite lanes
+                occValue = RED;
             }
             index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
             occGrid.data[nCells - index - 1] = occValue;
