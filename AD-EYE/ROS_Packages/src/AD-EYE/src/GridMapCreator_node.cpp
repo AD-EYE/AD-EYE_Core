@@ -357,6 +357,7 @@ public:
         float dy;
         float angle;
         float lanewidth;
+        float laneID;
         for(int i = 0 ; i < static_cast<int>(veclane.lane_startpoint.size()) ; i++) { //For every lane
             if(!nh_.ok()) { break; }
             polygon.removeVertices();
@@ -373,12 +374,15 @@ public:
             polygon.addVertex(Position(point1.x() + dx, point1.y() + dy));
             polygon.addVertex(Position(point1.x() - dx, point1.y() - dy));
             polygon.addVertex(Position(point2.x() - dx, point2.y() - dy));
+            laneID = veclane.lane_id.at(i);
             for(grid_map::PolygonIterator iterator(map, polygon) ; !iterator.isPastEnd() ; ++iterator) {
                 map.at("DrivableAreas", *iterator) = 1;
+                map.at("Lanes", *iterator) = laneID;
             }
             //Add a half-circle at the end to help filling when road turns
             for(grid_map::CircleIterator iterator(map, point2, lanewidth) ; !iterator.isPastEnd() ; ++iterator) {
                 map.at("DrivableAreas", *iterator) = 1;
+                map.at("Lanes", *iterator) = laneID;
             }
         }
     }
