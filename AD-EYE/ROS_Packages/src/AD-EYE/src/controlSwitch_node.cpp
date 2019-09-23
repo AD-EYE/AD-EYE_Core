@@ -20,7 +20,47 @@
 
 class controlSwitch
 {
+private:
+    // publishers and subscribers
+    ros::NodeHandle &nh_;
+    ros::Publisher pubSSMP_control;
+    ros::Publisher pubPrescan;
+    ros::Publisher pubOdom;
+    ros::Subscriber subTraj;
+    ros::Subscriber subPosition;
+    ros::Subscriber subVelocity;
+    ros::Subscriber subAutoware;
+    ros::Subscriber subControl;
+
+    // global variables
+    double SSMP_v_lin;
+    double SSMP_v_ang;
+    double x_ego;
+    double y_ego;
+    geometry_msgs::Quaternion q_ego;
+    double v_lin_ego;
+    double v_ang_ego;
+    int prescanPub = 0;
+    double autoware_v_lin;
+    double autoware_v_ang;
+    int switchCommand = 0;
+    ros::Rate rate;
+    geometry_msgs::TwistStamped Prescandata;
+
 public:
+
+    controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(40)
+    {
+        // Initialize node and publishers
+        pubSSMP_control = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
+        pubPrescan = nh_.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
+        subTraj = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::traj_callback, this);
+        subAutoware = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autoware_callback, this);
+        subControl = nh_.subscribe<std_msgs::Int32>("/switchCommand", 1, &controlSwitch::switchCommand_callback, this);
+
+        // the velocities that will be send to prescan
+        Prescandata.header.frame_id = "base_link";
+    }
 
     // this callback gives the SSMP velocities to the switch
     void traj_callback(const rcv_common_msgs::current_traj_info::ConstPtr& msg){
@@ -48,24 +88,10 @@ public:
         switchCommand = message.data;
     }
 
-    controlSwitch(ros::NodeHandle nh)
-    {
-        // Initialize node and publishers
-        nh_ = nh;
-        pubSSMP_control = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
-        pubPrescan = nh.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
-        subTraj = nh.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::traj_callback, this);
-        subAutoware = nh.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autoware_callback, this);
-        subControl = nh.subscribe<std_msgs::Int32>("/switchCommand", 1, &controlSwitch::switchCommand_callback, this);
-
+    void run() {
         bool initialSwitch = false;
 
-        // the velocities that will be send to prescan
-        geometry_msgs::TwistStamped Prescandata;
-        Prescandata.header.frame_id = "base_link";
-
-        ros::Rate rate(40);
-        while (nh.ok()) {
+        while (nh_.ok()) {
             ros::spinOnce();
 
             if(switchCommand == AUTOWARE){
@@ -100,30 +126,6 @@ public:
         }
     }
 
-private:
-    // publishers and subscribers
-    ros::NodeHandle nh_;
-    ros::Publisher pubSSMP_control;
-    ros::Publisher pubPrescan;
-    ros::Publisher pubOdom;
-    ros::Subscriber subTraj;
-    ros::Subscriber subPosition;
-    ros::Subscriber subVelocity;
-    ros::Subscriber subAutoware;
-    ros::Subscriber subControl;
-
-    // global variables
-    double SSMP_v_lin;
-    double SSMP_v_ang;
-    double x_ego;
-    double y_ego;
-    geometry_msgs::Quaternion q_ego;
-    double v_lin_ego;
-    double v_ang_ego;
-    int prescanPub = 0;
-    double autoware_v_lin;
-    double autoware_v_ang;
-    int switchCommand = 0;
 };
 
 int main(int argc, char** argv)
@@ -132,5 +134,6 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "controlSwitch");
     ros::NodeHandle nh;
     controlSwitch cs(nh);
+    cs.run();
     return 0;
 }
