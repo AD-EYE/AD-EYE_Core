@@ -24,6 +24,7 @@ private:
     ros::Subscriber subGridMap;
 
     nav_msgs::OccupancyGrid occGrid;
+    GridMap gridMap;
     float frequency = 30;                 // this value should be alligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate;
 
@@ -41,9 +42,7 @@ public:
     void gridMap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         // convert received message back to gridmap
-        grid_map_msgs::GridMap message = *msg;
-        grid_map::GridMap gridMap;
-        grid_map::GridMapRosConverter::fromMessage(message, gridMap);
+        GridMapRosConverter::fromMessage(*msg, gridMap);
 
         // initialize occupancy map with gridmap data
         occGrid.header.frame_id = gridMap.getFrameId();
@@ -63,37 +62,7 @@ public:
         size_t nCells = gridMap.getSize().prod();
         occGrid.data.resize(nCells);
 
-        // the actual flattening process happens here, info from all different layers is reduced to either GREEN, YELLOW, or RED, as these values are the only ones that the safety planner can read
-        for (GridMapIterator it(gridMap); !it.isPastEnd(); ++it){
-            float occValue = 0;
-            float staticobjectvalue = (gridMap.at("StaticObjects", *it));
-            float lanevalue = (gridMap.at("DrivableAreas", *it));
-            float dynamicobjectvalue = (gridMap.at("DynamicObjects", *it));
-            // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
-            float dangerous_height = 0.20;
-            if(staticobjectvalue > dangerous_height){
-                occValue = RED;
-            }
-            if(lanevalue == 1){
-                occValue = YELLOW;
-            }
-            if(lanevalue == 0 && staticobjectvalue <= dangerous_height){
-                occValue = GREEN;
-            }
-            if(dynamicobjectvalue > dangerous_height){
-                occValue = RED;
-            }
-            size_t index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
-            occGrid.data[nCells - index - 1] = occValue;
-        }
-
-        // to test lanes layer
-        /*for (GridMapIterator it(gridMap); !it.isPastEnd(); ++it){
-          float lanevalue = (gridMap.at("Lanes", *it));
-          size_t index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
-          occGrid.data[nCells - index - 1] = lanevalue;
-          }*/
-
+        flateningProcess();
     }
 
     void run() {
@@ -113,6 +82,43 @@ public:
 
             rate.sleep();
         }
+    }
+
+    void flateningProcess() {
+        // the actual flattening process happens here, info from all different layers is reduced to either GREEN, YELLOW, or RED, as these values are the only ones that the safety planner can read
+        size_t nCells = occGrid.data.size();
+        float occValue;
+        float staticObjectValue;
+        float dynamicObjectValue;
+        float laneValue;
+        size_t index;
+
+        for (GridMapIterator it(gridMap) ; !it.isPastEnd() ; ++it){
+            occValue = 0;
+            staticObjectValue = (gridMap.at("StaticObjects", *it));
+            laneValue = (gridMap.at("DrivableAreas", *it));
+            dynamicObjectValue = (gridMap.at("DynamicObjects", *it));
+            // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
+            float dangerous_height = 0.20;
+            if(staticObjectValue > dangerous_height || dynamicObjectValue > dangerous_height){
+                occValue = RED;
+            }
+            if(laneValue == 1){
+                occValue = YELLOW;
+            }
+            else if(laneValue == 0 && staticObjectValue <= dangerous_height){
+                occValue = GREEN;
+            }
+            index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
+            occGrid.data[nCells - index - 1] = occValue;
+        }
+
+        // to test lanes layer
+        /*for (GridMapIterator it(gridMap); !it.isPastEnd(); ++it){
+          float lanevalue = (gridMap.at("Lanes", *it));
+          size_t index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
+          occGrid.data[nCells - index - 1] = lanevalue;
+          }*/
     }
 };
 
