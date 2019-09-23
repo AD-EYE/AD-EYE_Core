@@ -25,25 +25,19 @@ private:
     ros::NodeHandle &nh_;
     ros::Publisher pubSSMP_control;
     ros::Publisher pubPrescan;
-    ros::Publisher pubOdom;
     ros::Subscriber subTraj;
-    ros::Subscriber subPosition;
-    ros::Subscriber subVelocity;
     ros::Subscriber subAutoware;
     ros::Subscriber subControl;
 
-    // global variables
+    // variables
     double SSMP_v_lin;
     double SSMP_v_ang;
-    double x_ego;
-    double y_ego;
-    geometry_msgs::Quaternion q_ego;
-    double v_lin_ego;
-    double v_ang_ego;
-    int prescanPub = 0;
     double autoware_v_lin;
     double autoware_v_ang;
-    int switchCommand = 0;
+
+    bool prescanPub = false;
+    int switchCommand = -1;
+
     ros::Rate rate;
     geometry_msgs::TwistStamped Prescandata;
 
@@ -63,29 +57,26 @@ public:
     }
 
     // this callback gives the SSMP velocities to the switch
-    void traj_callback(const rcv_common_msgs::current_traj_info::ConstPtr& msg){
-        rcv_common_msgs::current_traj_info traj = *msg;
-        SSMP_v_lin = traj.v_lin;
-        SSMP_v_ang = traj.v_ang;
+    void traj_callback(const rcv_common_msgs::current_traj_info::ConstPtr& traj){
+        SSMP_v_lin = traj->v_lin;
+        SSMP_v_ang = traj->v_ang;
         if(SSMP_v_lin < 0){
             SSMP_v_lin = 0;
             SSMP_v_ang = 0;
         }
-        prescanPub = 1;
+        prescanPub = true;
     }
 
     // this callback gives the autoware velocities to the switch
-    void autoware_callback(const geometry_msgs::TwistStamped::ConstPtr& msg){
-        geometry_msgs::TwistStamped carVel = *msg;
-        autoware_v_lin = carVel.twist.linear.x;
-        autoware_v_ang = carVel.twist.angular.z;
-        prescanPub = 1;
+    void autoware_callback(const geometry_msgs::TwistStamped::ConstPtr& carVel){
+        autoware_v_lin = carVel->twist.linear.x;
+        autoware_v_ang = carVel->twist.angular.z;
+        prescanPub = true;
     }
 
     // this callback gives the command for autoware control or SSMP control (a 0 or a 1)
     void switchCommand_callback(const std_msgs::Int32::ConstPtr& msg){
-        std_msgs::Int32 message = *msg;
-        switchCommand = message.data;
+        switchCommand = msg->data;
     }
 
     void run() {
@@ -95,8 +86,8 @@ public:
             ros::spinOnce();
 
             if(switchCommand == AUTOWARE){
-                if(prescanPub == 1){
-                    prescanPub = 0;
+                if(prescanPub){
+                    prescanPub = false;
                     initialSwitch = false;
                     Prescandata.header.stamp = ros::Time::now();
                     Prescandata.twist.linear.x = autoware_v_lin;
@@ -114,8 +105,8 @@ public:
                     pubSSMP_control.publish(SSMPcontrol);
                     initialSwitch = true;
                 }
-                if(prescanPub == 1){
-                    prescanPub = 0;
+                if(prescanPub){
+                    prescanPub = false;
                     Prescandata.header.stamp = ros::Time::now();
                     Prescandata.twist.linear.x = SSMP_v_lin;
                     Prescandata.twist.angular.z = SSMP_v_ang;
