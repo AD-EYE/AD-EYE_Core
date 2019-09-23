@@ -18,6 +18,12 @@
 #define AUTOWARE 0
 #define SSMP 1
 
+/*!
+ * \brief This class is the Switch that selects which channel control the car.
+ * \details This switch can be triggered by the SafetySupervisor. Then, the switch
+ * gives to the car the order either from Autoware or the safety channel, depending
+ * the switch state.
+ */
 class controlSwitch
 {
 private:
@@ -43,6 +49,11 @@ private:
 
 public:
 
+    /*!
+     * \brief Constructor
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \details Initializes the node and its components such as publishers and subscribers.
+     */
     controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(40)
     {
         // Initialize node and publishers
@@ -56,7 +67,11 @@ public:
         Prescandata.header.frame_id = "base_link";
     }
 
-    // this callback gives the SSMP velocities to the switch
+    /*!
+     * \brief SSMP Traj Callback : Called when the SSMP velocities has changed
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the SSMP velocities information.
+     */
     void traj_callback(const rcv_common_msgs::current_traj_info::ConstPtr& traj){
         SSMP_v_lin = traj->v_lin;
         SSMP_v_ang = traj->v_ang;
@@ -67,18 +82,32 @@ public:
         prescanPub = true;
     }
 
-    // this callback gives the autoware velocities to the switch
+    /*!
+     * \brief Autoware Callback : Called when the Autoware velocities has changed
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the Autoware velocities information.
+     */
     void autoware_callback(const geometry_msgs::TwistStamped::ConstPtr& carVel){
         autoware_v_lin = carVel->twist.linear.x;
         autoware_v_ang = carVel->twist.angular.z;
         prescanPub = true;
     }
 
-    // this callback gives the command for autoware control or SSMP control (a 0 or a 1)
+    /*!
+     * \brief Switch Callback : Called when the switch command has changed
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the switch command
+     * The command is:  0 for Autoware control ; 1 for SSMP control
+     */
     void switchCommand_callback(const std_msgs::Int32::ConstPtr& msg){
         switchCommand = msg->data;
     }
 
+    /*!
+     * \brief The main function of the Node. Contains the main loop
+     * \details First checks if the switch is for Autoware or SSMP control,
+     * then publishes the right controls command.
+     */
     void run() {
         bool initialSwitch = false;
 
