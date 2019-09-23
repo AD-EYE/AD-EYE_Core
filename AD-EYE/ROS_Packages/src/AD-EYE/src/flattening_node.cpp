@@ -15,6 +15,10 @@ using namespace grid_map;
 #define YELLOW 50
 #define RED 99
 
+/*!
+ * \brief This class is used to extract data from the GridMap given by the GridMapCreator
+ * \details
+ */
 class OccMapCreator
 {
 private:
@@ -30,6 +34,11 @@ private:
 
 public:
 
+    /*!
+     * \brief Constructor
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \details Initializes the node and its components such as publishers and subscribers.
+     */
     OccMapCreator(ros::NodeHandle &nh) : nh_(nh), rate(1)
     {
         // Initialize node and publishers
@@ -39,6 +48,12 @@ public:
         rate = ros::Rate(frequency);
     }
 
+    /*!
+     * \brief GridMap Callback : Called when the grid map information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the GridMap information given by the GridMapCreator, then
+     * call the flateningProcess.
+     */
     void gridMap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         // convert received message back to gridmap
@@ -65,6 +80,12 @@ public:
         flateningProcess();
     }
 
+    /*!
+     * \brief The main function of the Node. Contains the main loop
+     * \details Basically extract information from gridMap and then
+     * publish data extracted from it.
+     * Also, checks if the required frequency is met.
+     */
     void run() {
         float rostime;
 
@@ -84,8 +105,13 @@ public:
         }
     }
 
+    /*!
+     * \brief The information from the GridMap are translated into an occupancy grid
+     * \details Info from all different layers is reduced to either
+     * GREEN, YELLOW, or RED, as these values are the only ones that
+     * the safety planner can read
+     */
     void flateningProcess() {
-        // the actual flattening process happens here, info from all different layers is reduced to either GREEN, YELLOW, or RED, as these values are the only ones that the safety planner can read
         size_t nCells = occGrid.data.size();
         float occValue;
         float staticObjectValue;
