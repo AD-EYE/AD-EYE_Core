@@ -25,26 +25,21 @@ private:
 
     nav_msgs::OccupancyGrid occGrid;
     float frequency = 30;                 // this value should be alligned with the frequency value used in the GridMapCreator_node
+    ros::Rate rate;
 
 public:
 
-    OccMapCreator(ros::NodeHandle &nh) : nh_(nh)
+    OccMapCreator(ros::NodeHandle &nh) : nh_(nh), rate(1)
     {
         // Initialize node and publishers
         pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap",1);
         subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
-        ros::Rate rate(frequency);
-        while (nh_.ok()) {
-            ros::spinOnce();
-            pubOccGrid.publish(occGrid);
-            rate.sleep();
-        }
+
+        rate = ros::Rate(frequency);
     }
 
     void gridMap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
-        float rostime = ros::Time::now().toSec();
-
         // convert received message back to gridmap
         grid_map_msgs::GridMap message = *msg;
         grid_map::GridMap gridMap;
@@ -98,9 +93,25 @@ public:
           size_t index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
           occGrid.data[nCells - index - 1] = lanevalue;
           }*/
-        rostime = ros::Time::now().toSec() - rostime;
-        if(rostime > 1/frequency){
-            ROS_INFO("frequency is not met!");
+
+    }
+
+    void run() {
+        float rostime;
+
+        while (nh_.ok()) {
+            rostime = ros::Time::now().toSec();
+
+            ros::spinOnce();
+            pubOccGrid.publish(occGrid);
+
+            //Time control
+            rostime = ros::Time::now().toSec() - rostime;
+            if(rostime > 1/frequency){
+                ROS_WARN("Flatening Node : Frequency is not met!");
+            }
+
+            rate.sleep();
         }
     }
 };
@@ -111,5 +122,6 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "flattening");
     ros::NodeHandle nh;
     OccMapCreator omc(nh);
+    omc.run();
     return 0;
 }
