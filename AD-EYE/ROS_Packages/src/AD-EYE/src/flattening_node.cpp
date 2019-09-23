@@ -17,7 +17,29 @@ using namespace grid_map;
 
 class OccMapCreator
 {
+private:
+    // publishers and subscribers
+    ros::NodeHandle& nh_;
+    ros::Publisher pubOccGrid;
+    ros::Subscriber subGridMap;
+
+    nav_msgs::OccupancyGrid occGrid;
+    float frequency = 30;                 // this value should be alligned with the frequency value used in the GridMapCreator_node
+
 public:
+
+    OccMapCreator(ros::NodeHandle &nh) : nh_(nh)
+    {
+        // Initialize node and publishers
+        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap",1);
+        subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
+        ros::Rate rate(frequency);
+        while (nh_.ok()) {
+            ros::spinOnce();
+            pubOccGrid.publish(occGrid);
+            rate.sleep();
+        }
+    }
 
     void gridMap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
@@ -81,30 +103,6 @@ public:
             ROS_INFO("frequency is not met!");
         }
     }
-
-    OccMapCreator(ros::NodeHandle nh)
-    {
-        // Initialize node and publishers
-        nh_ = nh;
-        pubOccGrid = nh.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap",1);
-        subGridMap = nh.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
-        ros::Rate rate(frequency);
-        while (nh.ok()) {
-            ros::spinOnce();
-            pubOccGrid.publish(occGrid);
-            rate.sleep();
-        }
-    }
-
-private:
-    // publishers and subscribers
-    ros::NodeHandle nh_;
-    ros::Publisher pubOccGrid;
-    ros::Subscriber subGridMap;
-
-    // global var
-    nav_msgs::OccupancyGrid occGrid;
-    float frequency = 30;                 // this value should be alligned with the frequency value used in the GridMapCreator_node
 };
 
 int main(int argc, char** argv)
