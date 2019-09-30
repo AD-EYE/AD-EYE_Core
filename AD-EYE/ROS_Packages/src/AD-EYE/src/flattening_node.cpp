@@ -11,7 +11,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 using namespace grid_map;
 
-#define GREEN 10
+#define WHITE 1
+#define GREEN 30
 #define YELLOW 50
 #define RED 99
 
@@ -124,6 +125,7 @@ public:
             staticObjectValue = (gridMap.at("StaticObjects", *it));
             laneValue = (gridMap.at("DrivableAreas", *it));
             dynamicObjectValue = (gridMap.at("DynamicObjects", *it));
+
             // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
             float dangerous_height = 0.20;
             if(staticObjectValue > dangerous_height) {
@@ -132,8 +134,11 @@ public:
             if(laneValue == 1) { // Lanes overwrite static objects
                 occValue = YELLOW;
             }
-            else if(laneValue == 0 && staticObjectValue <= dangerous_height){
+            else if(laneValue == 0 && staticObjectValue <= dangerous_height) {
                 occValue = GREEN;
+            }
+            if(staticObjectValue == -1) {
+                occValue = WHITE;
             }
             if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite lanes
                 occValue = RED;

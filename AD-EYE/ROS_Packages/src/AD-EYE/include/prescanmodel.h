@@ -8,6 +8,11 @@
 #include <sstream>
 #include <vector>
 
+#define NATURE 0
+#define BUILDING 1
+#define TRAFFICLIGHT 2
+#define SAFEAREA 3
+
 /*!
  * \brief This structure handles data from the Prescan Experiment.
  * \details It loads the data from .pex files
@@ -47,16 +52,24 @@ struct PrescanModel
         else{
             while (inputFile.good()){
                 std::getline (inputFile,line);
-                if(line.find("<NatureElement xsi") != std::string::npos || line.find(" ObjectTypeID=\"12\"") != std::string::npos || line.find("<InfraOther xsi") != std::string::npos){
+                if(line.find("<NatureElement xsi") != std::string::npos ||
+                        line.find(" ObjectTypeID=\"12\"") != std::string::npos ||
+                        line.find(" ObjectTypeID=\"17\"") != std::string::npos || // Concrete areas can be declared as safe area
+                        line.find("<InfraOther xsi") != std::string::npos) {
                     // get type
-                    if(line.find("Nature") != std::string::npos){
-                        this->type.push_back(0);
+                    if(line.find("Description=\"SAFE") != std::string::npos) {
+                        this->type.push_back(SAFEAREA);
                     }
-                    if(line.find(" ObjectTypeID=\"12\"") != std::string::npos){
-                        this->type.push_back(1);
+                    else if(line.find("Nature") != std::string::npos){
+                        this->type.push_back(NATURE);
                     }
-                    if(line.find("InfraOther") != std::string::npos){
-                        this->type.push_back(2);
+                    else if(line.find(" ObjectTypeID=\"12\"") != std::string::npos){
+                        this->type.push_back(BUILDING);
+                    }
+                    else if(line.find("InfraOther") != std::string::npos){
+                        this->type.push_back(TRAFFICLIGHT);
+                    } else {
+                        continue;
                     }
 
                     // get ID

@@ -20,9 +20,6 @@
 using namespace grid_map;
 
 #define HALF_PI 1.5708
-#define NATURE 0
-#define BUILDING 1
-#define TRAFFICLIGHT 2
 
 /*!
  * \brief The GridMapCreator maintains a grid map used to know where safe places are
@@ -184,9 +181,11 @@ public:
 
         grid_map_msgs::GridMap message;
 
+        float rostime;
+
         //Main loop
         while (nh_.ok()) {
-            float rostime = ros::Time::now().toSec();
+            rostime = ros::Time::now().toSec();
             ros::spinOnce();
 
             // Transform between gridmap frame and ego frame
@@ -209,8 +208,8 @@ public:
                         x_other = otherActorsOld.poses.at(i).position.x;
                         y_other = otherActorsOld.poses.at(i).position.y;
                         yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);
-                        otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
                         if(x_other-x_egoOld < submap_dimensions && x_other-x_egoOld > -submap_dimensions && y_other-y_egoOld < submap_dimensions && y_other-y_egoOld > -submap_dimensions){
+                            otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
                             for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
                                 map.at("DynamicObjects", *iterator) = 0;
                             }
@@ -220,8 +219,8 @@ public:
                     x_other = otherActors.poses.at(i).position.x;
                     y_other = otherActors.poses.at(i).position.y;
                     yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);
-                    otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
                     if(x_other-x_ego < submap_dimensions && x_other-x_ego > -submap_dimensions && y_other-y_ego < submap_dimensions && y_other-y_ego > -submap_dimensions){
+                        otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
                         for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
                             map.at("DynamicObjects", *iterator) = heigth_other;
                         }
@@ -292,6 +291,7 @@ public:
                 highest_y = veclane.point_y.at(veclane.node_pid.at(i)-1);
             }
         }
+        //Add some margins for when the car drives close to the boundaries
         lowest_x -= submap_dimensions * 1.5;
         lowest_y -= submap_dimensions * 1.5;
         highest_x += submap_dimensions * 1.5;
@@ -329,7 +329,7 @@ public:
                 }
             }
             // Traffic lights are created by filling in just one or two cells, as traffic lights are usually very small
-            if(pexObjects.type.at(i) == TRAFFICLIGHT){
+            else if(pexObjects.type.at(i) == TRAFFICLIGHT){
                 Position center(pexObjects.posX.at(i), pexObjects.posY.at(i));
                 float radius = mapResolution;
                 for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
@@ -337,7 +337,7 @@ public:
                 }
             }
             // Nature is created using the circleIterator, as trees and bushes do not really have a definite shape, a circle describes their shape the best
-            if(pexObjects.type.at(i) == NATURE){
+            else if(pexObjects.type.at(i) == NATURE){
                 Position center(pexObjects.posX.at(i), pexObjects.posY.at(i));
                 float radius;
                 if(pexObjects.sizeX.at(i) > pexObjects.sizeY.at(i)){
@@ -348,6 +348,12 @@ public:
                 }
                 for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
                     map.at("StaticObjects", *iterator) = pexObjects.sizeZ.at(i);
+                }
+            }
+            if(pexObjects.type.at(i) == SAFEAREA) {
+                grid_map::Polygon polygon = rectangle_creator(pexObjects.posX.at(i), pexObjects.posY.at(i), pexObjects.sizeX.at(i), pexObjects.sizeY.at(i), 0.01745*pexObjects.yaw.at(i));
+                for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
+                    map.at("StaticObjects", *it) = -1;
                 }
             }
         }
