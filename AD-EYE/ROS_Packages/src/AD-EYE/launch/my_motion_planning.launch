@@ -26,7 +26,7 @@
     <arg name="enableSwerving" default="true"/>
     <arg name="enableFollowing" default="true"/>
     <arg name="enableTrafficLightBehavior" default="true"/>
-    <arg name="enableStopSignBehavior" default="false"/>
+    <arg name="enableStopSignBehavior" default="true"/>
     <arg name="enableLaneChange" default="true"/>
 
     <arg name="width" default="1.85"/>
@@ -42,7 +42,7 @@
     <arg name="giveUpDistance" default="-4.0"/>
 
     <arg name="maxAcceleration" default="3.0"/>
-    <arg name="maxDeceleration" default="-3.0"/>
+    <arg name="maxDeceleration" default="-30.0"/>
 
     <arg name="velocitySource"
          default="1"/> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
