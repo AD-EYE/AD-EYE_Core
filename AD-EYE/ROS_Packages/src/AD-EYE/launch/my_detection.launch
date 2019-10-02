@@ -7,7 +7,7 @@
 
     <!-- base_link to traffic_light_camera tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
-          args="-0.49 0.0 1.11 -0.5 0.5 -0.5 0.5 base_link tl_camera 10"/>
+          args="-0.59 -0.7 1.11 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/>
 
     <!-- camera_info -->
     <include file="$(find adeye)/launch/camera_info_publisher.launch">
