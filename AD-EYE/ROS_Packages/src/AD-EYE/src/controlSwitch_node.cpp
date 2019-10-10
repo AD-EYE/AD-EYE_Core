@@ -42,7 +42,7 @@ private:
     double autoware_v_ang;
 
     bool prescanPub = false;
-    int switchCommand = -1;
+    int switchCommand = AUTOWARE;
 
     ros::Rate rate;
     geometry_msgs::TwistStamped Prescandata;
