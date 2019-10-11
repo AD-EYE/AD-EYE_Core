@@ -22,7 +22,7 @@
     </include>
 
     <!-- vision_ssd_detect-->
-    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+    <!--<include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
         <arg name="use_gpu" value="true"/>
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
@@ -32,7 +32,7 @@
              value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
         <arg name="camera_id" value="/"/>
         <arg name="image_src" value="/image_raw"/>
-    </include>
+    </include>-->
 
     <!-- vision_beyond_track-->
     <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
@@ -63,10 +63,7 @@
         <arg name="clustering_distance" value="0.75"/>
 
         <arg name="use_vector_map" value="false"/>
-        <arg name="vectormap_frame" value="map"/>
-        <arg name="wayarea_gridmap_topic" value="grid_map_wayarea"/>
         <arg name="wayarea_gridmap_layer" value="wayarea"/>
-        <arg name="wayarea_no_road_value" value="255"/>
 
         <arg name="output_frame" value="velodyne"/>
 
