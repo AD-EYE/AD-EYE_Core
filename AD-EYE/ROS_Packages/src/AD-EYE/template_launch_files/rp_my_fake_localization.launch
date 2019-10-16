@@ -13,7 +13,7 @@
     <arg name="tf_roll" default="/adeye/fake_localization/BaseLink_to_velodyne/tf_roll"/>
 
     <!-- tf_transform: base_link to velodyne -->
-    <include file="$(find runtime_manager)/scripts/setup_tf.launch">
+    <include file="$(find runtime_manager)/launch_files/setup_tf.launch">
         <arg name="x" value="$(arg tf_x)"/>
         <arg name="y" value="$(arg tf_y)"/>
         <arg name="z" value="$(arg tf_z)"/>
@@ -26,7 +26,7 @@
     </include>
 
     <!-- Vehicle Model -->
-    <include file="$(find model_publisher)/launch/vehicle_model.launch">
+    <include file="$(find vehicle_description)/launch/vehicle_model.launch">
         <arg name="model_path" value="/adeye/fake_localization/vehicle_model/model_path"/>
     </include>
 
