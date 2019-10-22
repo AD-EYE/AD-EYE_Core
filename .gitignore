@@ -65,11 +65,18 @@
 */ROS_Packages/src/CMakeLists.txt
 */ROS_Packages/.catkin_workspace
 
-# Ssdcaffe models
-*.caffemodel
-
 #Modified launch files
 */ROS_Packages/src/AD-EYE/modified_launch_files
+
+# Autoware.ai folders and files
+autoware.ai/build/
+autoware.ai/install/
+autoware.ai/log/
+autoware.ai/src/
+autoware.ai/autoware.ai.repos
+autoware.ai/autoware.ai.workspace
+autoware.ai/autoware.ai.workspace.user
+
 
 
 
