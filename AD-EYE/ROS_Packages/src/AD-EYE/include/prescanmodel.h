@@ -55,7 +55,8 @@ struct PrescanModel
                 if(line.find("<NatureElement xsi") != std::string::npos ||
                         line.find(" ObjectTypeID=\"12\"") != std::string::npos ||
                         line.find(" ObjectTypeID=\"17\"") != std::string::npos || // Concrete areas can be declared as safe area
-                        line.find("<InfraOther xsi") != std::string::npos) {
+                        line.find("<InfraOther xsi") != std::string::npos ||
+                        line.find("<AbstractObject ") != std::string::npos ) {
                     // get type
                     if(line.find("Description=\"SAFE") != std::string::npos) {
                         this->type.push_back(SAFEAREA);
@@ -64,6 +65,9 @@ struct PrescanModel
                         this->type.push_back(NATURE);
                     }
                     else if(line.find(" ObjectTypeID=\"12\"") != std::string::npos){
+                        this->type.push_back(BUILDING);
+                    }
+                    else if(line.find("xsi:type=\"RectangularBox") != std::string::npos) {
                         this->type.push_back(BUILDING);
                     }
                     else if(line.find("InfraOther") != std::string::npos){
