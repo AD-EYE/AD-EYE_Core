@@ -4,7 +4,7 @@
         use_sim_time: true
     </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/KTH_Campus/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/KTH_Campus/Simulation/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/KTH_Campus/KTH_Campus_Autoware/"/>
 
     <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
@@ -12,7 +12,7 @@
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
         <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
         <param name="filePex"
-               value="$(arg Pex_Folder)KTH_Campus.pex"/>
+               value="$(arg Pex_Folder)KTH_Campus_Autoware.pex"/>
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
