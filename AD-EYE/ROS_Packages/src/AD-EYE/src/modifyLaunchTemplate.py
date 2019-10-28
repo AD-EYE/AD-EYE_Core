@@ -36,14 +36,14 @@ def listener():
         if filename.endswith(".launch"):
             file = open(TEMPLATE_LAUNCH_FILES_FULL_PATH + filename, 'r') #opening a file to read (here, opens launch file template)('r' represents read only))
             template = file.read() #reads the file
-            pcds = [] #assigning cell array for all point cloud files
+            #pcds = [] #assigning cell array for all point cloud files
 #            a = rospy.get_param(PARENT_NAME + "/" + "map" + "/" + "points_map_loader" + "/" + "PointCloud_Files_Folder")
-            basemap_param = rospy.get_param(PARENT_NAME + "/" + AREA_MAP + "/" + NODE_MAP + "/" + VARIABLE_MAP)
-            for pcd in os.listdir(POINTCLOUD_DIRECTORY1 + basemap_param + POINTCLOUD_DIRECTORY2):
-                pcds.append("$(arg PointCloud_Files_Folder)" + pcd) #appending all the point cloud files in cell
-                pcfiles = '' #assigning a string for making list of pcfiles
-                for pcfile in pcds:
-                    pcfiles += str("%s\n    " %pcfile)
+            #basemap_param = rospy.get_param(PARENT_NAME + "/" + AREA_MAP + "/" + NODE_MAP + "/" + VARIABLE_MAP)
+            #for pcd in os.listdir(POINTCLOUD_DIRECTORY1 + basemap_param + POINTCLOUD_DIRECTORY2):
+            #    pcds.append("$(arg PointCloud_Files_Folder)" + pcd) #appending all the point cloud files in cell
+            #    pcfiles = '' #assigning a string for making list of pcfiles
+            #    for pcfile in pcds:
+            #        pcfiles += str("%s\n    " %pcfile)
 #                    print pcfiles
             areas = rospy.get_param(PARENT_NAME) #get all the child namespaces (area) under parent "/adeye"
             for area in areas: #for every area in /adeye
@@ -53,10 +53,10 @@ def listener():
                     for variable in variables: #for every variable in "/adeye/area/node"
                         values = rospy.get_param(PARENT_NAME + "/" + area + "/" + node + "/" + variable) #getting only the value corresponding to each variable i.e. "/adeye/area/node/variable"
                         name = str(PARENT_NAME + "/" + area + "/" + node + "/" + variable) #converting variable "name" to string
-#                        template = template.replace(name, values)
-                        dictionary = {name: values, SPECIAL_PARAMETER_MAP: pcfiles}
-                        for i,j in dictionary.iteritems():
-                            template = template.replace(i, j) #replacing node name(stringToMatch in launch file template) to its numeric value(parameter received from MATLAB)
+                        template = template.replace(name, values)
+                        #dictionary = {name: values, SPECIAL_PARAMETER_MAP: pcfiles}
+                        #for i,j in dictionary.iteritems():
+                        #    template = template.replace(i, j) #replacing node name(stringToMatch in launch file template) to its numeric value(parameter received from MATLAB)
             file.close() #close the file
 
 

@@ -10,7 +10,7 @@
 
     <!-- Point Cloud -->
     <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
-    /adeye/map/points_map_loader/args
+    $(arg PointCloud_Files_Folder)
 "/>
 
     -->
