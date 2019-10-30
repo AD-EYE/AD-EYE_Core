@@ -3,11 +3,11 @@
 
     <!-- base_link to camera tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
-          args="0.31 0.0 0.63 -0.5 0.5 -0.5 0.5 base_link camera 10"/>
+          args="2.0 0.0 1.32 -0.5 0.5 -0.5 0.5 base_link camera 10"/>
 
     <!-- base_link to traffic_light_camera tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
-          args="-0.59 -0.7 1.11 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/>
+          args="1.1 -0.7 1.8 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/>
 
     <!-- camera_info -->
     <include file="$(find adeye)/launch/camera_info_publisher.launch">
@@ -47,7 +47,7 @@
         <arg name="remove_ground" value="true"/>
         <arg name="downsample_cloud" value="false"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
         <arg name="leaf_size" value="0.1"/><!-- Voxel Grid Filter leaf size-->
-        <arg name="cluster_size_min" value="20"/><!-- Minimum number of points to consider a cluster as valid-->
+        <arg name="cluster_size_min" value="7"/><!-- Minimum number of points to consider a cluster as valid-->
         <arg name="cluster_size_max" value="100000"/><!-- Maximum number of points to allow inside a cluster-->
         <arg name="sync" value="false"/>
         <arg name="use_diffnormals" value="false"/>
