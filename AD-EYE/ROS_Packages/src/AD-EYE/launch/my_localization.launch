@@ -5,15 +5,15 @@
     <arg name="topic_pose_stamped" default="/ndt_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
 
     <!-- Set args defining tf_transform: base_link to velodyne-->
-    <arg name="tf_x" default="-0.77"/>
+    <arg name="tf_x" default="0.6"/>
     <arg name="tf_y" default="0.0"/>
-    <arg name="tf_z" default="1.07"/>
+    <arg name="tf_z" default="2.0"/>
     <arg name="tf_yaw" default="0.0"/>
     <arg name="tf_pitch" default="0.0"/>
     <arg name="tf_roll" default="0.0"/>
 
     <!-- tf_transform: base_link to velodyne -->
-    <include file="$(find runtime_manager)/scripts/setup_tf.launch">
+    <include file="$(find runtime_manager)/launch_files/setup_tf.launch">
         <arg name="x" value="$(arg tf_x)"/>
         <arg name="y" value="$(arg tf_y)"/>
         <arg name="z" value="$(arg tf_z)"/>
@@ -35,7 +35,7 @@
     <param name="tf_roll" value="$(arg tf_roll)"/>
 
     <!-- Vehicle Model -->
-    <include file="$(find model_publisher)/launch/vehicle_model.launch">
+    <include file="$(find vehicle_description)/launch/vehicle_model.launch">
         <arg name="model_path" value="$(find adeye)/../../../../AD-EYE/Data/URDF_Actor_Models/BMW_X5/default.urdf"/>
     </include>
 

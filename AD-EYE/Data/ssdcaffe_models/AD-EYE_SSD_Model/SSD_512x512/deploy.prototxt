@@ -1818,11 +1818,11 @@ layer {
       top_k: 400
     }
     save_output_param {
-      output_directory: "/home/adeye/Shared_Drive/Retraining_Data/Dataset/results/SSD_512x512/Main"
+      output_directory: "/home/adeye/ssdcaffe/results/SSD_512x512/Main"
       output_name_prefix: "comp4_det_test_"
       output_format: "VOC"
-      label_map_file: "/home/adeye/ssdcaffe/data/Dataset/labelmap_dataset.prototxt"
-      name_size_file: "/home/adeye/ssdcaffe/data/Dataset/test_name_size.txt"
+      label_map_file: "/home/adeye/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/labelmap_dataset.prototxt"
+      name_size_file: "/home/adeye/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/test_name_size.txt"
       num_test_image: 10000
     }
     code_type: CENTER_SIZE
@@ -1830,4 +1830,3 @@ layer {
     confidence_threshold: 0.00999999977648
   }
 }
-

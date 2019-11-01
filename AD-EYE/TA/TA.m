@@ -33,12 +33,12 @@ clear Results Run; %clear any earlier tags or values
 
 Run(1).Settings ={
     }; 
-Run(1).ExpDir = '.././Experiments/VM_Test_XYCross/Simulation';
+Run(1).ExpDir = '.././Experiments/W01_Base_Map/Simulation';
 Run(1).AdeyeParams = 'TArosparam.xlsx';
 Run(1).TAgoal = './TAgoal.xlsx';
-Run(1).ExpName = 'VM_Test_XYCross';
-Run(1).ExpPexName = 'VM_Test_XYCross.pex';
-Run(1).ExpSlxName = 'VM_Test_XYCross_cs.slx';
+Run(1).ExpName = 'W01_Base_Map';
+Run(1).ExpPexName = 'W01_Base_Map.pex';
+Run(1).ExpSlxName = 'W01_Base_Map_cs.slx';
 Run(1).SimConstant = './TAconstant.xlsx';
 
 %Run(2).Settings ={
