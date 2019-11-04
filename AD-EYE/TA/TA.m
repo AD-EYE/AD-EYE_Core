@@ -1,10 +1,7 @@
 function TA(TAOrderFile)
-%% set-up variables 
 %setting up experiment
 BasePath = pwd;
-%setupVariableTable = '.\SSHConfig.xlsx'; ...
-% ...%Table containing all the variables required for setting up the device
-%setupVariables(setupVariableTable);
+
 SSHConfigFile = 'SSHConfig.csv';
 SSHConfig = readtable(SSHConfigFile, 'ReadRowNames',true,'ReadVariableNames',false, 'Delimiter', ',');
 ipaddress = SSHConfig{'ipaddress',1}{1};
@@ -35,25 +32,22 @@ clear Results Run; %clear any earlier tags or values
 TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
 
 for c = 1:width(TAOrder)
-    Run(c).ExpDir = ['.././Experiments/',TAOrder{'ExpName',c}{1},'/Simulation'];
-    Run(c).AdeyeParams = TAOrder{'AutowareConfig',c}{1};
-    Run(c).TAgoal = TAOrder{'GoalConfig',c}{1};
     Run(c).ExpName = TAOrder{'ExpName',c}{1};
-    Run(c).ExpPexName = [TAOrder{'ExpName',c}{1},'.pex'];
-    Run(c).ExpSlxName = [TAOrder{'ExpName',c}{1},'_cs.slx'];
-    Run(c).SimConstant = ['../../../TA/', TAOrder{'SimulinkConfig',c}{1}];
-    Run(c).Settings = TAOrder{'TagsConfig',c}{1};
+    Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
+    Run(c).SimulinkConfig = ['../../../TA/', TAOrder{'SimulinkConfig',c}{1}];
+    Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
+    Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
 
-%Run(1).Settings ={
+%Run(1).TagsConfig ={
 %    }; 
 %Run(1).ExpDir = '.././Experiments/W01_Base_Map/Simulation';
-%Run(1).AdeyeParams = 'TArosparam.xlsx';
-%Run(1).TAgoal = './TAgoal.xlsx';
+%Run(1).AutowareConfig = 'TArosparam.xlsx';
+%Run(1).GoalConfig = './TAgoal.xlsx';
 %Run(1).ExpName = 'W01_Base_Map';
 %Run(1).ExpPexName = 'W01_Base_Map.pex';
 %Run(1).ExpSlxName = 'W01_Base_Map_cs.slx';
-%Run(1).SimConstant = './TAconstant.xlsx';
+%Run(1).SimulinkConfig = './TAconstant.xlsx';
 
 disp('Setting-up variables...');
 NrOfRuns = length(Run); % Number of simulations
@@ -71,22 +65,22 @@ for run = 1:NrOfRuns
     %cd(Run(run).ExpDir);
     %MainExperiment = pwd; 
     disp('Setting ros parameters from TArosparam Table');
-    rosparamScript(Run(run).AdeyeParams, Run(run).ExpName); %function (runs a MATLAB script...
+    rosparamScript(Run(run).AutowareConfig, Run(run).ExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     disp('Setting up goal for actor in simulation');
     [pub, msg] = rospublisher(goal ,poseStamped);
-    goalpoints(pub, msg, Run(run).TAgoal);
+    goalpoints(pub, msg, Run(run).GoalConfig);
     disp('Python node recieving the ros parameters and modifying launch files');
     system(device, launchTemplateModifier); 
     disp('Launching the manager file')
     system(device, managerFileLaunch);
 
-    cd(Run(run).ExpDir);
+    cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
     MainExperiment = pwd;
-    load_system(Run(run).ExpSlxName);
+    load_system([Run(run).ExpName,'_cs.slx']);
     disp('Setting up constant blocks in Simulink model');
-    simconstantSet(Run(run).SimConstant, Run(run).ExpName);
-    save_system(Run(run).ExpSlxName);
+    simconstantSet(Run(run).SimulinkConfig, Run(run).ExpName);
+    save_system([Run(run).ExpName,'_cs.slx']);
     ResultsDir = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the ...
     ...experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
     disp(['Run: ' num2str(run) '/' num2str(NrOfRuns)]);
@@ -95,18 +89,18 @@ for run = 1:NrOfRuns
     ResultDir = [ResultsDir '\' RunName]; %creating a folder in ResultsDir named 'Run_1' containing all the files 
 
     % Create the complete command.
-    Settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.Settings() ...
+    Settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
     ...and save it in cell array named 'Settings'
     Command = ExeName; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
-    CurrentExperiment = strcat(MainExperiment, '/', Run(run).ExpPexName);
+    CurrentExperiment = strcat(MainExperiment, '/', Run(run).ExpName, '.pex');
     Command = [Command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     Command = [Command ' -save ' '"' ResultDir '"']; %save it in ResultDir created    
     
-    for setting=1:size(Run(run).Settings,1) %size of each cell in ...
-        ...Run.Settings() consisting test automation tags and its values
-        tag = Run(run).Settings{setting,1};
-        val = num2str(Run(run).Settings{setting,2}, '%50.50g');
+    for setting=1:size(Run(run).TagsConfig,1) %size of each cell in ...
+        ...Run.TagsConfig() consisting test automation tags and its values
+        tag = Run(run).TagsConfig{setting,1};
+        val = num2str(Run(run).TagsConfig{setting,2}, '%50.50g');
         Command = [Command ' -set ' tag '=' val];
         Settings(end+1) = cellstr([tag ' = ' val]);
     end
@@ -257,14 +251,6 @@ simconstantTable = readtable(table,'ReadRowNames',false);
 for h = 1:height(simconstantTable)
     constant_block_name = strcat(expname, '_cs', '/', char(simconstantTable.BlockName(h)));
     set_param(constant_block_name, 'Value', string(simconstantTable.Value(h)));
-end
-end
-
-%% function setupVariables
-function setupVariables(table)
-setupVariableTable = readtable(table,'ReadRowNames',false);
-for h = 1:height(setupVariableTable)
-    assignin('base', char(setupVariableTable.VarName(h)), char(setupVariableTable.VarValue(h)));
 end
 end
 
