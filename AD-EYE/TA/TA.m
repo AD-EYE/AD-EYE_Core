@@ -1,9 +1,19 @@
-%% set-up variables
+function TA(TAOrderFile)
+%% set-up variables 
 %setting up experiment
 BasePath = pwd;
-setupVariableTable = '.\TAsetup.xlsx'; ...
- ...%Table containing all the variables required for setting up the device
-setupVariables(setupVariableTable);
+%setupVariableTable = '.\SSHConfig.xlsx'; ...
+% ...%Table containing all the variables required for setting up the device
+%setupVariables(setupVariableTable);
+SSHConfigFile = 'SSHConfig.csv';
+SSHConfig = readtable(SSHConfigFile, 'ReadRowNames',true,'ReadVariableNames',false, 'Delimiter', ',');
+ipaddress = SSHConfig{'ipaddress',1}{1};
+user = SSHConfig{'user',1}{1};
+password = SSHConfig{'password',1}{1};
+catkin_workspace = SSHConfig{'catkin_workspace',1}{1};
+ROS_folder = SSHConfig{'ROS_folder',1}{1};
+hostname = SSHConfig{'hostname',1}{1};
+
 shFolderPath = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
 launchTemplateModifier = strcat(shFolderPath, '/' , 'launchTemplateModifier.sh'); ...
     ...%contains command to run the python node which receives ros parameters and modifies launch files 
@@ -21,59 +31,29 @@ clear Results Run; %clear any earlier tags or values
 
 %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to ...
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
-% Run(1).Settings ={
-%     }; 
-% Run(1).ExpDir = '.././Experiments/Base_Map_Closed/Simulation';
-% Run(1).AdeyeParams = 'TArosparam.xlsx';
-% Run(1).TAgoal = './TAgoal.xlsx';
-% Run(1).ExpName = 'Base_Map_Closed';
-% Run(1).ExpPexName = 'Base_Map_Closed.pex';
-% Run(1).ExpSlxName = 'Base_Map_Closed_cs.slx';
-% Run(1).SimConstant = './TAconstant.xlsx';
 
-Run(1).Settings ={
-    }; 
-Run(1).ExpDir = '.././Experiments/W01_Base_Map/Simulation';
-Run(1).AdeyeParams = 'TArosparam.xlsx';
-Run(1).TAgoal = './TAgoal.xlsx';
-Run(1).ExpName = 'W01_Base_Map';
-Run(1).ExpPexName = 'W01_Base_Map.pex';
-Run(1).ExpSlxName = 'W01_Base_Map_cs.slx';
-Run(1).SimConstant = './TAconstant.xlsx';
+TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
 
-%Run(2).Settings ={
-%    'fog', 'True';
-%    'fog_visible', '85';
+for c = 1:width(TAOrder)
+    Run(c).ExpDir = ['.././Experiments/',TAOrder{'ExpName',c}{1},'/Simulation'];
+    Run(c).AdeyeParams = TAOrder{'AutowareConfig',c}{1};
+    Run(c).TAgoal = TAOrder{'GoalConfig',c}{1};
+    Run(c).ExpName = TAOrder{'ExpName',c}{1};
+    Run(c).ExpPexName = [TAOrder{'ExpName',c}{1},'.pex'];
+    Run(c).ExpSlxName = [TAOrder{'ExpName',c}{1},'_cs.slx'];
+    Run(c).SimConstant = ['../../../TA/', TAOrder{'SimulinkConfig',c}{1}];
+    Run(c).Settings = TAOrder{'TagsConfig',c}{1};
+end
+
+%Run(1).Settings ={
 %    }; 
-%Run(2).ExpDir = '.././Experiments/Base_Map/Simulation';
-%Run(2).AdeyeParams = 'TArosparam4.xlsx';
-%Run(2).TAgoal = './TAgoal4.xlsx';
-%Run(2).ExpName = 'Base_Map';
-%Run(2).ExpPexName = 'Base_Map.pex';
-%Run(2).ExpSlxName = 'Base_Map_cs.slx';
-%Run(2).SimConstant = './TAconstant4.xlsx';
-
-%Run(3).Settings ={
-%    }; %PreScan
-%Run(3).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
-%Run(3).AdeyeParams = 'TArosparam1.xlsx'; %matlab script for setting up ros parameters
-%Run(3).TAgoal = './TAgoal1.xlsx';
-%Run(3).ExpName = 'Test_World_1';
-%Run(3).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
-%Run(3).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
-%Run(3).SimConstant = './TAconstant1.xlsx'; %simulink comnstant blocks
-
-%Run(4).Settings ={
-%    'weather_type', 'Rain';
-%    'fl', '12';
-%    }; 
-%Run(4).ExpDir = '.././Experiments/Test_World_1/Simulation'; %directory containing experiment
-%Run(4).AdeyeParams = 'TArosparam1.xlsx'; %matlab script for setting up ros parameters
-%Run(4).TAgoal = './TAgoal1.xlsx';
-%Run(4).ExpName = 'Test_World_1';
-%Run(4).ExpPexName = 'Test_World_1.pex'; %PreScan experiment name
-%Run(4).ExpSlxName = 'Test_World_1_cs.slx'; %Simulink experiment name
-%Run(4).SimConstant = './TAconstant2.xlsx'; %simulink comnstant blocks
+%Run(1).ExpDir = '.././Experiments/W01_Base_Map/Simulation';
+%Run(1).AdeyeParams = 'TArosparam.xlsx';
+%Run(1).TAgoal = './TAgoal.xlsx';
+%Run(1).ExpName = 'W01_Base_Map';
+%Run(1).ExpPexName = 'W01_Base_Map.pex';
+%Run(1).ExpSlxName = 'W01_Base_Map_cs.slx';
+%Run(1).SimConstant = './TAconstant.xlsx';
 
 disp('Setting-up variables...');
 NrOfRuns = length(Run); % Number of simulations
@@ -88,8 +68,8 @@ disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
 for run = 1:NrOfRuns
     runCore(device) %start roscore
     rosinit(hostname) %initialise
-    cd(Run(run).ExpDir);
-    MainExperiment = pwd; 
+    %cd(Run(run).ExpDir);
+    %MainExperiment = pwd; 
     disp('Setting ros parameters from TArosparam Table');
     rosparamScript(Run(run).AdeyeParams, Run(run).ExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
@@ -101,6 +81,8 @@ for run = 1:NrOfRuns
     disp('Launching the manager file')
     system(device, managerFileLaunch);
 
+    cd(Run(run).ExpDir);
+    MainExperiment = pwd;
     load_system(Run(run).ExpSlxName);
     disp('Setting up constant blocks in Simulink model');
     simconstantSet(Run(run).SimConstant, Run(run).ExpName);
@@ -208,6 +190,7 @@ cd(BasePath);
 clear Command ExeName MainExperiment ResultDir RunModel RunName activeConfig duration endTime startTime ...
     errorCode fileID i j line regenButtonCallbackText regenButtonHandle runResult simout tag val Settings tout;
 clear()
+end
 
 %% function rosparam script
 function rosparamScript(table, worldName)
