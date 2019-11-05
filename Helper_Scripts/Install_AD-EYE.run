@@ -57,6 +57,7 @@ fi
 echo -e "\nUpdating ~/.bashrc file"
 # make modifications to bashrc to source the right workspaces
 echo "source $HOME/AD-EYE_Core/autoware.ai/install/setup.bash --extend" >> ~/.bashrc
+source ~/.bashrc
 
 cd ..
 
@@ -71,7 +72,8 @@ catkin_make
 
 echo -e "\nUpdating ~/.bashrc file"
 echo "source $HOME/AD-EYE_Core/AD-EYE/ROS_Packages/devel/setup.bash --extend" >> ~/.bashrc
-#refresh bash
-exec bash
 
 cd ~/AD-EYE_Core
+
+#refresh bash
+source ~/.bashrc
