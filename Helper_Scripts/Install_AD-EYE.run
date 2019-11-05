@@ -38,14 +38,14 @@ cd autoware.ai
 echo -e "\nInstalling system dependencies"
 sudo apt-get update
 sudo apt-get install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin gksu python3-pip python3-setuptools
-sudo -H pip3 install -U setuptools colcon-common-extensions vcstool
+sudo -H python3 -m pip install -U pip setuptools colcon-common-extensions vcstool
 
 #Ros dependencies
 echo -e "\nInstalling ROS dependencies"
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
-if[ $WITH_CUDA == 'true' ]
+if [ $WITH_CUDA == 'true' ]
 then
     echo -e "\nBuilding Autoware with CUDA support"
     AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
@@ -57,14 +57,12 @@ fi
 echo -e "\nUpdating ~/.bashrc file"
 # make modifications to bashrc to source the right workspaces
 echo "source $HOME/AD-EYE_Core/autoware.ai/install/setup.bash --extend" >> ~/.bashrc
-#refresh bash
-exec bash
 
 cd ..
 
 #meet AD-EYE dependencies
 echo -e "\nInstalling adeye dependencies"
-sudo apt-get install ros-kinetic-costmap-2d ros-kinetic-navigation ros-kinetic-grid-map
+sudo apt-get -y install ros-kinetic-costmap-2d ros-kinetic-navigation ros-kinetic-grid-map
 
 #build adeye
 echo -e "\nBuilding AD-EYE"
