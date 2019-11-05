@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSCENARIO>
+   <FileHeader author="Andreas Biehn" date="2017-07-26T10:00:00"
+               description="Sample Scenario - Double Lane Changer"
+               revMajor="0"
+               revMinor="9"/>
+   <ParameterDeclaration/>
+   <Catalogs>
+      <VehicleCatalog>
+         <Directory path="Catalogs/VehicleCatalogs"/>
+      </VehicleCatalog>
+      <DriverCatalog>
+         <Directory path="Catalogs/DriverCatalogs"/>
+      </DriverCatalog>
+      <PedestrianCatalog>
+         <Directory path="Catalogs/ObserverCatalogs"/>
+      </PedestrianCatalog>
+      <PedestrianControllerCatalog>
+         <Directory path="Catalogs/PedestrianCatalogs"/>
+      </PedestrianControllerCatalog>
+      <MiscObjectCatalog>
+         <Directory path="Catalogs/MiscObjectCatalogs"/>
+      </MiscObjectCatalog>
+      <EnvironmentCatalog>
+         <Directory path="Catalogs/EnvironmentCatalogs"/>
+      </EnvironmentCatalog>
+      <ManeuverCatalog>
+         <Directory path="Catalogs/ManeuverCatalogs"/>
+      </ManeuverCatalog>
+      <TrajectoryCatalog>
+         <Directory path="Catalogs/TrajectoryCatalog"/>
+      </TrajectoryCatalog>
+      <RouteCatalog>
+         <Directory path="Catalogs/RoutingCatalog"/>
+      </RouteCatalog>
+   </Catalogs>
+   <RoadNetwork>
+      <Logics filepath="SampleDatabase_01.xodr"/>
+      <SceneGraph filepath="SampleDatabase_01.opt.osgb"/>
+   </RoadNetwork>
+   <Entities>
+      <Object name="Ego">
+         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+         <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+         </Controller>
+      </Object>
+      <Object name="MercedesBenz_Actros_1851_LS_4x2_1">
+         <CatalogReference catalogName="TruckCatalog" entryName="AudiA4_red_147kW"/>
+         <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+         </Controller>
+      </Object>
+      <Object name="Man_200_1">
+         <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
+         <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+         </Controller>
+      </Object>
+      <Object name="BMW_X5_SUV_1">
+         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_red_147kW"/>
+         <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+         </Controller>
+      </Object>
+      <Object name="Lexus_GS_450h_F_Sport_Sedan_1">
+         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_red_147kW"/>
+         <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+         </Controller>
+      </Object>
+   </Entities>
+   <Storyboard>
+      <Init>
+         <Actions>
+            <Private object="Ego">
+               <Action>
+                  <Longitudinal>
+                     <Speed>
+                        <Dynamics shape="step"/>
+                        <Target>
+                           <Absolute value="2"/>
+                        </Target>
+                     </Speed>
+                  </Longitudinal>
+               </Action>
+               <Action>
+                  <Position>
+                     <World h="pi" p="0" r="0" x="137.74" y="136.28" z="0"/>
+                  </Position>
+               </Action>
+            </Private>
+            <Private object="MercedesBenz_Actros_1851_LS_4x2_1">
+               <Action>
+                  <Longitudinal>
+                     <Speed>
+                        <Dynamics shape="step"/>
+                        <Target>
+                           <Absolute value="50"/>
+                        </Target>
+                     </Speed>
+                  </Longitudinal>
+               </Action>
+               <Action>
+                  <Position>
+                     <World h="0" p="0" r="0" x="56.36" y="132.27" z="0"/>
+                  </Position>
+               </Action>
+            </Private>
+            <Private object="BMW_X5_SUV_1">
+               <Action>
+                  <Longitudinal>
+                     <Speed>
+                        <Dynamics shape="step"/>
+                        <Target>
+                           <Absolute value="50"/>
+                        </Target>
+                     </Speed>
+                  </Longitudinal>
+               </Action>
+               <Action>
+                  <Position>
+                     <World h="0" p="0" r="0" x="52.73" y="27.51" z="0"/>
+                  </Position>
+               </Action>
+            </Private>
+            <Private object="Lexus_GS_450h_F_Sport_Sedan_1">
+               <Action>
+                  <Longitudinal>
+                     <Speed>
+                        <Dynamics shape="step"/>
+                        <Target>
+                           <Absolute value="10"/>
+                        </Target>
+                     </Speed>
+                  </Longitudinal>
+               </Action>
+               <Action>
+                  <Position>
+                     <World h="0" p="0" r="0" x="108.77" y="27.51" z="0"/>
+                  </Position>
+               </Action>
+            </Private>
+            <Private object="Man_200_1">
+               <Action>
+                  <Longitudinal>
+                     <Speed>
+                        <Dynamics shape="step"/>
+                        <Target>
+                           <Absolute value="0"/>
+                        </Target>
+                     </Speed>
+                  </Longitudinal>
+               </Action>
+               <Action>
+                  <Position>
+                     <World h="pi*3/2" p="0" r="0" x="77.69" y="139.53" z="0"/>
+                  </Position>
+               </Action>
+            </Private>
+         </Actions>
+      </Init>
+      <Story name="MyStory" owner="Man_200_1">
+         <Act name="MyAct">
+            <Sequence name="MySequence" numberOfExecutions="1">
+               <Actors>
+                  <Entity name="Man_200_1"/>
+               </Actors>
+               <Maneuver name="MyDoubleLaneChangeManeuver">
+                  <Event name="MyLaneChangeRightEvent" priority="overwrite">
+                     <Action name="MyLaneChangeRightAction">
+                        <Private>
+                           <Longitudinal>
+                              <Speed>
+                                 <Dynamics shape="sinusoidal" time="2"/>
+                                 <Target>
+                                    <Relative object="Ego" value="1"/>
+                                 </Target>
+                              </Speed>
+                           </Longitudinal>
+                        </Private>
+                     </Action>
+                     <StartConditions>
+                        <ConditionGroup>
+                           <Condition delay="0" edge="rising" name="MyStartCondition1">
+                              <ByEntity>
+                                 <TriggeringEntities rule="any">
+                                    <Entity name="Man_200_1"/>
+                                 </TriggeringEntities>
+                                 <EntityCondition>
+                                    <Distance alongRoute="false" freespace="false" rule="less_than" value="20">
+                                       <Position>
+                                          <RelativeObject dx="0.0000000000000000e+00" dy="0.0000000000000000e+00" object="Ego"/>
+                                       </Position>
+                                    </Distance>
+                                 </EntityCondition>
+                              </ByEntity>
+                           </Condition>
+                        </ConditionGroup>
+                     </StartConditions>
+                  </Event>
+                  <Event name="MyLaneChangeLeftEvent" priority="overwrite">
+                     <Action name="MyLaneChangeLeftAction">
+                        <Private>
+                           <Longitudinal>
+                              <Speed>
+                                 <Dynamics shape="sinusoidal" time="2"/>
+                                 <Target>
+                                    <Relative object="Ego" value="-1"/>
+                                 </Target>
+                              </Speed>
+                           </Longitudinal>
+                        </Private>
+                     </Action>
+                     <StartConditions>
+                        <ConditionGroup>
+                           <Condition delay="0" edge="rising" name="MyStartCondition2">
+                              <ByState>
+                                 <AfterTermination name="MyLaneChangeRightAction" rule="any" type="action"/>
+                              </ByState>
+                           </Condition>
+                        </ConditionGroup>
+                     </StartConditions>
+                  </Event>
+               </Maneuver>
+            </Sequence>
+            <Conditions>
+               <Start>
+                  <ConditionGroup>
+                     <Condition delay="0" edge="rising" name="">
+                        <ByValue>
+                           <SimulationTime rule="equal_to" value="0"/>
+                        </ByValue>
+                     </Condition>
+                  </ConditionGroup>
+               </Start>
+            </Conditions>
+         </Act>
+      </Story>
+      <EndConditions/>
+   </Storyboard>
+</OpenSCENARIO>
