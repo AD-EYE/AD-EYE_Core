@@ -33,6 +33,7 @@ TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
 
 for c = 1:width(TAOrder)
     Run(c).ExpName = TAOrder{'ExpName',c}{1};
+    Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
     Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
     Run(c).SimulinkConfig = ['../../../TA/', TAOrder{'SimulinkConfig',c}{1}];
     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
@@ -65,7 +66,7 @@ for run = 1:NrOfRuns
     %cd(Run(run).ExpDir);
     %MainExperiment = pwd; 
     disp('Setting ros parameters from TArosparam Table');
-    rosparamScript(Run(run).AutowareConfig, Run(run).ExpName); %function (runs a MATLAB script...
+    rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     disp('Setting up goal for actor in simulation');
     [pub, msg] = rospublisher(goal ,poseStamped);
