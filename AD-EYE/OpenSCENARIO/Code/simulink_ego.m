@@ -79,9 +79,9 @@ function simulink_ego(name_simulink,models, name_ego)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Connecting lines
         
         %create variable with all the names of input port of the Main_block and Dynamic_Empty
-        h = find_system(convertStringsToChars(strcat("Simulation_cs/",name_ego,"/", Blockname0)),'SearchDepth',1,'BlockType','Inport');
+        h = find_system(convertStringsToChars(strcat(name_simulink,name_ego,"/", Blockname0)),'SearchDepth',1,'BlockType','Inport');
         h1 =convertCharsToStrings(h);
-        q = find_system(convertStringsToChars(strcat("Simulation_cs/",name_ego,"/", Blockname3)),'SearchDepth',1,'BlockType','Inport');
+        q = find_system(convertStringsToChars(strcat(name_simulink,name_ego,"/", Blockname3)),'SearchDepth',1,'BlockType','Inport');
         q1 =convertCharsToStrings(q);
         s1 = get_param(convertStringsToChars(strcat(location,Blockname0)),'PortConnectivity');
         s2 = get_param(convertStringsToChars(strcat(location,Blockname3)),'PortConnectivity');
@@ -114,8 +114,8 @@ function simulink_ego(name_simulink,models, name_ego)
         for k = 1:length(h1)
             existing(k,1) = getSimulinkBlockHandle(convertStringsToChars(h2(k,1)));
             if(existing(k,1) ~=-1)
-                h1(k,1) =  strrep(h1(k,1), strcat("Simulation_cs/",name_ego,"/",Blockname0,"/"),"");
-                 h1(k,1) =  strrep(h1(k,1), strcat("Simulation_cs/",name_ego,"/",Blockname3,"/"),"");
+                h1(k,1) =  strrep(h1(k,1), strcat(name_simulink,name_ego,"/",Blockname0,"/"),"");
+                 h1(k,1) =  strrep(h1(k,1), strcat(name_simulink,name_ego,"/",Blockname3,"/"),"");
                 %see if Main_block is already connected
                 if(s(k,1).SrcBlock == -1 && k <= length(s1))
                     add_line(location, h1(k,1),strcat(Blockname0,"/",int2str(k)))                
@@ -133,7 +133,7 @@ function simulink_ego(name_simulink,models, name_ego)
             delete_block(location1)
         end       
         
-       
+        Simulink.BlockDiagram.expandSubsystem(location0,'CreateArea','On')
     end %if statement checking which object in Prescan is the ego vehicle
 end %for loop over all Prescan objects
 

@@ -1,47 +1,48 @@
-function  API_main(name_model,name_ego,name_experiment,name_experiment_template)
-
+ function  API_main(name_ego,name_experiment,name_experiment_template)
 
 clear  trajectory_variable;
 close all;
 clc;
 clear names_trajectories
-name_simulink = convertStringsToChars(strcat(name_model,"_cs/")); 
 
-%create new folder for the compilation sheet/simulink file/.pex to be dumped
-cd  '..\..\Experiments'
-folder_name = strcat(name_experiment_template,"_OpenSCENARIO");
+% %create new folder for the compilation sheet/simulink file/.pex to be dumped
+cd( '..\..\Experiments')
+folder_name = strcat(strrep(name_experiment_template,".xosc",""));
+name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/")); 
 mkdir(convertStringsToChars(folder_name));
 
+
 %copy files to new folder
-cd( convertStringsToChars(strcat(name_experiment)) )
+cd(name_experiment )
 copyfile(  "simulation*", strcat("..\",folder_name) )
+cd(strcat("..\..\Experiments\",folder_name,"\Simulation\"))
 
 
-%load .pex, .slx, .pb
-cd '.\Simulation'
-close_system(convertStringsToChars(strcat(name_model,"_cs")),0)
-open_system(convertStringsToChars(strcat(name_model,"_cs")))
+
+close_system(convertStringsToChars(name_simulink),0)
+open_system(convertStringsToChars(name_simulink))
 %Constructing structure from xml file OpenSCENARIO
-models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_model,".pb")) );
+models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_experiment,".pb")) );
 
-%Back to the code folder
-cd  '..\..\..\OpenSCENARIO\Code\'
+%delete orginal files
+% delete(strcat(name_experiment,".pex"))
+% delete(strcat(name_experiment,".pb"))
+% delete(strcat(name_experiment,".slx"))
+
 
 
 %Go to folder to load xml file
-cd( convertStringsToChars(strcat("..\","OpenSCENARIO_experiments\")) )
-Struct_OpenSCENARIO = xml2struct(convertStringsToChars(strcat(name_experiment_template,".xosc")));
-
-
+cd( '..\..\..\OpenSCENARIO\Code\')
+%xml2struct("..\..\Experiments\Map_pedestrian_autoware1\Simulation\Map_pedestrian_autoware1.pex")
+Struct_OpenSCENARIO = xml2struct(strcat( "..\OpenSCENARIO_experiments\",name_experiment_template));
+Struct_pex = xml2struct(strcat( "..\..\Experiments\",folder_name,"\Simulation\",name_experiment,".pex"));
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%changing inital conditions
-%creating ROS blocks
- simulink_ego(name_simulink,models, name_ego) 
 %Changing object dimensions and initial position
-[Struct_OpenSCENARIO,models]= initialize_actors(models,Struct_OpenSCENARIO,name_ego);
+ [Struct_OpenSCENARIO,Struct_pex,models]= initialize_actors(models,Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
-[models] = weather_conditions(models,Struct_OpenSCENARIO);
+ [models,Struct_pex] = weather_conditions(models,Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables
@@ -54,7 +55,11 @@ Struct_OpenSCENARIO = xml2struct(convertStringsToChars(strcat(name_experiment_te
 
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%Creating Simulink blcks
+%creating ROS blocks
+ simulink_ego(name_simulink,models, name_ego) 
 %creating label to all vehicles as simulink blocks
 trajectory_labels(Velocity_variable,models,name_simulink);
 %creating initial_velocity simulink blocks
@@ -64,16 +69,22 @@ initial_velocity_dynamics(name_simulink,models,Struct_OpenSCENARIO,Velocity_vari
 
 
 
-%direct to folder where to save
-cd( convertStringsToChars(strcat("..\..\Experiments\",name_experiment_template,"_OpenSCENARIO\","Simulation")) )
+% %direct to folder where to save
+cd( strcat("..\..\Experiments\",folder_name,"\Simulation\") )
+%save .slx
+ save_system(name_simulink,strcat(folder_name,"_cs"));
+  %save .pb
+prescan.experiment.writeDataModels(models,convertStringsToChars(strcat(folder_name,".pb")) );
+% %Go back to code for redo
+ cd ('..\..\..\OpenSCENARIO\Code\') 
+%save .pex
+struct2xml(Struct_pex,strcat( "..\..\Experiments\",folder_name,"\Simulation\",folder_name,".pex"));
+%close system
+close_system(convertStringsToChars(strcat(folder_name,"_cs")),0)
 
-%save everything
-name_experiment = save_system(name_simulink,name_simulink);
-prescan.experiment.writeDataModels(models,convertStringsToChars(strcat(name_model,".pb")) );
-close_system(convertStringsToChars(strcat(name_model,"_cs")),0)
 
-%Go back to code for redo
-%call OpenSCENARIO function
-cd  '..\..\..\OpenSCENARIO\Code\'
 
-end
+
+
+
+ end

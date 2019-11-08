@@ -1,18 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%Entities Object
 %%%%%%%%%%Vehicle
-function [array,models,j] = parameter_sweep_vehicle(array, i,models,Struct_OpenSCENARIO,k )
+function [models] = parameter_sweep_vehicle(array, i,models,Struct_OpenSCENARIO,Struct_pex,k )
 for j =array %second for loop
     
-    if(isfield(convertCharsToStrings(models.worldmodel.object{j, 1}),'objectTypeID') == 1 )  %if objectTypeID exists       
+    if(isfield(convertCharsToStrings(Struct_pex.Experiment.Actors.Actor{1,j}.Attributes)  ,'ObjectTypeID') == 1 )    %if objectTypeID exists
         
         %Check if j is a car in .pex file
-        if (models.worldmodel.object{j, 1}.objectTypeID == k)
-            
+        if (str2double(Struct_pex.Experiment.Actors.Actor{1, j}.Attributes.ObjectTypeID  ) == k)
+            for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
+                %Check if j is a car in .pex file
+                if ( convertCharsToStrings(Struct_pex.Experiment.Actors.Actor{1, j}.Attributes.id    ) == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
+                    %{
             %changing name
             models.worldmodel.object{j, 1}= prescan.experiment.setFieldValue(...
                 models.worldmodel.object{j, 1},'name', Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Attributes.name );
             
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}),'Vehicle') == 1 )  %if Vehicle exists             
+            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}),'Vehicle') == 1 )  %if Vehicle exists
                 if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle),'BoundingBox') == 1 )  %if BoundingBox exists
                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.BoundingBox),'Center') == 1 )  %if Center exists
                         
@@ -22,7 +25,7 @@ for j =array %second for loop
                             if (isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.BoundingBox.Center.Attributes.x)) ~= 1)
                                 models.worldmodel.object{j, 1}.cogOffset =prescan.experiment.setFieldValue(...
                                     models.worldmodel.object{j, 1}.cogOffset ,'x' ,str2num(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.BoundingBox.Center.Attributes.x  ) );
-                            end                            
+                            end
                         end %x field check
                         
                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.BoundingBox.Center.Attributes),'y') == 1 )  %if y exists
@@ -44,7 +47,7 @@ for j =array %second for loop
                     
                     
                     
-                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Dimensions                    
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Dimensions
                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.BoundingBox),'Dimensions') == 1 )  %if Dimensions exists
                         %Changing car dimensions
                         
@@ -75,7 +78,7 @@ for j =array %second for loop
                 
                 
                 
-                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Performance                                    
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Performance
                 if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle),'Performance') == 1 )  %if Performance exists
                     
                     %Changing car perfomance
@@ -102,9 +105,9 @@ for j =array %second for loop
                 end %Performance field check
                 
                 
-                         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Axles                
+                         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Axles
                 if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle),'Axles') == 1 )  %if Axles exists
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.Axles),'Front') == 1 )  %if Axles exists                        
+                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.Axles),'Front') == 1 )  %if Axles exists
                         
                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.Axles.Front.Attributes),'maxSteering') == 1 )  %if maxSteering exists
                             %Changing car axles
@@ -131,17 +134,18 @@ for j =array %second for loop
                                     models.worldmodel.object{j, 1}.genericModel.contents.genericModelDynamics.parameters2dDynamics.dynamicsParameters...
                                     ,'trackWidth' ,single(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Vehicle.Axles.Front.Attributes.trackWidth)) );
                             end
-                        end  %trackWidth field check                        
+                        end  %trackWidth field check
                         
                     end%Axles field check
                 end  %Front field check
                 
             end %vehicle field check
-            
-            
-            
-            array(array == j) = []; %do not use this vehicle again in the main loop
-            break;                  %break for second loop
+                    %}
+                    
+                    
+                end
+            end
         end %check if it has a objectTypeID
     end
 end
+end%main function end

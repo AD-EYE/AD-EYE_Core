@@ -29,14 +29,14 @@ for j =1:length(models.worldmodel.object) %main for loop
                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed),'Target') == 1 )  %if Longitudinal exists
                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target),'Absolute') == 1 )  %if Absolute exists
                                             
-                                            Velocity_variable(k,4) = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value);
+                                            Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value);
                                             Velocity_variable(k,5) = "Absolute";
                                             
                                         end %check Absolute
                                         
                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target),'Relative') == 1 )  %if Absolute exists
                                             
-                                            Velocity_variable(k,4) = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Relative.Attributes.value);
+                                            Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Relative.Attributes.value);
                                             Velocity_variable(k,5) = "Relative";
                                             
                                         end %check Relative

@@ -1,11 +1,17 @@
 %%%%%%%%%%%%%%%%%%%%Entities Object
 %%%%%%%%%%Vehicle
-function [array,models,j] = parameter_sweep_bicycle(array, i,models,Struct_OpenSCENARIO,k )
-for j =array %main for loop
+function [models] = parameter_sweep_bicycle(array, i,models,Struct_OpenSCENARIO,Struct_pex,k )
+for j =array %second for loop
     
-    if(isfield(convertCharsToStrings(models.worldmodel.object{j, 1}),'objectTypeID') == 1 )  %if objectTypeID exists
-        if (models.worldmodel.object{j, 1}.objectTypeID == k && convertCharsToStrings(models.worldmodel.object{j, 1}.objectTypeName) == "CyclingCyclist2")
-            
+    if(isfield(convertCharsToStrings(Struct_pex.Experiment.Actors.Actor{1,j}.Attributes)  ,'ObjectTypeID') == 1 )    %if objectTypeID exists
+        
+        %Check if j is a car in .pex file
+        if (str2double(Struct_pex.Experiment.Actors.Actor{1, j}.Attributes.ObjectTypeID  ) == k)
+            for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
+                %Check if j is a car in .pex file
+                if ( convertCharsToStrings(Struct_pex.Experiment.Actors.Actor{1, j}.Attributes.id    ) == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
+                    z = j
+                    %{
             %changing name
             models.worldmodel.object{j, 1}= prescan.experiment.setFieldValue(...
                 models.worldmodel.object{j, 1},'name', Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object{1, i}.Attributes.name );
@@ -79,11 +85,10 @@ for j =array %main for loop
                 
                 
             end %vehicle field check
-            
-            array(array == j) = []; %do not use this vehicle again in the main loop
-            break;                  %break for second loop
+                    %}
+                end
+            end
         end %check if it is the object, CyclingCyclist2
     end%check if it has a objectTypeID
 end %Main for loop
-j
 end %end of function

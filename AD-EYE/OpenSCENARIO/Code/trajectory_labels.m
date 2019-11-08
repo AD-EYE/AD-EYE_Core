@@ -25,8 +25,8 @@ for i = 1:length(Velocity_variable(:,1))
                     size_blk = get_param(location4,'Position');
                     X = size_blk(1,1)+150;
                     Y = size_blk(1,2)-25+height;
-                    Width = size_blk(1,3)*0.2;
-                    Height = size_blk(1,4)*0.1;
+                    Width = 50;
+                    Height = 26;
                     set_param(location5,'Position',[X Y X+Width Y+Height]);
                 end                
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%delete Terminators

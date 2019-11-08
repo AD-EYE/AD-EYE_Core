@@ -42,8 +42,8 @@ function varargout = struct2xml( s, varargin )
             error('Filename can not be empty');
         end
 
-        if (isempty(strfind(file,'.xosc')))
-            file = [file '.xosc'];
+        if (isempty(strfind(file,'.pex')))
+            file = [file '.pex'];
         end
     end
     

@@ -1,5 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%Storyboard Story Act Sequence
-%%%%%%%%%% name/numberOfExecutions/Actors/Maneuver{1,m}
 function [trajectory_variable] = trajectory_declaring(models,Struct_OpenSCENARIO)
 
 for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of Stories
