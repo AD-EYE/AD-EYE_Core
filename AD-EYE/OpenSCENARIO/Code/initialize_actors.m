@@ -75,7 +75,7 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object) %Declare numb
                 Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, i}.Attributes.object = convertStringsToChars(name_ego);
             end %check ego
             
-            %disp('In VechicleCatalog')
+            disp('In VechicleCatalog')
             k = 1;  % Car
             % [models] = parameter_sweep_vehicle(array, i, models,Struct_OpenSCENARIO,Struct_pex,k ); %changing object parameters
             [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial condition
@@ -91,7 +91,7 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object) %Declare numb
                 Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, i}.Attributes.object = convertStringsToChars(name_ego);
             end %check ego
             
-            %disp('In TruckCatalog')
+            disp('In TruckCatalog')
             k = 3;  % Truck
             % [models] = parameter_sweep_vehicle(array, i, models,Struct_OpenSCENARIO,Struct_pex,k ); %changing object parameters
             [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial condition
@@ -107,7 +107,7 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object) %Declare numb
                 Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, i}.Attributes.object = convertStringsToChars(name_ego);
             end %check ego
             
-            %disp('In MotorbikeCatalog')
+            disp('In MotorbikeCatalog')
             k = 2;  % Motorbike
             %  [models] = parameter_sweep_vehicle(array, i, models,Struct_OpenSCENARIO,Struct_pex,k ); %changing object parameters
             [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial condition
@@ -123,8 +123,9 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.Object) %Declare numb
                 Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, i}.Attributes.object = convertStringsToChars(name_ego);
             end %check ego
             
-            %disp('In PedestrianCatalog')
+            disp('In PedestrianCatalog')
             k = 4;
+            disp('miep')
             %  [models] = parameter_sweep_pedestrian(array, i, models,Struct_OpenSCENARIO,Struct_pex,k );  %changing object parameter
             [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i);   %changing initial conditions
             

@@ -24,11 +24,6 @@ open_system(convertStringsToChars(name_simulink))
 %Constructing structure from xml file OpenSCENARIO
 models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_experiment,".pb")) );
 
-%delete orginal files
-% delete(strcat(name_experiment,".pex"))
-% delete(strcat(name_experiment,".pb"))
-% delete(strcat(name_experiment,".slx"))
-
 
 
 %Go to folder to load xml file
@@ -36,6 +31,9 @@ cd( '..\..\..\OpenSCENARIO\Code\')
 %xml2struct("..\..\Experiments\Map_pedestrian_autoware1\Simulation\Map_pedestrian_autoware1.pex")
 Struct_OpenSCENARIO = xml2struct(strcat( "..\OpenSCENARIO_experiments\",name_experiment_template));
 Struct_pex = xml2struct(strcat( "..\..\Experiments\",folder_name,"\Simulation\",name_experiment,".pex"));
+
+%delete orginal files
+delete_files(name_experiment,folder_name)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%changing inital conditions

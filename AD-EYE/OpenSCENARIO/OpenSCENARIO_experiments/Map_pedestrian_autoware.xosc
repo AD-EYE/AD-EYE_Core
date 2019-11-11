@@ -143,7 +143,7 @@
                         <Speed>
                             <Dynamics shape="step"/>
                             <Target>
-                                <Absolute value="[10:10:40]"/>
+                                <Absolute value="40"/>
                             </Target>
                         </Speed>
                     </Longitudinal>
@@ -190,9 +190,9 @@
                             <Private>
                                 <Longitudinal>
                                     <Speed>
-                                        <Dynamics shape="sinusoidal" time="2"/>
+                                        <Dynamics shape="sinusoidal" time="1"/>
                                         <Target>
-                                            <Relative object="Ego" value="1"/>
+                                            <Relative object="Ego" value="3"/>
                                         </Target>
                                     </Speed>
                                 </Longitudinal>
@@ -223,9 +223,9 @@
                             <Private>
                                 <Longitudinal>
                                     <Speed>
-                                        <Dynamics shape="sinusoidal" time="2"/>
+                                        <Dynamics shape="sinusoidal" time="1.5"/>
                                         <Target>
-                                            <Relative object="Ego" value="-1"/>
+                                            <Relative object="Ego" value="-3"/>
                                         </Target>
                                     </Speed>
                                 </Longitudinal>

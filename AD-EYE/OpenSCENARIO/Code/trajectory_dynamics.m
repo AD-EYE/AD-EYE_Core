@@ -283,26 +283,6 @@ for j = 1:length(models.worldmodel.object)
                                                         %change constant to account for shift if step
                                                     end
                                                     
-                                                    if( isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                            .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'TimeHeadWay') == 1)
-                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("T_",trajectory_type(1,z) ,Blockid(1,j) )) )
-                                                    else
-                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("D_",trajectory_type(1,z) ,Blockid(1,j) )) )
-                                                    end
-                                                    
-                                                    %change constant to account for shift if step
-                                                    if(Blockname3 ==  "Trajectory_input_step")
-                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/Constant1")),'Value', num2str(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                            .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time)));
-                                                    end
-                                                    
-                                            %Checking for Aftertermination field
-                                            if(isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                    .Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name)),'Aftertermination') == 1)
-                                                set_param(convertStringsToChars(strcat(location3,Blockname6,"/Constant1")),'Value', num2str(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time)));
-                                            end
-                        
 %%%%%%%%%%%%%%%%%%%%%%% %%%%%Parameters of Trajectory_input
                                                 Blockname7 = "/Trajectory_input";
                                                 %switch
@@ -315,16 +295,40 @@ for j = 1:length(models.worldmodel.object)
                                                 %function
                                                 set_param(convertStringsToChars(strcat(location3,Blockname7,"/Sine1")),'Function','sin')
                                                 %constants and gains
-                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Constant3")),'Value',num2str(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value)))
+                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Constant3")),'Value',(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
                                                 set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain4")),'Gain','-1')
                                                 value1 = 4*str2num(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                     .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time));
                                                 value2 = 2*pi/value1;
-                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain5")),'Gain',num2str(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value)))
-                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain6")),'Gain',convertStringsToChars(num2str(value2)))
+                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain5")),'Gain',(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
+                                                set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain6")),'Gain',convertStringsToChars(num2str(value2)))                                                                                                
+                                                %used in Aftertermination
+                                                a(i,1) = convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time);
                                                 
+                                                    
+                                                    if( isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                            .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'TimeHeadWay') == 1)
+                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("T_",trajectory_type(1,z) ,Blockid(1,j) )) )
+                                                    else
+                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("D_",trajectory_type(1,z) ,Blockid(1,j) )) )
+                                                    end
+                                                    
+                                                    %change constant to account for shift if step
+                                                    if(Blockname3 ==  "Trajectory_input_step")
+                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/Constant1")),'Value', a(i-1,1));
+                                                    end
+                                                    
+                                            %Checking for Aftertermination field
+                                            if(isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
+                                                    .Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name)),'Aftertermination') == 1)
+                                                set_param(convertStringsToChars(strcat(location3,Blockname6,"/Constant1")),'Value', a(i-1,1));
+                                               
+                                            end
+                        
+
                                             end %if statement Distance_RelativeObject check
                                         end %if statement Objects check
                                     end %if statement lateral check
