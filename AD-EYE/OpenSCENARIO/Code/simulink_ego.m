@@ -1,4 +1,4 @@
-function simulink_ego(name_simulink,models, name_ego)
+function simulink_ego(name_simulink,models, name_ego,Struct_pex)
 
 for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml file %main for loop
     
@@ -124,18 +124,18 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
                 end
             end
         end
+
+        %Chaning Rain constant
+        Blockname1 = "R";
+        location1 = convertStringsToChars(strcat(location,Blockname0,"/",Blockname1));
+        if (Struct_pex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
+            rho = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.Density);
+            Vp = abs(str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Direction.Attributes.Z));
+            Dp = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.PSize)*10^-3;
+            R =(rho*Vp*pi*Dp^3)/6;
+            set_param(location1,'Value',num2str(R));
+        end
         
-%         %delete State variable in Dynamics_Empty
-%         Blockname0 = "Simulink_state_NEW";
-%         Blockname1 = "Dynamics_Empty";
-%         location1 = convertStringsToChars(strcat(location,Blockname1,"/STATE_",name_ego));
-%         if (getSimulinkBlockHandle(location1) ~= -1)
-%             h = get_param(location1,'Linehandles');
-%             delete_line(h.Outport(1));
-%             delete_line(h.Inport(1));
-%             delete_block(location1);
-%         end
-%         
         Simulink.BlockDiagram.expandSubsystem(location0,'CreateArea','On')
     end %if statement checking which object in Prescan is the ego vehicle
 end %for loop over all Prescan objects
