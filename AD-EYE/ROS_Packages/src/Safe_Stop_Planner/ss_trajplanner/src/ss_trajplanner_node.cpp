@@ -13,7 +13,8 @@
 #include <cpp_utils/vector_ops.h>
 #include <ss_trajplanner/trajectory_set_handler.h>
 
-#define GREEN 10
+#define WHITE 1
+#define GREEN 30
 #define YELLOW 50
 #define RED 99
 
@@ -82,7 +83,7 @@ public:
       loop_rate.sleep();
     }
     counter = 1;
-    
+
     // loads in the occupancy map
     col_checker = planner_utils::get_collision_checker_from_topic("SSMP_base_link", cm_base, 5, "raw_data");
     ROS_INFO_STREAM("Finished loading safety planner");
@@ -135,7 +136,7 @@ public:
               // set up pose to be checked
               geometry_msgs::PoseStamped pose_st;
               pose_st.pose.position.x = x_ego + traj.X.at(j)*cos(yaw_ego) - traj.Y.at(j)*sin(yaw_ego);
-              pose_st.pose.position.y = y_ego + traj.X.at(j)*sin(yaw_ego) + traj.Y.at(j)*cos(yaw_ego);       
+              pose_st.pose.position.y = y_ego + traj.X.at(j)*sin(yaw_ego) + traj.Y.at(j)*cos(yaw_ego);
               tf::Quaternion tf_q = cpp_utils::get_tf_quat(traj.psi.at(j) + yaw_ego);
               tf::quaternionTFToMsg(tf_q,pose_st.pose.orientation);
 
@@ -156,20 +157,20 @@ public:
             }
 
             // evaluate S(O(x(t)))
-            int endpose_cost;
+            int endpose_cost = 0;
             if(val_endpose == YELLOW){           // yellow - in lane
               endpose_cost = 2;
               yellow_trajs++;
             } else if(val_endpose == GREEN){    // green - safe area
               endpose_cost = 1;
               green_trajs++;
-            } else{ // val_endpose == RED     // red - unsafe area
+            } else if(val_endpose == RED) {     // red - unsafe area
               endpose_cost = 3;
               red_trajs++;
             }
 
             // evaluate cost function
-            double cost = traj.timeUntilStopped/traj.t.back() + endpose_cost; 
+            double cost = traj.timeUntilStopped/traj.t.back() + endpose_cost;
             if(cost < min_cost){
               min_cost = cost;
               index_of_mincost_traj = i;
@@ -244,13 +245,13 @@ public:
         entire_traj_pub_.publish(entire_traj_msg);
         if(green_trajs+yellow_trajs+red_trajs != 0){
           amount_trajs_pub_.publish(trajcategory);
-        }      
+        }
 
         loop_rate.sleep();
       }
-      
+
       finish:
-      ROS_INFO("Finished"); 
+      ROS_INFO("Finished");
 
     } catch (const std::out_of_range& oor) {
       std::cerr << "Out of Range error: " << oor.what() << '\n';
