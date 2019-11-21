@@ -16,7 +16,13 @@
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
-    <node pkg="adeye" type="safetySupervisor" name="safetySupervisor" output="screen"/>
+
+    <node pkg="adeye"
+          type="safetySupervisor"
+          name="safetySupervisor"
+          output="screen"
+          launch-prefix="xterm -e"
+          args="/gps_to_base_link"/>
 
 
     <node pkg="ss_trajplanner"

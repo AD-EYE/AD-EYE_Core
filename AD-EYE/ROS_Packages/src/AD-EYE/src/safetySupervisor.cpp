@@ -1,4 +1,6 @@
 #include <ros/ros.h>
+#include <ros/master.h>
+#include <ros/this_node.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 
@@ -29,7 +31,7 @@ private:
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
 
-    //ros::Publisher pubArea;  //Used for critical area visualization
+    ros::Publisher pubArea;  //Used for critical area visualization
 
     // constants
     bool SAFE = 0;
@@ -52,6 +54,7 @@ private:
     //grid_map_msgs::GridMap gridmap;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory;
+    ros::V_string nodes_to_check;
 
 public:
     /*!
@@ -59,7 +62,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh) : nh_(nh)
+    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
     {
         // Initialize the node, publishers and subscribers
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
@@ -68,7 +71,7 @@ public:
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
         subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
 
-        //pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
+        pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
 
         // Initialize the variables
         state = SAFE;
@@ -77,6 +80,11 @@ public:
         gnss_flag = 0;
         gridmap_flag = 0;
         //rate(float 20);
+        //nodes_to_check.push_back("/gps_to_base_link");
+        std::cout << argc << '\n';
+        for(int i = 1; i<argc; i++){
+            nodes_to_check.push_back(argv[i]);
+        }
 
     }
 
@@ -120,6 +128,24 @@ public:
     }
 
     /*!
+     * \brief Check active nodes : Called at every interation of the main loop
+     * \Checks if all the necesary nodes are alive
+     */
+    bool check_active_nodes()
+    {
+        ros::V_string nodes_alive;
+        ros::master::getNodes(nodes_alive);
+        //std::for_each(nodes.begin(), nodes.end(), [](std::string s) { std::cout << s << std::endl;});
+        for(auto node : nodes_to_check){
+          if(std::find(nodes_alive.begin(), nodes_alive.end(), node) == nodes_alive.end()){
+            std::cout << "ERROR: " << node << "was not found" << '\n';
+            return false;
+          }
+        }
+        return true;
+    }
+
+    /*!
      * \brief The main loop of the Node
      * \details Basically checks for topics updates, then evaluate
      * the situation and triggers (or not) the safety switch depending of
@@ -158,8 +184,13 @@ public:
      */
     void evaluate()
     {
-        //Is the center of the car inside the road
         state = SAFE;
+        //Are all the necesary nodes alive
+        if (check_active_nodes() == false){
+            state = UNSAFE;
+            return;
+        }
+        //Is the center of the car inside the road
         float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
         //ROS_INFO("Lane ID : %f", current_lane_id);
         if (current_lane_id == 0) {
@@ -193,14 +224,14 @@ public:
         critArea.addVertex(point3);
         critArea.addVertex(point4);
 
-        /*visualization_msgs::Marker ca_visu;  //Used for critical area visualization
+        visualization_msgs::Marker ca_visu;  //Used for critical area visualization
         std_msgs::ColorRGBA color;
         color.r = 1.0;
         color.a = 1.0;
         grid_map::PolygonRosConverter::toLineMarker(critArea, color, 0.2, 0.5, ca_visu);
         ca_visu.header.frame_id = gridmap.getFrameId();
         ca_visu.header.stamp.fromNSec(gridmap.getTimestamp());
-        pubArea.publish(ca_visu);*/
+        pubArea.publish(ca_visu);
 
         for(grid_map::PolygonIterator areaIt(gridmap, critArea) ; !areaIt.isPastEnd() ; ++areaIt) {
             if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
@@ -216,7 +247,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
-    SafetySupervisor safetySupervisor(nh);
+    SafetySupervisor safetySupervisor(nh, argc, argv);
     safetySupervisor.run();
     return 0;
 }
