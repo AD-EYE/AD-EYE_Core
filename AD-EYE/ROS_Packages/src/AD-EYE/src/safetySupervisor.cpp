@@ -8,11 +8,19 @@
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
 #include <autoware_msgs/Lane.h>
+#include <autoware_msgs/LaneArray.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
 #include <visualization_msgs/Marker.h> //Used for critical area visualization
 #include <std_msgs/ColorRGBA.h>        //Used for critical area visualization
+
+#include "op_planner/PlannerH.h"
+#include "op_ros_helpers/op_ROSHelpers.h"
+#include <math.h>
+//#include "RoadNetwork.h"
+
+//#include "op_ros_helpers/op_ROSHelpers.h"
 
 //using namespace grid_map;
 
@@ -30,6 +38,7 @@ private:
     ros::Subscriber subGnss;
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
+    ros::Subscriber subAutowareGlobalPlan;
 
     ros::Publisher pubArea;  //Used for critical area visualization
 
@@ -50,11 +59,14 @@ private:
     bool gnss_flag;
     bool gridmap_flag;
     bool autowareTrajectory_flag;
+    bool autowareGlobalPaths_flag;
     std_msgs::Int32 msg;
     //grid_map_msgs::GridMap gridmap;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory;
     ros::V_string nodes_to_check;
+    std::vector<std::vector<PlannerHNS::WayPoint>> autowareGlobalPaths;
+    std::vector<PlannerHNS::WayPoint> m_temp_path;
 
 public:
     /*!
@@ -70,6 +82,7 @@ public:
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
         subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
+        subAutowareGlobalPlan = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
 
         pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
 
@@ -79,6 +92,8 @@ public:
         // Initialize the flags
         gnss_flag = 0;
         gridmap_flag = 0;
+        autowareTrajectory_flag = 0;
+        autowareGlobalPaths_flag = 0;
         //rate(float 20);
         //nodes_to_check.push_back("/gps_to_base_link");
         std::cout << argc << '\n';
@@ -128,6 +143,26 @@ public:
     }
 
     /*!
+     * \brief Autoware global plan Callback : Called when the autoware global plan information has changed.
+     * \
+     * \
+     */
+    void autowareGlobalPlan_callback(const autoware_msgs::LaneArrayConstPtr& msg)
+    {
+      if(msg->lanes.size() > 0)
+      {
+          autowareGlobalPaths.clear();
+          autowareGlobalPaths_flag = 1;
+          for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
+          {
+              PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
+              PlannerHNS::PlanningHelpers::CalcAngleAndCost(m_temp_path);
+              autowareGlobalPaths.push_back(m_temp_path);
+          }
+      }
+    }
+
+    /*!
      * \brief Check active nodes : Called at every interation of the main loop
      * \Checks if all the necesary nodes are alive
      */
@@ -146,6 +181,58 @@ public:
     }
 
     /*!
+     * \brief Check distance to lane : Called at every interation of the main loop
+     * \Checks the distance to the center line of the lane
+     */
+    void checkDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p0)
+    {
+        double distance = -1;
+        std::vector<int> twoClosestIndex = getClosestIndex(trajectory, p0);
+        int closestIndex = twoClosestIndex.at(0);
+        int secondClosestIndex = twoClosestIndex.at(1);
+        PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
+        PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
+        distance = fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2));
+        std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
+        //return distance;
+    }
+
+    /*!
+     * \brief Get closest index : Called at every interation of the main loop
+     * \Finds the closest point in a trajectory to a certain point
+     */
+    std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
+    {
+        int closestIndex = 0;
+        int secondClosestIndex = 0;
+        double d = 0;
+        double d_closestIndex = DBL_MAX;
+        double d_secondClosestIndex = DBL_MAX;
+        std::vector<int> twoClosestIndex;
+        if(trajectory.size()>1){
+            for(int i=0; i<trajectory.size(); i++){
+                //d = distanceSqr(trajectory[i].pos, p.pos);
+                d = pow(trajectory[i].pos.x - p.pos.x, 2) + pow(trajectory[i].pos.y - p.pos.y, 2);
+                if(d < d_secondClosestIndex){
+                    if(d < d_closestIndex){
+                        secondClosestIndex = closestIndex;
+                        d_secondClosestIndex = d_closestIndex;
+                        closestIndex = i;
+                        d_closestIndex = d;
+                    }
+                    else{
+                        secondClosestIndex = i;
+                        d_secondClosestIndex = d;
+                    }
+                }
+            }
+        }
+        twoClosestIndex.push_back(closestIndex);
+        twoClosestIndex.push_back(secondClosestIndex);
+        return twoClosestIndex;
+    }
+
+    /*!
      * \brief The main loop of the Node
      * \details Basically checks for topics updates, then evaluate
      * the situation and triggers (or not) the safety switch depending of
@@ -157,7 +244,7 @@ public:
         while(nh_.ok())
         {
             ros::spinOnce();
-            if(gnss_flag == 1 && gridmap_flag == 1)
+            if(gnss_flag == 1 && gridmap_flag == 1 && autowareGlobalPaths_flag == 1)
             {
                 evaluate();
                 publish();
@@ -185,6 +272,8 @@ public:
     void evaluate()
     {
         state = SAFE;
+        //Check our distance to the center line of the lanes
+        checkDistanceToLane(autowareGlobalPaths.at(0), PlannerHNS::WayPoint(pose.position.x, pose.position.y, pose.position.z, tf::getYaw(pose.orientation)));
         //Are all the necesary nodes alive
         if (check_active_nodes() == false){
             state = UNSAFE;

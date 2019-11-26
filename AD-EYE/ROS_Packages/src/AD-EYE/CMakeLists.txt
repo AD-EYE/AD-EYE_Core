@@ -17,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
   cpp_utils
   planner_utils
   autoware_msgs
+  op_planner
+  op_ros_helpers
 )
 
 
@@ -33,6 +35,8 @@ catkin_package(
     std_msgs
     geometry_msgs
     autoware_msgs
+    op_planner
+    op_ros_helpers
   DEPENDS
 )
 
