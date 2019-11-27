@@ -38,9 +38,9 @@ delete_files(name_experiment,folder_name)
 
 %%%%%%%%%%%%%%%%%%%%%%%%changing inital conditions
 %Changing object dimensions and initial position
- [Struct_OpenSCENARIO,Struct_pex,models]= initialize_actors(models,Struct_OpenSCENARIO,Struct_pex,name_ego);
+ [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
- [models,Struct_pex] = weather_conditions(models,Struct_OpenSCENARIO,Struct_pex);
+ [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables

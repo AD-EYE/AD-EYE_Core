@@ -1,4 +1,4 @@
-function [models,Struct_pex] = weather_conditions(models,Struct_OpenSCENARIO,Struct_pex)
+function [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex)
 
 ERROR = 1;
 

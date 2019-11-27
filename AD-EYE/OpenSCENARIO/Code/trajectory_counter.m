@@ -1,11 +1,12 @@
 function [Lateral_events,Longitudinal_events] = trajectory_counter(models,Struct_OpenSCENARIO,trajectory_variable)
 
+p = length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story);
+    Lateral_events = zeros(1,p);
+    Longitudinal_events = zeros(1,p);
+
 
 for p = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of Stories
-    
-    Lateral_events(1,p)= 0;
-    Longitudinal_events(1,p)=0;
-    
+ 
 
     if( exist('trajectory_variable','var') == 1)
         
