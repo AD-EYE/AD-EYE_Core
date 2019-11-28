@@ -23,8 +23,10 @@ using namespace grid_map;
 
 /*!
  * \brief The GridMapCreator maintains a grid map used to know where safe places are
- * \details It is used by the safety channel in order to know where it is better to
- * perform an emergency stop.
+ * \details A submap is sent to the flattening node which build a occupancy grid map
+ * for the Safety channel to know where are the safe places (for an emergency stop).
+ * The submap is aligned by design with the global axis of the map. So the submap sent to the
+ * flatening node is a square that contains the rectangle representing the final occmap
  */
 class GridMapCreator
 {
@@ -63,6 +65,9 @@ private:
     //Map
     GridMap map;
     float mapResolution;
+    float occmap_width;
+    float occmap_height;
+    float car_offset;
     float submap_dimensions;
     //Ros utils
     ros::Rate rate;
@@ -85,7 +90,15 @@ public:
         sub_DynamicObjects = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::DynamicObjects_callback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        submap_dimensions = 35;               // Both the length and the width of the submap in meters, increasing this value will cause the flattening node to become slower, 35 is the minimum value
+        float dist_front = 50;                // Distance (in meter) in front of the center of mass of the car that remains in the occmap area
+        float dist_back = 25;                 // Distance (in meter) behind the center of mass of the car that remains in the occmap area
+        occmap_width = 35;                    // The width in meter...
+        occmap_height =                       // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+                dist_front + dist_back;
+        submap_dimensions =                   // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                sqrt(std::pow(occmap_width, 2) + std::pow(occmap_height, 2));
+        car_offset =                          // relative distance between the center of the grid map and the center of the car (logitudinal axis...
+                dist_front - occmap_height/2; // ... positive towards the front of the car
         mapResolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
         frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
         rate = ros::Rate(frequency);
@@ -176,6 +189,8 @@ public:
         grid_map::Polygon otherCarOld;
         grid_map::Polygon otherCar;
 
+        Position subMap_center;
+        const Length subMap_size(submap_dimensions, submap_dimensions);
         bool subsucces;
         GridMap subMap;
 
@@ -235,10 +250,13 @@ public:
 
             // publish stuff
             // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
+            subMap_center.x() = x_ego + car_offset*cos(yaw_ego);
+            subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
             map.setTimestamp(ros::Time::now().toNSec());
-            subMap = map.getSubmap(Position(x_ego+(0.5*submap_dimensions-length_ego)*cos(yaw_ego), y_ego+(0.5*submap_dimensions-length_ego)*sin(yaw_ego)), Length(submap_dimensions, submap_dimensions), subsucces);
+            subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
             if(subsucces == false){
-                ROS_INFO("Error");
+                ROS_ERROR("GridMapCreator : Error when creating the submap");
+                continue;
             }
 
             GridMapRosConverter::toMessage(subMap, message);
@@ -249,7 +267,7 @@ public:
 
             rostime = ros::Time::now().toSec() - rostime;
             if(rostime > 1/frequency){
-                ROS_INFO("frequency is not met!");
+                ROS_WARN("frequency is not met!");
             }
             rate.sleep();
         }
