@@ -166,7 +166,7 @@ public:
      * \brief Check active nodes : Called at every interation of the main loop
      * \Checks if all the necesary nodes are alive
      */
-    bool check_active_nodes()
+    bool checkActiveNodes()
     {
         ros::V_string nodes_alive;
         ros::master::getNodes(nodes_alive);
@@ -233,6 +233,37 @@ public:
     }
 
     /*!
+     * \brief Check distance to roadedge : Called at every interation of the main loop
+     * \Checks the distance to the roadedge
+     */
+    double checkDistanceToRoadedge(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    {
+        float current_lane_id;
+        double x = pose.position.x;
+        double y = pose.position.y;
+        double distanceToCheck = 3;
+        double resolution = 0.1;
+        double count = distanceToCheck/resolution;
+        double distance = distanceToCheck;
+        for (size_t i = 0; i < count; i++) {
+            x2 = ...;
+            y2 = ...;
+            current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x2, y2));
+            if (current_lane_id == 0) {
+                distance = i*resolution;
+            }
+        }
+        //Is the center of the car inside the road
+        float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
+        //ROS_INFO("Lane ID : %f", current_lane_id);
+        if (current_lane_id == 0) {
+            ROS_WARN_THROTTLE(1, "The center of the car is not inside the road");
+            state = UNSAFE;
+            return;
+        }
+    }
+
+    /*!
      * \brief The main loop of the Node
      * \details Basically checks for topics updates, then evaluate
      * the situation and triggers (or not) the safety switch depending of
@@ -275,7 +306,7 @@ public:
         //Check our distance to the center line of the lanes
         checkDistanceToLane(autowareGlobalPaths.at(0), PlannerHNS::WayPoint(pose.position.x, pose.position.y, pose.position.z, tf::getYaw(pose.orientation)));
         //Are all the necesary nodes alive
-        if (check_active_nodes() == false){
+        if (checkActiveNodes() == false){
             state = UNSAFE;
             return;
         }
