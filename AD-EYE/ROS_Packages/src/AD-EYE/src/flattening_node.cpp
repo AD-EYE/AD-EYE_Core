@@ -45,8 +45,8 @@ private:
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
     const float dangerous_height = 0.20;
     nav_msgs::OccupancyGrid occGrid;
-    const float occmap_width = 35;  //This value should be aligned with the value used in GridMapCreator_node
-    const float occmap_height = 75; //This value should be aligned with the value used in GridMapCreator_node
+    const float occmap_width;
+    const float occmap_height;
     float submap_dimensions;
     GridMap gridMap;
     float frequency = 30; // this value should be alligned with the frequency value used in the GridMapCreator_node
@@ -57,9 +57,15 @@ public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param area_width The width in meter of the ssmp occupancy area
+     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
+     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
      * \details Initializes the node and its components such as publishers and subscribers.
+     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    OccMapCreator(ros::NodeHandle &nh) : nh_(nh), rate(1)
+    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
+        occmap_width(area_width),                               // The width in meter...
+        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
     {
         // Initialize node and publishers
         pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
@@ -225,12 +231,36 @@ public:
     }
 };
 
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <area_width> <area_height_front> <area_height_back>");
+}
+
 int main(int argc, char** argv)
 {
+    if(argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    //Convert cli args into float (with error handling)
+    float area_width, area_height_front, area_height_back;
+    try {
+        area_width = std::atof(argv[1]);
+        area_height_front = std::atof(argv[2]);
+        area_height_back = std::atof(argv[3]);
+    } catch (const std::exception& e) {
+        ROS_FATAL_STREAM("GridMapCreator:\n Error when parsing arguments : " << e.what());
+        exit(EXIT_FAILURE);
+    } catch (...) {
+        ROS_FATAL("GridMapCreator:\nUndefined error when parsing arguments..\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Initialize node
     ros::init(argc, argv, "flattening");
     ros::NodeHandle nh;
-    OccMapCreator omc(nh);
+    OccMapCreator omc(nh, area_width, area_height_front, area_height_back);
     omc.run();
     return 0;
 }

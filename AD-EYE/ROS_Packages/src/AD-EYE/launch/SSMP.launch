@@ -5,8 +5,12 @@
     </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
+    <arg name="area_width" value="35" />
+    <arg name="area_height_front" value="50" />
+    <arg name="area_height_back" value="25" />
 
-    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
+    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen"
+        args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
@@ -15,8 +19,9 @@
                value="$(arg Pex_Folder)W01_Base_Map.pex"/>
     </node>
 
-    <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
-    <node pkg="adeye" type="safetySupervisor" name="safetySupervisor" output="screen"/>
+    <node pkg="adeye" type="flattening" name="flattening" output="screen"
+        args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
+    <!--node pkg="adeye" type="safetySupervisor" name="safetySupervisor" output="screen"/-->
 
 
     <node pkg="ss_trajplanner"

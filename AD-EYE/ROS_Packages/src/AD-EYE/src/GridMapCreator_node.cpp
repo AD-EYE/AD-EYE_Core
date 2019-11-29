@@ -65,10 +65,10 @@ private:
     //Map
     GridMap map;
     float mapResolution;
-    float occmap_width;
-    float occmap_height;
-    float car_offset;
-    float submap_dimensions;
+    const float occmap_width;
+    const float occmap_height;
+    const float car_offset;
+    const float submap_dimensions;
     //Ros utils
     ros::Rate rate;
     float frequency;
@@ -78,9 +78,20 @@ public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param area_width The width in meter of the ssmp occupancy area
+     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
+     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
      * \details Initializes the node and its components such as publishers and subscribers.
+     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    GridMapCreator(ros::NodeHandle& nh) : nh_(nh), rate(1)
+    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_back, const float area_height_front) : nh_(nh), rate(1),
+        occmap_width(area_width),                               // The width in meter...
+        occmap_height(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset(area_height_front - occmap_height/2),        // relative distance between the center of the grid map and the center of the car (logitudinal axis...
+                                                                // ... positive towards the front of the car
+
+        submap_dimensions(sqrt(std::pow(occmap_width, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                               std::pow(occmap_height, 2)))
     {
         // Initialize node and publishers
         pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, true);
@@ -90,15 +101,6 @@ public:
         sub_DynamicObjects = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::DynamicObjects_callback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        float dist_front = 50;                // Distance (in meter) in front of the center of mass of the car that remains in the occmap area
-        float dist_back = 25;                 // Distance (in meter) behind the center of mass of the car that remains in the occmap area
-        occmap_width = 35;                    // The width in meter...
-        occmap_height =                       // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-                dist_front + dist_back;
-        submap_dimensions =                   // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
-                sqrt(std::pow(occmap_width, 2) + std::pow(occmap_height, 2));
-        car_offset =                          // relative distance between the center of the grid map and the center of the car (logitudinal axis...
-                dist_front - occmap_height/2; // ... positive towards the front of the car
         mapResolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
         frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
         rate = ros::Rate(frequency);
@@ -267,7 +269,7 @@ public:
 
             rostime = ros::Time::now().toSec() - rostime;
             if(rostime > 1/frequency){
-                ROS_WARN("frequency is not met!");
+                ROS_WARN("GridMapCreator : frequency is not met!");
             }
             rate.sleep();
         }
@@ -439,12 +441,40 @@ public:
 
 };
 
+/*!
+ * \brief Print a help message on how to use the node.
+ * \details Specify arguments needed
+ */
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <area_width> <area_height_front> <area_height_back>");
+}
+
 int main(int argc, char **argv)
 {
+    if(argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    //Convert cli args into float (with error handling)
+    float area_width, area_height_front, area_height_back;
+    try {
+        area_width = std::atof(argv[1]);
+        area_height_front = std::atof(argv[2]);
+        area_height_back = std::atof(argv[3]);
+    } catch (const std::exception& e) {
+        ROS_FATAL_STREAM("GridMapCreator:\n Error when parsing arguments : " << e.what());
+        exit(EXIT_FAILURE);
+    } catch (...) {
+        ROS_FATAL("GridMapCreator:\nUndefined error when parsing arguments..\n");
+        exit(EXIT_FAILURE);
+    }
+
     // init node
     ros::init(argc, argv, "GridMapCreator");
     ros::NodeHandle nh;
-    GridMapCreator gmc(nh);
+    GridMapCreator gmc(nh, area_width, area_height_front, area_height_back);
     gmc.run();
     return 0;
 }
