@@ -84,7 +84,7 @@ public:
      * \details Initializes the node and its components such as publishers and subscribers.
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_back, const float area_height_front) : nh_(nh), rate(1),
+    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
         occmap_width(area_width),                               // The width in meter...
         occmap_height(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
         car_offset(area_height_front - occmap_height/2),        // relative distance between the center of the grid map and the center of the car (logitudinal axis...
