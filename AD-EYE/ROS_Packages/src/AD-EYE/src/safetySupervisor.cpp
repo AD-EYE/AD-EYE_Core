@@ -241,6 +241,7 @@ public:
         float current_lane_id;
         double x = pose.position.x;
         double y = pose.position.y;
+        double h = ...; //Heading of the car, cgeck the implementation here: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         double distanceToCheck = 3;
         double resolution = 0.1;
         double count = distanceToCheck/resolution;
