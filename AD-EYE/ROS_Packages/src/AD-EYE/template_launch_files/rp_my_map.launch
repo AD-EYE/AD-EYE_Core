@@ -8,12 +8,25 @@
     <!-- map_to_mobility -->
     <node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10"/>
 
-    <!-- Point Cloud -->
+    <!-- Point Cloud Map -->
     <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
-    $(arg PointCloud_Files_Folder)
-"/>
+    $(arg PointCloud_Files_Folder)">
+        <remap from="/points_map" to="/points_map_full" />
+    </node>
 
-    -->
+    <!-- Point Cloud Map Filter -->
+    <node pkg="rostopic" type="rostopic" name="config_voxel_grid_filter_rostopic"
+        args="pub -l /config/map_voxel_grid_filter autoware_config_msgs/ConfigVoxelGridFilter
+        '{voxel_leaf_size: /adeye/map/voxel_grid_filter/voxel_leaf_size , measurement_range: /adeye/map/voxel_grid_filter/measurement_range}' "
+    />
+
+    <node pkg="points_downsampler" name="map_voxel_grid_filter" type="voxel_grid_filter">
+        <param name="points_topic" value="points_map_full" />
+        <remap from="/filtered_points" to="/points_map" />
+        <remap from="/config/voxel_grid_filter" to="/config/map_voxel_grid_filter" />
+        <param name="output_log" value="false" />
+        <param name="latch" value="true" />
+    </node>
 
     <!-- Vector Map -->
     <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
