@@ -17,7 +17,8 @@
 
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
-#include <math.h>
+//#define _USE_MATH_DEFINES
+//#include <math.h>
 //#include "RoadNetwork.h"
 
 //#include "op_ros_helpers/op_ROSHelpers.h"
@@ -68,6 +69,13 @@ private:
     std::vector<std::vector<PlannerHNS::WayPoint>> autowareGlobalPaths;
     std::vector<PlannerHNS::WayPoint> m_temp_path;
 
+    // result of the check functions
+    double distanceToLane;
+    double distanceToRoadedge;
+    bool activeNodes;
+    bool dynamicObjects;
+    bool carOnRoad;
+
 public:
     /*!
      * \brief Constructor
@@ -78,13 +86,12 @@ public:
     {
         // Initialize the node, publishers and subscribers
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
+        pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
 
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
         subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
         subAutowareGlobalPlan = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
-
-        pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
 
         // Initialize the variables
         state = SAFE;
@@ -94,9 +101,8 @@ public:
         gridmap_flag = 0;
         autowareTrajectory_flag = 0;
         autowareGlobalPaths_flag = 0;
-        //rate(float 20);
-        //nodes_to_check.push_back("/gps_to_base_link");
-        std::cout << argc << '\n';
+
+        // Initialize the list of nodes to check
         for(int i = 1; i<argc; i++){
             nodes_to_check.push_back(argv[i]);
         }
@@ -123,7 +129,6 @@ public:
     void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap);
-        //gridmap = *msg;
         gridmap_flag = 1;
     }
 
@@ -135,10 +140,6 @@ public:
     void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
     {
         autowareTrajectory = *msg;
-        //for (int i = 0; i < autowareTrajectory.waypoints.size(); i++)
-        //{
-        //  ROS_INFO("%f", autowareTrajectory.waypoints[0].pose.pose.position.x);
-        //}
         autowareTrajectory_flag = 1;
     }
 
@@ -184,17 +185,19 @@ public:
      * \brief Check distance to lane : Called at every interation of the main loop
      * \Checks the distance to the center line of the lane
      */
-    void checkDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p0)
+    double checkDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory, const geometry_msgs::Pose& pose)
     {
+
+        PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose.position.x, pose.position.y, pose.position.z, tf::getYaw(pose.orientation));
         double distance = -1;
         std::vector<int> twoClosestIndex = getClosestIndex(trajectory, p0);
         int closestIndex = twoClosestIndex.at(0);
         int secondClosestIndex = twoClosestIndex.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
         PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
-        distance = fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2));
+        distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
         std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
-        //return distance;
+        return distance;
     }
 
     /*!
@@ -238,30 +241,110 @@ public:
      */
     double checkDistanceToRoadedge(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
     {
-        float current_lane_id;
-        double x = pose.position.x;
-        double y = pose.position.y;
-        double h = ...; //Heading of the car, cgeck the implementation here: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+        float right_lane_id;
+        float left_lane_id;
+        double x0 = pose.position.x;
+        double y0 = pose.position.y;
+        //double siny_cosp = 2 * (pose.orientation.w * pose.orientation.z + pose.orientation.x * pose.orientation.y);
+        //double cosy_cosp = 1 - 2 * (pose.orientation.y * pose.orientation.y + pose.orientation.z * pose.orientation.z);
+        //double h = std::atan2(siny_cosp, cosy_cosp);
+        double h = tf::getYaw(pose.orientation);
+        //Heading of the car, check the implementation here: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         double distanceToCheck = 3;
         double resolution = 0.1;
-        double count = distanceToCheck/resolution;
-        double distance = distanceToCheck;
-        for (size_t i = 0; i < count; i++) {
-            x2 = ...;
-            y2 = ...;
-            current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x2, y2));
-            if (current_lane_id == 0) {
-                distance = i*resolution;
+        double count = distanceToCheck/resolution; //This is the maximum value for the counter i
+        double d; //This is the current distance that we are checking
+        double right_distance = 0;
+        double left_distance = 0;
+        double h1 = h + M_PI/2;
+        double h2 = h - M_PI/2;
+        double x1;
+        double x2;
+        double y1;
+        double y2;
+        for (size_t i = 0; i <= count; i++) {
+            d = i * resolution;
+            x1 = x0 + d*std::cos(h1);
+            y1 = y0 + d*std::sin(h1);
+            x2 = x0 + d*std::cos(h2);
+            y2 = y0 + d*std::sin(h2);
+            left_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x1, y1));
+            if (left_lane_id != 0) {
+                left_distance = d;
+            }
+            right_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x2, y2));
+            if (right_lane_id != 0) {
+                right_distance = d;
             }
         }
-        //Is the center of the car inside the road
-        float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
-        //ROS_INFO("Lane ID : %f", current_lane_id);
-        if (current_lane_id == 0) {
-            ROS_WARN_THROTTLE(1, "The center of the car is not inside the road");
-            state = UNSAFE;
-            return;
+
+        std::cout << "The distance to the right roadedge is: " << right_distance << '\n';
+        std::cout << "The distance to the left roadedge is: " << left_distance << '\n';
+        return std::min(right_distance, left_distance);
+    }
+
+    /*!
+     * \brief Check dynamic objects : Called at every interation of the main loop
+     * \Checks if there is a dynamic object in the critical area
+     */
+    bool checkDynamicObjects(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    {
+        const float x = pose.position.x;    //Center is currently in the fron of the car
+        const float y = pose.position.y;
+        const float a = cpp_utils::extract_yaw(pose.orientation);// * pi;
+        const grid_map::Position center(x + car_length * cos(a)/2, y + car_length * sin(a)/2);
+
+        critArea.removeVertices();
+        const grid_map::Position point1(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
+                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2);
+        const grid_map::Position point2(point1.x() + sin(a) * critArea_width, point1.y() - cos(a) * critArea_width);
+        const grid_map::Position point3(point2.x() - cos(a) * critArea_length, point2.y() - sin(a) * critArea_length);
+        const grid_map::Position point4(point1.x() - cos(a) * critArea_length, point1.y() - sin(a) * critArea_length);
+        /*critArea.addVertex(grid_map::Position(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
+                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2));
+        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() + sin(a) * critArea_width,
+                    critArea.getVertex(0).y() + cos(a) * critArea_width));
+        critArea.addVertex(grid_map::Position(critArea.getVertex(1).x() - cos(a) * critArea_length,
+                    critArea.getVertex(1).y() - sin(a) * critArea_length));
+        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() - cos(a) * critArea_length,
+                    critArea.getVertex(0).y() - sin(a) * critArea_length));*/
+        critArea.addVertex(point1);
+        critArea.addVertex(point2);
+        critArea.addVertex(point3);
+        critArea.addVertex(point4);
+
+        visualization_msgs::Marker ca_visu;  //Used for critical area visualization
+        std_msgs::ColorRGBA color;
+        color.r = 1.0;
+        color.a = 1.0;
+        grid_map::PolygonRosConverter::toLineMarker(critArea, color, 0.2, 0.5, ca_visu);
+        ca_visu.header.frame_id = gridmap.getFrameId();
+        ca_visu.header.stamp.fromNSec(gridmap.getTimestamp());
+        pubArea.publish(ca_visu);
+
+        for(grid_map::PolygonIterator areaIt(gridmap, critArea) ; !areaIt.isPastEnd() ; ++areaIt) {
+            if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
+                ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    /*!
+     * \brief Check car on road : Called at every interation of the main loop
+     * \Checks if the center of the car is on the road
+     */
+    bool checkCarOnRoad(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    {
+      float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
+      //ROS_INFO("Lane ID : %f", current_lane_id);
+      if (current_lane_id == 0) {
+          ROS_WARN_THROTTLE(1, "The center of the car is not on the road");
+          return false;
+      }
+      return true;
     }
 
     /*!
@@ -304,63 +387,33 @@ public:
     void evaluate()
     {
         state = SAFE;
-        //Check our distance to the center line of the lanes
-        checkDistanceToLane(autowareGlobalPaths.at(0), PlannerHNS::WayPoint(pose.position.x, pose.position.y, pose.position.z, tf::getYaw(pose.orientation)));
-        //Are all the necesary nodes alive
-        if (checkActiveNodes() == false){
+        // Check the distance to the center line of the lane
+        distanceToLane = checkDistanceToLane(autowareGlobalPaths.at(0), pose);
+
+        // Check the distance to the roadedge
+        distanceToRoadedge = checkDistanceToRoadedge(gridmap, pose);
+
+        // Check that all the necesary nodes are active
+        activeNodes = checkActiveNodes();
+        if (activeNodes == false){
             state = UNSAFE;
             return;
         }
-        //Is the center of the car inside the road
-        float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
-        //ROS_INFO("Lane ID : %f", current_lane_id);
-        if (current_lane_id == 0) {
-            ROS_WARN_THROTTLE(1, "The center of the car is not inside the road");
+
+        // Check that the center of the car on the road
+        carOnRoad = checkCarOnRoad(gridmap, pose);
+        if (carOnRoad == false){
             state = UNSAFE;
             return;
         }
 
         //Is there a dynamic object in the critical area
-        const float x = pose.position.x;    //Center is currently in the fron of the car
-        const float y = pose.position.y;
-        const float a = cpp_utils::extract_yaw(pose.orientation);// * pi;
-        const grid_map::Position center(x + car_length * cos(a)/2, y + car_length * sin(a)/2);
-
-        critArea.removeVertices();
-        const grid_map::Position point1(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
-                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2);
-        const grid_map::Position point2(point1.x() + sin(a) * critArea_width, point1.y() - cos(a) * critArea_width);
-        const grid_map::Position point3(point2.x() - cos(a) * critArea_length, point2.y() - sin(a) * critArea_length);
-        const grid_map::Position point4(point1.x() - cos(a) * critArea_length, point1.y() - sin(a) * critArea_length);
-        /*critArea.addVertex(grid_map::Position(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
-                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() + sin(a) * critArea_width,
-                    critArea.getVertex(0).y() + cos(a) * critArea_width));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(1).x() - cos(a) * critArea_length,
-                    critArea.getVertex(1).y() - sin(a) * critArea_length));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() - cos(a) * critArea_length,
-                    critArea.getVertex(0).y() - sin(a) * critArea_length));*/
-        critArea.addVertex(point1);
-        critArea.addVertex(point2);
-        critArea.addVertex(point3);
-        critArea.addVertex(point4);
-
-        visualization_msgs::Marker ca_visu;  //Used for critical area visualization
-        std_msgs::ColorRGBA color;
-        color.r = 1.0;
-        color.a = 1.0;
-        grid_map::PolygonRosConverter::toLineMarker(critArea, color, 0.2, 0.5, ca_visu);
-        ca_visu.header.frame_id = gridmap.getFrameId();
-        ca_visu.header.stamp.fromNSec(gridmap.getTimestamp());
-        pubArea.publish(ca_visu);
-
-        for(grid_map::PolygonIterator areaIt(gridmap, critArea) ; !areaIt.isPastEnd() ; ++areaIt) {
-            if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
-                ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
-                state = UNSAFE;
-                return;
-            }
+        dynamicObjects = checkDynamicObjects(gridmap, pose);
+        if (dynamicObjects == true){
+            state = UNSAFE;
+            return;
         }
+
     }
 };
 
