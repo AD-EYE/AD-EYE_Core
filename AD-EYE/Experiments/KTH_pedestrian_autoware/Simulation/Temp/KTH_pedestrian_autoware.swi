@@ -1,0 +1,137 @@
+# create sensor mounts and cameras
+PointCloudSensor_1_mount = visnodes.VisTransform.createTransformNode(r"PointCloudSensor_1_mount")
+scene.BMW_X5_SUV_1.addChild(PointCloudSensor_1_mount)
+scene.getTransformChild("PointCloudSensor_1_mount")
+PointCloudSensor_1_mount.setTranslation(0.6, 0, 2)
+PointCloudSensor_1_mount.setRotation(0, 1, 0, 0)
+
+PointCloudSensor_1_monoBeam = visviewer.VisCamera(r"PointCloudSensor_1_monoBeam")
+PointCloudSensor_1_mount.addChild(PointCloudSensor_1_monoBeam)
+PointCloudSensor_1_monoBeam.setTranslation(0, 0, 0)
+PointCloudSensor_1_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+PointCloudSensor_1_monoBeam.setProjectionMatrixPerspective(1.5707963267948966, 0.52359877559829882, 0.10000000149011612, 750)
+
+
+PointCloudSensor_2_mount = visnodes.VisTransform.createTransformNode(r"PointCloudSensor_2_mount")
+scene.BMW_X5_SUV_1.addChild(PointCloudSensor_2_mount)
+scene.getTransformChild("PointCloudSensor_2_mount")
+PointCloudSensor_2_mount.setTranslation(0.6, 0, 2)
+PointCloudSensor_2_mount.setRotation(1.5707963267948966, 0, 0, 1)
+
+PointCloudSensor_2_monoBeam = visviewer.VisCamera(r"PointCloudSensor_2_monoBeam")
+PointCloudSensor_2_mount.addChild(PointCloudSensor_2_monoBeam)
+PointCloudSensor_2_monoBeam.setTranslation(0, 0, 0)
+PointCloudSensor_2_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+PointCloudSensor_2_monoBeam.setProjectionMatrixPerspective(1.5707963267948966, 0.52359877559829882, 0.10000000149011612, 750)
+
+
+PointCloudSensor_3_mount = visnodes.VisTransform.createTransformNode(r"PointCloudSensor_3_mount")
+scene.BMW_X5_SUV_1.addChild(PointCloudSensor_3_mount)
+scene.getTransformChild("PointCloudSensor_3_mount")
+PointCloudSensor_3_mount.setTranslation(0.6, 0, 2)
+PointCloudSensor_3_mount.setRotation(3.1415926535897931, 0, 0, 1)
+
+PointCloudSensor_3_monoBeam = visviewer.VisCamera(r"PointCloudSensor_3_monoBeam")
+PointCloudSensor_3_mount.addChild(PointCloudSensor_3_monoBeam)
+PointCloudSensor_3_monoBeam.setTranslation(0, 0, 0)
+PointCloudSensor_3_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+PointCloudSensor_3_monoBeam.setProjectionMatrixPerspective(1.5707963267948966, 0.52359877559829882, 0.10000000149011612, 750)
+
+
+PointCloudSensor_4_mount = visnodes.VisTransform.createTransformNode(r"PointCloudSensor_4_mount")
+scene.BMW_X5_SUV_1.addChild(PointCloudSensor_4_mount)
+scene.getTransformChild("PointCloudSensor_4_mount")
+PointCloudSensor_4_mount.setTranslation(0.6, 0, 2)
+PointCloudSensor_4_mount.setRotation(1.5707963267948968, 0, 0, -1)
+
+PointCloudSensor_4_monoBeam = visviewer.VisCamera(r"PointCloudSensor_4_monoBeam")
+PointCloudSensor_4_mount.addChild(PointCloudSensor_4_monoBeam)
+PointCloudSensor_4_monoBeam.setTranslation(0, 0, 0)
+PointCloudSensor_4_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+PointCloudSensor_4_monoBeam.setProjectionMatrixPerspective(1.5707963267948966, 0.52359877559829882, 0.10000000149011612, 750)
+
+
+CameraSensor_1_mount = visnodes.VisTransform.createTransformNode(r"CameraSensor_1_mount")
+scene.BMW_X5_SUV_1.addChild(CameraSensor_1_mount)
+CameraSensor_1_mount.setTranslation(2, 0, 1.32000005245209)
+CameraSensor_1_mount.setRotationLegacyYUpAxes(1.5707963267948966, -1, 0, 0)
+
+CameraSensor_1_monoBeam = visviewer.VisCamera(r"CameraSensor_1_monoBeam")
+CameraSensor_1_mount.addChild(CameraSensor_1_monoBeam)
+CameraSensor_1_monoBeam.setTranslation(0, 0, 0)
+CameraSensor_1_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+CameraSensor_1_monoBeam.setProjectionMatrixPerspective(0.80656297037058056, 0.61940592923487225, 0.10000000149011612, 750)
+
+cameras[r"CameraSensor_1"] = VisCameras.CameraInfo(r"CameraSensor_1", CameraSensor_1_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"CameraSensor_1"].setSensorDimensions(6.4, 4.8);cameras[r"CameraSensor_1"].setFrameRate(20)
+
+CameraSensor_2_mount = visnodes.VisTransform.createTransformNode(r"CameraSensor_2_mount")
+scene.BMW_X5_SUV_1.addChild(CameraSensor_2_mount)
+CameraSensor_2_mount.setTranslation(1.2, 0, 1.8)
+CameraSensor_2_mount.setRotationLegacyYUpAxes(1.5707963267948966, -1, 0, 0)
+
+CameraSensor_2_monoBeam = visviewer.VisCamera(r"CameraSensor_2_monoBeam")
+CameraSensor_2_mount.addChild(CameraSensor_2_monoBeam)
+CameraSensor_2_monoBeam.setTranslation(0, 0, 0)
+CameraSensor_2_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+CameraSensor_2_monoBeam.setProjectionMatrixPerspective(0.80656297037058056, 0.61940592923487225, 0.10000000149011612, 750)
+
+cameras[r"CameraSensor_2"] = VisCameras.CameraInfo(r"CameraSensor_2", CameraSensor_2_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"CameraSensor_2"].setSensorDimensions(6.4, 4.8);cameras[r"CameraSensor_2"].setFrameRate(20)
+
+HumViewCamera_mount = visnodes.VisTransform.createTransformNode(r"HumViewCamera_mount")
+scene.BMW_X5_SUV_1.addChild(HumViewCamera_mount)
+HumViewCamera_mount.setTranslation(-2.8, 0, 2.6)
+HumViewCamera_mount.setRotationLegacyYUpAxes(1.6422735236083426, -0.93096077251709242, 0.25817827177589781, 0.25817827177589775)
+
+HumViewCamera_monoBeam = visviewer.VisCamera(r"HumViewCamera_monoBeam")
+HumViewCamera_mount.addChild(HumViewCamera_monoBeam)
+HumViewCamera_monoBeam.setTranslation(0, 0, 0)
+HumViewCamera_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+HumViewCamera_monoBeam.setProjectionMatrixPerspective(2.0943951023931953, 1.5707963267948966, 0.10000000149011612, 750)
+
+cameras[r"HumViewCamera"] = VisCameras.CameraInfo(r"HumViewCamera", HumViewCamera_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"HumViewCamera"].setSensorDimensions(25.9807625, 15);cameras[r"HumViewCamera"].setFrameRate(60)
+
+CameraSensor_4_mount = visnodes.VisTransform.createTransformNode(r"CameraSensor_4_mount")
+scene.BMW_X5_SUV_1.addChild(CameraSensor_4_mount)
+CameraSensor_4_mount.setTranslation(10, 0, 10)
+CameraSensor_4_mount.setRotationLegacyYUpAxes(3.8068009802653444, -0.34543716418991183, -0.66357861840042431, 0.66357861840042442)
+
+CameraSensor_4_monoBeam = visviewer.VisCamera(r"CameraSensor_4_monoBeam")
+CameraSensor_4_mount.addChild(CameraSensor_4_monoBeam)
+CameraSensor_4_monoBeam.setTranslation(0, 0, 0)
+CameraSensor_4_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+CameraSensor_4_monoBeam.setProjectionMatrixPerspective(0.80656297037058056, 0.61940592923487225, 0.10000000149011612, 750)
+
+cameras[r"CameraSensor_4"] = VisCameras.CameraInfo(r"CameraSensor_4", CameraSensor_4_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"CameraSensor_4"].setSensorDimensions(6.4, 4.8);cameras[r"CameraSensor_4"].setFrameRate(20)
+
+CameraSensor_3_mount = visnodes.VisTransform.createTransformNode(r"CameraSensor_3_mount")
+scene.BMW_X5_SUV_1.addChild(CameraSensor_3_mount)
+CameraSensor_3_mount.setTranslation(-10, 0, 10)
+CameraSensor_3_mount.setRotationLegacyYUpAxes(1.6613439854792069, -0.91331755455982744, 0.28796791881462858, 0.28796791881462858)
+
+CameraSensor_3_monoBeam = visviewer.VisCamera(r"CameraSensor_3_monoBeam")
+CameraSensor_3_mount.addChild(CameraSensor_3_monoBeam)
+CameraSensor_3_monoBeam.setTranslation(0, 0, 0)
+CameraSensor_3_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+CameraSensor_3_monoBeam.setProjectionMatrixPerspective(0.80656297037058056, 0.61940592923487225, 0.10000000149011612, 750)
+
+cameras[r"CameraSensor_3"] = VisCameras.CameraInfo(r"CameraSensor_3", CameraSensor_3_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"CameraSensor_3"].setSensorDimensions(6.4, 4.8);cameras[r"CameraSensor_3"].setFrameRate(20)
+
+CameraSensor_6_mount = visnodes.VisTransform.createTransformNode(r"CameraSensor_6_mount")
+scene.Man_200_1.addChild(CameraSensor_6_mount)
+CameraSensor_6_mount.setTranslation(-6, 0, 7)
+CameraSensor_6_mount.setRotationLegacyYUpAxes(1.6613439854792069, -0.91331755455982744, 0.28796791881462858, 0.28796791881462858)
+
+CameraSensor_6_monoBeam = visviewer.VisCamera(r"CameraSensor_6_monoBeam")
+CameraSensor_6_mount.addChild(CameraSensor_6_monoBeam)
+CameraSensor_6_monoBeam.setTranslation(0, 0, 0)
+CameraSensor_6_monoBeam.setRotationLegacyYUpAxes(1.5707963267948966, 0, 0, -1)
+CameraSensor_6_monoBeam.setProjectionMatrixPerspective(0.80656297037058056, 0.61940592923487225, 0.10000000149011612, 750)
+
+cameras[r"CameraSensor_6"] = VisCameras.CameraInfo(r"CameraSensor_6", CameraSensor_6_monoBeam, visviewer.VisViewerBase.SPECTATOR, True)
+cameras[r"CameraSensor_6"].setSensorDimensions(6.4, 4.8);cameras[r"CameraSensor_6"].setFrameRate(20)
+
