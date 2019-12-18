@@ -34,6 +34,7 @@ TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
 for c = 1:width(TAOrder)
     Run(c).ExpName = TAOrder{'ExpName',c}{1};
     Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
+    Run(c).EgoName = TAOrder{'EgoName',c}{1};
     Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
     Run(c).SimulinkConfig = ['../../../TA/', TAOrder{'SimulinkConfig',c}{1}];
     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
@@ -80,7 +81,7 @@ for run = 1:NrOfRuns
     MainExperiment = pwd;
     load_system([Run(run).ExpName,'_cs.slx']);
     disp('Setting up constant blocks in Simulink model');
-    simconstantSet(Run(run).SimulinkConfig, Run(run).ExpName);
+    simconstantSet(Run(run).SimulinkConfig, Run(run).ExpName, Run(run).EgoName);
     save_system([Run(run).ExpName,'_cs.slx']);
     ResultsDir = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the ...
     ...experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
@@ -247,10 +248,10 @@ clear opts
 end
 
 %% function simconstantset
-function simconstantSet(table, expname)
+function simconstantSet(table, expname, EgoName)
 simconstantTable = readtable(table,'ReadRowNames',false);
 for h = 1:height(simconstantTable)
-    constant_block_name = strcat(expname, '_cs', '/', char(simconstantTable.BlockName(h)));
+    constant_block_name = strcat(expname, '_cs', '/', EgoName, '/', char(simconstantTable.BlockName(h)));
     set_param(constant_block_name, 'Value', string(simconstantTable.Value(h)));
 end
 end
