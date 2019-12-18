@@ -1,5 +1,5 @@
 function TA(TAOrderFile)
-%setting up experiment
+%setting up experiments
 BasePath = pwd;
 
 SSHConfigFile = 'SSHConfig.csv';
