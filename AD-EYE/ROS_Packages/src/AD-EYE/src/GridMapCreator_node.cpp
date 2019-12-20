@@ -335,7 +335,8 @@ public:
         }
 
         // read out prescanmap from the pex file and store all information in 'pexObjects'
-        std::string filePex = p_nh.param<std::string>("filePex","");
+        readFile("/home/adeye/AD-EYE_Core/AD-EYE/Experiments/W05_KTH/map_flip.csv");
+        /*std::string filePex = p_nh.param<std::string>("filePex","");
         PrescanModel pexObjects;
         pexObjects.load_pexmap(filePex);
 
@@ -376,7 +377,7 @@ public:
                     map.at("StaticObjects", *it) = -1;
                 }
             }
-        }
+        } */
 
         //Map Road with the data from the vector map
         grid_map::Polygon polygon;
@@ -415,6 +416,71 @@ public:
                 map.at("Lanes", *iterator) = laneID;
             }
         }
+    }
+
+    //TODO: Metadata reading in the file before reading values
+    //      Checking if the file is present
+    //      Sanity checks ! (resolution, size, etc...)
+    //      Maybe directly creating the gridMap (without using an occupancyGrid)
+    /*!
+     * \brief This function read a .csv containing the staticObjects layer values and
+     * build this layer with these.
+     * \param filePath The path to the file to read
+     * \details It extracts the data from the file and put it first in an occupandyGrid.
+     * Then, it converts the occupancyGrid to a GridMap and finally, add the data from
+     * the GridMap newly created inside the world GridMap.
+     */
+    void readFile(std::string filePath){
+        ROS_INFO("Opening bag");
+        std::ifstream mapStream(filePath);
+        if(!mapStream.is_open()) {
+            ROS_FATAL_STREAM("Map file can't be opened:\n(File path: '" << filePath << "' )\n");
+            exit(EXIT_FAILURE);
+        }
+        ROS_INFO("Retrieving occupancy Values");
+        //rosbag::MessageInstance const msg = *(view.begin());
+        nav_msgs::OccupancyGrid occGrid;
+        occGrid.header.frame_id = "SSMP_map";
+        occGrid.info.origin.orientation.w = 1;
+        occGrid.info.resolution = 0.25;
+        occGrid.info.height = 3085;
+        occGrid.info.width = 2890;
+        occGrid.info.origin.position.x = -160.2371; // [-160.2371 562.0715] (XLimits (from Matlab))
+        occGrid.info.origin.position.y = -712.9244;  // [-712.9244 58.1797] (YLimits (from Matlab))
+        // These limit values should be included in the file meta datas
+        occGrid.data.resize(occGrid.info.width * occGrid.info.height);
+        std::string line;
+        std::string value_str;
+        std::size_t i = 0;
+        float value;
+        while(std::getline(mapStream, line)) {
+            std::istringstream s(line);
+            while(std::getline(s, value_str, ',')) {
+                value = std::atof(value_str.c_str());
+                value = value < 0.3 ? 0 : 3; // This conversion should have been done in Matlab
+                if(i >= occGrid.data.size()) {
+                    ROS_FATAL("Index bigger than occGrid size...");
+                    exit(EXIT_FAILURE);
+                }
+                occGrid.data[i] = value;
+                i++;
+            }
+        }
+
+        mapStream.close();
+        ROS_INFO("Creating occupancyMap");
+        grid_map::GridMap newMap;
+        if(!grid_map::GridMapRosConverter::fromOccupancyGrid(occGrid, "StaticObjects", newMap)) {
+            ROS_FATAL("GridMap from occGrid didn't worked...");
+            exit(EXIT_FAILURE);
+        }
+
+        ROS_INFO("Filling the Grid_Map");
+        if(!map.addDataFrom(newMap, false, true, false, {"StaticObjects"})) {
+            ROS_FATAL("GridMap data addition didn't worked");
+            exit(EXIT_FAILURE);
+        }
+        ROS_INFO("Everything happened fine ! :)");
     }
 
     /*!
