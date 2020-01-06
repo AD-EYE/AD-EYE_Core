@@ -255,8 +255,8 @@ public:
             subMap_center.x() = x_ego + car_offset*cos(yaw_ego);
             subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
             map.setTimestamp(ros::Time::now().toNSec());
-            subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
-            if(subsucces == false){
+            subMap = map;//.getSubmap(subMap_center, subMap_size, subsucces);
+            if(false && subsucces == false){
                 ROS_ERROR("GridMapCreator : Error when creating the submap");
                 continue;
             }
@@ -335,7 +335,7 @@ public:
         }
 
         // read out prescanmap from the pex file and store all information in 'pexObjects'
-        readFile("/home/adeye/AD-EYE_Core/AD-EYE/Experiments/W05_KTH/map_flip.csv");
+        readFile("/home/adeye/AD-EYE_Core/AD-EYE/Experiments/W05_KTH/map_meta.csv");
         /*std::string filePex = p_nh.param<std::string>("filePex","");
         PrescanModel pexObjects;
         pexObjects.load_pexmap(filePex);
@@ -418,10 +418,9 @@ public:
         }
     }
 
-    //TODO: Metadata reading in the file before reading values
+    //TODO:
     //      Checking if the file is present
     //      Sanity checks ! (resolution, size, etc...)
-    //      Maybe directly creating the gridMap (without using an occupancyGrid)
     /*!
      * \brief This function read a .csv containing the staticObjects layer values and
      * build this layer with these.
@@ -431,33 +430,73 @@ public:
      * the GridMap newly created inside the world GridMap.
      */
     void readFile(std::string filePath){
-        ROS_INFO("Opening bag");
+        ROS_INFO("Opening file");
         std::ifstream mapStream(filePath);
         if(!mapStream.is_open()) {
             ROS_FATAL_STREAM("Map file can't be opened:\n(File path: '" << filePath << "' )\n");
             exit(EXIT_FAILURE);
         }
+
+        ROS_INFO("Reading metadatas");
+        grid_map::Length Xlimits, Ylimits;
+        float resolution;
+        unsigned int width, height;
+        std::string line;
+        std::string value_str;
+
+        // Reading Xlimits
+        std::getline(mapStream, line); //line == "#<XLimit1>,<XLimit2>"
+        std::stringstream s(line);
+        s.get(); // Ignores the '#'
+        std::getline(s, value_str, ','); // Gets the first limit
+        Xlimits[0] = std::atof(value_str.c_str()); // Converts it to number
+        std::getline(s, value_str);
+        Xlimits[1] = std::atof(value_str.c_str());
+
+        // Reading Ylimits
+        std::getline(mapStream, line); //line == "#<YLimit1>,<YLimit2>"
+        s.str(line);
+        s.seekg(1); // Reset the cursor position to the beginning of the string (after the '#')
+        std::getline(s, value_str, ','); // Gets the first limit
+        Ylimits[0] = std::atof(value_str.c_str()); // Converts it to number
+        std::getline(s, value_str);
+        Ylimits[1] = std::atof(value_str.c_str());
+
+        // Reading number of cells
+        std::getline(mapStream, line); //line == "#<width>,<height>"
+        s.str(line);
+        s.seekg(1);
+        std::getline(s, value_str, ',');
+        width = std::atoi(value_str.c_str());
+        std::getline(s, value_str);
+        height = std::atoi(value_str.c_str());
+
+        // Reading resolution
+        std::getline(mapStream, line); //line == "#<resolution>"
+        s.str(line);
+        s.seekg(1);
+        std::getline(s, value_str);
+        resolution = std::atof(value_str.c_str());
+
         ROS_INFO("Retrieving occupancy Values");
-        //rosbag::MessageInstance const msg = *(view.begin());
         nav_msgs::OccupancyGrid occGrid;
         occGrid.header.frame_id = "SSMP_map";
         occGrid.info.origin.orientation.w = 1;
-        occGrid.info.resolution = 0.25;
-        occGrid.info.height = 3085;
-        occGrid.info.width = 2890;
-        occGrid.info.origin.position.x = -160.2371; // [-160.2371 562.0715] (XLimits (from Matlab))
-        occGrid.info.origin.position.y = -712.9244;  // [-712.9244 58.1797] (YLimits (from Matlab))
-        // These limit values should be included in the file meta datas
+        occGrid.info.resolution = resolution; //0.25;
+        occGrid.info.width = width; //2890;
+        occGrid.info.height = height; //3085;
+        occGrid.info.origin.position.x = Xlimits[0]; //-160.2371; // [-160.2371 562.0715] (XLimits (from Matlab))
+        occGrid.info.origin.position.y = Ylimits[0]; //-712.9244;  // [-712.9244 58.1797] (YLimits (from Matlab))
         occGrid.data.resize(occGrid.info.width * occGrid.info.height);
-        std::string line;
-        std::string value_str;
+
         std::size_t i = 0;
         float value;
         while(std::getline(mapStream, line)) {
-            std::istringstream s(line);
-            while(std::getline(s, value_str, ',')) {
-                value = std::atof(value_str.c_str());
-                value = value < 0.3 ? 0 : 3; // This conversion should have been done in Matlab
+            std::stringstream is(line);
+            /*s.str(line);
+            s.seekg(0);*/ // Reseting the output cursor position to the beginning of the stream
+            while(std::getline(is, value_str, ',')) {
+                value = std::atoi(value_str.c_str());
                 if(i >= occGrid.data.size()) {
                     ROS_FATAL("Index bigger than occGrid size...");
                     exit(EXIT_FAILURE);
