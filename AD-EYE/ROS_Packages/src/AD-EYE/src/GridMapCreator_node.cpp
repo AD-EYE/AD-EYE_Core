@@ -17,6 +17,8 @@
 #include <cpp_utils/pose_datatypes.h>
 #include <geometry_msgs/PoseArray.h>
 
+#include <dirent.h>
+
 using namespace grid_map;
 
 #define HALF_PI 1.5708
@@ -255,8 +257,8 @@ public:
             subMap_center.x() = x_ego + car_offset*cos(yaw_ego);
             subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
             map.setTimestamp(ros::Time::now().toNSec());
-            subMap = map;//.getSubmap(subMap_center, subMap_size, subsucces);
-            if(false && subsucces == false){
+            subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
+            if(subsucces == false){
                 ROS_ERROR("GridMapCreator : Error when creating the submap");
                 continue;
             }
@@ -335,10 +337,21 @@ public:
         }
 
         // read out prescanmap from the pex file and store all information in 'pexObjects'
-        readFile("/home/adeye/AD-EYE_Core/AD-EYE/Experiments/W05_KTH/map_meta.csv");
-        /*std::string filePex = p_nh.param<std::string>("filePex","");
+        std::string filePex = p_nh.param<std::string>("filePex","");
         PrescanModel pexObjects;
         pexObjects.load_pexmap(filePex);
+
+        if(pexObjects.ULElementFound) { // If a User Library Element is present
+            // A .csv file containing its footprint as an occupancy map should be present
+            ROS_INFO("User Library Element found in Prescan Experiment !");
+            std::string file = checkFile(mapResolution, filePex);
+            if(file.empty()) {
+                ROS_ERROR_STREAM("No .csv files describing the UserLibrary Element has been found for resolution " << mapResolution);
+            } else {
+                ROS_INFO_STREAM("staticObjects map found : " << file);
+            }
+            readFile(file);
+        }
 
         // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
         for(int i = 0; i < (int)pexObjects.ID.size(); i++){
@@ -377,7 +390,7 @@ public:
                     map.at("StaticObjects", *it) = -1;
                 }
             }
-        } */
+        }
 
         //Map Road with the data from the vector map
         grid_map::Polygon polygon;
@@ -418,8 +431,60 @@ public:
         }
     }
 
+    /*!
+     * \brief This method checks if a .csv file is provided for the given resolution
+     * \param resolution The resolution the file should match
+     * \param pexFileLocation The location of the .pexFile
+     * \return The filePath of the right file (empty if not found)
+     * \details In the case a UserLibrary Element is found on the map, this
+     * function will be called in order to check if a .csv file describing the
+     * Elements footprint is given. The file name should contain the resolution without
+     * decimal mark preceded by an underscore (e.g. Map_025.csv for a resolution of 0.25 m/cell).
+     * Then, it uses the pex file location to go to the right folder (which is hardcoded as
+     * <ExperimentFolder>/staticObjects)
+     */
+    std::string checkFile(float resolution, std::string pexFileLocation) {
+        // Finds the right folder from the pex file location
+        //   Ignores the .pex file and goes 1 folder back
+        std::size_t pos = pexFileLocation.find_last_of("/");
+        pos = pexFileLocation.find_last_of("/", pos-1);
+        std::string folder = pexFileLocation.substr(0, pos);
+        //   Going 1 folder back
+        folder.append("/staticObjects/");
+
+        // Creating the search pattern: '_<resolution>' (resolution without the '.': '0.25' -> '025')
+        std::stringstream s;
+        s << '_' << resolution;
+        std::string pattern = s.str();
+        pattern.replace(pattern.find('.'), 1, "");
+
+        // Searching for the right file
+        std::string filePath;
+
+        // Old C method for searching in the directory
+        // Because it seems that c++17 standard isn't supported
+        DIR *dpdf;
+        struct dirent *epdf;
+
+        dpdf = opendir(folder.c_str());
+        if (dpdf != NULL){
+            std::string fileName;
+            while ( (epdf = readdir(dpdf)) ){
+                fileName = epdf->d_name;
+                if(fileName.find(pattern) != std::string::npos) {
+                    filePath = folder + fileName;
+                    break;
+                }
+            }
+        } else {
+            ROS_ERROR_STREAM("Cannot open folder" << folder);
+        }
+        closedir(dpdf);
+
+        return filePath;
+    }
+
     //TODO:
-    //      Checking if the file is present
     //      Sanity checks ! (resolution, size, etc...)
     /*!
      * \brief This function read a .csv containing the staticObjects layer values and
