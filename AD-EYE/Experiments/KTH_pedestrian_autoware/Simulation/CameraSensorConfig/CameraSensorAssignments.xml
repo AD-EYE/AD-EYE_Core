@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ExperimentConfig>
+  <Federates>
+    <Federate federateId="0" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="1" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="2" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="3" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="4" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="5" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="6" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="7" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="8" hostId="localhost" gpuId="default gpu" />
+    <Federate federateId="9" hostId="localhost" gpuId="default gpu" />
+  </Federates>
+  <SensorAssignments>
+    <SensorAssignment sensorId="CameraSensor_1" federateId="0" />
+    <SensorAssignment sensorId="CameraSensor_4" federateId="1" />
+    <SensorAssignment sensorId="CameraSensor_6" federateId="2" />
+    <SensorAssignment sensorId="CameraSensor_2" federateId="3" />
+    <SensorAssignment sensorId="CameraSensor_3" federateId="4" />
+    <SensorAssignment sensorId="HumViewCamera" federateId="5" />
+    <SensorAssignment sensorId="PointCloudSensor_1" federateId="6" />
+    <SensorAssignment sensorId="PointCloudSensor_2" federateId="7" />
+    <SensorAssignment sensorId="PointCloudSensor_3" federateId="8" />
+    <SensorAssignment sensorId="PointCloudSensor_4" federateId="9" />
+  </SensorAssignments>
+</ExperimentConfig>
