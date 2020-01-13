@@ -11,6 +11,9 @@ catkin_workspace = SSHConfig{'catkin_workspace',1}{1};
 ROS_folder = SSHConfig{'ROS_folder',1}{1};
 hostname = SSHConfig{'hostname',1}{1};
 
+experimentDateLog = "C:\Users\adeye\Documents\AD-EYE_Core\expDate.log";
+expDateLog = fopen(experimentDateLog, 'a');
+
 shFolderPath = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
 launchTemplateModifier = strcat(shFolderPath, '/' , 'launchTemplateModifier.sh'); ...
     ...%contains command to run the python node which receives ros parameters and modifies launch files 
@@ -76,6 +79,10 @@ for run = 1:NrOfRuns
     system(device, launchTemplateModifier); 
     disp('Launching the manager file')
     system(device, managerFileLaunch);
+
+    fprintf(expDateLog, "%s, %s, %s\n", datetime("now"), ...
+        Run(run).ExpName,...
+        Run(run).AutowareConfig);
 
     cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
     MainExperiment = pwd;
