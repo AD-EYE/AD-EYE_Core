@@ -349,8 +349,8 @@ public:
                 ROS_ERROR_STREAM("No .csv files describing the UserLibrary Element has been found for resolution " << mapResolution);
             } else {
                 ROS_INFO_STREAM("staticObjects map found : " << file);
+                readFile(file);
             }
-            readFile(file);
         }
 
         // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
