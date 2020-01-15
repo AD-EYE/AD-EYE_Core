@@ -5,8 +5,12 @@
     </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Simulation/"/>
+    <arg name="area_width" value="35" />
+    <arg name="area_height_front" value="50" />
+    <arg name="area_height_back" value="25" />
 
-    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen">
+    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="log"
+        args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
@@ -15,19 +19,32 @@
                value="$(arg Pex_Folder)/adeye/config/manager/WorldName.pex"/>
     </node>
 
-    <node pkg="adeye" type="flattening" name="flattening" output="screen"/>
+    <node pkg="adeye" type="flattening" name="flattening" output="screen"
+        args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
+
+    <!--node pkg="adeye"
+          type="safetySupervisor"
+          name="safetySupervisor"
+          output="screen"
+          launch-prefix="xterm -e"
+          args="/gps_to_base_link"/-->
+
+    <node pkg="adeye"
+          type="collisionDetector"
+          name="collisionDetector"
+          output="log" />
 
 
-    <node pkg="ss_trajplanner"
+    <!--node pkg="ss_trajplanner"
           type="ss_trajplanner_node"
           name="ss_trajplanner_node"
           output="screen"
           launch-prefix="xterm -e">
         <param name="trajectory_set_filename"
-               value="/adeye/SSMP/ss_trajplanner/trajectory_set_filename"/>
+               value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
         <param name="costmap_base_topic" value="/costmap_base"/>
         <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
-    </node>
-    <!--<node name="rviz" pkg="rviz" type="rviz" args="/adeye/SSMP/rviz/args" />-->
+    </node-->
+    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
 </launch>
