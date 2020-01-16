@@ -111,8 +111,8 @@ public:
         length_ego = 5;
         width_ego = 2;
         //height_ego = 2; //Height is not critical for now
-        length_other = length_ego;
-        width_other = width_ego;
+        length_other = 6; //length_ego;
+        width_other = 3; //width_ego;
         heigth_other = 2;
 
         x_egoOld = 0;
