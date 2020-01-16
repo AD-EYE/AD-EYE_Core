@@ -75,6 +75,7 @@ private:
     bool activeNodes;
     bool dynamicObjects;
     bool carOnRoad;
+    double maxCurvature;
 
 public:
     /*!
@@ -284,6 +285,53 @@ public:
     }
 
     /*!
+     * \brief Check max curvature : Called at every interation of the main loop
+     * \Checks the maximum curvature of the global plan
+     */
+    float checkMaxCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    {
+      float maxCurvature = 0;
+      float curvature;
+      if(trajectory.size()>2){
+          for (size_t i = 0; i<trajectory.size()-2; i++) {
+              curvature = getMengerCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
+              if (curvature > maxCurvature) {
+                  maxCurvature = curvature;
+              }
+          }
+      }
+      std::cout << "The max curvature is: " << maxCurvature << '\n';
+      return maxCurvature;
+    }
+
+    /*!
+     * \brief Get menger curvature : Called at every interation of the main loop
+     * \Calculates the inverse of the radius of the curcle defined by 3 points
+     */
+    float getMengerCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
+    {
+        float curvature = 0;
+        if (((P1.pos.x != P2.pos.x)||(P1.pos.y != P2.pos.y)) && ((P1.pos.x != P3.pos.x)||(P1.pos.y != P3.pos.y)) && ((P2.pos.x != P3.pos.x)||(P2.pos.y != P3.pos.y))) { //If the 3 points are different
+            /* code */
+            float areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
+            float dist12 = getDistance(P1, P2);
+            float dist13 = getDistance(P1, P3);
+            float dist23 = getDistance(P2, P3);
+            curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
+        }
+        return curvature;
+    }
+
+    /*!
+     * \brief Get distance : Called at every interation of the main loop
+     * \Calculates the distance between 2 points
+     */
+    float getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
+    {
+        return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
+    }
+
+    /*!
      * \brief Check dynamic objects : Called at every interation of the main loop
      * \Checks if there is a dynamic object in the critical area
      */
@@ -392,6 +440,9 @@ public:
 
         // Check the distance to the roadedge
         distanceToRoadedge = checkDistanceToRoadedge(gridmap, pose);
+
+        // Check the max curvature of the global plan
+        maxCurvature = checkMaxCurvature(autowareGlobalPaths.at(0));
 
         // Check that all the necesary nodes are active
         activeNodes = checkActiveNodes();
