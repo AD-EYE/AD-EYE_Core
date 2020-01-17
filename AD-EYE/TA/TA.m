@@ -189,9 +189,12 @@ Command = ExeName;
 %Command = [Command ' -load ' '"' CurrentExperiment '"' ' -close']; %loads last running experiment again
 %dos(Command);
 cd(BasePath);
+
+close(expDateLog);
+
 %% clean up workspace
 clear Command ExeName MainExperiment ResultDir RunModel RunName activeConfig duration endTime startTime ...
-    errorCode fileID i j line regenButtonCallbackText regenButtonHandle runResult simout tag val Settings tout;
+    errorCode fileID i j line regenButtonCallbackText regenButtonHandle runResult simout tag val Settings tout expDateLog;
 clear()
 end
 
