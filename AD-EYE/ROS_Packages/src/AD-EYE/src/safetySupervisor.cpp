@@ -291,11 +291,12 @@ public:
     float checkMaxCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
       float maxCurvature = 0;
+      float minCurvature = 0;
       float curvature;
       if(trajectory.size()>2){
           for (size_t i = 0; i<trajectory.size()-2; i++) {
-              curvature = getMengerCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
-              if (curvature > maxCurvature) {
+              curvature = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
+              if (fabs(curvature) > fabs(maxCurvature)) {
                   maxCurvature = curvature;
               }
           }
@@ -305,20 +306,22 @@ public:
     }
 
     /*!
-     * \brief Get menger curvature : Called at every interation of the main loop
+     * \brief Get menger curvature : References can be found looking for "Menger curvature"
      * \Calculates the inverse of the radius of the curcle defined by 3 points
      */
-    float getMengerCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
+    float getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         float curvature = 0;
-        if (((P1.pos.x != P2.pos.x)||(P1.pos.y != P2.pos.y)) && ((P1.pos.x != P3.pos.x)||(P1.pos.y != P3.pos.y)) && ((P2.pos.x != P3.pos.x)||(P2.pos.y != P3.pos.y))) { //If the 3 points are different
-            /* code */
+        float crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
+        if (crossProduct != 0) { //If the points are not collineal
             float areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
             float dist12 = getDistance(P1, P2);
             float dist13 = getDistance(P1, P3);
             float dist23 = getDistance(P2, P3);
             curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
         }
+        //std::cout << "The first point is: " << P1.pos.x << ", " << P2.pos.y << '\n';
+        //std::cout << "The curvature is: " << curvature << '\n';
         return curvature;
     }
 
