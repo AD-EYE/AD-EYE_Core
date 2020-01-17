@@ -162,6 +162,7 @@ public:
     {
         collisionType collision = collisionType::None;
         ros::Rate rate(20);
+        ROS_INFO("Collision detector started !");
         while(nh_.ok())
         {
             ros::spinOnce();
