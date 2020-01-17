@@ -34,7 +34,7 @@ for i in range(len(expInfos)):
 # regarding the number following the name of the file
 autowareConfig_param = {
     "param": "speed",
-    "values": [2, 4, 6, 8]
+    "values": [3, 6, 8, 11]
 }
 
 oscName_param = {
