@@ -75,7 +75,11 @@ private:
     bool activeNodes;
     bool dynamicObjects;
     bool carOnRoad;
-    double maxCurvature;
+    //double maxCurvature;
+    struct curvature {
+        double max;
+        double min;
+    };
 
 public:
     /*!
@@ -285,51 +289,58 @@ public:
     }
 
     /*!
-     * \brief Check max curvature : Called at every interation of the main loop
-     * \Checks the maximum curvature of the global plan
+     * \brief Check curvature : Called at every interation of the main loop
+     * \Checks the maximum and minimum curvature of the global plan
      */
-    float checkMaxCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    curvature checkCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-      float maxCurvature = 0;
-      float minCurvature = 0;
-      float curvature;
-      if(trajectory.size()>2){
-          for (size_t i = 0; i<trajectory.size()-2; i++) {
-              curvature = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
-              if (fabs(curvature) > fabs(maxCurvature)) {
-                  maxCurvature = curvature;
-              }
-          }
-      }
-      std::cout << "The max curvature is: " << maxCurvature << '\n';
-      return maxCurvature;
+        curvature curvature;
+        curvature.max = 0;
+        curvature.min = 0;
+        //double maxCurvature = 0;
+        //double minCurvature = 0;
+        double curv;
+        if(trajectory.size()>2){
+            for (size_t i = 0; i<trajectory.size()-2; i++) {
+                curv = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
+                if (curv > curvature.max) {
+                    curvature.max = curv;
+                }
+                if (curv < curvature.min) {
+                    curvature.min = curv;
+                }
+            }
+        }
+        std::cout << "The max curvature is: " << curvature.max << '\n';
+        std::cout << "The min curvature is: " << curvature.min << '\n';
+        return curvature;
     }
 
     /*!
      * \brief Get menger curvature : References can be found looking for "Menger curvature"
      * \Calculates the inverse of the radius of the curcle defined by 3 points
      */
-    float getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
+    double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
-        float curvature = 0;
-        float crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
+        double curv = 0;
+        double crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
         if (crossProduct != 0) { //If the points are not collineal
-            float areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
-            float dist12 = getDistance(P1, P2);
-            float dist13 = getDistance(P1, P3);
-            float dist23 = getDistance(P2, P3);
-            curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
+            double areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
+            double dist12 = getDistance(P1, P2);
+            double dist13 = getDistance(P1, P3);
+            double dist23 = getDistance(P2, P3);
+            curv = 4 * areaTriangle / (dist12 * dist13 * dist23);
         }
         //std::cout << "The first point is: " << P1.pos.x << ", " << P2.pos.y << '\n';
-        //std::cout << "The curvature is: " << curvature << '\n';
-        return curvature;
+        //std::cout << "The curvature is: " << curv << '\n';
+        return curv;
     }
 
     /*!
      * \brief Get distance : Called at every interation of the main loop
      * \Calculates the distance between 2 points
      */
-    float getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
+    double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
     {
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
     }
@@ -444,8 +455,8 @@ public:
         // Check the distance to the roadedge
         distanceToRoadedge = checkDistanceToRoadedge(gridmap, pose);
 
-        // Check the max curvature of the global plan
-        maxCurvature = checkMaxCurvature(autowareGlobalPaths.at(0));
+        // Check the curvature of the global plan
+        curvature curvature = checkCurvature(autowareGlobalPaths.at(0));
 
         // Check that all the necesary nodes are active
         activeNodes = checkActiveNodes();
