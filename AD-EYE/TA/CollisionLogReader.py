@@ -39,7 +39,7 @@ autowareConfig_param = {
 
 oscName_param = {
     "param": "triggerDistance",
-    "values": [i for i in range(10, 61, 10)]
+    "values": [i for i in range(20, 61, 10)]
 }
 # A more generic approach (but not cleaner) is to put these two dicts into another dict
 # That associate a pattern to match with the information read in the log file (e.g a file name: "autowareConfig")
@@ -75,7 +75,7 @@ output = []
 for i, exp in enumerate(expInfos):
 
     # Reading parameters
-    oscNum = exp[1].lower().replace("kth_truck_osc", "").replace(".xosc", "")
+    oscNum = exp[1].lower().replace("kth_car_osc", "").replace(".xosc", "")
     autowareConf = exp[2].lower().replace("autowareconfig", "").replace(".xlsx", "")
     autowareConf = int(autowareConf) -1
     oscNum = int(oscNum) -1
