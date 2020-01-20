@@ -184,13 +184,13 @@ for run = 1:NrOfRuns
     end
 end
 %% restoring experiment repository
+close(expDateLog);
+
 cd(MainExperiment); %MATLAB file path returns back to the last running Experiment directory
 Command = ExeName;
 %Command = [Command ' -load ' '"' CurrentExperiment '"' ' -close']; %loads last running experiment again
 %dos(Command);
 cd(BasePath);
-
-close(expDateLog);
 
 %% clean up workspace
 clear Command ExeName MainExperiment ResultDir RunModel RunName activeConfig duration endTime startTime ...

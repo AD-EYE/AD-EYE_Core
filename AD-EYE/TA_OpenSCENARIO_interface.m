@@ -19,9 +19,9 @@ end
 %% Configure
 
 EgoNameArray = ["BMW_X5_SUV_1" "BMW_X5_SUV_1" "BMW_X5_SUV_1" "BMW_X5_SUV_1"];
-ExpNameArray = ["KTH_car_osc1" "KTH_car_osc2" "KTH_car_osc3" "KTH_car_osc4" "KTH_car_osc5"];
-AutowareExpNameArray = ["KTH_car_osc" "KTH_car_osc" "KTH_car_osc" "KTH_car_osc" "KTH_car_osc"];
-AutowareConfigArray = ["AutowareConfig1.xlsx" "AutowareConfig2.xlsx" "AutowareConfig3.xlsx" "AutowareConfig4.xlsx"];
+ExpNameArray = ["KTH_car_osc1" "KTH_car_osc2" "KTH_car_osc3" "KTH_car_osc4"];
+AutowareExpNameArray = ["KTH_car_osc" "KTH_car_osc" "KTH_car_osc" "KTH_car_osc"];
+AutowareConfigArray = ["AutowareConfig1.xlsx" "AutowareConfig2.xlsx" "AutowareConfig3.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx" ];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 TagsConfigArray = [""];
