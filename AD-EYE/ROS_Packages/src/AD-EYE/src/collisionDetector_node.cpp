@@ -6,17 +6,13 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
-#include <std_msgs/Int32.h>
-#include <autoware_msgs/Lane.h>
-#include <autoware_msgs/LaneArray.h>
+#include <geometry_msgs/TwistStamped.h>
+#include <std_msgs/Bool.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
 #include <visualization_msgs/Marker.h> //Used for ego footprint visualization
 #include <std_msgs/ColorRGBA.h>        //Used for ego footprint visualization
-
-#include "op_planner/PlannerH.h"
-#include "op_ros_helpers/op_ROSHelpers.h"
 
 /*!
   \brief A node that detect collision with other objects using the SSMP_gridMap
@@ -37,6 +33,7 @@ private:
     ros::Subscriber subGnss;
     ros::Subscriber subVelocity;
     ros::Subscriber subGridmap;
+    ros::Publisher pubCollision;
 
     //ros::Publisher pubArea;  //Used for ego footprint visualization
 
@@ -52,7 +49,6 @@ private:
     geometry_msgs::TwistStamped velocity;
     bool gnss_flag;
     bool gridmap_flag;
-    std_msgs::Int32 msg;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     //! Used to determine the type of the collision
     enum class collisionType {None, staticObject, dynamicObject};
@@ -68,7 +64,7 @@ public:
     {
         // Initialize the node, publishers and subscribers
         //pubArea = nh_.advertise<visualization_msgs::Marker>("/collision_ego_footprint", 1, true);  //Used for ego footprint visualization
-
+        pubCollision = nh_.advertise<std_msgs::Bool>("/collision", 10);
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnss_callback, this);
         subVelocity = nh_.subscribe<geometry_msgs::TwistStamped>("/current_velocity", 10, &CollisionDetector::velocity_callback, this);
 
@@ -161,13 +157,17 @@ public:
     void run()
     {
         collisionType collision = collisionType::None;
+        std_msgs::Bool collisionState;
         ros::Rate rate(20);
         ROS_INFO("Collision detector started !");
         while(nh_.ok())
         {
+            collisionState.data = false;
             ros::spinOnce();
+
             if(gridmap_flag && gnss_flag)
             {
+                // Collision detection
                 collision = checkCollision(gridmap, pose);
                 if(collision != collisionType::None) {
                     std::stringstream msg;
@@ -182,8 +182,11 @@ public:
                     msg << "Car Velocity   = " << velocity.twist.linear.x;
 
                     ROS_WARN_STREAM_THROTTLE(1, msg.str());
+                    collisionState.data = true;
                 }
             }
+            pubCollision.publish(collisionState);
+
             rate.sleep();
         }
     }

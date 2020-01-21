@@ -34,6 +34,7 @@
           name="collisionDetector"
           output="log" />
 
+    <node name="record" pkg="rosbag" type="record" args="-o /adeye/config/manager/WorldName /gnss_pose /current_velocity /collision"/>
 
     <!--node pkg="ss_trajplanner"
           type="ss_trajplanner_node"
