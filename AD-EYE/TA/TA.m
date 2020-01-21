@@ -184,7 +184,7 @@ for run = 1:NrOfRuns
     end
 end
 %% restoring experiment repository
-close(expDateLog);
+fclose(expDateLog);
 
 cd(MainExperiment); %MATLAB file path returns back to the last running Experiment directory
 Command = ExeName;
