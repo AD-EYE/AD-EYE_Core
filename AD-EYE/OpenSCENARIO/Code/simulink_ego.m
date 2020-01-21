@@ -1,4 +1,4 @@
-function simulink_ego(name_simulink,models, name_ego,Struct_pex)
+function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCENARIO)
 
 for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml file %main for loop
     
@@ -129,10 +129,7 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
         Blockname1 = "R";
         location1 = convertStringsToChars(strcat(location,Blockname0,"/",Blockname1));
         if (Struct_pex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
-            rho = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.Density);
-            Vp = abs(str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Direction.Attributes.Z));
-            Dp = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.PSize)*10^-3;
-            R =(rho*Vp*pi*Dp^3)/6;
+            R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);
             set_param(location1,'Value',num2str(R));
         end
         

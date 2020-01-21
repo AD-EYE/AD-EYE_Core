@@ -57,7 +57,7 @@ delete_files(name_experiment,folder_name)
 
 %%%%%%%%%%%%%%%%%%%%Creating Simulink blcks
 %creating ROS blocks
- simulink_ego(name_simulink,models, name_ego,Struct_pex) 
+ simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCENARIO) 
 %creating label to all vehicles as simulink blocks
 trajectory_labels(Velocity_variable,models,name_simulink);
 %creating initial_velocity simulink blocks
