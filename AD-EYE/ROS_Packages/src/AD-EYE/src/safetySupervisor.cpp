@@ -36,6 +36,7 @@ private:
     // node, publishers and subscribers
     ros::NodeHandle &nh_;
     ros::Publisher pubSwitch;
+    ros::Publisher pubOverwriteBehavior;
     ros::Subscriber subGnss;
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
@@ -46,6 +47,25 @@ private:
     // constants
     bool SAFE = 0;
     bool UNSAFE = 1;
+    int FREE_AUTOWARE = 0;
+    int INITIAL_STATE = 1;
+    int WAITING_STATE = 2;
+    int FORWARD_STATE = 3;
+    int STOPPING_STATE = 4;
+    int EMERGENCY_STATE = 5;
+    int TRAFFIC_LIGHT_STOP_STATE = 6;
+    int TRAFFIC_LIGHT_WAIT_STATE = 7;
+    int STOP_SIGN_STOP_STATE = 8;
+    int STOP_SIGN_WAIT_STATE = 9;
+    int FOLLOW_STATE = 10;
+    int LANE_CHANGE_STATE = 11;
+    int OBSTACLE_AVOIDANCE_STATE = 12;
+    int GOAL_STATE = 13;
+    int FINISH_STATE = 14;
+    int YIELDING_STATE = 15;
+    int BRANCH_LEFT_STATE = 16;
+    int BRANCH_RIGHT_STATE = 17;
+
     //Critical area
     const float car_length = 5;
     const float car_width = 2;
@@ -56,12 +76,14 @@ private:
 
     // variables
     geometry_msgs::Pose pose;
-    bool state;
+    bool varSwitch;
+    int varOverwriteBehavior;
     bool gnss_flag;
     bool gridmap_flag;
     bool autowareTrajectory_flag;
     bool autowareGlobalPaths_flag;
-    std_msgs::Int32 msg;
+    std_msgs::Int32 msgSwitch;
+    std_msgs::Int32 msgOverwriteBehavior;
     //grid_map_msgs::GridMap gridmap;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory;
@@ -92,6 +114,7 @@ public:
         // Initialize the node, publishers and subscribers
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
         pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
+        pubOverwriteBehavior = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
 
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
@@ -99,7 +122,7 @@ public:
         subAutowareGlobalPlan = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
 
         // Initialize the variables
-        state = SAFE;
+        varSwitch = SAFE;
 
         // Initialize the flags
         gnss_flag = 0;
@@ -427,7 +450,7 @@ public:
                 publish();
             }
             rate.sleep();
-            //ROS_INFO("Current state: %d", state);
+            //ROS_INFO("Current state: %d", varSwitch);
         }
     }
 
@@ -437,8 +460,10 @@ public:
      */
     void publish()
     {
-        msg.data = state;
-        pubSwitch.publish(msg);
+        msgSwitch.data = varSwitch;
+        msgOverwriteBehavior.data = varOverwriteBehavior;
+        pubSwitch.publish(msgSwitch);
+        pubOverwriteBehavior.publish(msgOverwriteBehavior);
     }
 
     /*!
@@ -448,7 +473,8 @@ public:
      */
     void evaluate()
     {
-        state = SAFE;
+        varOverwriteBehavior = FREE_AUTOWARE;
+        varSwitch = SAFE;
         // Check the distance to the center line of the lane
         distanceToLane = checkDistanceToLane(autowareGlobalPaths.at(0), pose);
 
@@ -461,21 +487,21 @@ public:
         // Check that all the necesary nodes are active
         activeNodes = checkActiveNodes();
         if (activeNodes == false){
-            state = UNSAFE;
+            varSwitch = UNSAFE;
             return;
         }
 
         // Check that the center of the car on the road
         carOnRoad = checkCarOnRoad(gridmap, pose);
         if (carOnRoad == false){
-            state = UNSAFE;
+            varSwitch = UNSAFE;
             return;
         }
 
         //Is there a dynamic object in the critical area
         dynamicObjects = checkDynamicObjects(gridmap, pose);
         if (dynamicObjects == true){
-            state = UNSAFE;
+            varSwitch = UNSAFE;
             return;
         }
 
