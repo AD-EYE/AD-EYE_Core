@@ -7,6 +7,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Float32.h>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
 
@@ -37,6 +38,7 @@ private:
     ros::NodeHandle &nh_;
     ros::Publisher pubSwitch;
     ros::Publisher pubOverwriteBehavior;
+    ros::Publisher pubLimitMaxSpeed;
     ros::Subscriber subGnss;
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
@@ -82,8 +84,10 @@ private:
     bool gridmap_flag;
     bool autowareTrajectory_flag;
     bool autowareGlobalPaths_flag;
+
     std_msgs::Int32 msgSwitch;
     std_msgs::Int32 msgOverwriteBehavior;
+    std_msgs::Float32 msgLimitMaxSpeed;
     //grid_map_msgs::GridMap gridmap;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory;
@@ -115,6 +119,7 @@ public:
         pubSwitch = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
         pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
         pubOverwriteBehavior = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
+        pubLimitMaxSpeed = nh_.advertise<std_msgs::Float32>("/adeye/limitMaxSpeed", 1, true);
 
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
@@ -464,6 +469,8 @@ public:
         msgOverwriteBehavior.data = varOverwriteBehavior;
         pubSwitch.publish(msgSwitch);
         pubOverwriteBehavior.publish(msgOverwriteBehavior);
+        //msgLimitMaxSpeed.data = 3;
+        //pubLimitMaxSpeed.publish(msgLimitMaxSpeed);
     }
 
     /*!
