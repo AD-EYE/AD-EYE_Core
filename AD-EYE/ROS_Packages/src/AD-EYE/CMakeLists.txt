@@ -77,6 +77,10 @@ add_executable(
   src/safetySupervisor.cpp
 )
 
+add_executable(
+  collisionDetector
+  src/collisionDetector_node.cpp
+)
 
 target_link_libraries(
   GridMapCreator
@@ -98,6 +102,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  collisionDetector
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -113,9 +122,14 @@ add_dependencies(GridMapCreator
 add_dependencies(safetySupervisor
   ${catkin_EXPORTED_TARGETS}
 )
+
+add_dependencies(collisionDetector
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
