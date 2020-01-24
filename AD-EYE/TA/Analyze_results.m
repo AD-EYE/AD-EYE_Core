@@ -80,7 +80,23 @@ dist = results.triggerDistance;
 carSpeed = results.speed;
 collisionSpeed = results.collisionSpeed;
 
-surf(dist, carSpeed, diag(collisionSpeed));
+xlin = linspace(min(dist), max(dist));
+ylin = linspace(min(carSpeed), max(carSpeed));
+[X, Y] = meshgrid(xlin, ylin);
+
+f = scatteredInterpolant(dist, carSpeed, collisionSpeed);
+
+Z = f(X,Y);
+
+figure;
+surf(X, Y, Z, "EdgeColor", "none", "FaceAlpha", 0.9);
+hold on;
+stem3(dist, carSpeed, collisionSpeed, "filled", "MarkerFaceColor", "g");
+
+xlabel("Trigger distance [m]");
+ylabel("Car maximum speed [m/s]");
+zlabel("Collision Speed [m/s]");
+
 
 %% Saving results table
 
