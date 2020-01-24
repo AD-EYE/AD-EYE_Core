@@ -1,15 +1,15 @@
-function simulink_ego(name_simulink,models, name_ego,Struct_pex)
+function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCENARIO)
 
 for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml file %main for loop
-    
+
     if(convertCharsToStrings(models.worldmodel.object{i, 1}.name  ) == name_ego)
         location = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{i,1}.name) ,"/");
-        
+
         %delete Terminators
         f =  Simulink.FindOptions('SearchDepth',1);
         b1 = Simulink.findBlocksOfType(convertStringsToChars(location),'Terminator',f);
         b2 = convertCharsToStrings(getfullname(b1));
-        
+
         if(isempty(b2) ~= 1)
             for x = 1:length(b2(:,1))
                 S1(x,1)=get_param(b2(x,1),'PortConnectivity');
@@ -29,9 +29,9 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
                     end
                 end
             end
-            
+
         end
-        
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Simulink_state_NEW
         location = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{i,1}.name) ,"/");
         Blockname0 = "Main_block";
@@ -47,7 +47,7 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
             set_param(location0,'Position',[X Y X+Width Y+Height]);
             set_param(location0,'LinkStatus','inactive');
         end
-        
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Creating dynamics empty
         Blockname3 = "Dynamics_Empty";
         Blockname4 = convertStringsToChars(strcat("STATE_",convertCharsToStrings(models.worldmodel.object{i,1}.name), "_rc"));
@@ -60,7 +60,7 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
             end
             delete_block(location3)
         end
-        
+
         if (getSimulinkBlockHandle(location3) == -1)
             add_block(convertStringsToChars(strcat("ROS_lib/",Blockname3)),location3);
             %change location
@@ -74,10 +74,10 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
             add_line(convertStringsToChars(location), convertStringsToChars(strcat(Blockname3,"/1")),....
                 convertStringsToChars(strcat(Blockname4,"/1" )) ) %connect blocks
         end
-        
-        
+
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Connecting lines
-        
+
         %create variable with all the names of input port of the Main_block and Dynamic_Empty
         h = find_system(convertStringsToChars(strcat(name_simulink,name_ego,"/", Blockname0)),'SearchDepth',1,'BlockType','Inport');
         h1 =convertCharsToStrings(h);
@@ -86,7 +86,7 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
         s1 = get_param(convertStringsToChars(strcat(location,Blockname0)),'PortConnectivity');
         s2 = get_param(convertStringsToChars(strcat(location,Blockname3)),'PortConnectivity');
         s = s1;
-        
+
         x = length(h1);
         for k = 1:length(h1)
             h1(k,1) = strrep(h1(k,1), "//","/");
@@ -96,7 +96,7 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
             h1(x,1) = strrep(q1(j,1), "//","/");
             s(x,1) = s2(j,1);
         end
-        
+
         %Create another varable with all the names of input port of the Main_block for comparision
         %h2 is variable h1 stripped down
         h2 = h1;
@@ -107,9 +107,9 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
                 h2(k,1) = strrep(h2(k,1), strcat("/",Blockname3),"");
             end
         end
-        
-        
-        
+
+
+
         %create variable with all the names of input port of the Main_block
         for k = 1:length(h1)
             existing(k,1) = getSimulinkBlockHandle(convertStringsToChars(h2(k,1)));
@@ -129,13 +129,10 @@ for i = 1:length(models.worldmodel.object  ) %Declare number of objects in xml f
         Blockname1 = "R";
         location1 = convertStringsToChars(strcat(location,Blockname0,"/",Blockname1));
         if (Struct_pex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
-            rho = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.Density);
-            Vp = abs(str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Direction.Attributes.Z));
-            Dp = str2num(Struct_pex.Experiment.WeatherRainSettings.CurrentRainConfiguration.Attributes.PSize)*10^-3;
-            R =(rho*Vp*pi*Dp^3)/6;
+            R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);
             set_param(location1,'Value',num2str(R));
         end
-        
+
         Simulink.BlockDiagram.expandSubsystem(location0,'CreateArea','On')
     end %if statement checking which object in Prescan is the ego vehicle
 end %for loop over all Prescan objects

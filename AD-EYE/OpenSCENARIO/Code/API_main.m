@@ -1,4 +1,4 @@
- function  API_main(name_ego,name_experiment,name_experiment_template)
+function  API_main(name_ego,name_experiment,name_experiment_template)
 
 clear  trajectory_variable;
 close all;
@@ -8,7 +8,7 @@ clear names_trajectories
 % %create new folder for the compilation sheet/simulink file/.pex to be dumped
 cd( '..\..\Experiments')
 folder_name = strcat(strrep(name_experiment_template,".xosc",""));
-name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/")); 
+name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/"));
 mkdir(convertStringsToChars(folder_name));
 
 
@@ -57,7 +57,7 @@ delete_files(name_experiment,folder_name)
 
 %%%%%%%%%%%%%%%%%%%%Creating Simulink blcks
 %creating ROS blocks
- simulink_ego(name_simulink,models, name_ego,Struct_pex) 
+simulink_ego(name_simulink,models, name_ego, Struct_pex, Struct_OpenSCENARIO)
 %creating label to all vehicles as simulink blocks
 trajectory_labels(Velocity_variable,models,name_simulink);
 %creating initial_velocity simulink blocks
@@ -74,7 +74,7 @@ cd( strcat("..\..\Experiments\",folder_name,"\Simulation\") )
   %save .pb
 prescan.experiment.writeDataModels(models,convertStringsToChars(strcat(folder_name,".pb")) );
 % %Go back to code for redo
- cd ('..\..\..\OpenSCENARIO\Code\') 
+ cd ('..\..\..\OpenSCENARIO\Code\')
 %save .pex
 struct2xml(Struct_pex,strcat( "..\..\Experiments\",folder_name,"\Simulation\",folder_name,".pex"));
 %close system
