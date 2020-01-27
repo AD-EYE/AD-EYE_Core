@@ -7,6 +7,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
@@ -39,6 +40,7 @@ private:
     ros::Publisher pubSwitch;
     ros::Publisher pubOverwriteBehavior;
     ros::Publisher pubLimitMaxSpeed;
+    ros::Publisher pubOverwriteTrajectoryEval;
     ros::Subscriber subGnss;
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
@@ -88,6 +90,7 @@ private:
     std_msgs::Int32 msgSwitch;
     std_msgs::Int32 msgOverwriteBehavior;
     std_msgs::Float32 msgLimitMaxSpeed;
+    autoware_msgs::LaneArray msgOverwriteTrajectoryEval;
     //grid_map_msgs::GridMap gridmap;
     grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory;
@@ -120,6 +123,7 @@ public:
         pubArea = nh_.advertise<visualization_msgs::Marker>("/critArea", 1, true);  //Used for critical area visualization
         pubOverwriteBehavior = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
         pubLimitMaxSpeed = nh_.advertise<std_msgs::Float32>("/adeye/limitMaxSpeed", 1, true);
+        pubOverwriteTrajectoryEval = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwriteTrajectoryEval", 1, true);
 
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
@@ -471,6 +475,20 @@ public:
         pubOverwriteBehavior.publish(msgOverwriteBehavior);
         //msgLimitMaxSpeed.data = 3;
         //pubLimitMaxSpeed.publish(msgLimitMaxSpeed);
+        autoware_msgs::Lane lane;
+        lane.cost = -1;
+        lane.is_blocked = true;
+        msgOverwriteTrajectoryEval.lanes.clear();
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        pubOverwriteTrajectoryEval.publish(msgOverwriteTrajectoryEval);
     }
 
     /*!
