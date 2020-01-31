@@ -1,6 +1,6 @@
 %% Initialisation
-base = "\\192.168.122.1\Shared Drive\OpenScenario_Results\";
-folderName = "KTH_car_Rain0";
+base = "\\192.168.122.1\Shared_Drive\collision_results_narrow\";
+folderName = "Rain1";
 folder = base + folderName;
 initFolder = pwd;
 
@@ -18,12 +18,15 @@ config = table;
 %     'value' gives the value of the parameter for that 'configName'
 
 config("AutowareConfig1.xlsx",:) = {"speed", 5};
-config("AutowareConfig2.xlsx",:) = {"speed", 10};
-config("AutowareConfig3.xlsx",:) = {"speed", 15};
+config("AutowareConfig2.xlsx",:) = {"speed", 7.5};
+config("AutowareConfig3.xlsx",:) = {"speed", 10};
+config("AutowareConfig4.xlsx",:) = {"speed", 12.5};
+config("AutowareConfig5.xlsx",:) = {"speed", 15};
 config("KTH_car_osc1",:) = {"triggerDistance", 15};
-config("KTH_car_osc2",:) = {"triggerDistance", 25};
-config("KTH_car_osc3",:) = {"triggerDistance", 35};
-config("KTH_car_osc4",:) = {"triggerDistance", 45};
+config("KTH_car_osc2",:) = {"triggerDistance", 17.5};
+config("KTH_car_osc3",:) = {"triggerDistance", 20};
+config("KTH_car_osc4",:) = {"triggerDistance", 22.5};
+config("KTH_car_osc5",:) = {"triggerDistance", 25};
 
 config.Properties.VariableNames = ["param" "value"];
 
