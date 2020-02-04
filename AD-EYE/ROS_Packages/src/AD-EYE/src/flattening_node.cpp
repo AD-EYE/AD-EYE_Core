@@ -22,9 +22,6 @@ using namespace grid_map;
 #define YELLOW 50
 #define RED 99
 
-const float SQRT_2 = sqrt(2);
-#define PI 3.141592654
-
 /*!
  * \brief This class is used to extract data from the GridMap given by the GridMapCreator
  * \details This node produce two OccupancyGrid : One, aligned with the global axis, which is used by
@@ -36,7 +33,7 @@ private:
     // publishers and subscribers
     ros::NodeHandle& nh_;
     ros::Publisher pubOccGrid;
-    ros::Publisher pubOccGrid_aligned;
+    ros::Publisher puboccGrid;
     ros::Subscriber subGridMap;
     ros::Subscriber subPosition_ego;
 
@@ -46,11 +43,11 @@ private:
     float yaw_ego = 0;
 
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
-    float dangerous_height = 0.20;
+    const float dangerous_height = 0.20;
     nav_msgs::OccupancyGrid occGrid;
-    nav_msgs::OccupancyGrid occGrid_aligned;
-    float submap_width;  // We are using width and height, but don't worry,
-    float submap_height; // it will NEVER work if the gridMap is not a SQUARRE
+    const float occmap_width;
+    const float occmap_height;
+    float submap_dimensions;
     GridMap gridMap;
     float frequency = 30; // this value should be alligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate;
@@ -60,13 +57,18 @@ public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param area_width The width in meter of the ssmp occupancy area
+     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
+     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
      * \details Initializes the node and its components such as publishers and subscribers.
+     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    OccMapCreator(ros::NodeHandle &nh) : nh_(nh), rate(1)
+    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
+        occmap_width(area_width),                               // The width in meter...
+        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
     {
         // Initialize node and publishers
         pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
-        pubOccGrid_aligned = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap_aligned", 1);
         subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
         subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgo_callback, this);
 
@@ -78,8 +80,6 @@ public:
         occGrid.info.origin.orientation.y = 0.0;
         occGrid.info.origin.orientation.z = 0.0;
         occGrid.info.origin.orientation.w = 1.0;
-
-        occGrid_aligned.info.origin.position.z = 0;
     }
 
     /*!
@@ -93,43 +93,19 @@ public:
         // convert received message back to gridmap
         GridMapRosConverter::fromMessage(*msg, gridMap);
 
-        // initialize occupancy map with gridmap data
         occGrid.header.frame_id = gridMap.getFrameId();
         occGrid.header.stamp.fromNSec(gridMap.getTimestamp());
         occGrid.info.map_load_time = occGrid.header.stamp;
         occGrid.info.resolution = gridMap.getResolution();
-        occGrid.info.width = gridMap.getSize()(0);
-        occGrid.info.height = gridMap.getSize()(1);
-        Position origin = gridMap.getPosition() - 0.5 * gridMap.getLength().matrix();;
+        occGrid.info.width = gridMap.getSize().x();
+        occGrid.info.height = gridMap.getSize().y();
+        submap_dimensions = gridMap.getLength().x();    // Also, length of the diagonal of the area
+        // The occGrid origin is on its corner
+        Position origin = gridMap.getPosition() - gridMap.getLength().matrix() / 2;
         occGrid.info.origin.position.x = origin.x();
         occGrid.info.origin.position.y = origin.y();
-        size_t nCells = gridMap.getSize().prod();
+        std::size_t nCells = occGrid.info.width * occGrid.info.height;
         occGrid.data.resize(nCells);
-
-        // initialize occupancy map ALIGNED with gridmap data
-        occGrid_aligned.header.frame_id = gridMap.getFrameId();
-        occGrid_aligned.header.stamp.fromNSec(gridMap.getTimestamp());
-        occGrid_aligned.info.map_load_time = occGrid_aligned.header.stamp;
-        occGrid_aligned.info.resolution = gridMap.getResolution();
-        occGrid_aligned.info.width = gridMap.getSize()(0) / SQRT_2;
-        occGrid_aligned.info.height = gridMap.getSize()(1) / SQRT_2;
-        submap_width = occGrid_aligned.info.width * occGrid_aligned.info.resolution;
-        submap_height = occGrid_aligned.info.height * occGrid_aligned.info.resolution;
-        origin = gridMap.getPosition(); //Center of the gridmap
-        //The occupancyGrid origin is its top left corner and it rotates around it (and not around the center)
-        origin[0] += sin(PI/4 - yaw_ego) * submap_width/SQRT_2; // So we have to move it at the right place
-        origin[1] += cos(PI/4 - yaw_ego) * submap_width/SQRT_2;
-        // (To understand every calculation, just take a paper, draw squares, lines and angles,
-        //   make trigonometry calculation, scream, start again from the begining and you will get it)
-        occGrid_aligned.info.origin.position.x = origin.x();
-        occGrid_aligned.info.origin.position.y = origin.y();
-        geometry_msgs::Quaternion q = cpp_utils::tf_quat_to_quat(cpp_utils::get_tf_quat(yaw_ego - PI)); // Don't know why, but '- pi' is needed
-        occGrid_aligned.info.origin.orientation.x = q.x;
-        occGrid_aligned.info.origin.orientation.y = q.y;
-        occGrid_aligned.info.origin.orientation.z = q.z;
-        occGrid_aligned.info.origin.orientation.w = q.w;
-        nCells = occGrid_aligned.info.width * occGrid_aligned.info.height;
-        occGrid_aligned.data.resize(nCells);
 
         flateningProcess();
     }
@@ -160,7 +136,6 @@ public:
 
             ros::spinOnce();
             pubOccGrid.publish(occGrid);
-            pubOccGrid_aligned.publish(occGrid_aligned);
 
             //Time control
             rostime = ros::Time::now().toSec() - rostime;
@@ -176,7 +151,11 @@ public:
      * \brief The information from the GridMap are translated into an occupancy grid
      * \details Info from all different layers is reduced to either
      * GREEN, YELLOW, or RED, as these values are the only ones that
-     * the safety planner can read
+     * the safety planner can read.
+     * The safety planner do not consider the orientation of the grid, so the Occupancy Grid
+     * has the same size than the Grid Map (which is aligned with global axis by design).
+     * Then, every cells in the grid that are not in the considered area (aligned with the car),
+     * will be hidden (filled with the RED value).
      */
     void flateningProcess() {
         size_t nCells = occGrid.data.size();
@@ -185,53 +164,42 @@ public:
         float staticObjectValue;
         float dynamicObjectValue;
         float laneValue;
+        Position pos;
 
-        for (GridMapIterator it(gridMap) ; !it.isPastEnd() ; ++it) {
-            staticObjectValue = (gridMap.at("StaticObjects", *it));
-            dynamicObjectValue = (gridMap.at("DynamicObjects", *it));
-            laneValue = (gridMap.at("DrivableAreas", *it));
+        grid_map::Polygon area;
+        float alpha = yaw_ego + std::atan(occmap_width / occmap_height); // Angle between the horizontal and the diagonal of the area
+        Position point1 = gridMap.getPosition();
+        point1.x() += cos(alpha) * submap_dimensions/2;
+        point1.y() += sin(alpha) * submap_dimensions/2;
+        Position point2 = {point1.x() + occmap_width * sin(yaw_ego), point1.y() - occmap_width * cos(yaw_ego)};
+        Position point3 = {point2.x() - occmap_height * cos(yaw_ego), point2.y() - occmap_height * sin(yaw_ego)};
+        Position point4 = {point3.x() - occmap_width * sin(yaw_ego), point3.y() + occmap_width * cos(yaw_ego)};
+        area.addVertex(point1);
+        area.addVertex(point2);
+        area.addVertex(point3);
+        area.addVertex(point4);
 
-            //Calculation the occupancy value
-            occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue);
-
-            index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
-            occGrid.data[nCells - index - 1] = occValue;
-        }
-
-
-        // Flatening the ALIGNED occupancy map
-        Position origin = {occGrid_aligned.info.origin.position.x, occGrid_aligned.info.origin.position.y};
-        Position pos = origin; //Position of each cell during the loop
-        double dx;
-        double dy;
-        for(index = 0 ; index < occGrid_aligned.data.size() ; index++) {
-            // Distances between the actual cell and the origin (in the LOCAL coordinates)
-            dx = (index % occGrid_aligned.info.width) * occGrid_aligned.info.resolution;
-            dy = (index / occGrid_aligned.info.width) * occGrid_aligned.info.resolution;
-            //Position of the cell (top left corner of the cell)
-            pos.x() = origin.x() - dx * cos(yaw_ego) + dy * sin(yaw_ego);
-            pos.y() = origin.y() - dx * sin(yaw_ego) - dy * cos(yaw_ego);
-            //Finding the center of the cell
-            pos.x() += 0.5 * occGrid_aligned.info.resolution * (-cos(yaw_ego) + sin(yaw_ego));
-            pos.y() += 0.5 * occGrid_aligned.info.resolution * (-sin(yaw_ego) - cos(yaw_ego));
+        for(GridMapIterator it(gridMap) ; !it.isPastEnd() ; ++it) {
+            if(!gridMap.getPosition(*it, pos)) {
+                ROS_ERROR("Flattening : Error when retrieving position of a gridMap cell");
+                continue;
+            }
 
             //Getting values
-            staticObjectValue = gridMap.atPosition("StaticObjects", pos);
-            dynamicObjectValue = gridMap.atPosition("DynamicObjects", pos);
-            laneValue = gridMap.atPosition("DrivableAreas", pos);
+            if(area.isInside(pos)) { //If we are inside the area
+                staticObjectValue = gridMap.atPosition("StaticObjects", pos);
+                dynamicObjectValue = gridMap.atPosition("DynamicObjects", pos);
+                laneValue = gridMap.atPosition("DrivableAreas", pos);
 
-            //Calculation the occupancy value
-            occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue);
+                //Calculation the occupancy value
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue);
+            } else { //Hide if not inside the area
+                occValue = RED;
+            }
 
-            occGrid_aligned.data[index] = occValue;
+            index = it.getLinearIndex();
+            occGrid.data[nCells - index - 1] = occValue;
         }
-
-        // to test lanes layer
-        /*for (GridMapIterator it(gridMap); !it.isPastEnd(); ++it){
-          float lanevalue = (gridMap.at("Lanes", *it));
-          size_t index = getLinearIndexFromIndex(it.getUnwrappedIndex(), gridMap.getSize(), false);
-          occGrid.data[nCells - index - 1] = lanevalue;
-          }*/
     }
 
     /*!
@@ -263,12 +231,36 @@ public:
     }
 };
 
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <area_width> <area_height_front> <area_height_back>");
+}
+
 int main(int argc, char** argv)
 {
+    if(argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    //Convert cli args into float (with error handling)
+    float area_width, area_height_front, area_height_back;
+    try {
+        area_width = std::atof(argv[1]);
+        area_height_front = std::atof(argv[2]);
+        area_height_back = std::atof(argv[3]);
+    } catch (const std::exception& e) {
+        ROS_FATAL_STREAM("GridMapCreator:\n Error when parsing arguments : " << e.what());
+        exit(EXIT_FAILURE);
+    } catch (...) {
+        ROS_FATAL("GridMapCreator:\nUndefined error when parsing arguments..\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Initialize node
     ros::init(argc, argv, "flattening");
     ros::NodeHandle nh;
-    OccMapCreator omc(nh);
+    OccMapCreator omc(nh, area_width, area_height_front, area_height_back);
     omc.run();
     return 0;
 }

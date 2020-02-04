@@ -29,6 +29,7 @@ struct PrescanModel
     std::vector<float> sizeX;
     std::vector<float> sizeY;
     std::vector<float> sizeZ;
+    bool ULElementFound = false;
 
     /*!
      * \brief Loads the data of the Prescan Experiment from the given file
@@ -52,6 +53,9 @@ struct PrescanModel
         else{
             while (inputFile.good()){
                 std::getline (inputFile,line);
+                if(line.find("ObjectTypeID=\"9\"") != std::string::npos) {
+                    ULElementFound = true;
+                }
                 if(line.find("<NatureElement xsi") != std::string::npos ||
                         line.find(" ObjectTypeID=\"12\"") != std::string::npos ||
                         line.find(" ObjectTypeID=\"17\"") != std::string::npos || // Concrete areas can be declared as safe area

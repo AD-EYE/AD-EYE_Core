@@ -17,14 +17,18 @@
 #include <cpp_utils/pose_datatypes.h>
 #include <geometry_msgs/PoseArray.h>
 
+#include <dirent.h>
+
 using namespace grid_map;
 
 #define HALF_PI 1.5708
 
 /*!
  * \brief The GridMapCreator maintains a grid map used to know where safe places are
- * \details It is used by the safety channel in order to know where it is better to
- * perform an emergency stop.
+ * \details A submap is sent to the flattening node which build a occupancy grid map
+ * for the Safety channel to know where are the safe places (for an emergency stop).
+ * The submap is aligned by design with the global axis of the map. So the submap sent to the
+ * flatening node is a square that contains the rectangle representing the final occmap
  */
 class GridMapCreator
 {
@@ -63,7 +67,10 @@ private:
     //Map
     GridMap map;
     float mapResolution;
-    float submap_dimensions;
+    const float occmap_width;
+    const float occmap_height;
+    const float car_offset;
+    const float submap_dimensions;
     //Ros utils
     ros::Rate rate;
     float frequency;
@@ -73,9 +80,20 @@ public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param area_width The width in meter of the ssmp occupancy area
+     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
+     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
      * \details Initializes the node and its components such as publishers and subscribers.
+     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    GridMapCreator(ros::NodeHandle& nh) : nh_(nh), rate(1)
+    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
+        occmap_width(area_width),                               // The width in meter...
+        occmap_height(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset(area_height_front - occmap_height/2),        // relative distance between the center of the grid map and the center of the car (logitudinal axis...
+                                                                // ... positive towards the front of the car
+
+        submap_dimensions(sqrt(std::pow(occmap_width, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                               std::pow(occmap_height, 2)))
     {
         // Initialize node and publishers
         pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, true);
@@ -85,7 +103,6 @@ public:
         sub_DynamicObjects = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::DynamicObjects_callback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        submap_dimensions = 35;               // Both the length and the width of the submap in meters, increasing this value will cause the flattening node to become slower, 35 is the minimum value
         mapResolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
         frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
         rate = ros::Rate(frequency);
@@ -176,6 +193,8 @@ public:
         grid_map::Polygon otherCarOld;
         grid_map::Polygon otherCar;
 
+        Position subMap_center;
+        const Length subMap_size(submap_dimensions, submap_dimensions);
         bool subsucces;
         GridMap subMap;
 
@@ -235,10 +254,13 @@ public:
 
             // publish stuff
             // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
+            subMap_center.x() = x_ego + car_offset*cos(yaw_ego);
+            subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
             map.setTimestamp(ros::Time::now().toNSec());
-            subMap = map.getSubmap(Position(x_ego+(0.5*submap_dimensions-length_ego)*cos(yaw_ego), y_ego+(0.5*submap_dimensions-length_ego)*sin(yaw_ego)), Length(submap_dimensions, submap_dimensions), subsucces);
+            subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
             if(subsucces == false){
-                ROS_INFO("Error");
+                ROS_ERROR("GridMapCreator : Error when creating the submap");
+                continue;
             }
 
             GridMapRosConverter::toMessage(subMap, message);
@@ -249,7 +271,7 @@ public:
 
             rostime = ros::Time::now().toSec() - rostime;
             if(rostime > 1/frequency){
-                ROS_INFO("frequency is not met!");
+                ROS_WARN("GridMapCreator : frequency is not met!");
             }
             rate.sleep();
         }
@@ -318,6 +340,18 @@ public:
         std::string filePex = p_nh.param<std::string>("filePex","");
         PrescanModel pexObjects;
         pexObjects.load_pexmap(filePex);
+
+        if(pexObjects.ULElementFound) { // If a User Library Element is present
+            // A .csv file containing its footprint as an occupancy map should be present
+            ROS_INFO("User Library Element found in Prescan Experiment !");
+            std::string file = checkFile(mapResolution, filePex);
+            if(file.empty()) {
+                ROS_ERROR_STREAM("No .csv files describing the UserLibrary Element has been found for resolution " << mapResolution);
+            } else {
+                ROS_INFO_STREAM("staticObjects map found : " << file);
+                readFile(file);
+            }
+        }
 
         // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
         for(int i = 0; i < (int)pexObjects.ID.size(); i++){
@@ -398,6 +432,162 @@ public:
     }
 
     /*!
+     * \brief This method checks if a .csv file is provided for the given resolution
+     * \param resolution The resolution the file should match
+     * \param pexFileLocation The location of the .pexFile
+     * \return The filePath of the right file (empty if not found)
+     * \details In the case a UserLibrary Element is found on the map, this
+     * function will be called in order to check if a .csv file describing the
+     * Elements footprint is given. The file name should contain the resolution without
+     * decimal mark preceded by an underscore (e.g. Map_025.csv for a resolution of 0.25 m/cell).
+     * Then, it uses the pex file location to go to the right folder (which is hardcoded as
+     * <ExperimentFolder>/staticObjects)
+     */
+    std::string checkFile(float resolution, std::string pexFileLocation) {
+        // Finds the right folder from the pex file location
+        //   Ignores the .pex file and goes 1 folder back
+        std::size_t pos = pexFileLocation.find_last_of("/");
+        pos = pexFileLocation.find_last_of("/", pos-1);
+        std::string folder = pexFileLocation.substr(0, pos);
+        //   Going 1 folder back
+        folder.append("/staticObjects/");
+
+        // Creating the search pattern: '_<resolution>' (resolution without the '.': '0.25' -> '025')
+        std::stringstream s;
+        s << '_' << resolution;
+        std::string pattern = s.str();
+        pattern.replace(pattern.find('.'), 1, "");
+
+        // Searching for the right file
+        std::string filePath;
+
+        // Old C method for searching in the directory
+        // Because it seems that c++17 standard isn't supported
+        DIR *dpdf;
+        struct dirent *epdf;
+
+        dpdf = opendir(folder.c_str());
+        if (dpdf != NULL){
+            std::string fileName;
+            while ( (epdf = readdir(dpdf)) ){
+                fileName = epdf->d_name;
+                if(fileName.find(pattern) != std::string::npos) {
+                    filePath = folder + fileName;
+                    break;
+                }
+            }
+        } else {
+            ROS_ERROR_STREAM("Cannot open folder" << folder);
+        }
+        closedir(dpdf);
+
+        return filePath;
+    }
+
+    //TODO:
+    //      Sanity checks ! (resolution, size, etc...)
+    /*!
+     * \brief This function read a .csv containing the staticObjects layer values and
+     * build this layer with these.
+     * \param filePath The path to the file to read
+     * \details It extracts the data from the file and put it first in an occupandyGrid.
+     * Then, it converts the occupancyGrid to a GridMap and finally, add the data from
+     * the GridMap newly created inside the world GridMap.
+     */
+    void readFile(std::string filePath){
+        ROS_INFO("Opening file");
+        std::ifstream mapStream(filePath);
+        if(!mapStream.is_open()) {
+            ROS_FATAL_STREAM("Map file can't be opened:\n(File path: '" << filePath << "' )\n");
+            exit(EXIT_FAILURE);
+        }
+
+        ROS_INFO("Reading metadatas");
+        grid_map::Length Xlimits, Ylimits;
+        float resolution;
+        unsigned int width, height;
+        std::string line;
+        std::string value_str;
+
+        // Reading Xlimits
+        std::getline(mapStream, line); //line == "#<XLimit1>,<XLimit2>"
+        std::stringstream s(line);
+        s.get(); // Ignores the '#'
+        std::getline(s, value_str, ','); // Gets the first limit
+        Xlimits[0] = std::atof(value_str.c_str()); // Converts it to number
+        std::getline(s, value_str);
+        Xlimits[1] = std::atof(value_str.c_str());
+
+        // Reading Ylimits
+        std::getline(mapStream, line); //line == "#<YLimit1>,<YLimit2>"
+        s.str(line);
+        s.seekg(1); // Reset the cursor position to the beginning of the string (after the '#')
+        std::getline(s, value_str, ','); // Gets the first limit
+        Ylimits[0] = std::atof(value_str.c_str()); // Converts it to number
+        std::getline(s, value_str);
+        Ylimits[1] = std::atof(value_str.c_str());
+
+        // Reading number of cells
+        std::getline(mapStream, line); //line == "#<width>,<height>"
+        s.str(line);
+        s.seekg(1);
+        std::getline(s, value_str, ',');
+        width = std::atoi(value_str.c_str());
+        std::getline(s, value_str);
+        height = std::atoi(value_str.c_str());
+
+        // Reading resolution
+        std::getline(mapStream, line); //line == "#<resolution>"
+        s.str(line);
+        s.seekg(1);
+        std::getline(s, value_str);
+        resolution = std::atof(value_str.c_str());
+
+        ROS_INFO("Retrieving occupancy Values");
+        nav_msgs::OccupancyGrid occGrid;
+        occGrid.header.frame_id = "SSMP_map";
+        occGrid.info.origin.orientation.w = 1;
+        occGrid.info.resolution = resolution; //0.25;
+        occGrid.info.width = width; //2890;
+        occGrid.info.height = height; //3085;
+        occGrid.info.origin.position.x = Xlimits[0]; //-160.2371; // [-160.2371 562.0715] (XLimits (from Matlab))
+        occGrid.info.origin.position.y = Ylimits[0]; //-712.9244;  // [-712.9244 58.1797] (YLimits (from Matlab))
+        occGrid.data.resize(occGrid.info.width * occGrid.info.height);
+
+        std::size_t i = 0;
+        float value;
+        while(std::getline(mapStream, line)) {
+            std::stringstream is(line);
+            /*s.str(line);
+            s.seekg(0);*/ // Reseting the output cursor position to the beginning of the stream
+            while(std::getline(is, value_str, ',')) {
+                value = std::atoi(value_str.c_str());
+                if(i >= occGrid.data.size()) {
+                    ROS_FATAL("Index bigger than occGrid size...");
+                    exit(EXIT_FAILURE);
+                }
+                occGrid.data[i] = value;
+                i++;
+            }
+        }
+
+        mapStream.close();
+        ROS_INFO("Creating occupancyMap");
+        grid_map::GridMap newMap;
+        if(!grid_map::GridMapRosConverter::fromOccupancyGrid(occGrid, "StaticObjects", newMap)) {
+            ROS_FATAL("GridMap from occGrid didn't worked...");
+            exit(EXIT_FAILURE);
+        }
+
+        ROS_INFO("Filling the Grid_Map");
+        if(!map.addDataFrom(newMap, false, true, false, {"StaticObjects"})) {
+            ROS_FATAL("GridMap data addition didn't worked");
+            exit(EXIT_FAILURE);
+        }
+        ROS_INFO("Everything happened fine ! :)");
+    }
+
+    /*!
      * \brief This function creates a rectangle in a gridmap.
      * \param X X coordinate of the center location in the gridmap.
      * \param Y Y coordinate of the center location in the gridmap.
@@ -421,12 +611,40 @@ public:
 
 };
 
+/*!
+ * \brief Print a help message on how to use the node.
+ * \details Specify arguments needed
+ */
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <area_width> <area_height_front> <area_height_back>");
+}
+
 int main(int argc, char **argv)
 {
+    if(argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    //Convert cli args into float (with error handling)
+    float area_width, area_height_front, area_height_back;
+    try {
+        area_width = std::atof(argv[1]);
+        area_height_front = std::atof(argv[2]);
+        area_height_back = std::atof(argv[3]);
+    } catch (const std::exception& e) {
+        ROS_FATAL_STREAM("GridMapCreator:\n Error when parsing arguments : " << e.what());
+        exit(EXIT_FAILURE);
+    } catch (...) {
+        ROS_FATAL("GridMapCreator:\nUndefined error when parsing arguments..\n");
+        exit(EXIT_FAILURE);
+    }
+
     // init node
     ros::init(argc, argv, "GridMapCreator");
     ros::NodeHandle nh;
-    GridMapCreator gmc(nh);
+    GridMapCreator gmc(nh, area_width, area_height_front, area_height_back);
     gmc.run();
     return 0;
 }
