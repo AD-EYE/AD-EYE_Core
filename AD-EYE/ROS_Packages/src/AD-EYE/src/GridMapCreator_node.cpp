@@ -354,41 +354,44 @@ public:
         }
 
         // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
-        for(int i = 0; i < (int)pexObjects.ID.size(); i++){
-            // building objects are always considered to be rectangles, and as such, a rectangle is created and the PolygonIterator is used. The number 0.01745 is a conversion from degrees to radians
-            if(pexObjects.type.at(i) == BUILDING){
-                grid_map::Polygon polygon = rectangle_creator(pexObjects.posX.at(i), pexObjects.posY.at(i), pexObjects.sizeX.at(i), pexObjects.sizeY.at(i), 0.01745*pexObjects.yaw.at(i));
-                for (grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator) {
-                    map.at("StaticObjects", *iterator) = pexObjects.sizeZ.at(i);
-                }
+
+        // building objects are always considered to be rectangles, and as such, a rectangle is created and the PolygonIterator is used. The number 0.01745 is a conversion from degrees to radians
+        for(int i = 0; i < (int)pexObjects.buildingObjects.size(); i++){
+            grid_map::Polygon polygon = rectangle_creator(pexObjects.buildingObjects.at(i).posX, pexObjects.buildingObjects.at(i).posY, pexObjects.buildingObjects.at(i).sizeX, pexObjects.buildingObjects.at(i).sizeY, 0.01745*pexObjects.buildingObjects.at(i).yaw);
+            for (grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator) {
+                map.at("StaticObjects", *iterator) = pexObjects.buildingObjects.at(i).sizeZ;
             }
-            // Traffic lights are created by filling in just one or two cells, as traffic lights are usually very small
-            else if(pexObjects.type.at(i) == TRAFFICLIGHT){
-                Position center(pexObjects.posX.at(i), pexObjects.posY.at(i));
-                float radius = mapResolution;
-                for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                    map.at("StaticObjects", *iterator) = pexObjects.sizeZ.at(i);
-                }
+        }
+
+        // Traffic lights are created by filling in just one or two cells, as traffic lights are usually very small
+        for(int i = 0; i < (int)pexObjects.trafficlightObjects.size(); i++){
+            Position center(pexObjects.trafficlightObjects.at(i).posX, pexObjects.trafficlightObjects.at(i).posY);
+            float radius = mapResolution;
+            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
+                map.at("StaticObjects", *iterator) = pexObjects.trafficlightObjects.at(i).sizeZ;
             }
-            // Nature is created using the circleIterator, as trees and bushes do not really have a definite shape, a circle describes their shape the best
-            else if(pexObjects.type.at(i) == NATURE){
-                Position center(pexObjects.posX.at(i), pexObjects.posY.at(i));
-                float radius;
-                if(pexObjects.sizeX.at(i) > pexObjects.sizeY.at(i)){
-                    radius = 0.5*pexObjects.sizeX.at(i);
-                }
-                else{
-                    radius = 0.5*pexObjects.sizeY.at(i);
-                }
-                for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                    map.at("StaticObjects", *iterator) = pexObjects.sizeZ.at(i);
-                }
+        }
+
+        // Nature is created using the circleIterator, as trees and bushes do not really have a definite shape, a circle describes their shape the best
+        for(int i = 0; i < (int)pexObjects.natureObjects.size(); i++){
+            Position center(pexObjects.natureObjects.at(i).posX, pexObjects.natureObjects.at(i).posY);
+            float radius;
+            if(pexObjects.natureObjects.at(i).sizeX > pexObjects.natureObjects.at(i).sizeY){
+                radius = 0.5*pexObjects.natureObjects.at(i).sizeX;
             }
-            if(pexObjects.type.at(i) == SAFEAREA) {
-                grid_map::Polygon polygon = rectangle_creator(pexObjects.posX.at(i), pexObjects.posY.at(i), pexObjects.sizeX.at(i), pexObjects.sizeY.at(i), 0.01745*pexObjects.yaw.at(i));
-                for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
-                    map.at("StaticObjects", *it) = -1;
-                }
+            else{
+                radius = 0.5*pexObjects.natureObjects.at(i).sizeY;
+            }
+            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
+                map.at("StaticObjects", *iterator) = pexObjects.natureObjects.at(i).sizeZ;
+            }
+        }
+
+        // Safe Area objects are always considered to be rectangles
+        for(int i = 0; i < (int)pexObjects.safeAreaObjects.size(); i++){
+            grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
+            for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
+                map.at("StaticObjects", *it) = -1;
             }
         }
 
