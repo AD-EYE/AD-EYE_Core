@@ -1,10 +1,20 @@
+%% Config
 
-dest = "\\192.168.122.1\Shared_Drive\collision_results\KTH_car_Rain50";
-expDir = dest + "\Experiments";
+% Output folder (Where all the Run_XX folders and the videos will be created
+dest = "\\192.168.122.1\Shared_Drive\collision_results_narrow\Rain5";
+% Experiment folder (Where the script will find the Experiments as
+% created by the TA_OpenSCENARIO_interface.m script
+expDir = dest + "\Experiments\";
 
+% The number of frame in each videos
+FrameNumber = 75;
+
+%%  Extract Images in  Run folders
 cd(expDir);
 
 files = dir;
+
+N = 0;
 
 % Going through each experiments
 for file = files'
@@ -14,6 +24,7 @@ for file = files'
         % Going through each results dir
         for res = results'
             if(res.name ~= "." && res.name ~= "..")
+                N = N + 1;
                 cd (res.folder + "\" + res.name);
                 run = dir;
                 run = run(3).name; % Getting the index of the run
@@ -27,6 +38,7 @@ for file = files'
 
                 %Copy images to destination
                 mkdir(dest, run);
+
                 copyfile("*", dest + "\" + run + "\");
             end
         end
@@ -35,13 +47,11 @@ end
 
 cd(dest);
 
-%%
+%% Create all the videos
 
 base_folder = dest;
 
 cd(base_folder)
-
-N = 12;
 
 f = waitbar(0, "Processing Run", "Name", "Creating Videos");
 
@@ -49,7 +59,7 @@ for run = 1:N
     waitbar(run/N, f, sprintf("Processing Run %d", run));
     folder = "Run_" + run;
     cd(folder);
-    createVideo(folder)
+    createVideo(folder, FrameNumber)
     cd ../
 end
 
@@ -58,9 +68,9 @@ close(f)
 
 %%
 
-function createVideo(name)
+function createVideo(name, frameNumber)
     f = waitbar(0, "Processing image", 'Name', "Creating Video " + name); 
-    N = 75;
+    N = frameNumber;
     writerObj = VideoWriter(char("../" +  name));
     writerObj.FrameRate=5;
     open(writerObj);
