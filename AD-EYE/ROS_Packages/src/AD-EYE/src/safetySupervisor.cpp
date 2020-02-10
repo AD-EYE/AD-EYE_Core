@@ -41,6 +41,8 @@ private:
     ros::Publisher pubOverwriteBehavior;
     ros::Publisher pubLimitMaxSpeed;
     ros::Publisher pubOverwriteTrajectoryEval;
+    ros::Publisher pubAutowareGoal;
+    ros::Publisher pubTriggerUpdateGlobalPlanner;
     ros::Subscriber subGnss;
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
@@ -124,6 +126,9 @@ public:
         pubOverwriteBehavior = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
         pubLimitMaxSpeed = nh_.advertise<std_msgs::Float32>("/adeye/limitMaxSpeed", 1, true);
         pubOverwriteTrajectoryEval = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwriteTrajectoryEval", 1, true);
+        //pubAutowareGoal = nh_.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal", 1, true);
+        pubAutowareGoal = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
+        pubTriggerUpdateGlobalPlanner = nh_.advertise<std_msgs::Int32>("/adeye/updateGlobalPlanner", 1, true);
 
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
@@ -470,25 +475,44 @@ public:
     void publish()
     {
         msgSwitch.data = varSwitch;
-        msgOverwriteBehavior.data = varOverwriteBehavior;
         pubSwitch.publish(msgSwitch);
+
+        msgOverwriteBehavior.data = varOverwriteBehavior;
         pubOverwriteBehavior.publish(msgOverwriteBehavior);
+
         //msgLimitMaxSpeed.data = 3;
         //pubLimitMaxSpeed.publish(msgLimitMaxSpeed);
-        autoware_msgs::Lane lane;
-        lane.cost = -1;
-        lane.is_blocked = true;
-        msgOverwriteTrajectoryEval.lanes.clear();
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        msgOverwriteTrajectoryEval.lanes.push_back(lane);
-        pubOverwriteTrajectoryEval.publish(msgOverwriteTrajectoryEval);
+
+        //autoware_msgs::Lane lane;
+        //lane.cost = -1;
+        //lane.is_blocked = true;
+        //msgOverwriteTrajectoryEval.lanes.clear();
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //msgOverwriteTrajectoryEval.lanes.push_back(lane);
+        //pubOverwriteTrajectoryEval.publish(msgOverwriteTrajectoryEval);
+
+        //geometry_msgs::PoseStamped newGoal;
+        //newGoal.header.frame_id = "wold";
+        //newGoal.pose.position.x = 100;
+        //newGoal.pose.position.y = 171;
+        //newGoal.pose.position.z = 0;
+        //newGoal.pose.orientation.x = 0;
+        //newGoal.pose.orientation.y = 0;
+        //newGoal.pose.orientation.z = 0;
+        //newGoal.pose.orientation.w = 1;
+        //pubAutowareGoal.publish(newGoal);
+
+        //std_msgs::Int32 msgTriggerUpdateGlobalPlanner;
+        //msgTriggerUpdateGlobalPlanner.data = 1;
+        //pubTriggerUpdateGlobalPlanner.publish(msgTriggerUpdateGlobalPlanner);
+
     }
 
     /*!
