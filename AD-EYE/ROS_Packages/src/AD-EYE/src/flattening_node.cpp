@@ -214,14 +214,22 @@ public:
     float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
         float occValue = GREEN;
 
-        if(staticObjectValue > dangerous_height) {
-            occValue = RED;
-        }
-        if(laneValue == 1) { // Lanes overwrite static objects
+        if(laneValue == 1) {
             occValue = YELLOW;
         }
         if(safeAreaValue > 0) {
-            occValue = WHITE;
+            if (safeAreaValue <= 64) {
+                occValue = RED;
+            } else if (safeAreaValue <= 128) {
+                occValue = YELLOW;
+            } else if (safeAreaValue <= 192){
+                occValue = GREEN;
+            } else {
+                occValue = WHITE;
+            }
+        }
+        if(staticObjectValue > dangerous_height) {
+            occValue = RED;
         }
         if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite everything
             occValue = RED;
