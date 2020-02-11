@@ -9,7 +9,7 @@
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
 
-    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen"
+    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen" launch-prefix="xterm -e"
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>

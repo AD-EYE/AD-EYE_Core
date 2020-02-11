@@ -164,6 +164,7 @@ public:
         float staticObjectValue;
         float dynamicObjectValue;
         float laneValue;
+        float safeAreaValue;
         Position pos;
 
         grid_map::Polygon area;
@@ -190,9 +191,10 @@ public:
                 staticObjectValue = gridMap.atPosition("StaticObjects", pos);
                 dynamicObjectValue = gridMap.atPosition("DynamicObjects", pos);
                 laneValue = gridMap.atPosition("DrivableAreas", pos);
+                safeAreaValue = gridMap.atPosition("SafeAreas", pos);
 
                 //Calculation the occupancy value
-                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue);
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue);
             } else { //Hide if not inside the area
                 occValue = RED;
             }
@@ -209,7 +211,7 @@ public:
      * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
      * \return The occupancy value calculated
      */
-    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue) {
+    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
         float occValue = 0;
 
         if(staticObjectValue > dangerous_height) {
@@ -221,11 +223,14 @@ public:
         else if(laneValue == 0 && staticObjectValue <= dangerous_height) {
             occValue = GREEN;
         }
-        if(staticObjectValue == -1) {
-            occValue = WHITE;
-        }
+        //if(staticObjectValue == -1) {
+        //    occValue = WHITE;
+        //}
         if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite lanes
             occValue = RED;
+        }
+        if(safeAreaValue > 0) {
+            occValue = WHITE;
         }
         return occValue;
     }

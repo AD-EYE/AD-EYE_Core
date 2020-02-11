@@ -27,6 +27,7 @@ struct PrescanObject
     float sizeX;
     float sizeY;
     float sizeZ;
+    float safetyAreaValue;
 };
 
 struct PrescanModel
@@ -75,6 +76,10 @@ struct PrescanModel
                     // get type
                     if(line.find("Description=\"SAFE") != std::string::npos) {
                         type = SAFEAREA;
+                        element = line.substr(line.find("Description=\"SAFE")+17, 3);
+                        value = strtof(element.c_str(),0);
+                        object.safetyAreaValue = value;
+                        //std::cout << element << ";" << value << std::endl;
                     }
                     else if(line.find("Nature") != std::string::npos){
                         type = NATURE;

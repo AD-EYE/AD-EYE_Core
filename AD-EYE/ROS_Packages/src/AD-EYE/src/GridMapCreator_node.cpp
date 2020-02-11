@@ -321,7 +321,7 @@ public:
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
-        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes", "SafeAreas"});
         map.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
@@ -334,6 +334,7 @@ public:
             map.at("StaticObjects", *it) = 0;
             map.at("DynamicObjects", *it) = 0;
             map.at("Lanes", *it) = 0;
+            map.at("SafeAreas", *it) = 0;
         }
 
         // read out prescanmap from the pex file and store all information in 'pexObjects'
@@ -391,7 +392,7 @@ public:
         for(int i = 0; i < (int)pexObjects.safeAreaObjects.size(); i++){
             grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
-                map.at("StaticObjects", *it) = -1;
+                map.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
             }
         }
 
