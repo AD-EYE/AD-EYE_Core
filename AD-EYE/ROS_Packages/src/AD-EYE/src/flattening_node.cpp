@@ -212,7 +212,7 @@ public:
      * \return The occupancy value calculated
      */
     float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
-        float occValue = 0;
+        float occValue = GREEN;
 
         if(staticObjectValue > dangerous_height) {
             occValue = RED;
@@ -220,17 +220,11 @@ public:
         if(laneValue == 1) { // Lanes overwrite static objects
             occValue = YELLOW;
         }
-        else if(laneValue == 0 && staticObjectValue <= dangerous_height) {
-            occValue = GREEN;
-        }
-        //if(staticObjectValue == -1) {
-        //    occValue = WHITE;
-        //}
-        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite lanes
-            occValue = RED;
-        }
         if(safeAreaValue > 0) {
             occValue = WHITE;
+        }
+        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite everything
+            occValue = RED;
         }
         return occValue;
     }
