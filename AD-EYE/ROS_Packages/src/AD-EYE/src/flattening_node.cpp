@@ -164,6 +164,7 @@ public:
         float staticObjectValue;
         float dynamicObjectValue;
         float laneValue;
+        float safeAreaValue;
         Position pos;
 
         grid_map::Polygon area;
@@ -190,9 +191,10 @@ public:
                 staticObjectValue = gridMap.atPosition("StaticObjects", pos);
                 dynamicObjectValue = gridMap.atPosition("DynamicObjects", pos);
                 laneValue = gridMap.atPosition("DrivableAreas", pos);
+                safeAreaValue = gridMap.atPosition("SafeAreas", pos);
 
                 //Calculation the occupancy value
-                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue);
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue);
             } else { //Hide if not inside the area
                 occValue = RED;
             }
@@ -209,22 +211,27 @@ public:
      * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
      * \return The occupancy value calculated
      */
-    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue) {
-        float occValue = 0;
+    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
+        float occValue = GREEN;
 
+        if(laneValue == 1) {
+            occValue = YELLOW;
+        }
+        if(safeAreaValue > 0) {
+            if (safeAreaValue <= 64) {
+                occValue = RED;
+            } else if (safeAreaValue <= 128) {
+                occValue = YELLOW;
+            } else if (safeAreaValue <= 192){
+                occValue = GREEN;
+            } else {
+                occValue = WHITE;
+            }
+        }
         if(staticObjectValue > dangerous_height) {
             occValue = RED;
         }
-        if(laneValue == 1) { // Lanes overwrite static objects
-            occValue = YELLOW;
-        }
-        else if(laneValue == 0 && staticObjectValue <= dangerous_height) {
-            occValue = GREEN;
-        }
-        if(staticObjectValue == -1) {
-            occValue = WHITE;
-        }
-        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite lanes
+        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite everything
             occValue = RED;
         }
         return occValue;
