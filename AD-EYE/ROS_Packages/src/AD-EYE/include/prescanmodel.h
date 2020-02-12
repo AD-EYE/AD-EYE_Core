@@ -78,9 +78,10 @@ struct PrescanModel
                         type = SAFEAREA;
                         element = line.substr(line.find("Description=\"SAFE")+17, 3);
                         value = strtof(element.c_str(),0);
+
                         if(value < 1 || value > 256){
                             std::stringstream ss;
-                            ss << "Value of the SafeArea out of the range 1-256" << filePex;
+                            ss << "Value of the SafeArea out of the range 1-256. Value = " << value << filePex;
                             ROS_ERROR_STREAM(ss.str());
                             throw std::runtime_error(ss.str());
                         }
