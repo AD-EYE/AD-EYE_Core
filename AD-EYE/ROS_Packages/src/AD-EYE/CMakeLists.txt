@@ -78,6 +78,11 @@ add_executable(
 )
 
 add_executable(
+  radar_broadcaster
+  src/radar_broadcaster.cpp
+)
+
+add_executable(
   collisionDetector
   src/collisionDetector_node.cpp
 )
@@ -103,6 +108,11 @@ target_link_libraries(
 )
 
 target_link_libraries(
+  radar_broadcaster
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
   collisionDetector
   ${catkin_LIBRARIES}
 )
@@ -123,13 +133,17 @@ add_dependencies(safetySupervisor
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(radar_broadcaster
+  ${catkin_EXPORTED_TARGETS}
+)
+
 add_dependencies(collisionDetector
   ${catkin_EXPORTED_TARGETS}
 )
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

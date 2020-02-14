@@ -1,0 +1,7 @@
+<!-- -->
+<launch>
+    <node type="radar_broadcaster"
+          pkg="adeye"
+          name="radar_broadcaster"
+          respawn="true"/>
+</launch>
