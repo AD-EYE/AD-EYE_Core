@@ -111,7 +111,7 @@
     </include>
 
     <!-- tracked_objects_adapter -->
-    <include file="$(find adeye)/launch/tracked_objects_adapter.launch"/>
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch"/>
 
     <!-- feat_proj -->
     <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">

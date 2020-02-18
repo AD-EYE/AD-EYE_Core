@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   autoware_msgs
   op_planner
   op_ros_helpers
+  tf2_ros
 )
 
 
@@ -37,6 +38,7 @@ catkin_package(
     autoware_msgs
     op_planner
     op_ros_helpers
+    tf2_ros
   DEPENDS
 )
 
@@ -87,6 +89,11 @@ add_executable(
   src/collisionDetector_node.cpp
 )
 
+add_executable(
+  objectsFrameAdapter
+  src/objectsFrameAdapter.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -117,6 +124,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  objectsFrameAdapter
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -141,9 +153,13 @@ add_dependencies(collisionDetector
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(objectsFrameAdapter
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

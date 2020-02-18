@@ -1,0 +1,16 @@
+<!-- -->
+<launch>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <node
+            type="objectsFrameAdapter"
+            pkg="adeye"
+            name="objectsFrameAdapter"
+            respawn="false"
+            output="screen"
+    />
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+</launch>
