@@ -31,11 +31,11 @@ private:
     tf2_ros::TransformListener tfListener;
 
 public:
-    objectsFrameAdapter(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), tfListener(tfBuffer)
+    objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic) : nh_(nh), tfListener(tfBuffer)
     {
         // Initialize the publishers and subscribers
-        subObjects = nh_.subscribe<autoware_msgs::DetectedObjectArray>("/detection/fusion_tools/objects", 1, &objectsFrameAdapter::detectedObjects_callback, this);
-        pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/tracked_objects", 1, true);
+        subObjects = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic, 1, &objectsFrameAdapter::detectedObjects_callback, this);
+        pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
         // Initialize the transform listener
     }
 
@@ -119,12 +119,25 @@ public:
     }
 };
 
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <input_topic_1> <input_topic_2> <output_topic>");
+}
+
 int main(int argc, char** argv)
 {
+    if (argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    std::string inputTopic, outputTopic;
+    inputTopic = argv[1];
+    outputTopic = argv[2];
+
     // Initialize node
     ros::init(argc, argv, "objectsFrameAdapter");
     ros::NodeHandle nh;
-    objectsFrameAdapter oFA(nh, argc, argv);
+    objectsFrameAdapter oFA(nh, inputTopic, outputTopic);
     oFA.run();
     return 0;
 }

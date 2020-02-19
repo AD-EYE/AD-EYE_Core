@@ -23,12 +23,12 @@ private:
     bool msg2_flag = false;
 
 public:
-    objectListFuse(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
+    objectListFuse(ros::NodeHandle &nh, std::string inputTopic1, std::string inputTopic2, std::string outputTopic) : nh_(nh)
     {
         // Initialize the publishers and subscribers
-        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>("/input1", 1, &objectListFuse::msg1_callback, this);
-        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>("/input2", 1, &objectListFuse::msg2_callback, this);
-        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>("/output", 1, true);
+        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic1, 1, &objectListFuse::msg1_callback, this);
+        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic2, 1, &objectListFuse::msg2_callback, this);
+        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
     }
 
     void msg1_callback(autoware_msgs::DetectedObjectArray msg)
@@ -66,11 +66,25 @@ public:
     }
 };
 
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <input_topic_1> <input_topic_2> <output_topic>");
+}
+
 int main(int argc, char** argv)
 {
+    if (argc < 4) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    std::string inputTopic1, inputTopic2, outputTopic;
+    inputTopic1 = argv[1];
+    inputTopic2 = argv[2];
+    outputTopic = argv[3];
+
     ros::init(argc, argv, "objectListFuse");
     ros::NodeHandle nh;
-    objectListFuse oLF(nh, argc, argv);
+    objectListFuse oLF(nh, inputTopic1, inputTopic2, outputTopic);
     oLF.run();
     return 0;
 }

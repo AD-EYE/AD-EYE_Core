@@ -1,16 +1,14 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
+    <arg name="inputTopic" default="input"/>
+    <arg name="outputTopic" default="output"/>
+
     <node
             type="objectsFrameAdapter"
             pkg="adeye"
             name="objectsFrameAdapter"
             respawn="false"
             output="screen"
+            args="$(arg inputTopic) $(arg outputTopic)"
     />
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
 </launch>
