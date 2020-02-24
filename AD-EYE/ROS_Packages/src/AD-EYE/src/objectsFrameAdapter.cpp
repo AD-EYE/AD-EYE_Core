@@ -25,14 +25,15 @@ private:
     ros::Publisher pubObjects;
 
 
-    std::string target_frame = "map";
+    std::string target_frame;
 
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener;
 
 public:
-    objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic) : nh_(nh), tfListener(tfBuffer)
+    objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic, std::string targetFrame) : nh_(nh), tfListener(tfBuffer)
     {
+        target_frame = targetFrame;
         // Initialize the publishers and subscribers
         subObjects = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic, 1, &objectsFrameAdapter::detectedObjects_callback, this);
         pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
@@ -121,7 +122,7 @@ public:
 
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
-                     " <input_topic_1> <input_topic_2> <output_topic>");
+                     " <input_topic> <output_topic> <target_frame>");
 }
 
 int main(int argc, char** argv)
@@ -130,14 +131,15 @@ int main(int argc, char** argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    std::string inputTopic, outputTopic;
+    std::string inputTopic, outputTopic, targetFrame;
     inputTopic = argv[1];
     outputTopic = argv[2];
+    targetFrame = argv[3];
 
     // Initialize node
     ros::init(argc, argv, "objectsFrameAdapter");
     ros::NodeHandle nh;
-    objectsFrameAdapter oFA(nh, inputTopic, outputTopic);
+    objectsFrameAdapter oFA(nh, inputTopic, outputTopic, targetFrame);
     oFA.run();
     return 0;
 }
