@@ -9,6 +9,10 @@
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
           args="1.1 -0.7 1.8 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/>
 
+    <!-- base_link to radar tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
+          args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
+
     <!-- camera_info -->
     <include file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="camera_info_publisher"/>
@@ -43,7 +47,7 @@
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
-        <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
+        <arg name="points_node" value="/filtered_points"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
         <arg name="remove_ground" value="true"/>
         <arg name="downsample_cloud" value="false"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
         <arg name="leaf_size" value="0.1"/><!-- Voxel Grid Filter leaf size-->
@@ -77,9 +81,19 @@
              value="[0.5,1.1,1.6,2.1,2.6]"/><!-- Euclidean Clustering threshold distance for each segment -->
     </include>
 
+    <!-- radar_broadcaster -->
+    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+
+    <!-- lidar_radar_fusion -->
+    <include file="$(find adeye)/launch/objectListFuse.launch">
+        <arg name="inputTopic1" value="detection/lidar_tracker/objects"/>
+        <arg name="inputTopic2" value="detection/radar_tracker/objects"/>
+        <arg name="outputTopic" value="detection/lidar_radar_fusion/objects"/>
+    </include>
+
     <!-- range_vision_fusion -->
     <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
-        <arg name="detected_objects_range" value="/detection/lidar_tracker/objects"/>
+        <arg name="detected_objects_range" value="/detection/lidar_radar_fusion/objects"/>
         <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="min_car_dimensions" value="[3,2,2]"/>
@@ -110,8 +124,11 @@
         <arg name="namespace" value="/detection/object_tracker/"/>
     </include>
 
-    <!-- tracked_objects_adapter -->
-    <include file="$(find adeye)/launch/objectsFrameAdapter.launch"/>
+    <!-- objectsFrameAdapter -->
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
+        <arg name="inputTopic" value="detection/fusion_tools/objects"/>
+        <arg name="outputTopic" value="tracked_objects"/>
+    </include>
 
     <!-- feat_proj -->
     <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">

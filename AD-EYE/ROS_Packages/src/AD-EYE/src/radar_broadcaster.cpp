@@ -33,7 +33,7 @@ public:
     {
         // Initialize the publishers and subscribers
         subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
-        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/fusion_tools/objects", 1, true);
+        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
     }
 
     void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
