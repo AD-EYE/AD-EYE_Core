@@ -5,6 +5,10 @@
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
           args="2.0 0.0 1.32 -0.5 0.5 -0.5 0.5 base_link camera 10"/>
 
+    <!-- base_link to camera tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera2"
+          args="-0.95 0.0 1.32 -0.5 -0.5 0.5 0.5 base_link camera2 10"/>
+
     <!-- base_link to traffic_light_camera tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
           args="1.1 -0.7 1.8 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/>
