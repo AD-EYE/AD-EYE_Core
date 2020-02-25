@@ -42,15 +42,15 @@
     <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
-        <arg name="camera_height" value="1.2"/>
+        <arg name="camera_height" value="1.32"/>
     </include>
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
-        <arg name="points_node" value="/filtered_points"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
+        <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
         <arg name="remove_ground" value="true"/>
-        <arg name="downsample_cloud" value="false"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
-        <arg name="leaf_size" value="0.1"/><!-- Voxel Grid Filter leaf size-->
+        <arg name="downsample_cloud" value="true"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
+        <arg name="leaf_size" value="0.2"/><!-- Voxel Grid Filter leaf size-->
         <arg name="cluster_size_min" value="7"/><!-- Minimum number of points to consider a cluster as valid-->
         <arg name="cluster_size_max" value="100000"/><!-- Maximum number of points to allow inside a cluster-->
         <arg name="sync" value="false"/>
