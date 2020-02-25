@@ -25,26 +25,6 @@
         <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
 
-    <!-- vision_ssd_detect-->
-    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
-        <arg name="use_gpu" value="true"/>
-        <arg name="gpu_device_id" value="0"/>
-        <arg name="score_threshold" value="0.5"/>
-        <arg name="network_definition_file"
-             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
-        <arg name="pretrained_model_file"
-             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
-        <arg name="camera_id" value="/"/>
-        <arg name="image_src" value="/image_raw"/>
-    </include>
-
-    <!-- vision_beyond_track-->
-    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
-        <arg name="camera_info_src" value="/camera_info"/>
-        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
-        <arg name="camera_height" value="1.32"/>
-    </include>
-
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
         <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
@@ -81,36 +61,6 @@
              value="[0.5,1.1,1.6,2.1,2.6]"/><!-- Euclidean Clustering threshold distance for each segment -->
     </include>
 
-    <!-- radar_broadcaster -->
-    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
-
-    <!-- objectsFrameAdapter -->
-    <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
-        <arg name="nodeName" value="objectsFrameAdapter2"/>
-        <arg name="inputTopic" value="detection/radar_tracker/objects"/>
-        <arg name="outputTopic" value="detection/radar_tracker/objects2"/>
-        <arg name="targetFrame" value="velodyne"/>
-    </include>
-
-    <!-- lidar_radar_fusion -->
-    <include file="$(find adeye)/launch/objectListFuse.launch">
-        <arg name="inputTopic1" value="detection/lidar_tracker/objects"/>
-        <arg name="inputTopic2" value="detection/radar_tracker/objects2"/>
-        <arg name="outputTopic" value="detection/lidar_radar_fusion/objects"/>
-    </include>
-
-    <!-- range_vision_fusion -->
-    <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
-        <arg name="detected_objects_range" value="/detection/lidar_radar_fusion/objects"/>
-        <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
-        <arg name="camera_info_src" value="/camera_info"/>
-        <arg name="min_car_dimensions" value="[3,2,2]"/>
-        <arg name="min_person_dimensions" value="[1,2,1]"/>
-        <arg name="min_truck_dimensions" value="[4,2,2]"/>
-        <arg name="sync_topics" value="false"/>
-        <arg name="overlap_threshold" value="0.4"/>
-    </include>
-
     <!-- imm_ukf_pda_track -->
     <include file="$(find imm_ukf_pda_track)/launch/imm_ukf_pda_track.launch">
         <arg name="gating_thres" value="9.22"/>
@@ -130,6 +80,57 @@
         <arg name="lane_frame" value="/map"/>
         <arg name="merge_distance_threshold" value="0.5"/>
         <arg name="namespace" value="/detection/object_tracker/"/>
+    </include>
+
+    <!-- radar_broadcaster -->
+    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+
+    <!-- objectsFrameAdapter -->
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
+        <arg name="nodeName" value="objectsFrameAdapter2"/>
+        <arg name="inputTopic" value="detection/radar_tracker/objects"/>
+        <arg name="outputTopic" value="detection/radar_tracker/objects2"/>
+        <arg name="targetFrame" value="velodyne"/>
+    </include>
+
+    <!-- lidar_radar_fusion -->
+    <include file="$(find adeye)/launch/objectListFuse.launch">
+        <arg name="nodeName" value="objectsListFuse1"/>
+        <arg name="inputTopic1" value="detection/lidar_tracker/objects"/>
+        <arg name="inputTopic2" value="detection/radar_tracker/objects2"/>
+        <arg name="outputTopic" value="detection/lidar_radar_fusion/objects"/>
+    </include>
+
+    <!-- vision_ssd_detect-->
+    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+        <arg name="use_gpu" value="true"/>
+        <arg name="gpu_device_id" value="0"/>
+        <arg name="score_threshold" value="0.5"/>
+        <arg name="network_definition_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
+        <arg name="pretrained_model_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
+        <arg name="camera_id" value="/"/>
+        <arg name="image_src" value="/image_raw"/>
+    </include>
+
+    <!-- vision_beyond_track-->
+    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
+        <arg name="camera_height" value="1.32"/>
+    </include>
+
+    <!-- range_vision_fusion -->
+    <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
+        <arg name="detected_objects_range" value="/detection/lidar_radar_fusion/objects"/>
+        <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="min_car_dimensions" value="[3,2,2]"/>
+        <arg name="min_person_dimensions" value="[1,2,1]"/>
+        <arg name="min_truck_dimensions" value="[4,2,2]"/>
+        <arg name="sync_topics" value="false"/>
+        <arg name="overlap_threshold" value="0.4"/>
     </include>
 
     <!-- objectsFrameAdapter -->
