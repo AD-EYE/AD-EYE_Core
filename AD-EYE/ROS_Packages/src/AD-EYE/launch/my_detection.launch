@@ -106,7 +106,7 @@
     </include>
 
     <!-- vision_ssd_detect-->
-    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+    <include ns="SSD1" file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
         <arg name="use_gpu" value="true"/>
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
@@ -123,6 +123,19 @@
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
         <arg name="camera_height" value="1.32"/>
+    </include>
+
+    <!-- vision_ssd_detect2-->
+    <include ns="SSD2" file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+        <arg name="use_gpu" value="true"/>
+        <arg name="gpu_device_id" value="0"/>
+        <arg name="score_threshold" value="0.5"/>
+        <arg name="network_definition_file" value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
+        <arg name="pretrained_model_file" value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
+        <arg name="camera_id" value="/"/>
+        <arg name="image_src" value="/image_raw2"/>
+        <arg name="image_out" value="/image_rects2"/>
+        <arg name="object_src" value="/detection/image_detector/objects2"/>
     </include>
 
     <!-- range_vision_fusion -->
