@@ -1,13 +1,13 @@
 <!-- -->
 <launch>
 
-    <!-- base_link to camera tf -->
-    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
-          args="2.0 0.0 1.32 -0.5 0.5 -0.5 0.5 base_link camera 10"/>
+    <!-- base_link to camera_1 tf -->
+    <node ns="camera_1" pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+          args="2.0 0.0 1.32 -0.5 0.5 -0.5 0.5 base_link camera_1 10"/>
 
-    <!-- base_link to camera tf -->
-    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera2"
-          args="-0.95 0.0 1.32 -0.5 -0.5 0.5 0.5 base_link camera2 10"/>
+    <!-- base_link to camera_2 tf -->
+    <node ns="camera_2" pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+          args="-0.95 0.0 1.32 -0.5 -0.5 0.5 0.5 base_link camera_2 10"/>
 
     <!-- base_link to traffic_light_camera tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
@@ -17,10 +17,16 @@
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
           args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
 
-    <!-- camera_info -->
-    <include file="$(find adeye)/launch/camera_info_publisher.launch">
+    <!-- camera_info_1 -->
+    <include ns="camera_1" file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="camera_info_publisher"/>
-        <arg name="args_list" value="/camera_info camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+        <arg name="args_list" value="camera_info camera_1 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+    </include>
+
+    <!-- camera_info_2 -->
+    <include ns="camera_2" file="$(find adeye)/launch/camera_info_publisher.launch">
+        <arg name="node_name" value="camera_info_publisher"/>
+        <arg name="args_list" value="camera_info camera_2 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
 
     <!-- traffic_light_camera_info -->
@@ -106,7 +112,8 @@
     </include>
 
     <!-- vision_ssd_detect-->
-    <include ns="SSD1" file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+    <include file="$(find adeye)/launch/vision_ssd_detect.launch">
+        <arg name="camera" value="camera_1"/>
         <arg name="use_gpu" value="true"/>
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
@@ -114,19 +121,71 @@
              value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
         <arg name="pretrained_model_file"
              value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
-        <arg name="camera_id" value="/"/>
-        <arg name="image_src" value="/image_raw"/>
+        <arg name="image_src" value="image_raw"/>
+        <arg name="image_out" value="image_rects"/>
+        <arg name="object_src" value="image_detector/objects"/>
     </include>
 
-    <!-- vision_beyond_track-->
-    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+    <!-- range_vision_fusion -->
+    <include file="$(find adeye)/launch/range_vision_fusion.launch">
+        <arg name="camera" value="camera_1"/>
+        <arg name="detected_objects_range" value="detection/lidar_radar_fusion/objects"/>
+        <arg name="detected_objects_vision" value="image_detector/objects"/>
+        <arg name="detected_objects_fusion" value="fusion/objects"/>
         <arg name="camera_info_src" value="/camera_info"/>
-        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
-        <arg name="camera_height" value="1.32"/>
+        <arg name="min_car_dimensions" value="[3,2,2]"/>
+        <arg name="min_person_dimensions" value="[1,2,1]"/>
+        <arg name="min_truck_dimensions" value="[4,2,2]"/>
+        <arg name="sync_topics" value="false"/>
+        <arg name="overlap_threshold" value="0.4"/>
     </include>
 
     <!-- vision_ssd_detect2-->
-    <include ns="SSD2" file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+    <include file="$(find adeye)/launch/vision_ssd_detect.launch">
+        <arg name="camera" value="camera_2"/>
+        <arg name="use_gpu" value="true"/>
+        <arg name="gpu_device_id" value="0"/>
+        <arg name="score_threshold" value="0.5"/>
+        <arg name="network_definition_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
+        <arg name="pretrained_model_file"
+             value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
+        <arg name="image_src" value="image_raw"/>
+        <arg name="image_out" value="image_rects"/>
+        <arg name="object_src" value="image_detector/objects"/>
+    </include>
+
+    <!-- range_vision_fusion2 -->
+    <include file="$(find adeye)/launch/range_vision_fusion.launch">
+        <arg name="camera" value="camera_2"/>
+        <arg name="detected_objects_range" value="detection/lidar_radar_fusion/objects"/>
+        <arg name="detected_objects_vision" value="image_detector/objects"/>
+        <arg name="detected_objects_fusion" value="fusion/objects"/>
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="min_car_dimensions" value="[3,2,2]"/>
+        <arg name="min_person_dimensions" value="[1,2,1]"/>
+        <arg name="min_truck_dimensions" value="[4,2,2]"/>
+        <arg name="sync_topics" value="false"/>
+        <arg name="overlap_threshold" value="0.4"/>
+    </include>
+
+    <!-- Two_cameras_fusion -->
+    <include file="$(find adeye)/launch/objectListFuse.launch">
+        <arg name="nodeName" value="objectsListFuse2"/>
+        <arg name="inputTopic1" value="camera_1/fusion/objects"/>
+        <arg name="inputTopic2" value="camera_2/fusion/objects"/>
+        <arg name="outputTopic" value="fusion/objects"/>
+    </include>
+
+    <!-- vision_beyond_track-->
+    <!--<include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="objects_topic_src" value="/detection/image_detector/objects"/>
+        <arg name="camera_height" value="1.32"/>
+    </include>-->
+
+    <!-- vision_ssd_detect2-->
+    <!--<include ns="SSD2" file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
         <arg name="use_gpu" value="true"/>
         <arg name="gpu_device_id" value="0"/>
         <arg name="score_threshold" value="0.5"/>
@@ -136,24 +195,24 @@
         <arg name="image_src" value="/image_raw2"/>
         <arg name="image_out" value="/image_rects2"/>
         <arg name="object_src" value="/detection/image_detector/objects2"/>
-    </include>
+    </include>-->
 
     <!-- range_vision_fusion -->
-    <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
+    <!--<include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
         <arg name="detected_objects_range" value="/detection/lidar_radar_fusion/objects"/>
-        <arg name="detected_objects_vision" value="/detection/image_tracker/objects"/>
-        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="detected_objects_vision" value="/camera_1/image_detector/objects"/>
+        <arg name="camera_info_src" value="/camera_1/camera_info"/>
         <arg name="min_car_dimensions" value="[3,2,2]"/>
         <arg name="min_person_dimensions" value="[1,2,1]"/>
         <arg name="min_truck_dimensions" value="[4,2,2]"/>
         <arg name="sync_topics" value="false"/>
         <arg name="overlap_threshold" value="0.4"/>
-    </include>
+    </include>-->
 
     <!-- objectsFrameAdapter -->
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
         <arg name="nodeName" value="objectsFrameAdapter"/>
-        <arg name="inputTopic" value="detection/fusion_tools/objects"/>
+        <arg name="inputTopic" value="fusion/objects"/>
         <arg name="outputTopic" value="tracked_objects"/>
         <arg name="targetFrame" value="map"/>
     </include>
