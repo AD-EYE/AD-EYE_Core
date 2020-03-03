@@ -173,7 +173,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 1
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 0.0357976668
       Name: Filtered Points
       Position Transformer: XYZ
       Queue Size: 10
@@ -215,6 +215,7 @@ Visualization Manager:
         Grid: true
         Image: true
         Local Waypoints: true
+        MarkerArray: true
         Next FF Waypoint Mark: true
         Next Waypoint Mark: true
         "OP Eval Rollouts ": true
@@ -662,6 +663,7 @@ Visualization Manager:
         Grid: true
         Image: true
         Local Waypoints: true
+        MarkerArray: true
         Next FF Waypoint Mark: true
         Next Waypoint Mark: true
         "OP Eval Rollouts ": true
@@ -731,6 +733,7 @@ Visualization Manager:
         Grid: true
         Image: true
         Local Waypoints: true
+        MarkerArray: true
         Next FF Waypoint Mark: true
         Next Waypoint Mark: true
         "OP Eval Rollouts ": true
@@ -766,7 +769,6 @@ Visualization Manager:
       Marker Topic: /objects_markers
       Name: MarkerArray
       Namespaces:
-        //arrow_markers: true
         //box_markers: false
         //centroid_markers: true
         //hull_markers: true
@@ -774,6 +776,22 @@ Visualization Manager:
         //model_markers: true
       Queue Size: 100
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /camera_1/objects_markers
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
+    - Class: rviz/MarkerArray
+      Enabled: false
+      Marker Topic: /camera_2/objects_markers
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -814,10 +832,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.484797537
+      Pitch: 0.574797451
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.13857412
+      Yaw: 3.15357757
     Saved: ~
 Window Geometry:
   Camera:

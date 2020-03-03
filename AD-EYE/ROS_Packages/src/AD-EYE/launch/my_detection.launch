@@ -84,7 +84,7 @@
     </include>
 
     <!-- lidar_radar_fusion -->
-    <include file="$(find adeye)/launch/objectListFuse.launch">
+    <include file="$(find adeye)/launch/lidarRadarFuse.launch">
         <arg name="nodeName" value="objectsListFuse1"/>
         <arg name="inputTopic1" value="detection/lidar_tracker/objects"/>
         <arg name="inputTopic2" value="detection/radar_tracker/objects2"/>
@@ -116,14 +116,14 @@
     </include>
 
     <!-- Two_cameras_fusion -->
-    <include file="$(find adeye)/launch/objectListFuse.launch">
-        <arg name="nodeName" value="objectsListFuse2"/>
+    <include file="$(find adeye)/launch/cameraObjectListFuse.launch">
+        <arg name="nodeName" value="cameraObjectsListFuse"/>
         <arg name="inputTopic1" value="camera_1/fusion/objects"/>
         <arg name="inputTopic2" value="camera_2/fusion/objects"/>
         <arg name="outputTopic" value="fusion/objects"/>
     </include>
 
-    <!-- detected_objects_visualizer --> 
+    <!-- detected_objects_visualizer -->
     <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="detected_objects_visualizer" output="screen">
       <param name="objects_src_topic" value="fusion/objects"/>
     </node>
