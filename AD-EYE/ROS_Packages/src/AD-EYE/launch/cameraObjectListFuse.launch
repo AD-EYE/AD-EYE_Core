@@ -1,12 +1,12 @@
 <!-- -->
 <launch>
-    <arg name="nodeName" default="objectsListFuse"/>
+    <arg name="nodeName" default="cameraObjectsListFuse"/>
     <arg name="inputTopic1" default="input1"/>
     <arg name="inputTopic2" default="input2"/>
     <arg name="outputTopic" default="output"/>
 
     <node pkg="adeye"
-          type="objectListFuse"
+          type="cameraObjectListFuse"
           name="$(arg nodeName)"
           output="screen"
           args="$(arg inputTopic1) $(arg inputTopic2) $(arg outputTopic)"/>
