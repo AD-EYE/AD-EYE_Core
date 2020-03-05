@@ -86,9 +86,9 @@
     <!-- lidar_radar_fusion -->
     <include file="$(find adeye)/launch/lidarRadarFuse.launch">
         <arg name="nodeName" value="objectsListFuse1"/>
-        <arg name="inputTopic1" value="detection/lidar_tracker/objects"/>
-        <arg name="inputTopic2" value="detection/radar_tracker/objects2"/>
-        <arg name="outputTopic" value="detection/lidar_radar_fusion/objects"/>
+        <arg name="lidar_topic" value="detection/lidar_tracker/objects"/>
+        <arg name="radar_topic" value="detection/radar_tracker/objects2"/>
+        <arg name="fused_topic" value="detection/lidar_radar_fusion/objects"/>
     </include>
 
     <!-- camera_setup for camera_1-->
