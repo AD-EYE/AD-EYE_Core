@@ -50,32 +50,38 @@ public:
         bool objectAssigned;
         fused_msg = lidar_msg;
 
-        // Here we indicate that all these objects have been detected by lidar
-        for (size_t i = 0; i < fused_msg.objects.size(); i++) {
+        // Here we indicate that all these objects have been detected by lidar and
+        // we add the unique "id" that will be used when merging the output from the
+        // diferent range_vision_fusion nodes for the different cameras
+        size_t i;
+        for (i = 0; i < fused_msg.objects.size(); i++) {
+            fused_msg.objects.at(i).user_defined_info.push_back(std::to_string(i));
             fused_msg.objects.at(i).user_defined_info.push_back("lidar");
         }
 
-        for (size_t i = 0; i < radar_msg.objects.size(); i++) {
+        for (size_t j = 0; j < radar_msg.objects.size(); j++) {
             objectAssigned = false;
-            for (size_t j = 0; j < fused_msg.objects.size(); j++) {
-                if (fused_msg.objects.at(j).pose.position.x - radar_msg.objects.at(i).pose.position.x < RADAR_LIDAR_MAX_DISTANCE &&
-                fused_msg.objects.at(j).pose.position.y - radar_msg.objects.at(i).pose.position.y < RADAR_LIDAR_MAX_DISTANCE &&
-                fused_msg.objects.at(j).pose.position.z - radar_msg.objects.at(i).pose.position.z < RADAR_LIDAR_MAX_DISTANCE) {
-                    fused_msg.objects.at(j).user_defined_info.push_back("radar"); // This object has been detected by the lidar. Now, we indicate that it has also been detected by radar
+            for (size_t k = 0; k < fused_msg.objects.size(); k++) {
+                if (fused_msg.objects.at(k).pose.position.x - radar_msg.objects.at(j).pose.position.x < RADAR_LIDAR_MAX_DISTANCE &&
+                fused_msg.objects.at(k).pose.position.y - radar_msg.objects.at(j).pose.position.y < RADAR_LIDAR_MAX_DISTANCE &&
+                fused_msg.objects.at(k).pose.position.z - radar_msg.objects.at(j).pose.position.z < RADAR_LIDAR_MAX_DISTANCE) {
+                    fused_msg.objects.at(k).user_defined_info.push_back("radar"); // This object has been detected by the lidar. Now, we indicate that it has also been detected by radar
                     objectAssigned = true;
                     break;
                 }
             }
             if (!objectAssigned) {
-                radar_msg.objects.at(i).user_defined_info.push_back("radar"); // This object has been detected only by radar
-                fused_msg.objects.push_back(radar_msg.objects.at(i));
+                radar_msg.objects.at(j).user_defined_info.push_back(std::to_string(i));
+                i++;
+                radar_msg.objects.at(j).user_defined_info.push_back("radar"); // This object has been detected only by radar
+                fused_msg.objects.push_back(radar_msg.objects.at(j));
             }
         }
 
         // Here we give a unique "id" that will be used when merging the output from the diferent range_vision_fusion nodes for the different cameras
-        for (size_t j = 0; j < fused_msg.objects.size(); j++) {
-            fused_msg.objects.at(j).user_defined_info.push_back(std::to_string(j)); //std::to_string(fused_msg.objects.at(j).id)
-        }
+        //for (size_t k = 0; k < fused_msg.objects.size(); k++) {
+        //    fused_msg.objects.at(k).user_defined_info.push_back(std::to_string(k)); //std::to_string(fused_msg.objects.at(k).id)
+        //}
 
         // Publish the message
         pub.publish(fused_msg);

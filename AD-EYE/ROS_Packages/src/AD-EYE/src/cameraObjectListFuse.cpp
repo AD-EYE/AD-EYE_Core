@@ -34,12 +34,28 @@ public:
     void msg1_callback(autoware_msgs::DetectedObjectArray msg)
     {
         msg1 = msg;
+
+        // Identify the objects that have been detected by the camera_1
+        for (size_t i = 0; i < msg1.objects.size(); i++) {
+            if (msg1.objects.at(i).label!="unknown" && msg1.objects.at(i).label!="") {
+                msg1.objects.at(i).user_defined_info.push_back("camera_1");
+            }
+        }
+
         msg1_flag = true;
     }
 
     void msg2_callback(autoware_msgs::DetectedObjectArray msg)
     {
         msg2 = msg;
+
+        // Identify the objects that have been detected by the camera_2
+        for (size_t i = 0; i < msg2.objects.size(); i++) {
+            if (msg2.objects.at(i).label!="unknown" && msg2.objects.at(i).label!="") {
+                msg2.objects.at(i).user_defined_info.push_back("camera_2");
+            }
+        }
+
         msg2_flag = true;
     }
 
@@ -67,6 +83,9 @@ public:
         bool objectAssigned = false;
         std::cout << "Size of msg1: " << msg1.objects.size() << '\n';
         std::cout << "Size of msg2: " << msg2.objects.size() << '\n';
+
+
+
         for (size_t i = 0; i < msg2.objects.size(); i++) {
             if (msg2.objects.at(i).label!="unknown") {
                 for (size_t j = 0; j < msg3.objects.size(); j++) {
@@ -76,10 +95,12 @@ public:
                     //if (msg3.objects.at(j).pose.position.x - msg2.objects.at(i).pose.position.x < 0.5 &&
                     //    msg3.objects.at(j).pose.position.y - msg2.objects.at(i).pose.position.y < 0.5 &&
                     //    msg3.objects.at(j).pose.position.z - msg2.objects.at(i).pose.position.z < 0.5) {
-                    if (msg3.objects.at(j).user_defined_info == msg2.objects.at(i).user_defined_info) {
-                        msg3.objects.at(j) = msg2.objects.at(i);
-                        //msg3.objects.at(j).label = msg2.objects.at(i).label;
-                        std::cout << "label: " << msg2.objects.at(i).label << '\n';
+                    if (msg3.objects.at(j).user_defined_info.size() > 0 && msg2.objects.at(i).user_defined_info.size() > 0) {
+                        if (msg3.objects.at(j).user_defined_info.at(0) == msg2.objects.at(i).user_defined_info.at(0)) {
+                            msg3.objects.at(j) = msg2.objects.at(i);
+                            //msg3.objects.at(j).label = msg2.objects.at(i).label;
+                            std::cout << "label: " << msg2.objects.at(i).label << '\n';
+                        }
                     }
                 }
             }
