@@ -3,6 +3,7 @@
 #include <ros/this_node.h>
 
 #include <autoware_msgs/DetectedObjectArray.h>
+#include <geometry_msgs/Point.h>
 
 #define RADAR_LIDAR_MAX_DISTANCE 1
 
@@ -45,6 +46,14 @@ public:
         radar_msg_flag = true;
     }
 
+    double distance(geometry_msgs::Point P1, geometry_msgs::Point P2)
+    {
+        double x = P1.x - P2.x;
+        double y = P1.y - P2.y;
+        double z = P1.z - P2.z;
+        return sqrt(x*x + y*y + z*z);
+    }
+
     void publish()
     {
         bool objectAssigned;
@@ -62,9 +71,7 @@ public:
         for (size_t j = 0; j < radar_msg.objects.size(); j++) {
             objectAssigned = false;
             for (size_t k = 0; k < fused_msg.objects.size(); k++) {
-                if (fused_msg.objects.at(k).pose.position.x - radar_msg.objects.at(j).pose.position.x < RADAR_LIDAR_MAX_DISTANCE &&
-                fused_msg.objects.at(k).pose.position.y - radar_msg.objects.at(j).pose.position.y < RADAR_LIDAR_MAX_DISTANCE &&
-                fused_msg.objects.at(k).pose.position.z - radar_msg.objects.at(j).pose.position.z < RADAR_LIDAR_MAX_DISTANCE) {
+                if (distance(fused_msg.objects.at(k).pose.position, radar_msg.objects.at(j).pose.position) < RADAR_LIDAR_MAX_DISTANCE) {
                     fused_msg.objects.at(k).user_defined_info.push_back("radar"); // This object has been detected by the lidar. Now, we indicate that it has also been detected by radar
                     objectAssigned = true;
                     break;
