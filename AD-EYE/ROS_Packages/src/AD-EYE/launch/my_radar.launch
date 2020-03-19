@@ -1,0 +1,38 @@
+<!-- -->
+<launch>
+
+    <!-- base_link to radar tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
+          args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
+
+    <!-- Set args defining tf_transform: base_link to radar-->
+    <!--<arg name="tf_x" default="3.75"/>
+    <arg name="tf_y" default="0.0"/>
+    <arg name="tf_z" default="0.4"/>
+    <arg name="tf_yaw" default="0.0"/>
+    <arg name="tf_pitch" default="0.0"/>
+    <arg name="tf_roll" default="0.0"/>-->
+
+    <!-- tf_transform: base_link to velodyne -->
+    <!--<include file="$(find runtime_manager)/launch_files/setup_tf.launch">
+        <arg name="x" value="$(arg tf_x)"/>
+        <arg name="y" value="$(arg tf_y)"/>
+        <arg name="z" value="$(arg tf_z)"/>
+        <arg name="yaw" value="$(arg tf_yaw)"/>
+        <arg name="pitch" value="$(arg tf_pitch)"/>
+        <arg name="roll" value="$(arg tf_roll)"/>
+        <arg name="frame_id" value="base_link"/>
+        <arg name="child_frame_id" value="/radar"/>
+        <arg name="period_in_ms" value="10"/>
+    </include>-->
+
+    <!-- traffic_light_recognition -->
+    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+
+    <!-- tracked_objects_adapter -->
+    <!--<include file="$(find adeye)/launch/tracked_objects_adapter.launch"/>-->
+
+    <!-- new adapter -->
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch"/>
+
+</launch>

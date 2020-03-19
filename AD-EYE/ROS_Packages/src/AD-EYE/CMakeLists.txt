@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   autoware_msgs
   op_planner
   op_ros_helpers
+  tf2_ros
 )
 
 
@@ -37,6 +38,7 @@ catkin_package(
     autoware_msgs
     op_planner
     op_ros_helpers
+    tf2_ros
   DEPENDS
 )
 
@@ -78,8 +80,33 @@ add_executable(
 )
 
 add_executable(
+  radar_broadcaster
+  src/radar_broadcaster.cpp
+)
+
+add_executable(
   collisionDetector
   src/collisionDetector_node.cpp
+)
+
+add_executable(
+  objectsFrameAdapter
+  src/objectsFrameAdapter.cpp
+)
+
+add_executable(
+  objectListFuse
+  src/objectListFuse.cpp
+)
+
+add_executable(
+  cameraObjectListFuse
+  src/cameraObjectListFuse.cpp
+)
+
+add_executable(
+  lidarRadarFuse
+  src/lidarRadarFuse.cpp
 )
 
 target_link_libraries(
@@ -103,7 +130,32 @@ target_link_libraries(
 )
 
 target_link_libraries(
+  radar_broadcaster
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
   collisionDetector
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  objectsFrameAdapter
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  objectListFuse
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  cameraObjectListFuse
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  lidarRadarFuse
   ${catkin_LIBRARIES}
 )
 
@@ -123,13 +175,33 @@ add_dependencies(safetySupervisor
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(radar_broadcaster
+  ${catkin_EXPORTED_TARGETS}
+)
+
 add_dependencies(collisionDetector
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(objectsFrameAdapter
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(objectListFuse
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(cameraObjectListFuse
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(lidarRadarFuse
   ${catkin_EXPORTED_TARGETS}
 )
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
