@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W04_Town" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2019.2.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="E3AFDE26E53068F14927DF7E35CCECA9994498B82EBDBC1FB906FBF941FC3ACE" UniqueExperimentIdentifier="84e079b3-86c6-4b4b-99c4-4d9203f2855a" UniqueIdCounter="16205" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W04_Town" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="09C929C120D5865E7498405485B6E03C026BBE62A0D340FD022BFA854DF7BB94" UniqueExperimentIdentifier="84e079b3-86c6-4b4b-99c4-4d9203f2855a" UniqueIdCounter="16302" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
-    <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+    <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="82.085516929626465" Y="128.98248291015625" Z="0.52999997138977051" />
       <Orientation Bank="0" Tilt="0" Heading="270.65872662780157" />
       <Origin X="0.17000000178813934" Y="0.5" Z="0" />
@@ -393,7 +393,7 @@
       </DriverModel>
       <Physics Drag="0.31000000238418579" Mass="1104" MaxAcceleration="0.30000001192092896" MaxDeceleration="1" ReferenceArea="2.1710457801818848" RollFriction="0.0099999997764825821" />
       <Sensors>
-        <Sensor xsi:type="AIRSensor" Description="" id="AIR_1" UniqueId="4878" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="Green (FF008000)" FovAzimuth="45" FovElevation="45" EntitiesOut="1" DetectionType="BBox" BeamLength="50">
+        <Sensor xsi:type="AIRSensor" Description="" id="AIR_1" UniqueId="4878" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Green (FF008000)" FovAzimuth="45" FovElevation="45" EntitiesOut="1" DetectionType="BBox" BeamLength="50">
           <Location X="3.29999995231628" Y="0" Z="0.349999994039536" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -572,7 +572,7 @@
           <Y>-868.58001708984375</Y>
           <Y>-553.5999755859375</Y>
           <Y>0</Y>
-          <Y>357.42001342773437</Y>
+          <Y>357.42001342773438</Y>
           <Y>822.15997314453125</Y>
           <Y>1318.780029296875</Y>
           <Y>1660.4599609375</Y>
@@ -622,7 +622,7 @@
           <Y>-899.33001708984375</Y>
           <Y>-771.80999755859375</Y>
           <Y>-627.19000244140625</Y>
-          <Y>-467.51998901367187</Y>
+          <Y>-467.51998901367188</Y>
           <Y>-308.04998779296875</Y>
           <Y>-217.66999816894531</Y>
           <Y>0</Y>
@@ -1332,8 +1332,8 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.4859999418258667" TrackWidthRear="1.4859999418258667" TyreRadius="0.29499998688697815" Wheelbase="2.4839999675750732" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a Citroen C3 Hatchback" id="Citroen_C3_Hatchback_1" UniqueId="4877" SensorDetectability="Detectable" NumericalID="92" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Citroen_C3_Hatchback" AnimatedActor="false" CompilationSheetPicture="Citroen_C3_HighPoly.png" HashCode="e804ced06d50dbfc6a2202ab3ad01b0c" ModelFile="Vehicles\Citroen_C3\Citroen_C3.osgb" GenericModelSourceFile="Vehicles\Citroen_C3\Citroen_C3.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="100.10250854492187" Y="188.36904525756836" Z="0.57999998331069946" />
+    <Actor xsi:type="GenericModel" Description="A model of a Citroen C3 Hatchback" id="Citroen_C3_Hatchback_1" UniqueId="4877" SensorDetectability="Detectable" NumericalID="92" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Citroen_C3_Hatchback" AnimatedActor="false" CompilationSheetPicture="Citroen_C3_HighPoly.png" HashCode="e804ced06d50dbfc6a2202ab3ad01b0c" ModelFile="Vehicles\Citroen_C3\Citroen_C3.osgb" GenericModelSourceFile="Vehicles\Citroen_C3\Citroen_C3.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+      <Location X="100.10250854492188" Y="188.36904525756836" Z="0.57999998331069946" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.17000000178813934" Y="0.5" Z="0" />
       <Size X="3.8499999046325684" Y="1.7100000381469727" Z="1.4900000095367432" />
@@ -1669,7 +1669,7 @@
       </DriverModel>
       <Physics Drag="0.30000001192092896" Mass="1103" MaxAcceleration="0.30000001192092896" MaxDeceleration="1" ReferenceArea="2.1411299705505371" RollFriction="0.0099999997764825821" />
       <Sensors>
-        <Sensor xsi:type="AIRSensor" Description="" id="AIR_2" UniqueId="4879" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="Green (FF008000)" FovAzimuth="45" FovElevation="45" EntitiesOut="1" DetectionType="BBox" BeamLength="50">
+        <Sensor xsi:type="AIRSensor" Description="" id="AIR_2" UniqueId="4879" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Green (FF008000)" FovAzimuth="45" FovElevation="45" EntitiesOut="1" DetectionType="BBox" BeamLength="50">
           <Location X="3.25" Y="0" Z="0.400000005960464" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -1844,7 +1844,7 @@
           <Y>-868.58001708984375</Y>
           <Y>-553.5999755859375</Y>
           <Y>0</Y>
-          <Y>357.42001342773437</Y>
+          <Y>357.42001342773438</Y>
           <Y>822.15997314453125</Y>
           <Y>1318.780029296875</Y>
           <Y>1660.4599609375</Y>
@@ -1894,7 +1894,7 @@
           <Y>-899.33001708984375</Y>
           <Y>-771.80999755859375</Y>
           <Y>-627.19000244140625</Y>
-          <Y>-467.51998901367187</Y>
+          <Y>-467.51998901367188</Y>
           <Y>-308.04998779296875</Y>
           <Y>-217.66999816894531</Y>
           <Y>0</Y>
@@ -2564,7 +2564,7 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.437000036239624" TrackWidthRear="1.437000036239624" TyreRadius="0.28999999165534973" Wheelbase="2.4600000381469727" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of an Audi A8 Sedan" id="Audi_A8_Sedan_3" UniqueId="6648" SensorDetectability="Detectable" NumericalID="37" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Audi_A8_Sedan" AnimatedActor="false" CompilationSheetPicture="Audi_A8_HighPoly.png" HashCode="e33fe1ddcf3e8ae97caccbc8f2fa74ac" ModelFile="Vehicles\Audi_A8\Audi_A8.osgb" GenericModelSourceFile="Vehicles\Audi_A8\Audi_A8.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+    <Actor xsi:type="GenericModel" Description="A model of an Audi A8 Sedan" id="Audi_A8_Sedan_3" UniqueId="6648" SensorDetectability="Detectable" NumericalID="37" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Audi_A8_Sedan" AnimatedActor="false" CompilationSheetPicture="Audi_A8_HighPoly.png" HashCode="e33fe1ddcf3e8ae97caccbc8f2fa74ac" ModelFile="Vehicles\Audi_A8\Audi_A8.osgb" GenericModelSourceFile="Vehicles\Audi_A8\Audi_A8.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="85.3409423828125" Y="202.06877517700195" Z="0.550000011920929" />
       <Orientation Bank="0" Tilt="0" Heading="90.375391284186591" />
       <Origin X="0.25" Y="0.5" Z="0" />
@@ -3673,7 +3673,7 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.6119999885559082" TrackWidthRear="1.6119999885559082" TyreRadius="0.34000000357627869" Wheelbase="2.940000057220459" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="9040" SensorDetectability="Invisible" NumericalID="55" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+    <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="9040" SensorDetectability="Invisible" NumericalID="55" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="40.101876735687256" Y="137.37237548828125" Z="0.68999999761581421" />
       <Orientation Bank="0" Tilt="0" Heading="0.26654682310480649" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
@@ -4054,7 +4054,7 @@
       </DriverModel>
       <Physics Drag="0.360000014305115" Mass="2220" MaxAcceleration="0.300000011920929" MaxDeceleration="1" ReferenceArea="2.826251745224" RollFriction="0.00999999977648258" />
       <Sensors>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="9052" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="9052" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -4067,7 +4067,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16198" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16295" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4079,7 +4079,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="9053" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="9053" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
@@ -4092,7 +4092,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16199" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16296" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4104,7 +4104,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="9054" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="9054" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
@@ -4117,7 +4117,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16200" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16297" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4129,7 +4129,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="9055" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="9055" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
@@ -4142,7 +4142,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16201" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16298" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4154,7 +4154,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="camera" UniqueId="9056" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="camera" UniqueId="9056" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <TestAutomationProperties>
             <TestAutomationTag PropertyName="FocalLength" Tag="fl" />
           </TestAutomationProperties>
@@ -4180,7 +4180,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16202" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16299" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4192,7 +4192,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="tl_camera" UniqueId="12017" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="tl_camera" UniqueId="12017" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <Location X="1.2" Y="0" Z="1.8" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -4215,7 +4215,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16203" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16300" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4227,7 +4227,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="HumViewCamera" UniqueId="14458" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" BeamColor="Yellow (FFFFFF00)" FovAzimuth="120" FovElevation="90" HorizontalResolution="1871" VerticalResolution="1080" OutputCameraImage="true" ColorAssignment="Color" FrameRate="60" SweepRateScaleFactor="5" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="false" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="HumViewCamera" UniqueId="14458" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="120" FovElevation="90" HorizontalResolution="1871" VerticalResolution="1080" OutputCameraImage="true" ColorAssignment="Color" FrameRate="60" SweepRateScaleFactor="5" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="false" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <Location X="-2.8" Y="0" Z="2.6" />
           <Orientation Bank="0" Tilt="31" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -4250,7 +4250,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16204" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16301" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4588,8 +4588,8 @@
         </LightElement>
         <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-4" ColorTemperature="4000" DefaultIntFallOffMap="HeadLight HB.png" Intensity="63680" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-25" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Headlight HB right" RightAngle="25" TopAngle="9" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_12_MainLightFR_HB" MeshName="MainLightFR_HB" MeshColor="00FFFFFF" PivotName="MainLightFR_HB_pivot">
           <Defaults LeftAngle="-25" RightAngle="25" TopAngle="9" BottomAngle="-4" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="63680" />
-          <Location X="3.5673599243164062" Y="-0.53799998760223389" Z="0.82999998331069946" />
-          <ReferenceLocation X="3.5673599243164062" Y="-0.53799998760223389" Z="0.82999998331069946" />
+          <Location X="3.5673599243164063" Y="-0.53799998760223389" Z="0.82999998331069946" />
+          <ReferenceLocation X="3.5673599243164063" Y="-0.53799998760223389" Z="0.82999998331069946" />
           <Origin X="0" Y="0" Z="0" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
@@ -5133,8 +5133,8 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.6469999551773071" TrackWidthRear="1.6469999551773071" TyreRadius="0.37000000476837158" Wheelbase="2.8199999332427979" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a tall brown office building" id="OfficeBrownTall1_1" UniqueId="15227" SensorDetectability="Detectable" NumericalID="1" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownTall1" AnimatedActor="false" CompilationSheetPicture="OfficeBrownTall1_HighPoly.png" HashCode="0353195e7008c41e36491d4551a8ee94" ModelFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.osgb" GenericModelSourceFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="134.95492553710937" Y="209.00679016113281" Z="0" />
+    <Actor xsi:type="GenericModel" Description="A model of a tall brown office building" id="OfficeBrownTall1_1" UniqueId="15227" SensorDetectability="Detectable" NumericalID="1" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownTall1" AnimatedActor="false" CompilationSheetPicture="OfficeBrownTall1_HighPoly.png" HashCode="0353195e7008c41e36491d4551a8ee94" ModelFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.osgb" GenericModelSourceFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="134.95492553710938" Y="209.00679016113281" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="180" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="81.55999755859375" Y="22.149999618530273" Z="60.040000915527344" />
@@ -5220,8 +5220,8 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a tall brown office building" id="OfficeBrownTall2_1" UniqueId="15295" SensorDetectability="Detectable" NumericalID="6" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownTall2" AnimatedActor="false" CompilationSheetPicture="OfficeBrownTall2_HighPoly.png" HashCode="5740b6d18be60f160995df929ca5c1d8" ModelFile="Buildings\OfficeBrownTall2\OfficeBrownTall2.osgb" GenericModelSourceFile="Buildings\OfficeBrownTall2\OfficeBrownTall2.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="222.72843933105469" Y="172.99398803710937" Z="0" />
+    <Actor xsi:type="GenericModel" Description="A model of a tall brown office building" id="OfficeBrownTall2_1" UniqueId="15295" SensorDetectability="Detectable" NumericalID="6" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownTall2" AnimatedActor="false" CompilationSheetPicture="OfficeBrownTall2_HighPoly.png" HashCode="5740b6d18be60f160995df929ca5c1d8" ModelFile="Buildings\OfficeBrownTall2\OfficeBrownTall2.osgb" GenericModelSourceFile="Buildings\OfficeBrownTall2\OfficeBrownTall2.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="222.72843933105469" Y="172.99398803710938" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="90" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="17.1299991607666" Y="44.200000762939453" Z="60.099998474121094" />
@@ -5307,8 +5307,8 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a tall green office building" id="OfficeGreenTall_1" UniqueId="15296" SensorDetectability="Detectable" NumericalID="7" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeGreenTall" AnimatedActor="false" CompilationSheetPicture="OfficeGreenTall_HighPoly.png" HashCode="8514829fbfadc661ea63b92bcd0275f8" ModelFile="Buildings\OfficeGreenTall\OfficeGreenTall.osgb" GenericModelSourceFile="Buildings\OfficeGreenTall\OfficeGreenTall.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="133.79434204101562" Y="105.91500091552734" Z="0" />
+    <Actor xsi:type="GenericModel" Description="A model of a tall green office building" id="OfficeGreenTall_1" UniqueId="15296" SensorDetectability="Detectable" NumericalID="7" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeGreenTall" AnimatedActor="false" CompilationSheetPicture="OfficeGreenTall_HighPoly.png" HashCode="8514829fbfadc661ea63b92bcd0275f8" ModelFile="Buildings\OfficeGreenTall\OfficeGreenTall.osgb" GenericModelSourceFile="Buildings\OfficeGreenTall\OfficeGreenTall.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="133.79434204101563" Y="105.91500091552734" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="180" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="50.540000915527344" Y="41.959999084472656" Z="36.7400016784668" />
@@ -5394,8 +5394,8 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a large brown office building" id="OfficeBrownFlat_1" UniqueId="15297" SensorDetectability="Detectable" NumericalID="8" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownFlat" AnimatedActor="false" CompilationSheetPicture="OfficeBrownFlat_HighPoly.png" HashCode="1fff9468128d2f932aad81c2ee78016a" ModelFile="Buildings\OfficeBrownFlat\OfficeBrownFlat.osgb" GenericModelSourceFile="Buildings\OfficeBrownFlat\OfficeBrownFlat.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="134.11360168457031" Y="165.78146362304687" Z="0" />
+    <Actor xsi:type="GenericModel" Description="A model of a large brown office building" id="OfficeBrownFlat_1" UniqueId="15297" SensorDetectability="Detectable" NumericalID="8" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownFlat" AnimatedActor="false" CompilationSheetPicture="OfficeBrownFlat_HighPoly.png" HashCode="1fff9468128d2f932aad81c2ee78016a" ModelFile="Buildings\OfficeBrownFlat\OfficeBrownFlat.osgb" GenericModelSourceFile="Buildings\OfficeBrownFlat\OfficeBrownFlat.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="134.11360168457031" Y="165.78146362304688" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="69.339996337890625" Y="27.840000152587891" Z="13.779999732971191" />
@@ -5481,7 +5481,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a warehouse" id="Warehouse_1" UniqueId="15432" SensorDetectability="Detectable" NumericalID="14" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Warehouse" AnimatedActor="false" CompilationSheetPicture="Warehouse_HighPoly.png" HashCode="cb468d598cc7cedcf651886d59ff5ea6" ModelFile="Buildings\Warehouse\Warehouse.osgb" GenericModelSourceFile="Buildings\Warehouse\Warehouse.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="A model of a warehouse" id="Warehouse_1" UniqueId="15432" SensorDetectability="Detectable" NumericalID="14" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Warehouse" AnimatedActor="false" CompilationSheetPicture="Warehouse_HighPoly.png" HashCode="cb468d598cc7cedcf651886d59ff5ea6" ModelFile="Buildings\Warehouse\Warehouse.osgb" GenericModelSourceFile="Buildings\Warehouse\Warehouse.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="223.25086212158203" Y="105.99826812744141" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="90" />
       <Origin X="0.5" Y="0.5" Z="0" />
@@ -5568,11 +5568,11 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a modern school building" id="School_1" UniqueId="15723" SensorDetectability="Detectable" NumericalID="26" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="School" AnimatedActor="false" CompilationSheetPicture="SchoolModern_HighPoly.png" HashCode="91b34a9ff2a34db994239d8178594040" ModelFile="Buildings\SchoolModern\SchoolModern.osgb" GenericModelSourceFile="Buildings\SchoolModern\SchoolModern.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="A model of a modern school building" id="School_1" UniqueId="15723" SensorDetectability="Detectable" NumericalID="26" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="School" AnimatedActor="false" CompilationSheetPicture="SchoolModern_HighPoly.png" HashCode="91b34a9ff2a34db994239d8178594040" ModelFile="Buildings\SchoolModern\SchoolModern.osgb" GenericModelSourceFile="Buildings\SchoolModern\SchoolModern.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="52.349384307861328" Y="105.54383850097656" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="180" />
       <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="36.419998168945313" Y="36.080001831054687" Z="14.609999656677246" />
+      <Size X="36.419998168945313" Y="36.080001831054688" Z="14.609999656677246" />
       <CoGOffset X="0" Y="0" Z="0" />
       <SensorInfo>
         <TISSensorInfo DefaultORMFile="DefaultORM.txt">
@@ -5655,7 +5655,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a gas station" id="GasStation_1" UniqueId="15745" SensorDetectability="Detectable" NumericalID="29" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="GasStation" AnimatedActor="false" CompilationSheetPicture="GasStation_HighPoly.png" HashCode="67fd08da2d8a5a37c11b9cc1767d099c" ModelFile="Buildings\GasStation\GasStation.osgb" GenericModelSourceFile="Buildings\GasStation\GasStation.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="A model of a gas station" id="GasStation_1" UniqueId="15745" SensorDetectability="Detectable" NumericalID="29" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="GasStation" AnimatedActor="false" CompilationSheetPicture="GasStation_HighPoly.png" HashCode="67fd08da2d8a5a37c11b9cc1767d099c" ModelFile="Buildings\GasStation\GasStation.osgb" GenericModelSourceFile="Buildings\GasStation\GasStation.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="56.493740081787109" Y="162.46659851074219" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="270" />
       <Origin X="0.5195000171661377" Y="0.32919999957084656" Z="0" />
@@ -5742,7 +5742,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a fire brigade building" id="FireBrigade_1" UniqueId="15746" SensorDetectability="Detectable" NumericalID="30" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" JavaClass="" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="FireBrigade" AnimatedActor="false" CompilationSheetPicture="FireBrigade_HighPoly.png" HashCode="04769c7bbc60fa34d7a2f1856a6ee18b" ModelFile="Buildings\FireBrigade\FireBrigade.osgb" GenericModelSourceFile="Buildings\FireBrigade\FireBrigade.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="A model of a fire brigade building" id="FireBrigade_1" UniqueId="15746" SensorDetectability="Detectable" NumericalID="30" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="FireBrigade" AnimatedActor="false" CompilationSheetPicture="FireBrigade_HighPoly.png" HashCode="04769c7bbc60fa34d7a2f1856a6ee18b" ModelFile="Buildings\FireBrigade\FireBrigade.osgb" GenericModelSourceFile="Buildings\FireBrigade\FireBrigade.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="222.67292785644531" Y="156.55653381347656" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.5" Z="0" />
@@ -5760,6 +5760,252 @@
             <VisuPortElements />
           </VisualizationActuator>
         </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="" id="Ash_Age10_1" UniqueId="15898" SensorDetectability="Occluding" NumericalID="35" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ash10y" AnimatedActor="false" CompilationSheetPicture="Ash10.png" HashCode="be9b496904cdbd82cdba3084edc36b32" ModelFile="Environment\NatureElements\Trees\Ash\Ash10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Ash\Ash10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="105.20616149902344" Y="103.29507446289063" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.43999999761581421" Y="0.49000000953674316" Z="0" />
+      <Size X="4.570000171661377" Y="4.3899998664855957" Z="5.559999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators />
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="" id="Ash_Age10_2" UniqueId="15899" SensorDetectability="Occluding" NumericalID="36" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ash10y" AnimatedActor="false" CompilationSheetPicture="Ash10.png" HashCode="be9b496904cdbd82cdba3084edc36b32" ModelFile="Environment\NatureElements\Trees\Ash\Ash10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Ash\Ash10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="109.87957763671875" Y="104.96414947509766" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.43999999761581421" Y="0.49000000953674316" Z="0" />
+      <Size X="4.570000171661377" Y="4.3899998664855957" Z="5.559999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators />
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="" id="Ash_Age10_3" UniqueId="15900" SensorDetectability="Occluding" NumericalID="38" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ash10y" AnimatedActor="false" CompilationSheetPicture="Ash10.png" HashCode="be9b496904cdbd82cdba3084edc36b32" ModelFile="Environment\NatureElements\Trees\Ash\Ash10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Ash\Ash10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="108.32177734375" Y="100.95836639404297" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.43999999761581421" Y="0.49000000953674316" Z="0" />
+      <Size X="4.570000171661377" Y="4.3899998664855957" Z="5.559999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators />
       </ObjectSimulatorInfo>
       <DriverModel DriverModelType="None">
         <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
@@ -5849,13 +6095,13 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0.003797600045800209">
           <Longitude Degrees="0" Minutes="0" Seconds="5.0002262853287034" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="5.082738392183896" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="5.0827383921838969" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_1" UniqueId="15724" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="58.106317520141587" Y="164.13369750976562" Z="0" />
+        <Location X="58.106317520141587" Y="164.13369750976563" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="40" Y="40" Z="0.0099999997764825821" />
@@ -5874,53 +6120,6 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
     </Underlays>
-    <NatureElements>
-      <NatureElement xsi:type="Ash_Age10" Description="" id="Ash_Age10_1" UniqueId="15898" SensorDetectability="Occluding" NumericalID="35" ObjectTypeID="13" ParticipateInCollisionDetection="false">
-        <Location X="105.20616149902344" Y="103.29507446289062" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="0" />
-        <Origin X="0.49444444444444446" Y="0.50137741046831963" Z="0" />
-        <Size X="3.6" Y="3.63" Z="5.35" />
-        <CoGOffset X="0" Y="0" Z="0" />
-        <SensorInfo>
-          <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
-            <UserSpecifiedModels />
-          </TISSensorInfo>
-        </SensorInfo>
-        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-          <VisualizationActuators />
-        </ObjectSimulatorInfo>
-      </NatureElement>
-      <NatureElement xsi:type="Ash_Age10" Description="" id="Ash_Age10_2" UniqueId="15899" SensorDetectability="Occluding" NumericalID="36" ObjectTypeID="13" ParticipateInCollisionDetection="false">
-        <Location X="109.87957763671875" Y="104.96414947509766" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="0" />
-        <Origin X="0.49444444444444446" Y="0.50137741046831963" Z="0" />
-        <Size X="3.6" Y="3.63" Z="5.35" />
-        <CoGOffset X="0" Y="0" Z="0" />
-        <SensorInfo>
-          <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
-            <UserSpecifiedModels />
-          </TISSensorInfo>
-        </SensorInfo>
-        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-          <VisualizationActuators />
-        </ObjectSimulatorInfo>
-      </NatureElement>
-      <NatureElement xsi:type="Ash_Age10" Description="" id="Ash_Age10_3" UniqueId="15900" SensorDetectability="Occluding" NumericalID="38" ObjectTypeID="13" ParticipateInCollisionDetection="false">
-        <Location X="108.32177734375" Y="100.95836639404297" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="0" />
-        <Origin X="0.49444444444444446" Y="0.50137741046831963" Z="0" />
-        <Size X="3.6" Y="3.63" Z="5.35" />
-        <CoGOffset X="0" Y="0" Z="0" />
-        <SensorInfo>
-          <TISSensorInfo DefaultORMFile="dfltORM_Bush.txt">
-            <UserSpecifiedModels />
-          </TISSensorInfo>
-        </SensorInfo>
-        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-          <VisualizationActuators />
-        </ObjectSimulatorInfo>
-      </NatureElement>
-    </NatureElements>
     <DirtSpots />
   </Environment>
   <GlobalPlacement>
@@ -7752,7 +7951,7 @@
         </RoadJointsEnd>
       </RoadSegment>
       <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_9" UniqueId="15725" SensorDetectability="Occluding" NumericalID="28" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="15867" SidewalkUniqueId="15732" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="true" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="65.897109985351562" Y="138.82435607910156" Z="0" />
+        <Location X="65.897109985351563" Y="138.82435607910156" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="180" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="13.5" Z="0" />
@@ -8077,7 +8276,7 @@
         </RoadJointsEnd>
       </RoadSegment>
       <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_11" UniqueId="15868" SensorDetectability="Occluding" NumericalID="33" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="15912" SidewalkUniqueId="15875" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="true" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="65.897109985351562" Y="72.824356079101563" Z="0" />
+        <Location X="65.897109985351563" Y="72.824356079101563" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="180" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="13.5" Z="0" />
@@ -8180,6 +8379,7 @@
     <Build Version="8.6.0 " BuildNumber="15210" BuildId="e16f3122b987" Architecture="64" BuildNumberCore="14740" BuildIdCore="33e9e38c9543" BuildNumberData="2959" BuildIdData="33e9e38c9543" BuildNumberExt="375" BuildIdExt="33e9e38c9543" />
     <Build Version="2019.1.0 " BuildNumber="16263" BuildId="6562ad4c7aee" Architecture="64" BuildNumberCore="16409" BuildIdCore="527fa4d1180a" BuildNumberData="3203" BuildIdData="527fa4d1180a" BuildNumberExt="425" BuildIdExt="527fa4d1180a" />
     <Build Version="2019.2.0 " BuildNumber="16702" BuildId="e2411acde279" Architecture="64" BuildNumberCore="17351" BuildIdCore="0f2bf0122c76" BuildNumberData="3225" BuildIdData="0f2bf0122c76" BuildNumberExt="430" BuildIdExt="0f2bf0122c76" />
+    <Build Version="2020.1.0 " BuildNumber="17352" BuildId="4cea107b6332" Architecture="64" BuildNumberCore="19171" BuildIdCore="3eeb40689c88" BuildNumberData="3412" BuildIdData="3eeb40689c88" BuildNumberExt="456" BuildIdExt="3eeb40689c88" />
   </UsedPreScanBuilds>
   <Resources />
   <SceneLightSource Description="" id="SceneLightSource" UniqueId="32" UseShadows="true" UseSoftShadows="true" UseReflectiveTexture="true" UseNormalMapTexture="true" GlobalAmbientR="0" GlobalAmbientG="0" GlobalAmbientB="0" AmbientR="225" AmbientG="225" AmbientB="225" AmbientA="255" DiffuseR="225" DiffuseG="225" DiffuseB="225" DiffuseA="255" SpecularR="150" SpecularG="150" SpecularB="150" SpecularA="255" PositionX="1" PositionY="-1" PositionZ="1" Intensity="0.95" AtmTurbFactor="2" Altitude="0" UseExplicitLightPositioning="true" UseCurrentGPSLocation="true" Hours="0" Minutes="0" Seconds="0" UTCoffset="0" SceneShadowTextureSize="4096" SpotLightShadowTextureSize="1024">
@@ -9589,7 +9789,7 @@
     <TestAutomationProperties>
       <TestAutomationTag PropertyName="Enabled" Tag="fog" />
     </TestAutomationProperties>
-    <CurrentFogConfiguration Name="Default Normal" Start="0" End="100" Color="White (FFFFFFFF)" Mode="exp" Density="0.0331144854" />
+    <CurrentFogConfiguration Name="Default Normal" Start="0" End="100" Color="White (FFFFFFFF)" Mode="exp" Density="0.0331144854" UseSkyColor="false" />
   </WeatherFogSettings>
   <WeatherRainSettings Description="" id="Rain" UniqueId="34" RainName="">
     <CurrentRainConfiguration Name="Current" Density="0" PSize="0" Color="FF000000" Animation="false" Time="0" ShutterTime="0" StartDistance="0" Hardness="0" DepthWrite="false" RenderBin="0" Shape="" IsDefault="true">
