@@ -30,6 +30,7 @@
 
 # All folders that are generated. May need to add more based on .pex configuration
 */Experiments/**/Actors
+*/Experiments/**/Aimsun
 */Experiments/**/CameraSensorConfig
 */Experiments/**/RemoteViewerPlugin
 */Experiments/**/Temp
@@ -47,6 +48,8 @@
 */Experiments/**/WorldViewerUnrealPlugin
 */Experiments/**/PhysicsBasedCameraUnrealPlugin
 */Experiments/**/Migrated
+*/Experiments/**/RadarSensorConfig
+*/Experiments/**/UserSpecified
 
 # May have to re-include
 */Experiments/**/*hash.mat
@@ -54,6 +57,8 @@
 */Experiments/**/*.png
 */Experiments/**/log4net.config.xml
 */Experiments/**/*.log
+*/Experiments/**/*.references
+*/Experiments/**/*.tunable
 
 #The Results folder
 */Experiments/**/Results
