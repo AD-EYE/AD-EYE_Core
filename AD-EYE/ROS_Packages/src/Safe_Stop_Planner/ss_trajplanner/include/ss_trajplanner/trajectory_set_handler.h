@@ -210,7 +210,11 @@ public:
         // fill vector of trajSubSets
         if((v_init != last_v_init) && first_traj_has_been_set){                                   /// Placed this if statement to the middle of the while from down below, because it did not work there
           trajSet.push_back(trajSubSet);
-          v_init_vector.push_back(traj.v_init);             
+          if(trajSubSet.size()>max_trajsubset_size)
+          {
+              max_trajsubset_size = trajSubSet.size();
+          }
+          v_init_vector.push_back(traj.v_init);
           trajSubSet.clear();
         }
         last_v_init = v_init;
@@ -268,6 +272,7 @@ public:
     }
 
     ROS_INFO_STREAM("Finished Loading Trajectory Set");
+    ROS_INFO_STREAM("Maximum subset size: "<<max_trajsubset_size);
 
   }
 
@@ -284,10 +289,16 @@ public:
     }
   }
 
+  int get_max_trajsubset_size() {
+      return max_trajsubset_size;
+  }
+
 private:
   //std::vector<std::vector<trajectory> > trajSet;
   //std::vector<float> v_init_vector;
   trajectory traj;
+
+  int max_trajsubset_size = 0;
 
 };
 

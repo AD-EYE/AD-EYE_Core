@@ -14,6 +14,9 @@ Panels:
         - /Tracked Contours1/Namespaces1
         - /Detected_objects1
         - /MarkerArray1/Namespaces1
+        - /safe_stop_endposes_vis1
+        - /safe_stop_endposes_vis1/Status1
+        - /safe_stop_traj_vis1
       Splitter Ratio: 0.695804
     Tree Height: 921
   - Class: rviz/Selection
@@ -173,7 +176,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 1
       Min Color: 0; 0; 0
-      Min Intensity: 0.0357976668
+      Min Intensity: 0
       Name: Filtered Points
       Position Transformer: XYZ
       Queue Size: 10
@@ -699,9 +702,7 @@ Visualization Manager:
       Marker Topic: /tlr_result
       Name: Traffic Lights
       Namespaces:
-        tlr_result_green: true
-        tlr_result_red: true
-        tlr_result_yellow: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Camera
@@ -769,6 +770,7 @@ Visualization Manager:
       Marker Topic: /objects_markers
       Name: MarkerArray
       Namespaces:
+        //arrow_markers: true
         //box_markers: false
         //centroid_markers: true
         //hull_markers: true
@@ -792,6 +794,22 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: false
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /safe_stop_endposes_vis
+      Name: safe_stop_endposes_vis
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /safe_stop_traj_vis
+      Name: safe_stop_traj_vis
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -824,18 +842,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
+        X: -1.92531395
+        Y: -3.9169085
         Z: 0
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.574797451
+      Pitch: 1.37979686
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.15357757
+      Yaw: 3.16858315
     Saved: ~
 Window Geometry:
   Camera:
