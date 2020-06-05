@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W06_city_highway" UniqueId="0" Authors="Maxime Sainte Catherine" TotalSimulationTime="104.16666666666667" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="true" ExperimentDescription="City with highway&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="624CFD4E6D1FB31891E7EAF01F77DBD45BE6090E4F2AF1332CB1508DA4295B1A" UniqueExperimentIdentifier="511e7d9c-4356-4ff6-b612-74670fb055c1" UniqueIdCounter="7225" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W06_city_highway" UniqueId="0" Authors="Maxime Sainte Catherine" TotalSimulationTime="104.16666666666667" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="true" ExperimentDescription="City with highway&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="485D313A3A84015B6866E45487DBA9BF9D787DF2273063D3A6BE4F3FD4142050" UniqueExperimentIdentifier="3ac14ddf-6460-4d2c-8552-15d9f5474cff" UniqueIdCounter="7225" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a row of a Modern House" id="HouseModern_1" UniqueId="1064" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="HouseModern" AnimatedActor="false" CompilationSheetPicture="HouseModern_HighPoly.png" HashCode="f6604456832652f4e5f11d65a40db773" ModelFile="Buildings\HouseModern\HouseModern.osgb" GenericModelSourceFile="Buildings\HouseModern\HouseModern.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="257.23065185546875" Y="-96.317375183105469" Z="0" />
@@ -19350,7 +19350,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_2" UniqueId="6406" SensorDetectability="Invisible" NumericalID="84" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+    <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="6406" SensorDetectability="Invisible" NumericalID="84" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="79.8422622680664" Y="-79.080574035644531" Z="0.689999997615814" />
       <Orientation Bank="0" Tilt="0" Heading="0.11040180713913923" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
@@ -31915,7 +31915,7 @@
   <UserObjectTypes>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" HasSeparateColors="false" Color="FFFFFFFF" PredefinedEnumType="Car">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6406" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6406" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6420" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Toyota_Previa_MPV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6421" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6423" />
@@ -33704,7 +33704,7 @@
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Dogwood20y_11" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="5100" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6406" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6406" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00FF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="MercedesBenz_Actros_2541_L_6x2_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6418" />
