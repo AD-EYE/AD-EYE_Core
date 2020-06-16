@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="79.833333333333329" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="D4DEA7F5882BFE4BC52FCCE68FA44F31F09A979548E78910AC8E5006FB6237AD" UniqueExperimentIdentifier="b6cb1f87-edf0-464b-afb8-c87d54b592b8" UniqueIdCounter="5088" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="79.833333333333329" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="F81F42336126B364FA36FECAE8CA4FF6506BC1875229E62B18E399E298F8037E" UniqueExperimentIdentifier="b6cb1f87-edf0-464b-afb8-c87d54b592b8" UniqueIdCounter="5294" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Dutch Church." id="DutchChurch_1" UniqueId="3119" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="DutchChurch" AnimatedActor="false" CompilationSheetPicture="Church_HighPoly.png" HashCode="c456ae2c187d90a5895639c7917575ff" ModelFile="Buildings\Church\Church.osgb" GenericModelSourceFile="Buildings\Church\Church.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="26.703933715820313" Y="19.858810424804688" Z="0" />
@@ -3005,7 +3005,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5080" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5286" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3030,7 +3030,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5081" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5287" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3055,7 +3055,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5082" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5288" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3080,7 +3080,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5083" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5289" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3118,7 +3118,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5084" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5290" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3153,7 +3153,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5085" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5291" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3191,7 +3191,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5086" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5292" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3253,7 +3253,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="5087" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="5293" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -13839,7 +13839,7 @@
         <Spline StartPointX="-89.182232059624326" StartPointY="-129.55777037497012" StartPointZ="0" StartControlPointX="-89.181167345517423" StartControlPointY="-131.56320490718531" StartControlPointZ="0" EndControlPointX="-88.9450059612677" EndControlPointY="-133.85043425103359" EndControlPointZ="0" EndPointX="-86.901753038351117" EndPointY="-134.79101531434972" EndPointZ="0" />
         <Spline StartPointX="-86.901753038351117" StartPointY="-134.79101531434972" StartPointZ="0" StartControlPointX="-85.062030977370043" StartControlPointY="-135.63790397552128" StartControlPointZ="0" EndControlPointX="-82.796744503839449" EndControlPointY="-135.59353786496297" EndControlPointZ="0" EndPointX="-80.812823597449935" EndPointY="-135.65612575857915" EndPointZ="0" />
         <Spline StartPointX="-80.812823597449935" StartPointY="-135.65612575857915" StartPointZ="0" StartControlPointX="-78.221182247544334" StartControlPointY="-135.7378857584747" StartControlPointZ="0" EndControlPointX="-75.623809627150891" EndControlPointY="-135.695497563914" EndControlPointZ="0" EndPointX="-73.031275060858363" EndPointY="-135.69550189051355" EndPointZ="0" />
-        <Spline StartPointX="-73.0312050607916" StartPointY="-135.69546189063038" StartPointZ="0" StartControlPointX="-63.031205060805569" StartControlPointY="-135.69547857931653" StartControlPointZ="0" EndControlPointX="-53.031205060819516" EndControlPointY="-135.6954952680027" EndControlPointZ="0" EndPointX="-43.031205060833372" EndPointY="-135.69551195668885" EndPointZ="0" />
+        <Spline StartPointX="-73.0312050607916" StartPointY="-135.69546189063038" StartPointZ="0" StartControlPointX="-63.0312083941389" StartControlPointY="-135.69547857931096" StartControlPointZ="0" EndControlPointX="-53.031211727486181" EndControlPointY="-135.69549526799159" EndControlPointZ="0" EndPointX="-43.031215060833375" EndPointY="-135.69551195667216" EndPointZ="0" />
         <Spline StartPointX="-43.031215060749929" StartPointY="-135.69546195667218" StartPointZ="0" StartControlPointX="-37.572992576049685" StartControlPointY="-135.69547106572838" StartControlPointZ="0" EndControlPointX="-31.069547146424274" EndControlPointY="-134.84748159688368" EndControlPointZ="0" EndPointX="-27.955877210174243" EndPointY="-129.75020335257258" EndPointZ="0" />
         <Spline StartPointX="-27.955877210174243" StartPointY="-129.75020335257258" StartPointZ="0" StartControlPointX="-25.646445774626208" StartControlPointY="-125.9695153367694" StartControlPointZ="0" EndControlPointX="-25.422976612399218" EndControlPointY="-121.20506378295136" EndControlPointZ="0" EndPointX="-25.314700308813112" EndPointY="-116.89264485546451" EndPointZ="0" />
         <Spline StartPointX="-25.314700308813112" StartPointY="-116.89264485546451" StartPointZ="0" StartControlPointX="-25.201977219272951" StartControlPointY="-112.40311973502838" StartControlPointZ="0" EndControlPointX="-25.367268688140648" EndControlPointY="-107.90862227414145" EndControlPointZ="0" EndPointX="-25.367261194785655" EndPointY="-103.41854143544546" EndPointZ="0" />
@@ -14249,7 +14249,7 @@
         <Spline StartPointX="201.26634347340382" StartPointY="144.70569702258746" StartPointZ="0" StartControlPointX="201.26327388916653" StartControlPointY="149.44091656210051" StartControlPointZ="0" EndControlPointX="199.83464370527719" EndControlPointY="154.21869150330068" EndControlPointZ="0" EndPointX="195.93106390467275" EndPointY="157.18542820912208" EndPointZ="0" />
         <Spline StartPointX="195.93106390467275" StartPointY="157.18542820912208" StartPointZ="0" StartControlPointX="191.02436195346712" StartControlPointY="160.9145418757399" StartControlPointZ="0" EndControlPointX="184.3122449402243" EndControlPointY="161.15898906825998" EndControlPointZ="0" EndPointX="178.404074002424" EndPointY="161.1988333811268" EndPointZ="0" />
         <Spline StartPointX="178.404074002424" StartPointY="161.1988333811268" StartPointZ="0" StartControlPointX="170.80647869078916" StartControlPointY="161.25007105989732" StartControlPointZ="0" EndControlPointX="163.22934377424124" EndControlPointY="160.306712996007" EndControlPointZ="0" EndPointX="155.63056379344027" EndPointY="160.30178712191451" EndPointZ="0" />
-        <Spline StartPointX="155.63056378695782" StartPointY="160.30179712191239" StartPointZ="0" StartControlPointX="145.63056588806771" StartControlPointY="160.29531466937402" StartControlPointZ="0" EndControlPointX="135.63056798917734" EndControlPointY="160.28883221683566" EndControlPointZ="0" EndPointX="125.63057009028712" EndPointY="160.28234976429729" EndPointZ="0" />
+        <Spline StartPointX="155.63056378695782" StartPointY="160.30179712191239" StartPointZ="0" StartControlPointX="145.63056255473498" StartControlPointY="160.2953146672132" StartControlPointZ="0" EndControlPointX="135.63056132251208" EndControlPointY="160.28883221251402" EndControlPointZ="0" EndPointX="125.63056009028922" EndPointY="160.28234975781484" EndPointZ="0" />
         <Spline StartPointX="125.63056009028922" StartPointY="160.28234975781484" StartPointZ="0" StartControlPointX="115.63056219139909" StartControlPointY="160.27586730527648" StartControlPointZ="0" EndControlPointX="105.63056429250877" EndControlPointY="160.26938485273811" EndControlPointZ="0" EndPointX="95.630566393618523" EndPointY="160.26290240019975" EndPointZ="0" />
       </PathShapes>
       <PathOrientations>
@@ -15986,7 +15986,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot1792" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="14">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
-          <EndState Distance="400.1345046772834" Situation="Reached" Speed="15" Time="26.675633645152226666666666667" />
+          <EndState Distance="400.1344946772834" Situation="Reached" Speed="15" Time="26.67563297848556" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
@@ -15997,7 +15997,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot1793" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="19">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
-          <EndState Distance="530.596170903977503" Situation="Reached" Speed="15" Time="35.373078060265166866666666667" />
+          <EndState Distance="530.596180903977503" Situation="Reached" Speed="15" Time="35.373078726931833533333333333" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
