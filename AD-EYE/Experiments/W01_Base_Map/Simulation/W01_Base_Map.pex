@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="420A3C476288329B68876506E7447D22E8EA26AD82727FD9089BC3EB060E188E" UniqueExperimentIdentifier="97d0c8ca-a2c7-451b-a745-6e8bade8c517" UniqueIdCounter="25003" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="E5D2BDF105737FD12990368CB19FD00D63D7D43E9AB023841C15DE3CB947C2B5" UniqueExperimentIdentifier="a8c33f18-a8bf-4e3d-9c7b-4019a09d2696" UniqueIdCounter="25641" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="72.2540054321289" Y="171.27838134765625" Z="0.52999997138977051" />
@@ -1331,1115 +1331,6 @@
         </Wheels>
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.4859999418258667" TrackWidthRear="1.4859999418258667" TyreRadius="0.29499998688697815" Wheelbase="2.4839999675750732" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of an Audi A8 Sedan" id="Audi_A8_Sedan_3" UniqueId="6648" SensorDetectability="Detectable" NumericalID="37" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Audi_A8_Sedan" AnimatedActor="false" CompilationSheetPicture="Audi_A8_HighPoly.png" HashCode="e33fe1ddcf3e8ae97caccbc8f2fa74ac" ModelFile="Vehicles\Audi_A8\Audi_A8.osgb" GenericModelSourceFile="Vehicles\Audi_A8\Audi_A8.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="115.63128280639648" Y="171.24214172363281" Z="0.550000011920929" />
-      <Orientation Bank="0" Tilt="0" Heading="359.83436473216574" />
-      <Origin X="0.25" Y="0.5" Z="0" />
-      <Size X="5.2100000381469727" Y="2.0399999618530273" Z="1.440000057220459" />
-      <CoGOffset X="1.7699999809265137" Y="0" Z="0.550000011920929" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_MVZOGDCDXH" DisplayName="SteeringWheel">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_SteeringWheel_pivot" ObjectID3D="SteeringWheel_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_SteeringWheel_pivot" ObjectID3D="SteeringWheel_pivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_GELWQQXKRQ" DisplayName="SteeringColumn">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_SteeringColumn_pivot" ObjectID3D="SteeringColumn_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_SteeringColumn_pivot" ObjectID3D="SteeringColumn_pivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_NNTFDGFPPF" DisplayName="WheelL0_Suspension">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL0_Suspension" ObjectID3D="WheelL0_Suspension" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL0_Suspension" ObjectID3D="WheelL0_Suspension" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_GDAPZKXNWK" DisplayName="WheelL0_SteerPivot">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL0_SteerPivot" ObjectID3D="WheelL0_SteerPivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL0_SteerPivot" ObjectID3D="WheelL0_SteerPivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_PAEQXBQJKB" DisplayName="WheelL0">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL0" ObjectID3D="WheelL0" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL0" ObjectID3D="WheelL0" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_NQMUENPZSL" DisplayName="WheelL1_Suspension">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL1_Suspension" ObjectID3D="WheelL1_Suspension" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL1_Suspension" ObjectID3D="WheelL1_Suspension" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_ICUYPQOLKC" DisplayName="WheelL1_SteerPivot">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL1_SteerPivot" ObjectID3D="WheelL1_SteerPivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL1_SteerPivot" ObjectID3D="WheelL1_SteerPivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_CAZNURXTPZ" DisplayName="WheelL1">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelL1" ObjectID3D="WheelL1" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelL1" ObjectID3D="WheelL1" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_HOHHNLFPQK" DisplayName="WheelR0_Suspension">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR0_Suspension" ObjectID3D="WheelR0_Suspension" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR0_Suspension" ObjectID3D="WheelR0_Suspension" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_VXJCBNABYZ" DisplayName="WheelR0_SteerPivot">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR0_SteerPivot" ObjectID3D="WheelR0_SteerPivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR0_SteerPivot" ObjectID3D="WheelR0_SteerPivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_UQQPPOAVFX" DisplayName="WheelR0">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR0" ObjectID3D="WheelR0" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR0" ObjectID3D="WheelR0" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_FRIZBQNGOB" DisplayName="WheelR1_Suspension">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR1_Suspension" ObjectID3D="WheelR1_Suspension" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR1_Suspension" ObjectID3D="WheelR1_Suspension" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_TAEDKVZWOO" DisplayName="WheelR1_SteerPivot">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR1_SteerPivot" ObjectID3D="WheelR1_SteerPivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR1_SteerPivot" ObjectID3D="WheelR1_SteerPivot" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="JointActuator" ActuatorName="JointActuator" EnableActuator="false" ShowInAnimationList="false" ID="Joint_IUSETXLVKQ" DisplayName="WheelR1">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_Translate_WheelR1" ObjectID3D="WheelR1" AttributeID="translation" />
-              <VisuPortElement PortID="visu_Rotate_WheelR1" ObjectID3D="WheelR1" AttributeID="rotation_rpy" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="WheelDisplacementGroup" ActuatorName="JointGroup" EnableActuator="false" ShowInAnimationList="true" ID="JointGroup_WheelDisplacement" DisplayName="WheelDisplacement">
-            <LightMeshPositions />
-            <VisuPortElements />
-            <JointGroupInputs ID="GroupInput_XVIEOJBBRB" DisplayName="Steering Angle Front">
-              <JointGroupLinks JointID="Joint_UQQPPOAVFX" AxisID="Axis_NUMELQFOLU" />
-              <JointGroupLinks JointID="Joint_PAEQXBQJKB" AxisID="Axis_OUCRAXXDXA" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_CQIVLMNSRH" DisplayName="Steering Angle Rear">
-              <JointGroupLinks JointID="Joint_IUSETXLVKQ" AxisID="Axis_ZSKPZVAGGL" />
-              <JointGroupLinks JointID="Joint_CAZNURXTPZ" AxisID="Axis_YDQJRARHTJ" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_SVKUTTLIZW" DisplayName="Rotation">
-              <JointGroupLinks JointID="Joint_UQQPPOAVFX" AxisID="Axis_YYGXXJTTNM" />
-              <JointGroupLinks JointID="Joint_PAEQXBQJKB" AxisID="Axis_JZJKKBGXCZ" />
-              <JointGroupLinks JointID="Joint_IUSETXLVKQ" AxisID="Axis_FDONNQIWLE" />
-              <JointGroupLinks JointID="Joint_CAZNURXTPZ" AxisID="Axis_AHHQFSQDLK" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_OIVCNAVFXL" DisplayName="zDisp FL">
-              <JointGroupLinks JointID="Joint_PAEQXBQJKB" AxisID="Axis_BPYWBJFEUK" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_OMXXCQBJOW" DisplayName="zDisp FR">
-              <JointGroupLinks JointID="Joint_UQQPPOAVFX" AxisID="Axis_PYOTLPPVUM" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_QTVKZXAJHR" DisplayName="zDisp RL">
-              <JointGroupLinks JointID="Joint_CAZNURXTPZ" AxisID="Axis_SAFZWRILCP" />
-            </JointGroupInputs>
-            <JointGroupInputs ID="GroupInput_SIEIVWMKVT" DisplayName="zDisp RR">
-              <JointGroupLinks JointID="Joint_IUSETXLVKQ" AxisID="Axis_BOWQOOGLJD" />
-            </JointGroupInputs>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_BrakeLightRL" EnableActuator="false" ShowInAnimationList="false" ID="Light_HPDXLOBEDM" DisplayName="Brake light left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="BrakeLightL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="BrakeLightL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="BrakeLightRL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_BrakeLightRR" EnableActuator="false" ShowInAnimationList="false" ID="Light_GITTGAYWZY" DisplayName="Brake light right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="BrakeLightR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="BrakeLightR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="BrakeLightRR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_FogLightFL" EnableActuator="false" ShowInAnimationList="false" ID="Light_SNDTATAOKS" DisplayName="Fog light front left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="FogLightFL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="FogLightFL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="FogLightFL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_FogLightFR" EnableActuator="false" ShowInAnimationList="false" ID="Light_XAXAKXUSWE" DisplayName="Fog light front right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="FogLightFR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="FogLightFR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="FogLightFR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_4_FogLightRL" EnableActuator="false" ShowInAnimationList="false" ID="Light_HJYILGBOOV" DisplayName="Fog light rear left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_4_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_4_Trans" ObjectID3D="FogLightRL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_4_Rot" ObjectID3D="FogLightRL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_4_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_4" ObjectID3D="FogLightRL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_4_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_5_FogLightRR" EnableActuator="false" ShowInAnimationList="false" ID="Light_PDNDEBATNJ" DisplayName="Fog light rear right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_5_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_5_Trans" ObjectID3D="FogLightRR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_5_Rot" ObjectID3D="FogLightRR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_5_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_5" ObjectID3D="FogLightRR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_5_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_6_IndicatorFL" EnableActuator="false" ShowInAnimationList="false" ID="Light_FNHWIVHWPW" DisplayName="Indicator front left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_6_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_6_Trans" ObjectID3D="IndicatorFL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_6_Rot" ObjectID3D="IndicatorFL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_6_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_6" ObjectID3D="IndicatorFL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_6_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_7_IndicatorRL" EnableActuator="false" ShowInAnimationList="false" ID="Light_CHXPFGJIHR" DisplayName="Indicator rear left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_7_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_7_Trans" ObjectID3D="IndicatorRL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_7_Rot" ObjectID3D="IndicatorRL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_7_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_7" ObjectID3D="IndicatorRL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_7_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_8_IndicatorFR" EnableActuator="false" ShowInAnimationList="false" ID="Light_VEJNAMFNAV" DisplayName="Indicator front right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_8_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_8_Trans" ObjectID3D="IndicatorFR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_8_Rot" ObjectID3D="IndicatorFR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_8_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_8" ObjectID3D="IndicatorFR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_8_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_9_IndicatorRR" EnableActuator="false" ShowInAnimationList="false" ID="Light_TSMZHGJAZH" DisplayName="Indicator rear right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_9_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_9_Trans" ObjectID3D="IndicatorRR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_9_Rot" ObjectID3D="IndicatorRR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_9_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_9" ObjectID3D="IndicatorRR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_9_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_10_MainLightFL_HB" EnableActuator="false" ShowInAnimationList="false" ID="Light_JLHTBJFGGB" DisplayName="Headlight HB left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_10_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_10_Trans" ObjectID3D="MainLightFL_HB_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_10_Rot" ObjectID3D="MainLightFL_HB_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_10_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_10" ObjectID3D="MainLightFL_HB" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_10_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_11_MainLightFR_HB" EnableActuator="false" ShowInAnimationList="false" ID="Light_ZBJBWOUONP" DisplayName="Headlight HB right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_11_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_11_Trans" ObjectID3D="MainLightFR_HB_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_11_Rot" ObjectID3D="MainLightFR_HB_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_11_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_11" ObjectID3D="MainLightFR_HB" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_11_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_12_MainLightFL_LB" EnableActuator="false" ShowInAnimationList="false" ID="Light_KVQUEXJLUA" DisplayName="Headlight LB left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_12_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_12_Trans" ObjectID3D="MainLightFL_LB_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_12_Rot" ObjectID3D="MainLightFL_LB_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_12_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_12" ObjectID3D="MainLightFL_LB" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_12_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_13_MainLightFR_LB" EnableActuator="false" ShowInAnimationList="false" ID="Light_TXTOLEZZWD" DisplayName="Headlight LB right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_13_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_13_Trans" ObjectID3D="MainLightFR_LB_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_13_Rot" ObjectID3D="MainLightFR_LB_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_13_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_13" ObjectID3D="MainLightFR_LB" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_13_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_14_MainLightRL" EnableActuator="false" ShowInAnimationList="false" ID="Light_BOIQNGFTPX" DisplayName="Rear light left">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_14_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_14_Trans" ObjectID3D="MainLightRL_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_14_Rot" ObjectID3D="MainLightRL_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_14_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_14" ObjectID3D="MainLightRL" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_14_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_15_MainLightRR" EnableActuator="false" ShowInAnimationList="false" ID="Light_DKSHGAGNXD" DisplayName="Rear light right">
-            <LightMeshPositions />
-            <VisuPortElements>
-              <VisuPortElement PortID="visu_DynLight_15_Int" ObjectID3D="" AttributeID="intensity" />
-              <VisuPortElement PortID="visu_DynLight_15_Trans" ObjectID3D="MainLightRR_pivot" AttributeID="translation" />
-              <VisuPortElement PortID="visu_DynLight_15_Rot" ObjectID3D="MainLightRR_pivot" AttributeID="lightrotation" />
-              <VisuPortElement PortID="visu_DynLight_15_Color" ObjectID3D="" AttributeID="lightcolors" />
-              <VisuPortElement PortID="visu_GenericLight_15" ObjectID3D="MainLightRR" AttributeID="colors" />
-              <VisuPortElement PortID="visu_DynLight_15_ICM" ObjectID3D="" AttributeID="projectedimage" />
-            </VisuPortElements>
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Exterior" RegionName="Exterior" TargetColor="00605CA9">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Exterior" RegionName="Exterior" TargetMaterial="0">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27000001072883606" Mass="1820" MaxAcceleration="0.30000001192092896" MaxDeceleration="1" ReferenceArea="2.332564115524292" RollFriction="0.0099999997764825821" />
-      <Sensors />
-      <ConnectionPoints>
-        <ConnectionPoint>
-          <Name>Towbar</Name>
-          <Point X="-1.2599999904632568" Y="0" Z="0.44999998807907104" />
-        </ConnectionPoint>
-      </ConnectionPoints>
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="210" Jyy="3278" M="1820" Jzz="3746" Krear="121449" Kfront="72653" SteeringRatio="25" MaxSwa="500" L="2.94" A="1.17000008" />
-      <RecolorRegions>
-        <RecolorRegion Name="Exterior" ChannelIndex="0" IntensityMultiplier="5.7954" RegionMapNode="" />
-      </RecolorRegions>
-      <MaterialRegions>
-        <MaterialRegion Name="Exterior" ChannelIndex="0" RegionMapNode="" />
-      </MaterialRegions>
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>-0.059999998658895493</X>
-          <X>-0.057999998331069946</X>
-          <X>-0.05299999937415123</X>
-          <X>-0.0430000014603138</X>
-          <X>0</X>
-          <X>0.0430000014603138</X>
-          <X>0.05299999937415123</X>
-          <X>0.057999998331069946</X>
-          <X>0.059000000357627869</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>-28735</Y>
-          <Y>-11795</Y>
-          <Y>-8560</Y>
-          <Y>-6860</Y>
-          <Y>-4385</Y>
-          <Y>-1855</Y>
-          <Y>-155</Y>
-          <Y>3080</Y>
-          <Y>9965</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>-0.059999998658895493</X>
-          <X>-0.057999998331069946</X>
-          <X>-0.05299999937415123</X>
-          <X>-0.0430000014603138</X>
-          <X>0</X>
-          <X>0.0430000014603138</X>
-          <X>0.05299999937415123</X>
-          <X>0.059000000357627869</X>
-          <X>0.059999998658895493</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>-29425</Y>
-          <Y>-13500</Y>
-          <Y>-10230</Y>
-          <Y>-8450</Y>
-          <Y>-5654.93017578125</Y>
-          <Y>-2890</Y>
-          <Y>-1050</Y>
-          <Y>2330</Y>
-          <Y>8115.10009765625</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>-1</X>
-          <X>-0.5</X>
-          <X>-0.40000000596046448</X>
-          <X>-0.25</X>
-          <X>-0.15000000596046448</X>
-          <X>-0.05000000074505806</X>
-          <X>0</X>
-          <X>0.05000000074505806</X>
-          <X>0.15000000596046448</X>
-          <X>0.25</X>
-          <X>0.40000000596046448</X>
-          <X>0.5</X>
-          <X>1</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>-1680</Y>
-          <Y>-1002</Y>
-          <Y>-846</Y>
-          <Y>-684</Y>
-          <Y>-372</Y>
-          <Y>-154</Y>
-          <Y>0</Y>
-          <Y>676</Y>
-          <Y>2022</Y>
-          <Y>2994</Y>
-          <Y>3390</Y>
-          <Y>3732</Y>
-          <Y>5148</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>-1</X>
-          <X>-0.5</X>
-          <X>-0.40000000596046448</X>
-          <X>-0.25</X>
-          <X>-0.15000000596046448</X>
-          <X>-0.05000000074505806</X>
-          <X>0</X>
-          <X>0.05000000074505806</X>
-          <X>0.15000000596046448</X>
-          <X>0.25</X>
-          <X>0.40000000596046448</X>
-          <X>0.5</X>
-          <X>1</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>-1680</Y>
-          <Y>-1002</Y>
-          <Y>-846</Y>
-          <Y>-684</Y>
-          <Y>-372</Y>
-          <Y>-154</Y>
-          <Y>0</Y>
-          <Y>676</Y>
-          <Y>2022</Y>
-          <Y>2994</Y>
-          <Y>3390</Y>
-          <Y>3732</Y>
-          <Y>5148</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultCameraSensorPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="2" Y="0" Z="1.3200000524520874" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultAIRSensorPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="3.940000057220459" Y="0" Z="0.37000000476837158" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultTISSensorPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="3.940000057220459" Y="0" Z="0.37000000476837158" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultIROBUSensorPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="2.6099998950958252" Y="0" Z="1.0099999904632568" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultBeaconSensorPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="3.940000057220459" Y="0" Z="0.37000000476837158" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultAntennaPosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="0.5" Y="0" Z="1.5" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <SensorHolderPosition>DefaultFishEyePosition</SensorHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="3.940000057220459" Y="0" Z="0.37000000476837158" />
-            </DefaultLocation>
-          </value>
-        </item>
-      </DefaultSensorPositions>
-      <DefaultVisuAidPositions>
-        <item>
-          <key>
-            <VisuAidHolderPosition>DriverLeft</VisuAidHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="1.5" Y="0.40999999642372131" Z="1.1000000238418579" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <VisuAidHolderPosition>DriverRight</VisuAidHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="1.5" Y="-0.40999999642372131" Z="1.1000000238418579" />
-            </DefaultLocation>
-          </value>
-        </item>
-        <item>
-          <key>
-            <VisuAidHolderPosition>Custom</VisuAidHolderPosition>
-          </key>
-          <value>
-            <DefaultLocation>
-              <Position X="1.5" Y="0" Z="1.1000000238418579" />
-            </DefaultLocation>
-          </value>
-        </item>
-      </DefaultVisuAidPositions>
-      <Animation />
-      <LightElements>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="BrakeLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Brake light left" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_BrakeLightRL" MeshName="BrakeLightRL" MeshColor="FFFF0000" PivotName="BrakeLightL_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-0.98299998044967651" Y="0.46200001239776611" Z="0.93000000715255737" />
-          <ReferenceLocation X="-0.98299998044967651" Y="0.46200001239776611" Z="0.93000000715255737" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="BrakeLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Brake light right" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_BrakeLightRR" MeshName="BrakeLightRR" MeshColor="FFFF0000" PivotName="BrakeLightR_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-0.98299998044967651" Y="-0.46200001239776611" Z="0.93000000715255737" />
-          <ReferenceLocation X="-0.98299998044967651" Y="-0.46200001239776611" Z="0.93000000715255737" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-10" ColorTemperature="4000" DefaultIntFallOffMap="FogLight Front.png" Intensity="12809" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-44" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Fog light front left" RightAngle="44" TopAngle="0" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_2_FogLightFL" MeshName="FogLightFL" MeshColor="00FFFFFF" PivotName="FogLightFL_pivot">
-          <Defaults LeftAngle="-44" RightAngle="44" TopAngle="0" BottomAngle="-10" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="12809" />
-          <Location X="3.6689999103546143" Y="0.70999997854232788" Z="0.36899998784065247" />
-          <ReferenceLocation X="3.6689999103546143" Y="0.70999997854232788" Z="0.36899998784065247" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-10" ColorTemperature="4000" DefaultIntFallOffMap="FogLight Front.png" Intensity="12809" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-44" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Fog light front right" RightAngle="44" TopAngle="0" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_3_FogLightFR" MeshName="FogLightFR" MeshColor="00FFFFFF" PivotName="FogLightFR_pivot">
-          <Defaults LeftAngle="-44" RightAngle="44" TopAngle="0" BottomAngle="-10" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="12809" />
-          <Location X="3.6689999103546143" Y="-0.70999997854232788" Z="0.36899998784065247" />
-          <ReferenceLocation X="3.6689999103546143" Y="-0.70999997854232788" Z="0.36899998784065247" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="FogLight Rear.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Fog light rear left" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_4_FogLightRL" MeshName="FogLightRL" MeshColor="FFFF0000" PivotName="FogLightRL_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-1.0039999485015869" Y="0.51099997758865356" Z="0.85199999809265137" />
-          <ReferenceLocation X="-1.0039999485015869" Y="0.51099997758865356" Z="0.85199999809265137" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="FogLight Rear.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Fog light rear right" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_5_FogLightRR" MeshName="FogLightRR" MeshColor="FFFF0000" PivotName="FogLightRR_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-1.0039999485015869" Y="-0.51099997758865356" Z="0.85199999809265137" />
-          <ReferenceLocation X="-1.0039999485015869" Y="-0.51099997758865356" Z="0.85199999809265137" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFD259" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Indicator front left" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_6_IndicatorFL" MeshName="IndicatorFL" MeshColor="00FFA500" PivotName="IndicatorFL_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="false" ColorTemperature="2000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="3.4925899505615234" Y="0.8059999942779541" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.4925899505615234" Y="0.8059999942779541" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFD259" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Indicator rear left" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_7_IndicatorRL" MeshName="IndicatorRL" MeshColor="00FFA500" PivotName="IndicatorRL_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="false" ColorTemperature="2000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-0.88653302192687988" Y="0.706167995929718" Z="0.86974000930786133" />
-          <ReferenceLocation X="-0.88653302192687988" Y="0.706167995929718" Z="0.86974000930786133" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFD259" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Indicator front right" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_8_IndicatorFR" MeshName="IndicatorFR" MeshColor="00FFA500" PivotName="IndicatorFR_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="false" ColorTemperature="2000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="3.4925899505615234" Y="-0.80559998750686646" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.4925899505615234" Y="-0.80559998750686646" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFD259" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="67" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Indicator rear right" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_9_IndicatorRR" MeshName="IndicatorRR" MeshColor="00FFA500" PivotName="IndicatorRR_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="false" ColorTemperature="2000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="67" />
-          <Location X="-0.88653302192687988" Y="-0.70599997043609619" Z="0.86974000930786133" />
-          <ReferenceLocation X="-0.88653302192687988" Y="-0.70599997043609619" Z="0.86974000930786133" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-4" ColorTemperature="4000" DefaultIntFallOffMap="HeadLight HB.png" Intensity="63680" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-25" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Headlight HB left" RightAngle="25" TopAngle="9" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_10_MainLightFL_HB" MeshName="MainLightFL_HB" MeshColor="00FFFFFF" PivotName="MainLightFL_HB_pivot">
-          <Defaults LeftAngle="-25" RightAngle="25" TopAngle="9" BottomAngle="-4" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="63680" />
-          <Location X="3.6940000057220459" Y="0.550000011920929" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.6940000057220459" Y="0.550000011920929" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-4" ColorTemperature="4000" DefaultIntFallOffMap="HeadLight HB.png" Intensity="63680" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-25" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Headlight HB right" RightAngle="25" TopAngle="9" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_11_MainLightFR_HB" MeshName="MainLightFR_HB" MeshColor="00FFFFFF" PivotName="MainLightFR_HB_pivot">
-          <Defaults LeftAngle="-25" RightAngle="25" TopAngle="9" BottomAngle="-4" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="63680" />
-          <Location X="3.6936500072479248" Y="-0.54999399185180664" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.6936500072479248" Y="-0.54999399185180664" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-9" ColorTemperature="4000" DefaultIntFallOffMap="HeadLight LB.png" Intensity="24142" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-43" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Headlight LB left" RightAngle="43" TopAngle="3" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_12_MainLightFL_LB" MeshName="MainLightFL_LB" MeshColor="00FFFFFF" PivotName="MainLightFL_LB_pivot">
-          <Defaults LeftAngle="-43" RightAngle="43" TopAngle="3" BottomAngle="-9" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="24142" />
-          <Location X="3.6078701019287109" Y="0.69900000095367432" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.6078701019287109" Y="0.69900000095367432" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFFF9E0" BottomAngle="-9" ColorTemperature="4000" DefaultIntFallOffMap="HeadLight LB.png" Intensity="24142" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-43" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Headlight LB right" RightAngle="43" TopAngle="3" UsesMSCDIntensity="false" UsesRGBColorTemp="false" VisuActuatorName="LightActuator_13_MainLightFR_LB" MeshName="MainLightFR_LB" MeshColor="00FFFFFF" PivotName="MainLightFR_LB_pivot">
-          <Defaults LeftAngle="-43" RightAngle="43" TopAngle="3" BottomAngle="-9" UsesRGBColorTemp="false" ColorTemperature="4000" AmbientRGBAColor="FFFFFBF4" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="24142" />
-          <Location X="3.6078701019287109" Y="-0.69902998208999634" Z="0.68999999761581421" />
-          <ReferenceLocation X="3.6078701019287109" Y="-0.69902998208999634" Z="0.68999999761581421" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <ReferenceOrientation Bank="0" Tilt="0" Heading="0" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="RearLight.png" Intensity="2.0999999046325684" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Rear light left" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_14_MainLightRL" MeshName="MainLightRL" MeshColor="FFFF0000" PivotName="MainLightRL_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="2.0999999046325684" />
-          <Location X="-0.94700002670288086" Y="0.58300000429153442" Z="0.92299997806549072" />
-          <ReferenceLocation X="-0.94700002670288086" Y="0.58300000429153442" Z="0.92299997806549072" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="RearLight.png" Intensity="2.0999999046325684" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Rear light right" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_15_MainLightRR" MeshName="MainLightRR" MeshColor="FFFF0000" PivotName="MainLightRR_pivot">
-          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4000" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="2.0999999046325684" />
-          <Location X="-0.94700002670288086" Y="-0.58300000429153442" Z="0.92299997806549072" />
-          <ReferenceLocation X="-0.94700002670288086" Y="-0.58300000429153442" Z="0.92299997806549072" />
-          <Origin X="0" Y="0" Z="0" />
-          <Orientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-          <ReferenceOrientation Bank="0" Tilt="7.0164775638926606E-15" Heading="180" />
-        </LightElement>
-      </LightElements>
-      <JointAxis>
-        <JointAxis ID="Axis_LCSKKHWVYP" DisplayName="X Translation" Transformation="Translation" JointID="Joint_MVZOGDCDXH" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_WPMJLSVFNV" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_MVZOGDCDXH" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_ZLTAZNUJYI" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_MVZOGDCDXH" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_BALUHQBPKD" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_MVZOGDCDXH" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_WESLABZBRP" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_MVZOGDCDXH" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_UNTDUIVMVD" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_MVZOGDCDXH" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_VBLUBXZBDE" DisplayName="X Translation" Transformation="Translation" JointID="Joint_GELWQQXKRQ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_ZPPUSSVHQN" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_GELWQQXKRQ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_YTKWYGCKDD" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_GELWQQXKRQ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_DQCRNRRWGX" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_GELWQQXKRQ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_NAKBYGLMHC" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_GELWQQXKRQ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_RGVEZQTQFH" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_GELWQQXKRQ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_SPETRRZNDJ" DisplayName="X Translation" Transformation="Translation" JointID="Joint_NNTFDGFPPF" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_WMVKKBLJJR" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_NNTFDGFPPF" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_KPZXJYXOXD" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_NNTFDGFPPF" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_ISLFRPQCUU" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_NNTFDGFPPF" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_EKEAMGKATR" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_NNTFDGFPPF" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_JNJAJPHLDG" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_NNTFDGFPPF" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_JTPYOLGHRM" DisplayName="X Translation" Transformation="Translation" JointID="Joint_GDAPZKXNWK" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_EWCCUZYVLS" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_GDAPZKXNWK" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_TWPZKMKIYR" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_GDAPZKXNWK" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_KABFJXEGYA" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_GDAPZKXNWK" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_JVKZUZAEDG" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_GDAPZKXNWK" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_COMBHDDRAV" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_GDAPZKXNWK" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_DIRRZJPAWC" DisplayName="X Translation" Transformation="Translation" JointID="Joint_PAEQXBQJKB" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_LBHTACOMWD" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_PAEQXBQJKB" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_BPYWBJFEUK" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_PAEQXBQJKB" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_JWYWIHIGPO" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_PAEQXBQJKB" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_JZJKKBGXCZ" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_PAEQXBQJKB" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_OUCRAXXDXA" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_PAEQXBQJKB" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_QUKJWZKNZG" DisplayName="X Translation" Transformation="Translation" JointID="Joint_NQMUENPZSL" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_FUIYTOKQCR" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_NQMUENPZSL" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_CIMYIILFEJ" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_NQMUENPZSL" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_UVGQIDDCMF" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_NQMUENPZSL" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_VMWJOFGDDE" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_NQMUENPZSL" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_NVZFVZMBGV" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_NQMUENPZSL" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_NOSIOELLRZ" DisplayName="X Translation" Transformation="Translation" JointID="Joint_ICUYPQOLKC" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_TCKRKGEAQK" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_ICUYPQOLKC" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_QEHOYUSOYW" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_ICUYPQOLKC" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_XQBUSEVRDD" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_ICUYPQOLKC" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_DRACCTMNFN" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_ICUYPQOLKC" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_MVVSYQMDBV" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_ICUYPQOLKC" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_BYDFXQUVJM" DisplayName="X Translation" Transformation="Translation" JointID="Joint_CAZNURXTPZ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_LVDVVYJRLO" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_CAZNURXTPZ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_SAFZWRILCP" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_CAZNURXTPZ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_HXFKPPUGFH" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_CAZNURXTPZ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_AHHQFSQDLK" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_CAZNURXTPZ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_YDQJRARHTJ" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_CAZNURXTPZ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_WPXSWUGJUD" DisplayName="X Translation" Transformation="Translation" JointID="Joint_HOHHNLFPQK" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_MUPYPLSGGG" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_HOHHNLFPQK" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_VJTJPPHLNW" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_HOHHNLFPQK" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_AHDQBKJITA" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_HOHHNLFPQK" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_FIAIVMOBOA" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_HOHHNLFPQK" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_HNQMLYEKNH" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_HOHHNLFPQK" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_GGJCXTAMZU" DisplayName="X Translation" Transformation="Translation" JointID="Joint_VXJCBNABYZ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_PNMCCXSXVV" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_VXJCBNABYZ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_NCJAQTRNEQ" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_VXJCBNABYZ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_WSHVTECPAQ" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_VXJCBNABYZ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_PMKZTQMAVZ" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_VXJCBNABYZ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_TVIMTOXABP" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_VXJCBNABYZ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_CUMCDJRWXM" DisplayName="X Translation" Transformation="Translation" JointID="Joint_UQQPPOAVFX" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_IGRSKGNVQP" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_UQQPPOAVFX" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_PYOTLPPVUM" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_UQQPPOAVFX" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_DYHOPBEIFU" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_UQQPPOAVFX" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_YYGXXJTTNM" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_UQQPPOAVFX" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_NUMELQFOLU" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_UQQPPOAVFX" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_WFWDDYMTBW" DisplayName="X Translation" Transformation="Translation" JointID="Joint_FRIZBQNGOB" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_OAEHAOKHJC" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_FRIZBQNGOB" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_GAVMULFVIR" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_FRIZBQNGOB" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_CICQMRYYPQ" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_FRIZBQNGOB" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_KFCEIXCUKT" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_FRIZBQNGOB" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_KFDUQARLMZ" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_FRIZBQNGOB" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_KYYJEALTUV" DisplayName="X Translation" Transformation="Translation" JointID="Joint_TAEDKVZWOO" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_DJGSWGCCQT" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_TAEDKVZWOO" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_VYJVHKAXPD" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_TAEDKVZWOO" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_QIZJODQZPW" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_TAEDKVZWOO" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_UBMOFPBPUO" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_TAEDKVZWOO" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_JVZLXJQKCA" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_TAEDKVZWOO" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_GPTISCYPRM" DisplayName="X Translation" Transformation="Translation" JointID="Joint_IUSETXLVKQ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_ILLMIGGTJS" DisplayName="Y Translation" Transformation="Translation" JointID="Joint_IUSETXLVKQ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_BOWQOOGLJD" DisplayName="Z Translation" Transformation="Translation" JointID="Joint_IUSETXLVKQ" X="0" Y="0" Z="1" />
-        <JointAxis ID="Axis_CLWUMZJWLN" DisplayName="X Rotation" Transformation="Rotation" JointID="Joint_IUSETXLVKQ" X="1" Y="0" Z="0" />
-        <JointAxis ID="Axis_FDONNQIWLE" DisplayName="Y Rotation" Transformation="Rotation" JointID="Joint_IUSETXLVKQ" X="0" Y="1" Z="0" />
-        <JointAxis ID="Axis_ZSKPZVAGGL" DisplayName="Z Rotation" Transformation="Rotation" JointID="Joint_IUSETXLVKQ" X="0" Y="0" Z="1" />
-      </JointAxis>
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>160</X>
-          <Y>133</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>522</X>
-          <Y>133</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27000001072883606" Mass="1820" MaxAcceleration="0.30000001192092896" MaxDeceleration="1" ReferenceArea="2.332564115524292" RollFriction="0.0099999997764825821" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="1.3" B="1.77" BumperHeightFront="0.42" BumperHeightRear="0.42" Cf="52151" Cr="41400" Cw="0.27" DefaultValues="true" Df="4980" DownShiftTimeDelays="1" Dr="3624" GroundClearance="0" Hcog="0.550000011920929" Height="1.447" Jxx="210" Jyy="3278" Jzz="3746" Kfront="72653" Kgfront="0" Kgrear="0" Krear="121449" L="2.94" M="1820" PBrakeMax="150" RearOffsetX="1.28" Rfd="5.3" Rw="0.34" UpShiftTimeDelays="1" Width="1.612" SteeringRatio="20" MaxSteeringWheelAngle="500">
-        <Emap>
-          <EmapElement nRpm="800">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-54" />
-              <TorquePercElement Percentage="20" Value="97" />
-              <TorquePercElement Percentage="30" Value="109" />
-              <TorquePercElement Percentage="40" Value="121" />
-              <TorquePercElement Percentage="50" Value="161" />
-              <TorquePercElement Percentage="60" Value="201" />
-              <TorquePercElement Percentage="70" Value="241" />
-              <TorquePercElement Percentage="80" Value="282" />
-              <TorquePercElement Percentage="90" Value="322" />
-              <TorquePercElement Percentage="100" Value="362" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="1200">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-60" />
-              <TorquePercElement Percentage="20" Value="114" />
-              <TorquePercElement Percentage="30" Value="128" />
-              <TorquePercElement Percentage="40" Value="142" />
-              <TorquePercElement Percentage="50" Value="189" />
-              <TorquePercElement Percentage="60" Value="236" />
-              <TorquePercElement Percentage="70" Value="283" />
-              <TorquePercElement Percentage="80" Value="331" />
-              <TorquePercElement Percentage="90" Value="378" />
-              <TorquePercElement Percentage="100" Value="425" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="1400">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-63" />
-              <TorquePercElement Percentage="20" Value="120" />
-              <TorquePercElement Percentage="30" Value="135" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="1600">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-66" />
-              <TorquePercElement Percentage="20" Value="120" />
-              <TorquePercElement Percentage="30" Value="135" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="2000">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-72" />
-              <TorquePercElement Percentage="20" Value="120" />
-              <TorquePercElement Percentage="30" Value="135" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="2400">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-77" />
-              <TorquePercElement Percentage="20" Value="50" />
-              <TorquePercElement Percentage="30" Value="100" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="2800">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-83" />
-              <TorquePercElement Percentage="20" Value="50" />
-              <TorquePercElement Percentage="30" Value="100" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="3200">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-88" />
-              <TorquePercElement Percentage="20" Value="50" />
-              <TorquePercElement Percentage="30" Value="100" />
-              <TorquePercElement Percentage="40" Value="150" />
-              <TorquePercElement Percentage="50" Value="200" />
-              <TorquePercElement Percentage="60" Value="250" />
-              <TorquePercElement Percentage="70" Value="300" />
-              <TorquePercElement Percentage="80" Value="350" />
-              <TorquePercElement Percentage="90" Value="400" />
-              <TorquePercElement Percentage="100" Value="450" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="3600">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-95" />
-              <TorquePercElement Percentage="20" Value="49" />
-              <TorquePercElement Percentage="30" Value="98" />
-              <TorquePercElement Percentage="40" Value="147" />
-              <TorquePercElement Percentage="50" Value="196" />
-              <TorquePercElement Percentage="60" Value="244" />
-              <TorquePercElement Percentage="70" Value="293" />
-              <TorquePercElement Percentage="80" Value="342" />
-              <TorquePercElement Percentage="90" Value="391" />
-              <TorquePercElement Percentage="100" Value="440" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="4000">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-100" />
-              <TorquePercElement Percentage="20" Value="45" />
-              <TorquePercElement Percentage="30" Value="90" />
-              <TorquePercElement Percentage="40" Value="135" />
-              <TorquePercElement Percentage="50" Value="180" />
-              <TorquePercElement Percentage="60" Value="226" />
-              <TorquePercElement Percentage="70" Value="271" />
-              <TorquePercElement Percentage="80" Value="316" />
-              <TorquePercElement Percentage="90" Value="361" />
-              <TorquePercElement Percentage="100" Value="406" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="4400">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-106" />
-              <TorquePercElement Percentage="20" Value="39" />
-              <TorquePercElement Percentage="30" Value="78" />
-              <TorquePercElement Percentage="40" Value="118" />
-              <TorquePercElement Percentage="50" Value="157" />
-              <TorquePercElement Percentage="60" Value="196" />
-              <TorquePercElement Percentage="70" Value="235" />
-              <TorquePercElement Percentage="80" Value="275" />
-              <TorquePercElement Percentage="90" Value="314" />
-              <TorquePercElement Percentage="100" Value="353" />
-            </TorquePercList>
-          </EmapElement>
-          <EmapElement nRpm="4800">
-            <TorquePercList>
-              <TorquePercElement Percentage="0" Value="-111" />
-              <TorquePercElement Percentage="20" Value="31" />
-              <TorquePercElement Percentage="30" Value="62" />
-              <TorquePercElement Percentage="40" Value="92" />
-              <TorquePercElement Percentage="50" Value="123" />
-              <TorquePercElement Percentage="60" Value="154" />
-              <TorquePercElement Percentage="70" Value="185" />
-              <TorquePercElement Percentage="80" Value="215" />
-              <TorquePercElement Percentage="90" Value="246" />
-              <TorquePercElement Percentage="100" Value="277" />
-            </TorquePercList>
-          </EmapElement>
-        </Emap>
-        <Tr_out>
-          <ratio value="2.38" />
-          <ratio value="0" />
-          <ratio value="2.38" />
-          <ratio value="1.46" />
-          <ratio value="1.05" />
-          <ratio value="0.8" />
-          <ratio value="0.6" />
-          <ratio value="0.38" />
-        </Tr_out>
-        <UpShiftStrategies>
-          <ShiftStrategy ThrottlePercentage="0">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="20.32297" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="33.12923" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="46.0654" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="60.46084" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="80.61445" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="25">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="22.76173" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="37.6348" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="53.06734" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="70.61826" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="95.44751" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="35">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="25.20048" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="42.14038" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="60.06928" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="80.77568" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="110.2806" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="50">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="27.63924" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="46.64595" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="67.07122" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="90.9331" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="125.1136" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="90">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="30.078" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="51.15153" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="74.07317" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="101.0905" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="139.9467" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="100">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="32.51675" FromGear="1" ToGear="2" />
-              <ShiftStrategyElement Value="55.6571" FromGear="2" ToGear="3" />
-              <ShiftStrategyElement Value="81.07511" FromGear="3" ToGear="4" />
-              <ShiftStrategyElement Value="111.2479" FromGear="4" ToGear="5" />
-              <ShiftStrategyElement Value="154.7797" FromGear="5" ToGear="6" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-        </UpShiftStrategies>
-        <DownShiftStrategies>
-          <ShiftStrategy ThrottlePercentage="0">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="17.68099" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="28.82243" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="40.0769" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="52.60093" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="70.13457" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="25">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="19.8027" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="32.74228" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="46.16859" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="61.43789" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="83.03934" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="35">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="21.92442" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="36.66213" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="52.26028" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="70.27484" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="95.9441" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="50">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="24.04614" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="40.58198" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="58.35197" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="79.1118" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="108.8489" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="90">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="26.16786" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="44.50183" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="64.44365" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="87.94876" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="121.7536" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-          <ShiftStrategy ThrottlePercentage="100">
-            <ShiftStrategyList>
-              <ShiftStrategyElement Value="28.28958" FromGear="2" ToGear="1" />
-              <ShiftStrategyElement Value="48.42168" FromGear="3" ToGear="2" />
-              <ShiftStrategyElement Value="70.53534" FromGear="4" ToGear="3" />
-              <ShiftStrategyElement Value="96.78571" FromGear="5" ToGear="4" />
-              <ShiftStrategyElement Value="134.6584" FromGear="6" ToGear="5" />
-            </ShiftStrategyList>
-          </ShiftStrategy>
-        </DownShiftStrategies>
-      </DefaultVehicleDynamics>
-      <WheelDefinitions>
-        <Wheels>
-          <Location>RearLeft</Location>
-          <Position X="0" Y="0.82099997997283936" Z="0.3580000102519989" />
-        </Wheels>
-        <Wheels>
-          <Location>FrontRight</Location>
-          <Position X="2.9470000267028809" Y="-0.82099997997283936" Z="0.3580000102519989" />
-        </Wheels>
-        <Wheels>
-          <Location>FrontLeft</Location>
-          <Position X="2.9470000267028809" Y="0.82099997997283936" Z="0.3580000102519989" />
-        </Wheels>
-        <Wheels>
-          <Location>RearRight</Location>
-          <Position X="0" Y="-0.82099997997283936" Z="0.3580000102519989" />
-        </Wheels>
-      </WheelDefinitions>
-      <VehicleGeometry TrackWidthFront="1.6119999885559082" TrackWidthRear="1.6119999885559082" TyreRadius="0.34000000357627869" Wheelbase="2.940000057220459" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="A model of terraced building" id="TerracedHouses_1" UniqueId="124" SensorDetectability="Invisible" NumericalID="84" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TerracedHouses" AnimatedActor="false" CompilationSheetPicture="TerracedHouses_HighPoly.png" HashCode="01b0cf4ea299e102ec424d5d6cc0a8af" ModelFile="Buildings\TerracedHouses\TerracedHouses.osgb" GenericModelSourceFile="Buildings\TerracedHouses\TerracedHouses.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="151.75918262695313" Y="144.12117764501954" Z="0" />
@@ -3959,7 +2850,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="24995" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25631" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3984,7 +2875,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="24996" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25632" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4009,7 +2900,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="24997" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25633" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4034,7 +2925,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="24998" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25634" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4072,7 +2963,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="24999" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25635" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4107,7 +2998,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="25000" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25636" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4145,7 +3036,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="25001" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25637" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -4157,7 +3048,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="22659" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="15" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="userDefined" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
+        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="22659" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="15" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="sinXDivX" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
           <Location X="3.75" Y="0" Z="0.400000005960464" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -4207,7 +3098,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="25002" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="25638" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -14316,7 +13207,24 @@
         <PriorityLineOffset>0</PriorityLineOffset>
         <RoadSignalAppearance Description="" id="MarkerAppearance_38" UniqueId="4385" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadPriorityLineAppearance Description="" id="MarkerAppearance_39" UniqueId="4386" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadMarkings />
+        <RoadMarkings>
+          <RoadMarking xsi:type="PedestrianMarkingGeneric" Description="" id="PedestrianMarkingGeneric_1" UniqueId="25639" PreventDragging="true" SensorDetectability="Occluding" NumericalID="37" ObjectTypeID="23" ParticipateInCollisionDetection="false" CrossingWidth="4.899999" CrossingLength="7" CrossingMarkerNumber="8" CrossingMarkerWidth="0.466666669">
+            <Location X="25" Y="0" Z="0" />
+            <Orientation Bank="0" Tilt="0" Heading="0" />
+            <Origin X="0.5" Y="0.5" Z="0" />
+            <Size X="4.8999991416931152" Y="7" Z="0" />
+            <CoGOffset X="0" Y="0" Z="0" />
+            <SensorInfo>
+              <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+                <UserSpecifiedModels />
+              </TISSensorInfo>
+            </SensorInfo>
+            <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+              <VisualizationActuators />
+            </ObjectSimulatorInfo>
+            <RoadMarkingAppearance Description="" id="MarkerAppearance_241" UniqueId="25640" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          </RoadMarking>
+        </RoadMarkings>
         <DirtSpots />
         <RoadJointsStart>
           <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
@@ -16446,7 +15354,6 @@
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" HasSeparateColors="false" Color="FFFFFFFF" PredefinedEnumType="Car">
       <CategorizedObjects>
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4876" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6648" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="9040" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="18645" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="18857" />
@@ -17060,7 +15967,9 @@
       <CategorizedObjects />
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
-      <CategorizedObjects />
+      <CategorizedObjects>
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="25639" />
+      </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
       <CategorizedObjects>
@@ -17076,9 +15985,6 @@
   <ObjectColorIDs>
     <ObjectColorID Color="FF00FF00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Ford_Fiesta_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4876" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF00FFBF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Audi_A8_Sedan_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6648" />
     </ObjectColorID>
     <ObjectColorID Color="FFFFFFFF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="4884" />
@@ -17403,6 +16309,9 @@
     </ObjectColorID>
     <ObjectColorID Color="FF9F00FF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Citroen_C3_Hatchback_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="18857" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00FFBF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="25639" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="154">
