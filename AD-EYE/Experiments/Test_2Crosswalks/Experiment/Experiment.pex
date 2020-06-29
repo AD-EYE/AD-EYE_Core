@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="289E5C228B6C3A87FA75797A791C17C7026B21725F74BB05CA98DC07F163AFD7" UniqueExperimentIdentifier="e0b8f306-29bb-419b-8145-6f5fac76db1b" UniqueIdCounter="409" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="7BD77C0A25ED8D56D3A8416E29E667D6746B832C13C813439DD18750ECCDDEAB" UniqueExperimentIdentifier="5fa5e8ff-c556-4bfd-b8cf-bf8faa244aa8" UniqueIdCounter="468" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors />
   <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="Experiment" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
@@ -400,112 +400,6 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="PedestrianCrossing" Description="" id="PedestrianCrossing_4" UniqueId="189" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="279" SidewalkUniqueId="280" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="3.5" RoadLength="3" CrossingMarkerNumber="8" CrossingMarkerWidth="0.466666669">
-        <Location X="-5.1350136459004148" Y="69.93512754420712" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="0" />
-        <Origin X="0" Y="0.5" Z="0" />
-        <Size X="3" Y="4" Z="0" />
-        <CoGOffset X="0" Y="0" Z="0" />
-        <SensorInfo>
-          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
-            <UserSpecifiedModels />
-          </TISSensorInfo>
-        </SensorInfo>
-        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-          <VisualizationActuators />
-        </ObjectSimulatorInfo>
-        <LinePlacements />
-        <CentralLineDefinition Description="" id="PedestrianCrossing_4_Line_2" UniqueId="190" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_67" UniqueId="281" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-          <MarkerPatterns>
-            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
-          </MarkerPatterns>
-        </CentralLineDefinition>
-        <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="PedestrianCrossing_4_Line_3" UniqueId="191" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_68" UniqueId="282" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-            <MarkerPatterns>
-              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
-            </MarkerPatterns>
-          </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="PedestrianCrossing_4_Line_4" UniqueId="192" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_69" UniqueId="283" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-            <MarkerPatterns>
-              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
-            </MarkerPatterns>
-          </LaneLineDefinition>
-        </CurbLineDefinitions>
-        <LaneLineDefinitions />
-        <Asphalt xsi:type="StandardAsphalt">
-          <TextureScale>10</TextureScale>
-          <Tone>Standard</Tone>
-        </Asphalt>
-        <RoadOffset>0.25</RoadOffset>
-        <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_65" UniqueId="284" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_66" UniqueId="285" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadMarkings />
-        <DirtSpots />
-        <RoadJointsStart>
-          <RoadJoint JointId="0" NumberOfLanes="1" StartLane="1" />
-        </RoadJointsStart>
-        <RoadJointsEnd>
-          <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
-        </RoadJointsEnd>
-      </RoadSegment>
-      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_2" UniqueId="196" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="286" SidewalkUniqueId="287" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="3.5" RelativeHeading="135" Xoffset="12.092692948012257" Yoffset="-42.295997728514948" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="33.535427921212417" EntryTilt="0" ExitTilt="0">
-        <Location X="-5.1350136459004148" Y="69.93512754420712" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="180" />
-        <Origin X="0" Y="0.02573184110224247" Z="0" />
-        <Size X="35.805816650390625" Y="68.009124755859375" Z="0" />
-        <CoGOffset X="0" Y="0" Z="0" />
-        <SensorInfo>
-          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
-            <UserSpecifiedModels />
-          </TISSensorInfo>
-        </SensorInfo>
-        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
-          <VisualizationActuators />
-        </ObjectSimulatorInfo>
-        <LinePlacements />
-        <CentralLineDefinition Description="" id="CurvedRoad_2_Line_2" UniqueId="197" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_73" UniqueId="288" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-          <MarkerPatterns>
-            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
-          </MarkerPatterns>
-        </CentralLineDefinition>
-        <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="CurvedRoad_2_Line_3" UniqueId="198" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_74" UniqueId="289" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-            <MarkerPatterns>
-              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
-            </MarkerPatterns>
-          </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="CurvedRoad_2_Line_4" UniqueId="199" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_75" UniqueId="290" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-            <MarkerPatterns>
-              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
-            </MarkerPatterns>
-          </LaneLineDefinition>
-        </CurbLineDefinitions>
-        <LaneLineDefinitions />
-        <Asphalt xsi:type="StandardAsphalt">
-          <TextureScale>10</TextureScale>
-          <Tone>Standard</Tone>
-        </Asphalt>
-        <RoadOffset>0.25</RoadOffset>
-        <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_9" UniqueId="291" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_70" UniqueId="292" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadMarkings />
-        <DirtSpots />
-        <RoadJointsStart>
-          <RoadJoint JointId="0" NumberOfLanes="1" StartLane="1" />
-        </RoadJointsStart>
-        <RoadJointsEnd>
-          <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
-        </RoadJointsEnd>
-      </RoadSegment>
       <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_3" UniqueId="325" SensorDetectability="Occluding" NumericalID="13" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="332" SidewalkUniqueId="333" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="3.5" RelativeHeading="45" Xoffset="16.374236950124715" Yoffset="41.014450117326128" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
         <Location X="23.786743098484351" Y="95.856884288591885" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="90" />
@@ -619,19 +513,179 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
+      <RoadSegment xsi:type="PedestrianCrossing" Description="" id="PedestrianCrossing_1" UniqueId="412" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="447" SidewalkUniqueId="448" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="3.5" RoadLength="3" CrossingMarkerNumber="8" CrossingMarkerWidth="0.466666669">
+        <Location X="-19.349027362401419" Y="114.35244158227626" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="315" />
+        <Origin X="0" Y="0.5" Z="0" />
+        <Size X="3" Y="4" Z="0" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+          <VisualizationActuators />
+        </ObjectSimulatorInfo>
+        <LinePlacements />
+        <CentralLineDefinition Description="" id="PedestrianCrossing_1_Line_2" UniqueId="413" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_32" UniqueId="449" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <MarkerPatterns>
+            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+          </MarkerPatterns>
+        </CentralLineDefinition>
+        <CurbLineDefinitions>
+          <LaneLineDefinition Description="" id="PedestrianCrossing_1_Line_3" UniqueId="414" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_39" UniqueId="450" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+          <LaneLineDefinition Description="" id="PedestrianCrossing_1_Line_4" UniqueId="415" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_40" UniqueId="451" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+        </CurbLineDefinitions>
+        <LaneLineDefinitions />
+        <Asphalt xsi:type="StandardAsphalt">
+          <TextureScale>10</TextureScale>
+          <Tone>Standard</Tone>
+        </Asphalt>
+        <RoadOffset>0.25</RoadOffset>
+        <PriorityLineOffset>0</PriorityLineOffset>
+        <RoadSignalAppearance Description="" id="MarkerAppearance_9" UniqueId="452" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_31" UniqueId="453" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadMarkings />
+        <DirtSpots />
+        <RoadJointsStart>
+          <RoadJoint JointId="0" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsStart>
+        <RoadJointsEnd>
+          <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsEnd>
+      </RoadSegment>
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_2" UniqueId="426" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="454" SidewalkUniqueId="455" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="3.5" RoadLength="30">
+        <Location X="-32.135013645900415" Y="69.93512754420712" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
+        <Origin X="0" Y="0.5" Z="0" />
+        <Size X="30" Y="4" Z="0" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+          <VisualizationActuators />
+        </ObjectSimulatorInfo>
+        <LinePlacements />
+        <CentralLineDefinition Description="" id="StraightRoad_2_Line_2" UniqueId="427" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_45" UniqueId="456" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <MarkerPatterns>
+            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+          </MarkerPatterns>
+        </CentralLineDefinition>
+        <CurbLineDefinitions>
+          <LaneLineDefinition Description="" id="StraightRoad_2_Line_3" UniqueId="428" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_46" UniqueId="457" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+          <LaneLineDefinition Description="" id="StraightRoad_2_Line_4" UniqueId="429" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_47" UniqueId="458" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+        </CurbLineDefinitions>
+        <LaneLineDefinitions />
+        <Asphalt xsi:type="StandardAsphalt">
+          <TextureScale>10</TextureScale>
+          <Tone>Standard</Tone>
+        </Asphalt>
+        <RoadOffset>0.25</RoadOffset>
+        <PriorityLineOffset>0</PriorityLineOffset>
+        <RoadSignalAppearance Description="" id="MarkerAppearance_41" UniqueId="459" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_44" UniqueId="460" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadMarkings />
+        <DirtSpots />
+        <RoadJointsStart>
+          <RoadJoint JointId="0" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsStart>
+        <RoadJointsEnd>
+          <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsEnd>
+      </RoadSegment>
+      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_2" UniqueId="440" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="461" SidewalkUniqueId="462" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="3.5" RelativeHeading="-135" Xoffset="-22.366725877662645" Yoffset="40.44884016518013" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
+        <Location X="-19.349027362401419" Y="114.35244158227626" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="135" />
+        <Origin X="0" Y="0.96907633543014526" Z="0" />
+        <Size X="43.78094482421875" Y="56.590976715087891" Z="0" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+          <VisualizationActuators />
+        </ObjectSimulatorInfo>
+        <LinePlacements />
+        <CentralLineDefinition Description="" id="CurvedRoad_2_Line_2" UniqueId="441" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_64" UniqueId="463" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <MarkerPatterns>
+            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+          </MarkerPatterns>
+        </CentralLineDefinition>
+        <CurbLineDefinitions>
+          <LaneLineDefinition Description="" id="CurvedRoad_2_Line_3" UniqueId="442" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_65" UniqueId="464" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+          <LaneLineDefinition Description="" id="CurvedRoad_2_Line_4" UniqueId="443" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_66" UniqueId="465" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+        </CurbLineDefinitions>
+        <LaneLineDefinitions />
+        <Asphalt xsi:type="StandardAsphalt">
+          <TextureScale>10</TextureScale>
+          <Tone>Standard</Tone>
+        </Asphalt>
+        <RoadOffset>0.25</RoadOffset>
+        <PriorityLineOffset>0</PriorityLineOffset>
+        <RoadSignalAppearance Description="" id="MarkerAppearance_48" UniqueId="466" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_63" UniqueId="467" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadMarkings />
+        <DirtSpots />
+        <RoadJointsStart>
+          <RoadJoint JointId="0" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsStart>
+        <RoadJointsEnd>
+          <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
+        </RoadJointsEnd>
+      </RoadSegment>
     </RoadSegments>
     <GraphBasedElements />
     <RoadSegmentConnections>
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_3" UniqueId="302" Road_A_UniqueId="PedestrianCrossing_2" Road_B_UniqueId="StraightRoad_1" Joint_A_Id="0" Joint_B_Id="1" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_5" UniqueId="303" Road_A_UniqueId="BendRoad_1" Road_B_UniqueId="Roundabout_1" Joint_A_Id="0" Joint_B_Id="3" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_6" UniqueId="304" Road_A_UniqueId="PedestrianCrossing_3" Road_B_UniqueId="BendRoad_1" Joint_A_Id="0" Joint_B_Id="1" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_8" UniqueId="307" Road_A_UniqueId="PedestrianCrossing_4" Road_B_UniqueId="Roundabout_1" Joint_A_Id="1" Joint_B_Id="2" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_9" UniqueId="308" Road_A_UniqueId="CurvedRoad_2" Road_B_UniqueId="PedestrianCrossing_4" Joint_A_Id="0" Joint_B_Id="0" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_10" UniqueId="339" Road_A_UniqueId="CurvedRoad_3" Road_B_UniqueId="Roundabout_1" Joint_A_Id="0" Joint_B_Id="1" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_11" UniqueId="340" Road_A_UniqueId="CurvedRoad_3" Road_B_UniqueId="CurvedRoad_2" Joint_A_Id="1" Joint_B_Id="1" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_1" UniqueId="409" Road_A_UniqueId="StraightRoad_1" Road_B_UniqueId="Roundabout_1" Joint_A_Id="0" Joint_B_Id="0" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_2" UniqueId="410" Road_A_UniqueId="CurvedRoad_1" Road_B_UniqueId="PedestrianCrossing_2" Joint_A_Id="0" Joint_B_Id="1" />
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_4" UniqueId="411" Road_A_UniqueId="CurvedRoad_1" Road_B_UniqueId="PedestrianCrossing_3" Joint_A_Id="1" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_7" UniqueId="468" Road_A_UniqueId="PedestrianCrossing_1" Road_B_UniqueId="CurvedRoad_3" Joint_A_Id="1" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_8" UniqueId="469" Road_A_UniqueId="StraightRoad_2" Road_B_UniqueId="Roundabout_1" Joint_A_Id="1" Joint_B_Id="2" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_9" UniqueId="470" Road_A_UniqueId="CurvedRoad_2" Road_B_UniqueId="PedestrianCrossing_1" Joint_A_Id="0" Joint_B_Id="0" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_11" UniqueId="471" Road_A_UniqueId="CurvedRoad_2" Road_B_UniqueId="StraightRoad_2" Joint_A_Id="1" Joint_B_Id="0" />
     </RoadSegmentConnections>
     <AbstractObjects />
     <TrafficSigns />
@@ -808,26 +862,6 @@
             <int>174</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="PedestrianCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="189" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="PedestrianCrossing_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="189">
-          <Aliases>
-            <int>190</int>
-            <int>191</int>
-            <int>192</int>
-            <int>194</int>
-            <int>195</int>
-          </Aliases>
-        </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="196" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="196">
-          <Aliases>
-            <int>197</int>
-            <int>198</int>
-            <int>199</int>
-            <int>201</int>
-            <int>202</int>
-          </Aliases>
-        </SemanticItem>
         <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="325" />
         <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="325">
           <Aliases>
@@ -847,6 +881,36 @@
             <int>398</int>
             <int>399</int>
             <int>400</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="PedestrianCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="412" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="PedestrianCrossing_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="412">
+          <Aliases>
+            <int>413</int>
+            <int>414</int>
+            <int>415</int>
+            <int>417</int>
+            <int>418</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="426" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="426">
+          <Aliases>
+            <int>427</int>
+            <int>428</int>
+            <int>429</int>
+            <int>431</int>
+            <int>432</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="440" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="440">
+          <Aliases>
+            <int>441</int>
+            <int>442</int>
+            <int>443</int>
+            <int>445</int>
+            <int>446</int>
           </Aliases>
         </SemanticItem>
       </CategorizedObjects>
@@ -908,17 +972,20 @@
     <ObjectColorID Color="FF7F0000">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianCrossing_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="168" />
     </ObjectColorID>
-    <ObjectColorID Color="FF7F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianCrossing_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="189" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF7F007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="196" />
-    </ObjectColorID>
     <ObjectColorID Color="FF007FFF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="325" />
     </ObjectColorID>
     <ObjectColorID Color="FF0000FF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="394" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00FFFF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianCrossing_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="412" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00007F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="426" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF7F007F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="440" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
