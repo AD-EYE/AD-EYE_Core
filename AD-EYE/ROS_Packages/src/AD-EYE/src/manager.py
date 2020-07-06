@@ -4,16 +4,15 @@ import rospy
 import rospkg
 from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
-from FeatureControl import FeatureControl
-import subprocess, os, signal # to record rosbags using the command line
+from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
+import subprocess, os.path # to record rosbags using the command line
 
-#  --------------Config: Common to more files and will be exported out--------------------------------------------------
-# TODO add subscriber to get config from Simulink for enabled features, all enabled for now.
+# Name given to the states of the features
 ENABLED = 1
 DISABLED = 0
 
-NB_FEATURES = 9
-# Symbolic names to access FEATURE_ENABLED
+
+# Symbolic names to access active_features (basically an enum)
 RVIZ = 0
 MAP = 1
 SENSING = 2
@@ -25,10 +24,9 @@ MOTION_PLANNING = 7
 SWITCH = 8
 SSMP = 9
 
-rospack = rospkg.RosPack()
-
 
 # Basic folder locations
+rospack = rospkg.RosPack()
 ADEYE_PACKAGE_LOCATION = rospack.get_path('adeye')+"/"
 LAUNCH_FOLDER_LOCATION = "launch/"
 
@@ -68,32 +66,31 @@ MISSION_PLANNING_STOP_WAIT_TIME = 10
 MOTION_PLANNING_STOP_WAIT_TIME = 10
 
 #  ---------------------------------------------------------------------------------------------------------------------
-# states numbering
+# states numbering, a number is given to each state to make sure they are unique
 INITIALIZING_STATE_NO = 0
 ENABLED_STATE_NO = 1
 ENGAGED_STATE_NO = 3
 FAULT_STATE_NO = 4
-current_state_no = INITIALIZING_STATE_NO
+current_state_no = INITIALIZING_STATE_NO #this is the current state of the state machine
 
 
 # actual states (what features they have enables)
 # FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP]      # DISABLED = 0 = wait | ENABLED = 1 = run
-INITIALIZING_STATE =      [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  DISABLED]
-ENABLED_STATE =           [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  DISABLED]
-ENGAGED_STATE =           [ENABLED,  ENABLED,  ENABLED,  DISABLED,     ENABLED,           ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
-FAULT_STATE =             [ENABLED,  ENABLED,  ENABLED,  DISABLED,     ENABLED,           ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
+INITIALIZING_STATE =      [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  ENABLED]
+ENABLED_STATE =           [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  ENABLED]
+ENGAGED_STATE =           [ENABLED,  ENABLED,  ENABLED,  ENABLED,      DISABLED,          ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
+FAULT_STATE =             [ENABLED,  ENABLED,  ENABLED,  ENABLED,      DISABLED,          ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
 previous_simulink_state = [DISABLED, DISABLED, DISABLED, DISABLED,     DISABLED,          DISABLED,  DISABLED,         DISABLED,        DISABLED, DISABLED]
 current_simulink_state =  INITIALIZING_STATE
-# current_simulink_state =  [DISABLED, DISABLED, DISABLED, DISABLED,     DISABLED,          DISABLED,  DISABLED,         DISABLED,        DISABLED, DISABLED]
 
-ROSBAG_PATH = "~/test.bag"
-ROSBAG_COMMAND = "rosbag record /fault -O " + ROSBAG_PATH +" __name:=rosbag_recorder"
-# ROSBAG_COMMAND_PROCESS = "rosbag record -O " + ROSBAG_PATH + " /fault"
-rosbag_proc = 0
+# Rosbag related constants
+ROSBAG_PATH = "/test.bag" # ~ is added as a prefix, name of the bag
+ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
+
+# callback to switch from initializing to enabled, listens to /initial_check
 def simulink_state_callback(msg):
     global current_simulink_state
-
     if msg.data != current_simulink_state:
         rospy.loginfo("Message received")
         current_simulink_state = msg.data
@@ -120,14 +117,13 @@ def activation_callback(msg):
     global INITIALIZING_STATE_NO
     global FAULT_STATE_NO
     global ROSBAG_COMMAND
-    global rosbag_proc
     if msg.data == True:
         if current_state_no == ENABLED_STATE_NO:
             rospy.loginfo("Entering Engaged state")
             current_simulink_state = ENGAGED_STATE
             current_state_no = ENGAGED_STATE_NO
-            # TODO start rosbag
-            rosbag_proc = subprocess.Popen(command, shell=True, executable='/bin/bash')
+            # start rosbag
+            rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
 
         else:
             if current_state_no == INITIALIZING_STATE_NO:
@@ -139,7 +135,7 @@ def activation_callback(msg):
             rospy.loginfo("Entering Enabled state from Engaged")
             current_simulink_state = ENABLED_STATE
             current_state_no = ENABLED_STATE_NO
-            # TODO save rosbag
+            # save rosbag
             subprocess.call("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
 
@@ -150,7 +146,6 @@ def fault_callback(msg):
     global ENGAGED_STATE_NO
     global FAULT_STATE_NO
     global FAULT_STATE
-    global rosbag_proc
     if msg.data == True:
         if current_state_no == ENABLED_STATE_NO:
             rospy.loginfo("Entering Fault state")
@@ -163,14 +158,21 @@ def fault_callback(msg):
             current_simulink_state = FAULT_STATE
             rospy.loginfo("Previous state was Engaged, should the data be saved? [y/N]): ")
             txt = raw_input().lower()
-            if str(txt) == "y":
-                rospy.loginfo("Saving Rosbag") # TODO where it is saved
-                # TODO save rosbag
+            if str(txt) in ["y","Y"] :
+                rospy.loginfo("Saving Rosbag")
+                # save rosbag
                 subprocess.call("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
             else:
-                # TODO delete rosbag
+                # delete rosbag
                 subprocess.call("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
-                subprocess.call("rm "+ROSBAG_PATH, shell=True, executable='/bin/bash')
+                rate = rospy.Rate(10.0)
+                while os.path.exists(os.path.expanduser("~")+ROSBAG_PATH+".active"): #to delete the file we need to wait for the temp rosbag to be delete
+                    print("w1")
+                    rate.sleep()
+                while not os.path.exists(os.path.expanduser("~")+ROSBAG_PATH): #and to wait for the definitive version to be written
+                    print("w2")
+                    rate.sleep()
+                subprocess.call("rm ~"+ROSBAG_PATH, shell=True, executable='/bin/bash')
                 rospy.loginfo("Data was deleted")
         else:
             rospy.loginfo("Entering Fault state")
@@ -182,14 +184,9 @@ def fault_callback(msg):
 
 
 if __name__ == '__main__':
-    command = "rosparam set /use_sim_time false"
-    subprocess.call(command, shell=True, executable='/bin/bash')
-    # subprocess.Popen(command)
+    # command = "rosparam set /use_sim_time false"
+    # subprocess.call(command, shell=True, executable='/bin/bash')
 
-    command = "rosbag record /fault -O " + ROSBAG_PATH +" __name:=rosbag_recorder"
-    rosbag_proc = subprocess.Popen(command, shell=True, executable='/bin/bash')
-    rospy.sleep(1.)
-    subprocess.call("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
 
     rospy.init_node('ADEYE_Manager')
@@ -223,19 +220,16 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
 
-        # print("in loop")
 
         if current_simulink_state != previous_simulink_state:
 
-            # for i in range(0,NB_FEATURES):
-            #     if previous_simulink_state[i] != current_simulink_state[i]:
-            #         if current_simulink_state[i] == ENABLED:
-            #             active_features[i].start()
-            #         if current_simulink_state[i] == DISABLED:
-            #             active_features[i].stop()
+            for i in range(0,len(previous_simulink_state)):
+                if previous_simulink_state[i] != current_simulink_state[i]:
+                    if current_simulink_state[i] == ENABLED:
+                        active_features[i].start()
+                    if current_simulink_state[i] == DISABLED:
+                        active_features[i].stop()
 
             previous_simulink_state = current_simulink_state
 
-        # print("before sleep")
         rate.sleep()
-        # rospy.spinonce()
