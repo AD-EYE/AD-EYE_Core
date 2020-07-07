@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="1DBC2EF8FE145FC738E0633B17ADA972061B36CEE0C0280CDA95028552D38122" UniqueExperimentIdentifier="33afe3b2-377b-469a-abd3-f9c28e1cf8f7" UniqueIdCounter="50" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="A53B51300994EEBE44111675817DC4E7B4D090C0230D5C4E1DC3CA251061E23C" UniqueExperimentIdentifier="426d4dce-ce01-4a42-90bc-049ea9494a1c" UniqueIdCounter="64" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors />
   <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="Experiment" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
@@ -17,7 +17,7 @@
   <InfraStructure Description="" id="Infrastructure" UniqueId="4">
     <RoadSegments>
       <RoadSegment xsi:type="YCrossing" Description="" id="YCrossing_1" UniqueId="15" SensorDetectability="Occluding" NumericalID="4" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="33" SidewalkUniqueId="34" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" Radius="18" FilletRadius="2" DrivingDirection="Right">
-        <Location X="37.430168151855469" Y="52.402236938476563" Z="0" />
+        <Location X="33.263946533203125" Y="54.338649749755859" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.46071457862854004" Y="0.49995937943458557" Z="0" />
         <Size X="33.377498626708984" Y="30.757499694824219" Z="0" />
@@ -69,7 +69,7 @@
         <RoadMarkings />
         <DirtSpots />
         <CrossSections>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_0" UniqueId="41" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="0" RoadEndMarker="Solid" RoadLengthTillStopMarker="15.61827" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_0" UniqueId="41" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="2" RoadEndMarker="Solid" RoadLengthTillStopMarker="15.61827" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -88,7 +88,7 @@
                 </MarkerPatterns>
               </LaneLineDefinition>
             </LaneLineDefinitions>
-            <NumberOfExitLanes>0</NumberOfExitLanes>
+            <NumberOfExitLanes>2</NumberOfExitLanes>
           </RoadCrossSection>
           <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_1" UniqueId="44" MaxSpeed="50" Heading="135" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.250001" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
