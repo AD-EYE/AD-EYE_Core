@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="FFFCCF1504798B03379BAE127981B947EFBD8F3E2D984B67E8922D84A24E606B" UniqueExperimentIdentifier="26c39d39-54db-4d48-ba1a-89eb6e3bf2d4" UniqueIdCounter="341" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="F2F5A94F7220A893ED845CF22E419388B0CC08151B47632049090A12F2F79A7A" UniqueExperimentIdentifier="abea550d-ca99-498d-9662-19f194238efe" UniqueIdCounter="377" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors />
   <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="Experiment" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
@@ -353,7 +353,7 @@
             </LaneLineDefinitions>
             <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_1" UniqueId="188" MaxSpeed="50" Heading="155.23912503716716" LaneWidth="3.5" NumberOfLanes="3" DirectionChangeAfterLane="3" RoadEndMarker="Solid" RoadLengthTillStopMarker="7.24117565" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_1" UniqueId="188" MaxSpeed="50" Heading="155.23912503716716" LaneWidth="3.5" NumberOfLanes="3" DirectionChangeAfterLane="2" RoadEndMarker="Solid" RoadLengthTillStopMarker="7.24117565" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="1" NumberOfLanes="3" StartLane="1" />
             </RoadJointList>
@@ -378,9 +378,9 @@
                 </MarkerPatterns>
               </LaneLineDefinition>
             </LaneLineDefinitions>
-            <NumberOfExitLanes>3</NumberOfExitLanes>
+            <NumberOfExitLanes>2</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_2" UniqueId="192" MaxSpeed="50" Heading="225" LaneWidth="3.5" NumberOfLanes="3" DirectionChangeAfterLane="0" RoadEndMarker="Solid" RoadLengthTillStopMarker="7.24117565" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_2" UniqueId="192" MaxSpeed="50" Heading="225" LaneWidth="3.5" NumberOfLanes="3" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="7.24117565" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="2" NumberOfLanes="3" StartLane="1" />
             </RoadJointList>
@@ -405,7 +405,7 @@
                 </MarkerPatterns>
               </LaneLineDefinition>
             </LaneLineDefinitions>
-            <NumberOfExitLanes>0</NumberOfExitLanes>
+            <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
         </CrossSections>
       </RoadSegment>
@@ -469,7 +469,7 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_4" UniqueId="306" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="323" SidewalkUniqueId="324" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="3" LaneWidth="3.5" RelativeHeading="-114.76087496283287" Xoffset="23.293390498273244" Yoffset="-25.275596531520765" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
+      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_4" UniqueId="306" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="323" SidewalkUniqueId="324" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="3" LaneWidth="3.5" RelativeHeading="-114.76087496283287" Xoffset="23.293390498273244" Yoffset="-25.275596531520765" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
         <Location X="-31.134172439575195" Y="-15.475137710571289" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="225" />
         <Origin X="0" Y="0.84128987789154053" Z="0" />
@@ -535,7 +535,7 @@
           <RoadJoint JointId="1" NumberOfLanes="3" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_3" UniqueId="315" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="332" SidewalkUniqueId="333" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="3" NumberOfLanes="3" LaneWidth="3.5" RelativeHeading="135" Xoffset="20" Yoffset="30" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
+      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_3" UniqueId="315" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="332" SidewalkUniqueId="333" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="2" NumberOfLanes="3" LaneWidth="3.5" RelativeHeading="135" Xoffset="20" Yoffset="30" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
         <Location X="-34.751396577497715" Y="4.7917626500269721" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="155.23912503716716" />
         <Origin X="0" Y="0.13328564167022705" Z="0" />
