@@ -5,7 +5,7 @@
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
        <meta charset="utf-8">
-
+       <script type="js/main.js"></script>
        <link rel="stylesheet" href="gauge.css">
 
        <script>
@@ -26,31 +26,99 @@
                  document.getElementById("status").innerHTML = "Closed";
                });
 
-               var vel_listener = new ROSLIB.Topic({
+               var data_listener = new ROSLIB.Topic({
                  ros : ros,
-                 name : '/vehicle_cmd',
-                 messageType : 'autoware_msgs/VehicleCmd'
+                 name : '/switchCommand',
+                 messageType : 'std_msgs/Int32'
                });
 
-               vel_listener.subscribe(function(message) {
-                console.log('Received message on ' + vel_listener.name + ': ' + message.ctrl_cmd.linear_velocity);
-                 document.getElementById("msg").innerHTML = message.ctrl_cmd.linear_velocity;
+               data_listener.subscribe(function(message) {
+                console.log('Received message on ' + data_listener.name + ': ' + message.data);
+                 document.getElementById("acc").innerHTML = message.data;
                 //vel_listener.unsubscribe();
-                var val = message.ctrl_cmd.linear_velocity;
-               const gaugeElement = document.querySelector(".gauge");
-               val = val / 10;
-                function setGaugeValue(gauge, value) {
-                  if (value < 0 || value > 1) {
+                var val_data = message.data;
+
+               /*const gaugeElement_a = document.querySelector(".gauge_a");
+               val_a = val_a / 10;
+                function setGaugeValue_a(gauge_a, value_a) {
+                  if (value_a < 0 || value_a > 1) {
                     return;
                   }
 
-                  gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 4}turn)`;
-                  value = (value * 180) / 5;
-                  gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )}km/hr`;
+                  gauge_a.querySelector(".gauge_a__fill").style.transform = `rotate(${value_a / 4}turn)`;
+
+                  gauge_a.querySelector(".gauge_a__cover").textContent = `${Math.round(value_a*10 )}m/s2`;
                 }
 
-                setGaugeValue(gaugeElement, val);
-                });
+                setGaugeValue_a(gaugeElement_a, val_a);*/
+
+
+
+                var num =val_data;
+                var strColorPairs = Array(
+                                            {'position' : 0, 'color' : 'green'},
+                                            {'position' : 1, 'color' : 'red'}
+                                        );
+
+                var position = checkPosition(num);
+
+
+                colorBox(position);
+                 function colorBox(position)
+                    {
+                        var divList = document.getElementsByClassName('ratingBox');
+                        var i, n = divList.length;
+                        curContent = divList[position].id;
+                        console.log(curContent);
+                        for (i=0; i<n; i++)
+                        {
+
+                            for (j=0; j<strColorPairs.length; j++)
+                            {
+                                if (strColorPairs[j].position == curContent){
+                                    divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                                    }
+                                else {divList[i].style.backgroundColor  = 'gray'}
+                            }
+                        }
+                    }
+
+                function checkPosition(num){
+                 var position;
+                   if((num==0))
+                     {
+                      position=0;
+                     }
+                     else if((num==1))
+                     {
+                      position=1;
+                     }
+
+                     return position;
+                 }
+
+
+
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,13 +127,12 @@
    <body>
        <h1>AD-EYE Graphical Interface</h1>
        <p>Connection status: <span id="status"></span></p>
-       <p>Last /txt_msg received: <span id="msg"></span></p>
-       <div class="gauge">
-           <div class="gauge__body">
-               <div class="gauge__fill"></div>
-               <div class="gauge__cover"></div>
-           </div>
-       </div>
+       <p>Last /txt_msg received: <span id="acc"></span></p>
+       <div id="0" class="ratingBox"></div>
+       <p>Safety Channel</p>
+       <div id="1" class="ratingBox"></div>
+       <p>Autoware</p>
+
 
     </body>
  </html>
