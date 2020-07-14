@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>AD-EYE</title>
+    <script type="js/main.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    	 crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gauge.css">
+    <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" type="text/javascript">
+            var ros = new ROSLIB.Ros({
+              url : 'ws://localhost:9090'
+            });
+
+            ros.on('connection', function() {
+              document.getElementById("status").innerHTML = "Connected";
+            });
+
+            ros.on('error', function(error) {
+              document.getElementById("status").innerHTML = "Error";
+            });
+
+            ros.on('close', function() {
+              document.getElementById("status").innerHTML = "Closed";
+            });
+
+            var vel_listener = new ROSLIB.Topic({
+              ros : ros,
+              name : '/vehicle_cmd',
+              messageType : 'autoware_msgs/VehicleCmd'
+            });
+
+            vel_listener.subscribe(function(message) {
+             console.log('Received message on ' + vel_listener.name + ': ' + message.ctrl_cmd.linear_velocity);
+              document.getElementById("msg").innerHTML = message.ctrl_cmd.linear_velocity;
+             //vel_listener.unsubscribe();
+             var val = message.ctrl_cmd.linear_velocity;
+            const gaugeElement = document.querySelector(".gauge");
+            val = val / 10;
+             function setGaugeValue(gauge, value) {
+               if (value < 0 || value > 1) {
+                 return;
+               }
+
+               gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 3}turn)`;
+               value = (value * 180) / 5;
+               gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )}km/hr`;
+             }
+
+             setGaugeValue(gaugeElement, val);
+             });
+
+
+    </script>
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+	<!-- header of the page -->
+	<header class="header">
+		<div class="container">
+			<div class="jumbotron text-center">
+				<h1>AD-EYE Graphical Interface</h1>
+				<p>Connection status: <span id="status"></span></p>
+                <p>Last /txt_msg received: <span id="msg"></span></p>
+			</div>
+		</div>
+	</header>
+
+	<!-- main content -->
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h3>Linear Velocity</h3>
+                            <div class="gauge">
+                                <div class="gauge__body">
+                                    <div class="gauge__fill"></div>
+                                    <div class="gauge__cover"></div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h2 class="text-center">Main content</h2>
+							<p>Here it goes the main content of my web page.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- footer -->
+	<footer class="footer mt-auto bg-dark text-light">
+		<div class="container">
+			<h5>page ends here! But work inprogress</h5>
+		</div>
+	</footer>
+</body>
+
+
+</html>

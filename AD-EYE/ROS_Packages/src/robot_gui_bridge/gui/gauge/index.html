@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS </title>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+       <meta charset="utf-8">
+
+       <link rel="stylesheet" href="gauge.css">
+
+       <script>
+
+               var ros = new ROSLIB.Ros({
+                 url : 'ws://localhost:9090'
+               });
+
+               ros.on('connection', function() {
+                 document.getElementById("status").innerHTML = "Connected";
+               });
+
+               ros.on('error', function(error) {
+                 document.getElementById("status").innerHTML = "Error";
+               });
+
+               ros.on('close', function() {
+                 document.getElementById("status").innerHTML = "Closed";
+               });
+
+               var vel_listener = new ROSLIB.Topic({
+                 ros : ros,
+                 name : '/vehicle_cmd',
+                 messageType : 'autoware_msgs/VehicleCmd'
+               });
+
+               vel_listener.subscribe(function(message) {
+                console.log('Received message on ' + vel_listener.name + ': ' + message.ctrl_cmd.linear_velocity);
+                 document.getElementById("msg").innerHTML = message.ctrl_cmd.linear_velocity;
+                //vel_listener.unsubscribe();
+                var val = message.ctrl_cmd.linear_velocity;
+               const gaugeElement = document.querySelector(".gauge");
+               val = val / 10;
+                function setGaugeValue(gauge, value) {
+                  if (value < 0 || value > 1) {
+                    return;
+                  }
+
+                  gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 4}turn)`;
+                  value = (value * 180) / 5;
+                  gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )}km/hr`;
+                }
+
+                setGaugeValue(gaugeElement, val);
+                });
+
+
+
+       </script>
+   </head>
+   <body>
+       <h1>AD-EYE Graphical Interface</h1>
+       <p>Connection status: <span id="status"></span></p>
+       <p>Last /txt_msg received: <span id="msg"></span></p>
+       <div class="gauge">
+           <div class="gauge__body">
+               <div class="gauge__fill"></div>
+               <div class="gauge__cover"></div>
+           </div>
+       </div>
+
+    </body>
+ </html>
