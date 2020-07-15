@@ -1,0 +1,170 @@
+\hypertarget{classsafetySupervisor_1_1safetySupervisor}{}\section{safety\+Supervisor.\+safety\+Supervisor Class Reference}
+\label{classsafetySupervisor_1_1safetySupervisor}\index{safety\+Supervisor.\+safety\+Supervisor@{safety\+Supervisor.\+safety\+Supervisor}}
+
+
+This is a class for evaluating the \char`\"{}safety of the Supervisor\char`\"{}.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_a410d83f6ced10353411df8dc093b205f}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_ab4367faaa605efea70d7b8bf9c58639f}{evaluate} (self)
+\begin{DoxyCompactList}\small\item\em Function evaluating the safety. \end{DoxyCompactList}\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_a3ca518f1329f3ef3d0443224470d6786}{publish} (self)
+\begin{DoxyCompactList}\small\item\em Publishing the message. \end{DoxyCompactList}\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_a31c21afaf60ee7f2e3f7a38f9cf1dcfb}{gnss\+\_\+callback} (self, data)
+\begin{DoxyCompactList}\small\item\em G\+N\+SS callback function. \end{DoxyCompactList}\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_ac8f9d6904cbd5a54417802c547a36096}{vec\+Map\+Point\+\_\+callback} (self, data)
+\begin{DoxyCompactList}\small\item\em Vector map point callback function. \end{DoxyCompactList}\item 
+def \hyperlink{classsafetySupervisor_1_1safetySupervisor_aa2fcdc304631929a13285af6785a2340}{loop} (self)
+\begin{DoxyCompactList}\small\item\em Main loop function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_a2311f2bc91e583e05ff77d239e2df06b}{S\+A\+FE}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_ad0da1483d98160dd7d6e192dfe4d9d81}{U\+N\+S\+A\+FE}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_a0c2c83b27b8472183f5531474dc0f91c}{switch\+\_\+pub}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_a8e51022bbd58554900963a0e3ebc55ce}{pose}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_add3738e771cbfad02e7d76d49037ddd4}{state}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_a1e91accdfe526c67626085b545bf9eff}{vectormap\+\_\+\+Points}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_ab72709eeb6752632705f58e5cc717190}{gnss\+\_\+flag}
+\item 
+\hyperlink{classsafetySupervisor_1_1safetySupervisor_ab1a015515abff5d8d5eaa2d0254b1570}{vectormap\+\_\+\+Points\+\_\+flag}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a class for evaluating the \char`\"{}safety of the Supervisor\char`\"{}. 
+
+\begin{DoxyParagraph}{Methods}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+evaluate evaluates the safety publish publishes to \hyperlink{classsafetySupervisor_1_1safetySupervisor}{safety\+Supervisor} node gnss\+\_\+callback callback function to get Pose\+Stamped message from gnss\+\_\+pose node vec\+Map\+Point\+\_\+callback callback function to get Point\+Array message from vector\+\_\+map\+\_\+info/point loop main loop 
+\end{DoxyParagraph}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a410d83f6ced10353411df8dc093b205f}\label{classsafetySupervisor_1_1safetySupervisor_a410d83f6ced10353411df8dc093b205f}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_ab4367faaa605efea70d7b8bf9c58639f}\label{classsafetySupervisor_1_1safetySupervisor_ab4367faaa605efea70d7b8bf9c58639f}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+evaluate (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Function evaluating the safety. 
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a31c21afaf60ee7f2e3f7a38f9cf1dcfb}\label{classsafetySupervisor_1_1safetySupervisor_a31c21afaf60ee7f2e3f7a38f9cf1dcfb}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!gnss\+\_\+callback@{gnss\+\_\+callback}}
+\index{gnss\+\_\+callback@{gnss\+\_\+callback}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{gnss\+\_\+callback()}{gnss\_callback()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+gnss\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data }\end{DoxyParamCaption})}
+
+
+
+G\+N\+SS callback function. 
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_aa2fcdc304631929a13285af6785a2340}\label{classsafetySupervisor_1_1safetySupervisor_aa2fcdc304631929a13285af6785a2340}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!loop@{loop}}
+\index{loop@{loop}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+loop (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Main loop function. 
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a3ca518f1329f3ef3d0443224470d6786}\label{classsafetySupervisor_1_1safetySupervisor_a3ca518f1329f3ef3d0443224470d6786}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!publish@{publish}}
+\index{publish@{publish}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{publish()}{publish()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+publish (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Publishing the message. 
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_ac8f9d6904cbd5a54417802c547a36096}\label{classsafetySupervisor_1_1safetySupervisor_ac8f9d6904cbd5a54417802c547a36096}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!vec\+Map\+Point\+\_\+callback@{vec\+Map\+Point\+\_\+callback}}
+\index{vec\+Map\+Point\+\_\+callback@{vec\+Map\+Point\+\_\+callback}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{vec\+Map\+Point\+\_\+callback()}{vecMapPoint\_callback()}}
+{\footnotesize\ttfamily def safety\+Supervisor.\+safety\+Supervisor.\+vec\+Map\+Point\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data }\end{DoxyParamCaption})}
+
+
+
+Vector map point callback function. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_ab72709eeb6752632705f58e5cc717190}\label{classsafetySupervisor_1_1safetySupervisor_ab72709eeb6752632705f58e5cc717190}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!gnss\+\_\+flag@{gnss\+\_\+flag}}
+\index{gnss\+\_\+flag@{gnss\+\_\+flag}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{gnss\+\_\+flag}{gnss\_flag}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+gnss\+\_\+flag}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a8e51022bbd58554900963a0e3ebc55ce}\label{classsafetySupervisor_1_1safetySupervisor_a8e51022bbd58554900963a0e3ebc55ce}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!pose@{pose}}
+\index{pose@{pose}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{pose}{pose}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+pose}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a2311f2bc91e583e05ff77d239e2df06b}\label{classsafetySupervisor_1_1safetySupervisor_a2311f2bc91e583e05ff77d239e2df06b}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!S\+A\+FE@{S\+A\+FE}}
+\index{S\+A\+FE@{S\+A\+FE}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{S\+A\+FE}{SAFE}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+S\+A\+FE}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_add3738e771cbfad02e7d76d49037ddd4}\label{classsafetySupervisor_1_1safetySupervisor_add3738e771cbfad02e7d76d49037ddd4}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!state@{state}}
+\index{state@{state}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+state}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a0c2c83b27b8472183f5531474dc0f91c}\label{classsafetySupervisor_1_1safetySupervisor_a0c2c83b27b8472183f5531474dc0f91c}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!switch\+\_\+pub@{switch\+\_\+pub}}
+\index{switch\+\_\+pub@{switch\+\_\+pub}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{switch\+\_\+pub}{switch\_pub}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+switch\+\_\+pub}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_ad0da1483d98160dd7d6e192dfe4d9d81}\label{classsafetySupervisor_1_1safetySupervisor_ad0da1483d98160dd7d6e192dfe4d9d81}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!U\+N\+S\+A\+FE@{U\+N\+S\+A\+FE}}
+\index{U\+N\+S\+A\+FE@{U\+N\+S\+A\+FE}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{U\+N\+S\+A\+FE}{UNSAFE}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+U\+N\+S\+A\+FE}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_a1e91accdfe526c67626085b545bf9eff}\label{classsafetySupervisor_1_1safetySupervisor_a1e91accdfe526c67626085b545bf9eff}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!vectormap\+\_\+\+Points@{vectormap\+\_\+\+Points}}
+\index{vectormap\+\_\+\+Points@{vectormap\+\_\+\+Points}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{vectormap\+\_\+\+Points}{vectormap\_Points}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+vectormap\+\_\+\+Points}
+
+\mbox{\Hypertarget{classsafetySupervisor_1_1safetySupervisor_ab1a015515abff5d8d5eaa2d0254b1570}\label{classsafetySupervisor_1_1safetySupervisor_ab1a015515abff5d8d5eaa2d0254b1570}} 
+\index{safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}!vectormap\+\_\+\+Points\+\_\+flag@{vectormap\+\_\+\+Points\+\_\+flag}}
+\index{vectormap\+\_\+\+Points\+\_\+flag@{vectormap\+\_\+\+Points\+\_\+flag}!safety\+Supervisor\+::safety\+Supervisor@{safety\+Supervisor\+::safety\+Supervisor}}
+\subsubsection{\texorpdfstring{vectormap\+\_\+\+Points\+\_\+flag}{vectormap\_Points\_flag}}
+{\footnotesize\ttfamily safety\+Supervisor.\+safety\+Supervisor.\+vectormap\+\_\+\+Points\+\_\+flag}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{safetySupervisor_8py}{safety\+Supervisor.\+py}\end{DoxyCompactItemize}

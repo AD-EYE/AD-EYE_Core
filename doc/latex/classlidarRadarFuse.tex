@@ -1,0 +1,64 @@
+\hypertarget{classlidarRadarFuse}{}\section{lidar\+Radar\+Fuse Class Reference}
+\label{classlidarRadarFuse}\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlidarRadarFuse_a14c2e2556348aa68637ddc9be117065f}{lidar\+Radar\+Fuse} (ros\+::\+Node\+Handle \&nh, std\+::string lidar\+\_\+topic, std\+::string radar\+\_\+topic, std\+::string fused\+\_\+topic)
+\item 
+void \hyperlink{classlidarRadarFuse_a3fe1662b4743bdff5d40e95f8040e2c2}{lidar\+\_\+msg\+\_\+callback} (autoware\+\_\+msgs\+::\+Detected\+Object\+Array msg)
+\item 
+void \hyperlink{classlidarRadarFuse_a8ed38d4819e5c1e453b4b2cf599b9958}{radar\+\_\+msg\+\_\+callback} (autoware\+\_\+msgs\+::\+Detected\+Object\+Array msg)
+\item 
+double \hyperlink{classlidarRadarFuse_abb3cfece2eb2a2394611050d28d82c27}{distance} (geometry\+\_\+msgs\+::\+Point P1, geometry\+\_\+msgs\+::\+Point P2)
+\item 
+void \hyperlink{classlidarRadarFuse_aac3e1d2b10882c6b4ec0c8c1c078be73}{publish} ()
+\item 
+void \hyperlink{classlidarRadarFuse_a821c1a1718db7014e50bcad3563df87a}{run} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlidarRadarFuse_a14c2e2556348aa68637ddc9be117065f}\label{classlidarRadarFuse_a14c2e2556348aa68637ddc9be117065f}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{lidar\+Radar\+Fuse()}{lidarRadarFuse()}}
+{\footnotesize\ttfamily lidar\+Radar\+Fuse\+::lidar\+Radar\+Fuse (\begin{DoxyParamCaption}\item[{ros\+::\+Node\+Handle \&}]{nh,  }\item[{std\+::string}]{lidar\+\_\+topic,  }\item[{std\+::string}]{radar\+\_\+topic,  }\item[{std\+::string}]{fused\+\_\+topic }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlidarRadarFuse_abb3cfece2eb2a2394611050d28d82c27}\label{classlidarRadarFuse_abb3cfece2eb2a2394611050d28d82c27}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!distance@{distance}}
+\index{distance@{distance}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily double lidar\+Radar\+Fuse\+::distance (\begin{DoxyParamCaption}\item[{geometry\+\_\+msgs\+::\+Point}]{P1,  }\item[{geometry\+\_\+msgs\+::\+Point}]{P2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classlidarRadarFuse_a3fe1662b4743bdff5d40e95f8040e2c2}\label{classlidarRadarFuse_a3fe1662b4743bdff5d40e95f8040e2c2}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!lidar\+\_\+msg\+\_\+callback@{lidar\+\_\+msg\+\_\+callback}}
+\index{lidar\+\_\+msg\+\_\+callback@{lidar\+\_\+msg\+\_\+callback}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{lidar\+\_\+msg\+\_\+callback()}{lidar\_msg\_callback()}}
+{\footnotesize\ttfamily void lidar\+Radar\+Fuse\+::lidar\+\_\+msg\+\_\+callback (\begin{DoxyParamCaption}\item[{autoware\+\_\+msgs\+::\+Detected\+Object\+Array}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classlidarRadarFuse_aac3e1d2b10882c6b4ec0c8c1c078be73}\label{classlidarRadarFuse_aac3e1d2b10882c6b4ec0c8c1c078be73}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!publish@{publish}}
+\index{publish@{publish}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{publish()}{publish()}}
+{\footnotesize\ttfamily void lidar\+Radar\+Fuse\+::publish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classlidarRadarFuse_a8ed38d4819e5c1e453b4b2cf599b9958}\label{classlidarRadarFuse_a8ed38d4819e5c1e453b4b2cf599b9958}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!radar\+\_\+msg\+\_\+callback@{radar\+\_\+msg\+\_\+callback}}
+\index{radar\+\_\+msg\+\_\+callback@{radar\+\_\+msg\+\_\+callback}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{radar\+\_\+msg\+\_\+callback()}{radar\_msg\_callback()}}
+{\footnotesize\ttfamily void lidar\+Radar\+Fuse\+::radar\+\_\+msg\+\_\+callback (\begin{DoxyParamCaption}\item[{autoware\+\_\+msgs\+::\+Detected\+Object\+Array}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classlidarRadarFuse_a821c1a1718db7014e50bcad3563df87a}\label{classlidarRadarFuse_a821c1a1718db7014e50bcad3563df87a}} 
+\index{lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}!run@{run}}
+\index{run@{run}!lidar\+Radar\+Fuse@{lidar\+Radar\+Fuse}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void lidar\+Radar\+Fuse\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{lidarRadarFuse_8cpp}{lidar\+Radar\+Fuse.\+cpp}\end{DoxyCompactItemize}

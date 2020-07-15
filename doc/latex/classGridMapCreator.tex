@@ -1,0 +1,174 @@
+\hypertarget{classGridMapCreator}{}\section{Grid\+Map\+Creator Class Reference}
+\label{classGridMapCreator}\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+
+
+The \hyperlink{classGridMapCreator}{Grid\+Map\+Creator} maintains a grid map used to know where safe places are.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGridMapCreator_a5df28e4b4af91aa6b0b11bca03264062}{Grid\+Map\+Creator} (ros\+::\+Node\+Handle \&nh, const float area\+\_\+width, const float area\+\_\+height\+\_\+front, const float area\+\_\+height\+\_\+back)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classGridMapCreator_a5b4b8966d53d30fad9ceca477690f452}{position\+\_\+callback} (const nav\+\_\+msgs\+::\+Odometry\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Position Callback \+: Called when the position information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classGridMapCreator_a3ed1c6283cdc380092e1fdeee372341b}{Dynamic\+Objects\+\_\+callback} (const geometry\+\_\+msgs\+::\+Pose\+Array\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Dynamic Objects Callback \+: Called when the position of the dynamic objects has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classGridMapCreator_af7a6dbee626737eddbfc91681d6730a5}{run} ()
+\begin{DoxyCompactList}\small\item\em The main function of the Node. Contains the main loop. \end{DoxyCompactList}\item 
+void \hyperlink{classGridMapCreator_af222d2b22ad9d566c35383dafa056d3e}{initialize\+Grid\+Map} ()
+\begin{DoxyCompactList}\small\item\em This function initialize the Grid\+Map with the static entities. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classGridMapCreator_ad0a7d37228e112102174dcf0629a95a2}{check\+File} (float resolution, std\+::string pex\+File\+Location)
+\begin{DoxyCompactList}\small\item\em This method checks if a .csv file is provided for the given resolution. \end{DoxyCompactList}\item 
+void \hyperlink{classGridMapCreator_a9548502241b075beaa07b23c95428711}{read\+File} (std\+::string file\+Path)
+\begin{DoxyCompactList}\small\item\em This function read a .csv containing the static\+Objects layer values and build this layer with these. \end{DoxyCompactList}\item 
+grid\+\_\+map\+::\+Polygon \hyperlink{classGridMapCreator_a539fd0f37ec502def07c5cd2d83402eb}{rectangle\+\_\+creator} (float X, float Y, float length, float width, float angle)
+\begin{DoxyCompactList}\small\item\em This function creates a rectangle in a gridmap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classGridMapCreator}{Grid\+Map\+Creator} maintains a grid map used to know where safe places are. 
+
+A submap is sent to the flattening node which build a occupancy grid map for the Safety channel to know where are the safe places (for an emergency stop). The submap is aligned by design with the global axis of the map. So the submap sent to the flatening node is a square that contains the rectangle representing the final occmap 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGridMapCreator_a5df28e4b4af91aa6b0b11bca03264062}\label{classGridMapCreator_a5df28e4b4af91aa6b0b11bca03264062}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{Grid\+Map\+Creator()}{GridMapCreator()}}
+{\footnotesize\ttfamily Grid\+Map\+Creator\+::\+Grid\+Map\+Creator (\begin{DoxyParamCaption}\item[{ros\+::\+Node\+Handle \&}]{nh,  }\item[{const float}]{area\+\_\+width,  }\item[{const float}]{area\+\_\+height\+\_\+front,  }\item[{const float}]{area\+\_\+height\+\_\+back }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & A reference to the ros\+::\+Node\+Handle initialized in the main function. \\
+\hline
+{\em area\+\_\+width} & The width in meter of the ssmp occupancy area \\
+\hline
+{\em area\+\_\+height\+\_\+front} & The distance in meter in front of the base\+\_\+link point that remains in the ssmp occmap area \\
+\hline
+{\em area\+\_\+height\+\_\+back} & The distance in meter behind the base\+\_\+link point that remains in the ssmp occmap area\\
+\hline
+\end{DoxyParams}
+Initializes the node and its components such as publishers and subscribers. The area related parameters needs to be given as command line arguments to the node (order \+: width, height\+\_\+front, height\+\_\+back) 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classGridMapCreator_ad0a7d37228e112102174dcf0629a95a2}\label{classGridMapCreator_ad0a7d37228e112102174dcf0629a95a2}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!check\+File@{check\+File}}
+\index{check\+File@{check\+File}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{check\+File()}{checkFile()}}
+{\footnotesize\ttfamily std\+::string Grid\+Map\+Creator\+::check\+File (\begin{DoxyParamCaption}\item[{float}]{resolution,  }\item[{std\+::string}]{pex\+File\+Location }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This method checks if a .csv file is provided for the given resolution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em resolution} & The resolution the file should match \\
+\hline
+{\em pex\+File\+Location} & The location of the .pex\+File \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The file\+Path of the right file (empty if not found)
+\end{DoxyReturn}
+In the case a User\+Library Element is found on the map, this function will be called in order to check if a .csv file describing the Elements footprint is given. The file name should contain the resolution without decimal mark preceded by an underscore (e.\+g. Map\+\_\+025.\+csv for a resolution of 0.\+25 m/cell). Then, it uses the pex file location to go to the right folder (which is hardcoded as $<$\+Experiment\+Folder$>$/static\+Objects) \mbox{\Hypertarget{classGridMapCreator_a3ed1c6283cdc380092e1fdeee372341b}\label{classGridMapCreator_a3ed1c6283cdc380092e1fdeee372341b}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!Dynamic\+Objects\+\_\+callback@{Dynamic\+Objects\+\_\+callback}}
+\index{Dynamic\+Objects\+\_\+callback@{Dynamic\+Objects\+\_\+callback}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{Dynamic\+Objects\+\_\+callback()}{DynamicObjects\_callback()}}
+{\footnotesize\ttfamily void Grid\+Map\+Creator\+::\+Dynamic\+Objects\+\_\+callback (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Pose\+Array\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Dynamic Objects Callback \+: Called when the position of the dynamic objects has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Stores the array of poses as read out from simulink of all the non controlled actors. \mbox{\Hypertarget{classGridMapCreator_af222d2b22ad9d566c35383dafa056d3e}\label{classGridMapCreator_af222d2b22ad9d566c35383dafa056d3e}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!initialize\+Grid\+Map@{initialize\+Grid\+Map}}
+\index{initialize\+Grid\+Map@{initialize\+Grid\+Map}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{initialize\+Grid\+Map()}{initializeGridMap()}}
+{\footnotesize\ttfamily void Grid\+Map\+Creator\+::initialize\+Grid\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This function initialize the Grid\+Map with the static entities. 
+
+First, the vector map is read from the .csv found within the parameters Then, the size of the map is extracted and the map can be initialized. The .pex file is read in order to parse environment and infrastructure elements. And the map is completed after with the roads read from the vector map. \mbox{\Hypertarget{classGridMapCreator_a5b4b8966d53d30fad9ceca477690f452}\label{classGridMapCreator_a5b4b8966d53d30fad9ceca477690f452}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!position\+\_\+callback@{position\+\_\+callback}}
+\index{position\+\_\+callback@{position\+\_\+callback}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{position\+\_\+callback()}{position\_callback()}}
+{\footnotesize\ttfamily void Grid\+Map\+Creator\+::position\+\_\+callback (\begin{DoxyParamCaption}\item[{const nav\+\_\+msgs\+::\+Odometry\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Position Callback \+: Called when the position information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Stores the position information as read from simulink of the controlled car \mbox{\Hypertarget{classGridMapCreator_a9548502241b075beaa07b23c95428711}\label{classGridMapCreator_a9548502241b075beaa07b23c95428711}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!read\+File@{read\+File}}
+\index{read\+File@{read\+File}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{read\+File()}{readFile()}}
+{\footnotesize\ttfamily void Grid\+Map\+Creator\+::read\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This function read a .csv containing the static\+Objects layer values and build this layer with these. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the file to read\\
+\hline
+\end{DoxyParams}
+It extracts the data from the file and put it first in an occupandy\+Grid. Then, it converts the occupancy\+Grid to a Grid\+Map and finally, add the data from the Grid\+Map newly created inside the world Grid\+Map. \mbox{\Hypertarget{classGridMapCreator_a539fd0f37ec502def07c5cd2d83402eb}\label{classGridMapCreator_a539fd0f37ec502def07c5cd2d83402eb}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!rectangle\+\_\+creator@{rectangle\+\_\+creator}}
+\index{rectangle\+\_\+creator@{rectangle\+\_\+creator}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{rectangle\+\_\+creator()}{rectangle\_creator()}}
+{\footnotesize\ttfamily grid\+\_\+map\+::\+Polygon Grid\+Map\+Creator\+::rectangle\+\_\+creator (\begin{DoxyParamCaption}\item[{float}]{X,  }\item[{float}]{Y,  }\item[{float}]{length,  }\item[{float}]{width,  }\item[{float}]{angle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This function creates a rectangle in a gridmap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & X coordinate of the center location in the gridmap. \\
+\hline
+{\em Y} & Y coordinate of the center location in the gridmap. \\
+\hline
+{\em length} & Length of the rectangle. \\
+\hline
+{\em width} & Width of the rectangle. \\
+\hline
+{\em angle} & The amount of tilt. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A rectangle created corresponding to the given parameters
+\end{DoxyReturn}
+This function is especially used to creates car footprint. \mbox{\Hypertarget{classGridMapCreator_af7a6dbee626737eddbfc91681d6730a5}\label{classGridMapCreator_af7a6dbee626737eddbfc91681d6730a5}} 
+\index{Grid\+Map\+Creator@{Grid\+Map\+Creator}!run@{run}}
+\index{run@{run}!Grid\+Map\+Creator@{Grid\+Map\+Creator}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Grid\+Map\+Creator\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The main function of the Node. Contains the main loop. 
+
+Basically, updates the gridmap with the position of the dynamic objects, and then, publish. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{GridMapCreator__node_8cpp}{Grid\+Map\+Creator\+\_\+node.\+cpp}\end{DoxyCompactItemize}

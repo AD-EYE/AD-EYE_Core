@@ -1,0 +1,131 @@
+\hypertarget{classOccMapCreator}{}\section{Occ\+Map\+Creator Class Reference}
+\label{classOccMapCreator}\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+
+
+This class is used to extract data from the Grid\+Map given by the \hyperlink{classGridMapCreator}{Grid\+Map\+Creator}.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classOccMapCreator_a067844320d21de45f00cb997480a6088}{Occ\+Map\+Creator} (ros\+::\+Node\+Handle \&nh, const float area\+\_\+width, const float area\+\_\+height\+\_\+front, const float area\+\_\+height\+\_\+back)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classOccMapCreator_a06458176cc3d8e294d43d997d0aeec5c}{grid\+Map\+\_\+callback} (const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Grid\+Map Callback \+: Called when the grid map information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classOccMapCreator_afa7b05bd0cb89c52bafdc466203614f4}{position\+Ego\+\_\+callback} (const nav\+\_\+msgs\+::\+Odometry\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Ego Position Callback \+: Called when the ego position information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classOccMapCreator_a83a46376242add139350a6d1a21f1a5f}{run} ()
+\begin{DoxyCompactList}\small\item\em The main function of the Node. Contains the main loop. \end{DoxyCompactList}\item 
+void \hyperlink{classOccMapCreator_abe47c0065aaebc9269c5f88c67606afe}{flatening\+Process} ()
+\begin{DoxyCompactList}\small\item\em The information from the Grid\+Map are translated into an occupancy grid. \end{DoxyCompactList}\item 
+float \hyperlink{classOccMapCreator_a1efcaad9fdb9feca05c7013e99912f66}{calculate\+Occ\+Value} (float static\+Object\+Value, float dynamic\+Object\+Value, float lane\+Value, float safe\+Area\+Value)
+\begin{DoxyCompactList}\small\item\em This function is used to calculate the occupancy value of a cell according to the layer of the grid map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class is used to extract data from the Grid\+Map given by the \hyperlink{classGridMapCreator}{Grid\+Map\+Creator}. 
+
+This node produce two Occupancy\+Grid \+: One, aligned with the global axis, which is used by the Safe\+\_\+\+Stop\+\_\+\+Planner ; one smaller, aligned with the car which is used by the safety supervisor. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOccMapCreator_a067844320d21de45f00cb997480a6088}\label{classOccMapCreator_a067844320d21de45f00cb997480a6088}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{Occ\+Map\+Creator()}{OccMapCreator()}}
+{\footnotesize\ttfamily Occ\+Map\+Creator\+::\+Occ\+Map\+Creator (\begin{DoxyParamCaption}\item[{ros\+::\+Node\+Handle \&}]{nh,  }\item[{const float}]{area\+\_\+width,  }\item[{const float}]{area\+\_\+height\+\_\+front,  }\item[{const float}]{area\+\_\+height\+\_\+back }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & A reference to the ros\+::\+Node\+Handle initialized in the main function. \\
+\hline
+{\em area\+\_\+width} & The width in meter of the ssmp occupancy area \\
+\hline
+{\em area\+\_\+height\+\_\+front} & The distance in meter in front of the base\+\_\+link point that remains in the ssmp occmap area \\
+\hline
+{\em area\+\_\+height\+\_\+back} & The distance in meter behind the base\+\_\+link point that remains in the ssmp occmap area\\
+\hline
+\end{DoxyParams}
+Initializes the node and its components such as publishers and subscribers. The area related parameters needs to be given as command line arguments to the node (order \+: width, height\+\_\+front, height\+\_\+back) 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classOccMapCreator_a1efcaad9fdb9feca05c7013e99912f66}\label{classOccMapCreator_a1efcaad9fdb9feca05c7013e99912f66}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!calculate\+Occ\+Value@{calculate\+Occ\+Value}}
+\index{calculate\+Occ\+Value@{calculate\+Occ\+Value}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{calculate\+Occ\+Value()}{calculateOccValue()}}
+{\footnotesize\ttfamily float Occ\+Map\+Creator\+::calculate\+Occ\+Value (\begin{DoxyParamCaption}\item[{float}]{static\+Object\+Value,  }\item[{float}]{dynamic\+Object\+Value,  }\item[{float}]{lane\+Value,  }\item[{float}]{safe\+Area\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This function is used to calculate the occupancy value of a cell according to the layer of the grid map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em static\+Object\+Value} & The value of the cell in the Static\+Objects layer of the Grid\+Map \\
+\hline
+{\em dynamic\+Object\+Value} & The value of the cell in the Dynamic\+Objects layer of the Grid\+Map \\
+\hline
+{\em lane\+Value} & The value of the cell in the Drivable\+Areas layer of the Grid\+Map \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The occupancy value calculated 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classOccMapCreator_abe47c0065aaebc9269c5f88c67606afe}\label{classOccMapCreator_abe47c0065aaebc9269c5f88c67606afe}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!flatening\+Process@{flatening\+Process}}
+\index{flatening\+Process@{flatening\+Process}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{flatening\+Process()}{flateningProcess()}}
+{\footnotesize\ttfamily void Occ\+Map\+Creator\+::flatening\+Process (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The information from the Grid\+Map are translated into an occupancy grid. 
+
+Info from all different layers is reduced to either G\+R\+E\+EN, Y\+E\+L\+L\+OW, or R\+ED, as these values are the only ones that the safety planner can read. The safety planner do not consider the orientation of the grid, so the Occupancy Grid has the same size than the Grid Map (which is aligned with global axis by design). Then, every cells in the grid that are not in the considered area (aligned with the car), will be hidden (filled with the R\+ED value). \mbox{\Hypertarget{classOccMapCreator_a06458176cc3d8e294d43d997d0aeec5c}\label{classOccMapCreator_a06458176cc3d8e294d43d997d0aeec5c}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!grid\+Map\+\_\+callback@{grid\+Map\+\_\+callback}}
+\index{grid\+Map\+\_\+callback@{grid\+Map\+\_\+callback}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{grid\+Map\+\_\+callback()}{gridMap\_callback()}}
+{\footnotesize\ttfamily void Occ\+Map\+Creator\+::grid\+Map\+\_\+callback (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Grid\+Map Callback \+: Called when the grid map information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Stores the Grid\+Map information given by the \hyperlink{classGridMapCreator}{Grid\+Map\+Creator}, then call the flatening\+Process. \mbox{\Hypertarget{classOccMapCreator_afa7b05bd0cb89c52bafdc466203614f4}\label{classOccMapCreator_afa7b05bd0cb89c52bafdc466203614f4}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!position\+Ego\+\_\+callback@{position\+Ego\+\_\+callback}}
+\index{position\+Ego\+\_\+callback@{position\+Ego\+\_\+callback}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{position\+Ego\+\_\+callback()}{positionEgo\_callback()}}
+{\footnotesize\ttfamily void Occ\+Map\+Creator\+::position\+Ego\+\_\+callback (\begin{DoxyParamCaption}\item[{const nav\+\_\+msgs\+::\+Odometry\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Ego Position Callback \+: Called when the ego position information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Stores the position information as read from simulink of the controlled car \mbox{\Hypertarget{classOccMapCreator_a83a46376242add139350a6d1a21f1a5f}\label{classOccMapCreator_a83a46376242add139350a6d1a21f1a5f}} 
+\index{Occ\+Map\+Creator@{Occ\+Map\+Creator}!run@{run}}
+\index{run@{run}!Occ\+Map\+Creator@{Occ\+Map\+Creator}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Occ\+Map\+Creator\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The main function of the Node. Contains the main loop. 
+
+Basically extract information from grid\+Map and then publish data extracted from it. Also, checks if the required frequency is met. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{flattening__node_8cpp}{flattening\+\_\+node.\+cpp}\end{DoxyCompactItemize}

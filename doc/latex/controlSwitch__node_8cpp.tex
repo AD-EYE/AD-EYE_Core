@@ -1,0 +1,65 @@
+\hypertarget{controlSwitch__node_8cpp}{}\section{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/control\+Switch\+\_\+node.cpp File Reference}
+\label{controlSwitch__node_8cpp}\index{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/control\+Switch\+\_\+node.\+cpp@{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/control\+Switch\+\_\+node.\+cpp}}
+{\ttfamily \#include $<$ros/ros.\+h$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$geometry\+\_\+msgs/\+Polygon\+Stamped.\+h$>$}\newline
+{\ttfamily \#include $<$tf/transform\+\_\+listener.\+h$>$}\newline
+{\ttfamily \#include $<$tf/transform\+\_\+broadcaster.\+h$>$}\newline
+{\ttfamily \#include $<$rcv\+\_\+common\+\_\+msgs/trajectory\+\_\+reference.\+h$>$}\newline
+{\ttfamily \#include $<$rcv\+\_\+common\+\_\+msgs/current\+\_\+traj\+\_\+info.\+h$>$}\newline
+{\ttfamily \#include $<$rcv\+\_\+common\+\_\+msgs/\+S\+S\+M\+P\+\_\+control.\+h$>$}\newline
+{\ttfamily \#include $<$nav\+\_\+msgs/\+Odometry.\+h$>$}\newline
+{\ttfamily \#include $<$cpp\+\_\+utils/pose\+\_\+datatypes.\+h$>$}\newline
+{\ttfamily \#include $<$std\+\_\+msgs/\+Int32.\+h$>$}\newline
+Include dependency graph for control\+Switch\+\_\+node.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{controlSwitch__node_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classcontrolSwitch}{control\+Switch}
+\begin{DoxyCompactList}\small\item\em This class is the Switch that selects which channel control the car. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{controlSwitch__node_8cpp_a5d1e380ee82e7ec17b946c3f57affb95}{A\+U\+T\+O\+W\+A\+RE}~0
+\item 
+\#define \hyperlink{controlSwitch__node_8cpp_ae9ee2d0cbf0e6cfa2822c4eb3f75e04b}{S\+S\+MP}~1
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{controlSwitch__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{controlSwitch__node_8cpp_a5d1e380ee82e7ec17b946c3f57affb95}\label{controlSwitch__node_8cpp_a5d1e380ee82e7ec17b946c3f57affb95}} 
+\index{control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}!A\+U\+T\+O\+W\+A\+RE@{A\+U\+T\+O\+W\+A\+RE}}
+\index{A\+U\+T\+O\+W\+A\+RE@{A\+U\+T\+O\+W\+A\+RE}!control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{A\+U\+T\+O\+W\+A\+RE}{AUTOWARE}}
+{\footnotesize\ttfamily \#define A\+U\+T\+O\+W\+A\+RE~0}
+
+\mbox{\Hypertarget{controlSwitch__node_8cpp_ae9ee2d0cbf0e6cfa2822c4eb3f75e04b}\label{controlSwitch__node_8cpp_ae9ee2d0cbf0e6cfa2822c4eb3f75e04b}} 
+\index{control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}!S\+S\+MP@{S\+S\+MP}}
+\index{S\+S\+MP@{S\+S\+MP}!control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{S\+S\+MP}{SSMP}}
+{\footnotesize\ttfamily \#define S\+S\+MP~1}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{controlSwitch__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{controlSwitch__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}!main@{main}}
+\index{main@{main}!control\+Switch\+\_\+node.\+cpp@{control\+Switch\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+

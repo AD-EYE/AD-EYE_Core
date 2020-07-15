@@ -1,0 +1,250 @@
+\hypertarget{classSafetySupervisor}{}\section{Safety\+Supervisor Class Reference}
+\label{classSafetySupervisor}\index{Safety\+Supervisor@{Safety\+Supervisor}}
+
+
+The Safety Supervisor supervise the automated driving.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSafetySupervisor_a4f5bd8fd25814a50b61368a444260471}{Safety\+Supervisor} (ros\+::\+Node\+Handle \&nh, int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_a3fad879a3b629936c17db22a22269d27}{gnss\+\_\+callback} (const geometry\+\_\+msgs\+::\+Pose\+Stamped\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Gnss Callback \+: Called when the gnss information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_ad2c0a23d1e8b843e6e74ccea633e993c}{gridmap\+\_\+callback} (const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Gridmap Callback \+: Called when the gridmap information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_a8aa112863eacb33d8d8dfcdf00407c75}{autoware\+Trajectory\+\_\+callback} (const autoware\+\_\+msgs\+::\+Lane\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Autoware trajectory Callback \+: Called when the autoware trajectory information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_a7d3db4d0d050f8dc5af1964050de50b4}{autoware\+Global\+Plan\+\_\+callback} (const autoware\+\_\+msgs\+::\+Lane\+Array\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Autoware global plan Callback \+: Called when the autoware global plan information has changed. \textbackslash{} . \end{DoxyCompactList}\item 
+bool \hyperlink{classSafetySupervisor_a2a54494d111ce7ff71ab833870821646}{check\+Active\+Nodes} ()
+\begin{DoxyCompactList}\small\item\em Check active nodes \+: Called at every interation of the main loop  if all the necesary nodes are alive. \end{DoxyCompactList}\item 
+double \hyperlink{classSafetySupervisor_ab52d84e48d20ac021a579da62424c886}{check\+Distance\+To\+Lane} (const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&trajectory, const geometry\+\_\+msgs\+::\+Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Check distance to lane \+: Called at every interation of the main loop  the distance to the center line of the lane. \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \hyperlink{classSafetySupervisor_a295483f03590592f0850e9b7a6fd6fda}{get\+Closest\+Index} (const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&trajectory, const Planner\+H\+N\+S\+::\+Way\+Point \&p)
+\begin{DoxyCompactList}\small\item\em Get closest index \+: Called at every interation of the main loop  the closest point in a trajectory to a certain point. \end{DoxyCompactList}\item 
+double \hyperlink{classSafetySupervisor_a23fbcc5b5a4f81f3a13cff623ce2c81f}{check\+Distance\+To\+Roadedge} (const grid\+\_\+map\+::\+Grid\+Map \&gridmap, const geometry\+\_\+msgs\+::\+Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Check distance to roadedge \+: Called at every interation of the main loop  the distance to the roadedge. \end{DoxyCompactList}\item 
+curvature \hyperlink{classSafetySupervisor_aa27392897deb93aae6f9e9599a36d8d6}{check\+Curvature} (const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&trajectory)
+\begin{DoxyCompactList}\small\item\em Check curvature \+: Called at every interation of the main loop  the maximum and minimum curvature of the global plan. \end{DoxyCompactList}\item 
+double \hyperlink{classSafetySupervisor_acf563289dfe4104f880ec73f71f9dbb1}{get\+Signed\+Curvature} (const Planner\+H\+N\+S\+::\+Way\+Point \&P1, const Planner\+H\+N\+S\+::\+Way\+Point \&P2, const Planner\+H\+N\+S\+::\+Way\+Point \&P3)
+\begin{DoxyCompactList}\small\item\em Get menger curvature \+: References can be found looking for \char`\"{}\+Menger curvature\char`\"{}  the inverse of the radius of the curcle defined by 3 points. \end{DoxyCompactList}\item 
+double \hyperlink{classSafetySupervisor_ad19d9123b87d25820c764a314fd6a71c}{get\+Distance} (const Planner\+H\+N\+S\+::\+Way\+Point \&P1, const Planner\+H\+N\+S\+::\+Way\+Point \&P2)
+\begin{DoxyCompactList}\small\item\em Get distance \+: Called at every interation of the main loop  the distance between 2 points. \end{DoxyCompactList}\item 
+bool \hyperlink{classSafetySupervisor_a6455218d3a92c4afab26ea8752f085d3}{check\+Dynamic\+Objects} (const grid\+\_\+map\+::\+Grid\+Map \&gridmap, const geometry\+\_\+msgs\+::\+Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Check dynamic objects \+: Called at every interation of the main loop  if there is a dynamic object in the critical area. \end{DoxyCompactList}\item 
+bool \hyperlink{classSafetySupervisor_a268efed56af884faef112eb0e93baa72}{check\+Car\+On\+Road} (const grid\+\_\+map\+::\+Grid\+Map \&gridmap, const geometry\+\_\+msgs\+::\+Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Check car on road \+: Called at every interation of the main loop  if the center of the car is on the road. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_ab4bca128bf76578d1249d6f0c8887466}{run} ()
+\begin{DoxyCompactList}\small\item\em The main loop of the Node. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_ad4352fec1b8dcbb3b7b89d4caf805542}{publish} ()
+\begin{DoxyCompactList}\small\item\em It is in this function that the switch is trigerred or not. \end{DoxyCompactList}\item 
+void \hyperlink{classSafetySupervisor_ab44ba3b0008dc564ed49aaeb2258f225}{evaluate} ()
+\begin{DoxyCompactList}\small\item\em The function where the situation is evaluated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Safety Supervisor supervise the automated driving. 
+
+His goal is to trigger the switch that decides if the vehicle listen to the D\+DT given by the nominal chanel or by the safety channel. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSafetySupervisor_a4f5bd8fd25814a50b61368a444260471}\label{classSafetySupervisor_a4f5bd8fd25814a50b61368a444260471}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!Safety\+Supervisor@{Safety\+Supervisor}}
+\index{Safety\+Supervisor@{Safety\+Supervisor}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{Safety\+Supervisor()}{SafetySupervisor()}}
+{\footnotesize\ttfamily Safety\+Supervisor\+::\+Safety\+Supervisor (\begin{DoxyParamCaption}\item[{ros\+::\+Node\+Handle \&}]{nh,  }\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & A reference to the ros\+::\+Node\+Handle initialized in the main function.\\
+\hline
+\end{DoxyParams}
+Initialize the node and its components such as publishers and subscribers. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classSafetySupervisor_a7d3db4d0d050f8dc5af1964050de50b4}\label{classSafetySupervisor_a7d3db4d0d050f8dc5af1964050de50b4}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!autoware\+Global\+Plan\+\_\+callback@{autoware\+Global\+Plan\+\_\+callback}}
+\index{autoware\+Global\+Plan\+\_\+callback@{autoware\+Global\+Plan\+\_\+callback}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{autoware\+Global\+Plan\+\_\+callback()}{autowareGlobalPlan\_callback()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::autoware\+Global\+Plan\+\_\+callback (\begin{DoxyParamCaption}\item[{const autoware\+\_\+msgs\+::\+Lane\+Array\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Autoware global plan Callback \+: Called when the autoware global plan information has changed. \textbackslash{} . 
+
+\mbox{\Hypertarget{classSafetySupervisor_a8aa112863eacb33d8d8dfcdf00407c75}\label{classSafetySupervisor_a8aa112863eacb33d8d8dfcdf00407c75}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!autoware\+Trajectory\+\_\+callback@{autoware\+Trajectory\+\_\+callback}}
+\index{autoware\+Trajectory\+\_\+callback@{autoware\+Trajectory\+\_\+callback}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{autoware\+Trajectory\+\_\+callback()}{autowareTrajectory\_callback()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::autoware\+Trajectory\+\_\+callback (\begin{DoxyParamCaption}\item[{const autoware\+\_\+msgs\+::\+Lane\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Autoware trajectory Callback \+: Called when the autoware trajectory information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Updates the autoware trajectory information. \mbox{\Hypertarget{classSafetySupervisor_a2a54494d111ce7ff71ab833870821646}\label{classSafetySupervisor_a2a54494d111ce7ff71ab833870821646}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Active\+Nodes@{check\+Active\+Nodes}}
+\index{check\+Active\+Nodes@{check\+Active\+Nodes}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Active\+Nodes()}{checkActiveNodes()}}
+{\footnotesize\ttfamily bool Safety\+Supervisor\+::check\+Active\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check active nodes \+: Called at every interation of the main loop  if all the necesary nodes are alive. 
+
+\mbox{\Hypertarget{classSafetySupervisor_a268efed56af884faef112eb0e93baa72}\label{classSafetySupervisor_a268efed56af884faef112eb0e93baa72}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Car\+On\+Road@{check\+Car\+On\+Road}}
+\index{check\+Car\+On\+Road@{check\+Car\+On\+Road}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Car\+On\+Road()}{checkCarOnRoad()}}
+{\footnotesize\ttfamily bool Safety\+Supervisor\+::check\+Car\+On\+Road (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+::\+Grid\+Map \&}]{gridmap,  }\item[{const geometry\+\_\+msgs\+::\+Pose \&}]{pose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check car on road \+: Called at every interation of the main loop  if the center of the car is on the road. 
+
+\mbox{\Hypertarget{classSafetySupervisor_aa27392897deb93aae6f9e9599a36d8d6}\label{classSafetySupervisor_aa27392897deb93aae6f9e9599a36d8d6}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Curvature@{check\+Curvature}}
+\index{check\+Curvature@{check\+Curvature}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Curvature()}{checkCurvature()}}
+{\footnotesize\ttfamily curvature Safety\+Supervisor\+::check\+Curvature (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&}]{trajectory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check curvature \+: Called at every interation of the main loop  the maximum and minimum curvature of the global plan. 
+
+\mbox{\Hypertarget{classSafetySupervisor_ab52d84e48d20ac021a579da62424c886}\label{classSafetySupervisor_ab52d84e48d20ac021a579da62424c886}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Distance\+To\+Lane@{check\+Distance\+To\+Lane}}
+\index{check\+Distance\+To\+Lane@{check\+Distance\+To\+Lane}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Distance\+To\+Lane()}{checkDistanceToLane()}}
+{\footnotesize\ttfamily double Safety\+Supervisor\+::check\+Distance\+To\+Lane (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&}]{trajectory,  }\item[{const geometry\+\_\+msgs\+::\+Pose \&}]{pose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check distance to lane \+: Called at every interation of the main loop  the distance to the center line of the lane. 
+
+\mbox{\Hypertarget{classSafetySupervisor_a23fbcc5b5a4f81f3a13cff623ce2c81f}\label{classSafetySupervisor_a23fbcc5b5a4f81f3a13cff623ce2c81f}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Distance\+To\+Roadedge@{check\+Distance\+To\+Roadedge}}
+\index{check\+Distance\+To\+Roadedge@{check\+Distance\+To\+Roadedge}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Distance\+To\+Roadedge()}{checkDistanceToRoadedge()}}
+{\footnotesize\ttfamily double Safety\+Supervisor\+::check\+Distance\+To\+Roadedge (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+::\+Grid\+Map \&}]{gridmap,  }\item[{const geometry\+\_\+msgs\+::\+Pose \&}]{pose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check distance to roadedge \+: Called at every interation of the main loop  the distance to the roadedge. 
+
+\mbox{\Hypertarget{classSafetySupervisor_a6455218d3a92c4afab26ea8752f085d3}\label{classSafetySupervisor_a6455218d3a92c4afab26ea8752f085d3}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!check\+Dynamic\+Objects@{check\+Dynamic\+Objects}}
+\index{check\+Dynamic\+Objects@{check\+Dynamic\+Objects}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{check\+Dynamic\+Objects()}{checkDynamicObjects()}}
+{\footnotesize\ttfamily bool Safety\+Supervisor\+::check\+Dynamic\+Objects (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+::\+Grid\+Map \&}]{gridmap,  }\item[{const geometry\+\_\+msgs\+::\+Pose \&}]{pose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check dynamic objects \+: Called at every interation of the main loop  if there is a dynamic object in the critical area. 
+
+\mbox{\Hypertarget{classSafetySupervisor_ab44ba3b0008dc564ed49aaeb2258f225}\label{classSafetySupervisor_ab44ba3b0008dc564ed49aaeb2258f225}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::evaluate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The function where the situation is evaluated. 
+
+The situation is evaluated and the state of the vehicle is declared safe or unsafe. \mbox{\Hypertarget{classSafetySupervisor_a295483f03590592f0850e9b7a6fd6fda}\label{classSafetySupervisor_a295483f03590592f0850e9b7a6fd6fda}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!get\+Closest\+Index@{get\+Closest\+Index}}
+\index{get\+Closest\+Index@{get\+Closest\+Index}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{get\+Closest\+Index()}{getClosestIndex()}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ Safety\+Supervisor\+::get\+Closest\+Index (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ Planner\+H\+N\+S\+::\+Way\+Point $>$ \&}]{trajectory,  }\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get closest index \+: Called at every interation of the main loop  the closest point in a trajectory to a certain point. 
+
+\mbox{\Hypertarget{classSafetySupervisor_ad19d9123b87d25820c764a314fd6a71c}\label{classSafetySupervisor_ad19d9123b87d25820c764a314fd6a71c}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!get\+Distance@{get\+Distance}}
+\index{get\+Distance@{get\+Distance}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{get\+Distance()}{getDistance()}}
+{\footnotesize\ttfamily double Safety\+Supervisor\+::get\+Distance (\begin{DoxyParamCaption}\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{P1,  }\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{P2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get distance \+: Called at every interation of the main loop  the distance between 2 points. 
+
+\mbox{\Hypertarget{classSafetySupervisor_acf563289dfe4104f880ec73f71f9dbb1}\label{classSafetySupervisor_acf563289dfe4104f880ec73f71f9dbb1}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!get\+Signed\+Curvature@{get\+Signed\+Curvature}}
+\index{get\+Signed\+Curvature@{get\+Signed\+Curvature}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{get\+Signed\+Curvature()}{getSignedCurvature()}}
+{\footnotesize\ttfamily double Safety\+Supervisor\+::get\+Signed\+Curvature (\begin{DoxyParamCaption}\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{P1,  }\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{P2,  }\item[{const Planner\+H\+N\+S\+::\+Way\+Point \&}]{P3 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get menger curvature \+: References can be found looking for \char`\"{}\+Menger curvature\char`\"{}  the inverse of the radius of the curcle defined by 3 points. 
+
+\mbox{\Hypertarget{classSafetySupervisor_a3fad879a3b629936c17db22a22269d27}\label{classSafetySupervisor_a3fad879a3b629936c17db22a22269d27}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!gnss\+\_\+callback@{gnss\+\_\+callback}}
+\index{gnss\+\_\+callback@{gnss\+\_\+callback}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{gnss\+\_\+callback()}{gnss\_callback()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::gnss\+\_\+callback (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Pose\+Stamped\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gnss Callback \+: Called when the gnss information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Updates gnss information of the vehicle position. \mbox{\Hypertarget{classSafetySupervisor_ad2c0a23d1e8b843e6e74ccea633e993c}\label{classSafetySupervisor_ad2c0a23d1e8b843e6e74ccea633e993c}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!gridmap\+\_\+callback@{gridmap\+\_\+callback}}
+\index{gridmap\+\_\+callback@{gridmap\+\_\+callback}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{gridmap\+\_\+callback()}{gridmap\_callback()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::gridmap\+\_\+callback (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gridmap Callback \+: Called when the gridmap information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Updates the gridmap information. \mbox{\Hypertarget{classSafetySupervisor_ad4352fec1b8dcbb3b7b89d4caf805542}\label{classSafetySupervisor_ad4352fec1b8dcbb3b7b89d4caf805542}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!publish@{publish}}
+\index{publish@{publish}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{publish()}{publish()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::publish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+It is in this function that the switch is trigerred or not. 
+
+\mbox{\Hypertarget{classSafetySupervisor_ab4bca128bf76578d1249d6f0c8887466}\label{classSafetySupervisor_ab4bca128bf76578d1249d6f0c8887466}} 
+\index{Safety\+Supervisor@{Safety\+Supervisor}!run@{run}}
+\index{run@{run}!Safety\+Supervisor@{Safety\+Supervisor}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Safety\+Supervisor\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The main loop of the Node. 
+
+Basically checks for topics updates, then evaluate the situation and triggers (or not) the safety switch depending of the situation evaluation. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{safetySupervisor_8cpp}{safety\+Supervisor.\+cpp}\end{DoxyCompactItemize}

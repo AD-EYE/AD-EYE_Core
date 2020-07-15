@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python   
 #make changes in launch file according to name of the node (/adeye/area/node/variable) before running this node
 #import roslib
 import rospy
@@ -28,6 +28,24 @@ VARIABLE_MAP = "WorldName"
 SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
 
 def listener():
+
+    """
+    
+    This file modifies the launch tempelate
+    
+    Note: Make changes in launch file according to name of the node (/adeye/area/node/variable) before running this node
+    
+    Args:
+    
+        template    :   reads the file
+        areas   :   get all the child namespaces (area) under parent "/adeye"
+        nodes   :   get all the child namespaces (node) under parent "/adeye/area"
+        variables   :   get all the child namespaces (variable) under parent "/adeye/area/node"
+        values  :   getting only the value corresponding to each variable i.e. "/adeye/area/node/variable"
+        name    :   converting variable "name" to string
+
+
+    """
 
     for filename in os.listdir(MODIFIED_LAUNCH_FILES_FULL_PATH):
         os.remove(MODIFIED_LAUNCH_FILES_FULL_PATH + filename)

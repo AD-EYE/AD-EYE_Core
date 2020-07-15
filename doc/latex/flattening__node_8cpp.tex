@@ -1,0 +1,87 @@
+\hypertarget{flattening__node_8cpp}{}\section{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/flattening\+\_\+node.cpp File Reference}
+\label{flattening__node_8cpp}\index{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/flattening\+\_\+node.\+cpp@{/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/flattening\+\_\+node.\+cpp}}
+{\ttfamily \#include $<$ros/ros.\+h$>$}\newline
+{\ttfamily \#include $<$grid\+\_\+map\+\_\+ros/grid\+\_\+map\+\_\+ros.\+hpp$>$}\newline
+{\ttfamily \#include $<$grid\+\_\+map\+\_\+msgs/\+Grid\+Map.\+h$>$}\newline
+{\ttfamily \#include $<$grid\+\_\+map\+\_\+ros/\+Grid\+Map\+Ros\+Converter.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$nav\+\_\+msgs/\+Occupancy\+Grid.\+h$>$}\newline
+{\ttfamily \#include $<$nav\+\_\+msgs/\+Odometry.\+h$>$}\newline
+{\ttfamily \#include $<$tf/transform\+\_\+broadcaster.\+h$>$}\newline
+{\ttfamily \#include $<$cpp\+\_\+utils/pose\+\_\+datatypes.\+h$>$}\newline
+Include dependency graph for flattening\+\_\+node.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flattening__node_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classOccMapCreator}{Occ\+Map\+Creator}
+\begin{DoxyCompactList}\small\item\em This class is used to extract data from the Grid\+Map given by the \hyperlink{classGridMapCreator}{Grid\+Map\+Creator}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flattening__node_8cpp_a87b537f5fa5c109d3c05c13d6b18f382}{W\+H\+I\+TE}~1
+\item 
+\#define \hyperlink{flattening__node_8cpp_acfbc006ea433ad708fdee3e82996e721}{G\+R\+E\+EN}~30
+\item 
+\#define \hyperlink{flattening__node_8cpp_abf681265909adf3d3e8116c93c0ba179}{Y\+E\+L\+L\+OW}~50
+\item 
+\#define \hyperlink{flattening__node_8cpp_a8d23feea868a983c8c2b661e1e16972f}{R\+ED}~99
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{flattening__node_8cpp_aa89874c10460404be51a149466355178}{usage} (std\+::string bin\+Name)
+\item 
+int \hyperlink{flattening__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{flattening__node_8cpp_acfbc006ea433ad708fdee3e82996e721}\label{flattening__node_8cpp_acfbc006ea433ad708fdee3e82996e721}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!G\+R\+E\+EN@{G\+R\+E\+EN}}
+\index{G\+R\+E\+EN@{G\+R\+E\+EN}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{G\+R\+E\+EN}{GREEN}}
+{\footnotesize\ttfamily \#define G\+R\+E\+EN~30}
+
+\mbox{\Hypertarget{flattening__node_8cpp_a8d23feea868a983c8c2b661e1e16972f}\label{flattening__node_8cpp_a8d23feea868a983c8c2b661e1e16972f}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!R\+ED@{R\+ED}}
+\index{R\+ED@{R\+ED}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{R\+ED}{RED}}
+{\footnotesize\ttfamily \#define R\+ED~99}
+
+\mbox{\Hypertarget{flattening__node_8cpp_a87b537f5fa5c109d3c05c13d6b18f382}\label{flattening__node_8cpp_a87b537f5fa5c109d3c05c13d6b18f382}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!W\+H\+I\+TE@{W\+H\+I\+TE}}
+\index{W\+H\+I\+TE@{W\+H\+I\+TE}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{W\+H\+I\+TE}{WHITE}}
+{\footnotesize\ttfamily \#define W\+H\+I\+TE~1}
+
+\mbox{\Hypertarget{flattening__node_8cpp_abf681265909adf3d3e8116c93c0ba179}\label{flattening__node_8cpp_abf681265909adf3d3e8116c93c0ba179}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!Y\+E\+L\+L\+OW@{Y\+E\+L\+L\+OW}}
+\index{Y\+E\+L\+L\+OW@{Y\+E\+L\+L\+OW}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{Y\+E\+L\+L\+OW}{YELLOW}}
+{\footnotesize\ttfamily \#define Y\+E\+L\+L\+OW~50}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{flattening__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{flattening__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!main@{main}}
+\index{main@{main}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{flattening__node_8cpp_aa89874c10460404be51a149466355178}\label{flattening__node_8cpp_aa89874c10460404be51a149466355178}} 
+\index{flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}!usage@{usage}}
+\index{usage@{usage}!flattening\+\_\+node.\+cpp@{flattening\+\_\+node.\+cpp}}
+\subsubsection{\texorpdfstring{usage()}{usage()}}
+{\footnotesize\ttfamily void usage (\begin{DoxyParamCaption}\item[{std\+::string}]{bin\+Name }\end{DoxyParamCaption})}
+

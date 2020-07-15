@@ -1,0 +1,124 @@
+\hypertarget{classCollisionDetector}{}\section{Collision\+Detector Class Reference}
+\label{classCollisionDetector}\index{Collision\+Detector@{Collision\+Detector}}
+
+
+A node that detect collision with other objects using the S\+S\+M\+P\+\_\+grid\+Map.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCollisionDetector_a5c43466988b198a4e09c30255760465d}{Collision\+Detector} (ros\+::\+Node\+Handle \&nh)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classCollisionDetector_a58422375b62b0eee48dbd73d7943bad9}{gnss\+\_\+callback} (const geometry\+\_\+msgs\+::\+Pose\+Stamped\+::\+Const\+Ptr \&gnss)
+\begin{DoxyCompactList}\small\item\em Gnss Callback \+: Called when the gnss information has changed. \end{DoxyCompactList}\item 
+void \hyperlink{classCollisionDetector_a2ab3d4266ac3f872bb033235b10173ef}{velocity\+\_\+callback} (const geometry\+\_\+msgs\+::\+Twist\+Stamped\+::\+Const\+Ptr \&vel)
+\item 
+void \hyperlink{classCollisionDetector_a47d78bbe04c6b7ceb2ba143c67e8388b}{gridmap\+\_\+callback} (const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Gridmap Callback \+: Called when the gridmap information has changed. \end{DoxyCompactList}\item 
+collision\+Type \hyperlink{classCollisionDetector_a9dd68a8a3fc937d28cb236d720456802}{check\+Collision} (const grid\+\_\+map\+::\+Grid\+Map \&gridmap, const geometry\+\_\+msgs\+::\+Pose \&pose)
+\begin{DoxyCompactList}\small\item\em Check for collision using the S\+S\+M\+P\+\_\+grid\+Map. \end{DoxyCompactList}\item 
+void \hyperlink{classCollisionDetector_ade868f8b060fec62a139e1694d714f86}{run} ()
+\begin{DoxyCompactList}\small\item\em The main loop of the Node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A node that detect collision with other objects using the S\+S\+M\+P\+\_\+grid\+Map. 
+
+Output a message when collision occurs and also output the car position and speed. Currently it only supports collision detection for dynamic objects and only print the speed of the car. T\+O\+DO\+:
+\begin{DoxyItemize}
+\item Get the car footprint dimensions from a message (not hardcoded values)
+\item Static Object collision
+\item For dynamic object \+: Output both speed of the car and the object. And calculate the collision speed. 
+\end{DoxyItemize}
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCollisionDetector_a5c43466988b198a4e09c30255760465d}\label{classCollisionDetector_a5c43466988b198a4e09c30255760465d}} 
+\index{Collision\+Detector@{Collision\+Detector}!Collision\+Detector@{Collision\+Detector}}
+\index{Collision\+Detector@{Collision\+Detector}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{Collision\+Detector()}{CollisionDetector()}}
+{\footnotesize\ttfamily Collision\+Detector\+::\+Collision\+Detector (\begin{DoxyParamCaption}\item[{ros\+::\+Node\+Handle \&}]{nh }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & A reference to the ros\+::\+Node\+Handle initialized in the main function.\\
+\hline
+\end{DoxyParams}
+Initialize the node and its components such as publishers and subscribers. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classCollisionDetector_a9dd68a8a3fc937d28cb236d720456802}\label{classCollisionDetector_a9dd68a8a3fc937d28cb236d720456802}} 
+\index{Collision\+Detector@{Collision\+Detector}!check\+Collision@{check\+Collision}}
+\index{check\+Collision@{check\+Collision}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{check\+Collision()}{checkCollision()}}
+{\footnotesize\ttfamily collision\+Type Collision\+Detector\+::check\+Collision (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+::\+Grid\+Map \&}]{gridmap,  }\item[{const geometry\+\_\+msgs\+::\+Pose \&}]{pose }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check for collision using the S\+S\+M\+P\+\_\+grid\+Map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gridmap} & The grid\+Map to look in \\
+\hline
+{\em pose} & The position of the car \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A collision\+Type enum member, regarding the type of collision (None if no collision) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCollisionDetector_a58422375b62b0eee48dbd73d7943bad9}\label{classCollisionDetector_a58422375b62b0eee48dbd73d7943bad9}} 
+\index{Collision\+Detector@{Collision\+Detector}!gnss\+\_\+callback@{gnss\+\_\+callback}}
+\index{gnss\+\_\+callback@{gnss\+\_\+callback}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{gnss\+\_\+callback()}{gnss\_callback()}}
+{\footnotesize\ttfamily void Collision\+Detector\+::gnss\+\_\+callback (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Pose\+Stamped\+::\+Const\+Ptr \&}]{gnss }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gnss Callback \+: Called when the gnss information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Updates gnss information of the vehicle position. \mbox{\Hypertarget{classCollisionDetector_a47d78bbe04c6b7ceb2ba143c67e8388b}\label{classCollisionDetector_a47d78bbe04c6b7ceb2ba143c67e8388b}} 
+\index{Collision\+Detector@{Collision\+Detector}!gridmap\+\_\+callback@{gridmap\+\_\+callback}}
+\index{gridmap\+\_\+callback@{gridmap\+\_\+callback}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{gridmap\+\_\+callback()}{gridmap\_callback()}}
+{\footnotesize\ttfamily void Collision\+Detector\+::gridmap\+\_\+callback (\begin{DoxyParamCaption}\item[{const grid\+\_\+map\+\_\+msgs\+::\+Grid\+Map\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gridmap Callback \+: Called when the gridmap information has changed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & A smart pointer to the message from the topic.\\
+\hline
+\end{DoxyParams}
+Updates the gridmap information. \mbox{\Hypertarget{classCollisionDetector_ade868f8b060fec62a139e1694d714f86}\label{classCollisionDetector_ade868f8b060fec62a139e1694d714f86}} 
+\index{Collision\+Detector@{Collision\+Detector}!run@{run}}
+\index{run@{run}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Collision\+Detector\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The main loop of the Node. 
+
+Basically checks for topics updates, then evaluate the situation and triggers (or not) the safety switch depending of the situation evaluation. \mbox{\Hypertarget{classCollisionDetector_a2ab3d4266ac3f872bb033235b10173ef}\label{classCollisionDetector_a2ab3d4266ac3f872bb033235b10173ef}} 
+\index{Collision\+Detector@{Collision\+Detector}!velocity\+\_\+callback@{velocity\+\_\+callback}}
+\index{velocity\+\_\+callback@{velocity\+\_\+callback}!Collision\+Detector@{Collision\+Detector}}
+\subsubsection{\texorpdfstring{velocity\+\_\+callback()}{velocity\_callback()}}
+{\footnotesize\ttfamily void Collision\+Detector\+::velocity\+\_\+callback (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Twist\+Stamped\+::\+Const\+Ptr \&}]{vel }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/akanshu/\+A\+D-\/\+E\+Y\+E\+\_\+\+Core/\+A\+D-\/\+E\+Y\+E/\+R\+O\+S\+\_\+\+Packages/src/\+A\+D-\/\+E\+Y\+E/src/\hyperlink{collisionDetector__node_8cpp}{collision\+Detector\+\_\+node.\+cpp}\end{DoxyCompactItemize}
