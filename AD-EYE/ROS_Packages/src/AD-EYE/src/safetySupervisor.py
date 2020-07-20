@@ -32,6 +32,8 @@ class safetySupervisor:
     """
 
     def __init__(self):
+
+        
         # Define the constants
         self.SAFE = 0
         self.UNSAFE = 1

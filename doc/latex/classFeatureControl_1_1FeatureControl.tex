@@ -1,29 +1,48 @@
 \hypertarget{classFeatureControl_1_1FeatureControl}{}\section{Feature\+Control.\+Feature\+Control Class Reference}
 \label{classFeatureControl_1_1FeatureControl}\index{Feature\+Control.\+Feature\+Control@{Feature\+Control.\+Feature\+Control}}
+
+
+This is a class for controlling the starting/stopping of the feature.  
+
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 def \hyperlink{classFeatureControl_1_1FeatureControl_aaddbe7a1596f71ce1a6d462e728c438b}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, \hyperlink{classFeatureControl_1_1FeatureControl_a109435a4846e1d31370f92e12a9cb645}{filepath}, feature\+\_\+name, \hyperlink{classFeatureControl_1_1FeatureControl_a5911b30613b10be90a2ab8519bdc5bb2}{sleep\+\_\+time\+\_\+on\+\_\+start}=\hyperlink{namespaceFeatureControl_aeebd4e13e6a3a0dde7d720af530ae36d}{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}, \hyperlink{classFeatureControl_1_1FeatureControl_aa577601585488e8fed13f9a1ad36d7b3}{sleep\+\_\+time\+\_\+on\+\_\+stop}=\hyperlink{namespaceFeatureControl_aeebd4e13e6a3a0dde7d720af530ae36d}{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME})
 \item 
 def \hyperlink{classFeatureControl_1_1FeatureControl_a21f4c45cce80b2be3a1110d44e12fbfc}{start} (self)
-\item 
+\begin{DoxyCompactList}\small\item\em Starts the feature that have been requested by the user. \end{DoxyCompactList}\item 
 def \hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}{stop} (self)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Stops the feature that have been requested by the user. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classFeatureControl_1_1FeatureControl_af8533a40b9c881dd05254039a47c327a}{uuid}
-\item 
+\begin{DoxyCompactList}\small\item\em str \end{DoxyCompactList}\item 
 \hyperlink{classFeatureControl_1_1FeatureControl_a109435a4846e1d31370f92e12a9cb645}{filepath}
-\item 
+\begin{DoxyCompactList}\small\item\em str \end{DoxyCompactList}\item 
 \hyperlink{classFeatureControl_1_1FeatureControl_a13a501b445ea0db6d7ed24b09ab94402}{Launch}
 \item 
 \hyperlink{classFeatureControl_1_1FeatureControl_a95e3fe171ba7d3d44f3d237c204ebb0e}{Feature\+Name}
 \item 
 \hyperlink{classFeatureControl_1_1FeatureControl_a5911b30613b10be90a2ab8519bdc5bb2}{sleep\+\_\+time\+\_\+on\+\_\+start}
-\item 
+\begin{DoxyCompactList}\small\item\em float \end{DoxyCompactList}\item 
 \hyperlink{classFeatureControl_1_1FeatureControl_aa577601585488e8fed13f9a1ad36d7b3}{sleep\+\_\+time\+\_\+on\+\_\+stop}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em float \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is a class for controlling the starting/stopping of the feature. 
+
+\begin{DoxyParagraph}{Methods}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+\hyperlink{classFeatureControl_1_1FeatureControl_a21f4c45cce80b2be3a1110d44e12fbfc}{start()} Starts the feature 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+\hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}{stop()} Stops the running feature 
+\end{DoxyParagraph}
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -33,6 +52,19 @@ def \hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f
 \subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
 {\footnotesize\ttfamily def Feature\+Control.\+Feature\+Control.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{filepath,  }\item[{}]{feature\+\_\+name,  }\item[{}]{sleep\+\_\+time\+\_\+on\+\_\+start = {\ttfamily \hyperlink{namespaceFeatureControl_aeebd4e13e6a3a0dde7d720af530ae36d}{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}},  }\item[{}]{sleep\+\_\+time\+\_\+on\+\_\+stop = {\ttfamily \hyperlink{namespaceFeatureControl_aeebd4e13e6a3a0dde7d720af530ae36d}{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}} }\end{DoxyParamCaption})}
 
+\begin{DoxyParagraph}{Parameters}
+\begin{DoxyVerb}filepath    str
+            The path of the file
+        feature_name        :
+\end{DoxyVerb}
+ 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+sleep\+\_\+time\+\_\+on\+\_\+start float 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+sleep\+\_\+time\+\_\+on\+\_\+stop float 
+\end{DoxyParagraph}
 
 
 \subsection{Member Function Documentation}
@@ -42,13 +74,25 @@ def \hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f
 \subsubsection{\texorpdfstring{start()}{start()}}
 {\footnotesize\ttfamily def Feature\+Control.\+Feature\+Control.\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}\label{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}} 
+
+
+Starts the feature that have been requested by the user. 
+
+\subsubsection*{Parameters }
+
+\subsubsection*{Raises }\mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}\label{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f6d1c86}} 
 \index{Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}!stop@{stop}}
 \index{stop@{stop}!Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}}
 \subsubsection{\texorpdfstring{stop()}{stop()}}
 {\footnotesize\ttfamily def Feature\+Control.\+Feature\+Control.\+stop (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
+
+Stops the feature that have been requested by the user. 
+
+\subsubsection*{Parameters }
+
+\subsubsection*{Raises }
 
 \subsection{Member Data Documentation}
 \mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_a95e3fe171ba7d3d44f3d237c204ebb0e}\label{classFeatureControl_1_1FeatureControl_a95e3fe171ba7d3d44f3d237c204ebb0e}} 
@@ -63,6 +107,10 @@ def \hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f
 \subsubsection{\texorpdfstring{filepath}{filepath}}
 {\footnotesize\ttfamily Feature\+Control.\+Feature\+Control.\+filepath}
 
+
+
+str 
+
 \mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_a13a501b445ea0db6d7ed24b09ab94402}\label{classFeatureControl_1_1FeatureControl_a13a501b445ea0db6d7ed24b09ab94402}} 
 \index{Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}!Launch@{Launch}}
 \index{Launch@{Launch}!Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}}
@@ -75,17 +123,29 @@ def \hyperlink{classFeatureControl_1_1FeatureControl_a1dc5cd2f9a7fe0aa97c77a4f5f
 \subsubsection{\texorpdfstring{sleep\+\_\+time\+\_\+on\+\_\+start}{sleep\_time\_on\_start}}
 {\footnotesize\ttfamily Feature\+Control.\+Feature\+Control.\+sleep\+\_\+time\+\_\+on\+\_\+start}
 
+
+
+float 
+
 \mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_aa577601585488e8fed13f9a1ad36d7b3}\label{classFeatureControl_1_1FeatureControl_aa577601585488e8fed13f9a1ad36d7b3}} 
 \index{Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}!sleep\+\_\+time\+\_\+on\+\_\+stop@{sleep\+\_\+time\+\_\+on\+\_\+stop}}
 \index{sleep\+\_\+time\+\_\+on\+\_\+stop@{sleep\+\_\+time\+\_\+on\+\_\+stop}!Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}}
 \subsubsection{\texorpdfstring{sleep\+\_\+time\+\_\+on\+\_\+stop}{sleep\_time\_on\_stop}}
 {\footnotesize\ttfamily Feature\+Control.\+Feature\+Control.\+sleep\+\_\+time\+\_\+on\+\_\+stop}
 
+
+
+float 
+
 \mbox{\Hypertarget{classFeatureControl_1_1FeatureControl_af8533a40b9c881dd05254039a47c327a}\label{classFeatureControl_1_1FeatureControl_af8533a40b9c881dd05254039a47c327a}} 
 \index{Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}!uuid@{uuid}}
 \index{uuid@{uuid}!Feature\+Control\+::\+Feature\+Control@{Feature\+Control\+::\+Feature\+Control}}
 \subsubsection{\texorpdfstring{uuid}{uuid}}
 {\footnotesize\ttfamily Feature\+Control.\+Feature\+Control.\+uuid}
+
+
+
+str 
 
 
 

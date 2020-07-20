@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 # license removed for brevity
+##@image rcv_state_machine.png
+"""
+This file contains the RCV state manager.
+The file allows the user to define states numbers in order to know which state the vehicle is in.
+Also, the features of each state can be activated via features list defined in this file.
+
+The script saves the rosbags in the path defined by the variable 'ROSBAG_PATH'
+
+"""
+
 import rospy
 import rospkg
 from std_msgs.msg import Int32MultiArray
@@ -72,6 +82,16 @@ point_map_ready = False
 
 
 def simulink_state_callback(msg):
+    """
+    The callback function of the subscriped topic /Simulink_state
+
+    Parameters:
+    msg: Int32MultiArray
+        The published message on the topic /Simulink_state
+    
+    Returns:
+    Creates a global variable current_simulink_state
+    """
     global current_simulink_state
 
     if msg.data != current_simulink_state:
