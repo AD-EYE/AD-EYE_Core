@@ -72,7 +72,7 @@ function varargout = struct2xml( s, varargin )
 
     %append childs
     parseStruct(s.(xmlname),docNode,docRootNode,[inputname(1) '.' xmlname '.']);
-
+    
     if(nargout == 0)
         %save xml file
         xmlwrite(file,docNode);
@@ -87,17 +87,17 @@ function [] = parseStruct(s,docNode,curNode,pName)
     fnames = fieldnames(s);
     for i = 1:length(fnames)
         curfield = fnames{i};
-        
         %substitute special characters
         curfield_sc = curfield;
         curfield_sc = strrep(curfield_sc,'_dash_','-');
         curfield_sc = strrep(curfield_sc,'_colon_',':');
         curfield_sc = strrep(curfield_sc,'_dot_','.');
-        
+        b=s.(curfield);
         if (strcmp(curfield,'Attributes'))
             %Attribute data
-            if (isstruct(s.(curfield)))
-                attr_names = fieldnames(s.Attributes);
+            if isstruct(b)
+                c=s.Attributes;
+                attr_names = fieldnames(c);
                 for a = 1:length(attr_names)
                     cur_attr = attr_names{a};
                     
@@ -107,7 +107,7 @@ function [] = parseStruct(s,docNode,curNode,pName)
                     cur_attr_sc = strrep(cur_attr_sc,'_colon_',':');
                     cur_attr_sc = strrep(cur_attr_sc,'_dot_','.');
                     
-                    [cur_str,succes] = val2str(s.Attributes.(cur_attr));
+                    [cur_str,succes] = val2str(c.(cur_attr));
                     if (succes)
                         curNode.setAttribute(cur_attr_sc,cur_str);
                     else
@@ -127,19 +127,19 @@ function [] = parseStruct(s,docNode,curNode,pName)
                 disp(['Warning. The text in ' pName curfield ' could not be processed.']);
             end
         else
-            %Sub-element
-            if (isstruct(s.(curfield)))
+            %Subelement
+            if isstruct(b)
                 %single element
                 curElement = docNode.createElement(curfield_sc);
                 curNode.appendChild(curElement);
-                parseStruct(s.(curfield),docNode,curElement,[pName curfield '.'])
-            elseif (iscell(s.(curfield)))
+                parseStruct(b,docNode,curElement,[pName curfield '.'])
+            elseif iscell(b)
                 %multiple elements
-                for c = 1:length(s.(curfield))
+                for c = 1:length(b)
                     curElement = docNode.createElement(curfield_sc);
                     curNode.appendChild(curElement);
-                    if (isstruct(s.(curfield){c}))
-                        parseStruct(s.(curfield){c},docNode,curElement,[pName curfield '{' num2str(c) '}.'])
+                    if (isstruct(b{c}))
+                        parseStruct(b{c},docNode,curElement,[pName curfield '{' num2str(c) '}.'])
                     else
                         disp(['Warning. The cell ' pName curfield '{' num2str(c) '} could not be processed, since it contains no structure.']);
                     end
@@ -149,7 +149,7 @@ function [] = parseStruct(s,docNode,curNode,pName)
                 %contain text. Create a new element and use this text
                 curElement = docNode.createElement(curfield_sc);
                 curNode.appendChild(curElement);
-                [txt,succes] = val2str(s.(curfield));
+                [txt,succes] = val2str(b);
                 if (succes)
                     curElement.appendChild(docNode.createTextNode(txt));
                 else

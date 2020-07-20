@@ -100,6 +100,7 @@ for i=1:length(allExpObjects)
         end
         
         loadedPexFile.Experiment.Actors.Actor{1,actorIndex} = currentActorStruct;
+         loadedPexFile.Experiment.Actors
         actorIndex = actorIndex + 1;
 
             
