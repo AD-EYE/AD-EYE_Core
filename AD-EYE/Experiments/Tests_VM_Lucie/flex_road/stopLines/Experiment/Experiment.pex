@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="EA3C2F6F11B49992DF7B819FABCF84EEEE55E068FC5BDE34684649E72B9DFD7A" UniqueExperimentIdentifier="bd6137c4-5328-4a07-9016-2dcf41547ef1" UniqueIdCounter="491" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="DC11646AE4CCDEC04E1529963A5F27E8CB1F9DF21C1224C7DE786D1E66BA8BE5" UniqueExperimentIdentifier="545e70a9-1cce-4862-86ee-f58c09f1699b" UniqueIdCounter="493" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="91" SensorDetectability="Invisible" NumericalID="5" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="55.542996406555176" Y="120.46449279785156" Z="0.689999997615814" />
+      <Location X="10.543595314025879" Y="86.195716857910156" Z="0.689999997615814" />
       <Orientation Bank="0" Tilt="0" Heading="5" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
@@ -1527,7 +1527,7 @@
       <VehicleGeometry TrackWidthFront="1.6469999551773071" TrackWidthRear="1.6469999551773071" TyreRadius="0.37000000476837158" Wheelbase="2.8199999332427979" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="NL Traffic Light Roadside" id="RoadsideLight_NL_1" UniqueId="443" SensorDetectability="Detectable" NumericalID="11" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="RoadsideLight_NL" AnimatedActor="false" CompilationSheetPicture="Roadside_NL.png" HashCode="2000fba5e1a6d0fba32e88146243c3cb" ModelFile="AnimatedElements\TrafficLight_NL\Roadside\Roadside_NL.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_NL\Roadside\Roadside_NL.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="31.359367370605469" Y="95.823638916015625" Z="0" />
+      <Location X="40.4771842956543" Y="109.05340576171875" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="320" />
       <Origin X="0.5" Y="0.77999997138977051" Z="0" />
       <Size X="0.60000002384185791" Y="0.43999999761581421" Z="3.75" />
@@ -1916,9 +1916,9 @@
         <RoadSignalAppearance Description="" id="MarkerAppearance_8" UniqueId="110" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadPriorityLineAppearance Description="" id="MarkerAppearance_9" UniqueId="111" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings>
-          <RoadMarking xsi:type="BitmapRoadMarker" Description="" id="BitmapRoadMarker_1" UniqueId="441" PreventDragging="true" SensorDetectability="Occluding" NumericalID="9" ObjectTypeID="23" ParticipateInCollisionDetection="false">
-            <Location X="16.130993536230108" Y="9.129286605624614" Z="0" />
-            <Orientation Bank="0" Tilt="0" Heading="53.727135897828838" />
+          <RoadMarking xsi:type="BitmapRoadMarker" Description="" id="BitmapRoadMarker_1" UniqueId="491" PreventDragging="true" SensorDetectability="Occluding" NumericalID="9" ObjectTypeID="23" ParticipateInCollisionDetection="false">
+            <Location X="25.440548589941045" Y="22.577269393710552" Z="0" />
+            <Orientation Bank="0" Tilt="0" Heading="53.249128317140695" />
             <Origin X="0.5" Y="0.5" Z="0" />
             <Size X="2.0999999046325684" Y="2.7599999904632568" Z="0" />
             <CoGOffset X="0" Y="0" Z="0" />
@@ -1930,7 +1930,7 @@
             <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
               <VisualizationActuators />
             </ObjectSimulatorInfo>
-            <RoadMarkingAppearance Description="" id="MarkerAppearance_24" UniqueId="444" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <RoadMarkingAppearance Description="" id="MarkerAppearance_24" UniqueId="492" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <PreserveAspectRatio>true</PreserveAspectRatio>
           </RoadMarking>
         </RoadMarkings>
@@ -2438,9 +2438,9 @@
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
       <CategorizedObjects>
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="439" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="441" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="470" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="472" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="491" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
@@ -2470,9 +2470,6 @@
     <ObjectColorID Color="FFFF00FF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="439" />
     </ObjectColorID>
-    <ObjectColorID Color="FF7F7F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="441" />
-    </ObjectColorID>
     <ObjectColorID Color="FF007F00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="RoadsideLight_NL_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="443" />
     </ObjectColorID>
@@ -2487,6 +2484,9 @@
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="475" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF7F007F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="491" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
