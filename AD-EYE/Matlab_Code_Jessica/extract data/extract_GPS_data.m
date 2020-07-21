@@ -1,10 +1,11 @@
 %use 'pose' file to extract GPS data
 
 %-------------------------------------------------------------------------
-%__________command to extract adn convert____________________________
-
+%__________command to extract and convert____________________________
+% MODIFY THIS VARIABLE
+Path_to_file='C:\Users\adeye\Desktop\rec1\data\AutoDrive\recording\2019_9_10\rec1\gnss\pose.txt';
 %on gps_data we have matrix with on line latitude longitude and altitude
-gps_data=recup_data; %recuperation GPS data
+gps_data=recup_data(pat_to_file; %recuperation GPS data
 %cart_data= basic_conversion(gps_data); %conversion GPS data into cartesian data
 cart_data= Mercato_conversion(gps_data); %conversion with Mercato method
 close; %close all figures
@@ -39,9 +40,8 @@ end
 
 %we this function we fallow all line of the file and put the matrix the gps
 %data. 
-function gps_data= recup_data
-%insert below the path of the file where is GPS data
-  Path_to_file='C:\Users\adeye\Desktop\rec1\data\AutoDrive\recording\2019_9_10\rec1\gnss\pose.txt';
+function gps_data= recup_data (path_to_file)
+
   file=fopen(Path_to_file);
   data=[];
   vect=[];
