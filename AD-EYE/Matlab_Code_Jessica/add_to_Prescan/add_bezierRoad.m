@@ -53,9 +53,9 @@ edgeOfRoadRight = 15;
  xp.saveToFile(xpName);
 
 %Convert the PB to PEX using the writeToPexFile function
-pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\BezierRoad\BezierRoad.pex'];
+pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
 experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
-writeBezierRoadToPexFile2(xpName,experimentPexFile,pathToTemplatePex);%,centerlineOffset);
+writeBezierRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex);%,centerlineOffset);
 
 %Run the experiment directly from Matlab
 prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');

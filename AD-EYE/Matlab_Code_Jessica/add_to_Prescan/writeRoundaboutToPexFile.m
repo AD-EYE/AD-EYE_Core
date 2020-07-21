@@ -1,4 +1,4 @@
-function writeBezierRoadToPexFile2(ExperimentPBFile,ExperimentPexFile,RoadPexFile)
+function writeRoundaboutToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -20,51 +20,57 @@ disp('Loading the experiment and template PEX files...') %message for the comman
 loadedPexFile = xml2struct(pexFileName); 
 loadedTemplate = xml2struct(RoadTemplate);
 
-%get all roads on the pb file
+%get all roads on the pb file 
 myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
 roadIndex = 1;
+nbRoundabout=1;
+
 for i=1:length(allExpRoads)
     
+    %we would like modify only road add on pb file and count the number of
+    %road and the number of Bezier road on Pex file
     objectTypeName=allExpRoads{i,1}.objectTypeName;
     if  not(strcmp(objectTypeName, 'Road' ))
         if strcmp(objectTypeName,'BezierRoad')
             roadIndex= roadIndex+1;
+        elseif strcmp(objectTypeName,'XCrossing')
+            roadIndex= roadIndex+1;
+        elseif strcmp(objectTypeName,'YCrossing')
+            roadIndex= roadIndex+1;
+         elseif strcmp(objectTypeName,'Roundabout')
+            roadIndex= roadIndex+1;
+            nbRoundabout= nbRoundabout+1;
         end
     else
     
-    %Get Road properties from PB fil
+    %Get Road properties from PB file
+    currentObjectCoGOffset =allExpRoads{i,1}.cogOffset;
     currentObjectUniqueID = allExpRoads{i,1}.uniqueID;
     currentObjectNumericalID= allExpRoads{i,1}.numericalID;
-    currentOjectTypeId= allExpRoads{i,1}.objectTypeID;
     currentObjectPosition = allExpRoads{i,1}.pose.position;
     currentObjectOrientation = allExpRoads{i,1}.pose.orientation;
-    currentObjectOffset = allExpRoads{i,1}.cobbOffset;
     
     %Get the correct road template  
-    currentRoadStruct=loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
+    currentRoadStruct=getCorrectRoadStruct(loadedTemplate,'Roundabout');
     
         %Set the correct properties for each road in the STRUCT
-        currentRoadStruct.Attributes.id = strcat('CurvedRoad_',num2str(roadIndex));
+        currentRoadStruct.Attributes.xsi_colon_type='Roundabout';
+        currentRoadStruct.Attributes.id = strcat('Roundabout_',num2str(nbRoundabout));
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
-        currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
-        currentRoadStruct.Attributes.Xoffset =20; % num2str(currentObjectOffset.x);
-        currentRoadStruct.Attributes.Yoffset =23; % num2str(currentObjectOffset.y);
-        currentRoadStruct.Attributes.Zoffset = num2str(currentObjectOffset.z);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
         currentRoadStruct.Location.Attributes.Z = num2str(currentObjectPosition.z);
         
-        currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
         currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
-        currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
-
-        currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(5*roadIndex);
-        currentRoadStruct.LaneLineDefinitions.LaneLineDefinition.Attributes.UniqueId=num2str(5*roadIndex+1);
-        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,1}.Attributes.UniqueId=num2str(5*roadIndex+2);
-        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5*roadIndex+3);
+        
+        currentRoadStruct.CoGOffset.Attributes.X = num2str(currentObjectCoGOffset.x);
+        currentRoadStruct.CoGOffset.Attributes.Y = num2str(currentObjectCoGOffset.y);
+        currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectCoGOffset.z);
+        
+        %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         
         roadIndex = roadIndex + 1;
@@ -86,7 +92,7 @@ disp(['Done...A back up of original PEX file is made at: ' backupFolderPath '\Ba
 
 
 %Function to get the correct template for each road
-function [correspondingRoadStruct] = getCorrectRoadStruct(roadTypeName,loadedTemplate)
+function [correspondingRoadStruct] = getCorrectRoadStruct(loadedTemplate,nameCross)
 
 
 RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
@@ -102,7 +108,7 @@ for j=1:length(RoadInTemplateList)
         templateActorName = '';
     end
     
-    if strcmp(roadTypeName,templateActorName)
+    if strcmp(nameCross,templateActorName)
         
         correspondingRoadStruct = RoadInTemplateList{j};
         
@@ -113,5 +119,4 @@ end
     
 
 end
-
 end

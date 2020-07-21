@@ -7,24 +7,22 @@ xp = prescan.api.experiment.loadExperimentFromFile(xpName);
 
 %% First create a road
 %% First we define the position of the road
-x=50;        %[m]
-y=-30;        %[m]
+x=-14;        %[m]
+y=0;        %[m]
 z=0;           %[m]
 %we can also define the oriantation
 yaw=0;        %[rad]
 %%
-%add road on pb file
+%add a road in pb file
 road_1 = prescan.api.roads.createRoad(xp,x,y,z,yaw);
-%define type of crossing
-type='Y';
 %%
 %Save the xp's changes to the PB file
  xp.saveToFile(xpName);
 
-%Convert the PB to PEX using the writeToPexFile function
+%Convert the PB to PEX using the writeRoundaboutToPexFile function
 pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
 experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
-writeCrossingRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex,type);%,centerlineOffset);
+writeRoundaboutToPexFile(xpName,experimentPexFile,pathToTemplatePex);%,centerlineOffset);
 
 %Run the experiment directly from Matlab
 %prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');

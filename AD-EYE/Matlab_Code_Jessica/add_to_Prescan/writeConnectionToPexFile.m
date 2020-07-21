@@ -6,7 +6,7 @@
 %JointId=0,1 ou 2. 
 %%
 
-function addLinkBetweenRoads(RoadA_Id,RoadB_Id,JointaId,JointbId,ExperimentPexFile,RoadPexFile)
+function writeConnectionToPexFile(RoadA_Id,RoadB_Id,JointaId,JointbId,ExperimentPexFile,RoadPexFile)
 
 %load all files
 pexFileName=ExperimentPexFile;
@@ -33,6 +33,7 @@ indexConnection= indexConnection+1;
 %get the connection template
 currentStruct=loadedTemplate.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,1};
 
+%add the properties of connection
 currentStruct.Attributes.id = strcat('RoadJointConnection_',num2str(indexConnection));
 currentStruct.Attributes.Road_A_UniqueId = RoadA_Id;
 currentStruct.Attributes.Road_B_UniqueId = RoadB_Id;

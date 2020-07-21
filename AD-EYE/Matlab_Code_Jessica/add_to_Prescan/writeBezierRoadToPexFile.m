@@ -1,4 +1,4 @@
-function writeCrossingRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,type)
+function writeBezierRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -20,11 +20,11 @@ disp('Loading the experiment and template PEX files...') %message for the comman
 loadedPexFile = xml2struct(pexFileName); 
 loadedTemplate = xml2struct(RoadTemplate);
 
-%get all roads on the pb file 
+%get all objects on the pb file
 myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
-roadIndex = 1;
-nbCross=1;
+roadIndex = 1; %counter for number of roads
+nbBezier=1; %counter for number of Bezier road
 
 for i=1:length(allExpRoads)
     
@@ -34,46 +34,49 @@ for i=1:length(allExpRoads)
     if  not(strcmp(objectTypeName, 'Road' ))
         if strcmp(objectTypeName,'BezierRoad')
             roadIndex= roadIndex+1;
-        elseif strcmp(objectTypeName,'XCrossing')
+            nbBezier=nbBezier+1;
+         elseif strcmp(objectTypeName,'XCrossing')
             roadIndex= roadIndex+1;
-            if strcmp(type,'X')
-                nbCross=nbCross+1;
-            end
         elseif strcmp(objectTypeName,'YCrossing')
             roadIndex= roadIndex+1;
-            if strcmp(type,'Y')
-                nbCross=nbCross+1;
-            end
          elseif strcmp(objectTypeName,'Roundabout')
             roadIndex= roadIndex+1;
         end
     else
     
-    %Get Road properties from PB fil
+    %Get Road properties from PB file
     currentObjectUniqueID = allExpRoads{i,1}.uniqueID;
     currentObjectNumericalID= allExpRoads{i,1}.numericalID;
+    currentOjectTypeId= allExpRoads{i,1}.objectTypeID;
     currentObjectPosition = allExpRoads{i,1}.pose.position;
     currentObjectOrientation = allExpRoads{i,1}.pose.orientation;
-    currentObjectCoGOffset =allExpRoads{i,1}.cogOffset;
+    currentObjectOffset = allExpRoads{i,1}.cogOffset;
     
     %Get the correct road template  
-    currentRoadStruct=getCorrectRoadStruct(loadedTemplate,strcat(type,'Crossing'));
+    currentRoadStruct=getCorrectRoadStruct('BezierRoad',loadedTemplate);
     
-        %Set the correct properties for each road in the STRUCT
-        currentRoadStruct.Attributes.xsi_colon_type=strcat(type,'Crossing');
-        currentRoadStruct.Attributes.id = strcat(type,'Crossing_',num2str(nbCross));
+        %Set the correct properties for Bezier road in the STRUCT
+        currentRoadStruct.Attributes.id = strcat('CurvedRoad_',num2str(nbBezier));
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
+        currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
         currentRoadStruct.Location.Attributes.Z = num2str(currentObjectPosition.z);
         
-        currentRoadStruct.CoGOffset.Attributes.X = num2str(currentObjectCoGOffset.x);
-        currentRoadStruct.CoGOffset.Attributes.Y = num2str(currentObjectCoGOffset.y);
-        currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectCoGOffset.z);
-
+        currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
         currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
+        currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
+
+        currentRoadStruct.CoGOffset.Attributes.X = num2str(currentObjectOffset.x);
+        currentRoadStruct.CoGOffset.Attributes.Y = num2str(currentObjectOffset.y);
+        currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectOffset.z);
+        
+        currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(5*roadIndex);
+        currentRoadStruct.LaneLineDefinitions.LaneLineDefinition.Attributes.UniqueId=num2str(5*roadIndex+1);
+        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,1}.Attributes.UniqueId=num2str(5*roadIndex+2);
+        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5*roadIndex+3);
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
@@ -97,7 +100,7 @@ disp(['Done...A back up of original PEX file is made at: ' backupFolderPath '\Ba
 
 
 %Function to get the correct template for each road
-function [correspondingRoadStruct] = getCorrectRoadStruct(loadedTemplate,nameCross)
+function [correspondingRoadStruct] = getCorrectRoadStruct(roadTypeName,loadedTemplate)
 
 
 RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
@@ -113,7 +116,7 @@ for j=1:length(RoadInTemplateList)
         templateActorName = '';
     end
     
-    if strcmp(nameCross,templateActorName)
+    if strcmp(roadTypeName,templateActorName)
         
         correspondingRoadStruct = RoadInTemplateList{j};
         
@@ -124,4 +127,5 @@ end
     
 
 end
+
 end
