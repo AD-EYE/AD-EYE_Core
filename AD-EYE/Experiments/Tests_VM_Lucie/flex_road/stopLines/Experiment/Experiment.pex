@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="FE07DEF75680494978C243CD72808F23F35F7020DCB5153BB681FE1D401F5397" UniqueExperimentIdentifier="f0acb40e-7812-41aa-af72-95d2e1b2b4c7" UniqueIdCounter="470" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Experiment" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="92BFCBBD9E5C4C63E375236E8874FDA95D5A62C8056F2EE923D9ECFE9DAF283E" UniqueExperimentIdentifier="b6536234-2fc4-47f1-a4df-b8a7e7443815" UniqueIdCounter="472" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a BMW X5" id="BMW_X5_SUV_1" UniqueId="91" SensorDetectability="Invisible" NumericalID="5" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="-15.4118070602417" Y="46.258705139160156" Z="0.689999997615814" />
@@ -1898,11 +1898,11 @@
             </ObjectSimulatorInfo>
             <RoadMarkingAppearance Description="" id="MarkerAppearance_20" UniqueId="446" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           </RoadMarking>
-          <RoadMarking xsi:type="PedestrianMarkingJapan" Description="" id="PedestrianMarkingJapan_1" UniqueId="440" PreventDragging="true" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="23" ParticipateInCollisionDetection="false" CrossingWidth="5" CrossingLength="7" CrossingMarkerNumber="8" CrossingMarkerWidth="0.466666669">
+          <RoadMarking xsi:type="PedestrianMarkingGeneric" Description="" id="PedestrianMarkingGeneric_2" UniqueId="470" PreventDragging="true" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="23" ParticipateInCollisionDetection="false" CrossingWidth="4.899999" CrossingLength="7" CrossingMarkerNumber="8" CrossingMarkerWidth="0.466666669">
             <Location X="1" Y="0" Z="0" />
             <Orientation Bank="0" Tilt="0" Heading="10" />
             <Origin X="0.5" Y="0.5" Z="0" />
-            <Size X="5" Y="7" Z="0" />
+            <Size X="4.8999991416931152" Y="7" Z="0" />
             <CoGOffset X="0" Y="0" Z="0" />
             <SensorInfo>
               <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -1912,7 +1912,7 @@
             <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
               <VisualizationActuators />
             </ObjectSimulatorInfo>
-            <RoadMarkingAppearance Description="" id="MarkerAppearance_22" UniqueId="447" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <RoadMarkingAppearance Description="" id="MarkerAppearance_22" UniqueId="471" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           </RoadMarking>
         </RoadMarkings>
         <DirtSpots />
@@ -2203,9 +2203,9 @@
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Auxiliary" HasSeparateColors="false" Color="FFFF7F00" PredefinedEnumType="Auxiliary">
       <CategorizedObjects>
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="439" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingJapan_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="440" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="441" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="442" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="470" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Sky" HasSeparateColors="false" Color="FF7F00FF" PredefinedEnumType="Sky">
@@ -2235,9 +2235,6 @@
     <ObjectColorID Color="FFFF00FF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="439" />
     </ObjectColorID>
-    <ObjectColorID Color="FF00FFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingJapan_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="440" />
-    </ObjectColorID>
     <ObjectColorID Color="FF7F7F7F">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BitmapRoadMarker_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="441" />
     </ObjectColorID>
@@ -2246,6 +2243,9 @@
     </ObjectColorID>
     <ObjectColorID Color="FF007F00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="RoadsideLight_NL_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="443" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFFFFF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="PedestrianMarkingGeneric_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="470" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
