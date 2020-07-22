@@ -196,7 +196,7 @@ if __name__ == '__main__':
     rospy.loginfo("ADEYE Manager: Started")
 
     # Set up subscribers for registering simulink control command
-    rospy.Subscriber("/Simulink_state", Int32MultiArray, state_callback)
+    rospy.Subscriber("/Features_state", Int32MultiArray, state_callback)
     # Set up subscribers for registering state switch command
     rospy.Subscriber("/initial_check", Bool, initial_check_callback)
     rospy.Subscriber("/activation", Bool, activation_callback)
