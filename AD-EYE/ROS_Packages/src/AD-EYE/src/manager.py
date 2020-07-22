@@ -6,23 +6,22 @@ from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
 from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
 import subprocess, os.path # to record rosbags using the command line
+from enum import Enum
 
-# Name given to the states of the features
-ENABLED = 1
-DISABLED = 0
 
 
 # Symbolic names to access active_features (basically an enum)
-RVIZ = 0
-MAP = 1
-SENSING = 2
-LOCALIZATION = 3
-FAKE_LOCALIZATION = 4
-DETECTION = 5
-MISSION_PLANNING = 6
-MOTION_PLANNING = 7
-SWITCH = 8
-SSMP = 9
+class Features(Enum):
+    RVIZ = 0
+    MAP = 1
+    SENSING = 2
+    LOCALIZATION = 3
+    FAKE_LOCALIZATION = 4
+    DETECTION = 5
+    MISSION_PLANNING = 6
+    MOTION_PLANNING = 7
+    SWITCH = 8
+    SSMP = 9
 
 
 # Basic folder locations
@@ -75,13 +74,13 @@ current_state_no = INITIALIZING_STATE_NO #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP]      # DISABLED = 0 = wait | ENABLED = 1 = run
-INITIALIZING_STATE =      [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  ENABLED]
-ENABLED_STATE =           [ENABLED,  ENABLED,  DISABLED, DISABLED,     DISABLED,          DISABLED,  ENABLED,          DISABLED,        ENABLED,  ENABLED]
-ENGAGED_STATE =           [ENABLED,  ENABLED,  ENABLED,  ENABLED,      DISABLED,          ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
-FAULT_STATE =             [ENABLED,  ENABLED,  ENABLED,  ENABLED,      DISABLED,          ENABLED,   ENABLED,          ENABLED,         ENABLED,  ENABLED]
+# FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   True]
+ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   True]
+ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,   True]
+FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,            True,   True,   True]
 # saves the previous state so that we can detect changes
-previous_state =          [DISABLED, DISABLED, DISABLED, DISABLED,     DISABLED,          DISABLED,  DISABLED,         DISABLED,        DISABLED, DISABLED]
+previous_state =          [False,  False,        False,         False,             False,     False,            False,           False,  False,  False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -91,14 +90,14 @@ ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorde
 
 
 # callback listening to
-def simulink_state_callback(msg):
+def state_callback(msg):
     global current_state
     if msg.data != current_state:
         rospy.loginfo("Message received")
         current_state = msg.data
 
 
-# callback to switch from initializing to enabled, listens to /initial_check
+## callback to switch from initializing to enabled, listens to /initial_check
 def initial_check_callback(msg):
     global current_state_no
     global current_state
@@ -112,7 +111,7 @@ def initial_check_callback(msg):
             current_state = ENABLED_STATE
         rospy.loginfo("System can be activated")
 
-# callback to switch from enabled to engaged or the other way
+## callback to switch from enabled to engaged or the other way
 def activation_callback(msg):
     global current_state_no
     global current_state
@@ -142,7 +141,7 @@ def activation_callback(msg):
             # save rosbag
             subprocess.call("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
-# callback to switch to the fault state from any state
+## callback to switch to the fault state from any state
 def fault_callback(msg):
     global current_state_no
     global current_state
@@ -197,7 +196,7 @@ if __name__ == '__main__':
     rospy.loginfo("ADEYE Manager: Started")
 
     # Set up subscribers for registering simulink control command
-    rospy.Subscriber("/Simulink_state", Int32MultiArray, simulink_state_callback)
+    rospy.Subscriber("/Simulink_state", Int32MultiArray, state_callback)
     # Set up subscribers for registering state switch command
     rospy.Subscriber("/initial_check", Bool, initial_check_callback)
     rospy.Subscriber("/activation", Bool, activation_callback)
@@ -229,9 +228,9 @@ if __name__ == '__main__':
 
             for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
-                    if current_state[i] == ENABLED:
+                    if current_state[i] == True:
                         active_features[i].start()
-                    if current_state[i] == DISABLED:
+                    if current_state[i] == False:
                         active_features[i].stop()
 
             previous_state = current_state
