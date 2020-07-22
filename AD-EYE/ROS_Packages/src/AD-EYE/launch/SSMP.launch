@@ -26,8 +26,7 @@
           type="safetySupervisor"
           name="safetySupervisor"
           output="screen"
-          launch-prefix="xterm -e"
-          args="/gps_to_base_link"/>
+          launch-prefix="xterm -e"/>
 
 
     <node pkg="ss_trajplanner"
