@@ -14,6 +14,9 @@ Panels:
         - /Tracked Contours1/Namespaces1
         - /Detected_objects1
         - /MarkerArray1/Namespaces1
+        - /safe_stop_endposes_vis1
+        - /safe_stop_endposes_vis1/Status1
+        - /safe_stop_traj_vis1
         - /Image2
         - /Image3
       Splitter Ratio: 0.695804
@@ -699,9 +702,7 @@ Visualization Manager:
       Marker Topic: /tlr_result
       Name: Traffic Lights
       Namespaces:
-        tlr_result_green: true
-        tlr_result_red: true
-        tlr_result_yellow: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Camera
@@ -769,7 +770,7 @@ Visualization Manager:
       Name: MarkerArray
       Namespaces:
         //arrow_markers: true
-        //box_markers: true
+        //box_markers: false
         //centroid_markers: true
         //hull_markers: true
         //label_markers: true
@@ -792,6 +793,21 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: false
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /safe_stop_endposes_vis
+      Name: safe_stop_endposes_vis
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /safe_stop_traj_vis
+      Name: safe_stop_traj_vis
+      Namespaces:
+        "": true
+      Queue Size: 100
     - Class: rviz/Image
       Enabled: false
       Image Topic: /tl/image_raw
