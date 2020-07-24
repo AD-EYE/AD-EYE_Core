@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#rosnode kill rosbag_recorder
+
+#FILE0=~/test.bag.active
+FILE0=$1".active"
+FILE1=$1
+STARTTIME=$(date +%s)
+
+while [  -f "$FILE0" ] && [ $(($(date +%s)-STARTTIME)) -lt 5 ]; do #wait for rosbag process to finish cleanly (.active to be removed)
+	sleep 0.1
+done
+
+until [  -f "$FILE1" ] || [ $(($(date +%s)-STARTTIME)) -gt 5 ]; do #wait for rosbag process to finish cleanly (.bag to be written)
+	sleep 0.1
+done
+
+killall rosbag
+shred -u $FILE0 #remove the file
+shred -u $FILE1 #remove the file

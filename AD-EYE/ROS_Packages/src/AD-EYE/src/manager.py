@@ -5,8 +5,9 @@ import rospkg
 from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
 from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
-import subprocess, os.path # to record rosbags using the command line
+import subprocess#, os.path # to record rosbags using the command line
 from enum import Enum
+import time
 
 
 
@@ -69,8 +70,8 @@ MOTION_PLANNING_STOP_WAIT_TIME = 10
 # states numbering, a number is given to each state to make sure they are unique
 INITIALIZING_STATE_NB = 0
 ENABLED_STATE_NB = 1
-ENGAGED_STATE_NB = 3
-FAULT_STATE_NB = 4
+ENGAGED_STATE_NB = 2
+FAULT_STATE_NB = 3
 current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state machine
 
 
@@ -79,7 +80,7 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   False]
 ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   True]
 ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,   True]
-FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,            True,   True,   True]
+FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,           False,   True,   True]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
@@ -89,19 +90,10 @@ current_state =  INITIALIZING_STATE
 
 
 
-# # actual states (what features they have enables)
-# # FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RECORDING]      # DISABLED = false = wait | ENABLED = True = run
-# INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   True,     False]
-# ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   True,     False]
-# ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,   True,      True]
-# FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,            True,   True,   True,     False]
-# # saves the previous state so that we can detect changes
-# previous_state =          [False,  False,        False,         False,             False,     False,            False,           False,  False,  False,     False]
-# # holds the current state of  the features
-# current_state =  INITIALIZING_STATE
+
 
 # Rosbag related constants
-ROSBAG_PATH = "/test.bag" # ~ is added as a prefix, name of the bag
+ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
 
@@ -184,7 +176,7 @@ def fault_callback(msg):
             else:
                 # delete rosbag
                 subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
-                subprocess.Popen("bash ~/rosbag_shred ~/"+ROSBAG_PATH, shell=True, executable='/bin/bash')
+                subprocess.Popen("bash " + ADEYE_PACKAGE_LOCATION + "/sh/rosbag_shred ~/"+ROSBAG_PATH, shell=True, executable='/bin/bash')
                 rospy.loginfo("Data was deleted")
         else:
             rospy.loginfo("Entering Fault state")
@@ -241,11 +233,17 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
 
+        print("manager.py")
+        print(current_state)
+        print(current_state and FEATURES_STATE_LIST[current_state_nb])
+
         # regularly check at if the set of active features has changed
         if current_state != previous_state:
 
             # this ensures we do not have more features enables than the ones currently allowed (defined by FEATURES_STATE_LIST[current_state_nb])
             current_state = current_state and FEATURES_STATE_LIST[current_state_nb]
+
+
 
             for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
