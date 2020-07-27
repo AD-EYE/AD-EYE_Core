@@ -28,15 +28,29 @@
 
                var data_listener = new ROSLIB.Topic({
                  ros : ros,
-                 name : '/switchCommand',
-                 messageType : 'std_msgs/Int32'
+                 name : '/tl/image_raw',
+                 messageType : 'sensor_msgs/Image'
                });
 
                data_listener.subscribe(function(message) {
-                console.log('Received message on ' + data_listener.name + ': ' + message.data);
-                 document.getElementById("acc").innerHTML = message.data;
+                document.getElementById("acc").src = "data:image/jpg;base64," + message.data;
+                //    var k=0;
+
+                //    for (var i = 0; i < message.markers.length; i++) {
+                //        for (var j = 0; j < message.markers[i].text.length; j++) {
+                //            marker[k]=message.markers[i].text[j];
+                //            k++;
+
+                //    }
+//
+//                    s = marker.join("")
+//                    console.log(s)
+//                    console.log(':')
+//                    marker.splice(0, marker.length);
+//                }
+
                 //vel_listener.unsubscribe();
-                var val_data = message.data;
+                //var val_data = message.data;
 
                /*const gaugeElement_a = document.querySelector(".gauge_a");
                val_a = val_a / 10;
@@ -50,7 +64,7 @@
                   gauge_a.querySelector(".gauge_a__cover").textContent = `${Math.round(value_a*10 )}m/s2`;
                 }
 
-                setGaugeValue_a(gaugeElement_a, val_a);*/
+                setGaugeValue_a(gaugeElement_a, val_a);
 
 
 
@@ -83,7 +97,7 @@
                         }
                     }
 
-                function checkPosition(num){
+                function c  heckPosition(num){
                  var position;
                    if((num==0))
                      {
@@ -95,31 +109,8 @@
                      }
 
                      return position;
-                 }
-
-
-
-
-
-
-
-
-
-
+                 }*/
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
        </script>
@@ -127,12 +118,7 @@
    <body>
        <h1>AD-EYE Graphical Interface</h1>
        <p>Connection status: <span id="status"></span></p>
-       <p>Last /txt_msg received: <span id="acc"></span></p>
-       <div id="0" class="ratingBox"></div>
-       <p>Safety Channel</p>
-       <div id="1" class="ratingBox"></div>
-       <p>Autoware</p>
-
+       <p><img src="acc" style="width:300px;height:300px;"><p>
 
     </body>
  </html>
