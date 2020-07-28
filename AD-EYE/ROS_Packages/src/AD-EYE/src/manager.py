@@ -5,9 +5,9 @@ import rospkg
 from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
 from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
-import subprocess#, os.path # to record rosbags using the command line
-from enum import Enum
-import time
+import subprocess, os # to record rosbags using the command line, os is used to manage SIGINT
+from enum import Enum # to make enumaration (in particular the features enumeration)
+import time # to put timestamp in rosbags' names
 
 
 
@@ -24,6 +24,7 @@ class Features(Enum):
     SWITCH = 8
     SSMP = 9
     RECORDING = 10
+
 
 
 # Basic folder locations
@@ -77,14 +78,14 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 # actual states (what features they have enables)
 # FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RECORDING]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   False]
-ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   True]
-ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,   True]
-FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,           False,   True,   True]
+INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
+ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
+ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,    True,     True]
+FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,           False,   True,    True,    False]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
-previous_state =          [False,  False,        False,         False,             False,     False,            False,           False,  False,  False]
+previous_state =          [False,  False,        False,         False,             False,     False,            False,           False,  False,   False,    False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -127,14 +128,13 @@ def activation_callback(msg):
     global ENGAGED_STATE
     global INITIALIZING_STATE_NB
     global FAULT_STATE_NB
-    global ROSBAG_COMMAND
     if msg.data == True:
         if current_state_nb == ENABLED_STATE_NB:
             rospy.loginfo("Entering Engaged state")
             current_state = ENGAGED_STATE
             current_state_nb = ENGAGED_STATE_NB
             # start rosbag
-            rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
+            # rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
 
         else:
             if current_state_nb == INITIALIZING_STATE_NB:
@@ -167,17 +167,6 @@ def fault_callback(msg):
             rospy.loginfo("Entering Fault state")
             current_state_nb = FAULT_STATE_NB
             current_state = FAULT_STATE
-            rospy.loginfo("Previous state was Engaged, should the data be saved? [y/N]): ")
-            txt = raw_input().lower()
-            if str(txt) in ["y","Y"] :
-                rospy.loginfo("Saving Rosbag")
-                # save rosbag
-                subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
-            else:
-                # delete rosbag
-                subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
-                subprocess.Popen("bash " + ADEYE_PACKAGE_LOCATION + "/sh/rosbag_shred ~/"+ROSBAG_PATH, shell=True, executable='/bin/bash')
-                rospy.loginfo("Data was deleted")
         else:
             rospy.loginfo("Entering Fault state")
             rospy.loginfo("Previous state was Initializing")
@@ -233,9 +222,9 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
 
-        print("manager.py")
-        print(current_state)
-        print(current_state and FEATURES_STATE_LIST[current_state_nb])
+        # print("manager.py")
+        # print(current_state)
+        # print(current_state and FEATURES_STATE_LIST[current_state_nb])
 
         # regularly check at if the set of active features has changed
         if current_state != previous_state:
@@ -247,10 +236,17 @@ if __name__ == '__main__':
 
             for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
-                    if current_state[i] == True:
-                        active_features[i].start()
-                    if current_state[i] == False:
-                        active_features[i].stop()
+                    if i == Features.RECORDING.value:
+                        if current_state[i] == True:
+                            rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
+                        else:
+                            subprocess.Popen("xterm -hold -e bash " + ADEYE_PACKAGE_LOCATION + "/sh/rosbag_stop ~/"+ROSBAG_PATH , shell=True, preexec_fn=os.setpgrp,  executable='/bin/bash')
+
+                    else:
+                        if current_state[i] == True:
+                            active_features[i].start()
+                        if current_state[i] == False:
+                            active_features[i].stop()
 
             previous_state = current_state
 

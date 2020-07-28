@@ -26,7 +26,8 @@
           type="safetySupervisor"
           name="safetySupervisor"
           output="screen"
-          launch-prefix="xterm -e"/>
+          launch-prefix="xterm -e"
+          args="/twist_gate"/>
 
 
     <node pkg="ss_trajplanner"
