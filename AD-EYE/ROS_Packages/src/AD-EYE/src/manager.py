@@ -4,6 +4,7 @@ import rospy
 import rospkg
 from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
+from std_msgs.msg import Int8
 from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
 import subprocess, os # to record rosbags using the command line, os is used to manage SIGINT
 from enum import Enum # to make enumaration (in particular the features enumeration)
@@ -59,13 +60,13 @@ MOTION_PLANNING_FULL_PATH = (
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
-MAP_START_WAIT_TIME = 10
-LOCALIZATION_START_WAIT_TIME = 10
-LOCALIZATION_STOP_WAIT_TIME = 10
-DETECTION_STOP_WAIT_TIME = 10
-MISSION_PLANNING_START_WAIT_TIME = 5
-MISSION_PLANNING_STOP_WAIT_TIME = 10
-MOTION_PLANNING_STOP_WAIT_TIME = 10
+MAP_START_WAIT_TIME = 8
+LOCALIZATION_START_WAIT_TIME = 8
+LOCALIZATION_STOP_WAIT_TIME = 5
+DETECTION_STOP_WAIT_TIME = 5
+MISSION_PLANNING_START_WAIT_TIME = 2
+MISSION_PLANNING_STOP_WAIT_TIME = 5
+MOTION_PLANNING_STOP_WAIT_TIME = 5
 
 #  ---------------------------------------------------------------------------------------------------------------------
 # states numbering, a number is given to each state to make sure they are unique
@@ -114,11 +115,11 @@ def initial_check_callback(msg):
     global ENABLED_STATE_NB
     global ENABLED_STATE
     if msg.data == True:
-        rospy.loginfo("Entering Enabled state")
         if current_state_nb == INITIALIZING_STATE_NB:
+            rospy.loginfo("Entering Enabled state")
             current_state_nb = ENABLED_STATE_NB
             current_state = ENABLED_STATE
-        rospy.loginfo("System can be activated")
+            rospy.loginfo("System can be activated")
 
 ## callback to switch from enabled to engaged or the other way
 def activation_callback(msg):
@@ -181,9 +182,7 @@ if __name__ == '__main__':
     # subprocess.call(command, shell=True, executable='/bin/bash')
     #
     # rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
-    #
     # rospy.sleep(1.0)
-
     # subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
 
@@ -197,9 +196,12 @@ if __name__ == '__main__':
     # Set up subscribers for registering simulink control command
     rospy.Subscriber("/Features_state", Int32MultiArray, state_callback)
     # Set up subscribers for registering state switch command
-    rospy.Subscriber("/initial_check", Bool, initial_check_callback)
-    rospy.Subscriber("/activation", Bool, activation_callback)
+    rospy.Subscriber("/initial_checks", Bool, initial_check_callback)
+    rospy.Subscriber("/activation_request", Bool, activation_callback)
     rospy.Subscriber("/fault", Bool, fault_callback)
+
+    state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)
+    features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)
 
     # Create a FeatureControl objects and put them in the active_feature list
     active_features = []
@@ -221,10 +223,6 @@ if __name__ == '__main__':
 
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
-
-        # print("manager.py")
-        # print(current_state)
-        # print(current_state and FEATURES_STATE_LIST[current_state_nb])
 
         # regularly check at if the set of active features has changed
         if current_state != previous_state:
@@ -249,5 +247,12 @@ if __name__ == '__main__':
                             active_features[i].stop()
 
             previous_state = current_state
+
+        # publish the rcv state (for GUI)
+        state_pub.publish(current_state_nb)
+        #publish the current active features (for GUI)
+        state_array = Int32MultiArray()
+        state_array.data = current_state
+        features_pub.publish(state_array)
 
         rate.sleep()
