@@ -9,6 +9,7 @@ from FeatureControl import FeatureControl # it handles the starting and stopping
 import subprocess, os # to record rosbags using the command line, os is used to manage SIGINT
 from enum import Enum # to make enumaration (in particular the features enumeration)
 import time # to put timestamp in rosbags' names
+import sys
 
 
 
@@ -31,6 +32,7 @@ class Features(Enum):
 # Basic folder locations
 rospack = rospkg.RosPack()
 ADEYE_PACKAGE_LOCATION = rospack.get_path('adeye')+"/"
+MODIFIED_LAUNCH_FILES_LOCATION = "modified_launch_files/"
 LAUNCH_FOLDER_LOCATION = "launch/"
 
 # Names of each launch file
@@ -59,6 +61,8 @@ MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
+
+
 # Sleep times for system to finish resource intensive tasks/ receive control signals
 MAP_START_WAIT_TIME = 8
 LOCALIZATION_START_WAIT_TIME = 8
@@ -81,8 +85,8 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 # FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RECORDING]      # DISABLED = false = wait | ENABLED = True = run
 INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
 ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
-ENGAGED_STATE =           [True,    True,         True,          True,             False,      True,             True,            True,   True,    True,     True]
-FAULT_STATE =             [True,    True,         True,          True,             False,      True,             True,           False,   True,    True,    False]
+ENGAGED_STATE =           [True,    True,         True,          False,             True,      True,             True,            True,   True,    True,     True]
+FAULT_STATE =             [True,    True,         True,          False,             True,      True,             True,           False,   True,    True,    False]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
@@ -185,7 +189,30 @@ if __name__ == '__main__':
     # rospy.sleep(1.0)
     # subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
-
+ 
+    if rospy.get_param("test_automation",False) == True:
+        RVIZ_LAUNCH_FILE_NAME = "rp_my_rviz.launch"
+        MAP_LAUNCH_FILE_NAME = "rp_my_map.launch"
+        LOCALIZATION_LAUNCH_FILE_NAME = "rp_my_localization.launch" #changes made in the manager file
+        FAKE_LOCALIZATION_LAUNCH_FILE_NAME = "rp_my_fake_localization.launch"
+        SENSING_LAUNCH_FILE_NAME = "rp_my_sensing.launch"
+        DETECTION_LAUNCH_FILE_NAME = "rp_my_detection.launch" #changes made in the manager file
+        SWITCH_LAUNCH_FILE_NAME = "switch.launch"
+        MISSION_PLANNING_LAUNCH_FILE_NAME = "rp_my_mission_planning.launch" #changes made in the manager file
+        MOTION_PLANNING_LAUNCH_FILE_NAME = "rp_my_motion_planning.launch" #changes made in the manager file
+        SSMP_LAUNCH_FILE_NAME = "rp_SSMP.launch"
+        RVIZ_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, RVIZ_LAUNCH_FILE_NAME))
+        MAP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, MAP_LAUNCH_FILE_NAME))
+        LOCALIZATION_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, LOCALIZATION_LAUNCH_FILE_NAME)) #changes made in the manager file
+        FAKE_LOCALIZATION_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, FAKE_LOCALIZATION_LAUNCH_FILE_NAME))
+        SENSING_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, SENSING_LAUNCH_FILE_NAME))
+        DETECTION_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, DETECTION_LAUNCH_FILE_NAME)) #changes made in the manager file
+        SWITCH_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SWITCH_LAUNCH_FILE_NAME))
+        MISSION_PLANNING_FULL_PATH = (
+                "%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, MISSION_PLANNING_LAUNCH_FILE_NAME)) #changes made in the manager file
+        MOTION_PLANNING_FULL_PATH = (
+                "%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME)) #changes made in the manager file
+        SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
 
 
@@ -200,6 +227,7 @@ if __name__ == '__main__':
     rospy.Subscriber("/activation_request", Bool, activation_callback)
     rospy.Subscriber("/fault", Bool, fault_callback)
 
+    # publishers for the GUI
     state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)
     features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)
 
@@ -234,6 +262,7 @@ if __name__ == '__main__':
 
             for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
+                    # treat recording differently since it is a bash script and not a launch file
                     if i == Features.RECORDING.value:
                         if current_state[i] == True:
                             rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
