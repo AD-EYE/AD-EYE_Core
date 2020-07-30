@@ -15,7 +15,7 @@ import sys
 
 # Symbolic names to access active_features (basically an enum)
 class Features(Enum):
-    RVIZ = 0
+    RECORDING = 0
     MAP = 1
     SENSING = 2
     LOCALIZATION = 3
@@ -25,7 +25,7 @@ class Features(Enum):
     MOTION_PLANNING = 7
     SWITCH = 8
     SSMP = 9
-    RECORDING = -1
+    RVIZ = 10
 
 
 
@@ -82,15 +82,15 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RVIZ,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RECORDING]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
-ENABLED_STATE =           [True,    True,        False,         False,             False,     False,             True,           False,   True,   False,    False]
-ENGAGED_STATE =           [True,    True,         True,          False,             True,      True,             True,            True,   True,    True,     True]
-FAULT_STATE =             [True,    True,         True,          False,             True,      True,             True,           False,   True,    True,    False]
+# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
+ENGAGED_STATE =           [     True,    True,         True,          False,             True,      True,             True,            True,   True,   True, True]
+FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
-previous_state =          [False,  False,        False,         False,             False,     False,            False,           False,  False,   False,    False]
+previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -233,7 +233,6 @@ if __name__ == '__main__':
 
     # Create a FeatureControl objects and put them in the active_feature list
     active_features = []
-    active_features.append(FeatureControl(RVIZ_FULL_PATH, "Rviz"))
     active_features.append(FeatureControl(MAP_FULL_PATH, "MAP", MAP_START_WAIT_TIME))
     active_features.append(FeatureControl(SENSING_FULL_PATH, "Sensing"))
     active_features.append(FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME,
@@ -246,6 +245,7 @@ if __name__ == '__main__':
                                      sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME))
     active_features.append(FeatureControl(SWITCH_FULL_PATH, "Switch"))
     active_features.append(FeatureControl(SSMP_FULL_PATH, "SSMP"))
+    active_features.append(FeatureControl(RVIZ_FULL_PATH, "Rviz"))
 
 
 
@@ -261,10 +261,7 @@ if __name__ == '__main__':
 
 
 
-            for i in range(-1,len(previous_state)-1):
-                print(i)
-                print(Features.RECORDING.value)
-                print(i == Features.RECORDING.value)
+            for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
                     # treat recording differently since it is a bash script and not a launch file
                     if i == Features.RECORDING.value:
@@ -275,9 +272,9 @@ if __name__ == '__main__':
 
                     else:
                         if current_state[i] == True:
-                            active_features[i].start()
+                            active_features[i-1].start() #offset because recording is not in the active_features list
                         if current_state[i] == False:
-                            active_features[i].stop()
+                            active_features[i-1].stop()
 
             previous_state = current_state
 
