@@ -25,7 +25,7 @@ class Features(Enum):
     MOTION_PLANNING = 7
     SWITCH = 8
     SSMP = 9
-    RECORDING = 10
+    RECORDING = -1
 
 
 
@@ -252,6 +252,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
 
+
         # regularly check at if the set of active features has changed
         if current_state != previous_state:
 
@@ -260,7 +261,10 @@ if __name__ == '__main__':
 
 
 
-            for i in range(0,len(previous_state)):
+            for i in range(-1,len(previous_state)-1):
+                print(i)
+                print(Features.RECORDING.value)
+                print(i == Features.RECORDING.value)
                 if previous_state[i] != current_state[i]:
                     # treat recording differently since it is a bash script and not a launch file
                     if i == Features.RECORDING.value:
