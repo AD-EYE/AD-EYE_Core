@@ -1,0 +1,14 @@
+<!-- -->
+<launch>
+    <arg name="nodeName" default="lidarRadarFuse"/>
+    <arg name="lidar_topic" default="input1"/>
+    <arg name="radar_topic" default="input2"/>
+    <arg name="fused_topic" default="output"/>
+
+    <node pkg="adeye"
+          type="lidarRadarFuse"
+          name="$(arg nodeName)"
+          output="screen"
+          args="$(arg lidar_topic) $(arg radar_topic) $(arg fused_topic)"/>
+
+</launch>

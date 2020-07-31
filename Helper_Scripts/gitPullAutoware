@@ -1,0 +1,103 @@
+#!/usr/bin/expect -f
+# sudo apt-get install expect
+
+set user [lindex $argv 0]
+set password [lindex $argv 1]
+
+send_user "\nChecking common:\n"
+cd ../autoware.ai/src/autoware/common/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking core_perception:\n"
+cd ../core_perception/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking core_planning:\n"
+cd ../core_planning/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking documentation:\n"
+cd ../documentation/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking messages:\n"
+cd ../messages/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking simulation:\n"
+cd ../simulation/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking utilities:\n"
+cd ../utilities/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+send_user "\nChecking visualization:\n"
+cd ../visualization/
+spawn -noecho git pull
+expect "ser"
+send "$user\r"
+expect "ass"
+send "$password\r"
+interact
+spawn -noecho git status
+interact
+
+
+
+#cd ../autoware.ai/src/autoware/common/
+#spawn git pull
+#expect "ser"
+#send "jmgs\r"
+#expect "ass"
+#send "d0f6f973f3e6b87a85dd6b76b7de51fb5d7afccf\r"
+#interact

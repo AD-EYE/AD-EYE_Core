@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+
+<node pkg="planner_utils" type="costmap_cloner_node2"
+name="costmap_cloner_node2" output="screen">
+<param name="robot_frame" value="/base_link" />
+<param name="costmap_base_topic" value="/rcv_move_base/move_base/local_costmap" />
+<param name="publish_frequency" value="10.0" />
+</node>
+
+
+</launch>

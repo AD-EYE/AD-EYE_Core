@@ -1,0 +1,16 @@
+<!-- -->
+<launch>
+    <arg name="nodeName" default="objectsFrameAdapter"/>
+    <arg name="inputTopic" default="input"/>
+    <arg name="outputTopic" default="output"/>
+    <arg name="targetFrame" default="map"/>
+
+    <node
+            type="objectsFrameAdapter"
+            pkg="adeye"
+            name="$(arg nodeName)"
+            respawn="false"
+            output="screen"
+            args="$(arg inputTopic) $(arg outputTopic) $(arg targetFrame)"
+    />
+</launch>

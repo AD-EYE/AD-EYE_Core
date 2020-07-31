@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="car">
+  <link name="base_link">
+    <visual name="base_visual">
+      <origin xyz="1 0 0.0" rpy="0 0 3.14" />
+      <geometry>
+		<mesh filename="package://adeye/../../../../AD-EYE/Data/URDF_Actor_Models/BMW_X5/BMW_X5_4.3ds" scale="0.025 0.025 0.025"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
