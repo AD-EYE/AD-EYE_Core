@@ -1,8 +1,0 @@
-<!-- -->
-<launch>
-    <!-- point_cloud_receiver -->
-    <node pkg="adeye" type="point_cloud_receiver.py" name="point_cloud_receiver"/>
-
-    <!-- gnss_broadcaster -->
-    <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
-</launch>
