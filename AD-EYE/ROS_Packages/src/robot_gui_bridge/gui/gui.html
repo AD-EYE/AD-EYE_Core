@@ -233,6 +233,241 @@
                        }
                     }
 //--------------------Toggle state---------------
+//-------------------- state Change---------------
+                function toggleStateinitial(item){
+                   if(item.className == "on") {
+                       item.className="off";
+                      var initialToggleOn = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/initial_checks',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var initialOn = new ROSLIB.Message({
+                         data : 1
+                       });
+                    initialToggleOn.publish(initialOn);
+                   } else {
+                       item.className="on";
+                      var initialToggleOff = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/initial_checks',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var initialOff = new ROSLIB.Message({
+                         data : 0
+                       });
+                    initialToggleOff.publish(initialOff);
+                   }
+                }
+
+                function toggleStateactivation(item){
+                   if(item.className == "on") {
+                       item.className="off";
+                      var activationToggleOn = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/activation_request',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var activationOn = new ROSLIB.Message({
+                         data : 1
+                       });
+                    activationToggleOn.publish(activationOn);
+                   } else {
+                       item.className="on";
+                      var activationToggleOff = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/activation_request',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var acivationOff = new ROSLIB.Message({
+                         data : 0
+                       });
+                    activationToggleOff.publish(activationOff);
+                   }
+                }
+
+                function toggleStatefault(item){
+                   if(item.className == "on") {
+                       item.className="off";
+                      var faultToggleOn = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/fault',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var fautOn = new ROSLIB.Message({
+                         data : 1
+                       });
+                    faultToggleOn.publish(faultOn);
+                   } else {
+                       item.className="on";
+                      var faultToggleOff = new ROSLIB.Topic({
+                         ros : ros,
+                         name : '/fault',
+                         messageType : 'std_msgs/Int32'
+                       });
+
+                      var faultOff = new ROSLIB.Message({
+                         data : 0
+                       });
+                    faultToggleOff.publish(faultOff);
+                   }
+                }
+//-------------------- state Change---------------
+//-------------------Manager State----------------
+                    //listen to the topic
+                     var initial_listener = new ROSLIB.Topic({
+                       ros : ros,
+                       name : '/initial_checks',
+                       messageType : 'std_msgs/Int32'
+                     });
+                     var activation_listener = new ROSLIB.Topic({
+                       ros : ros,
+                       name : '/activation_request',
+                       messageType : 'std_msgs/Int32'
+                     });
+                     var fault_listener = new ROSLIB.Topic({
+                       ros : ros,
+                       name : '/fault',
+                       messageType : 'std_msgs/Int32'
+                     });
+                     //subscribing to the topic
+                    initial_listener.subscribe(function(message) {
+
+
+                      var val_data = message.data;
+                      var num =val_data;
+                    // array for two leds
+                      var strColorPairs = Array(
+                                                  {'position' : 1, 'color' : 'green'},
+                                              );
+
+                      var position = checkPosition(num);
+                      colorBox(position);
+                      //function to change the color of leds and reseting it to gray when not in use
+                       function colorBox(position)
+                          {
+                              var divList = document.getElementsByClassName('ratingBox');
+                              var i, n = divList.length;
+                              curContent = divList[position].id;
+                              for (i=0; i<n; i++)
+                              {
+
+                                  for (j=0; j<strColorPairs.length; j++)
+                                  {
+                                      if (strColorPairs[j].position == curContent){
+                                          divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                                          }
+                                      else {divList[i].style.backgroundColor  = 'gray'}
+                                  }
+                              }
+                          }
+                          //function to assign the position in the array base on the data value recived
+                      function checkPosition(num){
+                       var position;
+                         if((num==1))
+                           {
+                            position=1;
+                           }
+                           return position;
+                       }
+                    });
+
+                    activation_listener.subscribe(function(message) {
+
+
+                      var val_data = message.data;
+                      var num =val_data;
+                    // array for two leds
+                      var strColorPairs = Array(
+                                                  {'position' : 0, 'color' : 'green'},
+                                              );
+
+                      var position = checkPosition(num);
+                      colorBox(position);
+                      //function to change the color of leds and reseting it to gray when not in use
+                       function colorBox(position)
+                          {
+                              var divList = document.getElementsByClassName('ratingBox');
+                              var i, n = divList.length;
+                              curContent = divList[position].id;
+                              for (i=0; i<n; i++)
+                              {
+
+                                  for (j=0; j<strColorPairs.length; j++)
+                                  {
+                                      if (strColorPairs[j].position == curContent){
+                                          divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                                          }
+                                      else {divList[i].style.backgroundColor  = 'gray'}
+                                  }
+                              }
+                          }
+                          //function to assign the position in the array base on the data value recived
+                      function checkPosition(num){
+                       var position;
+                         if((num==1))
+                           {
+                            position=0;
+                           }
+                           return position;
+                       }
+                    });
+
+                    fault_listener.subscribe(function(message) {
+
+
+                      var val_data = message.data;
+                      var num =val_data;
+                    // array for two leds
+                      var strColorPairs = Array(
+                                                  {'position' : 0, 'color' : 'green'},
+                                              );
+
+                      var position = checkPosition(num);
+                      colorBox(position);
+                      //function to change the color of leds and reseting it to gray when not in use
+                       function colorBox(position)
+                          {
+                              var divList = document.getElementsByClassName('ratingBox');
+                              var i, n = divList.length;
+                              curContent = divList[position].id;
+                              for (i=0; i<n; i++)
+                              {
+
+                                  for (j=0; j<strColorPairs.length; j++)
+                                  {
+                                      if (strColorPairs[j].position == curContent){
+                                          divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                                          }
+                                      else {divList[i].style.backgroundColor  = 'gray'}
+                                  }
+                              }
+                          }
+                          //function to assign the position in the array base on the data value recived
+                      function checkPosition(num){
+                       var position;
+                         if((num==1))
+                           {
+                            position=0;
+                           }
+                           return position;
+                       }
+                    });
+
+//--------------------Manager State--------------
+//-----------------feature state-----------------
+                var data_listener = new ROSLIB.Topic({
+                  ros : ros,
+                  name : '/feature_stated',
+                  messageType : 'std_msgs/Int32'
+                });
+
+//-----------------feature state-----------------
 
 
          </script>
@@ -328,8 +563,8 @@
 					<div class="card">
 						<div class="card-body">
 							<h2 class="text-center">Toggle State</h2>
-                            <input type="button" id="btn" value="button"
-                               class="off" onclick="toggleState(this)" />
+                            <button type="button" class="off"
+                             onclick="toggleState(this)">A Vs S</button>
 						</div
                         >
 					</div>
@@ -337,13 +572,41 @@
                 <div class="col-md-4 col-sm-12">
 					<div class="card">
 						<div class="card-body">
-							<h2 class="text-center">Camera Stream_tl</h2>
+							<h2 class="text-center">State Change</h2>
+                            <button type="button" class="off"
+                             onclick="toggleStateinitial(this)">Initial</button>
+                             <button type="button"  class="off"
+                              onclick="toggleStateactivation(this)">Activation</button>
+                             <button type="button" class="off"
+                              onclick="toggleStatefault(this)">Fault</button>
 
-						</div
-                        >
+						</div>
 					</div>
 				</div>
+                <div class="col-md-4 col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h2 class="text-center">Camera Stream_tl</h2>
 
+						</div>
+					</div>
+				</div>
+                <div class="col-md-4 col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							<h2 class="text-center">Manager State</h2>
+                            <div id="0" class="ratingBoxs">
+                            </div>
+                            <p>Initiaizing</p>
+                            <div id="1" class="ratingBoxs">
+                            </div>
+                            <p>Enable</p>
+                            <div id="2" class="ratingBoxs">
+                            </div>
+                            <p>Fault</p>
+						</div>
+					</div>
+				</div>
             </div>
 	</main>
 
