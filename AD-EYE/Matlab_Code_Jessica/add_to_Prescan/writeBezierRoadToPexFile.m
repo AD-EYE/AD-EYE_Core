@@ -1,4 +1,4 @@
-function writeBezierRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile)
+function writeBezierRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,options)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -52,7 +52,6 @@ for i=1:length(allExpRoads)
     currentOjectTypeId= allExpRoads{i,1}.objectTypeID;
     currentObjectPosition = allExpRoads{i,1}.pose.position;
     currentObjectOrientation = allExpRoads{i,1}.pose.orientation;
-    currentObjectOffset = allExpRoads{i,1}.cogOffset;
     
     %Get the correct road template  
     currentRoadStruct=getCorrectRoadStruct('BezierRoad',loadedTemplate);
@@ -62,6 +61,10 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
         currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
+        currentRoadStruct.Attributes.RelativeHeading=num2str(options.relativeHeading);
+        currentRoadStruct.Attributes.Xoffset=num2str(options.deltaX);
+        currentRoadStruct.Attributes.Yoffset=num2str(options.deltaY);
+        currentRoadStruct.Attributes.Zoffset=num2str(options.deltaZ);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
@@ -70,10 +73,7 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
         currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
         currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
-
-        currentRoadStruct.CoGOffset.Attributes.X = num2str(currentObjectOffset.x);
-        currentRoadStruct.CoGOffset.Attributes.Y = num2str(currentObjectOffset.y);
-        currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectOffset.z);
+        
         
         currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(5*roadIndex);
         currentRoadStruct.LaneLineDefinitions.LaneLineDefinition.Attributes.UniqueId=num2str(5*roadIndex+1);
