@@ -1,4 +1,4 @@
-function writeCrossingRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,type)
+function writeCrossingRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,type,headings)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -33,6 +33,8 @@ for i=1:length(allExpRoads)
     objectTypeName=allExpRoads{i,1}.objectTypeName;
     if  not(strcmp(objectTypeName, 'Road' ))
         if strcmp(objectTypeName,'BezierRoad')
+            roadIndex= roadIndex+1;
+        elseif strcmp(objectTypeName,'CubicSplineRoad')
             roadIndex= roadIndex+1;
         elseif strcmp(objectTypeName,'XCrossing')
             roadIndex= roadIndex+1;
@@ -74,6 +76,16 @@ for i=1:length(allExpRoads)
         currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectCoGOffset.z);
 
         currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
+        
+        %we will define position of branchs
+        if type=='Y' 
+            nbBranch=3;
+        else
+            nbBranch=4;
+        end
+        for i=1:nbBranch
+            currentRoadStruct.CrossSections.RoadCrossSection{1,i}.Attributes.Heading=num2str(headings{i});
+        end
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;

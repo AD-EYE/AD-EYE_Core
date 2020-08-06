@@ -5,7 +5,7 @@
 % MODIFY THIS VARIABLE
 Path_to_file='C:\Users\adeye\Desktop\rec1\data\AutoDrive\recording\2019_9_10\rec1\gnss\pose.txt';
 %on gps_data we have matrix with on line latitude longitude and altitude
-gps_data=recup_data(pat_to_file; %recuperation GPS data
+gps_data=recup_data(Path_to_file); %recuperation GPS data
 %cart_data= basic_conversion(gps_data); %conversion GPS data into cartesian data
 cart_data= Mercato_conversion(gps_data); %conversion with Mercato method
 close; %close all figures
@@ -16,20 +16,6 @@ plot(cart_data(:,1),cart_data(:,2)); %draw cartesian point
 %-------------------------------------------------------------------
 %______________________functions____________________________________
 
-%with this fonction we separate numbers but the function str2num can do
-%this and transform string to integer. So this function is not necessary.
-function vect_val = suppr_comma(line_of_val)
-    max=length(line_of_val); 
-    count=1; %initialisation. the count will serve to now length of nombers
-    vect=[];
-    for i=[1:max] % we check all caracters
-        if line_of_val(i)== ',' %we search the split
-            vect=[vect line_of_val(count:(i-1))];
-            count=i+1;
-        end
-    end
-    vect_val=vect;
-end
 
 %with this function we finally have just 3 number. 1st: latitude, 2nd:
 %longitude, 3rd: altitude. In parameter we have a line of number come from
@@ -42,7 +28,7 @@ end
 %data. 
 function gps_data= recup_data (path_to_file)
 
-  file=fopen(Path_to_file);
+  file=fopen(path_to_file);
   data=[];
   vect=[];
   vect_data=[];
