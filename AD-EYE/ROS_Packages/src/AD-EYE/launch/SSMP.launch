@@ -41,5 +41,11 @@
         <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
+
+    <node pkg="adeye"
+          type="safetyChannelPerception"
+          name="safetyChannelPerception"
+          output="screen"
+          launch-prefix="xterm -e"/>
     <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
 </launch>
