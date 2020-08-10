@@ -16,11 +16,11 @@ read answer
 if [ "$answer" != "${answer#[Yy]}" ] ;then
     echo Rosbag save: $FILE1
 else
-    while [  -f "$FILE0" ] && [ $(($(date +%s)-STARTTIME)) -lt 5 ]; do # wait for rosbag process to finish cleanly (.active to be removed) with a timeout
+    while [  -f "$FILE0" ] && [ $(($(date +%s)-STARTTIME)) -lt 3 ]; do # wait for rosbag process to finish cleanly (.active to be removed) with a timeout
 	sleep 0.1
     done
 
-    until [  -f "$FILE1" ] || [ $(($(date +%s)-STARTTIME)) -gt 5 ]; do # wait for rosbag process to finish cleanly (.bag to be written) with a timeout
+    until [  -f "$FILE1" ] || [ $(($(date +%s)-STARTTIME)) -gt 3 ]; do # wait for rosbag process to finish cleanly (.bag to be written) with a timeout
 	sleep 0.1
     done
 
@@ -31,7 +31,7 @@ else
 fi
 
 
-echo "Press any key to exit"
+echo "Press enter to exit"
 read answer
 pids=`ps -o ppid=$$` # find parent processes
 for pid in $pids
