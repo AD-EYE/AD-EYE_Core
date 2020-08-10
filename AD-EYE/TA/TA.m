@@ -1,6 +1,7 @@
 function TA(TAOrderFile)
 %setting up experiments
 BasePath = pwd;
+rosshutdown;
 
 SSHConfigFile = 'SSHConfig.csv';
 SSHConfig = readtable(SSHConfigFile, 'ReadRowNames',true,'ReadVariableNames',false, 'Delimiter', ',');

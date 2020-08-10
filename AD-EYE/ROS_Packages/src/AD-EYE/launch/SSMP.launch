@@ -1,8 +1,5 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
     <arg name="area_width" value="35" />
@@ -27,7 +24,7 @@
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/gps_to_base_link"/>
+          args="/twist_gate"/>
 
 
     <node pkg="ss_trajplanner"
