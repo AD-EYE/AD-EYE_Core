@@ -103,8 +103,8 @@ ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
 
-# callback listening to
-def state_callback(msg):
+# callback listening to the features state (features that we wan to activate)
+def features_state_callback(msg):
     global current_state
     if msg.data != current_state:
         rospy.loginfo("Message received")
@@ -112,7 +112,7 @@ def state_callback(msg):
 
 
 ## callback to switch from initializing to enabled, listens to /initial_check
-def initial_check_callback(msg):
+def initial_checks_callback(msg):
     global current_state_nb
     global current_state
     global INITIALIZING_STATE_NB
@@ -126,7 +126,7 @@ def initial_check_callback(msg):
             rospy.loginfo("System can be activated")
 
 ## callback to switch from enabled to engaged or the other way
-def activation_callback(msg):
+def activation_request_callback(msg):
     global current_state_nb
     global current_state
     global ENABLED_STATE_NB
@@ -138,9 +138,6 @@ def activation_callback(msg):
             rospy.loginfo("Entering Engaged state")
             current_state = ENGAGED_STATE
             current_state_nb = ENGAGED_STATE_NB
-            # start rosbag
-            # rosbag_proc = subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
-
         else:
             if current_state_nb == INITIALIZING_STATE_NB:
                 rospy.loginfo("Activation attempt failed as system was still initializing")
@@ -151,8 +148,6 @@ def activation_callback(msg):
             rospy.loginfo("Entering Enabled state from Engaged")
             current_state = ENABLED_STATE
             current_state_nb = ENABLED_STATE_NB
-            # save rosbag
-            subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
 ## callback to switch to the fault state from any state
 def fault_callback(msg):
@@ -163,20 +158,9 @@ def fault_callback(msg):
     global FAULT_STATE_NB
     global FAULT_STATE
     if msg.data == True:
-        if current_state_nb == ENABLED_STATE_NB:
-            rospy.loginfo("Entering Fault state")
-            current_state = FAULT_STATE
-            current_state_nb = FAULT_STATE_NB
-            rospy.loginfo("Previous state was Enabled so no data will be saved")
-        elif current_state_nb == ENGAGED_STATE_NB:
-            rospy.loginfo("Entering Fault state")
-            current_state_nb = FAULT_STATE_NB
-            current_state = FAULT_STATE
-        else:
-            rospy.loginfo("Entering Fault state")
-            rospy.loginfo("Previous state was Initializing")
-            current_state_nb = FAULT_STATE_NB
-            current_state = FAULT_STATE
+        rospy.loginfo("Entering Fault state")
+        current_state_nb = FAULT_STATE_NB
+        current_state = FAULT_STATE
 
 
 
@@ -220,11 +204,12 @@ if __name__ == '__main__':
     rospy.init_node('ADEYE_Manager')
     rospy.loginfo("ADEYE Manager: Started")
 
-    # Set up subscribers for registering simulink control command
-    rospy.Subscriber("/Features_state", Int32MultiArray, state_callback)
-    # Set up subscribers for registering state switch command
-    rospy.Subscriber("/initial_checks", Bool, initial_check_callback)
-    rospy.Subscriber("/activation_request", Bool, activation_callback)
+
+    # Set up subscriber for registering features command
+    rospy.Subscriber("/Features_state", Int32MultiArray, features_state_callback)
+    # Set up subscriber for registering state switch commands
+    rospy.Subscriber("/initial_checks", Bool, initial_checks_callback)
+    rospy.Subscriber("/activation_request", Bool, activation_request_callback)
     rospy.Subscriber("/fault", Bool, fault_callback)
 
     # publishers for the GUI
@@ -233,6 +218,7 @@ if __name__ == '__main__':
 
     # Create a FeatureControl objects and put them in the active_feature list
     active_features = []
+    active_features.append(FeatureControl("", "Rcording")) # place holder for recording
     active_features.append(FeatureControl(MAP_FULL_PATH, "MAP", MAP_START_WAIT_TIME))
     active_features.append(FeatureControl(SENSING_FULL_PATH, "Sensing"))
     active_features.append(FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME,
@@ -260,7 +246,6 @@ if __name__ == '__main__':
             current_state = current_state and FEATURES_STATE_LIST[current_state_nb]
 
 
-
             for i in range(0,len(previous_state)):
                 if previous_state[i] != current_state[i]:
                     # treat recording differently since it is a bash script and not a launch file
@@ -272,9 +257,9 @@ if __name__ == '__main__':
 
                     else:
                         if current_state[i] == True:
-                            active_features[i-1].start() #offset because recording is not in the active_features list
+                            active_features[i].start() #offset because recording is not in the active_features list
                         if current_state[i] == False:
-                            active_features[i-1].stop()
+                            active_features[i].stop()
 
             previous_state = current_state
 
