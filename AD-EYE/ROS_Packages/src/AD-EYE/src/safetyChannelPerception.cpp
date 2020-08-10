@@ -6,22 +6,24 @@
 #include <geometry_msgs/PolygonStamped.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
 class SafetyChannelPerception {
 
     private:
         ros::NodeHandle &nh_;
         ros::Subscriber sub_Lidar_;
-        ros::Publisher pub_PointCloud_;
         ros::Publisher pub_Polygons_;
         ros::Rate rate_;
-        PointCloud point_cloud_;
         std::string polygon_frame_ = "SSMP_map";
         tf::TransformListener& tf_listener_;
         
 
-
+        /*!
+        * \brief Cluster Callback : Called when the Euclidean clustering of the safety channel publishes.
+        * \param msg A smart pointer to the message from the topic.
+        * \details Gets the Point cloud clusters and transform each point of their convex hull to the frame used for the GridMap
+        * \todo Move the processing to another function
+        */
         void ClusterCallback(const autoware_msgs::CloudClusterArray::ConstPtr& msg) {
             jsk_recognition_msgs::PolygonArray poly_array;
             for(auto cluster: msg->clusters)
@@ -56,20 +58,24 @@ class SafetyChannelPerception {
         }
 
     public:
+        /*!
+        * \brief Constructor
+        * \param nh ROS node handler
+        * \param listener tf transform listener
+        */
         SafetyChannelPerception(ros::NodeHandle& nh, tf::TransformListener& listener): nh_(nh), rate_(10), tf_listener_(listener)
         {
             sub_Lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("detection/lidar_detector/cloud_clusters", 1, &SafetyChannelPerception::ClusterCallback, this);
-
-            pub_PointCloud_ = nh.advertise<PointCloud>("/points_filtered", 1, true);
             pub_Polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("detection/polygons", 1, true);
 
         }
 
+        /*!
+        * \brief Main loop of the node
+        */
         void run() {
             while (nh_.ok()) {
             ros::spinOnce();
-
-            // publish stuff
             
             rate_.sleep();
         }
