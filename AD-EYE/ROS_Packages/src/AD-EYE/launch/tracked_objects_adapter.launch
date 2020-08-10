@@ -1,8 +1,5 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
     <node
             type="tracked_objects_adapter.py"
             pkg="adeye"
@@ -10,7 +7,4 @@
             respawn="false"
             output="screen"
     />
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
 </launch>

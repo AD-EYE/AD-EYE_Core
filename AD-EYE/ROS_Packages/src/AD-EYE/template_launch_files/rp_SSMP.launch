@@ -1,8 +1,5 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Simulation/"/>
     <arg name="area_width" value="35" />
