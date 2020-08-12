@@ -1,12 +1,12 @@
 #include <ros/ros.h>
 #include <tf/transform_listener.h>
-// #include <std_msgs/Float32MultiArray.h>
-#include <pcl_ros/point_cloud.h>
 #include <autoware_msgs/CloudClusterArray.h>
 #include <geometry_msgs/PolygonStamped.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
 
-
+ /*!
+* \brief Uses Euclidean clustering output and makes something usable by GridMapCreator
+*/
 class SafetyChannelPerception {
 
     private:
@@ -66,8 +66,7 @@ class SafetyChannelPerception {
         SafetyChannelPerception(ros::NodeHandle& nh, tf::TransformListener& listener): nh_(nh), rate_(10), tf_listener_(listener)
         {
             sub_Lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("detection/lidar_detector/cloud_clusters", 1, &SafetyChannelPerception::ClusterCallback, this);
-            pub_Polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("detection/polygons", 1, true);
-
+            pub_Polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("safetyChannelPerception/detection/polygons", 1, true);
         }
 
         /*!

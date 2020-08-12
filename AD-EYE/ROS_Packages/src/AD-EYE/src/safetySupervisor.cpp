@@ -187,8 +187,7 @@ public:
 
     /*!
      * \brief Autoware global plan Callback : Called when the autoware global plan information has changed.
-     * \
-     * \
+     * \param msg A smart pointer to the message from the topic.
      */
     void autowareGlobalPlan_callback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
