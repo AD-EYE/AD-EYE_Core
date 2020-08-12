@@ -1,9 +1,9 @@
 <!-- -->
 <launch>
     <node
-            type="tracked_objects_adapter.py"
+            type="manager.py"
             pkg="adeye"
-            name="tracked_objects_adapter"
+            name="manager"
             respawn="false"
             output="screen"
     />
