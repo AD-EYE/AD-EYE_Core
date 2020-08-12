@@ -107,7 +107,7 @@ private:
     bool dynamicObjects;
     bool carOnRoad;
     //double maxCurvature;
-    struct curvature {
+    struct Curvature {
         double max;
         double min;
     };
@@ -328,9 +328,9 @@ public:
      * \brief Check curvature : Called at every interation of the main loop
      * \Checks the maximum and minimum curvature of the global plan
      */
-    curvature checkCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    Curvature checkCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        curvature curvature;
+        Curvature curvature;
         curvature.max = 0;
         curvature.min = 0;
         //double maxCurvature = 0;
@@ -522,7 +522,7 @@ public:
     void evaluate()
     {
         varOverwriteBehavior = FREE_AUTOWARE;
-        varSwitch = SAFE;
+
         // Check the distance to the center line of the lane
         distanceToLane = checkDistanceToLane(autowareGlobalPaths.at(0), pose);
 
@@ -530,28 +530,28 @@ public:
         distanceToRoadedge = checkDistanceToRoadedge(gridmap, pose);
 
         // Check the curvature of the global plan
-        curvature curvature = checkCurvature(autowareGlobalPaths.at(0));
+        Curvature curvature = checkCurvature(autowareGlobalPaths.at(0));
 
-        // Check that all the necesary nodes are active
-        activeNodes = checkActiveNodes();
-        if (activeNodes == false){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // // Check that all the necesary nodes are active
+        // activeNodes = checkActiveNodes();
+        // if (activeNodes == false){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
-        // Check that the center of the car on the road
-        carOnRoad = checkCarOnRoad(gridmap, pose);
-        if (carOnRoad == false){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // // Check that the center of the car on the road
+        // carOnRoad = checkCarOnRoad(gridmap, pose);
+        // if (carOnRoad == false){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
-        //Is there a dynamic object in the critical area
-        dynamicObjects = checkDynamicObjects(gridmap, pose);
-        if (dynamicObjects == true){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // //Is there a dynamic object in the critical area
+        // dynamicObjects = checkDynamicObjects(gridmap, pose);
+        // if (dynamicObjects == true){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
     }
 };

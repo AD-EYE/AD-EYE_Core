@@ -4,8 +4,8 @@
         use_sim_time: true
     </rosparam>
     <rosparam>
-        use_pex_file: true
-        use_ground_truth_dunamic_objects: true
+        use_pex_file: false
+        use_ground_truth_dunamic_objects: false
     </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
@@ -46,5 +46,4 @@
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
-    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
 </launch>

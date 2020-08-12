@@ -293,14 +293,22 @@ private:
                     polygon.setFrameId("SSMP_map");
                     for(auto pt: poly.polygon.points)
                     {
-                    if(pt.z == z)
-                        polygon.addVertex(Position(pt.x, pt.y));
+                        if(pt.z == z)
+                        {
+                            polygon.addVertex(Position(pt.x, pt.y));
+                            Position center(pt.x, pt.y);
+                            float radius = mapResolution;
+                            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
+                                map.at("StaticObjects", *iterator) = 0;
+                            }
+                        }
                     }
                     for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
                         map.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
+
             for(auto poly: detected_objects_.polygons)
             {
                 float z = poly.polygon.points.front().z;
@@ -309,7 +317,14 @@ private:
                 for(auto pt: poly.polygon.points)
                 {
                     if(pt.z == z)
+                    {
                         polygon.addVertex(Position(pt.x, pt.y));
+                        Position center(pt.x, pt.y);
+                        float radius = mapResolution;
+                        for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
+                            map.at("StaticObjects", *iterator) = heigth_other;
+                        }
+                    }
                 }
                 for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
                     map.at("DynamicObjects", *iterator) = heigth_other;
