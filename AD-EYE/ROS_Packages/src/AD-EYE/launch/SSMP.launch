@@ -46,4 +46,6 @@
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
+    <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+
 </launch>
