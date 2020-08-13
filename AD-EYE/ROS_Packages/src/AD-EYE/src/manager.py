@@ -5,6 +5,7 @@ import rospkg
 from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
 from std_msgs.msg import Int8
+from std_msgs.msg import Int32
 from FeatureControl import FeatureControl # it handles the starting and stopping of features (launch files)
 import subprocess, os # to record rosbags using the command line, os is used to manage SIGINT
 from enum import Enum # to make enumaration (in particular the features enumeration)
@@ -102,6 +103,11 @@ current_state =  INITIALIZING_STATE
 ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
+# To output an error message when safety channel is not running
+last_switch_time = 0
+last_switch_time_initialized = False
+SWITCH_TIME_THRESHOLD = 3 #after this amout of time (sec) the manager will write an error message if nothing is received from the safety supervisor
+
 
 # callback listening to the features state (features that we wan to activate)
 def features_state_callback(msg):
@@ -162,6 +168,13 @@ def fault_callback(msg):
         current_state_nb = FAULT_STATE_NB
         current_state = FAULT_STATE
 
+def switchCallback(msg):
+    global last_switch_time
+    global last_switch_time_initialized
+    last_switch_time = rospy.Time.now()
+    last_switch_time_initialized = True
+
+
 
 
 
@@ -211,6 +224,7 @@ if __name__ == '__main__':
     rospy.Subscriber("/initial_checks", Bool, initial_checks_callback)
     rospy.Subscriber("/activation_request", Bool, activation_request_callback)
     rospy.Subscriber("/fault", Bool, fault_callback)
+    rospy.Subscriber("/switchCommand", Int32, switchCallback)
 
     # publishers for the GUI
     state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)
@@ -237,6 +251,10 @@ if __name__ == '__main__':
 
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
+
+        if last_switch_time_initialized:
+            if (rospy.Time.now() - last_switch_time).to_sec()>SWITCH_TIME_THRESHOLD:
+                rospy.logerr("No message from the safety channel")
 
 
         # regularly check at if the set of active features has changed
