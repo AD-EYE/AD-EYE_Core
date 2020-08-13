@@ -24,14 +24,12 @@ function val_gps_data= suppr_useless_numb(val_without_comma)
     val_gps_data= val_without_comma(2:4);
 end
 
-%we this function we fallow all line of the file and put the matrix the gps
+%we this function we fallow all line of the file and put on the matrix the gps
 %data. 
 function gps_data= recup_data (path_to_file)
 
   file=fopen(path_to_file);
   data=[];
-  vect=[];
-  vect_data=[];
   while feof(file) == 0 %we cross al file
       tline=fgetl(file); %extract the line
       vect=str2num(tline); %convert string into number
@@ -62,12 +60,12 @@ end
 %second method: pseudo-Mercato conversion. It is the most use methode to
 %have a plan
 function Cartesian_data= Mercato_conversion (GPS_data)
-    a= 6378137.0; %m so results are in m
+    a= 6378137.0; %[meter] so results are in meter
     x=0;    %initialisation
     y=0;
     vect=[];
     coord=[];
-    for i=[1:length(GPS_data)] %we cross alle line of the matrix GPS_data
+    for i=[1:length(GPS_data)] %we cross all line of the matrix GPS_data
         x=a*GPS_data(i,2);
         y=a*0.5*log((1+sin(GPS_data(i,1)))/(1-sin(GPS_data(i,1))));
         vect=[x y GPS_data(i,3)];
