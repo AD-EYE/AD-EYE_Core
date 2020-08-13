@@ -28,7 +28,7 @@ models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_ex
 
 %Go to folder to load xml file
 cd( '..\..\..\OpenSCENARIO\Code\')
-%xml2struct("..\..\Experiments\Map_pedestrian_autoware1\Simulation\Map_pedestrian_autoware1.pex")
+%xml2struct("..\..\Experiments\Open_scen_lucie_test1\Simulation\Open_scen_lucie_test1.pex")
 Struct_OpenSCENARIO = xml2struct(strcat( "..\OpenSCENARIO_experiments\",name_experiment_template));
 Struct_pex = xml2struct(strcat( "..\..\Experiments\",folder_name,"\Simulation\",name_experiment,".pex"));
 

@@ -4,6 +4,7 @@ for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of
     
     %check if Entity field exists
     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.Sequence.Actors),'Entity') == 1 )
+        
         %check if Maneuver field exists
         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.Sequence),'Maneuver') == 1 )
             
@@ -29,6 +30,7 @@ for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of
                                 %OSCPrivateAction
                                 if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                         .Sequence.Maneuver{1,m}.Event{1, i }.Action), "Private" )== 1)
+                                    
                                     %Check if in Longitudinal field
                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.Sequence.Maneuver{1,m}.Event{1, i }...
                                             .Action.Private),'Longitudinal') == 1 )

@@ -4,9 +4,9 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 cd(adeye_base + "OpenSCENARIO\Code")
 
-name_model = "KTH_pedestrian_autoware";
+name_model = "Open_scen_lucie_test";
 name_ego = "BMW_X5_SUV_1";
-name_experiment = "KTH_pedestrian_autoware";
+name_experiment = "Open_scen_lucie_test";
 
 %Creating multiple .xosc and experiment files
 listOfNames = OpenScenarioMod(convertStringsToChars(name_experiment));
@@ -19,8 +19,8 @@ end
 %% Configure
 
 EgoNameArray = ["BMW_X5_SUV_1" "BMW_X5_SUV_1" "BMW_X5_SUV_1" "BMW_X5_SUV_1"];
-ExpNameArray = ["KTH_pedestrian_autoware1" "KTH_pedestrian_autoware2" "KTH_pedestrian_autoware3" "KTH_pedestrian_autoware4"];
-AutowareExpNameArray = ["KTH_pedestrian_autoware" "KTH_pedestrian_autoware" "KTH_pedestrian_autoware" "KTH_pedestrian_autoware" ];
+ExpNameArray = ["Open_scen_lucie_test1" "Open_scen_lucie_test2" "Open_scen_lucie_test3" "Open_scen_lucie_test4"];
+AutowareExpNameArray = ["Open_scen_lucie_test" "Open_scen_lucie_test" "Open_scen_lucie_test" "Open_scen_lucie_test" ];
 AutowareConfigArray = ["AutowareConfig1.xlsx" "AutowareConfig2.xlsx" "AutowareConfig3.xlsx" "AutowareConfig4.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx" ];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];
