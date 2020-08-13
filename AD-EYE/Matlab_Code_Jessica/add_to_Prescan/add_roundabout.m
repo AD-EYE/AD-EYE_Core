@@ -16,6 +16,13 @@ yaw=0;        %[rad]
 %add a road in pb file
 road_1 = prescan.api.roads.createRoad(xp,x,y,z,yaw);
 %%
+% definition of position of branches
+% we indicate the angle between the y axis of the roundabout and the branch
+headings{1}=10; %[degree]
+headings{2}=90; %[degree]
+headings{3}=180; %[degree]
+headings{4}=270; %[degree]
+
 %Save the xp's changes to the PB file
  xp.saveToFile(xpName);
 
