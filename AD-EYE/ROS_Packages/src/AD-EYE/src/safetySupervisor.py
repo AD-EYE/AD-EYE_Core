@@ -12,6 +12,25 @@ from vector_map_msgs.msg import Point
 #from grid_map_ros.hpp import grid_map_ros
 
 class safetySupervisor:
+
+    """
+    This is a class for evaluating the "safety of the Supervisor"
+      
+    Attributes: 
+        safe    :   integer to evaluate whether safe
+        unsafe  :   integer to evaluate whether unsafe
+
+    Methods:
+
+        evaluate    :   evaluates the safety
+        publish :   publishes to safetySupervisor node
+        gnss_callback   :   callback function to get PoseStamped message from gnss_pose node
+        vecMapPoint_callback    :   callback function to get PointArray message from vector_map_info/point
+        loop    :   main loop 
+        
+    
+    """
+
     def __init__(self):
         # Define the constants
         self.SAFE = 0
@@ -34,6 +53,11 @@ class safetySupervisor:
         self.vectormap_Points_flag = 0
 
     def evaluate(self):
+
+        """ 
+        Function evaluating the safety
+        """
+
         #if self.pose.position.x > 100:
         #    self.state = self.UNSAFE
         #else:
@@ -45,20 +69,40 @@ class safetySupervisor:
                 break
 
     def publish(self):
+        
+        """ 
+        Publishing the message
+        """
+
         msg = Int32()
         msg = self.state
         self.switch_pub.publish(msg)
         rospy.loginfo(self.state)
 
     def gnss_callback(self, data):
+        
+        """ 
+        GNSS callback function
+        """
+
         self.pose = data.pose
         self.gnss_flag = 1;
 
     def vecMapPoint_callback(self, data):
+
+        """ 
+        Vector map point callback function
+        """
+
         self.vectormap_Points = data.data
         self.vectormap_Points_flag = 1
 
     def loop(self):
+        
+        """ 
+        Main loop function
+        """
+
         rate = rospy.Rate(10.0)
         while not rospy.is_shutdown():
             if (self.gnss_flag == 1 and self.vectormap_Points_flag == 1):

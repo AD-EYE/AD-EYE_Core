@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 # license removed for brevity
+
+"""
+This file contains the RCV state manager.
+The file allows the user to define states numbers in order to know which state the vehicle is in.
+Also, the features of each state can be activated via features list defined in this file.
+
+The script saves the rosbags in the path defined by the variable 'ROSBAG_PATH'
+
+"""
+
 import rospy
 import rospkg
 from std_msgs.msg import Int32MultiArray
@@ -92,6 +102,16 @@ ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorde
 
 # callback listening to
 def simulink_state_callback(msg):
+    """
+    The callback function of the subscriped topic /Simulink_state
+
+    Parameters:
+    msg: Int32MultiArray
+        The published message on the topic /Simulink_state
+    
+    Returns:
+    Creates a global variable current_state
+    """
     global current_state
     if msg.data != current_state:
         rospy.loginfo("Message received")
@@ -100,6 +120,17 @@ def simulink_state_callback(msg):
 
 # callback to switch from initializing to enabled, listens to /initial_check
 def initial_check_callback(msg):
+
+    """
+    The callback function of the subscriped topic /initial_check
+    Parameters:
+    msg: bool
+        The published message on the topic /initial_check
+    
+    Returns:
+    current_state_no and current_state in their updated states respectively
+    """
+
     global current_state_no
     global current_state
     global INITIALIZING_STATE_NO
@@ -114,6 +145,17 @@ def initial_check_callback(msg):
 
 # callback to switch from enabled to engaged or the other way
 def activation_callback(msg):
+
+    """
+    The function to switch from enabled to engaged or the other way using the subscribed topic /activation
+    Parameters:
+    msg: bool
+        The published message on the topic /activation
+    
+    Returns:
+    current_state_no and current_state in their updated states respectively
+    """
+
     global current_state_no
     global current_state
     global ENABLED_STATE_NO
@@ -144,6 +186,17 @@ def activation_callback(msg):
 
 # callback to switch to the fault state from any state
 def fault_callback(msg):
+
+    """
+    The function to switch to the fault state from any state using the subscribed topic /fault
+    Parameters:
+    msg: bool
+        The published message on the topic /fault
+    
+    Returns:
+    current_state_no and current_state in their updated states respectively
+    """
+
     global current_state_no
     global current_state
     global ENABLED_STATE_NO
