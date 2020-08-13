@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # license removed for brevity
+
 import rospy
 from sensor_msgs.msg import CameraInfo
 import sys
+
+"""@package docstring
+This file publishes the camera projection matrix with the D, K, R and P matrices.
+"""
 
 # --------------Config: To be imported from Simulink -------------------------------------------------
 # TODO Camera parameters should come from Simulink once, hardcoded for now

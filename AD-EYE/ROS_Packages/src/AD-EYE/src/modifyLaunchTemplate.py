@@ -1,5 +1,13 @@
 #!/usr/bin/env python
-#make changes in launch file according to name of the node (/adeye/area/node/variable) before running this node
+#make changes in launch file according to name of the node (/adeye/area/node/variable) before running this node98765
+"""
+This file contains the RCV state manager.
+The file allows the user to define states numbers in order to know which state the vehicle is in.
+Also, the features of each state can be activated via features list defined in this file.
+
+The script saves the rosbags in the path defined by the variable 'ROSBAG_PATH'
+
+"""
 #import roslib
 import rospy
 import rospkg
@@ -28,6 +36,17 @@ VARIABLE_MAP = "WorldName"
 SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
 
 def listener():
+
+    """
+    The function for the listener node
+
+    Parameters:
+    None
+
+    Returns:
+    Empty (althogh it updates the tempelate launch file)
+    """
+
 
     for filename in os.listdir(MODIFIED_LAUNCH_FILES_FULL_PATH):
         os.remove(MODIFIED_LAUNCH_FILES_FULL_PATH + filename)

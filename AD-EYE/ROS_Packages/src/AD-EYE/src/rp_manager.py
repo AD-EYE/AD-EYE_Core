@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # license removed for brevity
+"""
+This file acts as the manager ()change it
+"""
+
 import rospy
 import rospkg
 from std_msgs.msg import Int32MultiArray

@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 # license removed for brevity
+"""
+This file contains the RCV safety superviser.
+The file allows the user to evaluate whether the states are safe or not.
+"""
+
 import rospy
 #import math as m
 #from autoware_msgs.msg import VehicleCmd

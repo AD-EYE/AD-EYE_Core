@@ -1,3 +1,7 @@
+"""
+This file describes the FeatureControl class.
+"""
+
 from roslaunch import rlutil, parent, configure_logging
 import rospy
 import time
@@ -6,6 +10,22 @@ DEFAULT_WAIT_TIME = 0.1
 
 
 class FeatureControl:
+
+    """
+    This is a class for controlling the starting and stopping of the features
+    Attributes: 
+        filepath            :   string for the file path to evaluate whether safe
+        feature_name        :   string for the name of the feature in consideration        
+        sleep_time_on_start :   
+        sleep_time_on_stop
+
+    Methods:
+
+        start   :
+        stop    :   
+    
+    """
+
 
     def __init__(self, filepath, feature_name, sleep_time_on_start=DEFAULT_WAIT_TIME,
                  sleep_time_on_stop=DEFAULT_WAIT_TIME):

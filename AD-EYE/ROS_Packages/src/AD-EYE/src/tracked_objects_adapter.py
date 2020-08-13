@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # license removed for brevity
+"""
+This file details the tracking of objects in the scene 
+"""
+
 import rospy
 import math as m
 from autoware_msgs.msg import DetectedObjectArray
@@ -15,6 +19,17 @@ rot = list()
 
 
 def mycallback1(data):
+
+    """
+    The callback function of the subscriped topic detection/fusion_tools/objects
+    Parameters:
+    msg: DetectedObjectArray
+        The published message on the topic detection/fusion_tools/objects
+    
+    Returns:
+    None (Although publishes the DetectedObjectArray message on tracked_objects)
+    """
+
     global pos_flag
     global trans
     global rot

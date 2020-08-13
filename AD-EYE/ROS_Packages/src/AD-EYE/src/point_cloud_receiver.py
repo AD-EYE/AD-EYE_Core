@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 # license removed for brevity
+
+"""
+This file is used to collect the raw data points of the Lidar.
+It further converts these collected data points into a point cloud 
+"""
+
 import rospy
 import roslaunch
 import math as m
@@ -10,6 +16,17 @@ import numpy as np
 
 
 def mycallback(data):
+
+    """
+    The callback function of the subscriped topic /points_raw_float32
+    Parameters:
+    msg: Float32MultiArray
+        The published message on the topic /points_raw_float32
+    
+    Returns:
+    None (Although publishes the PointCloud2 message on /points_raw topic)
+    """
+
     msg = PointCloud2()
     msg.header.stamp = rospy.Time.now()
     msg.header.frame_id = "velodyne"  # MO "velodyne"
