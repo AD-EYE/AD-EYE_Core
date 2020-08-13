@@ -16,12 +16,12 @@
 
 /*!
   \brief A node that detect collision with other objects using the SSMP_gridMap
-  \details Output a message when collision occurs and also output the car position and speed.
+  \details Output a message when collision occurs and also output the car position and speed. \n
   Currently it only supports collision detection for dynamic objects and only print the speed of the car.
-  TODO:
+  \todo
     - Get the car footprint dimensions from a message (not hardcoded values)
     - Static Object collision
-    - For dynamic object : Output both speed of the car and the object.
+    - For dynamic object : Output both speed of the car and the object. \n
                                 And calculate the collision speed.
  */
 class CollisionDetector
@@ -86,7 +86,11 @@ public:
         pose = gnss->pose;
         gnss_flag = true;
     }
-
+    /*!
+     * \brief Gnss Callback : Called when the velocity information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Updates velocity of the vehicle.
+     */
     void velocity_callback(const geometry_msgs::TwistStamped::ConstPtr& vel) {
         velocity = *vel;
     }
@@ -150,9 +154,9 @@ public:
 
     /*!
      * \brief The main loop of the Node
-     * \details Basically checks for topics updates, then evaluate
-     * the situation and triggers (or not) the safety switch depending of
-     * the situation evaluation.
+     * \details It checks for the topics updates, and then evaluates
+     * the situation \n
+     * As per the evaluation, it triggers (or not) the safety switch
      */
     void run()
     {
