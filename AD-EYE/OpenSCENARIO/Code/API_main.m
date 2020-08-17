@@ -41,6 +41,7 @@ delete_files(name_experiment,folder_name)
  [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
  [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex);
+ [Struct_pex] = Target_Properties(Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables

@@ -40,6 +40,16 @@
     <SceneGraph filepath="SampleDatabase_01.opt.osgb"/>
 </RoadNetwork>
 
+<Global>
+	<SetEnvironment>
+		<TargetProperties>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "Car" ReflectionPercentage = "[5,5,10]" />
+			</Lidar>
+		</TargetProperties>
+	</SetEnvironment>
+</Global>
+
 <Entities>
     <Object name="Ego">
         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
@@ -74,7 +84,7 @@
                         <Speed>
                             <Dynamics shape="step"/>
                             <Target>
-                                <Absolute value="[30,10,50]"/>
+                                <Absolute value="50"/>
                             </Target>
                         </Speed>
                     </Longitudinal>
@@ -110,7 +120,7 @@
                         <Speed>
                             <Dynamics shape="step"/>
                             <Target>
-                                <Absolute value="30"/>
+                                <Absolute value="[30,10,50]"/>
                             </Target>
                         </Speed>
                     </Longitudinal>
