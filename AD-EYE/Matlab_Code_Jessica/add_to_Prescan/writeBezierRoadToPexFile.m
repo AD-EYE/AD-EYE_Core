@@ -70,9 +70,9 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
         currentRoadStruct.Location.Attributes.Z = num2str(currentObjectPosition.z);
         
-        currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
-        currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
-        currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
+        %currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
+        currentRoadStruct.Orientation.Attributes.Heading = num2str(currentObjectOrientation.yaw);
+        %currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
         
         
         currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(5*roadIndex);

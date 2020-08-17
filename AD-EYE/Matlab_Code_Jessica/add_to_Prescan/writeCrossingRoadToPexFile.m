@@ -75,7 +75,7 @@ for i=1:length(allExpRoads)
         currentRoadStruct.CoGOffset.Attributes.Y = num2str(currentObjectCoGOffset.y);
         currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectCoGOffset.z);
 
-        currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
+        currentRoadStruct.Orientation.Attributes.Heading = num2str(currentObjectOrientation.yaw);
         
         %we will define position of branchs
         if type=='Y' 

@@ -1,35 +1,45 @@
-%Refreshes the PB file based on the content of PEX file
-prescan.experiment.convertPexToDataModels()
+% input:
+%   position: position.x position.y position.z [meter]
+%   orientation [radian]
+%   heading [radian]
+%   delta: delta.x delta.y delta.z [meter]
+%   tension: tension.entry tension.exit [meter]
 
-%Get exp name and load it for use in DMAPI
-xpName = prescan.experiment.getDefaultFilename();
-xp = prescan.api.experiment.loadExperimentFromFile(xpName);
-% 
-%% First create a road
-%% First we define the position of the road
-x=-25;        %[m]
-y=-15;        %[m]
-z=0;           %[m]
-%we can also define the oriantation
-yaw=0;        %[rad]
-%%
-road_1 = prescan.api.roads.createRoad(xp,x,y,z,yaw);
- 
-%%
-% we indicate option for the road
-options.relativeHeading=90; %[degree]
-options.deltaX=20; %[meter]
-options.deltaY=50; %[meter]
-options.deltaZ=0; %[meter]
+function add_bezierRoad(position,orientation,heading,delta,tension)
+    %Refreshes the PB file based on the content of PEX file
+    prescan.experiment.convertPexToDataModels()
 
-%%
-%Save the xp's changes to the PB file
- xp.saveToFile(xpName);
+    %Get exp name and load it for use in DMAPI
+    xpName = prescan.experiment.getDefaultFilename();
+    xp = prescan.api.experiment.loadExperimentFromFile(xpName);
+    % 
+    %% First create a road
+    %% First we define the position of the road
+    x=position.x;        %[m]
+    y=position.y;        %[m]
+    z=position.z;           %[m]
+    %we can also define the orientation
+    yaw=orientation;        %[rad]
+    %%
+    prescan.api.roads.createRoad(xp,x,y,z,yaw);
 
-%Convert the PB to PEX using the writeToPexFile function
-pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
-experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
-writeBezierRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex);%,centerlineOffset);
+    %%
+    % we indicate option for the road
+    options.relativeHeading=rad2deg(heading); %[degree]
+    options.deltaX=delta.x; %[meter]
+    options.deltaY=delta.y; %[meter]
+    options.deltaZ=delta.z; %[meter]
+    options.EntryTension=tension.entry;
+    options.ExitTension=tension.exit;
+    %%
+    %Save the xp's changes to the PB file
+     xp.saveToFile(xpName);
 
-%Run the experiment directly from Matlab
-prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');
+    %Convert the PB to PEX using the writeToPexFile function
+    pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
+    experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
+    writeBezierRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex,options);%,centerlineOffset);
+
+    %Run the experiment directly from Matlab
+%     prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');
+end

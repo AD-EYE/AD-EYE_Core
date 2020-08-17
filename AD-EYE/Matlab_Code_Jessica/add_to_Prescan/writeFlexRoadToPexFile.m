@@ -69,7 +69,7 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Location.Attributes.Z = num2str(currentObjectPosition.z);
         
         %currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
-        currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
+        currentRoadStruct.Orientation.Attributes.Heading = num2str(currentObjectOrientation.yaw);
         %currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
 
         currentRoadStruct.Attributes.Xoffset = num2str(currentObjectOffset.x);
