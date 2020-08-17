@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LibraryElementDefinitionFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LibraryElementDefinition xsi:type="LibraryObjectDefinition">
+    <PreScanVersion>2020.1.0</PreScanVersion>
+    <UserTypeName>redblock_roof</UserTypeName>
+    <UserDefinedBaseType BaseTypeName="BasicActor" BaseTypeFullName="PreScan.BusinessObjects.BasicActor, PreScan.BusinessObjects" BaseTypeFactoryFullName="PreScan.Factory.ActorFactory, PreScan.Factory" BaseTypeDrawHelperFullName="PreScan.Factory.DrawerHelpers.ClampBitmapDrawHelper, PreScan.Factory" BaseTypeModelGeneratorHelperFullName="PreScan.Factory.ModelGenerationHelpers.StaticModelGeneratorHelper, PreScan.Factory" />
+    <MainTab>UL Elements</MainTab>
+    <TabName>Basic Actors</TabName>
+    <HelpIndex>Index</HelpIndex>
+    <IconPicture>redblock_roof\Images\redblock_roof_IconPicture.png</IconPicture>
+    <DynSidePicture>redblock_roof\Images\redblock_roof_DynSide.png</DynSidePicture>
+    <UnderlayAspectRatioValue>0</UnderlayAspectRatioValue>
+    <CompilationSheetPicture>Images\redblock_roof.jpg</CompilationSheetPicture>
+    <SourceCompilationSheetPicture>redblock_roof\Images\redblock_roof.jpg</SourceCompilationSheetPicture>
+    <ModelSize X="16" Y="31.394023895263672" Z="23.684484481811523" />
+    <Size X="16" Y="31.394023895263672" Z="23.684484481811523" />
+    <Scale X="1" Y="1" Z="1" />
+    <Rotation X="0" Y="0" Z="0" />
+    <OriginUI X="50" Y="50.000007629394531" Z="0" />
+    <Origin X="0.5" Y="0.50000007629394527" Z="0" />
+    <CoGOffsetUI X="50" Y="50" Z="0" />
+    <CoGOffset X="0" Y="-2.3951739422045649E-06" Z="0" />
+    <DefaultCameraSensorPosition X="0" Y="0" Z="0" />
+    <DefaultNamePrefix>redblock_roof</DefaultNamePrefix>
+    <Main3DFile>redblock_roof\Models\Visual\redblock_roof.dae.osgb</Main3DFile>
+    <ORMFromBase>true</ORMFromBase>
+    <TopViewPicture>redblock_roof\Images\redblock_roof_TopView.png</TopViewPicture>
+    <SideViewPicture>redblock_roof\Images\redblock_roof_SideView.png</SideViewPicture>
+    <UnderlayAspectRatio>false</UnderlayAspectRatio>
+  </LibraryElementDefinition>
+</LibraryElementDefinitionFile>
