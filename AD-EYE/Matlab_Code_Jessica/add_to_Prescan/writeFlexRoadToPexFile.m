@@ -63,6 +63,8 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
         currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
         currentRoadStruct.Attributes.RelativeHeading=num2str(points{1}.relativeHeading);
+        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(points{1}.EntryTension);
+        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(points{1}.ExitTension);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);

@@ -1,3 +1,15 @@
+% input:
+%       experimentPbFile: the name of the experiment without extension (char)
+%       ExperimentPexFile: the name of the experiment with the extension '.pex' 
+%       roadPexFile: the path to the template pex file like:  ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex']
+%       options: options of the road with:
+%                       options.relativeHeading   [degree]
+%                       options.deltaX      [meter]
+%                       options.deltaY      [meter]
+%                       options.deltaZ      [meter]
+%                       options.EntryTension     [meter]
+%                       options.ExitTension        [meter]
+
 function writeBezierRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,options)
   
 %load all files
@@ -65,13 +77,15 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Attributes.Xoffset=num2str(options.deltaX);
         currentRoadStruct.Attributes.Yoffset=num2str(options.deltaY);
         currentRoadStruct.Attributes.Zoffset=num2str(options.deltaZ);
+        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(options.EntryTension);
+        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(options.ExitTension);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
         currentRoadStruct.Location.Attributes.Z = num2str(currentObjectPosition.z);
         
         %currentRoadStruct.Orientation.Attributes.Bank = num2str(rad2deg(currentObjectOrientation.roll));
-        currentRoadStruct.Orientation.Attributes.Heading = num2str(rad2deg(currentObjectOrientation.yaw));
+        currentRoadStruct.Orientation.Attributes.Heading = num2str(currentObjectOrientation.yaw);
         %currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
         
         
