@@ -13,12 +13,12 @@ points_data=GPS_data('20180810150607_bus_signals');
 %we will define point for add bezier road or flex road. here is bezier road
 data=suppr_duplicates(points_data);
 len=length(data);
-i=1;
 xpName = prescan.experiment.getDefaultFilename();
 nbBezier=detect_nb_road('BezierRoad',xpName);
+nbRoadsToAdd=1;
 
 %%
-while i<(len-1)
+for i=1:(len-1)
     x1=data(i,1);
     x2=data(i+1,1);
     x3=data(i+2,1);
@@ -29,36 +29,35 @@ while i<(len-1)
     z2=data(i+1,3);
     z3=data(i+2,3);
 
-    position.x=x1;
-    position.y=y1;
-    position.z=z1;
-    orient=orientation(x1,y1,x2,y2);
-    delta=calculate_delta(x1,y1,z1,x2,y2,z2);
-    heading=pi-relative_heading(x1,y1,x2,y2,x3,y3);
-    tension.entry=50;
-    tension.exit=50;
-    add_bezierRoad(position,orient,heading,delta,tension);
-    if i>1
-        add_connection(strcat('CurvedRoad_',num2str(nbBezier)),strcat('CurvedRoad_',num2str(nbBezier+1)),1,0);
-    end
-    i=i+1;
-    nbBezier=nbBezier+1;
+    roads_to_add{nbRoadsToAdd}.position.x=x1;
+    roads_to_add{nbRoadsToAdd}.position.y=y1;
+    roads_to_add{nbRoadsToAdd}.position.z=z1;
+    roads_to_add{nbRoadsToAdd}.orientation=orientation(x1,y1,x2,y2);
+    roads_to_add{nbRoadsToAdd}.delta=calculate_delta(x1,y1,z1,x2,y2,z2);
+    roads_to_add{nbRoadsToAdd}.heading=pi-relative_heading(x1,y1,x2,y2,x3,y3);
+    roads_to_add{nbRoadsToAdd}.tension.entry=50;
+    roads_to_add{nbRoadsToAdd}.tension.exit=50;
+    
     if i==(len-1)
-        position.x=x2;
-        position.y=y2;
-        position.z=z2;
-        orient=orientation(x2,y2,x3,y3);
-        delta=calculate_delta(x2,y2,z2,x3,y3,z3);
-        heading=0;
-        tension.entry=50;
-        tension.exit=20;
-        add_bezierRoad(position,orient,heading,delta,tension);
-        add_connection(strcat('CurvedRoad_',num2str(nbBezier)),strcat('CurvedRoad_',num2str(nbBezier+1)),1,0);
+        roads_to_add{nbRoadsToAdd}.position.x=x2;
+        roads_to_add{nbRoadsToAdd}.position.y=y2;
+        roads_to_add{nbRoadsToAdd}.position.z=z2;
+        roads_to_add{nbRoadsToAdd}.orientation=orientation(x2,y2,x3,y3);
+        roads_to_add{nbRoadsToAdd}.delta=calculate_delta(x2,y2,z2,x3,y3,z3);
+        roads_to_add{nbRoadsToAdd}.heading=0;
+        roads_to_add{nbRoadsToAdd}.tension.entry=50;
+        roads_to_add{nbRoadsToAdd}.tension.exit=20;
+        nbRoadsToAdd=nbRoadsToAdd+1;
     end
-%     
+    
+    connections{i}.RoadA_Id=strcat('CurvedRoad_',num2str(i));
+    connections{i}.RoadB_Id=strcat('CurvedRoad_',num2str(i+1));
+    connections{i}.JointaId=1;
+    connections{i}.JointbId=0;
 end
 
-
+add_bezierRoad(roads_to_add);
+add_connection(connections);
 
 function dist=distance(x1,y1,x2,y2)
     x=(x2-x1)^2;
@@ -68,10 +67,10 @@ end
 function orient=orientation(x1,y1,x2,y2)
     a=distance(x1,y1,x2,y2);
     b=distance(x1,y1,x2,y1);
-    if y2<y1 %&& x2>x1
-        orient=pi+acos(b/a);
+    if y2<y1 
+        orient=pi+acos(b/a); %result in rad
     elseif x2<x1
-        orient=pi-acos(b/a);
+        orient=pi-acos(b/a); %result in rad
     else
         orient=acos(b/a); %result in rad
     end
