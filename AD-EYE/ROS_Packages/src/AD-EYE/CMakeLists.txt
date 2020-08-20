@@ -109,6 +109,11 @@ add_executable(
   src/lidarRadarFuse.cpp
 )
 
+add_executable(
+  safetyChannelPerception
+  src/safetyChannelPerception.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -159,6 +164,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  safetyChannelPerception
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -199,9 +209,13 @@ add_dependencies(lidarRadarFuse
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

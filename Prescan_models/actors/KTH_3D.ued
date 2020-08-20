@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LibraryElementDefinitionFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LibraryElementDefinition xsi:type="LibraryObjectDefinition">
+    <PreScanVersion>2019.2.0</PreScanVersion>
+    <UserTypeName>KTH_3D</UserTypeName>
+    <UserDefinedBaseType BaseTypeName="BasicActor" BaseTypeFullName="PreScan.BusinessObjects.BasicActor, PreScan.BusinessObjects" BaseTypeFactoryFullName="PreScan.Factory.ActorFactory, PreScan.Factory" BaseTypeDrawHelperFullName="PreScan.Factory.DrawerHelpers.ClampBitmapDrawHelper, PreScan.Factory" BaseTypeModelGeneratorHelperFullName="PreScan.Factory.ModelGenerationHelpers.StaticModelGeneratorHelper, PreScan.Factory" />
+    <MainTab>UL Elements</MainTab>
+    <TabName>Basic Actors</TabName>
+    <HelpIndex>Index</HelpIndex>
+    <IconPicture>KTH_3D\Images\KTH_3D_IconPicture.png</IconPicture>
+    <DynSidePicture>KTH_3D\Images\KTH_3D_DynSide.png</DynSidePicture>
+    <UnderlayAspectRatioValue>0</UnderlayAspectRatioValue>
+    <CompilationSheetPicture>Images\KTH_3D.jpg</CompilationSheetPicture>
+    <SourceCompilationSheetPicture>KTH_3D\Images\KTH_3D.jpg</SourceCompilationSheetPicture>
+    <ModelSize X="910.34552001953125" Y="1109.02490234375" Z="30.000017166137695" />
+    <Size X="910.34552001953125" Y="1109.02490234375" Z="30.000017166137695" />
+    <Scale X="1" Y="1" Z="1" />
+    <Rotation X="0" Y="0" Z="0" />
+    <OriginUI X="-0.07284170389175415" Y="0" Z="0" />
+    <Origin X="-0.00072841703891754147" Y="0" Z="0" />
+    <CoGOffsetUI X="50" Y="50" Z="0" />
+    <CoGOffset X="455.83587119785005" Y="554.512451171875" Z="0" />
+    <DefaultCameraSensorPosition X="0" Y="0" Z="0" />
+    <DefaultNamePrefix>KTH_3D</DefaultNamePrefix>
+    <Main3DFile>KTH_3D\Models\Visual\KTH_3D_KTH3d_20191008.dae.osgb</Main3DFile>
+    <ORMFromBase>true</ORMFromBase>
+    <TopViewPicture>KTH_3D\Images\KTH_3D_TopView.png</TopViewPicture>
+    <SideViewPicture>KTH_3D\Images\KTH_3D_SideView.png</SideViewPicture>
+    <UnderlayAspectRatio>false</UnderlayAspectRatio>
+  </LibraryElementDefinition>
+</LibraryElementDefinitionFile>
