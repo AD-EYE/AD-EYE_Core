@@ -1,10 +1,11 @@
 % input:
-%   position:structure: position.x position.y position.z [meter]
-%   orientation: integer [radian]
-%   type: string ('X' or 'Y')
-%   heading: vector length 4 [radian]
+%   roads_to_add: cell with:
+%       roads_to_add{i}.position:structure: position.x position.y position.z [meter]
+%        roads_to_add{i}.orientation: integer [radian]
+%        roads_to_add{i}.type: string ('X' or 'Y')
+%        roads_to_add{i}.heading: vector length 4 [radian]
 
-function add_roundabout(position,orientation,headings)
+function add_roundabout(roads_to_add)
     %Refreshes the PB file based on the content of PEX file
     prescan.experiment.convertPexToDataModels()
 
@@ -12,26 +13,31 @@ function add_roundabout(position,orientation,headings)
     xpName = prescan.experiment.getDefaultFilename();
     xp = prescan.api.experiment.loadExperimentFromFile(xpName);
 
-    %% First create a road
-    %% First we define the position of the road
-    x=position.x;        %[m]
-    y=position.y;        %[m]
-    z=position.z;           %[m]
-    %we can also define the oriantation
-    yaw=orientation;        %[rad]
-    %%
-    %add a road in pb file
-    prescan.api.roads.createRoad(xp,x,y,z,yaw);
-    %%
-    % definition of position of branches
-    % we indicate the angle between the y axis of the roundabout and the branch
-    headings=rad2deg(headings); %[degree]
-
-    %Save the xp's changes to the PB file
-     xp.saveToFile(xpName);
+    %% First create roads
+    nbRoads=length(roads_to_add);
+    if nbroads<2
+        dips('Warning:if there are no roads on the experiment now, the function will work but if you use it again it will not work. If there is one road on the experiment now, the function will not work.');
+     end
+    for i=1:nbRoads
+        %first define position
+        x=roads_to_add{i}.position.x;   %[meter]
+        y=roads_to_add{i}.position.y;   %[meter]
+        z=roads_to_add{i}.position.z;   %[meter]
+        % second define orientation
+        yaw=roads_to_add{i}.orientation;    %[radian]
+        % now add the road
+        prescan.api.roads.createRoad(xp,x,y,z,yaw);
+        
+      % define position of branches
+    %correspond to the angle between the x axis of the crossing and the branch
+        roads_to_add{i}.headings=rad2deg(roads_to_add{i}.headings);  %[degree]
+    end
+    
+%%
 
     %Convert the PB to PEX using the writeRoundaboutToPexFile function
     pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
     experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
-    writeRoundaboutToPexFile(xpName,experimentPexFile,pathToTemplatePex);%,centerlineOffset);
+    writeRoundaboutToPexFile(xpName,experimentPexFile,pathToTemplatePex,roads_to_add);
+    
 end

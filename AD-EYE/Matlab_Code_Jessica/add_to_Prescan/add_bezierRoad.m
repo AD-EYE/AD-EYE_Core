@@ -1,11 +1,12 @@
 % input:
-%   position: position.x position.y position.z [meter]
-%   orientation [radian]
-%   heading [radian]
-%   delta: delta.x delta.y delta.z [meter]
-%   tension: tension.entry tension.exit [meter]
+%   roads_to_add: cell with: 
+%           raods_to_add{i}.position: position.x position.y position.z [meter]
+%            raods_to_add{i}.orientation [radian]
+%            raods{i}_to_add.heading [radian]
+%            raods{i}_to_add.delta: delta.x delta.y delta.z [meter]
+%            raods{i}_to_add.tension: tension.entry tension.exit [meter]
 
-function add_bezierRoad(position,orientation,heading,delta,tension)
+function add_bezierRoad(roads_to_add)
     %Refreshes the PB file based on the content of PEX file
     prescan.experiment.convertPexToDataModels()
 
@@ -14,23 +15,33 @@ function add_bezierRoad(position,orientation,heading,delta,tension)
     xp = prescan.api.experiment.loadExperimentFromFile(xpName);
     % 
     %% First create a road
-    %% First we define the position of the road
-    x=position.x;        %[m]
-    y=position.y;        %[m]
-    z=position.z;           %[m]
-    %we can also define the orientation
-    yaw=orientation;        %[rad]
     %%
-    road_1 = prescan.api.roads.createRoad(xp,x,y,z,yaw);
-
+    nbRoads=length(roads_to_add);
+    if nbRoads<2
+        disp('Warning:if there are no roads on the experiment now, the function will work but if you use it again it will not work. If there is one road on the experiment now, the function will not work.');
+    end
     %%
-    % we indicate option for the road
-    options.relativeHeading=rad2deg(heading); %[degree]
-    options.deltaX=delta.x; %[meter]
-    options.deltaY=delta.y; %[meter]
-    options.deltaZ=delta.z; %[meter]
-    options.EntryTension=tension.entry;
-    options.ExitTension=tension.exit;
+    for i=1:nbRoads
+        
+        %firstly we define position of the road
+        x=roads_to_add{i}.position.x;      %[m]
+        y=roads_to_add{i}.position.y;      %[m]
+        z=roads_to_add{i}.position.z;      %[m]
+        % secondly we define orientation of the road
+        yaw=roads_to_add{i}.orientation; %[rad]
+        % now we add the road
+        prescan.api.roads.createRoad(xp,x,y,z,yaw);
+        
+        % now we define options of the road
+        options{i}.relativeHeading=rad2deg(roads_to_add{i}.heading); %[degree]
+        options{i}.deltaX=roads_to_add{i}.delta.x; %[meter]
+         options{i}.deltaY=roads_to_add{i}.delta.y; %[meter]
+        options{i}.deltaZ=roads_to_add{i}.delta.z; %[meter]
+        options{i}.EntryTension=roads_to_add{i}.tension.entry;  %[meter]
+        options{i}.ExitTension=roads_to_add{i}.tension.exit;    %[meter]
+        
+    end
+    
     %%
     %Save the xp's changes to the PB file
      xp.saveToFile(xpName);

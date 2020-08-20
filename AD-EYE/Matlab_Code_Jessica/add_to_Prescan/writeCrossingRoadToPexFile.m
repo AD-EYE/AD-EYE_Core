@@ -1,4 +1,4 @@
-function writeCrossingRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,type,headings)
+function writeCrossingRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,roads_to_add)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -25,6 +25,7 @@ myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
 roadIndex = 1;
 nbCross=1;
+indexRoadsAdd=1;
 
 for i=1:length(allExpRoads)
     
@@ -48,6 +49,8 @@ for i=1:length(allExpRoads)
             end
          elseif strcmp(objectTypeName,'Roundabout')
             roadIndex= roadIndex+1;
+        elseif strcmp(objectTypeName,'StraightRoad')
+            roadIndex=roadIndex+1;
         end
     else
     
@@ -62,7 +65,7 @@ for i=1:length(allExpRoads)
     currentRoadStruct=getCorrectRoadStruct(loadedTemplate,strcat(type,'Crossing'));
     
         %Set the correct properties for each road in the STRUCT
-        currentRoadStruct.Attributes.xsi_colon_type=strcat(type,'Crossing');
+        currentRoadStruct.Attributes.xsi_colon_type=strcat(roads_to_add{indexRoadsAdd}.type,'Crossing');
         currentRoadStruct.Attributes.id = strcat(type,'Crossing_',num2str(nbCross));
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
@@ -78,19 +81,21 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Orientation.Attributes.Heading = num2str(currentObjectOrientation.yaw);
         
         %we will define position of branchs
-        if type=='Y' 
+        if roads_to_add{indexRoadsAdd}.type=='Y' 
             nbBranch=3;
         else
             nbBranch=4;
         end
-        for i=1:nbBranch
-            currentRoadStruct.CrossSections.RoadCrossSection{1,i}.Attributes.Heading=num2str(headings{i});
+        for k=1:nbBranch
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.Heading=num2str(roads_to_add{indexRoadsAdd}.headingskj});
         end
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         
         roadIndex = roadIndex + 1;
+        indexRoadsAdd=indexRoadsAdd+1;
+        
     end   
  end
         
@@ -112,26 +117,26 @@ disp(['Done...A back up of original PEX file is made at: ' backupFolderPath '\Ba
 function [correspondingRoadStruct] = getCorrectRoadStruct(loadedTemplate,nameCross)
 
 
-RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
-correspondingRoadStruct = '';
+    RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
+    correspondingRoadStruct = '';
 
 
-for j=1:length(RoadInTemplateList)
-    
-    try
-        templateActorName = RoadInTemplateList{j}.Attributes.xsi_colon_type;
-        
-    catch
-        templateActorName = '';
+    for j=1:length(RoadInTemplateList)
+
+        try
+            templateActorName = RoadInTemplateList{j}.Attributes.xsi_colon_type;
+
+        catch
+            templateActorName = '';
+        end
+
+        if strcmp(nameCross,templateActorName)
+
+            correspondingRoadStruct = RoadInTemplateList{j};
+
+        end
+
     end
-    
-    if strcmp(nameCross,templateActorName)
-        
-        correspondingRoadStruct = RoadInTemplateList{j};
-        
-    end
-    
-end
 
     
 

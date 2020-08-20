@@ -2,13 +2,13 @@
 %       experimentPbFile: the name of the experiment without extension (char)
 %       ExperimentPexFile: the name of the experiment with the extension '.pex' 
 %       roadPexFile: the path to the template pex file like:  ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex']
-%       options: options of the road with:
-%                       options.relativeHeading   [degree]
-%                       options.deltaX      [meter]
-%                       options.deltaY      [meter]
-%                       options.deltaZ      [meter]
-%                       options.EntryTension     [meter]
-%                       options.ExitTension        [meter]
+%       options: struct : options of the road with:
+%                       options{i}.relativeHeading   [degree]
+%                       options{i}.deltaX      [meter]
+%                       options{i}.deltaY      [meter]
+%                       options{i}.deltaZ      [meter]
+%                       options{i}.EntryTension     [meter]
+%                       options{i}.ExitTension        [meter]
 
 function writeBezierRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,options)
   
@@ -37,6 +37,7 @@ myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
 roadIndex = 1; %counter for number of roads
 nbBezier=1; %counter for number of Bezier road
+indexroadsadd=1;
 
 for i=1:length(allExpRoads)
     
@@ -55,6 +56,8 @@ for i=1:length(allExpRoads)
             roadIndex= roadIndex+1;
          elseif strcmp(objectTypeName,'CubicSplineRoad')
             roadIndex= roadIndex+1;
+         elseif strcmp(objectTypeName,'StraightRoad')
+            roadIndex=roadIndex+1;
         end
     else
     
@@ -73,12 +76,12 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
         currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
-        currentRoadStruct.Attributes.RelativeHeading=num2str(options.relativeHeading);
-        currentRoadStruct.Attributes.Xoffset=num2str(options.deltaX);
-        currentRoadStruct.Attributes.Yoffset=num2str(options.deltaY);
-        currentRoadStruct.Attributes.Zoffset=num2str(options.deltaZ);
-        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(options.EntryTension);
-        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(options.ExitTension);
+        currentRoadStruct.Attributes.RelativeHeading=num2str(options{indexroadsadd}.relativeHeading);
+        currentRoadStruct.Attributes.Xoffset=num2str(options{indexroadsadd}.deltaX);
+        currentRoadStruct.Attributes.Yoffset=num2str(options{indexroadsadd}.deltaY);
+        currentRoadStruct.Attributes.Zoffset=num2str(options{indexroadsadd}.deltaZ);
+        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(options{indexroadsadd}.EntryTension);
+        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(options{indexroadsadd}.ExitTension);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
@@ -96,8 +99,8 @@ for i=1:length(allExpRoads)
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
-        
         roadIndex = roadIndex + 1;
+        indexroadsadd=indexroadsadd+1;
     end   
  end
         

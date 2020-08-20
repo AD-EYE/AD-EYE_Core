@@ -1,4 +1,4 @@
-function writeFlexRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,points)
+function writeFlexRoadToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,roads)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -25,6 +25,7 @@ myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
 roadIndex = 1; %counter for number of roads
 nbFlex=1; %counter for number of Bezier road
+indexRoadsAdd=1;
 
 for i=1:length(allExpRoads)
     
@@ -43,6 +44,8 @@ for i=1:length(allExpRoads)
             roadIndex= roadIndex+1;
          elseif strcmp(objectTypeName,'Roundabout')
             roadIndex= roadIndex+1;
+         elseif strcmp(objectTypeName,'StraightRoad')
+            roadIndex=roadIndex+1;
         end
     else
     
@@ -52,7 +55,7 @@ for i=1:length(allExpRoads)
     currentOjectTypeId= allExpRoads{i,1}.objectTypeID;
     currentObjectPosition = allExpRoads{i,1}.pose.position;
     currentObjectOrientation = allExpRoads{i,1}.pose.orientation;
-    currentObjectOffset = points{1}.Offset;
+    currentObjectOffset = roads{1}.Offset;
     
     %Get the correct road template  
     currentRoadStruct=getCorrectRoadStruct('CubicSplineRoad',loadedTemplate);
@@ -62,9 +65,9 @@ for i=1:length(allExpRoads)
         currentRoadStruct.Attributes.NumericalID = num2str(currentObjectNumericalID);
         currentRoadStruct.Attributes.UniqueId = num2str(currentObjectUniqueID);
         currentRoadStruct.Attributes.ObjectTypeID=num2str(currentOjectTypeId);
-        currentRoadStruct.Attributes.RelativeHeading=num2str(points{1}.relativeHeading);
-        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(points{1}.EntryTension);
-        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(points{1}.ExitTension);
+        currentRoadStruct.Attributes.RelativeHeading=num2str(roads{indexRoadsAdd}.points{1}.relativeHeading);
+        currentRoadStruct.Attributes.ControlPoint1Distance=num2str(roads{indexRoadsAdd}.points{1}.EntryTension);
+        currentRoadStruct.Attributes.ControlPoint2Distance=num2str(roads{indexRoadsAdd}.points{1}.ExitTension);
         
         currentRoadStruct.Location.Attributes.X = num2str(currentObjectPosition.x);
         currentRoadStruct.Location.Attributes.Y = num2str(currentObjectPosition.y);
@@ -83,31 +86,33 @@ for i=1:length(allExpRoads)
         currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,1}.Attributes.UniqueId=num2str(5*roadIndex+2);
         currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5*roadIndex+3);
         currentRoadStruct.CrossSections.RoadCrossSection{1,1}.Attributes.UniqueId=num2str(900+10*nbFlex);
-        currentRoadStruct.CrossSections.RoadCrossSection{1,1}.CentralLineDefinition.Attributes.UniqueId=num2str(900+10*nbFlex+1)
+        currentRoadStruct.CrossSections.RoadCrossSection{1,1}.CentralLineDefinition.Attributes.UniqueId=num2str(900+10*nbFlex+1);
         
-        for a=2:length(points)
+        for k=2:length(roads)
             % define the correct structure
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}=currentRoadStruct.CrossSections.RoadCrossSection{1,2};
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}=currentRoadStruct.CrossSections.RoadCrossSection{1,2};
             %modify parameters
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Attributes.id=strcat('FlexRoad_',num2str(nbFlex),'CubicSplineCrossSection_',num2str(a-2));
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Attributes.EntryTension=points{a}.EntryTension;
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Attributes.ExitTension=points{a}.ExitTension;
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Location.Attributes.X=points{a}.Location.X;
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Location.Attributes.Y=points{a}.Location.Y;
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Location.Attributes.Z=points{a}.Location.Z;
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Orientation.Attributes.Heading=points{a}.Orientation.Heading;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.id=strcat('FlexRoad_',num2str(nbFlex),'CubicSplineCrossSection_',num2str(k-2));
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.EntryTension=roads{indexRoadsAdd}.points{k}.EntryTension;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.ExitTension=roads{indexRoadsAdd}.points{k}.ExitTension;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Location.Attributes.X=roads{indexRoadsAdd}.points{k}.Location.X;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Location.Attributes.Y=roads{indexRoadsAdd}.points{k}.Location.Y;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Location.Attributes.Z=roads{indexRoadsAdd}.points{k}.Location.Z;
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Orientation.Attributes.Heading=roads{indexRoadsAdd}.points{k}.Orientation.Heading;
             % change uniqueId 
-            currentRoadStruct.CrossSections.RoadCrossSection{1,a}.Attributes.UniqueId=num2str(900+10*nbFlex+a);
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.UniqueId=num2str(900+10*nbFlex+k);
         end
         
-        currentRoadStruct.CrossSections.RoadCrossSection{1,length(points)+1}=currentRoadStruct.CrossSections.RoadCrossSection{1,1};
-        currentRoadStruct.CrossSections.RoadCrossSection{1,length(points)+1}.Attributes.UniqueId=num2str(900+10*nbFlex+length(points)+1);
-        currentRoadStruct.CrossSections.RoadCrossSection{1,length(points)+1}.CentralLineDefinition.Attributes.UniqueId=num2str(900+10*nbFlex+length(points)+2)
+        currentRoadStruct.CrossSections.RoadCrossSection{1,length(roads)+1}=currentRoadStruct.CrossSections.RoadCrossSection{1,1};
+        currentRoadStruct.CrossSections.RoadCrossSection{1,length(roads)+1}.Attributes.UniqueId=num2str(900+10*nbFlex+length(roads)+1);
+        currentRoadStruct.CrossSections.RoadCrossSection{1,length(roads)+1}.CentralLineDefinition.Attributes.UniqueId=num2str(900+10*nbFlex+length(roads)+2);
          
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         
         roadIndex = roadIndex + 1;
+        indexRoadsAdd=indexRoadsAdd+1;
+        
     end   
  end
         
@@ -133,10 +138,10 @@ RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadS
 correspondingRoadStruct = '';
 
 
-for a=1:length(RoadInTemplateList)
+for j=1:length(RoadInTemplateList)
     
     try
-        templateActorName = RoadInTemplateList{a}.Attributes.xsi_colon_type;
+        templateActorName = RoadInTemplateList{j}.Attributes.xsi_colon_type;
         
     catch
         templateActorName = '';
@@ -144,7 +149,7 @@ for a=1:length(RoadInTemplateList)
     
     if strcmp(roadTypeName,templateActorName)
         
-        correspondingRoadStruct = RoadInTemplateList{a};
+        correspondingRoadStruct = RoadInTemplateList{j};
         
     end
     

@@ -1,4 +1,4 @@
-function writeRoundaboutToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,headings)
+function writeRoundaboutToPexFile(ExperimentPBFile,ExperimentPexFile,RoadPexFile,roads_to_add)
   
 %load all files
 pexFileName=ExperimentPexFile;
@@ -25,6 +25,7 @@ myExp = prescan.experiment.readDataModels(pbFileName);
 allExpRoads = myExp.worldmodel.object;
 roadIndex = 1;
 nbRoundabout=1;
+indexRoadsAdd=1;
 
 for i=1:length(allExpRoads)
     
@@ -43,6 +44,8 @@ for i=1:length(allExpRoads)
          elseif strcmp(objectTypeName,'Roundabout')
             roadIndex= roadIndex+1;
             nbRoundabout= nbRoundabout+1;
+        elseif strcmp(objectTypeName,'StraightRoad')
+            roadIndex=roadIndex+1;
         end
     else
     
@@ -73,14 +76,16 @@ for i=1:length(allExpRoads)
         currentRoadStruct.CoGOffset.Attributes.Z = num2str(currentObjectCoGOffset.z);
         
         %definition of position of branches
-        for i=1:4
-            currentRoadStruct.CrossSections.RoadCrossSection{1,i}.Attributes.Heading=num2str(headings{i});
+        for k=1:4
+            currentRoadStruct.CrossSections.RoadCrossSection{1,k}.Attributes.Heading=num2str(roads_to_add{indexRoadsAdd}.headings{k});
         end
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         
         roadIndex = roadIndex + 1;
+        indexRoadsAdd=indexRoadsAdd+1;
+        
     end   
  end
         
