@@ -28,7 +28,7 @@ models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_ex
 
 %Go to folder to load xml file
 cd( '..\..\..\OpenSCENARIO\Code\')
-%xml2struct("..\..\Experiments\Open_scen_lucie_test1\Simulation\Open_scen_lucie_test1.pex")
+%xml2struct("..\..\Experiments\Map_pedestrian_autoware1\Simulation\Map_pedestrian_autoware1.pex")
 Struct_OpenSCENARIO = xml2struct(strcat( "..\OpenSCENARIO_experiments\",name_experiment_template));
 Struct_pex = xml2struct(strcat( "..\..\Experiments\",folder_name,"\Simulation\",name_experiment,".pex"));
 
@@ -41,7 +41,6 @@ delete_files(name_experiment,folder_name)
  [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
  [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex);
- [Struct_pex] = Target_Properties(Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables
@@ -56,7 +55,7 @@ delete_files(name_experiment,folder_name)
 
 
 
-%%%%%%%%%%%%%%%%%%%%Creating Simulink blcks
+%%%%%%%%%%%%%%%%%%%%Creating Simulink blocks
 %creating ROS blocks
 simulink_ego(name_simulink,models, name_ego, Struct_pex, Struct_OpenSCENARIO)
 %creating label to all vehicles as simulink blocks

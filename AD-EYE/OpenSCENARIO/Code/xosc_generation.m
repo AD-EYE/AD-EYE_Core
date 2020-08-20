@@ -33,86 +33,6 @@ end
 
 for j =1:length(models.worldmodel.object) %main for loop
     
-     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions),'Global') == 1 )  %if Global exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
-            
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
-                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment),'Weather') == 1 )  %if Weather exists
-                    
-                    %%%weather precipitation
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather),'Precipitation') == 1 )  %if Precipitation exists
-                        %type is a string so different check if it is empty
-                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes),'type') == 1 )  %if type exists
-                            if(strcmp(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type )," ")== 0 &&...
-                                    convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type ) ~= 'typeNone')
-
-                                if(convertCharsToStrings( Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type) == "typeRain")
-
-                                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes),'intensity') == 1 )  %if intensity exists
-                                        if(isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity )) ~= 1)
-
-                                            %creating multiple xosc files
-                                            L = length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);                                            
-                                            if(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity(1) == '[' &&...
-                                                    Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity(L)== ']' )
-
-                                                ERROR = 0;
-                                                array =  str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);
-                                                q = length(array);
-                                                Main_struct(1:length(array),1) = Struct_OpenSCENARIO;
-                                                for x = 1:length(array)
-                                                    Main_struct(x).OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity= array(x);
-                                                    struct2xml(Main_struct(x),convertStringsToChars(strcat(name_experiment_template,int2str(x) )));
-                                                end                                                
-                                            end
-                                            
-                                        end
-                                    end %intensity field check
-
-                                end %type field check
-                            end%type field check
-                        end%Precipitation field check
-
-                            %}
-                    end%Weather field check
-                end%Environment field check
-            
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment),'TargetProperties') == 1 )  %if TargetProperties exists
-                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties),'Lidar') == 1 )  %if Lidar exists
-
-                    %%%Reflection
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar),'TargetPropertySettings') == 1 )  %if TargetPropertySettings exists
-                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes),'ObjectType') == 1  &&...
-                                isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes),'ReflectionPercentage') == 1)  %if ObjectType
-
-                            if(isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ObjectType  )) ~= 1 &&...
-                                    isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage   )) ~= 1)
-                                
-                                %creating multiple xosc files
-                                L = length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage);                                            
-                                if(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage(1) == '[' &&...
-                                        Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage(L)== ']' )
-
-                                    ERROR = 0;
-                                    array =  str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage);
-                                    q = length(array);
-                                    Main_struct(1:length(array),1) = Struct_OpenSCENARIO;
-                                    for x = 1:length(array)
-                                        Main_struct(x).OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.Attributes.ReflectionPercentage= array(x);
-                                        struct2xml(Main_struct(x),convertStringsToChars(strcat(name_experiment_template,int2str(x) )));
-                                    end                                                
-                                end
-                                
-                                    
-                            end %check if ObjectType and ReflectionPercentage has values
-                        end %ObjectType field check
-                    end %TargetPropertySettings field check
-
-      
-                end %Lidar field check
-            end%TargetProperties field check
-        end%SetEnvironment field check
-    end%Global field check
     
     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard),'Init') == 1 )  %if Init exists
         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init),'Actions') == 1 )  %if Actions exists
@@ -134,14 +54,14 @@ for j =1:length(models.worldmodel.object) %main for loop
                                                     Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value(L)== ']' )
                                                 
                                                 ERROR = 0;
-                                                array =  str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value)
+                                                array =  str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value);
                                                 q = length(array);
                                                 Main_struct(1:length(array),1) = Struct_OpenSCENARIO;
                                                 for x = 1:length(array)
-                                                    Main_struct(x).OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value= array(x)
+                                                    Main_struct(x).OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value= array(x);
                                                     struct2xml(Main_struct(x),convertStringsToChars(strcat(name_experiment_template,int2str(x) )));
                                                 end                                                
-                                            end
+                                                end
 
                                             
                                         end %check Absolute                                        
