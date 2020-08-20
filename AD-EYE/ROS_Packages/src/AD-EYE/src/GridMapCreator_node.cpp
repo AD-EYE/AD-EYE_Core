@@ -377,6 +377,7 @@ public:
         sub_Position = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
         if(use_ground_truth_dunamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
+        else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
