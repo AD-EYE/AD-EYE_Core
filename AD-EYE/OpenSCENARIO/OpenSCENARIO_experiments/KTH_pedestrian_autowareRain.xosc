@@ -65,12 +65,12 @@
     				<SetEnvironment>
     					<Environment>
     						<Weather>
-    							<Precipitation type="typeRain" intensity="{0.5,1.5,3.5,7.5,15,40}" />
+    							<Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
     						</Weather>
     					</Environment>
               <TargetProperties>
                 <Lidar>
-                  <TargetPropertySettings ObjectType = "Car" ReflectionPercentage = "{5,5,10}" />
+                  <TargetPropertySettings ObjectType = "Car" ReflectionPercentage = "{5;5;10}" />
                 </Lidar>
               </TargetProperties>
     				</SetEnvironment>
@@ -81,7 +81,7 @@
                         <Speed>
                             <Dynamics shape="step"/>
                             <Target>
-                                <Absolute value="{2,1,4}"/>
+                                <Absolute value="{2;1;4}"/>
                             </Target>
                         </Speed>
                     </Longitudinal>
@@ -144,7 +144,7 @@
                                             <Entity name="Man_200_1"/>
                                         </TriggeringEntities>
                                         <EntityCondition>
-                                            <Distance value="[10,10,40]" freespace="false" alongRoute="false" rule="less_than">
+                                            <Distance value="[10,10,20]" freespace="false" alongRoute="false" rule="less_than">
                                                 <Position>
                                                     <RelativeObject object="Ego" dx="0.0000000000000000e+00" dy="0.0000000000000000e+00"/>
                                                 </Position>
