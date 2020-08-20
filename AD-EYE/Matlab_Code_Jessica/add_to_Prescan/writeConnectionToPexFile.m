@@ -63,7 +63,7 @@ for i=1:len
     currentStruct.Attributes.Road_B_UniqueId = connections{i}.RoadB_Id;
     currentStruct.Attributes.Joint_A_Id= num2str(connections{i}.JointaId);
     currentStruct.Attributes.Joint_B_Id= num2str(connections{i}.JointbId);
-    currentStruct.Attributes.UniqueId=num2str(i*5);
+    currentStruct.Attributes.UniqueId=num2str(100*i*5);
     loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,indexConnection}=currentStruct;
     indexConnection=indexConnection+1;
     

@@ -16,9 +16,9 @@ len=length(data);
 xpName = prescan.experiment.getDefaultFilename();
 nbBezier=detect_nb_road('BezierRoad',xpName);
 nbRoadsToAdd=1;
-
+i=1;
 %%
-for i=1:(len-1)
+while i<(len-1)
     x1=data(i,1);
     x2=data(i+1,1);
     x3=data(i+2,1);
@@ -38,7 +38,10 @@ for i=1:(len-1)
     roads_to_add{nbRoadsToAdd}.tension.entry=50;
     roads_to_add{nbRoadsToAdd}.tension.exit=50;
     
-    if i==(len-1)
+    i=i+1;
+    nbRoadsToAdd=nbRoadsToAdd+1;
+    
+    if i==(len-1) % we stop to len-1 because there are len point so only len-1 roads
         roads_to_add{nbRoadsToAdd}.position.x=x2;
         roads_to_add{nbRoadsToAdd}.position.y=y2;
         roads_to_add{nbRoadsToAdd}.position.z=z2;
@@ -48,12 +51,15 @@ for i=1:(len-1)
         roads_to_add{nbRoadsToAdd}.tension.entry=50;
         roads_to_add{nbRoadsToAdd}.tension.exit=20;
         nbRoadsToAdd=nbRoadsToAdd+1;
+       
     end
-    
-    connections{i}.RoadA_Id=strcat('CurvedRoad_',num2str(i));
-    connections{i}.RoadB_Id=strcat('CurvedRoad_',num2str(i+1));
-    connections{i}.JointaId=1;
-    connections{i}.JointbId=0;
+
+end
+for k=1:(len-2)
+    connections{k}.RoadA_Id=strcat('CurvedRoad_',num2str(k));
+    connections{k}.RoadB_Id=strcat('CurvedRoad_',num2str(k+1));
+    connections{k}.JointaId=1;
+    connections{k}.JointbId=0;
 end
 
 add_bezierRoad(roads_to_add);

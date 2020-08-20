@@ -92,15 +92,17 @@ for i=1:length(allExpRoads)
         %currentRoadStruct.Orientation.Attributes.Tilt = num2str(rad2deg(currentObjectOrientation.pitch));
         
         
-        currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(5*roadIndex);
-        currentRoadStruct.LaneLineDefinitions.LaneLineDefinition.Attributes.UniqueId=num2str(5*roadIndex+1);
-        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,1}.Attributes.UniqueId=num2str(5*roadIndex+2);
-        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5*roadIndex+3);
+        currentRoadStruct.CentralLineDefinition.Attributes.UniqueId=num2str(500*roadIndex);
+        currentRoadStruct.LaneLineDefinitions.LaneLineDefinition.Attributes.UniqueId=num2str(500*roadIndex+1);
+        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,1}.Attributes.UniqueId=num2str(500*roadIndex+2);
+        currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5000*roadIndex+3);
         
         %add properties to the pex file convert into structure
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         roadIndex = roadIndex + 1;
         indexroadsadd=indexroadsadd+1;
+        nbBezier=nbBezier+1;
+        
     end   
  end
         
