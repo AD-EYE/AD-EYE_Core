@@ -21,7 +21,7 @@ function add_bezierRoad(position,orientation,heading,delta,tension)
     %we can also define the orientation
     yaw=orientation;        %[rad]
     %%
-    prescan.api.roads.createRoad(xp,x,y,z,yaw);
+    road_1 = prescan.api.roads.createRoad(xp,x,y,z,yaw);
 
     %%
     % we indicate option for the road
