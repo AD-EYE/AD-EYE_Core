@@ -4,7 +4,6 @@ import roslib
 import os
 import rospy
 from geometry_msgs.msg import PoseStamped
-from datetime import datetime
 from geometry_msgs.msg import TwistStamped
 import numpy as np
 
