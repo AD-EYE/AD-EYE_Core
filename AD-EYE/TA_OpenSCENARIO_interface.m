@@ -16,7 +16,7 @@ AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 TagsConfigArray = [""];
-SHHConfig = "ssh";
+SSHConfig = "ssh";
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
 strcat('..\OpenSCENARIO_experiments',ExpNameArray(1))
@@ -39,13 +39,13 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
     end
 end
 
-if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions),'Global') == 1 ) 
-    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment),'Weather') == 1 )  %if Weather exist
-                if(convertCharsToStrings( Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type) == "typeRain")
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes),'intensity') == 1 ) 
-                        rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity)
+if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 1 ) 
+    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
+        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
+            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment),'Weather') == 1 )  %if Weather exist
+                if(convertCharsToStrings( Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type) == "typeRain")
+                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes),'intensity') == 1 ) 
+                        rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity)
                         findOpen = strfind(rain_intensity, ';');
                         values = [];
                         for i= 1:length(findOpen)+1
@@ -67,17 +67,17 @@ if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Ini
     end
 end
 
-if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions),'Global') == 1 ) 
-    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment),'TargetProperties') == 1)
-                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties),'Lidar') == 1)
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar),'TargetPropertySettings') == 1)
-                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings),'Attributes') == 1)
-                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes),'ReflectionPercentage') == 1)
+if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 1 ) 
+    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
+        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
+            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'TargetProperties') == 1)
+                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties),'Lidar') == 1)
+                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar),'TargetPropertySettings') == 1)
+                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings),'Attributes') == 1)
+                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes),'ReflectionPercentage') == 1)
                                 
                                 
-                                reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
+                                reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
                                 if(length(strfind(reflectivity, '{')) > 0)
                                     findOpen = strfind(reflectivity, ';');
                                         start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
@@ -130,7 +130,7 @@ duplicatePrescanExp(length(listOfNames));
 %% Create Experiments and run
 
 cd(adeye_base + "TA")
-TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, GoalConfigArray, SimulinkConfigArray, TagsConfigArray, SHHConfig)
+TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, GoalConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
 
 rosshutdown
 
