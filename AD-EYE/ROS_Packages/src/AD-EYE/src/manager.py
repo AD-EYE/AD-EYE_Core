@@ -186,7 +186,7 @@ if __name__ == '__main__':
     # rospy.sleep(1.0)
     # subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
- 
+
     if rospy.get_param("test_automation",False) == True:
         RVIZ_LAUNCH_FILE_NAME = "rp_my_rviz.launch"
         MAP_LAUNCH_FILE_NAME = "rp_my_map.launch"
