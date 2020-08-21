@@ -288,7 +288,10 @@ private:
             if(dynamic_objects_initialized_ == true){
                 for(auto poly: detected_objects_old_.polygons)
                 {
+
+                bool first_point = true;
                     float z = poly.polygon.points.front().z;
+                    Position previous_point;
                     grid_map::Polygon polygon;
                     polygon.setFrameId("SSMP_map");
                     for(auto pt: poly.polygon.points)
@@ -296,11 +299,15 @@ private:
                         if(pt.z == z)
                         {
                             polygon.addVertex(Position(pt.x, pt.y));
-                            Position center(pt.x, pt.y);
-                            float radius = mapResolution;
-                            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                                map.at("StaticObjects", *iterator) = 0;
+                            if(!first_point)
+                            {
+                                for (grid_map::LineIterator iterator(map, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                    map.at("StaticObjects", *iterator) = 0;
+                                }
                             }
+                            first_point = false;
+                            previous_point = Position(pt.x, pt.y);
+                            
                         }
                     }
                     for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
@@ -311,20 +318,26 @@ private:
 
             for(auto poly: detected_objects_.polygons)
             {
+                bool first_point = true;
                 float z = poly.polygon.points.front().z;
+                Position previous_point;
                 grid_map::Polygon polygon;
                 polygon.setFrameId("SSMP_map");
                 for(auto pt: poly.polygon.points)
                 {
                     if(pt.z == z)
-                    {
-                        polygon.addVertex(Position(pt.x, pt.y));
-                        Position center(pt.x, pt.y);
-                        float radius = mapResolution;
-                        for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                            map.at("StaticObjects", *iterator) = heigth_other;
+                        {
+                            polygon.addVertex(Position(pt.x, pt.y));
+                            if(!first_point)
+                            {
+                                for (grid_map::LineIterator iterator(map, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                    map.at("StaticObjects", *iterator) = heigth_other;
+                                }
+                            }
+                            first_point = false;
+                            previous_point = Position(pt.x, pt.y);
+                            
                         }
-                    }
                 }
                 for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
                     map.at("DynamicObjects", *iterator) = heigth_other;
@@ -364,6 +377,7 @@ public:
         sub_Position = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
         if(use_ground_truth_dunamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
+        else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
