@@ -3,7 +3,7 @@
 import roslib
 import os
 import rospy
-from std_msgs import Float32
+from std_msgs.msg import Float32
 from datetime import datetime
 from geometry_msgs.msg import PoseStamped
 
@@ -68,9 +68,9 @@ def storeData (GTP,EP,I):
 GTP =[]
 EP = []
 I = 0
-if Store == True :
-    MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-    file.write("Set speed = "+str(MaxVel)+" \n ")
+# if Store == True :
+#     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
+#     file.write("Set speed = "+str(MaxVel)+" \n ")
 
 if __name__ == '__main__':
     rospy.init_node('ExperimentB',anonymous = True)
