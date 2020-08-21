@@ -47,14 +47,6 @@
             <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
         </Controller>
     </Object>
-
-    <Object name="Nissan_Cabstar_Boxtruck">
-        <CatalogReference catalogName="VehicleCatalog" entryName="AudiA4_red_147kW"/>
-        <Controller>
-            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-        </Controller>
-    </Object>
-
 </Entities>
 
 <Global>
@@ -67,6 +59,27 @@
 		<TargetProperties>
 			<Lidar>
 				<TargetPropertySettings ObjectType = "Truck Bus" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "Building" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "NatureElement" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "AbstractObject" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "Underlay" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "InfraOther" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "StaticOther" ReflectionPercentage = "{5;5;100}" />
+			</Lidar>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "Auxiliary" ReflectionPercentage = "{5;5;100}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -89,24 +102,6 @@
 				<Action>
 					<Position>
 						<World x="88.732759475708008" y="-259.31143951416016" z="0.68999999761581421" h="302.55663536047962*pi/180" p="0" r="0"/>
-					</Position>
-				</Action>
-			</Private>
-
-			<Private object="Nissan_Cabstar_Boxtruck">
-				<Action>
-					<Longitudinal>
-						<Speed>
-							<Dynamics shape="step"/>
-							<Target>
-								<Absolute value="0"/>
-							</Target>
-						</Speed>
-					</Longitudinal>
-				</Action>
-				<Action>
-					<Position>
-						<World x="265.4552001953125" y="-523.55230712890625" z="0.60000002384185791" h="30*pi/180" p="0" r="0"/>
 					</Position>
 				</Action>
 			</Private>
