@@ -57,11 +57,11 @@ def storeData (Loc,speed,Prevspeed) :
 
 Loc = [0,0,0]
 speed = 0
-Prevspeed = 0
+Prevspeed = 1
 
-if Store == True :
-    MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-    file.write("Set speed = "+str(MaxVel)+" , ")
+# if Store == True :
+#     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
+#     file.write("Set speed = "+str(MaxVel)+" , ")
 
 if __name__ == '__main__':
     rospy.init_node('ExperimentA',anonymous = True)

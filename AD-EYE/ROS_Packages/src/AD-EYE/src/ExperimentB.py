@@ -15,10 +15,10 @@ if Store == True :
     NumberFound = False
     k=1
     while NumberFound == False :
-        if os.path.isfile('/home/adeye/Experiment_Results/EstimLocalisation'+str(k)+'.csv')==True:
+        if os.path.isfile('/home/adeye/Experiment_Results/ExperimentB'+str(k)+'.csv')==True:
             k+=1
         else :
-            file = open('/home/adeye/Experiment_Results/EstimLocalisation'+str(k)+'.csv','a')
+            file = open('/home/adeye/Experiment_Results/ExperimentB'+str(k)+'.csv','a')
             NumberFound=True
 
 def storeGTP(list):
@@ -78,5 +78,6 @@ if __name__ == '__main__':
     rospy.Subscriber("/std_stat", Float32, fstoreIter)
     rospy.Subscriber("/ndt_pose", PoseStamped, fstoreEP)
     rospy.Subscriber("/gnss_pose", PoseStamped, fstoreIter)
-    storeData(GTP,EP,I)
+    if Store == True :
+        storeData(GTP,EP,I)
     rospy.spin()
