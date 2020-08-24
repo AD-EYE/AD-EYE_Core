@@ -10,7 +10,7 @@ global GoalConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ExpNameArray = ["KTH_pedestrian_autowareRain"]; %to fill in based on the length of OpenScenarioMod
+ExpNameArray = ["Experiment_A"];
 PrescanExpNameArray = ["KTH_pedestrian_autoware"];
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx"];
