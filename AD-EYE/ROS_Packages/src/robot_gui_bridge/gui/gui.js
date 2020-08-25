@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                          messageType : 'std_msgs/Int32'
                        });
 
-                      var acivationOff = new ROSLIB.Message({
+                      var activationOff = new ROSLIB.Message({
                          data : 0
                        });
                     activationToggleOff.publish(activationOff);
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                          messageType : 'std_msgs/Int32'
                        });
 
-                      var fautOn = new ROSLIB.Message({
+                      var faultOn = new ROSLIB.Message({
                          data : 1
                        });
                     faultToggleOn.publish(faultOn);
