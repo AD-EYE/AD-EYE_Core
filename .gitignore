@@ -35,7 +35,7 @@
 */Experiments/**/Temp
 */Experiments/**/Trajectories
 */Experiments/**/Models
-*/Experiments/**/Resources
+*/Experiments/**/Resources/SPD
 */Experiments/**/V2XPlugin
 */Experiments/**/cameraeffects
 */Experiments/**/cameras
@@ -53,7 +53,7 @@
 # May have to re-include
 */Experiments/**/*hash.mat
 */Experiments/**/*old.slx
-*/Experiments/**/*.png
+#*/Experiments/**/*.png
 */Experiments/**/log4net.config.xml
 */Experiments/**/*.log
 */Experiments/**/*.references
@@ -80,6 +80,9 @@ autoware.ai/src/
 autoware.ai/autoware.ai.repos
 autoware.ai/autoware.ai.workspace
 autoware.ai/autoware.ai.workspace.user
+
+#Visual Studio Code folders
+**/.vscode
 
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="KTH_pedestrian_autoware" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="04B2B0143DE3CDE074284CBE92A6312F33B55A2D760A72FF3D3306DAF5A32FBD" UniqueExperimentIdentifier="6f39f384-eb79-444e-a410-2d143bcc9f4b" UniqueIdCounter="22179" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="KTH_pedestrian_autoware" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="352AF1A68B5A9A7316839D5BA11E8E3CB5F152689CC0858F77C5F1F05E147243" UniqueExperimentIdentifier="c89f1822-a2fe-445b-98ee-69270e39859b" UniqueIdCounter="22695" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="KTH_3D" Description="" id="KTH_3D_1" UniqueId="14987" SensorDetectability="Detectable" NumericalID="14" ObjectTypeID="9" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false">
       <Location X="303" Y="-427" Z="0" />
@@ -419,7 +419,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22167" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22683" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -444,7 +444,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22168" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22684" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -469,7 +469,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22169" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22685" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -494,7 +494,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22170" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22686" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -529,7 +529,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22171" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22687" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -567,7 +567,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22172" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22688" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -602,7 +602,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22173" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22689" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -637,7 +637,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22174" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22690" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -675,7 +675,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22175" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22691" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -710,7 +710,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22176" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22692" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -722,7 +722,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="21907" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="15" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="userDefined" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
+        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="21907" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="15" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="sinXDivX" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
           <Location X="3.75" Y="0" Z="0.400000005960464" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -772,7 +772,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22177" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22693" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -1727,7 +1727,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="22178" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="22694" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />

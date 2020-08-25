@@ -1,0 +1,10 @@
+<!-- -->
+<launch>
+    <node
+            type="manager.py"
+            pkg="adeye"
+            name="manager"
+            respawn="false"
+            output="screen"
+    />
+</launch>
