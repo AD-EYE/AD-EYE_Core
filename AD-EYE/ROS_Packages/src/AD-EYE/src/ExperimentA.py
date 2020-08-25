@@ -75,6 +75,10 @@ Coll = False
 if Store == True :
     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
     file.write("Set speed = "+str(MaxVel)+" , ")
+    Rain = rospy.get_param("/simulink/rain_intensity")
+    file.write("Set rain intensity = "+str(Rain)+" , ")
+    Reflectivity = rospy.get_param("/simulink/reflectivity")
+    file.write("Set reflectivity = "+str(Reflectivity)+" , ")
 
 # listens to the topics
 if __name__ == '__main__':

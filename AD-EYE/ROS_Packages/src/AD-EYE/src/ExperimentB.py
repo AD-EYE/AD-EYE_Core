@@ -137,7 +137,11 @@ countDayI , countDayGTP, countDayEP = 0,0,0
 # we write the parameters of the experiment
 if Store == True :
     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-    file.write("Set speed = "+str(MaxVel)+" \n ")
+    file.write("Set speed = "+str(MaxVel)+" , ")
+    Rain = rospy.get_param("/simulink/rain_intensity")
+    file.write("Set rain intensity = "+str(Rain)+" , ")
+    Reflectivity = rospy.get_param("/simulink/reflectivity")
+    file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
 
 # subscribes to the topics
 if __name__ == '__main__':
