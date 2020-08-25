@@ -38,8 +38,9 @@
 			<div class="row">
                 <!-- card for linear velocity -->
                 <div class="col-md-4 col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
+          <div class="card">
+                <div class="bcontainer">
+                  <div draggable="true" class="box">
                             <h2 class="text-center">Linear Velocity</h2>
                             <div class="gauge">
                                 <div class="gauge__body">
@@ -47,13 +48,15 @@
                                     <div class="gauge__cover"></div>
                                 </div>
                             </div>
-                        </div>
                     </div>
+                  </div>
                 </div>
+              </div>
                 <!-- card for linear acceleration -->
-				<div class="col-md-4 col-sm-12">
-					<div class="card">
-						<div class="card-body">
+                <div class="col-md-4 col-sm-12">
+          <div class="card">
+          <div class="bcontainer">
+            <div draggable="true" class="box">
 							<h2 class="text-center">Linear Acceleration</h2>
                             <div class="gauge_a">
                                 <div class="gauge_a__body">
@@ -61,13 +64,15 @@
                                     <div class="gauge_a__cover"></div>
                                 </div>
                             </div>
-						</div>
 					</div>
 				</div>
+      </div>
+    </div>
                 <!-- card for state -->
                 <div class="col-md-4 col-sm-12">
-					<div class="card">
-						<div class="card-body">
+          <div class="card">
+                <div class="bcontainer">
+                  <div draggable="true" class="box">
 							<h2 class="text-center">Autoware Vs Safety</h2>
                             <div id="0" class="ratingBox">
                             </div>
@@ -79,13 +84,15 @@
                             <button type="button" class="off"
                              onclick="toggleState(this)">A Vs S</button>
 						</div>
-					</div>
 				</div>
+      </div>
+  </div>
         <!-- card for Manager  state -->
                 <div class="col-md-4 col-sm-12">
 					<div class="card">
-						<div class="card-body">
-							<h2 class="text-center">Manager State</h2>
+            <div class="bcontainer">
+              <div draggable="true" class="box">
+                							<h2 class="text-center">Manager State</h2>
                             <p>State : <span id="state"></span></p>
                             <button type="button" class="off"
                              onclick="toggleStateinitial(this)">Initial</button>
@@ -96,11 +103,14 @@
 						</div>
 					</div>
 				</div>
+      </div>
+
                 <!-- card for tracked objects -->
                 <div class="col-md-4 col-sm-12">
 					<div class="card">
-						<div class="card-body">
-							<h2 class="text-center">Tracked Objects</h2>
+            <div class="bcontainer">
+              <div draggable="true" class="box">
+                							<h2 class="text-center">Tracked Objects</h2>
                             <p>Tracked object: <span id="track"></span></p>
                             <p>X: <span id="x"></span></p>
                             <p>Y: <span id="y"></span></p>
@@ -108,19 +118,25 @@
 						</div>
 					</div>
 				</div>
+      </div>
+
                 <!-- card for behaviour state -->
                 <div class="col-md-4 col-sm-12">
 					<div class="card">
-						<div class="card-body">
-							<h2 class="text-center">Behavior State</h2>
+            <div class="bcontainer">
+              <div draggable="true" class="box">
+                							<h2 class="text-center">Behavior State</h2>
                             <p>State: <span id="beh"></span></p>
 						</div>
 					</div>
 				</div>
+      </div>
+
           <!-- card for Feature state -->
                 <div class="col-md-4 col-sm-12">
                     <div class="card">
-                        <div class="card-body">
+                      <div class="bcontainer">
+                        <div draggable="true" class="box">
                             <h2 class="text-center">Feature State</h2>
                             <div id="0" class="ratingBoxs">
                             </div>
@@ -169,11 +185,14 @@
                         </div>
                     </div>
                 </div>
+              </div>
+
                   <!-- card for Fault Injection -->
                 <div class="col-md-4 col-sm-12">
 					             <div class="card">
-						                   <div class="card-body">
-							                          <h2 class="text-center">Fault Injection</h2>
+                         <div class="bcontainer">
+                           <div draggable="true" class="box">
+                                        <h2 class="text-center">Fault Injection</h2>
                                         <button type="button" class="off" style="height:50px;width:300px"
                                          onclick="faultinjectiongnss(this)">GNSS</button>
                                         <button type="button" class="off" style="height:50px;width:300px"
@@ -189,15 +208,20 @@
 						                   </div>
 					             </div>
 				        </div>
+              </div>
+
                   <!-- card for camera -->
                 <div class="col-md-4 col-sm-12">
 					             <div class="card">
-						                   <div class="card-body">
-							                          <h2 class="text-center">Camera Stream_tl</h2>
+                         <div class="bcontainer">
+                           <div draggable="true" class="box">
+                              <h2 class="text-center">Camera Stream_tl</h2>
                                         <a href="http://localhost:8080/stream?topic=/tl/image_raw">
 						                   </div>
 					             </div>
 				        </div>
+              </div>
+
 
             </div>
 	</main>
@@ -212,3 +236,4 @@
 
 
 </html>
+
