@@ -11,7 +11,7 @@ global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
 ExpNameArray = ["Experiment_A"];
-PrescanExpNameArray = ["KTH_pedestrian_autoware"];
+PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];
@@ -134,7 +134,7 @@ TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigAr
 
 rosshutdown
 
-TA('TAOrder.csv')
+TA('TAOrder.csv', 1, 2)
 
 
 

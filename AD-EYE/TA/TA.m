@@ -1,4 +1,4 @@
-function TA(TAOrderFile)
+function TA(TAOrderFile,firstcolumn,lastcolumn)
 %setting up experiments
 BasePath = pwd;
 rosshutdown;
@@ -31,15 +31,34 @@ clear Results Run; %clear any earlier tags or values
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
 
 TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+switch nargin
+  case 0
+    error('The TA order files must be passed as an argument')
+  case 1
+    firstcolumn = 1;
+    lastcolumn = width(TAOrder);
+  case 2
+    lastcolumn = width(TAOrder);
+  case 3
+  otherwise
+    error('3 inputs are accepted.')
+end
 
-for c = 1:width(TAOrder)
-    Run(c).ExpName = TAOrder{'ExpName',c}{1};
-    Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
-    Run(c).EgoName = TAOrder{'EgoName',c}{1};
-    Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-    Run(c).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
-    Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
-    Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
+if(firstcolumn<1)
+    error("first column index must be strictly greater than zero");
+end
+if(firstcolumn>lastcolumn)
+    error("first column index must lesser than the last column index");
+end
+
+for c = firstcolumn:min(lastcolumn,width(TAOrder))
+    Run(c-firstcolumn+1).ExpName = TAOrder{'ExpName',c}{1};
+    Run(c-firstcolumn+1).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
+    Run(c-firstcolumn+1).EgoName = TAOrder{'EgoName',c}{1};
+    Run(c-firstcolumn+1).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
+    Run(c-firstcolumn+1).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+    Run(c-firstcolumn+1).GoalConfig = TAOrder{'GoalConfig',c}{1};
+    Run(c-firstcolumn+1).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
 
 %Run(1).TagsConfig ={
