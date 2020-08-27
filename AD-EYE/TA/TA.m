@@ -81,11 +81,17 @@ device.ROSFolder = ROS_folder; %setting up the ROS folder
 Results(NrOfRuns).Data = []; % Preallocate results structure.
 disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
 
+runtimes = zeros(1,NrOfRuns)
 for run = 1:NrOfRuns
+    tic
     runCore(device) %start roscore
     rosinit(hostname) %initialise
-    %cd(Run(run).ExpDir);
-    %MainExperiment = pwd; 
+    
+    ptree = rosparam
+    (strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName))
+    Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+    set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
+    
     disp('Setting ros parameters from TArosparam Table');
     cd('Configurations');
     rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
@@ -187,7 +193,9 @@ for run = 1:NrOfRuns
     system(device,killRosNodes); 
     rosshutdown
     cd(BasePath);
+    runtimes(run) = toc;
 end
+writetable(array2table(runtimes),"runtimes.xlsx")
 %% simulations
 
 for run = 1:NrOfRuns
