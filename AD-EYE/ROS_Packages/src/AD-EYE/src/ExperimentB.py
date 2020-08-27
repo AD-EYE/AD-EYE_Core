@@ -141,7 +141,9 @@ if Store == True :
     Rain = rospy.get_param("/simulink/rain_intensity")
     file.write("Set rain intensity = "+str(Rain)+" , ")
     Reflectivity = rospy.get_param("/simulink/reflectivity")
-    file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
+    file.write("Set reflectivity = "+str(Reflectivity)+" , ")
+    Distance = rospy.get_param("/simulink/trigger_distance")
+    file.write("Set trigger distance = "+str(Distance)+" \n ")
 
 # subscribes to the topics
 if __name__ == '__main__':
