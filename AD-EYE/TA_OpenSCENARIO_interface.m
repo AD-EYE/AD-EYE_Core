@@ -35,7 +35,6 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
                 end_val = extractBetween(speed_ego, findOpen(2)+1, strlength(speed_ego)-1);
                 setSpeedEgo(str2double(start_val), str2double(step), str2double(end_val))
         end
-
     end
 end
 
@@ -75,8 +74,6 @@ if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 
                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar),'TargetPropertySettings') == 1)
                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings),'Attributes') == 1)
                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes),'ReflectionPercentage') == 1)
-                                
-                                
                                 reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
                                 if(length(strfind(reflectivity, '{')) > 0)
                                     findOpen = strfind(reflectivity, ';');
@@ -134,7 +131,7 @@ TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigAr
 
 rosshutdown
 
-TA('TAOrder.csv', 1, 2)
+%TA('TAOrder.csv', 1, 3)
 
 
 

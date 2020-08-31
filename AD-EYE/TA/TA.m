@@ -82,13 +82,13 @@ Results(NrOfRuns).Data = []; % Preallocate results structure.
 disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
 
 runtimes = zeros(1,NrOfRuns)
+
 for run = 1:NrOfRuns
     tic
     runCore(device) %start roscore
     rosinit(hostname) %initialise
     
-    ptree = rosparam
-    (strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName))
+    ptree = rosparam;
     Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
     set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
     
@@ -194,8 +194,9 @@ for run = 1:NrOfRuns
     rosshutdown
     cd(BasePath);
     runtimes(run) = toc;
+    writetable(array2table(runtimes),"runtimes.xlsx")
 end
-writetable(array2table(runtimes),"runtimes.xlsx")
+
 %% simulations
 
 for run = 1:NrOfRuns
