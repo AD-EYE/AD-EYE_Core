@@ -55,10 +55,21 @@ def storeIter(list):
     T = 3600*list[2] + 60*list[3] + list[4] + 86400*countDayI
     L = [list[0],T]
     I.append(L)
-    if Store == True :
+    if (Store == True) and (start == True) :
         storeData(GTP,EP,I)
+        
+def storespeed(Sp): # the recording may start when the car is moving
+    global start
+    if store == True:
+        if start == False :
+            if Sp > 0.0 :
+                start == True
 
 # procedures that reads what is published on the topics
+def speedf (data):
+    Sp = data.twist.linear.x
+    storespeed(Sp)
+
 def fstoreIter(data):
     d = datetime.day
     h = datetime.hour
@@ -133,6 +144,7 @@ EP = []
 I = []
 CdayI, CdayEP, CdayGTP = datetime.day, datetime.day, datetime.day
 countDayI , countDayGTP, countDayEP = 0,0,0
+start = False
 
 # we write the parameters of the experiment
 if Store == True :
@@ -152,4 +164,6 @@ if __name__ == '__main__':
     rospy.Subscriber("/std_stat", Float32, fstoreIter)
     rospy.Subscriber("/ndt_pose", PoseStamped, fstoreEP)
     rospy.Subscriber("/gnss_pose", PoseStamped, fstoreIter)
+    
+    rospy.Subscriber("/current_velocity", TwistStamped, speedf)
     rospy.spin()
