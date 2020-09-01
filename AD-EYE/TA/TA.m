@@ -52,13 +52,13 @@ if(firstcolumn>lastcolumn)
 end
 
 for c = firstcolumn:min(lastcolumn,width(TAOrder))
-    Run(c-firstcolumn+1).ExpName = TAOrder{'ExpName',c}{1};
-    Run(c-firstcolumn+1).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
-    Run(c-firstcolumn+1).EgoName = TAOrder{'EgoName',c}{1};
-    Run(c-firstcolumn+1).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-    Run(c-firstcolumn+1).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
-    Run(c-firstcolumn+1).GoalConfig = TAOrder{'GoalConfig',c}{1};
-    Run(c-firstcolumn+1).TagsConfig = TAOrder{'TagsConfig',c}{1};
+    Run(c).ExpName = TAOrder{'ExpName',c}{1};
+    Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
+    Run(c).EgoName = TAOrder{'EgoName',c}{1};
+    Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
+    Run(c).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+    Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
+    Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
 
 %Run(1).TagsConfig ={
@@ -81,9 +81,9 @@ device.ROSFolder = ROS_folder; %setting up the ROS folder
 Results(NrOfRuns).Data = []; % Preallocate results structure.
 disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
 
-runtimes = zeros(1,NrOfRuns)
+runtimes = zeros(1,NrOfRuns);
 
-for run = 1:NrOfRuns
+for run = firstcolumn:min(lastcolumn,width(TAOrder))
     tic
     runCore(device) %start roscore
     rosinit(hostname) %initialise
