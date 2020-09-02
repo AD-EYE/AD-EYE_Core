@@ -105,6 +105,25 @@
 					</Position>
 				</Action>
 			</Private>
+			
+			
+			<Private object="Man_200_1">
+				<Action>
+					<Longitudinal>
+						<Speed>
+							<Dynamics shape="step"/>
+							<Target>
+								<Absolute value="0"/>
+							</Target>
+						</Speed>
+					</Longitudinal>
+				</Action>
+				<Action>
+					<Position>
+						<World x="155.26860046386719" y="-337.81317138671875" z="0" h="215*pi/180" p="0" r="0"/>
+					</Position>
+				</Action>
+			</Private>
         </Actions>
     </Init>
 
