@@ -1,4 +1,4 @@
-function TA(TAOrderFile)
+function TA(TAOrderFile,firstcolumn,lastcolumn)
 %setting up experiments
 BasePath = pwd;
 rosshutdown;
@@ -31,8 +31,27 @@ clear Results Run; %clear any earlier tags or values
 ...Experiment > Test Automation Settings > Open Test Automation dialog box  
 
 TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+switch nargin
+  case 0
+    error('The TA order files must be passed as an argument')
+  case 1
+    firstcolumn = 1;
+    lastcolumn = width(TAOrder);
+  case 2
+    lastcolumn = width(TAOrder);
+  case 3
+  otherwise
+    error('3 inputs are accepted.')
+end
 
-for c = 1:width(TAOrder)
+if(firstcolumn<1)
+    error("first column index must be strictly greater than zero");
+end
+if(firstcolumn>lastcolumn)
+    error("first column index must lesser than the last column index");
+end
+
+for c = firstcolumn:min(lastcolumn,width(TAOrder))
     Run(c).ExpName = TAOrder{'ExpName',c}{1};
     Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
     Run(c).EgoName = TAOrder{'EgoName',c}{1};
@@ -62,11 +81,17 @@ device.ROSFolder = ROS_folder; %setting up the ROS folder
 Results(NrOfRuns).Data = []; % Preallocate results structure.
 disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
 
-for run = 1:NrOfRuns
+runtimes = zeros(1,NrOfRuns);
+
+for run = firstcolumn:min(lastcolumn,width(TAOrder))
+    tic
     runCore(device) %start roscore
     rosinit(hostname) %initialise
-    %cd(Run(run).ExpDir);
-    %MainExperiment = pwd; 
+    
+    ptree = rosparam;
+    Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+    set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
+    
     disp('Setting ros parameters from TArosparam Table');
     cd('Configurations');
     rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
@@ -168,7 +193,10 @@ for run = 1:NrOfRuns
     system(device,killRosNodes); 
     rosshutdown
     cd(BasePath);
+    runtimes(run) = toc;
+    writetable(array2table(runtimes),"runtimes.xlsx")
 end
+
 %% simulations
 
 for run = 1:NrOfRuns
