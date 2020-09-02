@@ -5,6 +5,7 @@ import os
 import rospy
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import Float64
 import numpy as np
 
 Store = True
@@ -15,22 +16,6 @@ if Store == True :
     file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
 
 # procedures that reads what is published on the topic
-def storespeed(Sp):
-    global speed
-    speed.append(Sp)
-
-def speedf(data):
-    Sp = data.twist.linear.x
-    storespeed(Sp)
-
-# procedures that edit the global variales
-def storePosition (L):
-    global Loc
-    global Prevspeed
-    global speed
-    Loc = L
-    storeData(Loc,speed) # we call the procedure only once (errors with line 48 if not)
-
 
 def Position(data):
 
@@ -40,20 +25,48 @@ def Position(data):
     L =  [Px,Py,Pz]
     storePosition(L)
 
+def speedf(data):
+    x = data.x
+    y = data.y
+    z = data.z
+    P = [x,y,z]
+    storePedestrian(P)
+
+def pedestrianf(data):
+    Sp = data.twist.linear.x
+    storespeed(Sp)
+
+# procedures that edit the global variales
+def storePosition (L):
+    global Loc
+    global Dx_car
+    global Dy_car
+    global speed
+    Loc = [L[0]+Dx_car,L[1]+Dy_car,L[2]]
+    storeData(Loc,speed,Pedestrian) # we call the procedure only once (errors with line 48 if not)
+
+def storespeed(Sp):
+    global speed
+    speed.append(Sp)
+
+def storePedestrian(P):
+    global Pedestrian
+    Pedestrian = P
+
 # procedure that procsses and stores the data
-def storeData (Loc,speed) :
+def storeData (Loc,speed,Pedestrian) :
     global CollSp
     global Coll
     if len(speed)>1 : # in order to have access to the previous speed
         spL = len(speed)-1
         if Loc[1]> -423.30 : # if the car did almost the half of its path (to not have tests if it is not necessary)
-            if Loc[1]>-343.3 :
+            if (Loc[0]>Pedestrian[0]) and (Loc[1]>Pedestrian[1]) :
                 if Coll == False : # we set the collision speed
                     Coll = True
                     CollSp = str(speed[spL-1])
             if (speed[spL]==0.0) and (speed[spL-1]!=0.0): # if the car just stoped (to test it only once)
                 Collision = 'No'
-                StopDistance = np.sqrt( (Loc[1]+343.3)**2 + (Loc[0]-150.5)**2 )
+                StopDistance = np.sqrt( (Loc[1]+Pedestrian[1])**2 + (Loc[0]-Pedestrian[0])**2 )
                 if Loc[1]>-343.3: #if there is a collision
                     Collision = 'Yes'
                     StopDistance = - StopDistance
@@ -64,12 +77,17 @@ def storeData (Loc,speed) :
                 file.write(', ')
                 file.write("Stop dist = "+str(StopDistance))
                 file.write('\n')
+                file.close()
 
 # we declare the global values
 Loc = []
 speed = []
 CollSp = 'N/A'
 Coll = False
+Pedestrian = [0,0,0]
+angle_car = 57.44*np.pi()/180
+Dx_car = - 2.461*np.cos(angle_car)
+Dy_car = 2.461*np.sin(angle_car)
 
 # writes the parameters of the experiment
 if Store == True :
@@ -88,4 +106,5 @@ if __name__ == '__main__':
 
     rospy.Subscriber("/gnss_pose", PoseStamped, Position)
     rospy.Subscriber("/current_velocity", TwistStamped, speedf)
+    rospy.Subscriber("/simulink/pedestrian_pose", Point, pedestrianf)
     rospy.spin()
