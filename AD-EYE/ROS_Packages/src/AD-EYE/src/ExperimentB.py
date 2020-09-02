@@ -7,7 +7,7 @@ from std_msgs.msg import Float32
 from datetime import datetime
 from geometry_msgs.msg import PoseStamped
 
-Store = True
+Store = False
 if Store == True :
 
     if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
@@ -64,7 +64,9 @@ def storespeed(Sp): # the recording may start when the car is moving
         if start == False :
             if Sp > 0.0 :
                 start == True
-
+        else :
+            if Sp == 0.0 : 
+                start == False
 # procedures that reads what is published on the topics
 def speedf (data):
     Sp = data.twist.linear.x
