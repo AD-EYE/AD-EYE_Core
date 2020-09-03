@@ -57,27 +57,51 @@ def storePedestrian(P):
 def storeData (Loc,speed,Pedestrian) :
     global CollSp
     global Coll
+    global distance_Ego_P
     if len(speed)>1 : # in order to have access to the previous speed
         spL = len(speed)-1
         if Loc[1]> -423.30 : # if the car did almost the half of its path (to not have tests if it is not necessary)
-            if (Loc[0]>Pedestrian[0]) and (Loc[1]>Pedestrian[1]) :
-                if Coll == False : # we set the collision speed
-                    Coll = True
-                    CollSp = str(speed[spL-1])
-            if (speed[spL]==0.0) and (speed[spL-1]!=0.0): # if the car just stoped (to test it only once)
-                Collision = 'No'
-                StopDistance = np.sqrt( (Loc[1]+Pedestrian[1])**2 + (Loc[0]-Pedestrian[0])**2 )
-                if Loc[1]>-343.3: #if there is a collision
-                    Collision = 'Yes'
-                    StopDistance = - StopDistance
+            d = np.sqrt( (Loc[1]+Pedestrian[1])**2 + (Loc[0]-Pedestrian[0])**2 )
+            distance_Ego_P.append(d)
 
-                file.write("Collision? "+str(Collision)) # then we write all the data needed in ExperimentA.csv
-                file.write(', ')
-                file.write("Coll speed = "+CollSp)
-                file.write(', ')
-                file.write("Stop dist = "+str(StopDistance))
-                file.write('\n')
-                file.close()
+            if distance_Ego_P(len(distance_Ego_P)-2)<d : # if the distance is rising, so the pedestrian has been passed
+                if Coll = False : # if the collision didn't occurred
+                    file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop")
+                    stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
+                    stop_pub.publish(Bool(True)) # stop_publisher
+                else : #if the collision occurred
+                    if (speed[spL]==0.0) and (speed[spL-1]!=0.0): # if the car just stoped (to test it only once)
+                        Collision = 'Yes'
+                        StopDistance = - d
+
+                        file.write("Collision? "+str(Collision)) # then we write all the data needed in ExperimentA.csv
+                        file.write(', ')
+                        file.write("Coll speed = "+CollSp)
+                        file.write(', ')
+                        file.write("Stop dist = "+str(StopDistance))
+                        file.write('\n')
+                        file.close()
+                        stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
+                        stop_pub.publish(Bool(True)) # stop_publisher
+
+            else :
+                if round(d,0)=0.0 : # if there is a collision
+                    if Coll == False : # we set the collision speed
+                        Coll = True
+                        CollSp = str(speed[spL-1])
+                if (speed[spL]==0.0) and (speed[spL-1]!=0.0): # if the car just stoped (to test it only once)
+                    Collision = 'No'
+                    StopDistance = d
+
+                    file.write("Collision? "+str(Collision)) # then we write all the data needed in ExperimentA.csv
+                    file.write(', ')
+                    file.write("Coll speed = "+CollSp)
+                    file.write(', ')
+                    file.write("Stop dist = "+str(StopDistance))
+                    file.write('\n')
+                    file.close()
+                    stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
+                    stop_pub.publish(Bool(True)) # stop_publisher
 
 # we declare the global values
 Loc = []
@@ -88,6 +112,7 @@ Pedestrian = [0,0,0]
 angle_car = 57.44*np.pi()/180
 Dx_car = - 2.461*np.cos(angle_car)
 Dy_car = 2.461*np.sin(angle_car)
+distance_Ego_P = []
 
 # writes the parameters of the experiment
 if Store == True :
