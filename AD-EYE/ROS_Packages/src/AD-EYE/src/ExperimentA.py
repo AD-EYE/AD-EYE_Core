@@ -5,7 +5,7 @@ import os
 import rospy
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
-from geometry_msgs.msg import Float64
+from geometry_msgs.msg import Point
 import numpy as np
 
 Store = True
@@ -25,14 +25,14 @@ def Position(data):
     L =  [Px,Py,Pz]
     storePosition(L)
 
-def speedf(data):
-    x = data.x
-    y = data.y
-    z = data.z
+def pedestrianf(data):
+    x = data.float64.x
+    y = data.float64.y
+    z = data.float64.z
     P = [x,y,z]
     storePedestrian(P)
 
-def pedestrianf(data):
+def speedf(data):
     Sp = data.twist.linear.x
     storespeed(Sp)
 
@@ -65,8 +65,8 @@ def storeData (Loc,speed,Pedestrian) :
             distance_Ego_P.append(d)
 
             if distance_Ego_P(len(distance_Ego_P)-2)<d : # if the distance is rising, so the pedestrian has been passed
-                if Coll = False : # if the collision didn't occurred
-                    file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop")
+                if Coll == False : # if the collision didn't occurred
+                    file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop \n")
                     stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
                     stop_pub.publish(Bool(True)) # stop_publisher
                 else : #if the collision occurred
@@ -85,7 +85,7 @@ def storeData (Loc,speed,Pedestrian) :
                         stop_pub.publish(Bool(True)) # stop_publisher
 
             else :
-                if round(d,0)=0.0 : # if there is a collision
+                if round(d,0)==0.0 : # if there is a collision
                     if Coll == False : # we set the collision speed
                         Coll = True
                         CollSp = str(speed[spL-1])
@@ -109,7 +109,7 @@ speed = []
 CollSp = 'N/A'
 Coll = False
 Pedestrian = [0,0,0]
-angle_car = 57.44*np.pi()/180
+angle_car = 57.44*np.pi/180
 Dx_car = - 2.461*np.cos(angle_car)
 Dy_car = 2.461*np.sin(angle_car)
 distance_Ego_P = []
