@@ -6,6 +6,7 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Point
+from std_msgs.msg import Bool
 import numpy as np
 
 Store = True
@@ -26,9 +27,9 @@ def Position(data):
     storePosition(L)
 
 def pedestrianf(data):
-    x = data.float64.x
-    y = data.float64.y
-    z = data.float64.z
+    x = data.x
+    y = data.y
+    z = data.z
     P = [x,y,z]
     storePedestrian(P)
 
@@ -61,10 +62,10 @@ def storeData (Loc,speed,Pedestrian) :
     if len(speed)>1 : # in order to have access to the previous speed
         spL = len(speed)-1
         if Loc[1]> -423.30 : # if the car did almost the half of its path (to not have tests if it is not necessary)
-            d = np.sqrt( (Loc[1]+Pedestrian[1])**2 + (Loc[0]-Pedestrian[0])**2 )
+            d = np.sqrt( (Loc[1]-Pedestrian[1])**2 + (Loc[0]-Pedestrian[0])**2 )
             distance_Ego_P.append(d)
 
-            if distance_Ego_P(len(distance_Ego_P)-2)<d : # if the distance is rising, so the pedestrian has been passed
+            if distance_Ego_P[len(distance_Ego_P)-2]<d : # if the distance is rising, so the pedestrian has been passed
                 if Coll == False : # if the collision didn't occurred
                     file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop \n")
                     stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
@@ -85,7 +86,7 @@ def storeData (Loc,speed,Pedestrian) :
                         stop_pub.publish(Bool(True)) # stop_publisher
 
             else :
-                if round(d,0)==0.0 : # if there is a collision
+                if d<2.5 : # if there is a collision
                     if Coll == False : # we set the collision speed
                         Coll = True
                         CollSp = str(speed[spL-1])
