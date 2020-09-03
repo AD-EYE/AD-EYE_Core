@@ -11,6 +11,13 @@ findOpen = strfind(document, '[');
 findClose = strfind(document, ']');
 findSeparator = strfind(document, ',');
 
+if length(findOpen)==0
+    listOfNames(1) = convertCharsToStrings([fileName, '.xosc']);
+    cd '..\Code';
+    return
+end
+
+
 for c = 1:length(findOpen)
     changes(c).textOrigin = findOpen(c);
     changes(c).textBrake1 = findSeparator(2*c-1);

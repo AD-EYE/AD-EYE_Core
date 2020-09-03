@@ -10,22 +10,28 @@ from geometry_msgs.msg import PoseStamped
 Store = False
 if Store == True :
 
-    if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
-        os.mkdir('/home/adeye/Experiment_Results/')
+    if os.path.isdir('/home/adeye/Experiment_Results/ExperimentB/') == False : # checks if the folder exists and creates it if not
+        os.mkdir('/home/adeye/Experiment_Results/ExperimentB/')
     NumberFound = False
     k=1
     while NumberFound == False :
-        if os.path.isfile('/home/adeye/Experiment_Results/ExperimentB'+str(k)+'.csv')==True: # creates a file for each experiment
+        if os.path.isfile('/home/adeye/Experiment_Results/ExperimentB/ExperimentB'+str(k)+'.csv')==True: # creates a file for each experiment
             k+=1
         else :
-            file = open('/home/adeye/Experiment_Results/ExperimentB'+str(k)+'.csv','a')
+            file = open('/home/adeye/Experiment_Results/ExperimentB/ExperimentB'+str(k)+'.csv','a')
             NumberFound=True
 
 # procedures that edits the global variables
 def storeGTP(list):
+    global NewEP
+    global NewGTP
     global GTP
+    global EP
+    global I
     global CdayGTP
     global countDayGTP
+    if NewGTP == False : # when this function is called, then new data is written on /gnss_pose
+        NewGTP = True
     if EP[3]!= CdayGTP : # if we change day (it is != and not > to make it work even if we change of month)
         CdayGTP = I[3]
         countDayGTP += 1
@@ -33,16 +39,28 @@ def storeGTP(list):
     L = [list[0],list[1],list[2],T]
     GTP.append(L)
 
+    if (Store == True) and (start == True) and (NewGTP==True) and (NewEP == True) :
+        storeData(GTP,EP,I)
+
 def storeEP(list):
+    global NewEP
+    global NewGTP
     global EP
+    global GTP
+    global I
     global CdayEP
     global countDayEP
+    if NewEP == False : # when this function is called, then new data is written on /ndt_pose
+        NewEP = True
     if EP[3]!= CdayEP :
         CdayEP = I[3]
         countDayEP += 1
     T = 3600*list[4] + 60*list[5] + list[6] + 86400*countDayEP
     L = [list[0],list[1],list[2],T]
     EP.append(L)
+
+    if (Store == True) and (start == True) and (NewGTP==True) and (NewEP == True) :
+        storeData(GTP,EP,I)
 
 
 def storeIter(list):
@@ -55,9 +73,8 @@ def storeIter(list):
     T = 3600*list[2] + 60*list[3] + list[4] + 86400*countDayI
     L = [list[0],T]
     I.append(L)
-    if (Store == True) and (start == True) :
-        storeData(GTP,EP,I)
-        
+
+
 def storespeed(Sp): # the recording may start when the car is moving
     global start
     if store == True:
@@ -65,7 +82,7 @@ def storespeed(Sp): # the recording may start when the car is moving
             if Sp > 0.0 :
                 start == True
         else :
-            if Sp == 0.0 : 
+            if Sp == 0.0 :
                 start == False
 # procedures that reads what is published on the topics
 def speedf (data):
@@ -106,6 +123,11 @@ def fstoreEP(data):
 
 # procedure that processes and write the data into the file
 def storeData (GTP,EP,I):
+    global NewEP
+    global NewGTP
+    NewEP = False # when this function is called, we "reset" the variables that indicates if new data is written or not
+    NewGTP = False
+
     Ilen = len(I)-1
     GTPlen = len(GTP)-1
     EPlen = len(EP)-1
@@ -130,7 +152,7 @@ def storeData (GTP,EP,I):
         xe,ye,ze = EP[Eindex][1],EP[Eindex][2],EPEindex][3]
         NbrIter = I[Iindex][1]
 
-        # The data are written in the file 
+        # The data are written in the file
         file.write("Ground Truth Pos = "+str(xg)+" , "+str(yg)+" , "+str(zg)+" , ")
         file.write("Perceived Pos = "+str(xe)+" , "+str(ye)+" , "+str(ze)+" , ")
         file.write("Nbr of iter = "+str(NbrIter)+" , ")
@@ -147,6 +169,8 @@ I = []
 CdayI, CdayEP, CdayGTP = datetime.day, datetime.day, datetime.day
 countDayI , countDayGTP, countDayEP = 0,0,0
 start = False
+NewGTP = False #this aims to run storeData() only when new data are published on both nodes /gnss_pose and /ndt_pose
+NewEP = False
 
 # we write the parameters of the experiment
 if Store == True :
@@ -155,17 +179,15 @@ if Store == True :
     Rain = rospy.get_param("/simulink/rain_intensity")
     file.write("Set rain intensity = "+str(Rain)+" , ")
     Reflectivity = rospy.get_param("/simulink/reflectivity")
-    file.write("Set reflectivity = "+str(Reflectivity)+" , ")
-    Distance = rospy.get_param("/simulink/trigger_distance")
-    file.write("Set trigger distance = "+str(Distance)+" \n ")
+    file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
 
 # subscribes to the topics
 if __name__ == '__main__':
     rospy.init_node('ExperimentB',anonymous = True)
 
-    rospy.Subscriber("/std_stat", Float32, fstoreIter)
+    rospy.Subscriber("/ndt_stat", Float32, fstoreIter)
     rospy.Subscriber("/ndt_pose", PoseStamped, fstoreEP)
-    rospy.Subscriber("/gnss_pose", PoseStamped, fstoreIter)
-    
+    rospy.Subscriber("/gnss_pose", PoseStamped, fstoreGTP)
+
     rospy.Subscriber("/current_velocity", TwistStamped, speedf)
     rospy.spin()
