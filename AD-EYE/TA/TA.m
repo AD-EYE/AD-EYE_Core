@@ -17,6 +17,7 @@ launchTemplateModifier = strcat(shFolderPath, '/' , 'launchTemplateModifier.sh')
     ...%contains command to run the python node which receives ros parameters and modifies launch files 
 managerFileLaunch = strcat(shFolderPath, '/', 'managerFileLaunch.sh'); ...
 ...%contains command to launch manager file in adeye package
+
 killRosNodes = strcat(shFolderPath, '/', 'killRosNodes.sh'); ...
 ...%contains command to kill all the ros nodes and consecutively rosmaster 
 ExeName = 'PreScan.CLI.exe';
@@ -89,11 +90,12 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     rosinit(hostname) %initialise
     
     ptree = rosparam;
-    Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+    cd ('..\OpenSCENARIO\Code')
+    Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
     set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
     
     disp('Setting ros parameters from TArosparam Table');
-    cd('Configurations');
+    cd('..\..\TA\Configurations');
     rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     cd('..');
@@ -104,6 +106,7 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     system(device, launchTemplateModifier); 
     disp('Launching the manager file')
     system(device, managerFileLaunch);
+    
 
     cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
     MainExperiment = pwd;
