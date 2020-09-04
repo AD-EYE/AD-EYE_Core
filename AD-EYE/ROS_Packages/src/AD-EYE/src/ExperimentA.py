@@ -68,6 +68,7 @@ def storeData (Loc,speed,Pedestrian) :
             if distance_Ego_P[len(distance_Ego_P)-2]<d : # if the distance is rising, so the pedestrian has been passed
                 if Coll == False : # if the collision didn't occurred
                     file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop \n")
+                    file.close()
                     stop_pub = rospy.Publisher("/simulink/experiment_stopper",Bool, queue_size = 1) # stop_publisher
                     stop_pub.publish(Bool(True)) # stop_publisher
                 else : #if the collision occurred
