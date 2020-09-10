@@ -26,7 +26,7 @@
 
 
 
-function writeToPexFile(ExperimentPBFile,ExperimentPexFile,TemplatePexFile)
+function writeActorToPexFile(ExperimentPBFile,ExperimentPexFile,TemplatePexFile)
 
 
 %Load All Files
