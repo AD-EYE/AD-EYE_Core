@@ -3,7 +3,7 @@ function fix_z_axis(ptcloud)
     maxz=max(ptcloud.Location(:,3));
     point_max=find_point(maxz,ptcloud.location);
     point_min=find_point(minz,ptcloud.location);
-    point_z0=(point_min(1),point_min(2),point_max(3)];
+    point_z0=point_min(1),point_min(2),point_max(3)];
     angle=calculate_angle(point_z0,point_min,point_max);
     
     rotate_points(angle,ptcloud.Location);
