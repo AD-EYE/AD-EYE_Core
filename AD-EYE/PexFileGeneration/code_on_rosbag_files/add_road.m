@@ -14,7 +14,6 @@ points_data=GPS_data('20180810150607_bus_signals');
 data=suppr_duplicates(points_data);
 len=length(data);
 xpName = prescan.experiment.getDefaultFilename();
-nbBezier=detect_nb_road('BezierRoad',xpName);
 nbRoadsToAdd=1;
 i=1;
 %%
