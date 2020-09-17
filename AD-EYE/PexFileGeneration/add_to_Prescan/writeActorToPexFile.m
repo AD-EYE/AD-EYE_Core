@@ -34,7 +34,7 @@ pexFileName = ExperimentPexFile;
 actorsTemplate = TemplatePexFile;
 pbFileName = ExperimentPBFile;
 
-%Make backup of the currnet PEX file
+%Make backup of the current PEX file
 backupFolderPath = [pwd '\BackupPEXFiles'];
 if ~exist(backupFolderPath)
     mkdir(backupFolderPath);
@@ -70,10 +70,10 @@ for i=1:length(allExpObjects)
         
         %If you don't want any specific item to show up in the CS, filter
         %them here!!!
-        if ~contains(lower(currentObjectCategoryName),'house')
-            %Show everything in CS except houses
-            currentActorStruct.ObjectSimulatorInfo.Attributes.AlwaysOnCompilationSheet = 'true';
-        end
+%         if ~contains(lower(currentObjectCategoryName),'house')
+%             %Show everything in CS except houses
+%             currentActorStruct.ObjectSimulatorInfo.Attributes.AlwaysOnCompilationSheet = 'true';
+%         end
         
         
         %Set the correct properties for each Actor in the STRUCT

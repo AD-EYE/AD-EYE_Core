@@ -19,7 +19,7 @@ function writeConnectionToPexFile(connections,ExperimentPexFile,RoadPexFile) %Ro
 pexFileName=ExperimentPexFile;
 RoadTemplate=RoadPexFile;
     
-%Make backup of the currnet PEX file
+%Make backup of the current PEX file
 backupFolderPath = [pwd '\BackupPEXFiles'];
 if ~exist(backupFolderPath)
     mkdir(backupFolderPath);

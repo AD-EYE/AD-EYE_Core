@@ -24,5 +24,3 @@ ExperimentPexFile = [prescan.experiment.getExperimentName '.pex'];
 %add connection to the pex file
 writeConnectionToPexFile(connections,ExperimentPexFile,pathToTemplatePex); %RoadA_Id,RoadB_Id,JointaId,JointbId,ExperimentPexFile,pathToTemplatePex)
 end
-%Run the experiment directly from Matlab
-%prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');

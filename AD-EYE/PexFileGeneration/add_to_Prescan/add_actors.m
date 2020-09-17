@@ -39,6 +39,4 @@ xp.saveToFile(xpName);
 pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
 experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
 writeToPexFile(xpName,experimentPexFile,pathToTemplatePex);
-
-%Run the experiment directly from Matlab
-prescan.api.simulink.run(xp,'StopTime','0','Regenerate','on');
+end

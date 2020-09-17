@@ -36,8 +36,8 @@ altitude= zeros(25,1);
 latitude= read_message(msg_lat_deg_val,msg_lat_dir_val);
 longitude= read_message(msg_long_deg_val,msg_long_dir_val);
 gps_data=[latitude longitude altitude];
-mercato_data=Mercato_conversion(gps_data);
-cart_data=move_point(mercato_data);
+mercato_data=Mercator_conversion(gps_data);
+cart_data=center_origin_on_first_point(mercato_data);
 
 %sub function to read data on messages
 function array =read_message(messages,direction)
@@ -55,7 +55,7 @@ function array =read_message(messages,direction)
     array=mat;
 end
 
-function Cartesian_data= Mercato_conversion (GPS_data)
+function Cartesian_data= Mercator_conversion (GPS_data)
     a= 6378137.0; %[meter] so results are in meter
     x=0;    %initialisation
     y=0;
@@ -70,7 +70,7 @@ function Cartesian_data= Mercato_conversion (GPS_data)
     Cartesian_data=coord;
 end
 
-function data_to_origin=move_point(cart_data)
+function data_to_origin=center_origin_on_first_point(cart_data)
     X0=cart_data(1,1);
     Y0=cart_data(1,2);
     Z0=cart_data(1,3);
