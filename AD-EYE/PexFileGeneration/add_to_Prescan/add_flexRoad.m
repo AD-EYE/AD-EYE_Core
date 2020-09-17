@@ -61,6 +61,6 @@ function add_flexRoad(roads)%position,orientation, points)
     %Convert the PB to PEX using the writeToPexFile function
     pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
     experimentPexFile = [prescan.experiment.getExperimentName '.pex'];
-    writeFlexRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex,roads);%,centerlineOffset);
+    writeFlexRoadToPexFile(xpName,experimentPexFile,pathToTemplatePex,roads);
 
 end
