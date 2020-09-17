@@ -22,7 +22,7 @@ loadedTemplate = xml2struct(RoadTemplate);
 
 %get all roads on the pb file 
 myExp = prescan.experiment.readDataModels(pbFileName);
-allExpObjects = myExp.worldmodel.object;
+allExpObjects = myExp.worldmodel.object; %On this varaible we have all objects on the pb file (roads, trees, cars ...)
 roadIndex = 1;
 nbCross=1;
 indexRoadsAdd=1;
@@ -113,32 +113,5 @@ copyfile([pwd '\' pexFileName '.xml'], [pwd '\' pexFileName]);
 disp(['Done...A back up of original PEX file is made at: ' backupFolderPath '\Backup_' currentTime '_' pexFileName]);
 
 
-%Function to get the correct template for each road
-function [correspondingRoadStruct] = getCorrectRoadStruct(loadedTemplate,nameCross)
 
-
-    RoadInTemplateList = loadedTemplate.Experiment.InfraStructure.RoadSegments.RoadSegment;
-    correspondingRoadStruct = '';
-
-
-    for j=1:length(RoadInTemplateList)
-
-        try
-            templateActorName = RoadInTemplateList{j}.Attributes.xsi_colon_type;
-
-        catch
-            templateActorName = '';
-        end
-
-        if strcmp(nameCross,templateActorName)
-
-            correspondingRoadStruct = RoadInTemplateList{j};
-
-        end
-
-    end
-
-    
-
-end
 end
