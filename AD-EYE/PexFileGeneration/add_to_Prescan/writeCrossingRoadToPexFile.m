@@ -22,16 +22,16 @@ loadedTemplate = xml2struct(RoadTemplate);
 
 %get all roads on the pb file 
 myExp = prescan.experiment.readDataModels(pbFileName);
-allExpRoads = myExp.worldmodel.object;
+allExpObjects = myExp.worldmodel.object;
 roadIndex = 1;
 nbCross=1;
 indexRoadsAdd=1;
 
-for i=1:length(allExpRoads)
+for i=1:length(allExpObjects)
     
     %we would like modify only road add on pb file and count the number of
     %road and the number of Bezier road on Pex file
-    objectTypeName=allExpRoads{i,1}.objectTypeName;
+    objectTypeName=allExpObjects{i,1}.objectTypeName;
     if  not(strcmp(objectTypeName, 'Road' ))
         if strcmp(objectTypeName,'BezierRoad')
             roadIndex= roadIndex+1;
@@ -55,11 +55,11 @@ for i=1:length(allExpRoads)
     else
     
     %Get Road properties from PB fil
-    currentObjectUniqueID = allExpRoads{i,1}.uniqueID;
-    currentObjectNumericalID= allExpRoads{i,1}.numericalID;
-    currentObjectPosition = allExpRoads{i,1}.pose.position;
-    currentObjectOrientation = allExpRoads{i,1}.pose.orientation;
-    currentObjectCoGOffset =allExpRoads{i,1}.cogOffset;
+    currentObjectUniqueID = allExpObjects{i,1}.uniqueID;
+    currentObjectNumericalID= allExpObjects{i,1}.numericalID;
+    currentObjectPosition = allExpObjects{i,1}.pose.position;
+    currentObjectOrientation = allExpObjects{i,1}.pose.orientation;
+    currentObjectCoGOffset =allExpObjects{i,1}.cogOffset;
     
     %Get the correct road template  
     currentRoadStruct=getCorrectRoadStruct(loadedTemplate,strcat(type,'Crossing'));
