@@ -15,19 +15,15 @@
 %Xcrossing or roundabout, JointId=0,1,2 ou 3. If it is Ycrossing,
 %JointId=0,1 ou 2. 
 
-function add_connection(connections) %RoadAid,RoadBid,JointAid, JointBid)
+function add_connection(connections) 
 
 %Refreshes the PB file based on the content of PEX file
 prescan.experiment.convertPexToDataModels()
-
-if length(connections)<2
-    disp('Warning:if there are no connections on the experiment now, the function will work but if you use it again it will not work. If there is only one connection on the experiment now, the function will not work.');
-end
 
 %define template pex file and experiment pex file
 pathToTemplatePex = ['C:\Users\adeye\Desktop\real_world_data\TemplatePexFile\TemplatePexFile.pex'];
 ExperimentPexFile = [prescan.experiment.getExperimentName '.pex'];
 
 %add connection to the pex file
-writeConnectionToPexFile(connections,ExperimentPexFile,pathToTemplatePex); %RoadA_Id,RoadB_Id,JointaId,JointbId,ExperimentPexFile,pathToTemplatePex)
+writeConnectionToPexFile(connections,ExperimentPexFile,pathToTemplatePex); 
 end

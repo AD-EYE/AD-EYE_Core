@@ -13,7 +13,7 @@
 %JointId=0,1 ou 2. 
 %%
 
-function writeConnectionToPexFile(connections,ExperimentPexFile,RoadPexFile) %RoadA_Id,RoadB_Id,JointaId,JointbId,ExperimentPexFile,RoadPexFile)
+function writeConnectionToPexFile(connections,ExperimentPexFile,RoadPexFile)
 
 %load all files
 pexFileName=ExperimentPexFile;
@@ -33,22 +33,9 @@ copyfile([pwd '\' pexFileName], [backupFolderPath '\Backup_' currentTime '_' pex
 disp('Loading the experiment and template PEX files...') %message for the commande
 loadedPexFile = xml2struct(pexFileName); 
 loadedTemplate = xml2struct(RoadTemplate);
-% 
-% indexConnection=length(loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection);
-% indexConnection= indexConnection+1;
 
 %get the connection template
 currentStruct=loadedTemplate.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,1};
-
-%add the properties of connection
-% currentStruct.Attributes.id = strcat('RoadJointConnection_',num2str(indexConnection));
-% currentStruct.Attributes.Road_A_UniqueId = RoadA_Id;
-% currentStruct.Attributes.Road_B_UniqueId = RoadB_Id;
-% currentStruct.Attributes.Joint_A_Id= num2str(JointaId);
-% currentStruct.Attributes.Joint_B_Id= num2str(JointbId);
-% currentStruct.Attributes.UniqueId=num2str(indexConnection*5);
-% 
-% loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,indexConnection}=currentStruct;
 
 try 
     indexConnection=length(loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection)+1;
@@ -64,6 +51,13 @@ for i=1:len
     currentStruct.Attributes.Joint_A_Id= num2str(connections{i}.JointaId);
     currentStruct.Attributes.Joint_B_Id= num2str(connections{i}.JointbId);
     currentStruct.Attributes.UniqueId=num2str(100*i*5);
+    
+    if i==1 & indexConnection==2 %this test is true when there already is one connection on the Pex file
+        ConnectionOnPexFile=loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection; %we save informations of the connection
+        loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection={}; % We supress informations to have an array
+        loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,1}=ConnectionOnPexFile; %we add on the first position of the array informations of the connection
+    end
+    
     loadedPexFile.Experiment.InfraStructure.RoadSegmentConnections.Connection{1,indexConnection}=currentStruct;
     indexConnection=indexConnection+1;
     

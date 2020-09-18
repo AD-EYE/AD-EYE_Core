@@ -98,6 +98,12 @@ for i=1:length(allExpObjects)
         currentRoadStruct.CurbLineDefinitions.LaneLineDefinition{1,2}.Attributes.UniqueId=num2str(5000*roadIndex+3);
         
         %add properties to the pex file convert into structure
+        if i==1 & roadIndex==2 %this test is true when there already is one road on the Pex file
+            RoadInformations= loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment; %we save informations of the road
+            loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment={}; % We supress informations to have an array
+            loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,1}=RoadInformations; %we add on the first position of the array informations of the road
+        end
+        
         loadedPexFile.Experiment.InfraStructure.RoadSegments.RoadSegment{1,roadIndex} = currentRoadStruct;
         roadIndex = roadIndex + 1;
         indexroadsadd=indexroadsadd+1;

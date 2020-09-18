@@ -17,9 +17,7 @@ function add_bezierRoad(roads_to_add)
     %% First create a road
     %%
     nbRoads=length(roads_to_add);
-    if nbRoads<2
-        disp('Warning:if there are no roads on the experiment now, the function will work but if you use it again it will not work. If there is one road on the experiment now, the function will not work.');
-    end
+    
     %%
     for i=1:nbRoads
         

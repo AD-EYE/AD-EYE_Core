@@ -31,9 +31,7 @@ function add_flexRoad(roads)%position,orientation, points)
     % 
     %% First create a road
     nbroads=length(roads);
-    if nbroads<2
-        dips('Warning:if there are no roads on the experiment now, the function will work but if you use it again it will not work. If there is one road on the experiment now, the function will not work.');
-    end
+    
     for j=1:nbroads
         
         %first we define the position of the road

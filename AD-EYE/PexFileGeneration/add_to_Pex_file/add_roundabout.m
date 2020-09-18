@@ -15,9 +15,7 @@ function add_roundabout(roads_to_add)
 
     %% First create roads
     nbRoads=length(roads_to_add);
-    if nbroads<2
-        dips('Warning:if there are no roads on the experiment now, the function will work but if you use it again it will not work. If there is one road on the experiment now, the function will not work.');
-     end
+    
     for i=1:nbRoads
         %first define position
         x=roads_to_add{i}.position.x;   %[meter]
