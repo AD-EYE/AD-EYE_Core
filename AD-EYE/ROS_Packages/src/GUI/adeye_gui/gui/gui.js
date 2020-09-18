@@ -293,11 +293,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var initialToggleOn = new ROSLIB.Topic({
                          ros : ros,
                          name : '/initial_checks',
-                         messageType :'std_msgs/Int32'
+                         messageType :'std_msgs/Bool'
                        });
 
                       var initialOn = new ROSLIB.Message({
-                         data : 1
+                         data : true
                        });
                     initialToggleOn.publish(initialOn);
                    } else {
@@ -305,11 +305,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var initialToggleOff = new ROSLIB.Topic({
                          ros : ros,
                          name : '/initial_checks',
-                         messageType : 'std_msgs/Int32'
+                         messageType : 'std_msgs/Bool'
                        });
 
                       var initialOff = new ROSLIB.Message({
-                         data : 0
+                         data : false
                        });
                     initialToggleOff.publish(initialOff);
                    }
@@ -321,11 +321,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var activationToggleOn = new ROSLIB.Topic({
                          ros : ros,
                          name : '/activation_request',
-                         messageType : 'std_msgs/Int32'
+                         messageType : 'std_msgs/Bool'
                        });
 
                       var activationOn = new ROSLIB.Message({
-                         data : 1
+                         data : true
                        });
                     activationToggleOn.publish(activationOn);
                    } else {
@@ -333,11 +333,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var activationToggleOff = new ROSLIB.Topic({
                          ros : ros,
                          name : '/activation_request',
-                         messageType : 'std_msgs/Int32'
+                         messageType : 'std_msgs/Bool'
                        });
 
                       var activationOff = new ROSLIB.Message({
-                         data : 0
+                         data : false
                        });
                     activationToggleOff.publish(activationOff);
                    }
@@ -349,11 +349,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var faultToggleOn = new ROSLIB.Topic({
                          ros : ros,
                          name : '/fault',
-                         messageType : 'std_msgs/Int32'
                        });
 
                       var faultOn = new ROSLIB.Message({
-                         data : 1
+                         data : true
                        });
                     faultToggleOn.publish(faultOn);
                    } else {
@@ -361,11 +360,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                       var faultToggleOff = new ROSLIB.Topic({
                          ros : ros,
                          name : '/fault',
-                         messageType : 'std_msgs/Int32'
+                         messageType : 'std_msgs/Bool'
                        });
 
                       var faultOff = new ROSLIB.Message({
-                         data : 0
+                         data : false
                        });
                     faultToggleOff.publish(faultOff);
                    }
