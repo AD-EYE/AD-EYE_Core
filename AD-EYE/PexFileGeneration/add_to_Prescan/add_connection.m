@@ -1,12 +1,19 @@
 % THis function is to link two raods. 
-% It is important to notice that if road are not side by side the function
-% add a link. So it is your responsability to be sure that the id of road
-% and joint are good
+% It is important to notice that if roads are not side by side the function
+% add a link. So it is your responsability to be sure that the id of roads
+% and joints are good
 % input:
-% RoadAid for exemple'Roundabout_1';
-% RoadBid for exemple'YCrossing_2';
-% Jointaid for exemple 3;
-% Jointbid for exemple 1;
+%       connections: array with:
+%               connections{i}.roadA_Id
+%               connections{i}.roadB_Id
+%               connections{i}.JointaId
+%               connections{i}.JointbId
+%
+%RoadA_Id is the id of the first road like 'CurvedRoad_1' and RoadB_Id is
+%the id of the second road. JointaId indicated if the connection is with
+%the beginning of the road (0) or the end of the road (1). If it is
+%Xcrossing or roundabout, JointId=0,1,2 ou 3. If it is Ycrossing,
+%JointId=0,1 ou 2. 
 
 function add_connection(connections) %RoadAid,RoadBid,JointAid, JointBid)
 
