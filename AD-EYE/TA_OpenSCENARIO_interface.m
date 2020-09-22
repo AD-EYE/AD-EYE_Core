@@ -10,8 +10,8 @@ global GoalConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ExpNameArray = ["Experiment_A"];
-PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];
+ExpNameArray = ["Experiment_A"];%Experiment_A
+PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];
@@ -19,7 +19,7 @@ TagsConfigArray = [""];
 SSHConfig = "ssh";
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
-strcat('..\OpenSCENARIO_experiments',ExpNameArray(1))
+convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ExpNameArray(1)))
 cd(adeye_base + "OpenSCENARIO\Code")
 Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ExpNameArray(1))), '.xosc']);
 %Struct_OpenSCENARIO = xml2struct(['..\OpenSCENARIO_experiments\KTH_pedestrian_autowareRain', '.xosc']);
@@ -131,7 +131,7 @@ TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigAr
 
 rosshutdown
 
-%TA('TAOrder.csv', 1, 3)
+TA('TAOrder.csv', 1, 500)
 
 
 
