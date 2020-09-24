@@ -76,13 +76,13 @@ def storeData (Loc,speed,Pedestrian) :
 
                     # writes the parameters of the experiment
                     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-                    file.write("Set speed = "+str(MaxVel)+" , ")
+                    file.write("Set speed, "+str(MaxVel)+" , ")
                     Rain = rospy.get_param("/simulink/rain_intensity")
-                    file.write("Set rain intensity = "+str(Rain)+" , ")
+                    file.write("Set rain intensity, "+str(Rain)+" , ")
                     Reflectivity = rospy.get_param("/simulink/reflectivity")
-                    file.write("Set reflectivity = "+str(Reflectivity)+" , ")
+                    file.write("Set reflectivity, "+str(Reflectivity)+" , ")
                     Distance = rospy.get_param("/simulink/trigger_distance")
-                    file.write("Set trigger distance = "+str(Distance)+" , ")
+                    file.write("Set trigger distance, "+str(Distance)+" , ")
 
                     file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop \n")
                     file.close()
@@ -95,19 +95,19 @@ def storeData (Loc,speed,Pedestrian) :
 
                         # writes the parameters of the experiment
                         MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-                        file.write("Set speed = "+str(MaxVel)+" , ")
+                        file.write("Set speed, "+str(MaxVel)+" , ")
                         Rain = rospy.get_param("/simulink/rain_intensity")
-                        file.write("Set rain intensity = "+str(Rain)+" , ")
+                        file.write("Set rain intensity, "+str(Rain)+" , ")
                         Reflectivity = rospy.get_param("/simulink/reflectivity")
-                        file.write("Set reflectivity = "+str(Reflectivity)+" , ")
+                        file.write("Set reflectivity, "+str(Reflectivity)+" , ")
                         Distance = rospy.get_param("/simulink/trigger_distance")
-                        file.write("Set trigger distance = "+str(Distance)+" , ")
+                        file.write("Set trigger distance, "+str(Distance)+" , ")
 
-                        file.write("Collision? "+Collision) # then we write all the data needed in ExperimentA.csv
+                        file.write("Collision, "+Collision) # then we write all the data needed in ExperimentA.csv
                         file.write(', ')
-                        file.write("Coll speed = "+CollSp)
+                        file.write("Coll speed, "+CollSp)
                         file.write(', ')
-                        file.write("Stop dist = "+str(StopDistance))
+                        file.write("Stop dist, "+str(StopDistance))
                         file.write('\n')
                         file.close()
 
@@ -124,19 +124,19 @@ def storeData (Loc,speed,Pedestrian) :
 
                     # writes the parameters of the experiment
                     MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-                    file.write("Set speed = "+str(MaxVel)+" , ")
+                    file.write("Set speed, "+str(MaxVel)+" , ")
                     Rain = rospy.get_param("/simulink/rain_intensity")
-                    file.write("Set rain intensity = "+str(Rain)+" , ")
+                    file.write("Set rain intensity, "+str(Rain)+" , ")
                     Reflectivity = rospy.get_param("/simulink/reflectivity")
-                    file.write("Set reflectivity = "+str(Reflectivity)+" , ")
+                    file.write("Set reflectivity, "+str(Reflectivity)+" , ")
                     Distance = rospy.get_param("/simulink/trigger_distance")
-                    file.write("Set trigger distance = "+str(Distance)+" , ")
+                    file.write("Set trigger distance, "+str(Distance)+" , ")
 
-                    file.write("Collision? "+str(Collision)) # then we write all the data needed in ExperimentA.csv
+                    file.write("Collision, "+str(Collision)) # then we write all the data needed in ExperimentA.csv
                     file.write(', ')
-                    file.write("Coll speed = "+CollSp)
+                    file.write("Coll speed, "+CollSp)
                     file.write(', ')
-                    file.write("Stop dist = "+str(StopDistance))
+                    file.write("Stop dist, "+str(StopDistance))
                     file.write('\n')
                     file.close()
 
