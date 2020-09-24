@@ -6,8 +6,11 @@ import rospy
 from std_msgs.msg import Float32
 from datetime import datetime
 from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import TwistStamped
+from autoware_msgs.msg import NDTStat
 
-Store = False
+Store = True
+FirstStore = True
 if Store == True :
 
     if os.path.isdir('/home/adeye/Experiment_Results/ExperimentB/') == False : # checks if the folder exists and creates it if not
@@ -32,12 +35,13 @@ def storeGTP(list):
     global countDayGTP
     if NewGTP == False : # when this function is called, then new data is written on /gnss_pose
         NewGTP = True
-    if EP[3]!= CdayGTP : # if we change day (it is != and not > to make it work even if we change of month)
+    if list[3]!= CdayGTP : # if we change day (it is != and not > to make it work even if we change of month)
         CdayGTP = I[3]
         countDayGTP += 1
     T = 3600*list[4] + 60*list[5] + list[6] + 86400*countDayGTP # Time is in seconds (easier to compare)
     L = [list[0],list[1],list[2],T]
     GTP.append(L)
+
 
     if (Store == True) and (start == True) and (NewGTP==True) and (NewEP == True) :
         storeData(GTP,EP,I)
@@ -52,7 +56,7 @@ def storeEP(list):
     global countDayEP
     if NewEP == False : # when this function is called, then new data is written on /ndt_pose
         NewEP = True
-    if EP[3]!= CdayEP :
+    if list[3]!= CdayEP :
         CdayEP = I[3]
         countDayEP += 1
     T = 3600*list[4] + 60*list[5] + list[6] + 86400*countDayEP
@@ -67,53 +71,55 @@ def storeIter(list):
     global I
     global CdayI
     global countDayI
-    if I[1]!= CdayI :
+    if list[1]!= CdayI :
         CdayI = I[1]
         countDayI += 1
     T = 3600*list[2] + 60*list[3] + list[4] + 86400*countDayI
-    L = [list[0],T]
+    L = [list[0],T,list[5],list[6]]
     I.append(L)
 
 
 def storespeed(Sp): # the recording may start when the car is moving
     global start
-    if store == True:
+    if Store == True:
         if start == False :
             if Sp > 0.0 :
-                start == True
+                start = True
         else :
             if Sp == 0.0 :
-                start == False
+                start = False
 # procedures that reads what is published on the topics
 def speedf (data):
     Sp = data.twist.linear.x
     storespeed(Sp)
 
 def fstoreIter(data):
-    d = datetime.day
-    h = datetime.hour
-    m = datetime.minute
-    s = datetime.second + 0.000001*datetime.microsecond
+    d = datetime.now().day
+    h = datetime.now().hour
+    m = datetime.now().minute
+    s = datetime.now().second + 0.000001*datetime.now().microsecond
     i = data.iteration
-    storeIter([i,d,h,m,s])
+    score = data.score
+    exe_time = data.exe_time
+    storeIter([i,d,h,m,s,score,exe_time])
 
 def fstoreGTP(data):
-    d = datetime.day
-    h = datetime.hour
-    m = datetime.minute
-    s = datetime.second + 0.000001*datetime.microsecond
+    d = datetime.now().day
+    h = datetime.now().hour
+    m = datetime.now().minute
+    s = datetime.now().second + 0.000001*datetime.now().microsecond
 
     Px = data.pose.position.x
     Py = data.pose.position.y
     Pz = data.pose.position.z
 
-    storeGTP( [Px,Py,Pz,d,h,m,s])
+    storeGTP([Px,Py,Pz,d,h,m,s])
 
 def fstoreEP(data):
-    d = datetime.day
-    h = datetime.hour
-    m = datetime.minute
-    s = datetime.second + 0.000001*datetime.microsecond
+    d = datetime.now().day
+    h = datetime.now().hour
+    m = datetime.now().minute
+    s = datetime.now().second + 0.000001*datetime.now().microsecond
 
     Px = data.pose.position.x
     Py = data.pose.position.y
@@ -123,10 +129,21 @@ def fstoreEP(data):
 
 # procedure that processes and write the data into the file
 def storeData (GTP,EP,I):
+    global FirstStore
     global NewEP
     global NewGTP
     NewEP = False # when this function is called, we "reset" the variables that indicates if new data is written or not
     NewGTP = False
+
+    # we write the parameters of the experiment
+    if Store == True and FirstStore :
+        FirstStore = False
+        MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
+        file.write("Set speed = "+str(MaxVel)+" , ")
+        Rain = rospy.get_param("/simulink/rain_intensity")
+        file.write("Set rain intensity = "+str(Rain)+" , ")
+        Reflectivity = rospy.get_param("/simulink/reflectivity")
+        file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
 
     Ilen = len(I)-1
     GTPlen = len(GTP)-1
@@ -148,46 +165,42 @@ def storeData (GTP,EP,I):
             while (round(I[Iindex][0],4)>m) and (Iindex>=0) :
                 Iindex -= 1
 
-        xg,yg,zg = GTP[Gindex][1],GTP[Gindex][2],GTP[Gindex][3]
-        xe,ye,ze = EP[Eindex][1],EP[Eindex][2],EPEindex][3]
-        NbrIter = I[Iindex][1]
+        xg,yg,zg = GTP[Gindex][0],GTP[Gindex][1],GTP[Gindex][2]
+        xe,ye,ze = EP[Eindex][0],EP[Eindex][1],EP[Eindex][2]
+        NbrIter = I[Iindex][0]
 
         # The data are written in the file
-        file.write("Ground Truth Pos = "+str(xg)+" , "+str(yg)+" , "+str(zg)+" , ")
-        file.write("Perceived Pos = "+str(xe)+" , "+str(ye)+" , "+str(ze)+" , ")
-        file.write("Nbr of iter = "+str(NbrIter)+" , ")
+        file.write("Ground Truth Pos (x;y;z), "+str(xg)+" , "+str(yg)+" , "+str(zg)+" , ")
+        file.write("Perceived Pos (x;y;z), "+str(xe)+" , "+str(ye)+" , "+str(ze)+" , ")
+        file.write("Localization, nb of iterrations , "+str(NbrIter)+" , ")
+        file.write("Localization score , "+str(I[Iindex][2])+" , ")
+        file.write("Localization execution time , "+str(I[Iindex][3]))
 
-        if (round(xg,1)==round(xe,1) ) and (round(yg,1)==round(ye,1) ) and (round(zg,1)==round(ze,1) ):
-            file.write("Converge? = Yes \n")
-        else :
-            file.write("Converge? = No \n")
+        # if (round(xg,1)==round(xe,1) ) and (round(yg,1)==round(ye,1) ) and (round(zg,1)==round(ze,1) ):
+        #     file.write("Converge? = Yes \n")
+        # else :
+        #     file.write("Converge? = No \n")
 
 #global variable declaration
 GTP =[]
 EP = []
 I = []
-CdayI, CdayEP, CdayGTP = datetime.day, datetime.day, datetime.day
+CdayI, CdayEP, CdayGTP = datetime.now().day, datetime.now().day, datetime.now().day
 countDayI , countDayGTP, countDayEP = 0,0,0
 start = False
 NewGTP = False #this aims to run storeData() only when new data are published on both nodes /gnss_pose and /ndt_pose
 NewEP = False
 
-# we write the parameters of the experiment
-if Store == True :
-    MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-    file.write("Set speed = "+str(MaxVel)+" , ")
-    Rain = rospy.get_param("/simulink/rain_intensity")
-    file.write("Set rain intensity = "+str(Rain)+" , ")
-    Reflectivity = rospy.get_param("/simulink/reflectivity")
-    file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
+
 
 # subscribes to the topics
 if __name__ == '__main__':
     rospy.init_node('ExperimentB',anonymous = True)
 
-    rospy.Subscriber("/ndt_stat", Float32, fstoreIter)
+    rospy.Subscriber("/ndt_stat", NDTStat, fstoreIter)
     rospy.Subscriber("/ndt_pose", PoseStamped, fstoreEP)
     rospy.Subscriber("/gnss_pose", PoseStamped, fstoreGTP)
 
     rospy.Subscriber("/current_velocity", TwistStamped, speedf)
+
     rospy.spin()
