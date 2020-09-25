@@ -92,10 +92,14 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
     Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
-    set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
-    
-    disp('Setting ros parameters from TArosparam Table');
+
+    if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
+        set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
+
+        disp('Setting ros parameters from TArosparam Table');
+    end
     cd('..\..\TA\Configurations');
+    
     rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     cd('..');

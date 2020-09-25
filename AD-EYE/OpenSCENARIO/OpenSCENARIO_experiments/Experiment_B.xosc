@@ -47,6 +47,13 @@
             <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
         </Controller>
     </Object>
+
+    <Object name="Man_200_1">
+        <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
+        <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+        </Controller>
+    </Object>
 </Entities>
 
 <Global>
@@ -58,28 +65,7 @@
 		</Environment>
 		<TargetProperties>
 			<Lidar>
-				<TargetPropertySettings ObjectType = "Truck Bus" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "Building" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "NatureElement" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "AbstractObject" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "Underlay" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "InfraOther" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "StaticOther" ReflectionPercentage = "{5;5;100}" />
-			</Lidar>
-			<Lidar>
-				<TargetPropertySettings ObjectType = "Auxiliary" ReflectionPercentage = "{5;5;100}" />
+				<TargetPropertySettings ObjectType = "All" ReflectionPercentage = "{5;50;100}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -94,14 +80,14 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value="{5;3;35}"/>
+								<Absolute value="{5.5;2.8;13.9}"/>
 							</Target>
 						</Speed>
 					</Longitudinal>
 				</Action>
 				<Action>
 					<Position>
-						<World x="88.732759475708008" y="-259.31143951416016" z="0.68999999761581421" h="302.55663536047962*pi/180" p="0" r="0"/>
+						<World x="83.0255393981934" y="171.389099121094" z="0.68999999761581421" h="0" p="0" r="0"/>
 					</Position>
 				</Action>
 			</Private>
@@ -128,8 +114,6 @@
     </Init>
 
 
-    <Story name="MyStory" owner="Man_200_1">
-	</Story>
 
 </Storyboard>
 

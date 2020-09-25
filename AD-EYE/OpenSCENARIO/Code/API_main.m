@@ -11,10 +11,9 @@ folder_name = strcat(strrep(name_experiment_template,".xosc",""));
 name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/"));
 mkdir(convertStringsToChars(folder_name));
 
-
 %copy files to new folder
-cd(name_experiment )
-copyfile(  "simulation*", strcat("..\",folder_name) )
+cd(name_experiment)
+copyfile(  "simulation*", strcat("..\",folder_name))
 cd(strcat("..\..\Experiments\",folder_name,"\Simulation\"))
 
 
