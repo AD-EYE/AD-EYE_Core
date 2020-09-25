@@ -10,11 +10,11 @@ global GoalConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ExpNameArray = ["Experiment_A"];%Experiment_A
-PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
+ExpNameArray = ["Experiment_B"];%Experiment_A
+PrescanExpNameArray = ["W01_Base_Map_autoware"];%KTH_pedestrian_autoware_light
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-GoalConfigArray = ["GoalConfig.xlsx"];
-SimulinkConfigArray = ["SimulinkConfig.xlsx"];
+GoalConfigArray = ["GoalConfigExpB.xlsx"];%GoalConfig
+SimulinkConfigArray = ["SimulinkConfigExpB.xlsx"];%SimulinkConfig
 TagsConfigArray = [""];
 SSHConfig = "ssh";
 
