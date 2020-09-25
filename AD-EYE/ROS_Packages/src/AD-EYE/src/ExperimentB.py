@@ -3,6 +3,7 @@
 import roslib
 import os
 import rospy
+from std_msgs.msg import Bool
 from std_msgs.msg import Float32
 from datetime import datetime
 from geometry_msgs.msg import PoseStamped
@@ -81,6 +82,7 @@ def storeIter(list):
 
 def storespeed(Sp): # the recording may start when the car is moving
     global start
+    global stop_pub
     if Store == True:
         if start == False :
             if Sp > 0.0 :
@@ -88,6 +90,9 @@ def storespeed(Sp): # the recording may start when the car is moving
         else :
             if Sp == 0.0 :
                 start = False
+                stop_pub.publish(True) # stop_publisher
+
+
 # procedures that reads what is published on the topics
 def speedf (data):
     Sp = data.twist.linear.x
@@ -139,11 +144,11 @@ def storeData (GTP,EP,I):
     if Store == True and FirstStore :
         FirstStore = False
         MaxVel = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
-        file.write("Set speed = "+str(MaxVel)+" , ")
+        file.write("Set speed ,"+str(MaxVel)+" , ")
         Rain = rospy.get_param("/simulink/rain_intensity")
-        file.write("Set rain intensity = "+str(Rain)+" , ")
+        file.write("Set rain intensity ,"+str(Rain)+" , ")
         Reflectivity = rospy.get_param("/simulink/reflectivity")
-        file.write("Set reflectivity = "+str(Reflectivity)+" \n ")
+        file.write("Set reflectivity ,"+str(Reflectivity)+" \n")
 
     Ilen = len(I)-1
     GTPlen = len(GTP)-1
@@ -177,9 +182,11 @@ def storeData (GTP,EP,I):
         file.write("Localization execution time , "+str(I[Iindex][3]))
 
         # if (round(xg,1)==round(xe,1) ) and (round(yg,1)==round(ye,1) ) and (round(zg,1)==round(ze,1) ):
-        #     file.write("Converge? = Yes \n")
+        #     file.write("Converge? = Yes")
         # else :
-        #     file.write("Converge? = No \n")
+        #     file.write("Converge? = No")
+
+        file.write("\n")
 
 #global variable declaration
 GTP =[]
@@ -202,5 +209,8 @@ if __name__ == '__main__':
     rospy.Subscriber("/gnss_pose", PoseStamped, fstoreGTP)
 
     rospy.Subscriber("/current_velocity", TwistStamped, speedf)
+
+
+    stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
 
     rospy.spin()
