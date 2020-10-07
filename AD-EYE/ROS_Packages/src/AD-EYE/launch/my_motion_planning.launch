@@ -29,8 +29,10 @@
     <arg name="enableStopSignBehavior" default="true"/>
     <arg name="enableLaneChange" default="true"/>
 
-    <arg name="width" default="2.1"/>
+    <arg name="width" default="2.2"/>
+    <param name="car_width" type="double" value="$(arg width)" />
     <arg name="length" default="4.8"/>
+    <param name="car_length" type="double" value="$(arg length)" />
     <arg name="wheelBaseLength" default="2.9"/>
     <arg name="turningRadius" default="1.0"/> <!-- The original value was 5.2-->
     <arg name="maxSteerAngle" default="0.8"/> <!-- The original value was 0.45-->
