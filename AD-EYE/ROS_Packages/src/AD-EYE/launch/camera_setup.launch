@@ -22,7 +22,7 @@
     </include>
 
     <!-- vision_ssd_detect-->
-    <include file="$(find adeye)/launch/vision_ssd_detect.launch">
+    <!--include file="$(find adeye)/launch/vision_ssd_detect.launch">
         <arg name="camera" value="$(arg camera)"/>
         <arg name="use_gpu" value="true"/>
         <arg name="gpu_device_id" value="0"/>
@@ -34,7 +34,7 @@
         <arg name="image_src" value="image_raw"/>
         <arg name="image_out" value="image_rects"/>
         <arg name="object_src" value="image_detector/objects"/>
-    </include>
+    </include-->
 
     <!-- range_vision_fusion -->
     <include file="$(find adeye)/launch/range_vision_fusion.launch">

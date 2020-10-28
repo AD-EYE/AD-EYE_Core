@@ -81,8 +81,8 @@ public:
 
         msg3 = msg1;
         bool objectAssigned = false;
-        std::cout << "Size of msg1: " << msg1.objects.size() << '\n';
-        std::cout << "Size of msg2: " << msg2.objects.size() << '\n';
+        //std::cout << "Size of msg1: " << msg1.objects.size() << '\n';
+        //std::cout << "Size of msg2: " << msg2.objects.size() << '\n';
 
 
 

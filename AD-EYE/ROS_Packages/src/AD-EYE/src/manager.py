@@ -45,6 +45,7 @@ SENSING_LAUNCH_FILE_NAME = "my_sensing.launch"
 DETECTION_LAUNCH_FILE_NAME = "my_detection.launch"
 SWITCH_LAUNCH_FILE_NAME = "switch.launch"
 MISSION_PLANNING_LAUNCH_FILE_NAME = "my_mission_planning.launch"
+TRAJECTORY_GENERATOR_LAUNCH_FILE_NAME = "my_trajectory_generator.launch"
 MOTION_PLANNING_LAUNCH_FILE_NAME = "my_motion_planning.launch"
 SSMP_LAUNCH_FILE_NAME = "SSMP.launch"
 
@@ -62,16 +63,34 @@ MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
 
+TRAJECTORY_GENERATOR_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, TRAJECTORY_GENERATOR_LAUNCH_FILE_NAME))
+
 
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
-MAP_START_WAIT_TIME = 8
-LOCALIZATION_START_WAIT_TIME = 8
+MAP_START_WAIT_TIME = 20
+SENSING_START_WAIT_TIME = 20
+LOCALIZATION_START_WAIT_TIME = 40
+LOCALIZATION_STOP_WAIT_TIME = 20
+DETECTION_START_WAIT_TIME = 40
+DETECTION_STOP_WAIT_TIME = 20
+MISSION_PLANNING_START_WAIT_TIME = 20
+MISSION_PLANNING_STOP_WAIT_TIME = 10
+TRAJECTORY_GENERATOR_START_WAIT_TIME = 20
+MOTION_PLANNING_STOP_WAIT_TIME = 20
+MOTION_PLANNING_START_WAIT_TIME = 30
+""" Previous values for the waiting times
+MAP_START_WAIT_TIME = 1
+SENSING_START_WAIT_TIME = 5
+LOCALIZATION_START_WAIT_TIME = 10
 LOCALIZATION_STOP_WAIT_TIME = 5
+DETECTION_START_WAIT_TIME = 35
 DETECTION_STOP_WAIT_TIME = 5
-MISSION_PLANNING_START_WAIT_TIME = 2
+MISSION_PLANNING_START_WAIT_TIME = 20
 MISSION_PLANNING_STOP_WAIT_TIME = 5
-MOTION_PLANNING_STOP_WAIT_TIME = 5
+MOTION_PLANNING_STOP_WAIT_TIME = 35
+MOTION_PLANNING_START_WAIT_TIME = 5
+"""
 
 #  ---------------------------------------------------------------------------------------------------------------------
 # states numbering, a number is given to each state to make sure they are unique
@@ -83,15 +102,15 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True]
+# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, TRAJECTORY_GENERATOR, MOTION_PLANNING, SWITCH,   SSMP, RVIZ]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,          False,       False,   True,  False, True]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,          False,       False,   True,  False, True]
+ENGAGED_STATE =           [    False,    True,         True,          True,             False,      True,             True,          True,        True,   True,   True, True]
+FAULT_STATE =             [    False,    True,         True,          True,             False,      True,             True,          True,        True,   True,   True, True]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
-previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False]
+previous_state =          [    False,   False,        False,         False,             False,     False,            False, False,          False,  False,   False,False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -234,15 +253,17 @@ if __name__ == '__main__':
     active_features = []
     active_features.append(FeatureControl("", "Rcording")) # place holder for recording
     active_features.append(FeatureControl(MAP_FULL_PATH, "MAP", MAP_START_WAIT_TIME))
-    active_features.append(FeatureControl(SENSING_FULL_PATH, "Sensing"))
+    active_features.append(FeatureControl(SENSING_FULL_PATH, "Sensing",SENSING_START_WAIT_TIME))
     active_features.append(FeatureControl(LOCALIZATION_FULL_PATH, "Localization", LOCALIZATION_START_WAIT_TIME,
                                   LOCALIZATION_STOP_WAIT_TIME))
     active_features.append(FeatureControl(FAKE_LOCALIZATION_FULL_PATH, "Fake_Localization"))
-    active_features.append(FeatureControl(DETECTION_FULL_PATH, "Detection", sleep_time_on_stop=DETECTION_STOP_WAIT_TIME))
+    active_features.append(FeatureControl(DETECTION_FULL_PATH, "Detection", DETECTION_START_WAIT_TIME, DETECTION_STOP_WAIT_TIME))
     active_features.append(FeatureControl(MISSION_PLANNING_FULL_PATH, "Mission_Planning", MISSION_PLANNING_START_WAIT_TIME,
                                       MISSION_PLANNING_STOP_WAIT_TIME))
+    active_features.append(FeatureControl(TRAJECTORY_GENERATOR_FULL_PATH, "my_trajectory_generator",
+                                     TRAJECTORY_GENERATOR_START_WAIT_TIME))
     active_features.append(FeatureControl(MOTION_PLANNING_FULL_PATH, "Motion_Planning",
-                                     sleep_time_on_stop=MOTION_PLANNING_STOP_WAIT_TIME))
+                                     MOTION_PLANNING_START_WAIT_TIME, MOTION_PLANNING_STOP_WAIT_TIME))
     active_features.append(FeatureControl(SWITCH_FULL_PATH, "Switch"))
     active_features.append(FeatureControl(SSMP_FULL_PATH, "SSMP"))
     active_features.append(FeatureControl(RVIZ_FULL_PATH, "Rviz"))
