@@ -131,7 +131,7 @@ TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigAr
 
 rosshutdown
 
-TA('TAOrder.csv', 1, 500)
+TA('Configurations/TAOrder.csv', 1, 500)
 
 
 

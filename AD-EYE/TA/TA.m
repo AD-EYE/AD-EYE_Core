@@ -1,9 +1,9 @@
 function TA(TAOrderFile,firstcolumn,lastcolumn)
 %setting up experiments
-BasePath = pwd;
+BasePath = pwd
 rosshutdown;
 
-SSHConfigFile = 'SSHConfig.csv';
+SSHConfigFile = 'Configurations/SSHConfig.csv';
 SSHConfig = readtable(SSHConfigFile, 'ReadRowNames',true,'ReadVariableNames',false, 'Delimiter', ',');
 ipaddress = SSHConfig{'ipaddress',1}{1};
 user = SSHConfig{'user',1}{1};
@@ -62,15 +62,7 @@ for c = firstcolumn:min(lastcolumn,width(TAOrder))
     Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
 
-%Run(1).TagsConfig ={
-%    }; 
-%Run(1).ExpDir = '.././Experiments/W01_Base_Map/Simulation';
-%Run(1).AutowareConfig = 'TArosparam.xlsx';
-%Run(1).GoalConfig = './TAgoal.xlsx';
-%Run(1).ExpName = 'W01_Base_Map';
-%Run(1).ExpPexName = 'W01_Base_Map.pex';
-%Run(1).ExpSlxName = 'W01_Base_Map_cs.slx';
-%Run(1).SimulinkConfig = './TAconstant.xlsx';
+
 
 disp('Setting-up variables...');
 NrOfRuns = length(Run); % Number of simulations
@@ -91,6 +83,7 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
+    strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)
     Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
 
     if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
@@ -296,7 +289,7 @@ end
 
 %% function goalpoints
 function goalpoints(pub, msg, table)
-TAgoal = readtable(table,'ReadRowNames',true);
+TAgoal = readtable(strcat('Configurations/',table),'ReadRowNames',true);
 for w = 1 : width(TAgoal)
     msg.Header.Seq = typecast(uint32(w), 'int32');
     msg.Pose.Position.X = str2double(table2array(TAgoal(1, w)));

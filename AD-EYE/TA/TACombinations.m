@@ -38,7 +38,9 @@ for C_Sce = 1:length(ExpNameArray)
     end
 end
 
+cd('Configurations')
 writetable(TAOrder, 'TAOrder.csv', 'WriteRowNames', true, 'WriteVariableNames', false);
+cd('..')
 
 end
 
