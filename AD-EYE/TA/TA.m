@@ -54,7 +54,7 @@ end
 
 for c = firstcolumn:min(lastcolumn,width(TAOrder))
     Run(c).ExpName = TAOrder{'ExpName',c}{1};
-    Run(c).AutowareExpName = TAOrder{'AutowareExpName',c}{1};
+    Run(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
     Run(c).EgoName = TAOrder{'EgoName',c}{1};
     Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
     Run(c).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
@@ -83,17 +83,20 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
-    strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)
-    Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+    if isfile(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName,'.xosc'))
+        Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+        if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
+            set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
 
-    if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
-        set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
-
-        disp('Setting ros parameters from TArosparam Table');
+            disp('Setting ros parameters from TArosparam Table');
+        end
     end
     cd('..\..\TA\Configurations');
     
-    rosparamScript(Run(run).AutowareConfig, Run(run).AutowareExpName); %function (runs a MATLAB script...
+    
+    
+    
+    rosparamScript(Run(run).AutowareConfig, Run(run).PrescanExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     cd('..');
     disp('Setting up goal for actor in simulation');
