@@ -45,8 +45,8 @@ end
 lastRow = size(documentList,1);
 %output
 for colum = 1:size(documentList,2)
-    fileID = fopen([fileName, sprintf('%.0f', colum), '.xosc'],'w');
-    listOfNames(colum) = convertCharsToStrings([fileName, sprintf('%.0f', colum), '.xosc']);
+    fileID = fopen([fileName, sprintf('%.0f', colum), '_generated.xosc'],'w');
+    listOfNames(colum) = convertCharsToStrings([fileName, sprintf('%.0f', colum), '_generated.xosc']);
     doc = documentList(lastRow, colum);
     fwrite(fileID,doc{1});
     fclose(fileID);

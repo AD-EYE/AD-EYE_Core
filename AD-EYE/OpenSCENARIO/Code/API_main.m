@@ -15,8 +15,9 @@ mkdir(convertStringsToChars(folder_name));
 %copy files to new folder
 cd('..\..')%name_experiment)
 mkdir("Results")
-copyfile("OpenScenario*", strcat("Results\",folder_name))
-rmdir(strcat("Results\",folder_name,"\OpenScenario\Results\*"),"s") % removing the previous results
+mkdir(strcat("Results\",folder_name))
+copyfile(strcat("OpenScenario\",name_experiment,"*"), strcat("Results\",folder_name,"\OpenScenario"))
+copyfile("OpenScenario\Resources*", strcat("Results\",folder_name,"\OpenScenario"))
 movefile("Results\","OpenScenario\")
 %copyfile("OpenScenario*", strcat("OpenScenario/Results/",folder_name))
 cd(strcat("OpenScenario/Results/",folder_name,"/OpenScenario"))
