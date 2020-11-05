@@ -1,6 +1,6 @@
 function TA(TAOrderFile,firstcolumn,lastcolumn)
 %setting up experiments
-BasePath = pwd
+BasePath = pwd;
 rosshutdown;
 
 SSHConfigFile = 'Configurations/SSHConfig.csv';
@@ -53,11 +53,11 @@ if(firstcolumn>lastcolumn)
 end
 
 for c = firstcolumn:min(lastcolumn,width(TAOrder))
-    Run(c).ExpName = TAOrder{'ExpName',c}{1};
+    Run(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
     Run(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
     Run(c).EgoName = TAOrder{'EgoName',c}{1};
     Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-    Run(c).SimulinkConfig = ['../../../TA/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+    Run(c).SimulinkConfig = [BasePath,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
     Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
@@ -83,8 +83,8 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
-    if isfile(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName,'.xosc'))
-        Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).ExpName)), '.xosc']);
+    if isfile(strcat('..\OpenSCENARIO_experiments\',Run(run).FolderExpName,'.xosc'))
+        Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).FolderExpName)), '.xosc']);
         if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
             set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
 
@@ -108,12 +108,14 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     system(device, managerFileLaunch);
     
 
-    cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
+    %cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
+    cd(BasePath)
+    cd(['../Experiments/',Run(run).FolderExpName]);
     MainExperiment = pwd;
-    load_system([Run(run).ExpName,'_cs.slx']);
+    load_system([Run(run).PrescanExpName,'_cs.slx']);
     disp('Setting up constant blocks in Simulink model');
-    simconstantSet(Run(run).SimulinkConfig, Run(run).ExpName, Run(run).EgoName);
-    save_system([Run(run).ExpName,'_cs.slx']);
+    simconstantSet(Run(run).SimulinkConfig, Run(run).PrescanExpName, Run(run).EgoName);
+    save_system([Run(run).PrescanExpName,'_cs.slx']);
     ResultsDir = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the ...
     ...experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
     disp(['Run: ' num2str(run) '/' num2str(NrOfRuns)]);
@@ -126,7 +128,7 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     ...and save it in cell array named 'Settings'
     Command = ExeName; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
-    CurrentExperiment = strcat(MainExperiment, '/', Run(run).ExpName, '.pex');
+    CurrentExperiment = strcat(MainExperiment, '/', Run(run).PrescanExpName, '.pex');
     Command = [Command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     Command = [Command ' -save ' '"' ResultDir '"']; %save it in ResultDir created    
     

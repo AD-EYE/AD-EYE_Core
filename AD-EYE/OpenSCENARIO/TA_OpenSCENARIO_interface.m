@@ -10,7 +10,8 @@ global GoalConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
+ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
+FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light    W01_Base_Map_autoware
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 GoalConfigArray = ["GoalConfig.xlsx"];%GoalConfig    GoalConfigExpB
@@ -19,9 +20,9 @@ TagsConfigArray = [""];
 SSHConfig = "ssh";
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
-convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ExpNameArray(1)))
+convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)))
 cd(adeye_base + "OpenSCENARIO\Code")
-Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ExpNameArray(1))), '.xosc']);
+Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1))), '.xosc']);
 %Struct_OpenSCENARIO = xml2struct(['..\OpenSCENARIO_experiments\KTH_pedestrian_autowareRain', '.xosc']);
 cd(adeye_base + "TA\Configurations")
 
@@ -101,7 +102,7 @@ name_ego = EgoNameArray(1);
 name_prescan_experiment = PrescanExpNameArray(1);
 
 %Creating multiple .xosc and experiment files
-listOfNames = OpenScenarioMod(convertStringsToChars(ExpNameArray(1)));
+listOfNames = OpenScenarioMod(convertStringsToChars(ScenarioExpNameArray(1)));
 
 for i = 1:length(listOfNames)
     listOfNames(i)
@@ -110,14 +111,12 @@ end
 
 %% Configure OpenScenario experiments
 
-% duplicateConfigs(length(listOfNames));
-% for i = 1:length(ExpNameArray)/length(listOfNames)
-%     ExpNameArray((i-1)*length(listOfNames)+1:i*length(listOfNames)) = listOfNames;
-% end
-ExpNameArray = listOfNames;
+ScenarioExpNameArray = listOfNames;
+PrescanExpName = PrescanExpNameArray(1);
 % remove .xosc file extension
 for i=1:length(listOfNames)
-    ExpNameArray(i) = erase(ExpNameArray(i),".xosc");
+    ScenarioExpNameArray(i) = erase(ScenarioExpNameArray(i),".xosc");
+    FolderExpNameArray(i) = strcat(PrescanExpName,"/OpenScenario/Results/",ScenarioExpNameArray(i),"/OpenScenario");
 end
 duplicateEgoNames(length(listOfNames));
 duplicatePrescanExp(length(listOfNames));
@@ -127,11 +126,12 @@ duplicatePrescanExp(length(listOfNames));
 %% Create Experiments and run
 
 cd(adeye_base + "TA")
-TACombinations(ExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, GoalConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
+TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, GoalConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
 
 rosshutdown
 
-TA('Configurations/TAOrder.csv', 1, 500)
+%TA('Configurations/TAOrder.xlsx', 1, 2)
+%TA('Configurations/TAOrder.xlsx', 1, 500)
 
 
 
