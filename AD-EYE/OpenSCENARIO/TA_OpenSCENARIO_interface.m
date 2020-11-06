@@ -30,7 +30,7 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
     if('Ego' == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
         speed_ego = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
         if(length(strfind(speed_ego, '{')) > 0)
-            findOpen = strfind(speed_ego, ';');
+            findOpen = strfind(speed_ego, ',');
                 start_val = extractBetween(speed_ego, 2, findOpen(1)-1);
                 step = extractBetween(speed_ego, findOpen(1)+1, findOpen(2)-1);
                 end_val = extractBetween(speed_ego, findOpen(2)+1, strlength(speed_ego)-1);
@@ -77,7 +77,7 @@ if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 
                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes),'ReflectionPercentage') == 1)
                                 reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
                                 if(length(strfind(reflectivity, '{')) > 0)
-                                    findOpen = strfind(reflectivity, ';');
+                                    findOpen = strfind(reflectivity, ',');
                                         start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
                                         step = extractBetween(reflectivity, findOpen(1)+1, findOpen(2)-1);
                                         end_val = extractBetween(reflectivity, findOpen(2)+1, strlength(reflectivity)-1);

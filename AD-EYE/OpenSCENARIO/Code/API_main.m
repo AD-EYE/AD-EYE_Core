@@ -83,7 +83,7 @@ prescan.experiment.writeDataModels(models,convertStringsToChars(strcat(folder_na
 %save .pex
 struct2xml(Struct_pex,strcat( "..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario\",name_experiment,".pex"));
 %close system
-close_system(convertStringsToChars(strcat(folder_name,"_cs")),0)
+close_system(convertStringsToChars(name_simulink),0)
 
 
 
