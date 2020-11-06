@@ -117,6 +117,7 @@ PrescanExpName = PrescanExpNameArray(1);
 for i=1:length(listOfNames)
     ScenarioExpNameArray(i) = erase(ScenarioExpNameArray(i),".xosc");
     FolderExpNameArray(i) = strcat(PrescanExpName,"/OpenScenario/Results/",ScenarioExpNameArray(i),"/OpenScenario");
+    copyfile(strcat("../OpenSCENARIO_experiments/",ScenarioExpNameArray(i),".xosc"),strcat("../../Experiments/",FolderExpNameArray(i)))
 end
 duplicateEgoNames(length(listOfNames));
 duplicatePrescanExp(length(listOfNames));

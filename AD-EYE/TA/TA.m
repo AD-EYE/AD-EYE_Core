@@ -122,6 +122,7 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     RunName = ['Run_' num2str(run, '%01i')]; %name of the experiment(for eg. 'Run_1'); also visible in VisViewer
     RunModel = [RunName '_cs']; %model name (for eg. 'Run_1_cs')
     ResultDir = [ResultsDir '\' RunName]; %creating a folder in ResultsDir named 'Run_1' containing all the files 
+    
 
     % Create the complete command.
     Settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
@@ -151,6 +152,11 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
         disp(['Failed to perform command: ' Command]);
         continue;
     end
+    
+    
+    % Put the configuration files with the experiment
+    copyfile(Run(run).SimulinkConfig,ResultDir)
+    copyfile(strcat(BasePath,"/Configurations/",Run(run).AutowareConfig),ResultDir)
 
     % Navigate to new experiment.
     cd(ResultDir); %the matlab path changes from C:\Users\Radhika\Desktop\RUT\main_experiment_folder to ...
