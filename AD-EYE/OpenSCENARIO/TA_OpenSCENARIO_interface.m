@@ -26,6 +26,9 @@ Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_
 %Struct_OpenSCENARIO = xml2struct(['..\OpenSCENARIO_experiments\KTH_pedestrian_autowareRain', '.xosc']);
 cd(adeye_base + "TA\Configurations")
 
+
+addpath(adeye_base+"OpenSCENARIO\Code")
+
 for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
     if('Ego' == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
         speed_ego = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
@@ -39,58 +42,35 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
     end
 end
 
-if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 1 ) 
-    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment),'Weather') == 1 )  %if Weather exist
-                if(convertCharsToStrings( Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.type) == "typeRain")
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes),'intensity') == 1 ) 
-                        rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity)
-                        findOpen = strfind(rain_intensity, ';');
-                        values = [];
-                        for i= 1:length(findOpen)+1
-                            if i==1
-                                values = [values,str2double(extractBetween(rain_intensity, 2, findOpen(i)-1))];
-                            end
-                            if i>1 && i<length(findOpen)+1
-                                values = [values,str2double(extractBetween(rain_intensity, findOpen(i-1)+1, findOpen(i)-1))];
-                            end
-                            if i== length(findOpen)+1
-                                values = [values,str2double(extractBetween(rain_intensity, findOpen(i-1)+1, strlength(rain_intensity)-1))];
-                            end
-                        end
-                        setRainIntensity(values)
-                    end
-                end
-            end
+if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity"))
+    rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity)
+    findOpen = strfind(rain_intensity, ';');
+    values = [];
+    for i= 1:length(findOpen)+1
+        if i==1
+            values = [values,str2double(extractBetween(rain_intensity, 2, findOpen(i)-1))];
         end
+        if i>1 && i<length(findOpen)+1
+            values = [values,str2double(extractBetween(rain_intensity, findOpen(i-1)+1, findOpen(i)-1))];
+        end
+        if i== length(findOpen)+1
+            values = [values,str2double(extractBetween(rain_intensity, findOpen(i-1)+1, strlength(rain_intensity)-1))];
+        end
+    end
+    setRainIntensity(values)
+end
+
+if(test_field_existence(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
+    reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
+    if(length(strfind(reflectivity, '{')) > 0)
+        findOpen = strfind(reflectivity, ',');
+            start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
+            step = extractBetween(reflectivity, findOpen(1)+1, findOpen(2)-1);
+            end_val = extractBetween(reflectivity, findOpen(2)+1, strlength(reflectivity)-1);
+            setReflectivity(str2double(start_val), str2double(step), str2double(end_val))
     end
 end
 
-if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO),'Global') == 1 ) 
-    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global),'SetEnvironment') == 1 )  %if SetEnvironment exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'Environment') == 1 )  %if Environment exists
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment),'TargetProperties') == 1)
-                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties),'Lidar') == 1)
-                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar),'TargetPropertySettings') == 1)
-                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings),'Attributes') == 1)
-                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes),'ReflectionPercentage') == 1)
-                                reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
-                                if(length(strfind(reflectivity, '{')) > 0)
-                                    findOpen = strfind(reflectivity, ',');
-                                        start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
-                                        step = extractBetween(reflectivity, findOpen(1)+1, findOpen(2)-1);
-                                        end_val = extractBetween(reflectivity, findOpen(2)+1, strlength(reflectivity)-1);
-                                        setReflectivity(str2double(start_val), str2double(step), str2double(end_val))
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
 
 
 
