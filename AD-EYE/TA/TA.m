@@ -22,8 +22,8 @@ killRosNodes = strcat(shFolderPath, '/', 'killRosNodes.sh'); ...
 ...%contains command to kill all the ros nodes and consecutively rosmaster 
 ExeName = 'PreScan.CLI.exe';
 max_duration = 120; %variable in current matlab script
-goal = '/move_base_simple/goal';
-poseStamped = 'geometry_msgs/PoseStamped';
+% goal = '/move_base_simple/goal';
+% poseStamped = 'geometry_msgs/PoseStamped';
 
 %setting test automation feature tags
 clear Results Run; %clear any earlier tags or values
@@ -58,7 +58,7 @@ for c = firstcolumn:min(lastcolumn,width(TAOrder))
     Run(c).EgoName = TAOrder{'EgoName',c}{1};
     Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
     Run(c).SimulinkConfig = [BasePath,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
-    Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
+%     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
     Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
 end
 
@@ -99,9 +99,9 @@ for run = firstcolumn:min(lastcolumn,width(TAOrder))
     rosparamScript(Run(run).AutowareConfig, Run(run).PrescanExpName); %function (runs a MATLAB script...
     ...to send all the ros parameters to the linux computer)
     cd('..');
-    disp('Setting up goal for actor in simulation');
-    [pub, msg] = rospublisher(goal ,poseStamped);
-    goalpoints(pub, msg, Run(run).GoalConfig);
+%     disp('Setting up goal for actor in simulation');
+%     [pub, msg] = rospublisher(goal ,poseStamped);
+%     goalpoints(pub, msg, Run(run).GoalConfig);
     disp('Python node recieving the ros parameters and modifying launch files');
     system(device, launchTemplateModifier); 
     disp('Launching the manager file')

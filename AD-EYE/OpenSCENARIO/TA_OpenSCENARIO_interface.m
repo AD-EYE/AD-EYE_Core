@@ -6,7 +6,6 @@ global EgoNameArray
 global ExpNameArray
 global PrescanExpNameArray
 global AutowareConfigArray
-global GoalConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
@@ -14,7 +13,6 @@ ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light    W01_Base_Map_autoware
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-GoalConfigArray = ["GoalConfig.xlsx"];%GoalConfig    GoalConfigExpB
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
 TagsConfigArray = [""];
 SSHConfig = "ssh";
@@ -107,7 +105,7 @@ duplicatePrescanExp(length(listOfNames));
 %% Create Experiments and run
 
 cd(adeye_base + "TA")
-TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, GoalConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
+TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
 
 rosshutdown
 
@@ -122,23 +120,6 @@ rosshutdown
 %% Functions
 % duplicates the current configurations of experiemnts nb_duplications
 % times
-function duplicateConfigs(nb_duplications)
-    global EgoNameArray
-    global ExpNameArray
-    global PrescanExpNameArray
-    global AutowareConfigArray
-    global GoalConfigArray
-    global SimulinkConfigArray
-    global TagsConfigArray
-    EgoNameArray = repelem(EgoNameArray,nb_duplications);
-    ExpNameArray = repelem(ExpNameArray,nb_duplications);
-    PrescanExpNameArray = repelem(PrescanExpNameArray,nb_duplications);
-    AutowareConfigArray = repelem(AutowareConfigArray,nb_duplications);
-    GoalConfigArray = repelem(GoalConfigArray,nb_duplications);
-    SimulinkConfigArray = repelem(SimulinkConfigArray,nb_duplications);
-    TagsConfigArray = repelem(TagsConfigArray,nb_duplications);
-end
-
 function duplicateAutowareConfigs(nb_duplications)
     global AutowareConfigArray
     AutowareConfigArray = repelem(AutowareConfigArray,nb_duplications);
