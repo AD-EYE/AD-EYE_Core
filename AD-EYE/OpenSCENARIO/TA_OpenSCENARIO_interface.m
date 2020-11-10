@@ -28,8 +28,9 @@ cd(adeye_base + "TA\Configurations")
 addpath(adeye_base+"OpenSCENARIO\Code")
 
 for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
-    if('Ego' == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
-        speed_ego = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
+    if('Ego' == convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))))
+        speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value"));
+        %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
         if(length(strfind(speed_ego, '{')) > 0)
             findOpen = strfind(speed_ego, ',');
                 start_val = extractBetween(speed_ego, 2, findOpen(1)-1);
