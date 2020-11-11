@@ -112,10 +112,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         cd(BasePath)
         cd(['../Experiments/',Run(run).FolderExpName]);
         MainExperiment = pwd;
-        load_system([Run(run).PrescanExpName,'_cs.slx']);
-        disp('Setting up constant blocks in Simulink model');
-        simconstantSet(Run(run).SimulinkConfig, Run(run).PrescanExpName, Run(run).EgoName);
-        save_system([Run(run).PrescanExpName,'_cs.slx']);
+        
         ResultsDir = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the ...
         ...experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
         disp(['Run: ' num2str(run) '/' num2str(NrOfRuns)]);
@@ -159,8 +156,12 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         copyfile(strcat(BasePath,"/Configurations/",Run(run).AutowareConfig),ResultDir)
 
         % Navigate to new experiment.
-        cd(ResultDir); %the matlab path changes from C:\Users\Radhika\Desktop\RUT\main_experiment_folder to ...
-        ...C:\Users\Radhika\Desktop\RUT\main_experiment_folder\Results\current_experiment_folder\Run_i 
+        cd(ResultDir);
+        %Update the Simulink model
+        load_system([RunModel,'.slx']);
+        disp('Setting up constant blocks in Simulink model');
+        simconstantSet(Run(run).SimulinkConfig, RunName, Run(run).EgoName);
+        save_system([RunModel,'.slx']);
         open_system(RunModel); %opens the simulink model
 
 
