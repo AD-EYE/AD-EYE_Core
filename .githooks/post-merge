@@ -8,13 +8,12 @@ if [ $platform != "linux" ]
 then
 	# Get the current branch name
 	branch_name=$(git branch | grep "*" | sed "s/\* //")
-
 	# if the current branch is dev - check for unzipped file else don't do anything
 	if [[ $branch_name = "dev" ]]
 	then
-		file_path="C:\Users\adeye\AD-EYE_Core\Prescan_models\KTH_3D_overhaul"
-		zip_file="C:\Users\adeye\AD-EYE_Core\Prescan_models\KTH_3D_overhaul.zip"
-		unzip_file_path="C:\Users\adeye\AD-EYE_Core\Prescan_models"
+		file_path="$(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul"
+		zip_file="$(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul.zip"
+		unzip_file_path="$(git rev-parse --show-toplevel)\Prescan_models"
 
 		if [ -e "$file_path" ]
 		then
