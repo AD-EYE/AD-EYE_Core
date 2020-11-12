@@ -36,6 +36,8 @@
 */Experiments/**/Trajectories
 */Experiments/**/Models
 */Experiments/**/Resources/SPD
+*/Experiments/**/Resources/InformationSign
+*/Experiments/**/Resources/Sky
 */Experiments/**/V2XPlugin
 */Experiments/**/cameraeffects
 */Experiments/**/cameras
@@ -83,3 +85,14 @@ autoware.ai/*.workspace.user
 
 #Visual Studio Code folders
 **/.vscode
+
+# Generated TA configs
+AD-EYE/TA/Configurations/*_*
+
+#TA timer
+AD-EYE/TA/runtimes*.xlsx
+
+
+# Current OpenScenario Generated experiment folders
+AD-EYE/Experiments/Experiment_*
+AD-EYE/OpenSCENARIO/OpenSCENARIO_experiments/*_generated.xosc
