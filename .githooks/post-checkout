@@ -1,0 +1,30 @@
+#!/bin/sh
+command -v git-lfs >/dev/null 2>&1 || { echo >&2 "\nThis repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting .git/hooks/post-checkout.\n"; exit 2; }
+git lfs post-checkout "$@"
+
+#Check OS
+platform="$(uname | tr '[:upper:]' '[:lower:]')"
+if [ $platform != "linux" ]
+then
+	# Get the current branch name
+	branch_name=$(git branch | grep "*" | sed "s/\* //")
+	echo branch_name
+	# if the current branch is dev - check for unzipped file else don't do anything
+	if [ $branch_name = "dev" ]
+	then
+		echo "hooks working"
+		file_path="C:\Users\adeye\AD-EYE_Core\Prescan_models\KTH_3D_overhaul"
+		zip_file="C:\Users\adeye\AD-EYE_Core\Prescan_models\KTH_3D_overhaul.zip"
+		unzip_file_path="C:\Users\adeye\AD-EYE_Core\Prescan_models"
+
+		if [ -e "$file_path" ]
+		then
+			echo "unzip file exists"
+		else
+			unzip $zip_file -d $unzip_file_path
+		fi
+
+	else
+		exit 0
+	fi
+fi
