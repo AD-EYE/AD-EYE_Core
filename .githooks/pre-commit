@@ -32,12 +32,11 @@ if [ "$allownonascii" != "true" ] &&
 	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
 then
 	echo EOF
+	# Split big files
+	split $(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul.zip -b 100M zipfiles
 	exit 1
 fi
+echo "abc"
 
 # If there are whitespace errors, print the offending file names and fail.
 exec git diff-index --check --cached $against --
-
-
-# Split big files
-split $(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul.zip -b 100M zipfiles
