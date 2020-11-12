@@ -65,7 +65,7 @@
 		</Environment>
 		<TargetProperties>
 			<Lidar>
-				<TargetPropertySettings ObjectType = "All" ReflectionPercentage = "{5;20;100}" />
+				<TargetPropertySettings ObjectType = "All" ReflectionPercentage = "{5,20,100}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -80,7 +80,7 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value="{5.5;2.8;13.9}"/>
+								<Absolute value="{5.5,2.8,13.9}"/>
 							</Target>
 						</Speed>
 					</Longitudinal>
