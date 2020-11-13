@@ -15,7 +15,7 @@ PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
 TagsConfigArray = [""];
-SSHConfig = "ssh";
+SSHConfig = "Configurations/SSHConfig.csv";
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
 convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)))

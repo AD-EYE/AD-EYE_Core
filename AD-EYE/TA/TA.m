@@ -1,9 +1,28 @@
 function TA(TAOrderFile,firstcolumn,lastcolumn)
+    switch nargin
+      case 0
+        error('The TA order files must be passed as an argument')
+      case 1
+        firstcolumn = 1;
+        lastcolumn = width(TAOrder);
+      case 2
+        lastcolumn = width(TAOrder);
+      case 3
+      otherwise
+        error('3 inputs are accepted.')
+    end
+    
+    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+    
+    
     %setting up experiments
     BasePath = pwd;
     rosshutdown;
-
-    SSHConfigFile = 'Configurations/SSHConfig.csv';
+    SSHConfigFile = TAOrder{'SHHConfig',1}{1};
+    
+    if(~isfile(SSHConfigFile))
+        error('The SSH configuration files was not found. A template can be found, copied and modified in AD-EYE/TA/Configurations/SSHConfigTemplate.csv')
+    end
     SSHConfig = readtable(SSHConfigFile, 'ReadRowNames',true,'ReadVariableNames',false, 'Delimiter', ',');
     ipaddress = SSHConfig{'ipaddress',1}{1};
     user = SSHConfig{'user',1}{1};
@@ -31,19 +50,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to ...
     ...Experiment > Test Automation Settings > Open Test Automation dialog box  
 
-    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
-    switch nargin
-      case 0
-        error('The TA order files must be passed as an argument')
-      case 1
-        firstcolumn = 1;
-        lastcolumn = width(TAOrder);
-      case 2
-        lastcolumn = width(TAOrder);
-      case 3
-      otherwise
-        error('3 inputs are accepted.')
-    end
+    
 
     if(firstcolumn<1)
         error("first column index must be strictly greater than zero");
