@@ -23,8 +23,9 @@ if Store == True :
 
 MAX_DECCELERATION = -3 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
-ROSBAG_PARAMETERS = [0,0.5,0.1,0]
-# ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
+ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
+CAR_FRONT_LENGTH = 3,75 # from the back wheels to the fron of the chassis
+PEDESTRIAN_WIDTH = 0.3
 
 
 class ExperimentOutcomes(Enum):
@@ -106,8 +107,6 @@ class ExperimentARecorder:
     # checks if we fullfil the conditions to stop the experiment
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
-        print self.number_detections
-        print self.number_new_detections
         if len(self.ego_speeds)>2 : # in order to have access to the previous speed 
             d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
             self.distances_ego_pedestrian.append(d)
@@ -124,7 +123,7 @@ class ExperimentARecorder:
                         if (self.ego_speeds[len(self.ego_speeds)-1]==0.0) and (self.ego_speeds[len(self.ego_speeds)-2]!=0.0): # and (self.ego_speeds[len(self.ego_speeds)-3]!=0.0): # if the car just stoped (to test it only once)
                             self.computeAndStoreData(ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN)
                 else :
-                    if d<2.5 : # if there is a collision
+                    if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
                         if self.collision == False : # we set the collision speed
                             self.collision = True
                             self.collision_speed = self.ego_speeds[len(self.ego_speeds)-1-1]
