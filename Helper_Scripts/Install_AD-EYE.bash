@@ -4,7 +4,7 @@
 set -e
 
 #default options
-WITH_CUDA="false"
+WITH_CUDA="true"
 
 #Parsing command line options
 for arg in $@
@@ -37,16 +37,17 @@ cd autoware.ai
 #System dependencies
 echo -e "\nInstalling system dependencies"
 sudo apt-get update
-sudo apt-get install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin gksu python3-pip python3-setuptools
-sudo -H python3 -m pip install -U pip setuptools colcon-common-extensions vcstool
+sudo apt-get install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin gksu
+sudo apt-get install -y python3-pip python3-colcon-common-extensions python3-setuptools python3-vcstool
+sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni0 libopenni-sensor-pointclouds0 libopenni2-0 libopenni-sensor-pointclouds-dev libopenni2-dev libopenni-dev
+pip3 install -U setuptools
 
 #Ros dependencies
 echo -e "\nInstalling ROS dependencies"
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
-if [ $WITH_CUDA == 'true' ]
-then
+if [ "$WITH_CUDA" = "true" ]; then
     echo -e "\nBuilding Autoware with CUDA support"
     AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 else
