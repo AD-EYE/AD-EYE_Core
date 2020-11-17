@@ -100,7 +100,7 @@ current_state =  INITIALIZING_STATE
 
 
 # Rosbag related constants
-ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
+ROSBAG_PATH = "/recording" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
 # To output an error message when safety channel is not running
