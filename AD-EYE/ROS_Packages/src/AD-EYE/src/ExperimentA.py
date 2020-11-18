@@ -24,7 +24,7 @@ if Store == True :
 MAX_DECCELERATION = -3 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
 ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
-CAR_FRONT_LENGTH = 3,75 # from the back wheels to the fron of the chassis
+CAR_FRONT_LENGTH = 3.75 # from the back wheels to the fron of the chassis
 PEDESTRIAN_WIDTH = 0.3
 
 
@@ -46,6 +46,7 @@ class ExperimentARecorder:
     number_new_detections = 0
     pedestrian_passed = False
     pedistrian_detected = False
+    rosbag_started = False
 
     
 
@@ -59,12 +60,7 @@ class ExperimentARecorder:
         # self.vel_pub = rospy.Publisher("/expA/velocity",Point, queue_size = 1) # for visualization in rqt_plot since /current_velocity had issues with the plotting
         self.tf_listener = tf.TransformListener()
 
-        if self.shouldRecordRosbag():
-            ROSBAG_PATH = "/run" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
-            TOPICS = "/TwistS /vehicle/odom /tf /filtered_points /camera_1/image_raw /dynamic_collision_points_rviz /local_trajectories_eval_rviz"
-            ROSBAG_COMMAND = "rosbag record " + TOPICS + " -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
-            
-            subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
+        
             
 
 
@@ -75,6 +71,7 @@ class ExperimentARecorder:
         euler = tf.transformations.euler_from_quaternion(quaternion)
         self.ego_pose =  [Px, Py, euler[0]]
         if Store == True :
+            self.startRosbag()
             self.checkExperimentEnd()
 
     def pedestrianPositionCallback(self, data):
@@ -201,7 +198,7 @@ class ExperimentARecorder:
     def shouldRecordRosbag(self):
         max_velocity = 0
         if rospy.has_param("adeye/motion_planning/op_common_params/maxVelocity"):
-            max_velocity = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
+            max_velocity = float(rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity"))
         rain_intensity = rospy.get_param("/simulink/rain_intensity")
         reflectivity = rospy.get_param("/simulink/reflectivity")
         trigger_distance = 0
@@ -209,6 +206,14 @@ class ExperimentARecorder:
             trigger_distance = rospy.get_param("/simulink/trigger_distance")
         if (max_velocity == ROSBAG_PARAMETERS[0]) and (rain_intensity == ROSBAG_PARAMETERS[1]) and (reflectivity == ROSBAG_PARAMETERS[2]) and (trigger_distance == ROSBAG_PARAMETERS[3]):
             return True
+
+    def startRosbag(self):
+        if self.shouldRecordRosbag() and not self.rosbag_started:
+            ROSBAG_PATH = "/Experiment_Results/run" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
+            TOPICS = "/TwistS /vehicle/odom /tf /filtered_points /camera_1/image_raw /dynamic_collision_points_rviz /local_trajectories_eval_rviz"
+            ROSBAG_COMMAND = "rosbag record " + TOPICS + " -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
+            self.rosbag_started = True
+            subprocess.Popen(ROSBAG_COMMAND, shell=True, executable='/bin/bash')
 
 
 
