@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# license removed for brevity
-# import roslib
+
 import os
 import rospy
 from geometry_msgs.msg import PoseStamped
@@ -14,12 +13,10 @@ from enum import Enum
 import subprocess
 import time # to put timestamp in rosbags' names
 
-Store = True
 
-if Store == True :
-    if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
-        os.mkdir('/home/adeye/Experiment_Results/')
-    file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
+if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
+    os.mkdir('/home/adeye/Experiment_Results/')
+file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
 
 MAX_DECCELERATION = -3 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
@@ -47,6 +44,7 @@ class ExperimentARecorder:
     pedestrian_passed = False
     pedistrian_detected = False
     rosbag_started = False
+    experiment_started = False
 
     
 
@@ -70,9 +68,7 @@ class ExperimentARecorder:
         quaternion = (data.pose.orientation.x, data.pose.orientation.y, data.pose.orientation.z, data.pose.orientation.w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
         self.ego_pose =  [Px, Py, euler[0]]
-        if Store == True :
-            self.startRosbag()
-            self.checkExperimentEnd()
+            
 
     def pedestrianPositionCallback(self, data):
         x = data.x
@@ -81,7 +77,16 @@ class ExperimentARecorder:
 
     def egoSpeedCallback(self, data):
         current_ego_speed = data.twist.linear.x
-        self.ego_speeds.append(current_ego_speed)
+        if current_ego_speed != 0 and not self.experiment_started:
+            self.experiment_started = True
+            self.startRosbag()
+            self.writeParameters()
+            self.checkExperimentEnd()
+        if self.experiment_started:
+            self.ego_speeds.append(current_ego_speed)
+            self.checkCollision()
+            self.checkExperimentEnd()
+
         # self.vel_pub.publish(Point(current_ego_speed,current_ego_speed,current_ego_speed)) # for visualization in rqt_plot since /current_velocity had issues with the plotting
 
     def lidarObjectCallback(self, data):
@@ -104,43 +109,57 @@ class ExperimentARecorder:
     # checks if we fullfil the conditions to stop the experiment
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
-        if len(self.ego_speeds)>2 : # in order to have access to the previous speed 
-            d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
-            self.distances_ego_pedestrian.append(d)
-            if len(self.distances_ego_pedestrian)>2 and rospy.get_rostime().secs > 12 : #to make sure the experiment is not stopped at the begining due to noise
-                if self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-3]<self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-2] : # if the distance is increasing, the pedestrian has been passed,
-                                                                                                    # we don't compare distance_Ego_P[len(distance_Ego_P)-2] with d because they are equal when the car stops
-                    
-                    if self.collision == False : # if the collision didn't occurred
-                        self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
-                        self.pedestrian_passed = True
-                        self.computeAndStoreData(ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD)
+        if self.ego_speeds[len(self.ego_speeds)-1]==0.0:
+            if not self.collision and not self.pedestrian_passed:
+                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                if self.distance_pedestiran_lane_center < 0.001:
+                    self.distance_pedestiran_lane_center = 0
+                self.computeAndStoreData(ExperimentOutcomes.CAR_STOPPED)
+            elif not self.collision and self.pedestrian_passed:
+                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                self.pedestrian_passed = True
+                self.computeAndStoreData(ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD)
+            elif self.collision and self.pedestrian_passed:
+                self.computeAndStoreData(ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN)
+            else: #this possibility of having collided whihout passing the pedestrian end position should never appear
+                file.write("A collision occured without passing the pedestrian. This should not happen.\n")
+                file.close()
 
-                    else:
-                        if (self.ego_speeds[len(self.ego_speeds)-1]==0.0) and (self.ego_speeds[len(self.ego_speeds)-2]!=0.0): # and (self.ego_speeds[len(self.ego_speeds)-3]!=0.0): # if the car just stoped (to test it only once)
-                            self.computeAndStoreData(ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN)
-                else :
-                    if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
-                        if self.collision == False : # we set the collision speed
-                            self.collision = True
-                            self.collision_speed = self.ego_speeds[len(self.ego_speeds)-1-1]
-                            self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
-                            self.pedestrian_passed = True
-                            if self.distance_pedestiran_lane_center < 0.001:
-                                self.distance_pedestiran_lane_center = 0
-                    if (self.ego_speeds[len(self.ego_speeds)-1]==0.0) and (self.ego_speeds[len(self.ego_speeds)-1-1]!=0.0): # if the car just stoped (to test it only once)
-                        self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
-                        if self.distance_pedestiran_lane_center < 0.001:
-                            self.distance_pedestiran_lane_center = 0
-                        self.computeAndStoreData(ExperimentOutcomes.CAR_STOPPED)
+
+
+    def checkCollision(self):
+        # here we check for collision between the car and the pedestrian
+        d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
+        self.distances_ego_pedestrian.append(d)
+        if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
+            if self.collision == False : # we set the collision speed
+                self.collision = True
+                self.collision_speed = self.ego_speeds[len(self.ego_speeds)-2]
+                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                self.pedestrian_passed = True
+                if self.distance_pedestiran_lane_center < 0.001:
+                    self.distance_pedestiran_lane_center = 0
+
+        # this is in case the pedestrian is out of the road when the car passes. we want pedestrian_passed to be True while collision is false
+        d = np.sqrt( (self.ego_pose[1]-PEDESTRIAN_END_POSITION[1])**2 + (self.ego_pose[0]-PEDESTRIAN_END_POSITION[0])**2 )
+        if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # the car has passed the end position
+            self.pedestrian_passed = True
+
 
 
 
     # procedure that processes and stores the data
     def computeAndStoreData(self, experiment_outcome):
-        self.writeParameters()
         if experiment_outcome == ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD:
-            file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop \n")
+            file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop)" + ", "
+                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-4]) + ", "
+                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-3]) + ", "
+                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-2]) + ", "
+                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]) )
+
+            file.write(', ')
+            file.write("Dist pedestrian from lane center, "+str(self.distance_pedestiran_lane_center))
+            file.write('\n')
             file.close()
         elif experiment_outcome == ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN:
             collision = 'Yes'
