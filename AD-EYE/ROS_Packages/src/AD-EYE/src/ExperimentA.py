@@ -21,7 +21,7 @@ file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
 MAX_DECCELERATION = -3 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
 ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
-CAR_FRONT_LENGTH = 3.75 # from the back wheels to the fron of the chassis
+CAR_FRONT_LENGTH = 3.75 # from the back wheels to the front of the chassis
 PEDESTRIAN_WIDTH = 0.3
 
 
@@ -86,7 +86,6 @@ class ExperimentARecorder:
             self.ego_speeds.append(current_ego_speed)
             self.checkCollision()
             self.checkExperimentEnd()
-
         # self.vel_pub.publish(Point(current_ego_speed,current_ego_speed,current_ego_speed)) # for visualization in rqt_plot since /current_velocity had issues with the plotting
 
     def lidarObjectCallback(self, data):
@@ -105,8 +104,6 @@ class ExperimentARecorder:
             
 
 
-
-    # checks if we fullfil the conditions to stop the experiment
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
         if self.ego_speeds[len(self.ego_speeds)-1]==0.0:
@@ -147,7 +144,6 @@ class ExperimentARecorder:
 
 
 
-
     # procedure that processes and stores the data
     def computeAndStoreData(self, experiment_outcome):
         if experiment_outcome == ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD:
@@ -170,9 +166,7 @@ class ExperimentARecorder:
             collision = 'No'
             stop_distance = self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
             self.writeData(collision, stop_distance, stop_distance)
-
-
-        if self.shouldRecordRosbag():
+        if self.shouldRecordRosbag(): # in any cases if a rosbag was recorded it must me stopped
             subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
         self.stop_pub.publish(True) # stop_publisher
 
@@ -196,8 +190,6 @@ class ExperimentARecorder:
         file.close()
 
         
-        
-
 
     # writes the experiment parameters
     def writeParameters(self):
@@ -214,6 +206,8 @@ class ExperimentARecorder:
             trigger_distance = rospy.get_param("/simulink/trigger_distance")
         file.write("Set trigger distance, "+str(trigger_distance)+" , ")
 
+
+
     def shouldRecordRosbag(self):
         max_velocity = 0
         if rospy.has_param("adeye/motion_planning/op_common_params/maxVelocity"):
@@ -225,6 +219,10 @@ class ExperimentARecorder:
             trigger_distance = rospy.get_param("/simulink/trigger_distance")
         if (max_velocity == ROSBAG_PARAMETERS[0]) and (rain_intensity == ROSBAG_PARAMETERS[1]) and (reflectivity == ROSBAG_PARAMETERS[2]) and (trigger_distance == ROSBAG_PARAMETERS[3]):
             return True
+        else:
+            return False
+
+
 
     def startRosbag(self):
         if self.shouldRecordRosbag() and not self.rosbag_started:
