@@ -201,7 +201,24 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         end
 
         % Simulate the new model.
-        sim(RunModel, [startTime endTime]); %running the simulation
+        
+        
+        simulation_ran = 0;
+        while simulation_ran==0
+            try
+                sim(RunModel, [startTime endTime]); %running the simulation
+                simulation_ran = 1;
+            catch ME
+                switch ME.identifier
+                    case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
+                        rethrow(ME)
+                    otherwise % if there was a PreScan issue such as missing federates then we can try to run again
+                        warning("Failed to start experiment. Other attemps will be made until success.")
+                        disp(ME.identifier)
+                end
+            end
+        end
+        
         %Results(i).Data = 'simout';
 
         % Store current settings to file.
