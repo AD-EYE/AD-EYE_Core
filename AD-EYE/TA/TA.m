@@ -210,11 +210,18 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
                 simulation_ran = 1;
             catch ME
                 switch ME.identifier
-                    case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
+%                     case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
+%                         rethrow(ME)
+                    case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
                         rethrow(ME)
+%                     case 'SL_SERVICES:utils:UNEXPECTED_EXCEPTION' % if the user interruped the code
+%                         rethrow(ME)
+%                     case 'MATLAB:MException:MultipleErrors'
+%                         rethrow(ME)
                     otherwise % if there was a PreScan issue such as missing federates then we can try to run again
-                        warning("Failed to start experiment. Other attemps will be made until success.")
+                        % warning("Failed to start experiment. Other attemps will be made until success.")
                         disp(ME.identifier)
+                        rethrow(ME)
                 end
             end
         end
