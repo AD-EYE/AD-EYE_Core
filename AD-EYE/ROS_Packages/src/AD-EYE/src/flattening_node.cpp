@@ -214,9 +214,7 @@ public:
     float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
         float occValue = GREEN;
 
-        if(laneValue == 1) {
-            occValue = YELLOW;
-        }
+        
         if(safeAreaValue > 0) {
             if (safeAreaValue <= 64) {
                 occValue = RED;
@@ -227,6 +225,9 @@ public:
             } else {
                 occValue = WHITE;
             }
+        }
+        if(laneValue == 1) {
+            occValue = YELLOW;
         }
         if(staticObjectValue > dangerous_height) {
             occValue = RED;
