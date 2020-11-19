@@ -204,8 +204,10 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         
         
         simulation_ran = 0;
-        while simulation_ran==0
+        run_counter = 0;
+        while simulation_ran==0 && run_counter<3
             try
+                run_counter = run_counter + 1;
                 sim(RunModel, [startTime endTime]); %running the simulation
                 simulation_ran = 1;
             catch ME
@@ -218,8 +220,12 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 %                         rethrow(ME)
 %                     case 'MATLAB:MException:MultipleErrors'
 %                         rethrow(ME)
+                    case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue
+                        warning("Failed to start experiment. Other attemps will be made until success.")
+                        fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
+                        fprintf(fileID,RunModel);
+                        fclose(fileID);
                     otherwise % if there was a PreScan issue such as missing federates then we can try to run again
-                        % warning("Failed to start experiment. Other attemps will be made until success.")
                         disp(ME.identifier)
                         rethrow(ME)
                 end
