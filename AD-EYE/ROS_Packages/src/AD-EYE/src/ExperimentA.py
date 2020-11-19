@@ -106,7 +106,7 @@ class ExperimentARecorder:
 
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
-        if self.ego_speeds[len(self.ego_speeds)-1]==0.0:
+        if self.experiment_started and self.ego_speeds[len(self.ego_speeds)-1]==0.0:
             if not self.collision and not self.pedestrian_passed:
                 self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
                 if self.distance_pedestiran_lane_center < 0.001:
