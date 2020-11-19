@@ -1,21 +1,22 @@
 <!-- -->
 <launch>
-    <rosparam name="use_pex_file" type="boolean" value="true" />
-    <arg name="use_ground_truth_dunamic_objects" value="true" />
-    <group if="$(eval arg(use_ground_truth_dunamic_objects) == 'false')">
-        <rosparam name="use_pex_file" type="boolean" value="false" />
+    <rosparam name="use_pex_file" type="boolean" value="true" /> <!-- if the pex file is used for the safety channel grid map creation-->
+    <arg name="use_ground_truth_dunamic_objects" default="true"/> <!-- if the moving obstacles are obtained through a ground truth topic or should be from perception-->
+
+    <group unless="$(arg use_ground_truth_dunamic_objects)"> <!-- if we do not use ground truth from dynamic object then we need the safety channel perception-->
+        <rosparam>
+            use_pex_file: false
+        </rosparam>
         <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+    </group> -->
+    <group if="$(arg use_ground_truth_dunamic_objects)"> <!-- if we use ground truth from dynamic object then the pose of other vehicle is gotten fron a topic-->
+        <rosparam>
+        <rosparam>
+            use_pex_file: true
+        </rosparam>
     </group>
-    <group if="$(eval arg(use_ground_truth_dunamic_objects) == 'true')">
-        <rosparam name="use_pex_file" type="boolean" value="true" />
-    </group>
 
 
-
-    <!-- <rosparam>
-        use_pex_file: true
-        use_ground_truth_dunamic_objects: true
-    </rosparam> -->
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
     <arg name="area_width" value="35" />
@@ -55,6 +56,5 @@
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
-    <!-- <include file="$(find adeye)/launch/safety_channel_perception.launch"/> -->
 
 </launch>
