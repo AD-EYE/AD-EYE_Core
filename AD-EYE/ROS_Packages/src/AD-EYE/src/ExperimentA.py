@@ -159,7 +159,7 @@ class ExperimentARecorder:
             file.close()
         elif experiment_outcome == ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN:
             collision = 'Yes'
-            stop_distance = self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
+            stop_distance = - self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
             estimated_stop_distance = self.collision_speed * self.collision_speed / 2 / MAX_DECCELERATION # if the car has continue braking it would have stopped at this distance
             self.writeData(collision, stop_distance, estimated_stop_distance)
         elif experiment_outcome == ExperimentOutcomes.CAR_STOPPED:
