@@ -18,7 +18,7 @@ function exists = field_exists(input_struct,field_to_find)
                 break
             end
         else
-            if (length(tested_struct) == 1) && (isfield(tested_struct,current_searched_field(1)))
+            if (length(tested_struct.(current_searched_field(1))) == 1) && (isfield(tested_struct,current_searched_field(1)))
                 tested_struct = tested_struct.(current_searched_field(1));
             % check table height and width
             elseif(isfield(tested_struct,current_searched_field(1)) && size(tested_struct.(current_searched_field(1)),1)>=str2double(current_searched_field(2)) && size(tested_struct.(current_searched_field(1)),2)>=str2double(current_searched_field(3))) % if we can move one step towards the wanted field

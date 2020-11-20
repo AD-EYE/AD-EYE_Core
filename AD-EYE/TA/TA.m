@@ -90,14 +90,27 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 
         ptree = rosparam;
         cd ('..\OpenSCENARIO\Code')
-        if isfile(strcat('..\OpenSCENARIO_experiments\',Run(run).FolderExpName,'.xosc'))
-            Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',Run(run).FolderExpName)), '.xosc']);
+        
+        
+        splitted_string = split(Run(run).FolderExpName,"/");
+        experiment_name = splitted_string(length(splitted_string)-1);
+        clear splitted_string;
+        experiment_name = experiment_name{1};
+        if isfile(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"))
+            Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"));
             if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
-                set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value)); %TODO remove that line
-
+                set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
                 disp('Setting ros parameters from TArosparam Table');
             end
         end
+        
+%         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).AutowareConfig));
+%         [index,] = intersect(find(rosparamTable{:,2}=="op_common_params"),find(rosparamTable{:,3}=="maxVelocity"));
+%         if ~isempty(index)
+%             set(ptree,'/simulink/trigger_distance',str2double(rosparamTable{index,7}));
+% 
+%             disp('Setting ros parameters from TArosparam Table');
+%         end
         cd('..\..\TA\Configurations');
 
 
@@ -188,7 +201,37 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         end
 
         % Simulate the new model.
-        sim(RunModel, [startTime endTime]); %running the simulation
+        
+        
+        simulation_ran = 0;
+        run_counter = 0;
+        while simulation_ran==0 && run_counter<3
+            try
+                run_counter = run_counter + 1;
+                sim(RunModel, [startTime endTime]); %running the simulation
+                simulation_ran = 1;
+            catch ME
+                switch ME.identifier
+%                     case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
+%                         rethrow(ME)
+                    case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
+                        rethrow(ME)
+%                     case 'SL_SERVICES:utils:UNEXPECTED_EXCEPTION' % if the user interruped the code
+%                         rethrow(ME)
+%                     case 'MATLAB:MException:MultipleErrors'
+%                         rethrow(ME)
+                    case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue
+                        warning("Failed to start experiment. Other attemps will be made until success.")
+                        fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
+                        fprintf(fileID,RunModel);
+                        fclose(fileID);
+                    otherwise % if there was a PreScan issue such as missing federates then we can try to run again
+                        disp(ME.identifier)
+                        rethrow(ME)
+                end
+            end
+        end
+        
         %Results(i).Data = 'simout';
 
         % Store current settings to file.
@@ -238,27 +281,32 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     clear()
 end
 
-%% function rosparam script
-function rosparamScript(table, worldName)
-    %% function
-    %[pnames,pvalues]=search(ptree, paramname)
-    isaninteger = @(p)isfinite(p) & p==floor(p);
+
+%% function rosparamTable
+function rosparamTable = readROSConfigTable(table)
     %% Setup the Import Options
     opts = spreadsheetImportOptions("NumVariables", 7);
-
     % Specify sheet and range
     opts.Sheet = "Sheet1";
     opts.DataRange = "A2";
-
     % Specify column names and types
     opts.VariableNames = ["Area", "Node", "Variable", "Type", "Min", "Max", "Nominal"];
     opts.SelectedVariableNames = ["Area", "Node", "Variable", "Type", "Min", "Max", "Nominal"];
     opts.VariableTypes = ["string", "string", "string", "string", "double", "double", "string"];
     opts = setvaropts(opts, [1, 2, 3, 4, 7], "WhitespaceRule", "preserve");
     opts = setvaropts(opts, [1, 2, 3, 4, 7], "EmptyFieldRule", "auto");
-
     % Import the data
     rosparamTable = readtable(table, opts, "UseExcel", false);
+end
+
+
+%% function rosparam script
+function rosparamScript(table, worldName)
+    %% function
+    %[pnames,pvalues]=search(ptree, paramname)
+    isaninteger = @(p)isfinite(p) & p==floor(p);
+    
+    rosparamTable = readROSConfigTable(table);
 
     %% set parameters and evaluate the table for range
     ptree = rosparam;

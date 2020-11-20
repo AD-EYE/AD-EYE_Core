@@ -84,10 +84,10 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 # actual states (what features they have enables)
 # FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False]
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
+ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   False, True, True]
+FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   False, True, True]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
@@ -100,7 +100,7 @@ current_state =  INITIALIZING_STATE
 
 
 # Rosbag related constants
-ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
+ROSBAG_PATH = "/recording" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
 # To output an error message when safety channel is not running
