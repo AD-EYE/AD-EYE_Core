@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W03_Forest" UniqueId="0" Authors="Adeye" TotalSimulationTime="27.213333333333335" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="EC82A931A4E13F64F55AFDAF21F61B00362EFBBD4348F88CD02244E4636B0C14" UniqueExperimentIdentifier="7913394c-15bf-444a-b580-39c2c5f38766" UniqueIdCounter="17386" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W03_Forest" UniqueId="0" Authors="Adeye" TotalSimulationTime="27.213333333333335" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="F3D9A073796F88C6655AAAFA7E98C51DFF9C1909017FC19157E58F3F2F4EA3CB" UniqueExperimentIdentifier="f85ed2e9-0ddb-4f7e-bf32-886f983a16ef" UniqueIdCounter="17442" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <TestAutomationProperties>
     <TestAutomationTag PropertyName="WeatherTypeName" Tag="weather_type" />
   </TestAutomationProperties>
@@ -35582,7 +35582,7 @@
       </DriverModel>
       <Physics Drag="0.360000014305115" Mass="2220" MaxAcceleration="0.300000011920929" MaxDeceleration="1" ReferenceArea="2.826251745224" RollFriction="0.00999999977648258" />
       <Sensors>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="17095" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="17095" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -35595,7 +35595,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17378" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17434" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35607,7 +35607,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="17096" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="17096" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
@@ -35620,7 +35620,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17379" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17435" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35632,7 +35632,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="17097" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="17097" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
@@ -35645,7 +35645,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17380" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17436" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35657,7 +35657,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="17098" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="17098" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
@@ -35670,7 +35670,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17381" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17437" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35682,7 +35682,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_1" UniqueId="17099" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="Camera_1" UniqueId="17099" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <TestAutomationProperties>
             <TestAutomationTag PropertyName="FocalLength" Tag="fl" />
           </TestAutomationProperties>
@@ -35708,7 +35708,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17382" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17438" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35720,7 +35720,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_tl" UniqueId="17100" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="Camera_tl" UniqueId="17100" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <Location X="1.1" Y="-0.7" Z="1.8" />
           <Orientation Bank="0" Tilt="345" Heading="345" />
           <Origin X="0" Y="1" Z="0" />
@@ -35743,7 +35743,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17383" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17439" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35755,7 +35755,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="HumViewCamera" UniqueId="17101" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="120" FovElevation="90" HorizontalResolution="1871" VerticalResolution="1080" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="false" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="HumViewCamera" UniqueId="17101" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="120" FovElevation="90" HorizontalResolution="1871" VerticalResolution="1080" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="false" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <TestAutomationProperties>
             <TestAutomationTag PropertyName="FocalLength" Tag="HumView_focal_length" />
           </TestAutomationProperties>
@@ -35781,7 +35781,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17384" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17440" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -35793,7 +35793,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="17102" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="15" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="sinXDivX" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
+        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="17102" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="77" VerticalResolution="77" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="1" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="sinXDivX" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
           <Location X="3.75" Y="0" Z="0.400000005960464" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -35817,7 +35817,7 @@
           <UserSpecifiedAGM_Model File="UserSpecified\AGM\SENSOR_AGM__ad032193-dbf2-4ce6-8d2a-738c7014a78b.txt" Name="" />
           <TIS_SpecSensorCustomBeams />
         </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_2" UniqueId="17103" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="15" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
+        <Sensor xsi:type="CameraSensor" Description="" id="Camera_2" UniqueId="17103" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
           <TestAutomationProperties>
             <TestAutomationTag PropertyName="FocalLength" Tag="fl" />
           </TestAutomationProperties>
@@ -35843,7 +35843,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="17385" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="17441" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -39776,7 +39776,7 @@
       </item>
     </ObjectProperties>
   </PreScanObjectTypeSettings>
-  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="300" VisualizationUpdateRatio="60" DisableVisualWorld="false" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W03_Forest.swi" TerminationVisScriptFile="Temp\W03_Forest.swt" />
+  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="20" VisualizationUpdateRatio="20" DisableVisualWorld="false" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W03_Forest.swi" TerminationVisScriptFile="Temp\W03_Forest.swt" />
   <Sky Description="Sky" id="Sky" UniqueId="418" SkyBoxName="SKY_Air" UseImageBasedSky="true" GenerateSkyAlbedo="0.5" GeneratedSkyTurbidity="4" ObjectTypeID="50" NumericalID="45" />
   <SpeedProfiles>
     <SpeedProfileBase xsi:type="SpeedProfile" Description="Derived from old (before conversion) RouteObject_1" id="SpeedProfile_1" UniqueId="119">
