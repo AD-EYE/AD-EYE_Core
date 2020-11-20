@@ -84,16 +84,10 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 # actual states (what features they have enables)
 # FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA]      # DISABLED = false = wait | ENABLED = True = run
-# INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
-# ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
-# ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   False, True, True]
-# FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   False, True, True]
-
-
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             False,           False,   True,  False, True, True]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             False,           False,   True,  False, True, True]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      False,             False,            False,   True,   True, True, True]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      False,             False,           False,   True,   False, True, True]
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False]
+FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
