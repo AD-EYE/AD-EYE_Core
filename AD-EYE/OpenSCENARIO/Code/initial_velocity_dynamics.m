@@ -129,7 +129,7 @@ for j =1:length(models.worldmodel.object) %main for loop
                 end%Longitudinal check
                 
             end %third for loop, number of Action
-        end %if car is ego
+        end %if car is not ego
         
     end %second for loop, number of Private
 end %main for loop, number of Prescan objects
