@@ -24,3 +24,6 @@ target_link_libraries (validation ${PCL_LIBRARIES} ${Boost_LIBRARIES})
 
 add_executable (outlier_remover outlier_remover.cpp)
 target_link_libraries (outlier_remover ${PCL_LIBRARIES} ${Boost_LIBRARIES})
+
+add_executable (corner_finder corner_finder.cpp)
+target_link_libraries (corner_finder ${PCL_LIBRARIES} ${Boost_LIBRARIES})

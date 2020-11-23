@@ -32,3 +32,6 @@ Flags:
 --pcd , optional, saves pcds after voxel and/or cutting 
 
 Filepath example: /home/vhane/Point-cloud-mapper/pcds/autoware-car-first-strongest.pcd
+
+
+TODO: Gather all the functions in one file and import to other scripts instead, to allow smaller scripts to utilize the functions without copy pasting (not a prio)
