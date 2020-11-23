@@ -19,23 +19,16 @@ To compile and build:
 mkdir build && cd build && cmake .. && make 
 
 
-Filepath /home/vhane/Point-cloud-mapper/pcds/autoware-car-first-strongest.pcd
+
 
 How to run:
-./main -f [filename] -o [output_name] --voxel --view
+./pcd_to_sqaure_mesh -f [filename] -o [output_name] -s [size] --voxel --pcd
+
 Flags:
 -f [filename] , required, PCD file path/name
--o [output_name] , optional, default mesh.obj, output path/name
+-o [output_name] , required, output path/name
+-s [size] , optional, default 50, size of each chunk 
 --voxel , optional, run voxel grid dilation !!! Need to swap input to normal generation
---view , optional, launch viewers after mesh generation
+--pcd , optional, saves pcds after voxel and/or cutting 
 
-
-Todo: 
-
-* Load a file using flags [DONE]
-* Load into point cloud [DONE?]
-* Apply filter  [POSSIBLE, IMPROVE?]
-* Apply segementation 
-* Render in window [DONE]
-* Calculate number outliners/total_points [DONE]
-* Create mesh [DONE]
+Filepath example: /home/vhane/Point-cloud-mapper/pcds/autoware-car-first-strongest.pcd

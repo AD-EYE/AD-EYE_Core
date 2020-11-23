@@ -23,28 +23,8 @@
 #include <boost/thread/thread.hpp>
 #include <boost/shared_ptr.hpp>
 #include <string>
-#include <args.hxx>
+#include "args.hxx"
 
-
-
-
-/*
-TODO: 
-
-  1) Check out arg parsers.
-    1.1) Are they implementable in C++? yes
-    1.2) Are they implementable in our code? yes
-  2) Input. 
-    2.1) What are the main/important input parameters? file, output, mesh method, viewer, 
-    2.2) How does the input method for these look like? (flags/optional arguments?)
-  3) Rename poisson file to something more fitting.
-  4) Create focused file that only uses greedy triangulation and other useful functions.
-  5) Thorough code commenting.
-
-*/
-
-
-//https://github.com/atduskgreg/pcl-poisson-example/blob/master/poisson_recon.cpp
 
 
 // Normal estimation
@@ -72,22 +52,6 @@ void set_normals(
 }
 
 
-pcl::PolygonMesh poisson_surface_recon(
-    pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals
-){
- 
-  pcl::Poisson<pcl::PointNormal> poisson;
-  pcl::PolygonMesh mesh;
-  poisson.setDepth(10);
-  poisson.setInputCloud(cloud_with_normals);
-  //poisson.setMinDepth(8); 
-  poisson.setOutputPolygons(true);
-  //poisson.setScale(0.8);
-  poisson.setSamplesPerNode(10);
-  poisson.reconstruct(mesh);
-
-  return(mesh); 
-}
 
 pcl::PolygonMesh greedy_surface_reconstruction(
   pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals
@@ -146,11 +110,11 @@ void remove_outlier(
     sor.filter (*cloud_inlier);
 }
 
-// TODO: Rename to voxel filter
-// voxel_grid_dilation 
-// Input: 
-// Output: 
-void voxel_grid_dilation(
+
+// voxel_grid_filter
+// Input: pcl Point cloud to be filtered
+// Output: pcl Point cloud of the filtered cloud
+void voxel_grid_filter(
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_voxel 
   ){
@@ -168,136 +132,143 @@ int
   main (int argc, const char** argv)
 {
   
-  args::ArgumentParser p("Testing argparser");
+  args::ArgumentParser p("Initiating argparser");
   
-  //Define input arguments 
+  //Define input arguments that can be given as flags, pcd file and output required
   args::ValueFlag<std::string> file_arg(p, "filename", "Path to PCD file", {'f', "filename"}, "Please enter a valid PCD file path.");
-  args::ValueFlag<std::string> output_arg(p, "output", "Path and name of output file", {'o', "output"}, "mesh");
-  //--------------- SET ABOVE PARAMS AS REQ AND BELOW NOT REQ ------------------------
-  args::Flag voxel_arg(p, "voxel", "Run voxel grid dilation", {'x',"voxel"});
-  args::Flag view_arg(p, "view", "Launch viewer", {'v',"view"});
+  args::ValueFlag<std::string> output_arg(p, "output", "Path and name of output file without extension", {'o', "output"});
+  args::ValueFlag<int> size_arg(p, "chunk_size", "Size of chunk side", {'s', "size"}, 50);
+  args::Flag voxel_arg(p, "voxel", "Run voxel grid filter", {'v',"voxel"});
+  args::Flag save_pcd_arg(p, "save_pcd", "Save filtered/cut pcd files before meshing", {'p',"pcd"});
 
-  // Check input args OK
+
+  // Check if input args are OK
   try
     {
-        p.ParseCLI(argc, argv);
+      p.ParseCLI(argc, argv);
     }
     catch (args::Completion &e)
     {
-        std::cout << e.what();
+      std::cout << e.what();
     }
-  // Fetch input args
+  // Fetch input args and save as strings
   std::string pcd_filename =args::get(file_arg);
   std::string output_filename= args::get(output_arg);
   
-  // Setup pcl clouds
+  // Setup pcl cloud objects TODO? Remove some clouds and re use with overwrites
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_original (new pcl::PointCloud<pcl::PointXYZ>);
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_inlier (new pcl::PointCloud<pcl::PointXYZ>);
-
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_voxel (new pcl::PointCloud<pcl::PointXYZ>);
-
   pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
   pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals (new pcl::PointCloud<pcl::PointNormal>);
-  
+  pcl::PassThrough<pcl::PointXYZ> pass_y;
+  pcl::PassThrough<pcl::PointXYZ> pass_x;
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_slice (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_square (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointNormal>::Ptr cloud_chunk_with_normals (new pcl::PointCloud<pcl::PointNormal>);
+
   //Load PCD file    
   set_pcd_file(cloud_original, pcd_filename); 
-
   size_t num_points_cloud = cloud_original->size();
   cout << "Cloud loaded! Number of points: " << num_points_cloud << "\n" << std::endl;
   
+  //Remove statistical outliers
   cout << "Starting statistical outlier remover..." << std::endl; 
   remove_outlier(cloud_original, cloud_inlier);
   size_t num_points_cloud_inlier = cloud_inlier->size();
   cout << "Finished statistical outlier remover! Number of points: " << num_points_cloud_inlier << "\n" <<std::endl;
   
+  //Run voxel filter if voxel flag is used
   if(bool{voxel_arg}) {
-    cout << "------------------------------------------" << std::endl; 
-    cout << "Generating mesh using voxel grid dilation " << std::endl; 
-    cout << "------------------------------------------" << std::endl; 
-    cout << "Starting voxel grid dilation" << std::endl; 
-    voxel_grid_dilation(cloud_inlier, cloud_voxel);
-    size_t num_points_cloud_voxel = cloud_voxel->size();
-    cout << "Finished voxel grid dilation! Number of points: " << num_points_cloud_voxel << "\n" << std::endl; 
-
-    //cloud_inlier
-    cout << "Setting normals" << std::endl; 
-    set_normals(cloud_voxel, normals, cloud_with_normals);
-    cout << "Done with normals \n" << std::endl; 
-
+    cout << "Starting voxel grid filter..." << std::endl; 
+    voxel_grid_filter(cloud_inlier, cloud_inlier);
+    size_t num_points_cloud_voxel = cloud_inlier->size();
+    cout << "Finished voxel grid filtering! Number of points: " << num_points_cloud_voxel << "\n" << std::endl; 
+    //Saves a filtered pcd if save_pcd flag is used
+    if(bool{save_pcd_arg}){
+      std::string voxel_pcd_file = output_filename +"voxel_filtered.pcd";
+      pcl::io::savePCDFile(voxel_pcd_file, *cloud_inlier);
+      cout << "Voxel filtered pcd saved as: " << voxel_pcd_file << "\n" << std::endl;
+    }
+    
   }
   else {
-    cout << "---------------" << std::endl; 
-    cout << "Generating mesh files " << std::endl; 
-    cout << "----------------" << std::endl;
-    //-----------------------TEST-----------------------
-    // FIND MAX/MIN PT AND CALCULATE THÉ LENGHT
+    cout << "-------------------------------------" << std::endl; 
+    cout << "Generating of mesh files starting... " << std::endl; 
+    cout << "-------------------------------------" << std::endl;
+    
+    // Find min and max points for the point cloud
     pcl::PointXYZ minPt, maxPt;
     pcl::getMinMax3D (*cloud_inlier, minPt, maxPt);
-    int max_x=maxPt.x;
-    int max_y=maxPt.y;
+    cout << "Point cloud coordinates:" << std::endl;
     cout << "min x: " << minPt.x << ", max_x: " << maxPt.x << std::endl;
     cout << "min y: " << minPt.y << ", max_y: " << maxPt.y << std::endl;
-    int x_lower = minPt.x;
-    int cut_size = 50; //TODO: Add in argparser
-    int x_upper =  x_lower + cut_size;
+    
+    //Set the size of square side, default 50 (generates 50x50 chunks)
+    int cut_size = args::get(size_arg);
+    cout << "Chunk size: " << cut_size << "x" << cut_size << std::endl;
+    //Numbers for output file numbering
+    int x_nr = 0;
+    int y_nr = 0;
+
+    //Set pass through boundaries for y and x
     int y_lower = minPt.y;
-    int y_upper =  y_lower + cut_size;
+    int y_upper = y_lower + cut_size;
+    int x_lower = minPt.x;
+    int x_upper = x_lower + cut_size;
 
-    int file_nr = 0;
-
-    pcl::PassThrough<pcl::PointXYZ> pass;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_slice (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_square (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointNormal>::Ptr cloud_chunk_with_normals (new pcl::PointCloud<pcl::PointNormal>);
-    pass.setInputCloud (cloud_inlier);
-    // TEMP IF FOR TEST
-    if(file_nr==0){
+    while(y_lower < maxPt.y){
+      //Slice the cloud in y using pass through
+      pass_y.setInputCloud (cloud_inlier);
+      pass_y.setFilterFieldName ("y");
+      pass_y.setFilterLimits (y_lower, y_upper);
+      pass_y.filter (*cloud_slice);
+      //Setup pass through for x 
+      pass_x.setInputCloud(cloud_slice);
+      pass_x.setFilterFieldName ("x");
       
-      while(y_lower < y_max){
-        pass.setFilterFieldName ("y");
-        pass.setFilterLimits (y_lower, y_upper);
-        pass.filter (*cloud_slice);
-        pass.setFilterFieldName ("x");
-        pass.setInputCloud(cloud_slice);
-        if(cloud_slice->size()){
-           while(x_lower < max_x){
-          
-          pass.setFilterLimits (x_lower, x_upper);
-          pass.filter (*cloud_square);
-          
+
+      if(cloud_slice->size()){
+        
+        while(x_lower < maxPt.x){
+          //Slice the cloud in x using pass through
+          pass_x.setFilterLimits (x_lower, x_upper);
+          pass_x.filter (*cloud_square);
+      
           if(cloud_square->size()){
+            if(bool{save_pcd_arg}){
+              //Save a smaller pcd of the sqaure cloud
+              std::string pcd_filename= output_filename + "_" + std::to_string(y_nr) + "_" + std::to_string(x_nr) + ".pcd";
+              pcl::io::savePCDFile(pcd_filename, *cloud_square);
+              cout << "PCD saved as: " << pcd_filename<< "\n" << std::endl;
+            }
+            //Generate normals, mesh, and save mesh
             cout << "Setting normals..." << std::endl;
             set_normals(cloud_square, normals, cloud_chunk_with_normals);
-
-            std::string out_file =output_filename+ std::to_string(file_nr) +".stl";
-
+            
             cout << "Meshing..." << std::endl; 
             pcl::PolygonMesh mesh = greedy_surface_reconstruction(cloud_chunk_with_normals);
+
+            std::string out_file = output_filename + "_" + std::to_string(y_nr) + "_" + std::to_string(x_nr) + ".stl";
             pcl::io::savePolygonFileSTL(out_file, mesh);
             cout << "Mesh generated and saved as: " << out_file<< "\n" << std::endl;
           }
-          x_lower=x_upper;
+          x_lower = x_upper;
           x_upper += cut_size;
-          ++file_nr;
+          ++x_nr;
         }
-        y_lower=y_upper;
+        //Reset x boundaries, update y boundaries
+        x_lower = minPt.x;
+        x_upper = x_lower + cut_size;
+        x_nr = 0;
+        y_lower = y_upper;
         y_upper += cut_size;
+        ++y_nr;  
       }
-    }
-       
-      cout << "All meshes generated." << std::endl;
-      cout << "---------------------" << std::endl;
-    }
-    }
-    //------------------------TEST END --------------
-
-    // cout << "Setting normals" << std::endl; 
-    // set_normals(cloud_inlier, normals, cloud_with_normals);
-    // cout << "Done with normals \n" << std::endl; 
-
-  // cout << "Meshing..." << std::endl; 
-  // pcl::PolygonMesh mesh = greedy_surface_reconstruction(cloud_with_normals);
-  // pcl::io::savePolygonFileSTL(output_filename, mesh);
-  // cout << "Mesh generated and saved as: " << output_filename << "\n" << std::endl;
-return (0);
+    }  
+    cout << "All meshes generated." << std::endl;
+    cout << "---------------------" << std::endl;
+  }
+    
+  return (0);
 }

@@ -16,20 +16,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-#add_executable (greedy_projection gp3.cpp)
-#target_link_libraries (greedy_projection ${PCL_LIBRARIES})
-
-add_executable (main main.cpp)
-target_link_libraries (main ${PCL_LIBRARIES} ${Boost_LIBRARIES})
-
-#add_executable (main_old main_old.cpp)
-#target_link_libraries (main_old ${PCL_LIBRARIES} ${Boost_LIBRARIES})
-
-#add_executable (viewer_mesh viewer_mesh.cpp)
-#target_link_libraries (viewer_mesh ${PCL_LIBRARIES})
-
-#add_executable (viewer_point_cloud viewer_point_cloud.cpp)
-#target_link_libraries (viewer_point_cloud ${PCL_LIBRARIES})
+add_executable (pcd_to_square_mesh pcd_to_square_mesh.cpp)
+target_link_libraries (pcd_to_square_mesh ${PCL_LIBRARIES} ${Boost_LIBRARIES})
 
 add_executable (validation validation.cpp)
 target_link_libraries (validation ${PCL_LIBRARIES} ${Boost_LIBRARIES})
