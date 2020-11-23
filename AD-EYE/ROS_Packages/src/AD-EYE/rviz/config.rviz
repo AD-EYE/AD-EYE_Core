@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
+        - /Safety Cahnnel1
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
@@ -30,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Voxel Filtered Points
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -134,7 +135,20 @@ Visualization Manager:
             {}
           Queue Size: 100
           Value: true
-      Enabled: false
+        - Alpha: 1
+          Class: jsk_rviz_plugin/PolygonArray
+          Color: 25; 255; 0
+          Enabled: true
+          Name: "Safety Channel perception: convex hulls"
+          Topic: /safetyChannelPerception/safetyChannelPerception/detection/polygons
+          Unreliable: false
+          Value: true
+          coloring: Auto
+          enable lighting: true
+          normal length: 0.100000001
+          only border: true
+          show normal: true
+      Enabled: true
       Name: Safety Cahnnel
     - Class: rviz/Group
       Displays:
@@ -335,7 +349,7 @@ Visualization Manager:
                   Max Color: 255; 255; 255
                   Max Intensity: 1
                   Min Color: 0; 0; 0
-                  Min Intensity: 0.0972762629
+                  Min Intensity: 0.0578698404
                   Name: Voxel Filtered Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -528,7 +542,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 50.3522797
+      Distance: 97.4260559
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -543,10 +557,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.729797125
+      Pitch: 0.789797008
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.0154326
+      Yaw: 3.26544762
     Saved: ~
 Window Geometry:
   Camera 1 detection overlay:

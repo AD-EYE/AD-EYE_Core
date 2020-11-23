@@ -83,7 +83,7 @@ private:
     ros::Rate rate;
     float frequency;
     bool use_pex_file_ = false;
-    bool use_ground_truth_dunamic_objects_ = false;
+    bool use_ground_truth_dynamic_objects_ = false;
 
     /*!
      * \brief Creates an empty gridmap with all the layers.
@@ -367,7 +367,7 @@ public:
                                std::pow(occmap_height, 2)))
     {
         nh.getParam("use_pex_file", use_pex_file_);
-        nh.getParam("use_ground_truth_dunamic_objects", use_ground_truth_dunamic_objects_);
+        nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
 
 
         // Initialize node and publishers
@@ -375,14 +375,14 @@ public:
         pub_footprint_ego = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
         sub_Position = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
-        if(use_ground_truth_dunamic_objects_)
+        if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        mapResolution = 0.25;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
-        frequency = 30;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
+        mapResolution = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
+        frequency = 20;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
         rate = ros::Rate(frequency);
 
         // for now there is no easy way to send the dimensions of the actors, it is assumed all actors are 5x2x2 meters
@@ -499,7 +499,7 @@ public:
             br2.sendTransform(tf::StampedTransform(mapTF, ros::Time::now(), "map", "SSMP_map"));
 
 
-            if(use_ground_truth_dunamic_objects_)
+            if(use_ground_truth_dynamic_objects_)
             {
                 // Dynamic map updates, information of which is delivered by prescan
                 if(dynamic_objects_ground_truth_active_ == true){
@@ -530,21 +530,23 @@ public:
             subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
             map.setTimestamp(ros::Time::now().toNSec());
             subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
-            if(subsucces == false){
+            if(subsucces){
+                GridMapRosConverter::toMessage(subMap, message);
+                pub_GridMap.publish(message);
+
+                footprint_ego.header.stamp = ros::Time::now();
+                pub_footprint_ego.publish(footprint_ego);
+
+                rostime = ros::Time::now().toSec() - rostime;
+                if(rostime > 1/frequency){
+                    ROS_WARN("GridMapCreator : frequency is not met!");
+                }
+            }
+            else{
                 ROS_ERROR("GridMapCreator : Error when creating the submap");
-                continue;
             }
 
-            GridMapRosConverter::toMessage(subMap, message);
-            pub_GridMap.publish(message);
-
-            footprint_ego.header.stamp = ros::Time::now();
-            pub_footprint_ego.publish(footprint_ego);
-
-            rostime = ros::Time::now().toSec() - rostime;
-            if(rostime > 1/frequency){
-                ROS_WARN("GridMapCreator : frequency is not met!");
-            }
+            
             rate.sleep();
         }
     }
