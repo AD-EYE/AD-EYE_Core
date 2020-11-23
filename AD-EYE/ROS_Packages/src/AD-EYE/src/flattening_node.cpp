@@ -49,7 +49,7 @@ private:
     const float occmap_height;
     float submap_dimensions;
     GridMap gridMap;
-    float frequency = 30; // this value should be alligned with the frequency value used in the GridMapCreator_node
+    float frequency = 20; // this value should be alligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate;
 
 public:
