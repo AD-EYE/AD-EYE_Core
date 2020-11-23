@@ -7,15 +7,20 @@ clear names_trajectories
 
 % %create new folder for the compilation sheet/simulink file/.pex to be dumped
 cd( '..\..\Experiments')
+cd(strcat(name_experiment,'/OpenScenario/Results'))
 folder_name = strcat(strrep(name_experiment_template,".xosc",""));
 name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/"));
 mkdir(convertStringsToChars(folder_name));
 
-
 %copy files to new folder
-cd(name_experiment )
-copyfile(  "simulation*", strcat("..\",folder_name) )
-cd(strcat("..\..\Experiments\",folder_name,"\Simulation\"))
+cd('..\..')%name_experiment)
+mkdir("Results")
+mkdir(strcat("Results\",folder_name))
+copyfile(strcat("OpenScenario\",name_experiment,"*"), strcat("Results\",folder_name,"\OpenScenario"))
+copyfile("OpenScenario\Resources*", strcat("Results\",folder_name,"\OpenScenario"))
+movefile("Results\","OpenScenario\")
+%copyfile("OpenScenario*", strcat("OpenScenario/Results/",folder_name))
+cd(strcat("OpenScenario/Results/",folder_name,"/OpenScenario"))
 
 
 
@@ -27,10 +32,10 @@ models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_ex
 
 
 %Go to folder to load xml file
-cd( '..\..\..\OpenSCENARIO\Code\')
+cd( '..\..\..\..\..\..\OpenSCENARIO\Code\')
 %xml2struct("..\..\Experiments\Map_pedestrian_autoware1\Simulation\Map_pedestrian_autoware1.pex")
 Struct_OpenSCENARIO = xml2struct(strcat( "..\OpenSCENARIO_experiments\",name_experiment_template));
-Struct_pex = xml2struct(strcat( "..\..\Experiments\",folder_name,"\Simulation\",name_experiment,".pex"));
+Struct_pex = xml2struct(strcat( "..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario\",name_experiment,".pex"));
 
 %delete orginal files
 delete_files(name_experiment,folder_name)
@@ -55,7 +60,7 @@ delete_files(name_experiment,folder_name)
 
 
 
-%%%%%%%%%%%%%%%%%%%%Creating Simulink blcks
+%%%%%%%%%%%%%%%%%%%%Creating Simulink blocks
 %creating ROS blocks
 simulink_ego(name_simulink,models, name_ego, Struct_pex, Struct_OpenSCENARIO)
 %creating label to all vehicles as simulink blocks
@@ -68,17 +73,17 @@ initial_velocity_dynamics(name_simulink,models,Struct_OpenSCENARIO,Velocity_vari
 
 
 % %direct to folder where to save
-cd( strcat("..\..\Experiments\",folder_name,"\Simulation\") )
+cd( strcat("..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario") )
 %save .slx
- save_system(name_simulink,strcat(folder_name,"_cs"));
+ save_system(name_simulink,strcat(name_experiment,"_cs"));
   %save .pb
 prescan.experiment.writeDataModels(models,convertStringsToChars(strcat(folder_name,".pb")) );
 % %Go back to code for redo
- cd ('..\..\..\OpenSCENARIO\Code\')
+ cd ('..\..\..\..\..\..\OpenSCENARIO\Code\')
 %save .pex
-struct2xml(Struct_pex,strcat( "..\..\Experiments\",folder_name,"\Simulation\",folder_name,".pex"));
+struct2xml(Struct_pex,strcat( "..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario\",name_experiment,".pex"));
 %close system
-close_system(convertStringsToChars(strcat(folder_name,"_cs")),0)
+close_system(convertStringsToChars(name_simulink),0)
 
 
 

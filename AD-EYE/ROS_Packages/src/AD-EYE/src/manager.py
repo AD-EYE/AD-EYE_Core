@@ -61,7 +61,7 @@ MISSION_PLANNING_FULL_PATH = (
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
-
+EXPA_PATH = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/ExperimentA.launch"
 
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
@@ -83,15 +83,15 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True]
+# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False]
+FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
-previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False]
+previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False,False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -100,7 +100,7 @@ current_state =  INITIALIZING_STATE
 
 
 # Rosbag related constants
-ROSBAG_PATH = "/test" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
+ROSBAG_PATH = "/recording" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag
 ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH +" __name:=rosbag_recorder" # command to start the rosbag
 
 # To output an error message when safety channel is not running
@@ -186,7 +186,7 @@ if __name__ == '__main__':
     # rospy.sleep(1.0)
     # subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
 
- 
+
     if rospy.get_param("test_automation",False) == True:
         RVIZ_LAUNCH_FILE_NAME = "rp_my_rviz.launch"
         MAP_LAUNCH_FILE_NAME = "rp_my_map.launch"
@@ -246,6 +246,8 @@ if __name__ == '__main__':
     active_features.append(FeatureControl(SWITCH_FULL_PATH, "Switch"))
     active_features.append(FeatureControl(SSMP_FULL_PATH, "SSMP"))
     active_features.append(FeatureControl(RVIZ_FULL_PATH, "Rviz"))
+    active_features.append(FeatureControl(EXPA_PATH, "EXPa"))
+
 
 
 

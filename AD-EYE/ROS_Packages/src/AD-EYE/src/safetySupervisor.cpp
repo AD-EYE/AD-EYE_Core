@@ -78,7 +78,7 @@ private:
     float car_width = 2;
     bool car_size_set = false;
     float critArea_length = car_length; //Size of the critical Area
-    float critArea_width = car_width * 1.6;
+    float critArea_width = car_width * 1.2;
     grid_map::Polygon critArea;
     const float pi = 3.141592654;
 
@@ -409,18 +409,15 @@ public:
         critArea_length = car_length  + current_velocity;
 
         critArea.removeVertices();
-        // const grid_map::Position point1(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
-        //                                 center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2);
-        // const grid_map::Position point2(point1.x() + sin(a) * critArea_width, point1.y() - cos(a) * critArea_width);
-        // const grid_map::Position point3(point2.x() - cos(a) * critArea_length, point2.y() - sin(a) * critArea_length);
-        // const grid_map::Position point4(point1.x() - cos(a) * critArea_length, point1.y() - sin(a) * critArea_length);
         
-        const grid_map::Position point1(x + cos(a) * critArea_length - sin(a) * critArea_width/2,
-                                        y + sin(a) * critArea_length + cos(a) * critArea_width/2);
-        const grid_map::Position point2(x + cos(a) * critArea_length - sin(a) * critArea_width/2,
-                                        y - sin(a) * critArea_length - cos(a) * critArea_width/2);
-        const grid_map::Position point3(point2.x() - cos(a) * critArea_length, point2.y() - sin(a) * critArea_length);
-        const grid_map::Position point4(point1.x() - cos(a) * critArea_length, point1.y() - sin(a) * critArea_length);
+        const grid_map::Position point1(x - sin(a) * critArea_width/2,
+                                        y + cos(a) * critArea_width/2);
+        const grid_map::Position point2(x + sin(a) * critArea_width/2,
+                                        y - cos(a) * critArea_width/2);
+        const grid_map::Position point3(point2.x() + cos(a) * critArea_length, point2.y() + sin(a) * critArea_length);
+        const grid_map::Position point4(point1.x() + cos(a) * critArea_length, point1.y() + sin(a) * critArea_length);
+
+
         critArea.addVertex(point1);
         critArea.addVertex(point2);
         critArea.addVertex(point3);
@@ -476,7 +473,7 @@ public:
                 if (nh_.getParam("car_width", car_width) && nh_.getParam("car_length", car_length))
                 {
                     critArea_length = car_length; //Size of the critical Area
-                    critArea_width = car_width * 1.6;
+                    critArea_width = car_width * 1.2;
                     car_size_set = true;
                 }
             }

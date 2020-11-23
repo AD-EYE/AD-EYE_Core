@@ -9,16 +9,26 @@ fclose(fileID);
 %search for the array, array of form [x,y,z]
 findOpen = strfind(document, '[');
 findClose = strfind(document, ']');
-findSeparator = strfind(document, ',');
+%findSeparator = strfind(document, ',');
+
+if length(findOpen)==0
+    listOfNames(1) = convertCharsToStrings([fileName, '.xosc']);
+    cd '..\Code';
+    return
+end
+
 
 for c = 1:length(findOpen)
     changes(c).textOrigin = findOpen(c);
-    changes(c).textBrake1 = findSeparator(2*c-1);
-    changes(c).textBrake2 = findSeparator(2*c);
+    %changes(c).textBrake1 = findSeparator(2*c-1);
+    %changes(c).textBrake2 = findSeparator(2*c);
     changes(c).textEnd = findClose(c);
-    changes(c).valueLow = str2double(extractBetween(document, changes(c).textOrigin+1, changes(c).textBrake1-1));
-    changes(c).valueStep = str2double(extractBetween(document, changes(c).textBrake1+1, changes(c).textBrake2-1));
-    changes(c).valueHigh = str2double(extractBetween(document, changes(c).textBrake2+1, changes(c).textEnd-1));
+    text = extractBetween(document,  findOpen(c)+1,  findClose(c)-1)
+    findSeparator = strfind(text, ',');
+    findSeparator = findSeparator{1,1};
+    changes(c).valueLow = str2double(extractBetween(document, changes(c).textOrigin+1, changes(c).textOrigin-1+findSeparator(1)))
+    changes(c).valueStep = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(1), changes(c).textOrigin-1+findSeparator(2)))
+    changes(c).valueHigh = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(2), changes(c).textEnd-1))
 end
 
 %copy document
@@ -38,8 +48,8 @@ end
 lastRow = size(documentList,1);
 %output
 for colum = 1:size(documentList,2)
-    fileID = fopen([fileName, sprintf('%.0f', colum), '.xosc'],'w');
-    listOfNames(colum) = convertCharsToStrings([fileName, sprintf('%.0f', colum), '.xosc']);
+    fileID = fopen([fileName, sprintf('%.0f', colum), '_generated.xosc'],'w');
+    listOfNames(colum) = convertCharsToStrings([fileName, sprintf('%.0f', colum), '_generated.xosc']);
     doc = documentList(lastRow, colum);
     fwrite(fileID,doc{1});
     fclose(fileID);

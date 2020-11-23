@@ -36,6 +36,8 @@
 */Experiments/**/Trajectories
 */Experiments/**/Models
 */Experiments/**/Resources/SPD
+*/Experiments/**/Resources/InformationSign
+*/Experiments/**/Resources/Sky
 */Experiments/**/V2XPlugin
 */Experiments/**/cameraeffects
 */Experiments/**/cameras
@@ -84,5 +86,21 @@ autoware.ai/*.workspace.user
 #Visual Studio Code folders
 **/.vscode
 
-#Folders added to LFS
+
+# Unzipped folders, zipped version added to LFS
 Prescan_models/KTH_3D_overhaul/
+
+# Generated TA configs
+AD-EYE/TA/Configurations/*_*
+
+# TA timer
+AD-EYE/TA/runtimes*.xlsx
+
+
+# Current OpenScenario Generated experiment folders
+AD-EYE/Experiments/Experiment_*
+AD-EYE/OpenSCENARIO/OpenSCENARIO_experiments/*_generated.xosc
+
+# SSH configuration file
+AD-EYE/TA/Configurations/SSHConfig.csv
+
