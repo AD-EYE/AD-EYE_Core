@@ -1,5 +1,9 @@
 <!-- -->
 <launch>
+
+    <arg name="world_name" value="W01_Base_Map"/> 
+
+
     <rosparam>
         use_pex_file: false
     </rosparam>
@@ -18,8 +22,8 @@
     </group>
 
 
-    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/W10_KTH_overhaul/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/W10_KTH_overhaul/Simulation/"/>
+    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Simulation/"/>
     <arg name="area_width" value="35" />
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
@@ -31,7 +35,7 @@
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
         <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
         <param name="filePex"
-               value="$(arg Pex_Folder)W10_KTH_overhaul.pex"/>
+               value="$(arg Pex_Folder)$(arg world_name).pex"/>
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"
