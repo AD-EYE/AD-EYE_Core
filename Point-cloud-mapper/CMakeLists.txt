@@ -21,3 +21,6 @@ target_link_libraries (pcd_to_square_mesh ${PCL_LIBRARIES} ${Boost_LIBRARIES})
 
 add_executable (validation validation.cpp)
 target_link_libraries (validation ${PCL_LIBRARIES} ${Boost_LIBRARIES})
+
+add_executable (outlier_remover outlier_remover.cpp)
+target_link_libraries (outlier_remover ${PCL_LIBRARIES} ${Boost_LIBRARIES})
