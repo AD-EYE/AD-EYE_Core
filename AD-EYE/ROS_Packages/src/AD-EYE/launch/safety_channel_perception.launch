@@ -5,21 +5,21 @@
         <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
         <arg name="remove_ground" value="true"/>
         <arg name="downsample_cloud" value="true"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
-        <arg name="leaf_size" value="0.2"/><!-- Voxel Grid Filter leaf size-->
-        <arg name="remove_points_upto" value="0.15"/>
+        <arg name="leaf_size" value="0.5"/><!-- Voxel Grid Filter leaf size-->
+        <arg name="remove_points_upto" value="0.1"/>
         <arg name="cluster_size_min" value="7"/><!-- Minimum number of points to consider a cluster as valid-->
         <arg name="cluster_size_max" value="10000"/><!-- Maximum number of points to allow inside a cluster-->
         <arg name="use_diffnormals" value="false"/>
         <arg name="pose_estimation" value="true"/>
-        <arg name="clip_min_height" value="-1.0"/>
-        <arg name="clip_max_height" value="2.0"/>
+        <arg name="clip_min_height" value="-0.5"/>
+        <arg name="clip_max_height" value="2.5"/>
 
         <arg name="keep_lanes" value="false"/>
         <arg name="keep_lane_left_distance" value="5"/>
         <arg name="keep_lane_right_distance" value="5"/>
-        <arg name="max_boundingbox_side" value="10"/>
-        <arg name="cluster_merge_threshold" value="1.0"/>
-        <arg name="clustering_distance" value="0.50"/>
+        <arg name="max_boundingbox_side" value="20"/>
+        <arg name="cluster_merge_threshold" value="0.7"/>
+        <arg name="clustering_distance" value="1.0"/>
         <arg name="output_frame" value="velodyne"/>
         <arg name="use_gpu" value="true"/>
 
@@ -48,6 +48,7 @@
             <param name="use_gpu" value="$(arg use_gpu)"/>
             <param name="use_multiple_thres" value="false"/>
             <param name="clustering_ranges" value="[15,30,45,60]"/><!-- Distances to segment pointcloud -->
+            <remap from="/detection/lidar_detector/cloud_clusters" to="/safetyChannelPerception/detection/lidar_detector/cloud_clusters"/>
         </node>            
         
         <node pkg="adeye"
