@@ -12,6 +12,7 @@
 #include <cpp_utils/pose_datatypes.h>
 #include <cpp_utils/vector_ops.h>
 #include <ss_trajplanner/trajectory_set_handler.h>
+#include <visualization_msgs/MarkerArray.h>
 
 #define WHITE 1
 #define GREEN 30
@@ -69,8 +70,10 @@ public:
 
     // pubs & subs
     traj_pub_ = nh.advertise<rcv_common_msgs::current_traj_info>("/safe_stop_traj",1);
+    traj_vis_pub_ = nh.advertise<visualization_msgs::MarkerArray>("safe_stop_traj_vis",1);
     entire_traj_pub_ = nh.advertise<rcv_common_msgs::trajectory_reference>("/entire_traj",1);
     amount_trajs_pub_ = nh.advertise<rcv_common_msgs::amount_trajs>("/trajs_categorized",1);
+    endposes_vis_pub_ = nh.advertise<visualization_msgs::MarkerArray>("safe_stop_endposes_vis",1);
     odom_sub_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom",1, &SafeStopTrajectoryPlanner::odom_callback,this);
     SSMP_control_sub_  = nh.subscribe<rcv_common_msgs::SSMP_control>("/SSMP_control",1,&SafeStopTrajectoryPlanner::SSMP_control_callback,this);
 
@@ -115,15 +118,14 @@ public:
         std::vector<TrajectorySetHandler::trajectory> trajSubSet = trajSet.at(index_of_subset);
 
         // loop through subset
-        std::vector<geometry_msgs::PoseStamped> endposes;
-        geometry_msgs::PoseStamped endpose;
+        visualization_msgs::MarkerArray endposes_vis_msg;
         double min_cost = 100;
         int index_of_mincost_traj;
         int green_trajs = 0;
         int yellow_trajs = 0;
         int red_trajs = 0;
 
-        // the set of trajectories only needs to be checked as long as the safet planner is not activated
+        // the set of trajectories only needs to be checked as long as the safety planner is not activated
         if(SSMP_control == 1){
           for(size_t i=0; i<trajSubSet.size(); i++){
             traj = trajSubSet.at(i);
@@ -150,9 +152,37 @@ public:
               // if endpose, store pose and val for cost function evaluation
               if(isendpose){
                 isendpose = false;
-                endpose = pose_st;
-                endposes.push_back(endpose);
                 val_endpose = val;
+
+
+                visualization_msgs::Marker marker;
+                marker.header.frame_id = "SSMP_base_link";
+                marker.header.stamp = ros::Time::now();
+                marker.id = i;
+                marker.type = visualization_msgs::Marker::CUBE;
+                marker.scale.x = 2.00; // todo: grab from footprint
+                marker.scale.y = 1.5;
+                marker.scale.z = 0.1;
+                marker.color.a = 0.5;
+                if(val_endpose == YELLOW){           // yellow - in lane
+                  marker.color.r = 0.8;
+                  marker.color.g = 0.8;
+                  marker.color.b = 0.0;
+                } else if(val_endpose == GREEN){    // green - safe area
+                  marker.color.r = 0.0;
+                  marker.color.g = 0.8;
+                  marker.color.b = 0.0;
+                } else if(val_endpose == RED) {     // red - unsafe area
+                  marker.color.r = 0.8;
+                  marker.color.g = 0.0;
+                  marker.color.b = 0.0;
+                }
+
+                marker.pose.position.x = traj.X.at(j);
+                marker.pose.position.y = traj.Y.at(j);
+                marker.pose.position.z = 0.0;
+                marker.pose.orientation = tf::createQuaternionMsgFromYaw(traj.psi.at(j));
+                endposes_vis_msg.markers.push_back(marker);
               }
             }
 
@@ -175,6 +205,29 @@ public:
               min_cost = cost;
               index_of_mincost_traj = i;
             }
+          }
+
+          // to clear old markers we will publish ivisible markers with same id
+
+          for(size_t i=endposes_vis_msg.markers.size(); i<=traj_set_handler.get_max_trajsubset_size(); i++){
+              visualization_msgs::Marker marker;
+              marker.header.frame_id = "SSMP_base_link";
+              marker.header.stamp = ros::Time();
+              marker.id = i;
+              marker.type = visualization_msgs::Marker::SPHERE;
+              marker.action = visualization_msgs::Marker::ADD;
+              marker.pose.position.x = 1;
+              marker.pose.position.y = 1;
+              marker.pose.position.z = 1;
+              marker.pose.orientation.w = 1.0;
+              marker.scale.x = 1;
+              marker.scale.y = 0.1;
+              marker.scale.z = 0.1;
+              marker.color.a = 0.0; // Don't forget to set the alpha!
+              marker.color.r = 0.0;
+              marker.color.g = 1.0;
+              marker.color.b = 0.0;
+              endposes_vis_msg.markers.push_back(marker);
           }
 
           // choose traj with lowest cost
@@ -233,6 +286,27 @@ public:
         entire_traj_msg.yaw = traj_out.psi;
         entire_traj_msg.length = (int)traj_out.t.size();
 
+        visualization_msgs::MarkerArray traj_vis_msg;
+        traj_vis_msg.markers.clear(); // clear before adding new nodes
+        for(int i=0; i<(int)traj_out.t.size(); i++){ // TODO no need to visualize all 100 traj pts
+          visualization_msgs::Marker marker;
+          marker.header.frame_id = "SSMP_base_link";
+          marker.header.stamp = ros::Time::now();
+          marker.id = i;
+          marker.type = visualization_msgs::Marker::CUBE;
+          marker.scale.x = 0.05;
+          marker.scale.y = 0.05;
+          marker.scale.z = entire_traj_msg.v.at(i)*0.2; // height proportional to v
+          marker.pose.position.x = entire_traj_msg.x.at(i);
+          marker.pose.position.y = entire_traj_msg.y.at(i);
+          marker.pose.position.z = marker.scale.z/2; // offset
+          marker.color.a = 1.0;
+          marker.color.r = 1.0;
+          marker.color.g = 0.5;
+          marker.color.b = 0.0;
+          traj_vis_msg.markers.push_back(marker);
+        }
+
         // Create msgs containing the amount of red, yellow, and green trajectories
         rcv_common_msgs::amount_trajs trajcategory;
         trajcategory.header.stamp = ros::Time::now();
@@ -242,6 +316,8 @@ public:
 
         // publish msgs
         traj_pub_.publish(traj_msg);
+        traj_vis_pub_.publish(traj_vis_msg);
+        endposes_vis_pub_.publish(endposes_vis_msg);
         entire_traj_pub_.publish(entire_traj_msg);
         if(green_trajs+yellow_trajs+red_trajs != 0){
           amount_trajs_pub_.publish(trajcategory);

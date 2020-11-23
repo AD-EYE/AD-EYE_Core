@@ -1,8 +1,5 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Simulation/"/>
     <arg name="area_width" value="35" />
@@ -22,12 +19,12 @@
     <node pkg="adeye" type="flattening" name="flattening" output="screen"
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
 
-    <!--node pkg="adeye"
+    <node pkg="adeye"
           type="safetySupervisor"
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/gps_to_base_link"/-->
+          args="/twist_gate"/>
 
     <!--node pkg="adeye"
           type="collisionDetector"
@@ -45,6 +42,8 @@
         <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
+
+    <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
 
     <!--<node name="rviz" pkg="rviz" type="rviz" args="/adeye/SSMP/rviz/args" />-->
 </launch>

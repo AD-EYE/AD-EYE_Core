@@ -47,6 +47,7 @@ private:
     ros::Subscriber subGridmap;
     ros::Subscriber subAutowareTrajectory;
     ros::Subscriber subAutowareGlobalPlan;
+    ros::Subscriber subCurrentVelocity;
 
     ros::Publisher pubArea;  //Used for critical area visualization
 
@@ -73,15 +74,17 @@ private:
     int BRANCH_RIGHT_STATE = 17;
 
     //Critical area
-    const float car_length = 5;
-    const float car_width = 2;
-    const float critArea_length = 2.5 * car_length; //Size of the critical Area
-    const float critArea_width = car_width * 1.6;
+    float car_length = 5;
+    float car_width = 2;
+    bool car_size_set = false;
+    float critArea_length = car_length; //Size of the critical Area
+    float critArea_width = car_width * 1.2;
     grid_map::Polygon critArea;
     const float pi = 3.141592654;
 
     // variables
     geometry_msgs::Pose pose;
+    float current_velocity = 0;
     bool varSwitch;
     int varOverwriteBehavior;
     bool gnss_flag;
@@ -107,7 +110,7 @@ private:
     bool dynamicObjects;
     bool carOnRoad;
     //double maxCurvature;
-    struct curvature {
+    struct Curvature {
         double max;
         double min;
     };
@@ -134,6 +137,7 @@ public:
         subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
         subAutowareTrajectory = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
         subAutowareGlobalPlan = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
+        subCurrentVelocity = nh.subscribe("/current_velocity", 	1,		&SafetySupervisor::currentVelocity_callback, 	this);
 
         // Initialize the variables
         varSwitch = SAFE;
@@ -149,6 +153,16 @@ public:
             nodes_to_check.push_back(argv[i]);
         }
 
+    }
+
+
+    /*!
+     * \brief currentVelocity Callback : Updates the knowledge about the car speed.
+     * \param msg A smart pointer to the message from the topic.
+     */
+    void currentVelocity_callback(const geometry_msgs::TwistStamped::ConstPtr& msg)
+    {
+        current_velocity = msg->twist.linear.x;
     }
 
     /*!
@@ -187,8 +201,7 @@ public:
 
     /*!
      * \brief Autoware global plan Callback : Called when the autoware global plan information has changed.
-     * \
-     * \
+     * \param msg A smart pointer to the message from the topic.
      */
     void autowareGlobalPlan_callback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
@@ -237,6 +250,7 @@ public:
         int secondClosestIndex = twoClosestIndex.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
         PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
+        // the distance is the disctance from the car's position to the line formed by the two points fron the path
         distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
         std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
         return distance;
@@ -329,9 +343,9 @@ public:
      * \brief Check curvature : Called at every interation of the main loop
      * \Checks the maximum and minimum curvature of the global plan
      */
-    curvature checkCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    Curvature checkCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        curvature curvature;
+        Curvature curvature;
         curvature.max = 0;
         curvature.min = 0;
         //double maxCurvature = 0;
@@ -388,25 +402,22 @@ public:
      */
     bool checkDynamicObjects(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
     {
-        const float x = pose.position.x;    //Center is currently in the fron of the car
+        const float x = pose.position.x;    //Center is currently in the front of the car
         const float y = pose.position.y;
         const float a = cpp_utils::extract_yaw(pose.orientation);// * pi;
         const grid_map::Position center(x + car_length * cos(a)/2, y + car_length * sin(a)/2);
+        critArea_length = car_length  + current_velocity;
 
         critArea.removeVertices();
-        const grid_map::Position point1(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
-                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2);
-        const grid_map::Position point2(point1.x() + sin(a) * critArea_width, point1.y() - cos(a) * critArea_width);
-        const grid_map::Position point3(point2.x() - cos(a) * critArea_length, point2.y() - sin(a) * critArea_length);
-        const grid_map::Position point4(point1.x() - cos(a) * critArea_length, point1.y() - sin(a) * critArea_length);
-        /*critArea.addVertex(grid_map::Position(center.x() + (cos(a) * critArea_length - sin(a) * critArea_width)/2,
-                                        center.y() + (sin(a) * critArea_length + cos(a) * critArea_width)/2));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() + sin(a) * critArea_width,
-                    critArea.getVertex(0).y() + cos(a) * critArea_width));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(1).x() - cos(a) * critArea_length,
-                    critArea.getVertex(1).y() - sin(a) * critArea_length));
-        critArea.addVertex(grid_map::Position(critArea.getVertex(0).x() - cos(a) * critArea_length,
-                    critArea.getVertex(0).y() - sin(a) * critArea_length));*/
+        
+        const grid_map::Position point1(x - sin(a) * critArea_width/2,
+                                        y + cos(a) * critArea_width/2);
+        const grid_map::Position point2(x + sin(a) * critArea_width/2,
+                                        y - cos(a) * critArea_width/2);
+        const grid_map::Position point3(point2.x() + cos(a) * critArea_length, point2.y() + sin(a) * critArea_length);
+        const grid_map::Position point4(point1.x() + cos(a) * critArea_length, point1.y() + sin(a) * critArea_length);
+
+
         critArea.addVertex(point1);
         critArea.addVertex(point2);
         critArea.addVertex(point3);
@@ -457,6 +468,15 @@ public:
         ros::Rate rate(20);
         while(nh_.ok())
         {
+            if(!car_size_set)
+            {
+                if (nh_.getParam("car_width", car_width) && nh_.getParam("car_length", car_length))
+                {
+                    critArea_length = car_length; //Size of the critical Area
+                    critArea_width = car_width * 1.2;
+                    car_size_set = true;
+                }
+            }
             ros::spinOnce();
             if(gnss_flag == 1 && gridmap_flag == 1 && autowareGlobalPaths_flag == 1)
             {
@@ -523,7 +543,7 @@ public:
     void evaluate()
     {
         varOverwriteBehavior = FREE_AUTOWARE;
-        varSwitch = SAFE;
+
         // Check the distance to the center line of the lane
         distanceToLane = checkDistanceToLane(autowareGlobalPaths.at(0), pose);
 
@@ -531,28 +551,28 @@ public:
         distanceToRoadedge = checkDistanceToRoadedge(gridmap, pose);
 
         // Check the curvature of the global plan
-        curvature curvature = checkCurvature(autowareGlobalPaths.at(0));
+        Curvature curvature = checkCurvature(autowareGlobalPaths.at(0));
 
-        // Check that all the necesary nodes are active
-        activeNodes = checkActiveNodes();
-        if (activeNodes == false){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // // Check that all the necesary nodes are active
+        // activeNodes = checkActiveNodes();
+        // if (activeNodes == false){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
-        // Check that the center of the car on the road
-        carOnRoad = checkCarOnRoad(gridmap, pose);
-        if (carOnRoad == false){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // // Check that the center of the car on the road
+        // carOnRoad = checkCarOnRoad(gridmap, pose);
+        // if (carOnRoad == false){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
-        //Is there a dynamic object in the critical area
+        // //Is there a dynamic object in the critical area
         dynamicObjects = checkDynamicObjects(gridmap, pose);
-        if (dynamicObjects == true){
-            varSwitch = UNSAFE;
-            return;
-        }
+        // if (dynamicObjects == true){
+        //     varSwitch = UNSAFE;
+        //     return;
+        // }
 
     }
 };

@@ -1,8 +1,22 @@
 <!-- -->
 <launch>
-    <rosparam>
-        use_sim_time: true
-    </rosparam>
+    <rosparam name="use_pex_file" type="boolean" value="true" /> <!-- if the pex file is used for the safety channel grid map creation-->
+    <arg name="use_ground_truth_dunamic_objects" default="true"/> <!-- if the moving obstacles are obtained through a ground truth topic or should be from perception-->
+
+    <group unless="$(arg use_ground_truth_dunamic_objects)"> <!-- if we do not use ground truth from dynamic object then we need the safety channel perception-->
+        <rosparam>
+            use_pex_file: false
+        </rosparam>
+        <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+    </group> -->
+    <group if="$(arg use_ground_truth_dunamic_objects)"> <!-- if we use ground truth from dynamic object then the pose of other vehicle is gotten fron a topic-->
+        <rosparam>
+        <rosparam>
+            use_pex_file: true
+        </rosparam>
+    </group>
+
+
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
     <arg name="area_width" value="35" />
@@ -27,7 +41,7 @@
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/gps_to_base_link"/>
+          args="/twist_gate"/>
 
 
     <node pkg="ss_trajplanner"
@@ -41,5 +55,6 @@
         <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
-    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
+
+
 </launch>

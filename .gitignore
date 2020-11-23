@@ -19,7 +19,6 @@
 *.r2018b
 *.vwrs
 *.osgt
-*.osgb
 *.ps3d
 *.vwe
 *.osgt
@@ -36,7 +35,9 @@
 */Experiments/**/Temp
 */Experiments/**/Trajectories
 */Experiments/**/Models
-*/Experiments/**/Resources
+*/Experiments/**/Resources/SPD
+*/Experiments/**/Resources/InformationSign
+*/Experiments/**/Resources/Sky
 */Experiments/**/V2XPlugin
 */Experiments/**/cameraeffects
 */Experiments/**/cameras
@@ -54,7 +55,7 @@
 # May have to re-include
 */Experiments/**/*hash.mat
 */Experiments/**/*old.slx
-*/Experiments/**/*.png
+#*/Experiments/**/*.png
 */Experiments/**/log4net.config.xml
 */Experiments/**/*.log
 */Experiments/**/*.references
@@ -79,9 +80,22 @@ autoware.ai/install/
 autoware.ai/log/
 autoware.ai/src/
 autoware.ai/autoware.ai.repos
-autoware.ai/autoware.ai.workspace
-autoware.ai/autoware.ai.workspace.user
+autoware.ai/*.workspace
+autoware.ai/*.workspace.user
+
+#Visual Studio Code folders
+**/.vscode
+
+# Generated TA configs
+AD-EYE/TA/Configurations/*_*
+
+# TA timer
+AD-EYE/TA/runtimes*.xlsx
 
 
+# Current OpenScenario Generated experiment folders
+AD-EYE/Experiments/Experiment_*
+AD-EYE/OpenSCENARIO/OpenSCENARIO_experiments/*_generated.xosc
 
-
+# SSH configuration file
+AD-EYE/TA/Configurations/SSHConfig.csv
