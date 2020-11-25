@@ -61,7 +61,7 @@ include_directories(
 
 add_executable(
   GridMapCreator
-  src/GridMapCreator_node.cpp
+  src/grid_map_creator.cpp
 )
 
 add_executable(
@@ -71,12 +71,12 @@ add_executable(
 
 add_executable(
   controlSwitch
-  src/controlSwitch_node.cpp
+  src/control_switch.cpp
 )
 
 add_executable(
   safetySupervisor
-  src/safetySupervisor.cpp
+  src/safety_supervisor.cpp
 )
 
 add_executable(
@@ -86,32 +86,32 @@ add_executable(
 
 add_executable(
   collisionDetector
-  src/collisionDetector_node.cpp
+  src/collision_detector.cpp
 )
 
 add_executable(
   objectsFrameAdapter
-  src/objectsFrameAdapter.cpp
+  src/objects_frame_adapter.cpp
 )
 
 add_executable(
   objectListFuse
-  src/objectListFuse.cpp
+  src/object_list_fuse.cpp
 )
 
 add_executable(
   cameraObjectListFuse
-  src/cameraObjectListFuse.cpp
+  src/camera_object_list_fuse.cpp
 )
 
 add_executable(
   lidarRadarFuse
-  src/lidarRadarFuse.cpp
+  src/lidar_radar_fuse.cpp
 )
 
 add_executable(
   safetyChannelPerception
-  src/safetyChannelPerception.cpp
+  src/safety_channel_perception.cpp
 )
 
 target_link_libraries(
