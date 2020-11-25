@@ -1,10 +1,29 @@
 <!-- -->
 <launch>
+
+    <arg name="world_name" value="W01_Base_Map"/> 
+
+
     <rosparam>
-        use_sim_time: true
+        use_pex_file: false
     </rosparam>
-    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments/W01_Base_Map/Simulation/"/>
+    <arg name="use_ground_truth_dynamic_objects" default="false"/> <!-- if the moving obstacles are obtained through a ground truth topic or should be from perception-->
+
+    <group unless="$(arg use_ground_truth_dynamic_objects)"> <!-- if we do not use ground truth from dynamic object then we need the safety channel perception-->
+        <rosparam>
+            use_ground_truth_dynamic_objects: false
+        </rosparam>
+        <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+    </group>
+    <group if="$(arg use_ground_truth_dynamic_objects)"> <!-- if we use ground truth from dynamic object then the pose of other vehicle is gotten fron a topic-->
+        <rosparam>
+            use_ground_truth_dynamic_objects: true
+        </rosparam>
+    </group>
+
+
+    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Simulation/"/>
     <arg name="area_width" value="35" />
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
@@ -16,7 +35,7 @@
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
         <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
         <param name="filePex"
-               value="$(arg Pex_Folder)W01_Base_Map.pex"/>
+               value="$(arg Pex_Folder)$(arg world_name).pex"/>
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"
@@ -27,7 +46,7 @@
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/gps_to_base_link"/>
+          args="/twist_gate"/>
 
 
     <node pkg="ss_trajplanner"
@@ -41,5 +60,6 @@
         <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
-    <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find adeye)/rviz/SSMP_grid_map.rviz" />-->
+
+
 </launch>

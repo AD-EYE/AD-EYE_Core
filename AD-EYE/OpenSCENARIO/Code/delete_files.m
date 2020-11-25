@@ -1,6 +1,6 @@
 function delete_files(name_experiment,folder_name)
 
-cd(strcat("..\..\Experiments\",folder_name,"\Simulation\"))
+cd(strcat("..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario\"))
 
 delete(strcat(name_experiment,".pex"))
 delete(strcat(name_experiment,".pb"))
@@ -19,5 +19,5 @@ delete(strcat(name_experiment,".slx"))
 
 % 
 % %Go to folder to load xml file
-cd( '..\..\..\OpenSCENARIO\Code\')
+cd( '..\..\..\..\..\..\OpenSCENARIO\Code\')
 end

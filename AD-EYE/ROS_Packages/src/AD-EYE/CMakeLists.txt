@@ -61,7 +61,7 @@ include_directories(
 
 add_executable(
   GridMapCreator
-  src/GridMapCreator_node.cpp
+  src/grid_map_creator.cpp
 )
 
 add_executable(
@@ -71,12 +71,12 @@ add_executable(
 
 add_executable(
   controlSwitch
-  src/controlSwitch_node.cpp
+  src/control_switch.cpp
 )
 
 add_executable(
   safetySupervisor
-  src/safetySupervisor.cpp
+  src/safety_supervisor.cpp
 )
 
 add_executable(
@@ -86,27 +86,32 @@ add_executable(
 
 add_executable(
   collisionDetector
-  src/collisionDetector_node.cpp
+  src/collision_detector.cpp
 )
 
 add_executable(
   objectsFrameAdapter
-  src/objectsFrameAdapter.cpp
+  src/objects_frame_adapter.cpp
 )
 
 add_executable(
   objectListFuse
-  src/objectListFuse.cpp
+  src/object_list_fuse.cpp
 )
 
 add_executable(
   cameraObjectListFuse
-  src/cameraObjectListFuse.cpp
+  src/camera_object_list_fuse.cpp
 )
 
 add_executable(
   lidarRadarFuse
-  src/lidarRadarFuse.cpp
+  src/lidar_radar_fuse.cpp
+)
+
+add_executable(
+  safetyChannelPerception
+  src/safety_channel_perception.cpp
 )
 
 target_link_libraries(
@@ -159,6 +164,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  safetyChannelPerception
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -199,9 +209,13 @@ add_dependencies(lidarRadarFuse
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

@@ -71,7 +71,7 @@ struct PrescanModel
                         line.find(" ObjectTypeID=\"12\"") != std::string::npos ||
                         line.find(" ObjectTypeID=\"17\"") != std::string::npos || // Concrete areas can be declared as safe area
                         line.find("<InfraOther xsi") != std::string::npos ||
-                        line.find("<AbstractObject ") != std::string::npos ) {
+                        line.find("<Actor ") != std::string::npos ) {
 
                     // get type
                     if(line.find("Description=\"SAFE") != std::string::npos) {
@@ -97,7 +97,7 @@ struct PrescanModel
                     else if(line.find("xsi:type=\"RectangularBox") != std::string::npos) {
                         type = BUILDING;
                     }
-                    else if(line.find("InfraOther") != std::string::npos){
+                    else if(line.find("TrafficLightRoadSideNL") != std::string::npos){
                         type = TRAFFICLIGHT;
                     } else {
                         continue;

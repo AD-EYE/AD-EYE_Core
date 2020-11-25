@@ -5,36 +5,46 @@ import math as m
 from autoware_msgs.msg import VehicleCmd
 from geometry_msgs.msg import TwistStamped
 from std_msgs.msg import UInt32
+import sys
 
+class Sender:
 
-def mycallback1(data):
-    pub = rospy.Publisher('steer', UInt32, queue_size=1)
-    pub1 = rospy.Publisher('brake', UInt32, queue_size=1)
-    pub2 = rospy.Publisher('accel', UInt32, queue_size=1)
-    pub3 = rospy.Publisher('gear', UInt32, queue_size=1)
-    pub4 = rospy.Publisher('autowareTwist', TwistStamped, queue_size=1)  # autowareTwist - TwistS
-    steer = UInt32()
-    brake = UInt32()
-    accel = UInt32()
-    gear = UInt32()
-    Twist = TwistStamped()
-    brake = data.brake_cmd.brake
-    steer = data.steer_cmd.steer
-    accel = data.accel_cmd.accel
-    gear = data.gear
-    Twist = data.twist_cmd
-    pub.publish(steer)
-    pub1.publish(brake)
-    pub2.publish(accel)
-    pub3.publish(gear)
-    pub4.publish(Twist)
+    def __init__(self, use_only_twist):
+        self.use_only_twist = use_only_twist
+        if not self.use_only_twist:
+            self.steer_pub = rospy.Publisher('steer', UInt32, queue_size=1)
+            self.brake_pub = rospy.Publisher('brake', UInt32, queue_size=1)
+            self.accel_pub = rospy.Publisher('accel', UInt32, queue_size=1)
+            self.gear_pub = rospy.Publisher('gear', UInt32, queue_size=1)
+        self.twist_pub = rospy.Publisher('autowareTwist', TwistStamped, queue_size=1)  # autowareTwist - TwistS
+        rospy.Subscriber("vehicle_cmd", VehicleCmd, self.autowareCmdCallback)
 
-
-def listener():
-    rospy.init_node('sender', anonymous=True)
-    rospy.Subscriber("vehicle_cmd", VehicleCmd, mycallback1)
-    rospy.spin()
+    def autowareCmdCallback(self, data):
+        steer = UInt32()
+        brake = UInt32()
+        accel = UInt32()
+        gear = UInt32()
+        Twist = TwistStamped()
+        brake = data.brake_cmd.brake
+        steer = data.steer_cmd.steer
+        accel = data.accel_cmd.accel
+        gear = data.gear
+        Twist = data.twist_cmd
+        if not self.use_only_twist:
+            self.steer_pub.publish(steer)
+            self.brake_pub.publish(brake)
+            self.accel_pub.publish(accel)
+            self.gear_pub.publish(gear)
+        self.twist_pub.publish(Twist)
 
 
 if __name__ == '__main__':
-    listener()
+    rospy.init_node('sender', anonymous=True)
+    if len(sys.argv) < 3:
+        Sender(True)
+    else:
+        if sys.argv[1]=="false":
+            Sender(False)
+        else:
+            Sender(True)
+    rospy.spin()
