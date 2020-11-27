@@ -255,6 +255,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         system(device,killRosNodes); 
         rosshutdown
         cd(BasePath);
+        !KillAllFederates.bat
         runtimes(run) = toc;
         writetable(array2table(runtimes),"runtimes.xlsx")
     end
