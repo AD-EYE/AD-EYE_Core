@@ -61,12 +61,12 @@
 	<SetEnvironment>
 		<Environment>
 			<Weather>
-				<Precipitation type="typeRain" intensity="{0.5;40}" />
+				<Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
 			</Weather>
 		</Environment>
 		<TargetProperties>
 			<Lidar>
-				<TargetPropertySettings ObjectType = "Human" ReflectionPercentage = "{0.1,0.8,1}" />
+				<TargetPropertySettings ObjectType = "Human" ReflectionPercentage = "{0.05,0.05,1}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -143,7 +143,7 @@
                                             <Entity name="Man_200_1"/>
                                         </TriggeringEntities>
                                         <EntityCondition>
-                                            <Distance value="[20,20,40]" freespace="false" alongRoute="false" rule="less_than">
+                                            <Distance value="[20,2,40]" freespace="false" alongRoute="false" rule="less_than">
                                                 <Position>
                                                     <RelativeObject object="Ego" dx="0.0000000000000000e+00" dy="0.0000000000000000e+00"/>
                                                 </Position>
