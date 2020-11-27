@@ -7,6 +7,9 @@ clear names_trajectories
 
 % %create new folder for the compilation sheet/simulink file/.pex to be dumped
 cd( '..\..\Experiments')
+if ~exist(strcat(name_experiment,'/OpenScenario/Results'), 'dir')
+   mkdir(strcat(name_experiment,'/OpenScenario/Results'))
+end
 cd(strcat(name_experiment,'/OpenScenario/Results'))
 folder_name = strcat(strrep(name_experiment_template,".xosc",""));
 name_simulink = convertStringsToChars(strcat(name_experiment,"_cs/"));
