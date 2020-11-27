@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 3}turn)`;
             value = (value * 180) / 5;// to convert the value to km/hr from m/s
             //printing the velocity value
-            gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )}km/hr`;
+            gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )} km/h`;
         }
 
         // passing the value to the function
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             //making the turn over the gauge body
             gauge_a.querySelector(".gauge_a__fill").style.transform = `rotate(${value_a / 4}turn)`;
             //printing the acceleration value
-            gauge_a.querySelector(".gauge_a__cover").textContent = `${Math.round(value_a*10 )}m/s2`;
+            gauge_a.querySelector(".gauge_a__cover").textContent = `${Math.round(value_a*10 )} m/s²`;
         }
 
         // passing the value to the function
