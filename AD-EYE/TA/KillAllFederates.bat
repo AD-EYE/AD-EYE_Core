@@ -13,4 +13,5 @@ taskkill /F /IM AimsunFederate.exe
 taskkill /F /IM WorldViewerFederate-Win64-Shipping.exe
 taskkill /F /IM V2XEffectiveRangeFederate.exe
 taskkill /F /IM pbradar_federate.exe
+taskkill /F /IM RadarFederate.exe
 
