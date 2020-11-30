@@ -22,7 +22,7 @@
     </include>
 
     <!-- vision_ssd_detect-->
-    <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
+    <!-- <include file="$(find vision_ssd_detect)/launch/vision_ssd_detect.launch">
         <arg name="use_gpu" value="/adeye/detection/vision_ssd_detect/use_gpu"/>
         <arg name="gpu_device_id" value="/adeye/detection/vision_ssd_detect/gpu_device_id"/>
         <arg name="score_threshold" value="/adeye/detection/vision_ssd_detect/score_threshold"/>
@@ -32,14 +32,14 @@
              value="/adeye/detection/vision_ssd_detect/pretrained_model_file"/>
         <arg name="camera_id" value="/adeye/detection/vision_ssd_detect/camera_id"/>
         <arg name="image_src" value="/adeye/detection/vision_ssd_detect/image_src"/>
-    </include>
+    </include> -->
 
     <!-- vision_beyond_track-->
-    <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
+    <!-- <include file="$(find vision_beyond_track)/launch/vision_beyond_track.launch">
         <arg name="camera_info_src" value="/adeye/detection/vision_beyond_track/camera_info_src"/>
         <arg name="objects_topic_src" value="/adeye/detection/vision_beyond_track/objects_topic_src"/>
         <arg name="camera_height" value="/adeye/detection/vision_beyond_track/camera_height"/>
-    </include>
+    </include> -->
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
