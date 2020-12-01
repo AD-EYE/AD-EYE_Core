@@ -103,10 +103,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
               return;
             }
             //making the turn over the gauge body
-            gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 3}turn)`;
+            gauge.querySelector(".gauge_fill").style.transform = `rotate(${value / 3}turn)`;
             value = (value * 180) / 5;// to convert the value to km/hr from m/s
             //printing the velocity value
-            gauge.querySelector(".gauge__cover").textContent = `${Math.round(value )} km/h`;
+            gauge.querySelector(".gauge_cover").textContent = `${Math.round(value )} km/h`;
         }
 
         // passing the value to the function
@@ -140,9 +140,9 @@ document.addEventListener('DOMContentLoaded', (event) =>
               return;
             }
             //making the turn over the gauge body
-            gauge_a.querySelector(".gauge_a__fill").style.transform = `rotate(${value_a / 4}turn)`;
+            gauge_a.querySelector(".gauge_a_fill").style.transform = `rotate(${value_a / 4}turn)`;
             //printing the acceleration value
-            gauge_a.querySelector(".gauge_a__cover").textContent = `${Math.round(value_a*10 )} m/s²`;
+            gauge_a.querySelector(".gauge_a_cover").textContent = `${Math.round(value_a*10 )} m/s²`;
         }
 
         // passing the value to the function
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         //function to change the color of leds and reseting it to gray when not in use
         function colorBox(position)
         {
-            var divList = document.getElementsByClassName('ratingBox');
+            var divList = document.getElementsByClassName('btn');
             var i, n = divList.length;
             curContent = divList[position].id;
             for (i=0; i<n; i++)
@@ -390,6 +390,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             var faultToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault',
+                messageType : 'std_msgs/Bool'
             });
 
             var faultOn = new ROSLIB.Message({
@@ -433,7 +434,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         if((num==0))
         {
             var initial = "Initiaizing";
-            document.getElementById("state").innerHTML = initial;
+            document.getElementById("state").innerHTML = Initial;
         }
         else if((num==1))
         {
@@ -443,12 +444,12 @@ document.addEventListener('DOMContentLoaded', (event) =>
         else if((num==2))
         {
             var engaged = "Engaged";
-            document.getElementById("state").innerHTML = engaged;
+            document.getElementById("state").innerHTML = Engaged;
         }
         else if((num==3))
         {
             var fault = "Fault";
-            document.getElementById("state").innerHTML = fault;
+            document.getElementById("state").innerHTML = Fault;
         }
 
     });

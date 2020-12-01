@@ -11,195 +11,137 @@
     <script type="text/javascript" src="gui.js"></script>
     <!-- define on/off styles -->
     <style type="text/css">
-      .on  { background:red; }
-      .off { background:green; }
+      .on  { background:green; }
+      .off { background:gray; }
     </style>
   </head>
 
-  <body class="d-flex flex-column h-100">
+  <body> 
+      
     <!-- header of the page -->
-    <header class="header">
-      <div class="container">
-        <div class="jumbotron text-center">
-          <h1>AD-EYE Graphical Interface</h1>
-          <p>Connection status: <span id="status"></span></p>
-        </div>
-      </div>
+    <header class="card">
+        <h1>AD-EYE Graphical Interface</h1>
+        <p>Connection status: <span id="status"></span></p>
     </header>
 
     <!-- main content -->
     <main>
       <div class="container">
-        <div class="row">
+      <div class="row">
 
-          <!-- card for linear velocity -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Linear Velocity</h2>
-                  <div class="gauge">
-                    <div class="gauge__body">
-                      <div class="gauge__fill"></div>
-                      <div class="gauge__cover"></div>
-                    </div>
-                  </div>
-                </div>
+        <!-- card for linear velocity -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Linear Velocity</h2>
+            <div class="gauge">
+              <div class="gauge_body">
+                <div class="gauge_fill"></div>
+                <div class="gauge_cover"></div>
               </div>
             </div>
-          </div>
-
-          <!-- card for linear acceleration -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Linear Acceleration</h2>
-                  <div class="gauge_a">
-                    <div class="gauge_a__body">
-                      <div class="gauge_a__fill"></div>
-                      <div class="gauge_a__cover"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for Channel state -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Control Channel</h2>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success btn-rounded">Nominal<div id="0" class="ratingBox"></div></button>
-                    <button type="button" class="btn btn-success btn-rounded">Safety<div id="1" class="ratingBox"></div></button>
-                  </div>
-                  <!-- <div id="0" class="ratingBox"></div>
-                  <p>Autoware</p>
-                  <div id="1" class="ratingBox"></div>
-                  <p>Safety Channel</p> -->
-                  <!-- <h2 class="text-center">Toggle State</h2>
-                  <button type="button" class="off" onclick="toggleState(this)">A Vs S</button> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for Manager state -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Manager State</h2>
-                  <p>State : <span id="state"></span></p>
-                  <button type="button" class="off" onclick="toggleStateinitial(this)">Initial</button>
-                  <button type="button"  class="off" onclick="toggleStateactivation(this)">Activation</button>
-                  <button type="button" class="off" onclick="toggleStatefault(this)">Fault</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for tracked objects -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Tracked Objects</h2>
-                  <p>Tracked object: <span id="track"></span></p>
-                  <p>X: <span id="x"></span></p>
-                  <p>Y: <span id="y"></span></p>
-                  <p>Z: <span id="z"></span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for behaviour state -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Behavior State</h2>
-                  <p>State: <span id="beh"></span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for Feature state -->
-          <div class="col-md-4 col-sm-12">
-            <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Feature State</h2>
-                  <!-- <div id="0" class="ratingBoxs"></div>   -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStaterec(this)"> RECORDING</button>
-                  <!-- <div id="1" class="ratingBoxs"></div> -->
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="toggleStatemap(this)"> MAP</button>
-                  <!-- <div id="2" class="ratingBoxs"></div>  -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStatesen(this)">SENSING</button>
-                  <!-- <div id="3" class="ratingBoxs"></div> -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStateloc(this)">LOCALIZATION</button>
-                  <!-- <div id="4" class="ratingBoxs"></div> -->
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="toggleStatefloc(this)">FAKE_LOCALIZATION</button>
-                  <!-- <div id="5" class="ratingBoxs"></div> -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStatedet(this)">DETECTION</button>
-                  <!-- <div id="6" class="ratingBoxs"></div> -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStatemip(this)">MISSION_PLANNING</button>
-                  <!-- <div id="7" class="ratingBoxs"></div> -->
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="toggleStatemop(this)">MOTION_PLANNING</button>
-                  <!-- <div id="8" class="ratingBoxs"></div> -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStateswit(this)">SWITCH</button>
-                  <!-- <div id="9" class="ratingBoxs"></div> -->
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="toggleStatessmp(this)">SSMP</button>
-                  <!-- <div id="10" class="ratingBoxs"></div> -->
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="toggleStaterviz(this)">RVIZ</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- card for Fault Injection -->
-          <div class="col-md-4 col-sm-12">
-					  <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Fault Injection</h2>
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="faultinjectiongnss(this)">GNSS</button>
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="faultinjectionlidar1(this)">LIDAR 1</button>
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="faultinjectionlidar2(this)">LIDAR 2</button>
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="faultinjectionlidar3(this)">LIDAR 3</button>
-                  <button type="button" class="off" style="height:50px;width:300px" onclick="faultinjectionlidar4(this)">LIDAR 4</button>
-                  <button type="button"  class="off" style="height:50px;width:300px" onclick="faultinjectionradar(this)">RADAR</button>
-						    </div>
-					    </div>
-				    </div>
-          </div>
-
-          <!-- card for camera -->
-          <div class="col-md-4 col-sm-12">
-					  <div class="card">
-              <div class="bcontainer">
-                <div draggable="true" class="box">
-                  <h2 class="text-center">Camera Stream_tl</h2>
-                  <a href="http://localhost:8080/stream?topic=/tl/image_raw">
-						    </div>
-					    </div>
-				    </div>
           </div>
         </div>
+
+        <!-- card for linear acceleration -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box"> 
+            <h2 class="text-center">Linear Acceleration</h2>
+            <div class="gauge_a">
+              <div class="gauge_a_body">
+                <div class="gauge_a_fill"></div>
+                <div class="gauge_a_cover"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- card for control channel  -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Control Channel</h2>
+            <div class="btn-group" style="height:80px;width:320px;">
+              <button id="0" type="button" class="btn btn-secondary btn-rounded">Nominal</button>
+              <button id="1" type="button" class="btn btn-secondary btn-rounded">Safety</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- card for manager state -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Manager State</h2>
+            <p>State : <span id="state"></span></p>
+            <button type="button" class="off" onclick="toggleStateinitial(this)">Initial</button>
+            <button type="button"  class="off" onclick="toggleStateactivation(this)">Activation</button>
+            <button type="button" class="off" onclick="toggleStatefault(this)">Fault</button>
+          </div>
+        </div>
+
+        <!-- card for tracked objects -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Tracked Objects</h2>
+            <p>Tracked object: <span id="track"></span></p>
+            <p>X: <span id="x"></span></p>
+            <p>Y: <span id="y"></span></p>
+            <p>Z: <span id="z"></span></p>
+          </div>
+        </div>
+
+        <!-- card for behaviour state -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Behavior State</h2>
+            <p>State: <span id="beh"></span></p>
+          </div>
+        </div>
+
+        <!-- card for features -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Features</h2>
+            <button type="button" class="off" onclick="toggleStaterec(this)">Recording</button>
+            <button type="button"  class="off" onclick="toggleStatemap(this)"> Map</button>
+            <button type="button" class="off"  onclick="toggleStatesen(this)">Sensing</button>
+            <button type="button" class="off"  onclick="toggleStateloc(this)">Localization</button>
+            <button type="button"  class="off" onclick="toggleStatefloc(this)">Fake Localization</button>
+            <button type="button" class="off"  onclick="toggleStatedet(this)">Detection</button>
+            <button type="button" class="off"  onclick="toggleStatemip(this)">Misson Planning</button>
+            <button type="button"  class="off" onclick="toggleStatemop(this)">Motion Planning</button>
+            <button type="button" class="off"  onclick="toggleStateswit(this)">Switch</button>
+            <button type="button" class="off"  onclick="toggleStatessmp(this)">Ssmp</button>
+            <button type="button"  class="off" onclick="toggleStaterviz(this)">Rviz</button>
+          </div>
+        </div>
+
+        <!-- card for fault injection -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Fault Injection</h2>
+            <button type="button" class="off"  onclick="faultinjectiongnss(this)">Gnss</button>
+            <button type="button" class="off"  onclick="faultinjectionlidar1(this)">Lidar 1</button>
+            <button type="button"  class="off" onclick="faultinjectionlidar2(this)">Lidar 2</button>
+            <button type="button" class="off"  onclick="faultinjectionlidar3(this)">Lidar 3</button>
+            <button type="button" class="off"  onclick="faultinjectionlidar4(this)">Lidar 4</button>
+            <button type="button"  class="off" onclick="faultinjectionradar(this)">Radar</button>
+					</div>
+				</div>
+
+        <!-- card for camera -->
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera Stream_tl</h2>
+            <a href="http://localhost:8080/stream?topic=/tl/image_raw">
+					</div>
+        </div>
+      </div>
       </div>
 	  </main>
 
-	  <!-- footer -->
+    <!-- footer -->
 	  <footer class="footer mt-auto bg-dark text-light">
-		  <div class="container">
-			 <h5>page ends here! But work inprogress</h5>
-		  </div>
-	  </footer>
+			<h5 style="text-align: center;">AD-EYE @ Simulation Platform For Automated Driving</h5>
+    </footer>
   </body>
 </html>
 

@@ -1,9 +1,7 @@
-.bcontainer
+body
 {
-  display: grid | inline-grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  
+  width: 100%;
+  height:100%;
 }
 
 .box 
@@ -13,23 +11,32 @@
   border-radius: .5em;
   padding: 10px;
   cursor: move;
+  height: auto;
+  width: 350px;
+  margin:5px;
 }
 
-.box.over 
+.card
 {
-  border: 3px dotted #666;
+  
+  background-color:#048b70;
+  border:salmon,solid;
+  border-width: 10px;
+  border-radius: 3px;
+  text-align: center;
+  margin: 8px;
+  padding: 3px;
 }
 
-.gauge 
+.gauge,.gauge_a
 {
   width: 100%;
-  max-width: 250px;
   font-family: "Roboto", sans-serif;
   font-size: 32px;
   color: #004033;
 }
 
-.gauge__body 
+.gauge_body,.gauge_a_body
 {
   width: 100%;
   height: 0;
@@ -41,7 +48,7 @@
   overflow: hidden;
 }
 
-.gauge__fill 
+.gauge_fill,.gauge_a_fill 
 {
   position: absolute;
   top: 100%;
@@ -54,7 +61,7 @@
   transition: transform 0.2s ease-out;
 }
 
-.gauge__cover 
+.gauge_cover,.gauge_a_cover
 {
   width: 75%;
   height: 150%;
@@ -72,8 +79,41 @@
   box-sizing: border-box;
 }
 
+.ratingBox
+ {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #F00;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+}
 
-.gauge_a 
+button
+{
+  border-radius: 15px;
+  margin: 5px;
+  height:50px;
+  width:300px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------- */
+
+ /* .bcontainer
+{
+  display: grid | inline-grid; 
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px; 
+  
+} */
+
+/* .box.over 
+{
+  border: 3px dotted #666;
+} */
+
+/* .gauge_a 
 {
   width: 100%;
   max-width: 250px;
@@ -117,25 +157,14 @@
   top: 25%;
   left: 50%;
   transform: translateX(-50%);
-  /* Text */
+  
   display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 25%;
   box-sizing: border-box;
-}
-
-.ratingBox
-{
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
-}
-
-.ratingBoxs
+}*/
+/* .ratingBoxs
 {
   margin: 0 auto;
   width: 24px;
@@ -144,12 +173,4 @@
   border-radius: 50%;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
 }
-
-button
-{
-  border-radius: 15px;
-  margin: 5px;
-  height:50px;
-  width:300px;
-}
-
+ */
