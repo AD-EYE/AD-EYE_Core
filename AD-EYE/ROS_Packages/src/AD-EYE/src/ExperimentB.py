@@ -77,16 +77,12 @@ class ExperimentBRecorder:
 
 
     def egoSpeedCallback (self, data):
-        print("got speed")
         Sp = data.twist.linear.x
         if self.start == False :
-            print("not started")
             if Sp > 0.0 :
                 self.start = True
         else :
-            print("started")
             if Sp == 0.0 :
-                print("stopping")
                 self.start = False
                 self.stop_pub.publish(True) # stop_publisher
 
@@ -134,12 +130,14 @@ class ExperimentBRecorder:
                     stat_index -= 1
 
             xg,yg,zg = self.groud_truth_poses[ground_truth_index][0],self.groud_truth_poses[ground_truth_index][1],self.groud_truth_poses[ground_truth_index][2]
+            oxg,oyg,ozg,owg = self.groud_truth_poses[ground_truth_index][4], self.groud_truth_poses[ground_truth_index][5], self.groud_truth_poses[ground_truth_index][6], self.groud_truth_poses[ground_truth_index][7]
             xe,ye,ze = self.esimated_poses[estimate_index][0],self.esimated_poses[estimate_index][1],self.esimated_poses[estimate_index][2]
+            oxe,oye,oze,owe = self.esimated_poses[estimate_index][4], self.esimated_poses[estimate_index][5], self.esimated_poses[estimate_index][6], self.esimated_poses[estimate_index][7]
             nb_iter = self.localization_stats[stat_index][0]
 
 
-            file.write("Ground Truth Pos (x;y;z), "+str(xg)+" , "+str(yg)+" , "+str(zg)+" , ")
-            file.write("Perceived Pos (x;y;z), "+str(xe)+" , "+str(ye)+" , "+str(ze)+" , ")
+            file.write("Ground Truth Pose position(x;y;z);quaternion(x;y;z;w), "+str(xg)+" , "+str(yg)+" , "+str(zg)+" , "+str(oxg)+" , "+str(oyg)+" , "+str(ozg)+" , "+str(owg)+" , ")
+            file.write("Estimated Pose position(x;y;z);quaternion(x;y;z;w), "+str(xe)+" , "+str(ye)+" , "+str(ze)+" , "+str(oxe)+" , "+str(oye)+" , "+str(oze)+" , "+str(owe)+" , ")
             file.write("Localization, nb of iterrations , "+str(nb_iter)+" , ")
             file.write("Localization score , "+str(self.localization_stats[stat_index][2])+" , ")
             file.write("Localization execution time , "+str(self.localization_stats[stat_index][3]))
