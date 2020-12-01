@@ -60,12 +60,12 @@
 	<SetEnvironment>
 		<Environment>
 			<Weather>
-				<Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+				<Precipitation type="typeRain" intensity="{0.5;40}" />
 			</Weather>
 		</Environment>
 		<TargetProperties>
 			<Lidar>
-				<TargetPropertySettings ObjectType = "All" ReflectionPercentage = "{5,20,100}" />
+				<TargetPropertySettings ObjectType = "All" ReflectionPercentage = "{10,80,90}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -80,20 +80,17 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value="{5.5,2.8,13.9}"/>
+								<Absolute value="{5.5,2.8,8.3}"/>
 							</Target>
 						</Speed>
 					</Longitudinal>
 				</Action>
 				<Action>
-					<Position>
-						<World x="83.0255393981934" y="171.389099121094" z="0.68999999761581421" h="0" p="0" r="0"/>
-					</Position>
 				</Action>
 			</Private>
 			
 			
-			<Private object="Man_200_1">
+			<Private object="GhostActors">
 				<Action>
 					<Longitudinal>
 						<Speed>
