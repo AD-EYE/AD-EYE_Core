@@ -23,6 +23,9 @@ while NumberFound == False :
         NumberFound=True
 
 
+STOP_DISTANCE_SQUARRED = 144 # we stop the experiment when closer than this value
+
+
 class ExperimentBRecorder:
 
     start = False
@@ -33,6 +36,8 @@ class ExperimentBRecorder:
     localization_stats = []
     new_ground_truth = False #this aims to run storeData() only when new data are published on both nodes /gnss_pose and /ndt_pose
     new_estimate = False
+    goal_x = 0
+    goal_y = 0
 
 
     def __init__(self):
@@ -40,6 +45,7 @@ class ExperimentBRecorder:
         rospy.Subscriber("/ndt_pose", PoseStamped, self.estimatedPoseCallback)
         rospy.Subscriber("/gnss_pose", PoseStamped, self.groundTruthPoseCallback)
         rospy.Subscriber("/current_velocity", TwistStamped, self.egoSpeedCallback)
+        rospy.Subscriber("/move_base_simple/goal", PoseStamped, self.goalCallback)
         self.stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
 
 
@@ -82,9 +88,19 @@ class ExperimentBRecorder:
             if Sp > 0.0 :
                 self.start = True
         else :
-            if Sp == 0.0 :
+            if Sp == 0.0 and len(self.groud_truth_poses)>0 and self.distanceToGoal()<STOP_DISTANCE_SQUARRED:
                 self.start = False
                 self.stop_pub.publish(True) # stop_publisher
+
+    def goalCallback(self, data):
+        self.goal_x = data.pose.position.x
+        self.goal_y = data.pose.position.y
+
+
+    def distanceToGoal(self):
+        x,y = self.groud_truth_poses[-1][0],self.groud_truth_poses[-1][1]
+        return (x - self.goal_x) ** 2 + (y - self.goal_y) ** 2
+
 
 
     def getTime(self):
@@ -95,7 +111,9 @@ class ExperimentBRecorder:
     def writeParameter(self):
         if self.firstStore :
             self.firstStore = False
-            max_velocity = rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity")
+            max_velocity = 0
+            if rospy.has_param("adeye/motion_planning/op_common_params/maxVelocity"):
+                max_velocity = float(rospy.get_param("adeye/motion_planning/op_common_params/maxVelocity"))
             file.write("Set speed ,"+str(max_velocity)+" , ")
             rain_intensity = rospy.get_param("/simulink/rain_intensity")
             file.write("Set rain intensity ,"+str(rain_intensity)+" , ")
