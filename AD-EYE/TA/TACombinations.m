@@ -28,6 +28,8 @@ for C_Sce = 1:length(FolderExpNameArray)
 end
 
 cd('Configurations')
+
+delete('TAOrder.xlsx') % to overwrite the preexisting file, without this line overlaps can occur if the previous table was bigger
 writetable(TAOrder, 'TAOrder.xlsx', 'WriteRowNames', true, 'WriteVariableNames', false);
 cd('..')
 

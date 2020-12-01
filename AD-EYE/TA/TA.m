@@ -40,7 +40,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     killRosNodes = strcat(shFolderPath, '/', 'killRosNodes.sh'); ...
     ...%contains command to kill all the ros nodes and consecutively rosmaster 
     ExeName = 'PreScan.CLI.exe';
-    max_duration = 120; %variable in current matlab script
+    max_duration = 200; %variable in current matlab script
     % goal = '/move_base_simple/goal';
     % poseStamped = 'geometry_msgs/PoseStamped';
 
