@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W11_city_highway" UniqueId="0" Authors="Maxime Sainte Catherine" TotalSimulationTime="104.16666666666667" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="City with highway&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="546C59E05D33831682C6C7C0A8B6AE7A965FF50E87B8E89952A56B5F4AFAF9E2" UniqueExperimentIdentifier="dae215e3-dbb5-473b-ba7b-0569c7b7955e" UniqueIdCounter="9329" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W11_City_Highway" UniqueId="0" Authors="" TotalSimulationTime="104.16666666666667" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="City with highway&#xD;&#xA;" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="7013B29D8DDE8F481A47CC326CDFDE674115C685D0D079C8706FC2ACEBEA1462" UniqueExperimentIdentifier="90baa8aa-c0ff-4dca-8be6-3026f91a6dda" UniqueIdCounter="9855" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a row of a Modern House" id="HouseModern_1" UniqueId="1064" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="HouseModern" AnimatedActor="false" CompilationSheetPicture="HouseModern_HighPoly.png" HashCode="f6604456832652f4e5f11d65a40db773" ModelFile="Buildings\HouseModern\HouseModern.osgb" GenericModelSourceFile="Buildings\HouseModern\HouseModern.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="257.23065185546875" Y="-96.317375183105469" Z="0" />
@@ -19091,7 +19091,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19100,7 +19100,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9321" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9847" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19116,7 +19116,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19125,7 +19125,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9322" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9848" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19141,7 +19141,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19150,7 +19150,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9323" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9849" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19166,7 +19166,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19175,7 +19175,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9324" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9850" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19194,7 +19194,7 @@
           <Location X="2" Y="0" Z="1.32000005245209" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="6.855250358581543" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="8.5690641403198242" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19213,7 +19213,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9325" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9851" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19229,7 +19229,7 @@
           <Location X="1.1" Y="-0.7" Z="1.8" />
           <Orientation Bank="0" Tilt="345" Heading="345" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="6.7784276008605957" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="8.4730348587036133" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19248,7 +19248,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9326" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9852" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19267,7 +19267,7 @@
           <Location X="-2.8" Y="0" Z="2.6" />
           <Orientation Bank="0" Tilt="31" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="11.203556060791016" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="14.004447937011719" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19286,7 +19286,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9327" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9853" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -19302,7 +19302,7 @@
           <Location X="3.75" Y="0" Z="0.400000005960464" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="5.7113704681396484" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="7.139214038848877" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19329,7 +19329,7 @@
           <Location X="-0.95" Y="0" Z="1.32000005245209" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="6.855250358581543" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="8.5690641403198242" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="true" />
@@ -19348,7 +19348,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9328" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9854" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -25104,7 +25104,7 @@
       <VehicleGeometry TrackWidthFront="1.6119999885559082" TrackWidthRear="1.6119999885559082" TyreRadius="0.34000000357627869" Wheelbase="2.940000057220459" />
     </Actor>
   </Actors>
-  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="W11_city_highway" />
+  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="W11_City_Highway" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
   <ObjectListProviderDetectableTypes />
   <Environment Description="" id="Environment" UniqueId="3">
@@ -33333,7 +33333,7 @@
       </item>
     </ObjectProperties>
   </PreScanObjectTypeSettings>
-  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="10" IntegrationFrequency="20" VisualizationUpdateRatio="20" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W11_city_highway.swi" TerminationVisScriptFile="Temp\W11_city_highway.swt" />
+  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="10" IntegrationFrequency="20" VisualizationUpdateRatio="20" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W11_City_Highway.swi" TerminationVisScriptFile="Temp\W11_City_Highway.swt" />
   <Sky Description="Sky" id="Sky" UniqueId="7" SkyBoxName="SKY_Air" UseImageBasedSky="true" GenerateSkyAlbedo="0.5" GeneratedSkyTurbidity="4" ObjectTypeID="50" NumericalID="1" />
   <SpeedProfiles>
     <SpeedProfileBase xsi:type="SpeedProfile" Description="" id="SpeedProfile_1" UniqueId="5629">
