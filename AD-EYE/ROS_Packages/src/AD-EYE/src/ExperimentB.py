@@ -118,7 +118,10 @@ class ExperimentBRecorder:
             rain_intensity = rospy.get_param("/simulink/rain_intensity")
             file.write("Set rain intensity ,"+str(rain_intensity)+" , ")
             reflectivity = rospy.get_param("/simulink/reflectivity")
-            file.write("Set reflectivity ,"+str(reflectivity)+" \n")
+            file.write("Set reflectivity ,"+str(reflectivity)+" , ")
+            file.write("goal x ,"+str(self.goal_x)+" , ")
+            file.write("goal y ,"+str(self.goal_y)+" \n")
+
 
 
     def storeData (self, groud_truth_poses,esimated_poses,I):
