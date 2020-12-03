@@ -11,8 +11,15 @@
     <script type="text/javascript" src="gui.js"></script>
     <!-- define on/off styles -->
     <style type="text/css">
-      .on  { background:green; }
-      .off { background:gray; }
+      .on  
+      { background:#699b2c;
+        border:none; 
+      }
+      .off 
+      { 
+        background:#7d8173;
+        border:none;
+      }
     </style>
   </head>
 
@@ -21,7 +28,7 @@
     <!-- header of the page -->
     <header class="card">
         <h1>AD-EYE Graphical Interface</h1>
-        <p>Connection status: <span id="status"></span></p>
+        <p style="font-style: italic;">Connection status: <span id="status"></span></p>
     </header>
 
     <!-- main content -->
@@ -60,8 +67,8 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div class="btn-group" style="height:80px;width:320px;">
-              <button id="0" type="button" class="btn btn-secondary btn-rounded">Nominal</button>
-              <button id="1" type="button" class="btn btn-secondary btn-rounded">Safety</button>
+              <button id="0" type="button" class="btn off">Nominal</button>
+              <button id="1" type="button" class="btn off btn-rounded">Safety</button>
             </div>
           </div>
         </div>
@@ -71,9 +78,9 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>State : <span id="state"></span></p>
-            <button type="button" class="off" onclick="toggleStateinitial(this)">Initial</button>
-            <button type="button"  class="off" onclick="toggleStateactivation(this)">Activation</button>
-            <button type="button" class="off" onclick="toggleStatefault(this)">Fault</button>
+            <button type="button" class="btn off" onclick="toggleStateinitial(this)">Initial</button>
+            <button type="button"  class="btn off" onclick="toggleStateactivation(this)">Activation</button>
+            <button type="button" class="btn off" onclick="toggleStatefault(this)">Fault</button>
           </div>
         </div>
 
@@ -100,17 +107,17 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
-            <button type="button" class="off" onclick="toggleStaterec(this)">Recording</button>
-            <button type="button"  class="off" onclick="toggleStatemap(this)"> Map</button>
-            <button type="button" class="off"  onclick="toggleStatesen(this)">Sensing</button>
-            <button type="button" class="off"  onclick="toggleStateloc(this)">Localization</button>
-            <button type="button"  class="off" onclick="toggleStatefloc(this)">Fake Localization</button>
-            <button type="button" class="off"  onclick="toggleStatedet(this)">Detection</button>
-            <button type="button" class="off"  onclick="toggleStatemip(this)">Misson Planning</button>
-            <button type="button"  class="off" onclick="toggleStatemop(this)">Motion Planning</button>
-            <button type="button" class="off"  onclick="toggleStateswit(this)">Switch</button>
-            <button type="button" class="off"  onclick="toggleStatessmp(this)">Ssmp</button>
-            <button type="button"  class="off" onclick="toggleStaterviz(this)">Rviz</button>
+            <button type="button" class="btn off" onclick="toggleStaterec(this)">Recording</button>
+            <button type="button"  class="btn off" onclick="toggleStatemap(this)"> Map</button>
+            <button type="button" class="btn off"  onclick="toggleStatesen(this)">Sensing</button>
+            <button type="button" class="btn off"  onclick="toggleStateloc(this)">Localization</button>
+            <button type="button"  class="btn off" onclick="toggleStatefloc(this)">Fake Localization</button>
+            <button type="button" class="btn off"  onclick="toggleStatedet(this)">Detection</button>
+            <button type="button" class="btn off"  onclick="toggleStatemip(this)">Misson Planning</button>
+            <button type="button"  class="btn off" onclick="toggleStatemop(this)">Motion Planning</button>
+            <button type="button" class="btn off"  onclick="toggleStateswit(this)">Switch</button>
+            <button type="button" class="btn off"  onclick="toggleStatessmp(this)">Ssmp</button>
+            <button type="button"  class="btn off" onclick="toggleStaterviz(this)">Rviz</button>
           </div>
         </div>
 
@@ -118,12 +125,12 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
-            <button type="button" class="off"  onclick="faultinjectiongnss(this)">Gnss</button>
-            <button type="button" class="off"  onclick="faultinjectionlidar1(this)">Lidar 1</button>
-            <button type="button"  class="off" onclick="faultinjectionlidar2(this)">Lidar 2</button>
-            <button type="button" class="off"  onclick="faultinjectionlidar3(this)">Lidar 3</button>
-            <button type="button" class="off"  onclick="faultinjectionlidar4(this)">Lidar 4</button>
-            <button type="button"  class="off" onclick="faultinjectionradar(this)">Radar</button>
+            <button type="button" class="btn off"  onclick="faultinjectiongnss(this)">Gnss</button>
+            <button type="button" class="btn off"  onclick="faultinjectionlidar1(this)">Lidar 1</button>
+            <button type="button"  class="btn off" onclick="faultinjectionlidar2(this)">Lidar 2</button>
+            <button type="button" class="btn off"  onclick="faultinjectionlidar3(this)">Lidar 3</button>
+            <button type="button" class="btn off"  onclick="faultinjectionlidar4(this)">Lidar 4</button>
+            <button type="button"  class="btn off" onclick="faultinjectionradar(this)">Radar</button>
 					</div>
 				</div>
 
@@ -131,7 +138,8 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera Stream_tl</h2>
-            <a href="http://localhost:8080/stream?topic=/tl/image_raw">
+            <img id="my_image" style='height: 100%; width: 100%; object-fit: contain' src="http://localhost:8080/stream?topic=/camera_1/image_raw">
+            <a href="http://localhost:8080/stream?topic=/tl/image_raw">click</a>
 					</div>
         </div>
       </div>

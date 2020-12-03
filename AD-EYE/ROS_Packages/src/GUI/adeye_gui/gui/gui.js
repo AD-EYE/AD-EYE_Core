@@ -1485,3 +1485,18 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 //-------------fault injection----------------
 
+
+
+//-------------------camera display ----------------
+    //listen to the topic
+    var image_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_1/image_raw',
+        messageType : 'sensor_msgs/Image'
+     });
+
+    //subscribing to the topic
+    image_topic.subscribe(function(message)
+    {
+        document.getElementById("my_image").src = "data:image/jpg;base64," + message.data;
+    }
