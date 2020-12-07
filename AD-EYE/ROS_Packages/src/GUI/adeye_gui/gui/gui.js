@@ -78,6 +78,101 @@ document.addEventListener('DOMContentLoaded', (event) =>
 //------------------Connection with the bridge-------------------
 
 
+//-------------------camera display ----------------
+
+//listen to the topic
+   var image_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_1/image_raw',
+        messageType : 'sensor_msgs/Image'
+     });
+
+    //subscribing to the topic
+    image_topic.subscribe(function(message)
+    {   
+        
+    /*---------------------------------------*/
+        /* var canvas=document.getElementById("canvas");
+        const ctx = canvas.getContext("2d"); */
+        document.getElementById("canvas").innerHTML="Heloo";
+        /* ctx.drawImage(message, 0, 0, width, height);
+        var imageData = ctx.getImageData(0, 0, width, height);
+        //console.log(imageData);
+        
+        var updatedImageData = rgb_To_Image(imageData);
+        ctx.putImageData(updatedImageData, 0, 0);
+        document.write(updatedImageData);
+        function rgb_To_Image(imageData) {
+            var data = imageData.data;
+            var inData = message.data;
+            for(i=0;i<data.length;i+=4){
+                data[i]=inData[i];
+                data[i+1]=inData[i+1];
+                data[i+2]=inData[i+2];
+            }
+            return data;
+        
+        }
+        // window.addEventLis */
+    
+
+    /*---------------------------------------*/
+        /* var c = document.getElementById("canvas"); 
+        var ctx = c.getContext("2d");
+        var r,g,b; 
+ 
+        for(var i=0; i< Message.length; i++){ 
+	    for(var j=0; j< Message[0].length; j++){ 
+		r = Message[i]; 
+		g = Message[i+1];	 
+		b = Message[i+2];		 
+		ctx.fillStyle = "rgba("+r+","+g+","+b+", 1)";  
+		ctx.fillRect( j, i, 1, 1 ); 
+    } 
+    }--------------------------------------------------*/
+       
+
+}); 
+    /*---------------------------------------*/
+        /* var can = document.createElement("canvas");
+        can.width = Message.width;
+        can.height = Message.height; 
+        var ctx = can.getcontext("2d");
+
+        var imgData = ctx.createImageData(0, 0, Message.width, Message.height);
+        var data = imgData.data;
+        var inData = Message.data;
+
+        var i = 0, j, y = 0, x;
+        while (y < Message.height) {
+            j = y * Message.step;
+            for (x = 0; x < Message.width; x ++) {
+                if (!Message.is_bigendian) {
+                    data[i]     = inData[j];     // red
+                    data[i + 1] = inData[j + 1]; // green
+                    data[i + 2] = inData[j + 2]; // blue
+                } else {
+                    data[i + 2] = inData[j];     // blue
+                    data[i + 1] = inData[j + 1]; // green
+                    data[i]     = inData[j + 2]; // red
+                }
+                data[i + 3] = 255;  // alpha
+                i += 4;
+                j += 3;
+            }
+            y++;
+        }
+
+            ctx.putImageData(imgData, 0, 0);
+
+            document.body.appendChild(can); */
+
+
+
+
+//-------------------camera display ----------------
+
+
 
 //-------------------linear velocity----------------
     //listen to the topic
@@ -1489,7 +1584,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 //-------------------camera display ----------------
     //listen to the topic
-    var image_topic = new ROSLIB.Topic({
+    /* var image_topic = new ROSLIB.Topic({
         ros : ros,
         name : '/camera_1/image_raw',
         messageType : 'sensor_msgs/Image'
@@ -1497,6 +1592,50 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
     //subscribing to the topic
     image_topic.subscribe(function(message)
-    {
-        document.getElementById("my_image").src = "data:image/jpg;base64," + message.data;
-    }
+    { 
+        
+        
+          var canvas = document.getElementById('myCanvas');
+          var ctx = canvas.getContext('2d');
+          var image = new Image();
+          image.onload = function()
+          {
+            drawImage(image);
+            //ctx.drawImage(image, 0, 0);
+            
+          }
+          image.src = `data:image/png;base64,${message.data}`;
+        
+        function drawImage(image)
+        {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0);
+        }
+         
+        window.addEventListener('load',onload ); */
+        
+        /* console.log('Received message on ' + image_topic.name + ': ' + message.data);
+        document.getElementById("my_image").src = "data:image/jpg;base64," + message.data; */
+    /* });
+        /* function colorpix()
+        {
+            var canvasElement = document.getElementById("canvas");
+            var context = canvasElement.getContext("2d"); 
+            context.fillStyle = "yellow";
+            context.fillRect(20, 20, 128, 128);
+            context.fillStyle = "red";
+            context.fillRect(150, 20, 128, 128);
+            context.fillStyle = "green";
+            context.fillRect(20, 150, 128, 128);
+            context.fillStyle = "blue"; 
+            context.fillRect(150, 150, 128, 128);
+        }
+          */
+        /* var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.moveTo(0, 0);
+ctx.lineTo(200, 100);
+ctx.stroke(); */
+//-------------------camera display ---------------- 
+        

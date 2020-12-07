@@ -138,8 +138,10 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera Stream_tl</h2>
-            <img id="my_image" style='height: 100%; width: 100%; object-fit: contain' src="http://localhost:8080/stream?topic=/camera_1/image_raw">
-            <a href="http://localhost:8080/stream?topic=/tl/image_raw">click</a>
+            
+            <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
+            <!-- <img id="my_ima; object-fit: contain' src="http://localhost:9090/stream?topic=/camera_1/image_raw">
+            <a href="http://localhost:8080/sge" style='height: 100%; width: 100%tream?topic=/tl/image_raw">click</a> -->
 					</div>
         </div>
       </div>
@@ -150,6 +152,20 @@
 	  <footer class="footer mt-auto bg-dark text-light">
 			<h5 style="text-align: center;">AD-EYE @ Simulation Platform For Automated Driving</h5>
     </footer>
+    <!-- <script>
+      var canvasElement = document.getElementById("myCanvas");
+      var context = canvasElement.getContext("2d"); 
+      context.fillStyle = "yellow";
+      context.fillRect(20, 20, 128, 128);
+      context.fillStyle = "red";
+      context.fillRect(150, 20, 128, 128);
+      context.fillStyle = "green";
+      context.fillRect(20, 150, 128, 128);
+      context.fillStyle = "blue"; 
+      context.fillRect(150, 150, 128, 128);
+      
+      </script>   -->
+     
   </body>
 </html>
 
