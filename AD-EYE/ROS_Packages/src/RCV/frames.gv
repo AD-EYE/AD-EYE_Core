@@ -1,0 +1,14 @@
+digraph G {
+"world" -> "map"[label="Broadcaster: /world_to_map\nAverage rate: 97.963 Hz\nMost recent transform: 1606682101.270 ( -0.004 sec old)\nBuffer length: 4.941 sec\n"];
+"map" -> "mobility"[label="Broadcaster: /map_to_mobility\nAverage rate: 97.972 Hz\nMost recent transform: 1606682101.272 ( -0.006 sec old)\nBuffer length: 4.940 sec\n"];
+"base_link" -> "tl_camera"[label="Broadcaster: /base_link_to_tl_camera\nAverage rate: 98.002 Hz\nMost recent transform: 1606682101.271 ( -0.005 sec old)\nBuffer length: 4.939 sec\n"];
+"mobility" -> "base_link"[label="Broadcaster: /mobility_to_base_link\nAverage rate: 99.088 Hz\nMost recent transform: 1606682101.269 ( -0.003 sec old)\nBuffer length: 5.086 sec\n"];
+"base_link" -> "radar"[label="Broadcaster: /base_link_to_radar\nAverage rate: 97.921 Hz\nMost recent transform: 1606682101.273 ( -0.007 sec old)\nBuffer length: 4.902 sec\n"];
+"base_link" -> "velodyne"[label="Broadcaster: /base_link_to_localizer\nAverage rate: 97.787 Hz\nMost recent transform: 1606682101.273 ( -0.007 sec old)\nBuffer length: 4.898 sec\n"];
+"base_link" -> "camera_1"[label="Broadcaster: /camera_1/base_link_to_camera\nAverage rate: 97.927 Hz\nMost recent transform: 1606682101.267 ( -0.001 sec old)\nBuffer length: 4.881 sec\n"];
+"base_link" -> "camera_2"[label="Broadcaster: /camera_2/base_link_to_camera\nAverage rate: 97.994 Hz\nMost recent transform: 1606682101.270 ( -0.004 sec old)\nBuffer length: 4.847 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1606682101.266"[ shape=plaintext ] ;
+ }->"world";
+}

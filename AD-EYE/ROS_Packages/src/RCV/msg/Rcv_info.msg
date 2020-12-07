@@ -1,0 +1,13 @@
+uint64 auto_mode 
+float64 quat_w 
+float64 quat_x
+float64 quat_y
+float64 quat_z
+float64 yaw_rate
+float64 a_x
+float64 a_z
+float64 lin_vel
+float64 lat
+float64 lon
+float64 odom_x
+float64 odom_y

@@ -1,0 +1,245 @@
+###################### DONE ###########################
+
+topic: imu_raw
+
+msg: sensor_msgs/Imu
+
+Note: Frame id should be "velodyne"
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+geometry_msgs/Quaternion orientation
+  float64 x
+  float64 y
+  float64 z
+  float64 w
+float64[9] orientation_covariance
+geometry_msgs/Vector3 angular_velocity
+  float64 x
+  float64 y
+  float64 z
+float64[9] angular_velocity_covariance
+geometry_msgs/Vector3 linear_acceleration
+  float64 x
+  float64 y
+  float64 z
+float64[9] linear_acceleration_covariance
+
+-----------------------------------------
+
+###################### DONE ###########################
+
+topic: gnss_pose
+
+msg: geometry_msgs/Pose
+
+geometry_msgs/Point position
+  float64 x
+  float64 y
+  float64 z
+geometry_msgs/Quaternion orientation
+  float64 x
+  float64 y
+  float64 z
+  float64 w
+
+-----------------------------------------
+
+###################### DONE ########################### HÅRDKODADE VÄRDEN 
+
+topic: /move_base_simple/goal
+
+msg: geometry_msgs/PoseStamped
+
+Note: For setting goal. Not from microautobox
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+geometry_msgs/Pose pose
+  geometry_msgs/Point position
+    float64 x
+    float64 y
+    float64 z
+  geometry_msgs/Quaternion orientation
+    float64 x
+    float64 y
+    float64 z
+    float64 w
+
+-----------------------------------------
+
+Simulink state: Note: Not used in simulation, should we have it? Ask Naveen. 
+
+-----------------------------------------
+###################### DONE ###########################
+
+topic: /initial_checks
+
+msg: 	std_msgs/Bool
+
+Note: Should be 1. Note from microautobox (or maybe). 
+
+std_msgs/Bool
+
+-----------------------------------------
+###################### DONE ###########################
+topic: /activation_request
+
+msg: 	std_msgs/Bool
+
+Note: Should be 1. Note from microautobox (or maybe).
+
+std_msgs/Bool
+
+-----------------------------------------
+###################### DONE ###########################
+topic: /fault
+
+msg: 	std_msgs/Bool
+
+Note: Should be 0. Check if this exist in the RCV (check later. Should come from RCV)
+
+std_msgs/Bool
+
+-----------------------------------------
+###################### DONE ###########################
+topic: /switchCommand
+
+msg: 	std_msgs/Int32 
+
+Note: Should be 1. Not from car. 
+
+-----------------------------------------
+######## not needed? ###########
+topic: /clock
+
+msg: rosgraph_msgs/Clock
+
+Note: Look at print screen of clock part. Not from car
+
+-----------------------------------------
+###################### NOT NEEDED = DONE ###########################
+topic: /points_raw_float32 
+
+msg: 	std_msgs/Float32MultiArray
+
+Note: Use velodyne package
+
+std_msgs/MultiArrayLayout layout
+  std_msgs/MultiArrayDimension[] dim
+    string label
+    uint32 size
+    uint32 stride
+  uint32 data_offset
+float32[] data
+
+-----------------------------------------
+
+###################### DONE ###########################
+
+topic: /current_velocity
+
+msg: 	geometry_msgs/TwistStamped
+
+Note: What unit is it on the linear velocity. 
+Should set Twist.Linear.Y,Z Twist.Angular.X, Y to zero 
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+geometry_msgs/Twist twist
+  geometry_msgs/Vector3 linear
+    float64 x
+    float64 y
+    float64 z
+  geometry_msgs/Vector3 angular
+    float64 x
+    float64 y
+    float64 z
+
+-----------------------------------------
+
+topic: /camera_1/image_raw 
+
+msg: sensor_msgs/Image
+
+Note: Should be connected to px2
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+uint32 height
+uint32 width
+string encoding
+uint8 is_bigendian
+uint32 step
+uint8[] data
+
+-----------------------------------------
+
+topic: /tl/image_raw 
+
+msg: sensor_msgs/Image
+
+Note: Should be connected to px2. Traffic camera
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+uint32 height
+uint32 width
+string encoding
+uint8 is_bigendian
+uint32 step
+uint8[] data
+
+-----------------------------------------
+###################### DONE ###########################
+topic: /vehicle/odom 
+
+msg: 	nav_msgs/Odometry
+ 
+Note: Should come from RCV. frame id and child_frame_id should be "base_link"
+
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+string child_frame_id
+geometry_msgs/PoseWithCovariance pose
+  geometry_msgs/Pose pose
+    geometry_msgs/Point position
+      float64 x
+      float64 y
+      float64 z
+    geometry_msgs/Quaternion orientation
+      float64 x
+      float64 y
+      float64 z
+      float64 w
+  float64[36] covariance
+geometry_msgs/TwistWithCovariance twist
+  geometry_msgs/Twist twist
+    geometry_msgs/Vector3 linear
+      float64 x
+      float64 y
+      float64 z
+    geometry_msgs/Vector3 angular
+      float64 x
+      float64 y
+      float64 z
+  float64[36] covariance
+ 
+-----------------------------------------
+
+
+
+
+
