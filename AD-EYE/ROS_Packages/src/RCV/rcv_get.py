@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Created by: HK-team HT2020 
 
 import rospy
 import socket
@@ -9,16 +10,17 @@ import struct
 from std_msgs.msg import Float64MultiArray, Byte
 from RCV.msg import Rcv_info
 
-udp_ip = "192.168.1.200" #Nvidia
-udp_port = 10000
+udp_ip = "192.168.1.200" # IP of host
+udp_port = 10000	 # Port of host
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((udp_ip, udp_port))
 
-def rcv_info():
+# rcv_get unpacks udp message from RCV and assigns each message in the udp vector to coresponding 
+#	   part of ROS-message and publish this on topic "rcv_info"
+def rcv_get():
 
 	# Initialize publisher 
 	pub = rospy.Publisher('rcv_info', Rcv_info, queue_size=100)
-
 	rospy.init_node('rcv_info_publisher', anonymous=True)
 	rate = rospy.Rate(100) # 100hz
 	myInfo = Rcv_info()
@@ -53,7 +55,7 @@ def rcv_info():
 
 if __name__ == '__main__':
       try:
-          rcv_info()
+          rcv_get()
       except rospy.ROSInterruptException:
           pass
 

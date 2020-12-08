@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Created by: HK-team HT2020 
 
 import rospy
 import socket
@@ -11,56 +12,28 @@ from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Quaternion, Vector3
 from RCV.msg import Rcv_info
 
-'''
-topic: imu_raw
+# Intialize each variable that is recived from the RCV
+auto_mode = 0.0		# Auto_mode from 
+quat_w = 0.0		# Quaternion w
+quat_x = 0.0		# Quaternion x
+quat_y = 0.0		# Quaternion y
+quat_z = 0.0		# Quaternion z
+yaw_rate = 0.0		# Yaw rate
+a_x = 0.0		# Acceleration x
+a_z= 0.0		# Acceleration z
+lin_vel = 0.0 		# Linear velocity
+lat = 0.0		# Latitude (gnss)
+lon = 0.0		# Longitude (gnss)
+odom_x = 0.0		# odometry x
+odom_y = 0.0		# odometry y
 
-msg: sensor_msgs/Imu
-
-Note: Frame id should be "velodyne"
-
-std_msgs/Header header
-  uint32 seq
-  time stamp
-  string frame_id
-geometry_msgs/Quaternion orientation
-  float64 x
-  float64 y
-  float64 z
-  float64 w
-float64[9] orientation_covariance
-geometry_msgs/Vector3 angular_velocity
-  float64 x
-  float64 y
-  float64 z
-float64[9] angular_velocity_covariance
-geometry_msgs/Vector3 linear_acceleration
-  float64 x
-  float64 y
-  float64 z
-float64[9] linear_acceleration_covariance
-'''
-
-
-auto_mode = 0.0
-quat_w = 0.0
-quat_x = 0.0
-quat_y = 0.0
-quat_z = 0.0
-yaw_rate = 0.0
-a_x = 0.0
-a_z= 0.0
-lin_vel = 0.0
-lat = 0.0
-lon = 0.0
-odom_x = 0.0
-odom_y = 0.0
-
+# createQuaternion creates a ROS Quaternion type and returns it
 def createQuaternion(quat_x, quat_y, quat_z, quat_w): 
 	printMsg = "Creating Quaternion from: ({0}, {1}, {2}, {3})".format(str(quat_x), str(quat_y), str(quat_z), str(quat_w))
 	print(printMsg) 
 	
-	# NOTE: Maybe normalization needs to be done
 	# Creating Quaternion object to be returned  
+	# NOTE: Maybe normalization needs to be done
 	q = Quaternion
 	q.x = quat_x
 	q.y = quat_y
@@ -68,7 +41,7 @@ def createQuaternion(quat_x, quat_y, quat_z, quat_w):
 	q.w = quat_w
 	return q
 
-
+# createVector3 creates a ROS Vector3 type and returns it 
 def createVector3(x, y, z, unit): 
 	printMsg = "Creating Vector3 with unit {0} from: ({1}, {2}, {3})".format(str(unit), str(x), str(y), str(z))
 	print(printMsg) 
@@ -80,6 +53,7 @@ def createVector3(x, y, z, unit):
 	myVector3.z = z #Yaw
 	return myVector3 
 
+# get_data callback function to get data from rcv_info and set this data 
 def get_data(rcv_info):
 
 	global auto_mode
@@ -118,8 +92,10 @@ def rcv_imu():
 	rospy.init_node('rcv_imu', anonymous=True)
 	rate = rospy.Rate(100) # 100hz
 	
+	# Create Imu object
 	myImu = Imu() 
 
+	# Set intial sequence
 	seq = 0
 
 	while not rospy.is_shutdown():
@@ -127,9 +103,9 @@ def rcv_imu():
 		rospy.Subscriber('rcv_info', Rcv_info, get_data)
 		print("Data received")
 
-		# Create Imu object to be published
+		# Set Imu object to be published
 		myImu.header.seq = seq
-		myImu.header.stamp = rospy.Time.now() #TODO: Check on px2 and sim if sec and nsec 
+		myImu.header.stamp = rospy.Time.now() 
 		myImu.header.frame_id = 'velodyne'
 		myImu.orientation = createQuaternion(quat_x, quat_y, quat_z, quat_w) 
 		myImu.angular_velocity = createVector3(0.0, 0.0, yaw_rate, "rad/s")
@@ -138,7 +114,6 @@ def rcv_imu():
 		
 		# Iterate seq  
 		seq = seq + 1
-		
 
 		print("data published")
 		print("-----------------------")

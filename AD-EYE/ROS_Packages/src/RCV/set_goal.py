@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Created by: HK-team HT2020 
 
 import rospy
 import socket
@@ -9,21 +10,24 @@ import struct
 from std_msgs.msg import Float64
 from geometry_msgs.msg import PoseStamped
 
+# set_goal sets the goal on the map
 def set_goal():
 
 	# Initialize publisher 
 	pub = rospy.Publisher('move_base_simple/goal', PoseStamped, queue_size=100)
-
 	rospy.init_node('set_goal', anonymous=True)
 	rate = rospy.Rate(100) # 100hz
 	
+	# Init PoseStamped type 
 	myGoal = PoseStamped()
+
+	# Set intial sequence
 	seq = 0
 
 	while not rospy.is_shutdown():
 		print("-----------------------")
 
-		# Create Imu object to be published
+		# Set Imu object to be published
 		myGoal.header.seq = seq
 		myGoal.header.stamp = rospy.Time.now() 
 		myGoal.header.frame_id = 'velodyne'
@@ -38,13 +42,12 @@ def set_goal():
 		myGoal.pose.orientation.w = 1.0
 
 		
-		
+		# Publish myGoal
 		pub.publish(myGoal)
 		
 		# Iterate seq  
 		seq = seq + 1
 		
-
 		print("data published")
 		print("-----------------------")
 		rate.sleep()

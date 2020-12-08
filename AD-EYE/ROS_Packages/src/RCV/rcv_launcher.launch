@@ -9,7 +9,7 @@
 	<node pkg="RCV" type="rcv_imu.py" name="rcv_imu"/>
 	<node pkg="RCV" type="rcv_odom.py" name="rcv_odom"/>
 	<!--node pkg="RCV" type="set_goal.py" name="goal"/-->
-	<!--node pkg="RCV" type="send_rcv.py" name="send_rcv"/-->
+	<node pkg="RCV" type="rcv_send.py" name="send_rcv"/>
 
 	<!-- declare arguments with default values -->
 	<group ns="lidar_top_front">
