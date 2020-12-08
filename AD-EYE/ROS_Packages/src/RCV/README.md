@@ -53,7 +53,7 @@ Initiates node ``rcv_info_publisher``, creates udp socket at specified port numb
 
 Note that the RCV has to send the udp messages to the correct ip adress and port of the Nvidia Drive PX2, which is specified in the RCV Simulink file.
 
-### rcv_launcher.py
+### rcv_launcher.launch
 The launcher file that launches all the nodes that in this package. 
 
 Note that the rcv-launcher.py is dependent on a separate package for the VLP-16 velodyne lidar and that this package is re-mapped to publish on the topic ``points_raw`` that is used by the AD-EYE platform.
@@ -82,5 +82,6 @@ To choose socket and change what data is being received: Input -> ChairRefSignal
 Send udp-data data to PX2, quaternion calculation and odometry calculation: Output -> UDP_Out.
 To choose socket and change what data is being sent: Output -> UDP_Out -> Ethernet UDP Transmit (Change message size and socket number), DSEncode32 (change data types to send).
 
-Build Simulink model, open dSpace and go online in dSpace to flash built model to RCV. When blue light is blinking, udp messages are being received. For RCV to drive, AutoModeOn-switch has to be toggled up and the throttle has to be pressed down. When green light is on, the throttle is pressed and the RCV actuates based on the udp data.
+#### Run RCV
+Open setup2.m on RCV-laptop, choose RTI1401, run setup2.m, choose "black". Build Simulink model, open dSpace ControlDesk, connect yellow ethernet cable from RCV to RCV-laptop. Go online in dSpace to flash built model to RCV (press enter on pop-up windows) and launch AD-EYE and rcv_launcher.launch on the Nvidia Drive PX2. When blue light is blinking, udp messages are being received on RCV. For RCV to drive, AutoModeOn-switch has to be toggled up and the throttle has to be pressed down. When green light is on, the throttle is pressed and the RCV actuates based on the udp data.
 
