@@ -82,3 +82,5 @@ To choose socket and change what data is being received: Input -> ChairRefSignal
 Send udp-data data to PX2, quaternion calculation and odometry calculation: Output -> UDP_Out.
 To choose socket and change what data is being sent: Output -> UDP_Out -> Ethernet UDP Transmit (Change message size and socket number), DSEncode32 (change data types to send).
 
+Build Simulink model, open dSpace and go online in dSpace to flash built model to RCV. When blue light is blinking, udp messages are being received. For RCV to drive, AutoModeOn-switch has to be toggled up and the throttle has to be pressed down. When green light is on, the throttle is pressed and the RCV actuates based on the udp data.
+
