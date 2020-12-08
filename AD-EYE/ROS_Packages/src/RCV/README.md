@@ -17,12 +17,10 @@ RCV
 │   rcv_current_velocity.py
 │   rcv_gnss_pose.py
 │   rcv_imu.py
-│   rcv_info.py
+│   rcv_get.py
 │   rcv_launcher.launch
 │   rcv_odom.py
-│   receive_rcv.py
-│   ros_topic_info
-│   send_rcv.py
+│   rcv_send.py
 │   set_goal.py
 ```
 
