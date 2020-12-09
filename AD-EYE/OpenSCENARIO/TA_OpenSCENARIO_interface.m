@@ -9,11 +9,38 @@ global AutowareConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
+
+%% Experiment A
 ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
-PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
+PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light W01_Base_Map
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
+
+%% Experiment B Map 1
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W01_Base_Map"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+
+%% Experiment B Map 2
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W03_Forest"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap2goal1.xlsx", "SimulinkConfigExpBmap2goal2.xlsx", "SimulinkConfigExpBmap2goal3.xlsx"];
+
+%% Experiment B Map 3
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W07_Neighborhood"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap3goal1.xlsx", "SimulinkConfigExpBmap3goal2.xlsx", "SimulinkConfigExpBmap3goal3.xlsx"];
+
+
+
+
 TagsConfigArray = [""];
 SSHConfig = "Configurations/SSHConfig.csv";
 
