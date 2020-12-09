@@ -86,6 +86,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 
     runtimes = zeros(1,NrOfRuns);
 
+    failed_runs = [];
     for run = firstcolumn:min(lastcolumn,width(TAOrder))
         tic
         runCore(device) %start roscore
@@ -208,25 +209,24 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         
         simulation_ran = 0;
         run_counter = 0;
-        while simulation_ran==0 && run_counter<3
+        while simulation_ran==0 && run_counter<5
             try
                 run_counter = run_counter + 1;
                 sim(RunModel, [startTime endTime]); %running the simulation
                 simulation_ran = 1;
             catch ME
                 switch ME.identifier
-%                     case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
-%                         rethrow(ME)
                     case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
                         rethrow(ME)
-%                     case 'SL_SERVICES:utils:UNEXPECTED_EXCEPTION' % if the user interruped the code
-%                         rethrow(ME)
-%                     case 'MATLAB:MException:MultipleErrors'
-%                         rethrow(ME)
                     case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates and try to run again
                         warning("Failed to start experiment. Other attemps will be made until success.")
                         fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
-                        fprintf(fileID,RunModel);
+                        fprintf(fileID,strcat(RunModel,"\n"));
+                        fprintf(fileID,ME.message);
+                        c = clock;
+                        fprintf(fileID,num2str(strcat("time: ",num2str(fix(c(4))),"_",num2str(fix(c(5))),"_",num2str(fix(1000*c(6))))));
+                        fprintf(fileID,"\n");
+                        fprintf(fileID,"\n");
                         fclose(fileID);
                         dir = pwd;
                         cd(BasePath);
@@ -239,8 +239,10 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
                 end
             end
         end
+        if simulation_ran==0
+            failed_runs = [failed_runs, num2str(run, '%01i')];
+        end
         
-        %Results(i).Data = 'simout';
 
         % Store current settings to file.
         fileID = fopen([ResultDir '\settings.txt'],'wt');
