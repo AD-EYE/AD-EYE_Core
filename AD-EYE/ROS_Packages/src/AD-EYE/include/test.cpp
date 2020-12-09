@@ -11,18 +11,15 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/locale.hpp>
 #include <boost/locale/generator.hpp>
+#include <boost/foreach.hpp>
 
 #define NATURE 0
 #define BUILDING 1
 #define TRAFFICLIGHT 2
 #define SAFEAREA 3
 
-/*!
- * \brief This structure handles data from the Prescan Experiment.
- * \details It loads the data from .pex files
- */
-
-struct PrescanObject
+void load_pexmap(){
+ struct PrescanObject
 {
     int ID;
     double posX;
@@ -31,24 +28,10 @@ struct PrescanObject
     double sizeX;
     double sizeY;
     double sizeZ;
-    double safetyAreaValue;
+    int safetyAreaValue;
 };
 
-struct PrescanModel
-{
-    std::vector<PrescanObject> buildingObjects;
-    std::vector<PrescanObject> natureObjects;
-    std::vector<PrescanObject> trafficlightObjects;
-    std::vector<PrescanObject> safeAreaObjects;
-    std::vector<PrescanObject> carObjects;
-
-    bool ULElementFound = false;
-
-    /*!
-     * \brief Loads the data of the Prescan Experiment from the given file
-     * \param filePex The path to the .pex file
-     */
-    void load_pexmap(std::string filePex) {
+    std::string filePex = "/home/adeye/AD-EYE_Core/AD-EYE/Experiments/W01_Base_Map/Simulation/W01_Base_Map.pex";
         using boost::property_tree::ptree;
 
         // Populate tree structure (pt):
@@ -60,11 +43,12 @@ struct PrescanModel
 
         //AppList List;
         PrescanObject Obj;
-        BOOST_FOREACH(ptree::value_type const& v, pt.get_child("Actors"))
+        ptree pt_2 = pt.get_child("Experiment");
+        BOOST_FOREACH(ptree::value_type& v, pt_2.get_child("Actors"))
         {
             if (v.first == "Actor")
             {                
-                Obj.ID = v.first.get<int>("Actor.UniqueId");
+                
                 Obj.posX = v.second.get<double>("Location.X");
                 Obj.posY = v.second.get<double>("Location.Y");
                 Obj.yaw = v.second.get<double>("Orientation.Heading");
@@ -76,18 +60,46 @@ struct PrescanModel
                // List.push_back(App);
             }
         }
-        BOOST_FOREACH(ptree::value_type const& v, pt.get_child("Environment"))
+        BOOST_FOREACH(ptree::value_type& v, pt.get_child("Environment"))
         {
             if (v.first == "Underlays")
             {
-                if(v.second.get<std::string>("Underlay.Description").size()>=4 && v.second.get<std::string>("Underlay.Description").substr(0,4))
+                if(v.second.get<std::string>("Underlay.Description").size()>=4 && v.second.get<std::string>("Underlay.Description").substr(0,4) == "SAFE")
                 {
-                Obj.safetyAreaValue = v.second.get<std::string>("Underlay.Description");             
+                Obj.safetyAreaValue = strtol(v.second.get<std::string>("Underlay.Description").substr(4).c_str(),NULL,10);          
                 }
             }
          }
+
+         BOOST_FOREACH(ptree::value_type& v, pt.get_child("Experiment"))
+        {
+            if (v.first == "Actors")
+            {
+                Obj.ID = v.second.get<int>("Actor.UniqueId");
+            
+            }
+         }
          
-         std::cout<<
+         std::cout<<Obj.ID<<Obj.safetyAreaValue;
+};
+
+/*!
+ * \brief This structure handles data from the Prescan Experiment.
+ * \details It loads the data from .pex files
+ */
+
+
+//struct PrescanModel
+int main()
+{
+   
+   
+
+    bool ULElementFound = false;
+
+    
+    load_pexmap();
+        
 
         // parsing variables
 /*        std::string line;
@@ -202,9 +214,9 @@ struct PrescanModel
             }
         }
         inputFile.close();*/
-    }
-
-};
+    
+return 0;
+}
 
 
 #endif
