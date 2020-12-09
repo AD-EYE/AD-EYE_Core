@@ -4,15 +4,18 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         error('The TA order files must be passed as an argument')
       case 1
         firstcolumn = 1;
+        TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
         lastcolumn = width(TAOrder);
       case 2
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
         lastcolumn = width(TAOrder);
       case 3
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
       otherwise
         error('3 inputs are accepted.')
     end
     
-    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+    
     
     
     %setting up experiments
