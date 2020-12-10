@@ -89,86 +89,35 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
     //subscribing to the topic
     image_topic.subscribe(function(message)
-    {   
-        
-    /*---------------------------------------*/
-        /* var canvas=document.getElementById("canvas");
-        const ctx = canvas.getContext("2d"); */
-        document.getElementById("canvas").innerHTML="Heloo";
-        /* ctx.drawImage(message, 0, 0, width, height);
-        var imageData = ctx.getImageData(0, 0, width, height);
-        //console.log(imageData);
-        
-        var updatedImageData = rgb_To_Image(imageData);
-        ctx.putImageData(updatedImageData, 0, 0);
-        document.write(updatedImageData);
-        function rgb_To_Image(imageData) {
-            var data = imageData.data;
-            var inData = message.data;
-            for(i=0;i<data.length;i+=4){
-                data[i]=inData[i];
-                data[i+1]=inData[i+1];
-                data[i+2]=inData[i+2];
-            }
-            return data;
-        
-        }
-        // window.addEventLis */
-    
-
-    /*---------------------------------------*/
-        /* var c = document.getElementById("canvas"); 
-        var ctx = c.getContext("2d");
-        var r,g,b; 
- 
-        for(var i=0; i< Message.length; i++){ 
-	    for(var j=0; j< Message[0].length; j++){ 
-		r = Message[i]; 
-		g = Message[i+1];	 
-		b = Message[i+2];		 
-		ctx.fillStyle = "rgba("+r+","+g+","+b+", 1)";  
-		ctx.fillRect( j, i, 1, 1 ); 
-    } 
-    }--------------------------------------------------*/
+    {  
+       var msg=atob(message.data).toString('base64');
        
-
-}); 
-    /*---------------------------------------*/
-        /* var can = document.createElement("canvas");
-        can.width = Message.width;
-        can.height = Message.height; 
-        var ctx = can.getcontext("2d");
-
-        var imgData = ctx.createImageData(0, 0, Message.width, Message.height);
-        var data = imgData.data;
-        var inData = Message.data;
-
-        var i = 0, j, y = 0, x;
-        while (y < Message.height) {
-            j = y * Message.step;
-            for (x = 0; x < Message.width; x ++) {
-                if (!Message.is_bigendian) {
-                    data[i]     = inData[j];     // red
-                    data[i + 1] = inData[j + 1]; // green
-                    data[i + 2] = inData[j + 2]; // blue
-                } else {
-                    data[i + 2] = inData[j];     // blue
-                    data[i + 1] = inData[j + 1]; // green
-                    data[i]     = inData[j + 2]; // red
-                }
-                data[i + 3] = 255;  // alpha
-                i += 4;
-                j += 3;
-            }
-            y++;
+      // var enc=btoa(msg);
+      
+       
+        document.getElementById("test").innerHTML=msg;
+        /* document.getElementById("test1").innerHTML=enc;
+        document.getElementById("test2").innerHTML=encd; */
+        var canvas=document.getElementById("canvas");
+        const ctx = canvas.getContext("2d"); 
+        var imgData=ctx.createImageData(canvas.width,canvas.height);
+        
+        for (var i = 0; i < imgData.data.length; i++) {
+            imgData.data[4 * i] = 0;// red
+            imgData.data[4 * i + 1] =0; // green
+            imgData.data[4 * i + 2] = 255;// blue
+            imgData.data[4 * i + 3] = 255; // alpha 
+            /* for(var i=0;i<imgData.data.length;i+=4){
+                imgData.data[i]=message.data[i];
+                imgData.data[i+1]=message.data[i];
+                imgData.data[i+2]=message.data[i];
+                imgData.data[i+3]=255; */
         }
-
-            ctx.putImageData(imgData, 0, 0);
-
-            document.body.appendChild(can); */
-
-
-
+        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
+        /* const img = document.getElementById('img1');  
+        img.src = canvas.toDataURL();  */        
+        
+    });   
 
 //-------------------camera display ----------------
 
