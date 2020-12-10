@@ -86,6 +86,17 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 
     runtimes = zeros(1,NrOfRuns);
 
+    % Store information about this TA session
+    fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
+    fprintf(fileID,num2str(run, '\n'));
+    fprintf(fileID,num2str(run, '\n'));
+    fprintf(fileID,num2str(run, '\n'));
+    c = clock;
+    fprintf(fileID,num2str(strcat("TA start time: ",num2str(fix(c(4))),"_",num2str(fix(c(5))),"_",num2str(fix(1000*c(6))),".pcd")));
+    fprintf(fileID,num2str(run, '\n'));
+    fprintf(fileID,num2str(run, '\n'));
+    fclose(fileID);
+    
     failed_runs = [];
     for run = firstcolumn:min(lastcolumn,width(TAOrder))
         tic
