@@ -90,34 +90,43 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     image_topic.subscribe(function(message)
     {  
-       var msg=atob(message.data).toString('base64');
-       
-      // var enc=btoa(msg);
-      
-       
-        document.getElementById("test").innerHTML=msg;
-        /* document.getElementById("test1").innerHTML=enc;
-        document.getElementById("test2").innerHTML=encd; */
+       var msg=atob(message.data);
+       var array = new Uint8Array(new ArrayBuffer(msg.length));
+            for (let i = 0; i < msg.length; i++) {
+              array[i] = msg.charCodeAt(i);
+            }
+            
         var canvas=document.getElementById("canvas");
         const ctx = canvas.getContext("2d"); 
+        
         var imgData=ctx.createImageData(canvas.width,canvas.height);
-        
-        for (var i = 0; i < imgData.data.length; i++) {
-            imgData.data[4 * i] = 0;// red
-            imgData.data[4 * i + 1] =0; // green
-            imgData.data[4 * i + 2] = 255;// blue
-            imgData.data[4 * i + 3] = 255; // alpha 
+        for(var j=0;j<array.length;j++)
+            {
+                imgData.data[4*j]=array[j];
+                imgData.data[4*j+1]=array[j+1];
+                imgData.data[4*j+2]=array[j+2];
+                imgData.data[4*j+3]=255;
+            }
+            
+        //ctx.drawImage('data:image/jpeg;base64,'+imgData,0,0);
             /* for(var i=0;i<imgData.data.length;i+=4){
-                imgData.data[i]=message.data[i];
-                imgData.data[i+1]=message.data[i];
-                imgData.data[i+2]=message.data[i];
-                imgData.data[i+3]=255; */
-        }
-        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
-        /* const img = document.getElementById('img1');  
-        img.src = canvas.toDataURL();  */        
+                imgData.data[i]=array[i];
+                imgData.data[i+1]=array[i];
+                imgData.data[i+2]=array[i];
+                imgData.data[i+3]=255;
+        } */
+    
+        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height); 
+        var img = document.getElementById('img1');  
+        img.src = canvas.toDataURL(); 
         
-    });   
+    }); 
+    
+    
+
+
+        
+
 
 //-------------------camera display ----------------
 
