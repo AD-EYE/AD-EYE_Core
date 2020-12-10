@@ -12,6 +12,7 @@
 #include <boost/locale.hpp>
 #include <boost/locale/generator.hpp>
 #include <boost/foreach.hpp>
+#include <boost/optional/optional.hpp>
 
 #define NATURE 0
 #define BUILDING 1
@@ -44,29 +45,31 @@ void load_pexmap(){
         //AppList List;
         PrescanObject Obj;
         ptree pt_2 = pt.get_child("Experiment");
+        int count = 0;
         BOOST_FOREACH(ptree::value_type& v, pt_2.get_child("Actors"))
         {
             if (v.first == "Actor")
             {                
                 
-                Obj.posX = v.second.get<double>("Location.X");
-                Obj.posY = v.second.get<double>("Location.Y");
-                Obj.yaw = v.second.get<double>("Orientation.Heading");
-                Obj.sizeX = v.second.get<double>("Size.X");
-                Obj.sizeY = v.second.get<double>("Size.Y");
-                Obj.sizeZ = v.second.get<double>("Size.Z");
-                
+                Obj.posX = v.second.get<double>("Location.<xmlattr>.X");
+                Obj.posY = v.second.get<double>("Location.<xmlattr>.Y");
+                Obj.yaw = v.second.get<double>("Orientation.<xmlattr>.Heading");
+                Obj.sizeX = v.second.get<double>("Size.<xmlattr>.X");
+                Obj.sizeY = v.second.get<double>("Size.<xmlattr>.Y");
+                Obj.sizeZ = v.second.get<double>("Size.<xmlattr>.Z");
+                std::cout<<"abc"<<count++;
+
                               
                // List.push_back(App);
             }
         }
-        BOOST_FOREACH(ptree::value_type& v, pt.get_child("Environment"))
+        BOOST_FOREACH(ptree::value_type& v, pt_2.get_child("Environment"))
         {
             if (v.first == "Underlays")
             {
-                if(v.second.get<std::string>("Underlay.Description").size()>=4 && v.second.get<std::string>("Underlay.Description").substr(0,4) == "SAFE")
+                if(v.second.get<std::string>("Underlay.<xmlattr>.Description").size()>=4 && v.second.get<std::string>("Underlay.<xmlattr>.Description").substr(0,4) == "SAFE")
                 {
-                Obj.safetyAreaValue = strtol(v.second.get<std::string>("Underlay.Description").substr(4).c_str(),NULL,10);          
+                Obj.safetyAreaValue = strtol(v.second.get<std::string>("Underlay.<xmlattr>.Description").substr(4).c_str(),NULL,10);          
                 }
             }
          }
@@ -75,7 +78,16 @@ void load_pexmap(){
         {
             if (v.first == "Actors")
             {
-                Obj.ID = v.second.get<int>("Actor.UniqueId");
+                ptree pt_3 = pt.get_child("Actors");
+                Obj.ID = v.second.get<int>("Actor.<xmlattr>.UniqueId");
+                if (v.second.get<int>("Actor.<xmlattr>.ObjectTypeID") == 1)
+                {
+                    ptree::const_assoc_iterator it = ptree.find("TrajectoryBase");
+                    if (it == ptree.not_found())
+                    {
+
+                    }
+                }
             
             }
          }
