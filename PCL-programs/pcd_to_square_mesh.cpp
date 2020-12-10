@@ -118,7 +118,7 @@ void voxel_grid_filter(
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_voxel 
   ){
-    float lf = 0.5f;
+    float lf = 0.28f;
     pcl::VoxelGrid<pcl::PointXYZ> sor;
     sor.setInputCloud (cloud);
     sor.setLeafSize (lf,lf,lf);
@@ -139,6 +139,7 @@ int
   args::ValueFlag<std::string> output_arg(p, "output", "Path and name of output file without extension", {'o', "output"});
   args::ValueFlag<int> size_arg(p, "chunk_size", "Size of chunk side", {'s', "size"}, 50);
   args::Flag voxel_arg(p, "voxel", "Run voxel grid filter", {'v',"voxel"});
+  args::Flag stat_outlier(p, "stat_oultier", "Run statistical outlier removal", {'r',"stat_outlier_removal"});
   args::Flag save_pcd_arg(p, "save_pcd", "Save filtered/cut pcd files before meshing", {'p',"pcd"});
 
 
@@ -172,11 +173,18 @@ int
   size_t num_points_cloud = cloud_original->size();
   cout << "Cloud loaded! Number of points: " << num_points_cloud << "\n" << std::endl;
   
-  //Remove statistical outliers
+  if(bool{stat_outlier}){
   cout << "Starting statistical outlier remover..." << std::endl; 
   remove_outlier(cloud_original, cloud_inlier);
   size_t num_points_cloud_inlier = cloud_inlier->size();
   cout << "Finished statistical outlier remover! Number of points: " << num_points_cloud_inlier << "\n" <<std::endl;
+
+  } else {
+
+    cloud_inlier= cloud_original;
+  }
+  //Remove statistical outliers
+  
   
   //Run voxel filter if voxel flag is used
   if(bool{voxel_arg}) {
