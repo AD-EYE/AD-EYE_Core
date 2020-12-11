@@ -19,6 +19,11 @@
 #define TRAFFICLIGHT 2
 #define SAFEAREA 3
 
+void load_actor(boost::property_tree::ptree local_ptree)
+{
+
+
+}
 void load_pexmap(){
  struct PrescanObject
 {
@@ -85,6 +90,7 @@ void load_pexmap(){
                     ptree::const_assoc_iterator it = ptree.find("TrajectoryBase");
                     if (it == ptree.not_found())
                     {
+                        pt_
 
                     }
                 }
