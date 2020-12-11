@@ -54,7 +54,20 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     failed_experiments = [];
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
-        [failed_experiments, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, failed_experiments, runtimes);
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes);
+        if simulation_ran == 0
+            failed_experiments = [failed_experiments,run_index];
+        end
+        if mod(lastcolumn-firstcolumn+1,fix((lastcolumn-firstcolumn+1)/10)) == 0 % Regularly try to rerun the failed experiments
+            disp("Retrying the experiments that failed to run so far")
+            failed_experiments_copy = failed_experiments;
+            for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
+                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes);
+                if simulation_ran == 1% If this run suceeded then we can remove it from the failed experiments
+                    failed_experiments(i) = [];
+                end
+            end
+        end
     end
 
     
@@ -62,7 +75,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     clear()
 end
 
-function [failed_experiments, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, failed_experiments, runtimes)
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes)
     tic
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
@@ -117,9 +130,6 @@ function [failed_experiments, runtimes] = doARun(runs, run_index, device, hostna
                     rethrow(ME)
             end
         end
-    end
-    if simulation_ran==0
-        failed_experiments = [failed_experiments, run_index];
     end
 
     %Close the experiment
@@ -179,16 +189,16 @@ function [device, hostname] = getSSHDevice(TAOrder)
     device.ROSFolder = ROS_folder; %setting up the ROS folder
 end
 
-function setROSParamFromOpenSCENARIO(Run, run)
+function setROSParamFromOpenSCENARIO(runs, run_index)
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
 
-    splitted_string = split(Run(run).FolderExpName,"/");
+    splitted_string = split(runs(run_index).FolderExpName,"/");
     experiment_name = splitted_string(length(splitted_string)-1);
     clear splitted_string;
     experiment_name = experiment_name{1};
-    if isfile(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"))
-        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"));
+    if isfile(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"))
+        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"));
         if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
             set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
             disp('Setting ros parameters from OpenSCENARIO file');
@@ -205,9 +215,9 @@ function setROSParamFromOpenSCENARIO(Run, run)
     cd('..\..\TA\Configurations');
 end
 
-function [startTime, endTime] = checkSimulationTimes(RunModel, max_duration)
+function [startTime, endTime] = checkSimulationTimes(simulink_name, max_duration)
     % Determine simulation start and end times (avoid infinite durations).
-    activeConfig = getActiveConfigSet(RunModel);
+    activeConfig = getActiveConfigSet(simulink_name);
     startTime = str2double(get_param(activeConfig, 'StartTime')); %'StartTime' always set to 0
     endTime = str2double(get_param(activeConfig, 'StopTime'));
     duration = endTime - startTime;
@@ -228,9 +238,9 @@ function storeConfiguration(runs, run_index, ta_path, run_directory, settings)
     fclose(fileID);
 end
 
-function killPrescanFederates(BasePath)
+function killPrescanFederates(ta_path)
     dir = pwd;
-    cd(BasePath);
+    cd(ta_path);
     !KillAllFederates.bat
     cd(dir);
     clear dir;
@@ -249,19 +259,19 @@ function logInit()
     fclose(fileID);
 end
 
-function setting = duplicateTemplatePrescanExperiment(MainExperiment, Run, run, ResultDir)
+function setting = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
     % Create the complete command.
     setting = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
     ...and save it in cell array named 'Settings'
     command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
-    CurrentExperiment = strcat(MainExperiment, '\', Run(run).PrescanExpName, '.pex');
+    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).PrescanExpName, '.pex');
     command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
-    command = [command ' -save ' '"' ResultDir '"']; %save it in ResultDir created    
-    for setting=1:size(Run(run).TagsConfig,1) %size of each cell in ...
+    command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
+    for setting=1:size(runs(run_index).TagsConfig,1) %size of each cell in ...
         ...Run.TagsConfig() consisting test automation tags and its values
-        tag = Run(run).TagsConfig{setting,1};
-        val = num2str(Run(run).TagsConfig{setting,2}, '%50.50g');
+        tag = runs(run_index).TagsConfig{setting,1};
+        val = num2str(runs(run_index).TagsConfig{setting,2}, '%50.50g');
         command = [command ' -set ' tag '=' val];
         setting(end+1) = cellstr([tag ' = ' val]);
     end
@@ -274,8 +284,8 @@ function setting = duplicateTemplatePrescanExperiment(MainExperiment, Run, run, 
     end
 end
 
-function regenerateCompilationSheet(RunModel)
-    regenButtonHandle = find_system(RunModel, 'FindAll', 'on', 'type', 'annotation','text','Regenerate'); % find the 'regenerate' block in simulink model
+function regenerateCompilationSheet(simulink_name)
+    regenButtonHandle = find_system(simulink_name, 'FindAll', 'on', 'type', 'annotation','text','Regenerate'); % find the 'regenerate' block in simulink model
     regenButtonCallbackText = get_param(regenButtonHandle,'ClickFcn'); % get the command from the block
     eval(regenButtonCallbackText); %  the command
 end
