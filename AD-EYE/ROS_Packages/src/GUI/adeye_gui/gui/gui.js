@@ -90,23 +90,31 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     image_topic.subscribe(function(message)
     {  
+        
+        
        var msg=atob(message.data);
+       
        var array = new Uint8Array(new ArrayBuffer(msg.length));
             for (let i = 0; i < msg.length; i++) {
               array[i] = msg.charCodeAt(i);
             }
-            
+        
+        document.getElementById("test1").innerHTML=array.length;
+        
+          
         var canvas=document.getElementById("canvas");
         const ctx = canvas.getContext("2d"); 
         
         var imgData=ctx.createImageData(canvas.width,canvas.height);
         for(var j=0;j<array.length;j++)
             {
-                imgData.data[4*j]=array[j];
-                imgData.data[4*j+1]=array[j+1];
-                imgData.data[4*j+2]=array[j+2];
+                imgData.data[4*j+0]=array[3*j+0];
+                imgData.data[4*j+1]=array[3*j+1];
+                imgData.data[4*j+2]=array[3*j+2];
                 imgData.data[4*j+3]=255;
             }
+
+
             
         //ctx.drawImage('data:image/jpeg;base64,'+imgData,0,0);
             /* for(var i=0;i<imgData.data.length;i+=4){
