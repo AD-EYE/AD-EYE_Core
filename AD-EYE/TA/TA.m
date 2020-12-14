@@ -30,7 +30,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     
     [device, hostname] = getSSHDevice(TAOrder); % Cofiguration of the Ubuntu computer
     
-    max_duration = 2;
+    max_duration = 300;
     % goal = '/move_base_simple/goal';
     % poseStamped = 'geometry_msgs/PoseStamped';
 
