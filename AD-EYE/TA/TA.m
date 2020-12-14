@@ -16,6 +16,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
           clear_files = 0;
       case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = min(lastcolumn, width(TAOrder));
       otherwise
           error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
