@@ -67,8 +67,8 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div class="btn-group" style="height:80px;width:320px;">
-              <button id="0" type="button" class="btn off">Nominal</button>
-              <button id="1" type="button" class="btn off btn-rounded">Safety</button>
+              <button id="0" type="button" class="off btn" onclick="toggleState(this.id)">Nominal</button>
+              <button id="1" type="button" class="off btn" onclick="toggleState(this.id)">Safety</button>
             </div>
           </div>
         </div>
@@ -78,8 +78,8 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>State : <span id="state"></span></p>
-            <button type="button" class="btn off" onclick="toggleStateinitial(this)">Initial</button>
-            <button type="button"  class="btn off" onclick="toggleStateactivation(this)">Activation</button>
+            <button type="button" class="btn off" onclick="toggleStateinitial(this)">Initial_checks</button>
+            <button type="button"  class="btn off" onclick="toggleStateactivation(this)">Activation_request</button>
             <button type="button" class="btn off" onclick="toggleStatefault(this)">Fault</button>
           </div>
         </div>
@@ -139,7 +139,7 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Camera Stream_tl</h2>
             <div id="test1"></div> 
-             <canvas id="canvas" width="320" height="300"></canvas>
+             <canvas id="canvas" width="960" height="720"></canvas>
              <!-- <img id="img1"></img>  -->
             <!-- <img id="my_ima; object-fit: contain' src="http://localhost:9090/stream?topic=/camera_1/image_raw">
             <a href="http://localhost:8080/sge" style='height: 100%; width: 100%tream?topic=/tl/image_raw">click</a> -->

@@ -78,67 +78,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
 //------------------Connection with the bridge-------------------
 
 
-//-------------------camera display ----------------
-
-//listen to the topic
-   var image_topic = new ROSLIB.Topic({
-        ros : ros,
-        name : '/camera_1/image_raw',
-        messageType : 'sensor_msgs/Image'
-     });
-
-    //subscribing to the topic
-    image_topic.subscribe(function(message)
-    {  
-        
-        
-       var msg=atob(message.data);
-       
-       var array = new Uint8Array(new ArrayBuffer(msg.length));
-            for (let i = 0; i < msg.length; i++) {
-              array[i] = msg.charCodeAt(i);
-            }
-        
-        document.getElementById("test1").innerHTML=array.length;
-        
-          
-        var canvas=document.getElementById("canvas");
-        const ctx = canvas.getContext("2d"); 
-        
-        var imgData=ctx.createImageData(canvas.width,canvas.height);
-        for(var j=0;j<array.length;j++)
-            {
-                imgData.data[4*j+0]=array[3*j+0];
-                imgData.data[4*j+1]=array[3*j+1];
-                imgData.data[4*j+2]=array[3*j+2];
-                imgData.data[4*j+3]=255;
-            }
-
-
-            
-        //ctx.drawImage('data:image/jpeg;base64,'+imgData,0,0);
-            /* for(var i=0;i<imgData.data.length;i+=4){
-                imgData.data[i]=array[i];
-                imgData.data[i+1]=array[i];
-                imgData.data[i+2]=array[i];
-                imgData.data[i+3]=255;
-        } */
-    
-        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height); 
-        var img = document.getElementById('img1');  
-        img.src = canvas.toDataURL(); 
-        
-    }); 
-    
-    
-
-
-        
-
-
-//-------------------camera display ----------------
-
-
 
 //-------------------linear velocity----------------
     //listen to the topic
@@ -213,7 +152,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 
-//-------------------safety Vs autoware ----------------
+//-------------------Nominal Vs Safety Channel----------------
     //listen to the topic
     var data_listener = new ROSLIB.Topic({
         ros : ros,
@@ -227,7 +166,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         var val_data = message.data;
         var num =val_data;
         // array for two leds
-        var strColorPairs = Array({'position' : 0, 'color' : 'green'},{'position' : 1, 'color' : 'red'});
+        var strColorPairs = Array({'position' : 0, 'color' : 'green'},{'position' : 1, 'color' : 'green'});
         var position = checkPosition(num);
 
         colorBox(position);
@@ -266,7 +205,74 @@ document.addEventListener('DOMContentLoaded', (event) =>
             return position;
         }
     });
-//-------------------safety Vs autoware ----------------
+//-------------------Nominal Vs Safety Channel ----------------
+
+
+
+//--------------------Toggle state---------------
+function toggleState()
+{
+    var currentvalue = document.getElementById('0').value;
+    if(currentvalue == "Off"){
+        document.getElementById("0").value="On";
+        var dataToggleOn = new ROSLIB.Topic({
+            ros : ros,
+            name : '/switchCommand',
+            messageType : 'std_msgs/Int32'
+        });
+
+        var dataOn = new ROSLIB.Message({
+            data : 1
+        });
+        
+        dataToggleOn.publish(dataOn);
+      }
+      else{
+        document.getElementById("0").value="Off";
+        var dataToggleOff = new ROSLIB.Topic({
+            ros : ros,
+            name : '/switchCommand',
+            messageType : 'std_msgs/Int32'
+        });
+
+        var dataOff = new ROSLIB.Message({
+            data : 0
+        });
+
+        dataToggleOff.publish(dataOff);
+      }
+    /* if(item.className == "on") 
+    {
+        item.className="off";
+        var dataToggleOn = new ROSLIB.Topic({
+            ros : ros,
+            name : '/switchCommand',
+            messageType : 'std_msgs/Int32'
+        });
+
+        var dataOn = new ROSLIB.Message({
+            data : 1
+        });
+        
+        dataToggleOn.publish(dataOn);
+    } 
+    else 
+    {
+        item.className="on";
+        var dataToggleOff = new ROSLIB.Topic({
+            ros : ros,
+            name : '/switchCommand',
+            messageType : 'std_msgs/Int32'
+        });
+
+        var dataOff = new ROSLIB.Message({
+            data : 0
+        });
+
+        dataToggleOff.publish(dataOff);
+    } */
+}
+//--------------------Toggle state---------------
 
 
 
@@ -333,44 +339,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     });
 //--------------------behaviour state---------------
-
-
-
-//--------------------Toggle state---------------
-    function toggleState(item)
-    {
-        if(item.className == "on") 
-        {
-            item.className="off";
-            var dataToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/switchCommand',
-                messageType : 'std_msgs/Int32'
-            });
-
-            var dataOn = new ROSLIB.Message({
-                data : 1
-            });
-            
-            dataToggleOn.publish(dataOn);
-        } 
-        else 
-        {
-            item.className="on";
-            var dataToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/switchCommand',
-                messageType : 'std_msgs/Int32'
-            });
-
-            var dataOff = new ROSLIB.Message({
-                data : 0
-            });
-
-            dataToggleOff.publish(dataOff);
-        }
-    }
-//--------------------Toggle state---------------
 
 
 
@@ -1548,60 +1516,44 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 
-//-------------------camera display ----------------
-    //listen to the topic
-    /* var image_topic = new ROSLIB.Topic({
-        ros : ros,
-        name : '/camera_1/image_raw',
-        messageType : 'sensor_msgs/Image'
-     });
 
-    //subscribing to the topic
-    image_topic.subscribe(function(message)
-    { 
-        
-        
-          var canvas = document.getElementById('myCanvas');
-          var ctx = canvas.getContext('2d');
-          var image = new Image();
-          image.onload = function()
-          {
-            drawImage(image);
-            //ctx.drawImage(image, 0, 0);
-            
-          }
-          image.src = `data:image/png;base64,${message.data}`;
-        
-        function drawImage(image)
-        {
-            canvas.width = image.width;
-            canvas.height = image.height;
-            ctx.drawImage(image, 0, 0);
-        }
-         
-        window.addEventListener('load',onload ); */
-        
-        /* console.log('Received message on ' + image_topic.name + ': ' + message.data);
-        document.getElementById("my_image").src = "data:image/jpg;base64," + message.data; */
-    /* });
-        /* function colorpix()
-        {
-            var canvasElement = document.getElementById("canvas");
-            var context = canvasElement.getContext("2d"); 
-            context.fillStyle = "yellow";
-            context.fillRect(20, 20, 128, 128);
-            context.fillStyle = "red";
-            context.fillRect(150, 20, 128, 128);
-            context.fillStyle = "green";
-            context.fillRect(20, 150, 128, 128);
-            context.fillStyle = "blue"; 
-            context.fillRect(150, 150, 128, 128);
-        }
-          */
-        /* var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.moveTo(0, 0);
-ctx.lineTo(200, 100);
-ctx.stroke(); */
-//-------------------camera display ---------------- 
-        
+
+//-------------------camera display ----------------
+
+//listen to the topic
+var image_topic = new ROSLIB.Topic({
+    ros : ros,
+    name : '/camera_1/image_raw',
+    messageType : 'sensor_msgs/Image'
+ });
+
+//subscribing to the topic
+image_topic.subscribe(function(message)
+{  
+   var msg=atob(message.data);
+   var array = new Uint8Array(new ArrayBuffer(msg.length));
+    for (let i = 0; i < msg.length; i++) 
+    {
+        array[i] = msg.charCodeAt(i);
+    }
+
+    var canvas=document.getElementById("canvas");
+    const ctx = canvas.getContext("2d"); 
+
+    var imgData=ctx.createImageData(canvas.width,canvas.height);
+    for(var j=0;j<array.length;j++)
+    {
+        imgData.data[4*j+0]=array[3*j+0];
+        imgData.data[4*j+1]=array[3*j+1];
+        imgData.data[4*j+2]=array[3*j+2];
+        imgData.data[4*j+3]=255;
+    }
+
+    ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
+    
+}); 
+//-------------------camera display ----------------
+
+
+
+
