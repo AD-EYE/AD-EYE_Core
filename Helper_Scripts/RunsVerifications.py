@@ -32,7 +32,7 @@ for trigger_ditance in TRIGGER_DISTANCES:
 
 
 # update the counters based on the recorded data
-with open('Experiment_Results/ExperimentA.csv', newline='') as csvfile:
+with open('/home/adeye/Experiment_Results/ExperimentA.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
         # print(row)
@@ -52,6 +52,7 @@ for trigger_ditance in TRIGGER_DISTANCES:
         for intensity in RAIN_INTENSITIES:
             for reflectivity in REFLECTIONS:
                 index += 1
-                if parameter_set[trigger_ditance][speed][intensity][reflectivity][0] != 1 and index < 1500:
-                    param_string = "Run " + str(index) + ",   Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , Set trigger distance, "+str(trigger_ditance)
-                    print(param_string)
+                if parameter_set[trigger_ditance][speed][intensity][reflectivity][0] != 1 and index >= 1 and index < 1500:
+                    run_string = "{:<15}".format("Run " + str(index)) + "{:<20}".format("Occurences " + str(parameter_set[trigger_ditance][speed][intensity][reflectivity][0]))
+                    param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , Set trigger distance, "+str(trigger_ditance)
+                    print(run_string + param_string)
