@@ -61,7 +61,7 @@ MISSION_PLANNING_FULL_PATH = (
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
-EXPA_PATH = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/ExperimentA.launch"
+EXPA_PATH = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/ExperimentB.launch"
 
 
 # Sleep times for system to finish resource intensive tasks/ receive control signals
@@ -83,11 +83,11 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False]
+# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentRecording]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, True]
+ENGAGED_STATE =           [    False,    True,         True,          True,             False,      False,             True,            True,   True,   False, True, True]
+FAULT_STATE =             [    False,    True,         True,          True,             False,      False,             True,           False,   True,   False, True, True]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
