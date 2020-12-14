@@ -1,19 +1,22 @@
-function TA(TAOrderFile,firstcolumn,lastcolumn)
+function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
 
     switch nargin
-      case 0
-        error('The TA order files must be passed as an argument')
-      case 1
-        firstcolumn = 1;
-        TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
-        lastcolumn = width(TAOrder);
-      case 2
+      case 1 % Only the TAOrder was passed, run all the experiments.
+          firstcolumn = 1;
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
-        lastcolumn = width(TAOrder);
-      case 3
+          lastcolumn = width(TAOrder);
+          clear_files = 0;
+      case 2 % the TAorder and one index were passed, rin only this one.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = firstcolumn;
+          clear_files = 0;
+      case 3 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          clear_files = 0;
+      case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
       otherwise
-        error('3 inputs are accepted.')
+          error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
     
     if(firstcolumn<1)
@@ -21,6 +24,9 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     end
     if(firstcolumn>lastcolumn)
         error("first column index must lesser than the last column index");
+    end
+    if(lastcolumn>width(TAOrder))
+        error("last column index must lesser than the number of column in the TAOrder file");
     end
     
     
@@ -33,6 +39,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     max_duration = 300;
     % goal = '/move_base_simple/goal';
     % poseStamped = 'geometry_msgs/PoseStamped';
+ 
 
     for c = firstcolumn:min(lastcolumn,width(TAOrder))
         runs(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
@@ -45,7 +52,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     end
 
     
-    disp(['Scheduling ' num2str(lastcolumn-firstcolumn+1) ' simulations...']);
+    disp(['Scheduling ' num2str(length(runs)-firstcolumn+1) ' simulations...']);
 
     runtimes = zeros(1,length(runs));
 
@@ -54,7 +61,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     failed_experiments = [];
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
-        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes);
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
         end
@@ -62,7 +69,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
             disp("Retrying the experiments that failed to run so far")
             failed_experiments_copy = failed_experiments;
             for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
-                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes);
+                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
                 if simulation_ran == 1% If this run suceeded then we can remove it from the failed experiments
                     failed_experiments(i) = [];
                 end
@@ -75,7 +82,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     clear()
 end
 
-function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes)
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files)
     tic
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
@@ -90,9 +97,10 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     % creating experiment names and folders
     run_directory = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
-    disp(['Run: ' num2str(run_index) '/' num2str(length(runs))]);
+    disp(['Run index ' num2str(run_index) '    ' num2str(run_index)-firstcolumn+1 '/' num2str(length(runs)-firstcolumn+1)]);
     run_name = ['Run_' num2str(run_index, '%01i')]; %name of the experiment(for eg. 'Run_1'); also visible in VisViewer
     simulink_name = [run_name '_cs']; %model name (for eg. 'Run_1_cs')
+    folder_to_delete = run_directory;
     run_directory = [run_directory '\' run_name]; %creating a folder in ResultsDir named 'Run_1' containing all the files 
 
     settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory); % Use PreScan CLI to duplicate the template
@@ -145,6 +153,10 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
     cd(ta_path);
     killPrescanFederates(ta_path)
 
+    if clear_files
+        rmdir(folder_to_delete,'s') % cleanup the experiment folder
+    end
+    
     runtimes(run_index) = toc;
     writetable(array2table(runtimes),"runtimes.xlsx")
 end
@@ -161,9 +173,9 @@ function setROSParamAndLaunch(runs, run_index, device)
     system(device, manager_file_launch);
 end
 
-function storeFailedExperimentLog()
+function storeFailedExperimentLog(run_index)
     fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
-    fprintf(fileID,strcat(RunModel,"\n"));
+    fprintf(fileID,strcat(num2str(run_index),"\n"));
     fprintf(fileID,ME.message);
     c = clock;
     fprintf(fileID,num2str(strcat("time: ",num2str(fix(c(4))),"_",num2str(fix(c(5))),"_",num2str(fix(1000*c(6))))));
