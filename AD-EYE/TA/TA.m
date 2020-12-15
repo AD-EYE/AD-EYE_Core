@@ -99,7 +99,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     % creating experiment names and folders
     run_directory = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
-    disp(['Run index ' num2str(run_index) '    ' num2str(run_index)-firstcolumn+1 '/' num2str(length(runs)-firstcolumn+1)]);
+    disp(['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
     run_name = ['Run_' num2str(run_index, '%01i')]; %name of the experiment(for eg. 'Run_1'); also visible in VisViewer
     simulink_name = [run_name '_cs']; %model name (for eg. 'Run_1_cs')
     folder_to_delete = run_directory;
