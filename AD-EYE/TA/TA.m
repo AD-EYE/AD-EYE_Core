@@ -133,7 +133,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
                     rethrow(ME) % we throw the Matlab Exception
                 case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates, log and try to run again
                     warning("Failed to start experiment. Other attemps will be made until success.")
-                    storeFailedExperimentLog();
+                    storeFailedExperimentLog(run_index);
                     killPrescanFederates(ta_path)
                 otherwise % if there was a PreScan issue such as missing federates then we can try to run again
                     disp(ME.identifier)
