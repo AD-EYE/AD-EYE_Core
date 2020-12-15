@@ -67,8 +67,8 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div class="btn-group" style="height:80px;width:320px;">
-              <button id="0" type="button" class="off btn" onclick="toggleState(this.id)">Nominal</button>
-              <button id="1" type="button" class="off btn" onclick="toggleState(this.id)">Safety</button>
+              <button id="0" type="button" value="off" class="off btn" onclick="toggleState(this)">Nominal</button>
+              <button id="1" type="button" value="off" class="off btn" onclick="toggleState(this)">Safety</button>
             </div>
           </div>
         </div>
@@ -78,9 +78,9 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>State : <span id="state"></span></p>
-            <button type="button" class="btn off" onclick="toggleStateinitial(this)">Initial_checks</button>
-            <button type="button"  class="btn off" onclick="toggleStateactivation(this)">Activation_request</button>
-            <button type="button" class="btn off" onclick="toggleStatefault(this)">Fault</button>
+            <button type="button" value="off" class="off btn" onclick="toggleStateinitial(this)">Initial Checks</button>
+            <button type="button" value="off" class="off btn" onclick="toggleStateactivation(this)">Activation Request</button>
+            <button type="button" value="off" class="off btn" onclick="toggleStatefault(this)">Fault</button>
           </div>
         </div>
 
@@ -107,6 +107,7 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
+            <div id="a"></div>
             <button type="button" class="btn off" onclick="toggleStaterec(this)">Recording</button>
             <button type="button"  class="btn off" onclick="toggleStatemap(this)"> Map</button>
             <button type="button" class="btn off"  onclick="toggleStatesen(this)">Sensing</button>

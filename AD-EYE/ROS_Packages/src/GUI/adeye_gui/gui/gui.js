@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         var val_data = message.data;
         var num =val_data;
         // array for two leds
-        var strColorPairs = Array({'position' : 0, 'color' : 'green'},{'position' : 1, 'color' : 'green'});
+        var strColorPairs = Array({'position' : 0, 'color' : '#699b2c'},{'position' : 1, 'color' : '#699b2c'});
         var position = checkPosition(num);
 
         colorBox(position);
@@ -210,69 +210,168 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //--------------------Toggle state---------------
-function toggleState()
-{
-    var currentvalue = document.getElementById('0').value;
-    if(currentvalue == "Off"){
-        document.getElementById("0").value="On";
-        var dataToggleOn = new ROSLIB.Topic({
-            ros : ros,
-            name : '/switchCommand',
-            messageType : 'std_msgs/Int32'
-        });
-
-        var dataOn = new ROSLIB.Message({
-            data : 1
-        });
-        
-        dataToggleOn.publish(dataOn);
-      }
-      else{
-        document.getElementById("0").value="Off";
-        var dataToggleOff = new ROSLIB.Topic({
-            ros : ros,
-            name : '/switchCommand',
-            messageType : 'std_msgs/Int32'
-        });
-
-        var dataOff = new ROSLIB.Message({
-            data : 0
-        });
-
-        dataToggleOff.publish(dataOff);
-      }
-    /* if(item.className == "on") 
+    function toggleState(item)
     {
-        item.className="off";
-        var dataToggleOn = new ROSLIB.Topic({
-            ros : ros,
-            name : '/switchCommand',
-            messageType : 'std_msgs/Int32'
-        });
+        //var test1=(item.id);
+        //var currentvalue = document.getElementById(test1).value;
+        if(item.value == "Off")
+        {
+            item.value="On";//document.getElementById(test1).value="On";
+            var dataToggleOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/switchCommand',
+                messageType : 'std_msgs/Int32'
+            });
 
-        var dataOn = new ROSLIB.Message({
-            data : 1
-        });
-        
-        dataToggleOn.publish(dataOn);
-    } 
-    else 
-    {
-        item.className="on";
-        var dataToggleOff = new ROSLIB.Topic({
-            ros : ros,
-            name : '/switchCommand',
-            messageType : 'std_msgs/Int32'
-        });
+            var dataOn = new ROSLIB.Message({
+                data : 1
+            });
+            
+            dataToggleOn.publish(dataOn);
+        }
+        else
+        {
+            item.value="Off";
+            var dataToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/switchCommand',
+                messageType : 'std_msgs/Int32'
+            });
 
-        var dataOff = new ROSLIB.Message({
-            data : 0
-        });
+            var dataOff = new ROSLIB.Message({
+                data : 0
+            });
 
-        dataToggleOff.publish(dataOff);
-    } */
-}
+            dataToggleOff.publish(dataOff);
+        }
+    }
 //--------------------Toggle state---------------
+
+
+
+//-------------------Manager State----------------
+    //listen to the topic
+    var manager_listener = new ROSLIB.Topic({
+        ros : ros,
+        name : '/manager/state',
+        messageType : 'std_msgs/Int8'
+    });
+
+    //subscribing to the topic
+    manager_listener.subscribe(function(message) 
+    {
+        var num = message.data;
+        if(num==0)
+        {
+            var initial = "Initiaizing";
+            document.getElementById("state").innerHTML=initial;
+        }
+        else if(num==1)
+        {
+            var enabled = "Enabled";
+            document.getElementById("state").innerHTML=enabled;
+        }
+        else if(num==2)
+        {
+            var engaged = "Engaged";
+            document.getElementById("state").innerHTML=engaged;
+        }
+        else if(num==3)
+        {
+            var fault = "Fault";
+            document.getElementById("state").innerHTML=fault;
+        }
+        else
+        {
+            document.getElementById("state").innerHTML="Unknown State"
+        }
+
+    });
+//--------------------Manager State--------------
+
+
+
+//-------------------- State Change---------------
+    function toggleStateinitial(item1)
+    {
+        if(item1.value == "Off") 
+        {
+            item1.value="On";
+            var initialToggleOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/initial_checks',
+                messageType :'std_msgs/Bool'
+            });
+
+            var initialOn = new ROSLIB.Message({
+                data : true
+            });
+
+            initialToggleOn.publish(initialOn);
+        }
+        document.getElementById("state").innerHTML="Initial Checks";
+    }
+        /* else 
+        {
+            item1.value="On";
+            var initialToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/initial_checks',
+                messageType : 'std_msgs/Bool'
+            });
+
+            var initialOff = new ROSLIB.Message({
+                data : false
+            });
+
+            initialToggleOff.publish(initialOff);
+            document.getElementById("state").innerHTML="Initial Checks";
+        } */
+    
+
+    function toggleStateactivation(act)
+    {
+        if(act.value == "Off") 
+        {
+            act.value="On";
+            var activationToggleOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/activation_request',
+                messageType : 'std_msgs/Bool'
+            });
+
+            var activationOn = new ROSLIB.Message({
+                data : true
+            });
+
+            activationToggleOn.publish(activationOn);
+            
+        } 
+        document.getElementById("state").innerHTML="Activation Request";
+    }
+
+    
+    function toggleStatefault(flt)
+    {
+        if(flt.value == "Off") 
+        {
+            flt.value="On";
+            var faultToggleOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/fault',
+                messageType : 'std_msgs/Bool'
+            });
+
+            var faultOn = new ROSLIB.Message({
+                data : true
+            });
+
+            faultToggleOn.publish(faultOn);
+        } 
+        document.getElementById("state").innerHTML="Fault";
+        
+    }
+//-------------------- state Change---------------
 
 
 
@@ -339,150 +438,6 @@ function toggleState()
         }
     });
 //--------------------behaviour state---------------
-
-
-
-//-------------------- State Change---------------
-    function toggleStateinitial(ini)
-    {
-        if(ini.className == "on") 
-        {
-            ini.className="off";
-            var initialToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/initial_checks',
-                messageType :'std_msgs/Bool'
-            });
-
-            var initialOn = new ROSLIB.Message({
-                data : true
-            });
-
-            initialToggleOn.publish(initialOn);
-        }
-        else 
-        {
-            ini.className="on";
-            var initialToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/initial_checks',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var initialOff = new ROSLIB.Message({
-                data : false
-            });
-
-            initialToggleOff.publish(initialOff);
-        }
-    }
-
-    function toggleStateactivation(act)
-    {
-        if(act.className == "on") 
-        {
-            act.className="off";
-            var activationToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/activation_request',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var activationOn = new ROSLIB.Message({
-                data : true
-            });
-
-            activationToggleOn.publish(activationOn);
-        } 
-        else 
-        {
-            act.className="on";
-            var activationToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/activation_request',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var activationOff = new ROSLIB.Message({
-                data : false
-            });
-
-            activationToggleOff.publish(activationOff);
-        }
-    }
-
-    function toggleStatefault(flt)
-    {
-        if(flt.className == "on") 
-        {
-            flt.className="off";
-            var faultToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var faultOn = new ROSLIB.Message({
-                data : true
-            });
-
-            faultToggleOn.publish(faultOn);
-        } 
-        else
-        {
-            flt.className="on";
-            var faultToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var faultOff = new ROSLIB.Message({
-                data : false
-            });
-
-            faultToggleOff.publish(faultOff);
-        }
-    }
-//-------------------- state Change---------------
-
-
-
-//-------------------Manager State----------------
-    //listen to the topic
-    var manager_listener = new ROSLIB.Topic({
-        ros : ros,
-        name : '/manager/state',
-        messageType : 'std_msgs/Int32'
-    });
-
-    //subscribing to the topic
-    manager_listener.subscribe(function(message) 
-    {
-        var num = message.data;
-        if((num==0))
-        {
-            var initial = "Initiaizing";
-            document.getElementById("state").innerHTML = Initial;
-        }
-        else if((num==1))
-        {
-            var enabled = "Enabled";
-            document.getElementById("state").innerHTML = Enabled;
-        }
-        else if((num==2))
-        {
-            var engaged = "Engaged";
-            document.getElementById("state").innerHTML = Engaged;
-        }
-        else if((num==3))
-        {
-            var fault = "Fault";
-            document.getElementById("state").innerHTML = Fault;
-        }
-
-    });
-//--------------------Manager State--------------
 
 
 
@@ -1195,9 +1150,10 @@ function toggleState()
 
 
 //-----------------feature state-----------------
+//listen to the topic
                 var feature_listener = new ROSLIB.Topic({
                   ros : ros,
-                  name : '/feature_state',
+                  name : 'manager/features',
                   messageType : 'std_msgs/Int32MultiArray'
                 });
 
