@@ -67,7 +67,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
         end
-        if mod(lastcolumn-firstcolumn+1,fix((lastcolumn-firstcolumn+1)/10)) == 0 % Regularly try to rerun the failed experiments
+        if mod(run_index,fix((lastcolumn-firstcolumn+1)/10)) == 0 % Regularly try to rerun the failed experiments
             disp("Retrying the experiments that failed to run so far")
             failed_experiments_copy = failed_experiments;
             for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
