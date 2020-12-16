@@ -155,27 +155,46 @@ struct PrescanModel
 			}
 
 			// checking if the child node is "Environment" in "Experiment"
-			if (val_Experiment.first == "Environment")
-			{
-				// looping through all the child nodes inside "Environment"
-				BOOST_FOREACH(ptree::value_type& val_Environment, pt_Experiment.get_child("Environment"))
-				{
-					// checking if the child node is "Underlays" in "Environment"
-					if (val_Environment.first == "Underlays")
-					{
-						// looping through all the child nodes inside "Underlays"
-						BOOST_FOREACH(ptree::value_type& val_Underlays, val_Experiment.second.get_child("Underlays"))
-						{
-							// checking the codition if the attribute "Description" has the value "SAFE" in it
-							if(val_Environment.second.get<std::string>("Underlay.<xmlattr>.Description").size()>=SAFE_STRING_POS && val_Environment.second.get<std::string>("Underlay.<xmlattr>.Description").substr(0,SAFE_STRING_POS) == "SAFE")
-							{
-								safetyAreaValue = strtol(val_Environment.second.get<std::string>("Underlay.<xmlattr>.Description").substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
-							}
-							load_actor(val_Underlays, val_Environment.second.get<int>("Underlay.<xmlattr>.UniqueId"), val_Environment.second.get<int>("Underlay.<xmlattr>.ObjectTypeID"), safetyAreaValue);
-						}
-					}
-				}
-			}
+            if (val_Experiment.first == "Environment")
+            {
+                // looping through all the child nodes inside "Environment"
+                BOOST_FOREACH(ptree::value_type& val_Environment, pt_Experiment.get_child("Environment"))
+                {
+                    // checking if the child node is "Underlays" in "Environment"
+                    if (val_Environment.first == "Underlays")
+                    {
+                        // looping through all the child nodes inside "Underlays"
+                        BOOST_FOREACH(ptree::value_type& val_Underlays, val_Experiment.second.get_child("Underlays"))
+                        {
+                            // tree with all the attributes of each "Underlay"
+                            ptree pt_Underlay_Attr = val_Underlays.second.get_child("<xmlattr>");
+                            BOOST_FOREACH(ptree::value_type& val_Underlay_Attr, pt_Underlay_Attr)
+                            {
+                                // populating the safetyAreaValue with the data of the attribute name "Description"
+                                if(val_Underlay_Attr.first == "Description")
+                                {
+                                    // checking the codition if the attribute "Description" has the value "SAFE" in it
+                                    if(val_Underlay_Attr.second.data().size()>=SAFE_STRING_POS && val_Underlay_Attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
+                                    {
+                                        safetyAreaValue = strtol(val_Underlay_Attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
+                                    }
+                                }
+                                // populating the u_id with the data of the attribute name "UniqueId"
+                                if(val_Underlay_Attr.first == "UniqueId")
+                                {
+                                    u_id = strtol(val_Underlay_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+                                }
+                                // populating the obj_id with the data of the attribute name "ObjectTypeID"
+                                if(val_Underlay_Attr.first == "ObjectTypeID")
+                                {
+                                    obj_id = strtol(val_Underlay_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+                                }
+                            }
+                            load_actor(val_Underlays, u_id, obj_id, safetyAreaValue);						
+                        }
+                    }
+                }
+            }
 		}
 	}
 };
