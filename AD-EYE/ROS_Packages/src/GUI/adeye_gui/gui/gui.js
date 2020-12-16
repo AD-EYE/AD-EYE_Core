@@ -1160,6 +1160,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 feature_listener.subscribe(function(message) {
 
                     var position;
+                    document.getElementById("a").innerHTML=message.data[1];
 
                     i_r=message.INITIALIZING_STATE.RECORDING;
                     i_m=message.INITIALIZING_STATE.MAP;
