@@ -23,7 +23,7 @@ while NumberFound == False :
         NumberFound=True
 
 
-STOP_DISTANCE_SQUARRED = 144 # we stop the experiment when closer than this value
+STOP_DISTANCE_SQUARRED = 900 # we stop the experiment when closer than this value and not moving
 
 
 class ExperimentBRecorder:
