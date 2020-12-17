@@ -137,7 +137,7 @@ TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareCo
 
 rosshutdown
 
-TA('Configurations/TAOrder.xlsx', 1, 2000, 1)
+TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 %TA('Configurations/TAOrder.xlsx', 1, 500)
 
