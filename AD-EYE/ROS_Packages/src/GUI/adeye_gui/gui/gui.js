@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         //function to change the color of leds and reseting it to gray when not in use
         function colorBox(position)
         {
-            var divList = document.getElementsByClassName('btn');
+            var divList = document.getElementsByClassName('btn1');
             var i, n = divList.length;
             curContent = divList[position].id;
             for (i=0; i<n; i++)
@@ -191,6 +191,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                     }
                 }
             }
+            document.getElementById("x1").innerHTML=n;
         }
 
         //function to assign the position in the array base on the data value recived
@@ -453,19 +454,23 @@ var feature_listener = new ROSLIB.Topic({
     name : 'manager/features',
     messageType : 'std_msgs/Int32MultiArray'
 });
+
+var arr;
            
 feature_listener.subscribe(function(message) {
-    var arr=message.data;
+    arr=message.data;
     var num=arr;
     var numindex=new Array();
+    var position;
+
                 
     for(var i=0;i<arr.length;i++)
     {
         numindex[i]=i;
     } 
-    document.getElementById("a").innerHTML=arr;
+    //document.getElementById("a").innerHTML=numindex;
 
-    // array for 11 ledsx
+    // array for 11 leds
     var strColorPairs = Array(
         {'position' : 0, 'color' : 'green'},
         {'position' : 1, 'color' : 'green'},
@@ -480,9 +485,15 @@ feature_listener.subscribe(function(message) {
         {'position' :10, 'color' : 'green'},
         {'position' :11, 'color' : 'green'});
 
-    var position = checkPosition(numindex);
+    for(var i=0;i<arr.length;i++)
+    {
+        position = checkPosition(numindex[i]);
+        
+    } 
+    document.getElementById("a").innerHTML=numindex;
     colorBox(position);
-            
+    
+           
     function checkPosition(numindex)
     {
         var position;
@@ -536,12 +547,14 @@ feature_listener.subscribe(function(message) {
         }
             return position;
     }
+    
         
     //function to change the color of leds and reseting it to gray when not in use
     function colorBox(position)
     {
-        var divList = document.getElementsByClassName('btn');
+        var divList = document.getElementsByClassName('btn2');
         var i, n = divList.length;
+        //for(var j=0;j<n;j++)
         var curContent = divList[position].id;
         for (i=0; i<n; i++)
         {
@@ -557,6 +570,7 @@ feature_listener.subscribe(function(message) {
                 }
             }
         }
+        document.getElementById("a1").innerHTML=divList;
     }
 
 
@@ -569,9 +583,9 @@ feature_listener.subscribe(function(message) {
 
     function toggleStaterec(rec)
     {
-        var x=feature_listener();
+        //var x=feature_listener();
 
-        if(rec.value== "Off") 
+        if(rec.value == "Off") 
         {
             rec.value="On";
             var recToggleOn = new ROSLIB.Topic({
@@ -581,46 +595,34 @@ feature_listener.subscribe(function(message) {
             });
 
             var recOn = new ROSLIB.Message({
-                data : [1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0]
+                data : [1,1,1,0,1,0,1,0,1,1,1,0]
+                
             });
 
             recToggleOn.publish(recOn);
             
             
         } 
-        /* else 
+         else 
         {
-            rec.className="on";
+            rec.value="Off";
             var recToggleOff = new ROSLIB.Topic({
                 ros : ros,
-                name : '/feature_state',
+                name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
             var recOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RECORDING : 0
-            },
-            ENABLED_STATE : 
-            {
-                RECORDING : 0
-            },
-                ENGAGED_STATE : 
-            {
-                RECORDING : 0
-            },
-                FAULT_STATE : 
-            {
-                RECORDING : 0
-            }
+                 data: [0,1,1,0,1,0,1,0,1,1,1,0]
             });
                     
             recToggleOff.publish(recOff);
-        }*/
+        }
 
-        document.getElementById("a1").innerHTML=data;   
+        //document.getElementById("a1").innerHTML=arr;   
      } 
+
+     
                 
     
 //-------------------- Feature Change---------------
