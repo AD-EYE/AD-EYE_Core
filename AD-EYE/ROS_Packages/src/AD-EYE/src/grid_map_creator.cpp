@@ -146,7 +146,7 @@ private:
         PrescanModel pexObjects;
         pexObjects.load_pexmap(filePex);
 
-        if(pexObjects.ULElementFound) { // If a User Library Element is present
+        //if(pexObjects.ULElementFound) { // If a User Library Element is present
             // A .csv file containing its footprint as an occupancy map should be present
             ROS_INFO("User Library Element found in Prescan Experiment !");
             std::string file = checkFile(mapResolution, filePex);
@@ -156,7 +156,7 @@ private:
                 ROS_INFO_STREAM("staticObjects map found : " << file);
                 readFile(file);
             }
-        }
+        //}
 
         // pex file data is used to built the staticObjects layer (stuff like buildings, nature, traffic lights), the value given to the cells is the height of the static object
 
@@ -197,6 +197,14 @@ private:
             grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
                 map.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
+            }
+        }
+
+        // Static Car objects are always considered to be rectangles
+		for(int i = 0; i < (int)pexObjects.staticCarsObjects.size(); i++){
+            grid_map::Polygon polygon = rectangle_creator(pexObjects.staticCarsObjects.at(i).posX, pexObjects.staticCarsObjects.at(i).posY, pexObjects.staticCarsObjects.at(i).sizeX, pexObjects.staticCarsObjects.at(i).sizeY, 0.01745*pexObjects.staticCarsObjects.at(i).yaw);
+            for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
+                map.at("StaticObjects", *it) = pexObjects.staticCarsObjects.at(i).safetyAreaValue;
             }
         }
     }
