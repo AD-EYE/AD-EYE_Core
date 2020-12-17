@@ -185,7 +185,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
                     {
                      divList[curContent].style.backgroundColor  = strColorPairs[j].color;
                     }
-                    else {divList[i].style.backgroundColor  = 'gray'}
+                    else 
+                    {
+                     divList[i].style.backgroundColor  = 'gray';
+                    }
                 }
             }
         }
@@ -206,6 +209,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     });
 //-------------------Nominal Vs Safety Channel ----------------
+
 
 
 
@@ -441,40 +445,150 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 
+
+//-----------------feature state-----------------
+//listen to the topic
+var feature_listener = new ROSLIB.Topic({
+    ros : ros,
+    name : 'manager/features',
+    messageType : 'std_msgs/Int32MultiArray'
+});
+           
+feature_listener.subscribe(function(message) {
+    var arr=message.data;
+    var num=arr;
+    var numindex=new Array();
+                
+    for(var i=0;i<arr.length;i++)
+    {
+        numindex[i]=i;
+    } 
+    document.getElementById("a").innerHTML=arr;
+
+    // array for 11 ledsx
+    var strColorPairs = Array(
+        {'position' : 0, 'color' : 'green'},
+        {'position' : 1, 'color' : 'green'},
+        {'position' : 2, 'color' : 'green'},
+        {'position' : 3, 'color' : 'green'},
+        {'position' : 4, 'color' : 'green'},
+        {'position' : 5, 'color' : 'green'},
+        {'position' : 6, 'color' : 'green'},
+        {'position' : 7, 'color' : 'green'},
+        {'position' : 8, 'color' : 'green'},
+        {'position' : 9, 'color' : 'green'},
+        {'position' :10, 'color' : 'green'},
+        {'position' :11, 'color' : 'green'});
+
+    var position = checkPosition(numindex);
+    colorBox(position);
+            
+    function checkPosition(numindex)
+    {
+        var position;
+        if((numindex==0))
+        {
+            position=0;
+        }
+        else if((numindex==1))
+        {
+            position=1;
+        }
+        else if((numindex==2))
+        {
+            position=2;
+        }
+        else if((numindex==3))
+        {
+            position=3;
+        }
+        else if((numindex==4))
+        {
+            position=4;
+        }
+        else if((numindex==5))
+        {
+            position=5;
+        }
+        else if((numindex==6))
+        {
+            position=6;
+        }
+        else if((numindex==7))
+        {
+            position=7;
+        }
+        else if((numindex==8))
+        {
+            position=8;
+        }
+        else if((numindex==9))
+        {
+            position=9;
+        }
+        else if((numindex==10))
+        {
+            position=10;
+        }
+        else if((numindex==11))
+        {
+            position=11;
+        }
+            return position;
+    }
+        
+    //function to change the color of leds and reseting it to gray when not in use
+    function colorBox(position)
+    {
+        var divList = document.getElementsByClassName('btn');
+        var i, n = divList.length;
+        var curContent = divList[position].id;
+        for (i=0; i<n; i++)
+        {
+            for (j=0; j<strColorPairs.length; j++)
+            {
+                if (strColorPairs[j].position == curContent)
+                {
+                    divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                }
+                else 
+                {
+                    divList[i].style.backgroundColor  = 'gray';
+                }
+            }
+        }
+    }
+
+
+});
+//-----------------feature state-----------------
+
+
+
 //-------------------- Feature Change---------------
+
     function toggleStaterec(rec)
     {
-        if(rec.className == "on") 
+        var x=feature_listener();
+
+        if(rec.value== "Off") 
         {
-            rec.className="off";
+            rec.value="On";
             var recToggleOn = new ROSLIB.Topic({
                 ros : ros,
-                name : '/feature_state',
+                name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
             var recOn = new ROSLIB.Message({
-                INITIALIZING_STATE : 
-                {
-                    RECORDING : 1
-                },
-                ENABLED_STATE : 
-                {
-                    RECORDING : 1
-                },
-                ENGAGED_STATE : 
-                {
-                    RECORDING : 1
-                },
-                FAULT_STATE : 
-                {
-                    RECORDING : 1
-                }
+                data : [1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0]
             });
 
             recToggleOn.publish(recOn);
+            
+            
         } 
-        else 
+        /* else 
         {
             rec.className="on";
             var recToggleOff = new ROSLIB.Topic({
@@ -503,801 +617,16 @@ document.addEventListener('DOMContentLoaded', (event) =>
             });
                     
             recToggleOff.publish(recOff);
-        }
-    }
+        }*/
+
+        document.getElementById("a1").innerHTML=data;   
+     } 
                 
-    function toggleStatemap(map)
-    {
-        if(map.className == "on") 
-        {
-            map.className="off";
-            var mapToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-                      
-            var mapOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MAP : 1
-            },
-            ENABLED_STATE : 
-            {
-                MAP : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MAP : 1
-            },
-            FAULT_STATE : 
-            {
-                MAP : 1
-            }
-            });
-
-            mapToggleOn.publish(mapOn);
-        } 
-        else 
-        {
-            map.className="on";
-            var mapToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mapOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MAP : 0
-            },
-            ENABLED_STATE : 
-            {
-                MAP : 0
-            },
-            ENGAGED_STATE : 
-            {
-                MAP : 0
-            },
-            FAULT_STATE : 
-            {
-                MAP : 0
-            }
-            });
-
-            mapToggleOff.publish(mapOff);
-        }
-    }
-
-    function toggleStatesen(sen)
-    {
-        if(sen.className == "on") 
-        {
-            sen.className="off";
-            var senToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var senOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SENSING : 1
-            },
-            ENABLED_STATE : 
-            {
-                SENSING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SENSING : 1
-            },
-            FAULT_STATE : 
-            {
-                SENSING : 1
-            }
-            });
-
-            senToggleOn.publish(senOn);
-        } 
-        else 
-        {
-            sen.className="on";
-            var senToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var senOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SENSING : 0
-            },
-            ENABLED_STATE : 
-            {
-                SENSING : 0
-            },
-            ENGAGED_STATE : 
-            {
-                SENSING : 0
-            },
-            FAULT_STATE : 
-            {
-                SENSING : 0
-            }
-            });
-
-            senToggleOff.publish(senOff);
-        }
-    }
-
-    function toggleStateloc(loc)
-    {
-        if(loc.className == "on") 
-        {
-            loc.className="off";
-            var locToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var locOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-                {
-                    LOCALIZATION : 1
-                },
-            ENABLED_STATE : 
-                {
-                    LOCALIZATION: 1
-                },
-            ENGAGED_STATE : 
-                {
-                    LOCALIZATION : 1
-                },
-            FAULT_STATE : 
-                {
-                    LOCALIZATION : 1
-                }
-            });
-
-            locToggleOn.publish(locOn);
-        } 
-        else
-        {
-            loc.className="on";
-            var locToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var locOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            ENABLED_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            ENGAGED_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            FAULT_STATE : 
-                {
-                    LOCALIZATION : 0
-                }
-            });
-                
-            locToggleOff.publish(locOff);
-        }
-    }
-
-    function toggleStatefloc(floc)
-    {
-        if(floc.className == "on") 
-        {
-            floc.className="off";
-            var flocToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var flocOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            },
-                ENABLED_STATE : 
-            {
-                FAKE_LOCALIZATION: 1
-            },
-            ENGAGED_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            },
-                FAULT_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            }
-            });
-
-            flocToggleOn.publish(flocOn);
-        } 
-        else
-        {
-            floc.className="on";
-            var flocToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var flocOff = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                FAKE_LOCALIZATION: 0
-            },
-            ENABLED_STATE : 
-            {
-                FAKE_LOCALIZATION : 0
-            },
-            ENGAGED_STATE : 
-            {
-                FAKE_LOCALIZATION : 0
-            },
-            FAULT_STATE : 
-            {
-                FAKE_LOCALIZATION: 0
-            }
-            });
-
-            flocToggleOff.publish(flocOff);
-        }
-    }
-
-    function toggleStatedet(det)
-    {
-        if(det.className == "on") 
-        {
-            det.className="off";
-            var detToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var detOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                DETECTION : 1
-            },
-            ENABLED_STATE : 
-            {
-                DETECTION : 1
-            },
-            ENGAGED_STATE : 
-            {
-                DETECTION : 1
-            },
-            FAULT_STATE : 
-            {
-                DETECTION : 1
-            }
-            });
-
-            detToggleOn.publish(detOn);
-        }
-        else 
-        {
-            det.className="on";
-            var detToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var detOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                DETECTION : 0
-            },
-            ENABLED_STATE : 
-            {
-                DETECTION : 0
-            },
-            ENGAGED_STATE : 
-            {
-                DETECTION : 0
-            },
-            FAULT_STATE : 
-            {
-                DETECTION : 0
-            }
-            });
-
-            detToggleOff.publish(detOff);
-        }
-    }
-
-    function toggleStatemip(mission)
-    {
-        if(mission.className == "on") 
-        {
-            mission.className="off";
-            var mipToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mipOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            ENABLED_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            FAULT_STATE : 
-            {
-                MISSION_PLANNING : 1
-            }
-            });
-
-            mipToggleOn.publish(mipOn);
-        }
-        else 
-        {
-            mission.className="on";
-            var mipToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mipOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            ENABLED_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            ENGAGED_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            FAULT_STATE : 
-            {
-                MISSION_PLANNING : 0
-            }
-            });
-
-            mipToggleOff.publish(mipOff);
-        }
-    }
-
-    function toggleStatemop(motion)
-    {
-        if(motion.className == "on") 
-        {
-            motion.className="off";
-            var mopToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mopOn = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                MOTION_PLANNING : 1
-            },
-            ENABLED_STATE : 
-            {
-                MOTION_PLANNING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MOTION_PLANNING : 1
-            },
-            FAULT_STATE : 
-            {
-                MOTION_PLANNING : 1
-            }
-            });
-
-            mopToggleOn.publish(mopOn);
-        } 
-        else
-        {
-            motion.className="on";
-            var mopToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mopOff = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                MOTION_PLANNING : 0
-            },
-            ENABLED_STATE : 
-            {
-                MOTION_PLANNING: 0
-            },
-            ENGAGED_STATE : 
-            {
-                MOTION_PLANNING : 0
-            },
-            FAULT_STATE : 
-            {
-                MOTION_PLANNING : 0
-            }
-            });
-
-            mopToggleOff.publish(mopOff);
-        }
-    }
-
-    function toggleStateswit(swit)
-    {
-        if(swit.className == "on") 
-        {
-            swit.className="off";
-            var switToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var switOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SWITCH : 1
-            },
-            ENABLED_STATE : 
-            {
-                SWITCH : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SWITCH : 1
-            },
-            FAULT_STATE : 
-            {
-                SWITCH : 1
-            }
-            });
-
-            switToggleOn.publish(switOn);
-        } 
-        else
-        {
-            swit.className="on";
-            var switToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var switOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SWITCH : 0
-            },
-            ENABLED_STATE : 
-            {
-                SWITCH : 0
-            },
-            ENGAGED_STATE : 
-            {
-                SWITCH : 0
-            },
-            FAULT_STATE : 
-            {
-                SWITCH : 0
-            }
-            });
-
-            switToggleOff.publish(switOff);
-        }
-    }
-
-    function toggleStatessmp(ssmp)
-    {
-        if(ssmp.className == "on") 
-        {
-            ssmp.className="off";
-            var ssmpToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var ssmpOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SSMP : 1
-            },
-            ENABLED_STATE : 
-            {
-                SSMP : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SSMP : 1
-            },
-            FAULT_STATE : 
-            {
-                SSMP : 1
-            }
-            });
-        
-            ssmpToggleOn.publish(ssmpOn);
-        } 
-        else 
-        {
-            ssmp.className="on";
-            var ssmpToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var ssmpOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SSMP : 0
-            },
-            ENABLED_STATE : 
-            {
-                SSMP: 0
-            },
-            ENGAGED_STATE : 
-            {
-                SSMP : 0
-            },
-            FAULT_STATE : 
-            {
-                SSMP : 0
-            }
-            });
-
-            ssmpToggleOff.publish(ssmpOff);
-        }
-    }
-
-    function toggleStaterviz(rviz)
-    {
-        if(rviz.className == "on") 
-        {
-            rviz.className="off";
-            var rvizToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var rvizOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RVIZ : 1
-            },
-            ENABLED_STATE : 
-            {
-                RVIZ : 1
-            },
-            ENGAGED_STATE : 
-            {
-                RVIZ : 1
-            },
-            FAULT_STATE : 
-            {
-                RECORDING : 1
-            }
-            });
-
-            rvizToggleOn.publish(rvizOn);
-        } 
-        else 
-        {
-            rviz.className="on";
-            var rvizToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var rvizOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RVIZ : 0
-            },
-            ENABLED_STATE : 
-            {
-                RVIZ : 0
-            },
-            ENGAGED_STATE : 
-            {
-                RVIZ : 0
-            },
-            FAULT_STATE : 
-            {
-                RVIZ : 0
-            }
-            });
-
-            rvizToggleOff.publish(rvizOff);
-        }
-    }
+    
 //-------------------- Feature Change---------------
 
 
 
-//-----------------feature state-----------------
-//listen to the topic
-                var feature_listener = new ROSLIB.Topic({
-                  ros : ros,
-                  name : 'manager/features',
-                  messageType : 'std_msgs/Int32MultiArray'
-                });
-
-                feature_listener.subscribe(function(message) {
-
-                    var position;
-                    document.getElementById("a").innerHTML=message.data[1];
-
-                    i_r=message.INITIALIZING_STATE.RECORDING;
-                    i_m=message.INITIALIZING_STATE.MAP;
-                    i_s=message.INITIALIZING_STATE.SENSING;
-                    i_l=message.INITIALIZING_STATE.LOCALIZATION;
-                    i_f=message.INITIALIZING_STATE.FAKE_LOCALIZATION;
-                    i_d=message.INITIALIZING_STATE.DETECTION;
-                    i_mip=message.INITIALIZING_STATE.MISSION_PLANNING;
-                    i_mop=message.INITIALIZING_STATE.MOTION_PLANNING;
-                    i_sw=message.INITIALIZING_STATE.SWITCH;
-                    i_ss=message.INITIALIZING_STATE.SSMP;
-                    i_rv=message.INITIALIZING_STATE.RVIZ;
-
-                    enab_r=message.ENABLED_STATE.RECORDING;
-                    enab_m=message.ENABLED_STATE.MAP;
-                    enab_s=message.ENABLED_STATE.SENSING;
-                    enab_l=message.ENABLED_STATE.LOCALIZATION;
-                    enab_f=message.ENABLED_STATE.FAKE_LOCALIZATION;
-                    enab_d=message.ENABLED_STATE.DETECTION;
-                    enab_mip=message.ENABLED_STATE.MISSION_PLANNING;
-                    enab_mop=message.ENABLED_STATE.MOTION_PLANNING;
-                    enab_sw=message.ENABLED_STATE.SWITCH;
-                    enab_ss=message.ENABLED_STATE.SSMP;
-                    enab_rv=message.ENABLED_STATE.RVIZ;
-
-                    eng_r=message.ENGAGED_STATE.RECORDING;
-                    eng_m=message.ENGAGED_STATE.MAP;
-                    eng_s=message.ENGAGED_STATE.SENSING;
-                    eng_l=message.ENGAGED_STATE.LOCALIZATION;
-                    eng_f=message.ENGAGED_STATE.FAKE_LOCALIZATION;
-                    eng_d=message.ENGAGED_STATE.DETECTION;
-                    eng_mip=message.ENGAGED_STATE.MISSION_PLANNING;
-                    eng_mop=message.ENGAGED_STATE.MOTION_PLANNING;
-                    eng_sw=message.ENGAGED_STATE.SWITCH;
-                    eng_ss=message.ENGAGED_STATE.SSMP;
-                    eng_rv=message.ENGAGED_STATE.RVIZ;
-
-
-                    f_r=message.FAULT_STATE.RECORDING;
-                    f_m=message.FAULT_STATE.MAP;
-                    f_s=message.FAULT_STATE.SENSING;
-                    f_l=message.FAULT_STATE.LOCALIZATION;
-                    f_f=message.FAULT_STATE.FAKE_LOCALIZATION;
-                    f_d=message.FAULT_STATE.DETECTION;
-                    f_mip=message.FAULT_STATE.MISSION_PLANNING;
-                    f_mop=message.FAULT_STATE.MOTION_PLANNING;
-                    f_sw=message.FAULT_STATE.SWITCH;
-                    f_ss=message.FAULT_STATE.SSMP;
-                    f_rv=message.FAULT_STATE.RVIZ;
-
-                    if((i_r==1)||(enab_r==1)||(eng_r)||(f_r==1))
-                    {
-                        position=0;
-                    }
-                    if((i_m==1)||(enab_m==1)||(eng_m==1)(f_m==1))
-                    {
-                        position=1;
-                    }
-                    if((i_s==1)||(enab_s==1)||(eng_s==1)(f_s==1))
-                    {
-                        position=2;
-                    }
-                    if((i_l==1)||(enab_l==1)||(eng_l==1)(f_l==1))
-                    {
-                        position=3;
-                    }
-                    if((i_f==1)||(enab_f==1)||(eng_f==1)(f_f==1))
-                    {
-                        position=4;
-                    }
-                    if((i_d==1)||(enab_d==1)||(eng_d==1)(f_d==1))
-                    {
-                        position=5;
-                    }
-                    if((i_mip==1)||(enab_mip==1)||(eng_mip==1)(f_mip==1))
-                    {
-                        position=6;
-                    }
-                    if((i_mop==1)||(enab_mop==1)||(eng_mop==1)(f_mop==1))
-                    {
-                        position=7;
-                    }
-                    if((i_sw==1)||(enab_sw==1)||(eng_sw==1)(f_sw==1))
-                    {
-                        position=8;
-                    }
-                    if((i_ss==1)||(enab_ss==1)||(eng_ss==1)(f_ss==1))
-                    {
-                        position=9;
-                    }
-                    if((i_rv==1)||(enab_rv==1)||(eng_rv==1)(f_rv==1))
-                    {
-                        position=10;
-                    }
-
-
-                  // array for 11 ledsx
-                    var strColorPairs = Array(
-                                                {'position' : 0, 'color' : 'green'},
-                                                {'position' : 1, 'color' : 'green'},
-                                                {'position' : 2, 'color' : 'green'},
-                                                {'position' : 3, 'color' : 'green'},
-                                                {'position' : 4, 'color' : 'green'},
-                                                {'position' : 5, 'color' : 'green'},
-                                                {'position' : 6, 'color' : 'green'},
-                                                {'position' : 7, 'color' : 'green'},
-                                                {'position' : 8, 'color' : 'green'},
-                                                {'position' : 9, 'color' : 'green'},
-                                                {'position' :10, 'color' : 'green'}
-                                            );
-
-
-                    colorBox(position);
-                    //function to change the color of leds and reseting it to gray when not in use
-                     function colorBox(position)
-                        {
-                            var divList = document.getElementsByClassName('ratingBox');
-                            var i, n = divList.length;
-                            curContent = divList[position].id;
-                            for (i=0; i<n; i++)
-                            {
-
-                                for (j=0; j<strColorPairs.length; j++)
-                                {
-                                    if (strColorPairs[j].position == curContent){
-                                        divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                                        }
-                                    else {divList[i].style.backgroundColor  = 'gray'}
-                                }
-                            }
-                        }
-
-
-                });
-
-
-//-----------------feature state-----------------
 
 //-------------fault injection---------------
 
