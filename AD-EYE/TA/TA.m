@@ -133,7 +133,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
                     rethrow(ME) % we throw the Matlab Exception
                 case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates, log and try to run again
                     warning("Failed to start experiment. Other attemps will be made until success.")
-                    storeFailedExperimentLog(run_index);
+                    storeFailedExperimentLog(run_index, ME);
                     killPrescanFederates(ta_path)
                 otherwise % if there was a PreScan issue such as missing federates then we can try to run again
                     disp(ME.identifier)
@@ -175,7 +175,7 @@ function setROSParamAndLaunch(runs, run_index, device)
     system(device, manager_file_launch);
 end
 
-function storeFailedExperimentLog(run_index)
+function storeFailedExperimentLog(run_index, ME)
     fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
     fprintf(fileID,strcat(num2str(run_index),"\n"));
     fprintf(fileID,ME.message);
