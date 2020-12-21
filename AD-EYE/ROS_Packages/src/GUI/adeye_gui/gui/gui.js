@@ -166,9 +166,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
         var val_data = message.data;
         var num =val_data;
         // array for two leds
-        var strColorPairs = Array({'position' : 0, 'color' : '#699b2c'},{'position' : 1, 'color' : '#699b2c'});
+        var strColorPairs = Array({'position' : 00, 'color' : '#699b2c'},{'position' : 01, 'color' : '#699b2c'});
         var position = checkPosition(num);
-
         colorBox(position);
 
         //function to change the color of leds and reseting it to gray when not in use
@@ -191,7 +190,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                     }
                 }
             }
-            document.getElementById("x1").innerHTML=n;
+            
         }
 
         //function to assign the position in the array base on the data value recived
@@ -207,10 +206,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 position=1;
             }
             return position;
+            
         }
     });
 //-------------------Nominal Vs Safety Channel ----------------
-
 
 
 
@@ -316,23 +315,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
         document.getElementById("state").innerHTML="Initial Checks";
     }
-        /* else 
-        {
-            item1.value="On";
-            var initialToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/initial_checks',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var initialOff = new ROSLIB.Message({
-                data : false
-            });
-
-            initialToggleOff.publish(initialOff);
-            document.getElementById("state").innerHTML="Initial Checks";
-        } */
-    
 
     function toggleStateactivation(act)
     {
@@ -354,7 +336,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         } 
         document.getElementById("state").innerHTML="Activation Request";
     }
-
     
     function toggleStatefault(flt)
     {
@@ -446,7 +427,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 
-
 //-----------------feature state-----------------
 //listen to the topic
 var feature_listener = new ROSLIB.Topic({
@@ -456,124 +436,70 @@ var feature_listener = new ROSLIB.Topic({
 });
 
 var arr;
-           
-feature_listener.subscribe(function(message) {
-    arr=message.data;
-    var num=arr;
-    var numindex=new Array();
-    var position;
-
-                
-    for(var i=0;i<arr.length;i++)
-    {
-        numindex[i]=i;
-    } 
-    //document.getElementById("a").innerHTML=numindex;
-
-    // array for 11 leds
+feature_listener.subscribe(function(message) 
+{
+    var arr = message.data;
+    var num =arr;
+    // array for twelve leds
     var strColorPairs = Array(
-        {'position' : 0, 'color' : 'green'},
-        {'position' : 1, 'color' : 'green'},
-        {'position' : 2, 'color' : 'green'},
-        {'position' : 3, 'color' : 'green'},
-        {'position' : 4, 'color' : 'green'},
-        {'position' : 5, 'color' : 'green'},
-        {'position' : 6, 'color' : 'green'},
-        {'position' : 7, 'color' : 'green'},
-        {'position' : 8, 'color' : 'green'},
-        {'position' : 9, 'color' : 'green'},
-        {'position' :10, 'color' : 'green'},
-        {'position' :11, 'color' : 'green'});
+    {'position' : 00, 'color' : '#699b2c'},
+    {'position' : 01, 'color' : '#699b2c'},
+    {'position' : 2, 'color' : '#699b2c'},
+    {'position' : 3, 'color' : '#699b2c'},
+    {'position' : 4, 'color' : '#699b2c'},
+    {'position' : 5, 'color' : '#699b2c'},
+    {'position' : 6, 'color' : '#699b2c'},
+    {'position' : 7, 'color' : '#699b2c'},
+    {'position' : 8, 'color' : '#699b2c'},
+    {'position' : 9, 'color' : '#699b2c'},
+    {'position' : 10, 'color' : '#699b2c'},
+    {'position' : 11, 'color' : '#699b2c'});
 
-    for(var i=0;i<arr.length;i++)
-    {
-        position = checkPosition(numindex[i]);
-        
-    } 
-    document.getElementById("a").innerHTML=numindex;
+    var position = new Array();
+    position = checkPosition(num);
     colorBox(position);
-    
-           
-    function checkPosition(numindex)
-    {
-        var position;
-        if((numindex==0))
-        {
-            position=0;
-        }
-        else if((numindex==1))
-        {
-            position=1;
-        }
-        else if((numindex==2))
-        {
-            position=2;
-        }
-        else if((numindex==3))
-        {
-            position=3;
-        }
-        else if((numindex==4))
-        {
-            position=4;
-        }
-        else if((numindex==5))
-        {
-            position=5;
-        }
-        else if((numindex==6))
-        {
-            position=6;
-        }
-        else if((numindex==7))
-        {
-            position=7;
-        }
-        else if((numindex==8))
-        {
-            position=8;
-        }
-        else if((numindex==9))
-        {
-            position=9;
-        }
-        else if((numindex==10))
-        {
-            position=10;
-        }
-        else if((numindex==11))
-        {
-            position=11;
-        }
-            return position;
-    }
-    
-        
+
     //function to change the color of leds and reseting it to gray when not in use
     function colorBox(position)
     {
         var divList = document.getElementsByClassName('btn2');
         var i, n = divList.length;
-        //for(var j=0;j<n;j++)
-        var curContent = divList[position].id;
-        for (i=0; i<n; i++)
+        for (p=0; p<position.length; p++)
         {
-            for (j=0; j<strColorPairs.length; j++)
+            curContent = divList[position[p]].id;
+            for (i=0; i<n; i++)
             {
-                if (strColorPairs[j].position == curContent)
+                for (j=0; j<strColorPairs.length; j++)
                 {
-                    divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                }
-                else 
-                {
-                    divList[i].style.backgroundColor  = 'gray';
+                    if (strColorPairs[j].position !== curContent)
+                    {
+                        divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                     //continue;
+                    }
+                    else 
+                    {
+                        divList[i].style.backgroundColor  = 'gray';
+                    }
                 }
             }
+
         }
-        document.getElementById("a1").innerHTML=divList;
     }
 
-
+    //function to check the positions of the features to be enabled
+    
+    function checkPosition(num)
+    {
+        let on = [];
+        for (let i = 0; i < num.length; i++)
+        {
+            if (num[i] === 1)
+            {
+              on.push(i);
+            }
+        }
+        return on;
+    }
 });
 //-----------------feature state-----------------
 
@@ -583,29 +509,10 @@ feature_listener.subscribe(function(message) {
 
     function toggleStaterec(rec)
     {
-        //var x=feature_listener();
-
-        if(rec.value == "Off") 
+        //var data=arr;
+        if(rec.value=="off")
         {
-            rec.value="On";
-            var recToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/Features_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var recOn = new ROSLIB.Message({
-                data : [1,1,1,0,1,0,1,0,1,1,1,0]
-                
-            });
-
-            recToggleOn.publish(recOn);
-            
-            
-        } 
-         else 
-        {
-            rec.value="Off";
+            rec.value="on";
             var recToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
@@ -613,20 +520,35 @@ feature_listener.subscribe(function(message) {
             });
 
             var recOff = new ROSLIB.Message({
-                 data: [0,1,1,0,1,0,1,0,1,1,1,0]
+                 data: [1,1,1,0,1,0,1,0,1,1,1,0]
             });
                     
             recToggleOff.publish(recOff);
-        }
+        } 
+    } 
 
-        //document.getElementById("a1").innerHTML=arr;   
-     } 
+    function toggleStatemap(map)
+    {
+        
+        if(map.value=="off")
+        {
+            map.value="on";
+            var mapToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
 
-     
-                
-    
+            var mapOff = new ROSLIB.Message({
+                 data: arr,
+                 data: [0,0,1,0,1,0,1,0,1,1,1,0],
+                 // testing data: [0,0,0,0,1,0,1,0,1,1,1,0]
+            });
+                    
+            mapToggleOff.publish(mapOff);
+        } 
+    } 
 //-------------------- Feature Change---------------
-
 
 
 
@@ -801,8 +723,6 @@ feature_listener.subscribe(function(message) {
               }
 
 //-------------fault injection----------------
-
-
 
 
 
