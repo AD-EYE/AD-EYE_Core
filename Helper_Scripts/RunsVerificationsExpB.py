@@ -9,7 +9,7 @@ import os
 # individual parameter values
 EGO_SPEEDS = [round(5.5 + 1.4 * i, 2) for i in range(0, 7)]
 MAP = 2
-GOALS_X = [ [] , [208,110,103] , [] ]
+GOALS_X = [ [290,5,143] , [208,110,103] , [-61,129,197] ]
 RAIN_INTENSITIES = [0.5, 1.5, 3.5, 7.5, 15, 40]
 REFLECTIONS = [round(0.05 + 0.2 * i, 2) for i in range(0, 5)]
 
@@ -27,29 +27,33 @@ for speed in EGO_SPEEDS:
             for reflectivity in REFLECTIONS:
                 index += 1
                 param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , goal x," + str(goal_x)
-                parameter_set[speed][goal_x][intensity][reflectivity] = [0, index]
+                parameter_set[speed][goal_x][intensity][reflectivity] = [0, index, ""]
 
 
 
 
 
 # update the counters based on the recorded data
-folder = "/home/adeye/Experiment_Results/ExperimentB"
+folder = "/home/adeye/Experiment_Results/ExperimentB/Map 2"
 files = os.listdir(folder)
 for file in files:
-    with open(folder+"/"+file, newline='') as csvfile:
-    # with open('/home/adeye/Experiment_Results/ExperimentA.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
-        row = next(reader)
-        # print(row)
-        speed = round(float(row[1]), 2)
-        intensity = round(float(row[3]), 2)
-        reflectivity = round(float(row[5]), 2)
-        goal_x = round(float(row[7]), 1)
+    try:
+        with open(folder+"/"+file, newline='') as csvfile:
+        # with open('/home/adeye/Experiment_Results/ExperimentA.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            row = next(reader)
+            # print(row)
+            speed = round(float(row[1]), 2)
+            intensity = round(float(row[3]), 2)
+            reflectivity = round(float(row[5]), 2)
+            goal_x = round(float(row[7]), 1)
 
-        param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , goal x," + str(goal_x)
-        # print(param_string)
-        parameter_set[speed][goal_x][intensity][reflectivity][0] += 1
+            param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , goal x," + str(goal_x)
+            # print(param_string)
+            parameter_set[speed][goal_x][intensity][reflectivity][0] += 1
+            parameter_set[speed][goal_x][intensity][reflectivity][2] += file + "  "
+    except:
+        print("file " + file + " is empty")
 
 
 
@@ -61,7 +65,8 @@ for speed in EGO_SPEEDS:
         for intensity in RAIN_INTENSITIES:
             for reflectivity in REFLECTIONS:
                 index += 1
-                if parameter_set[speed][goal_x][intensity][reflectivity][0] != 1 and index >= 1 and index < 110:
+                if parameter_set[speed][goal_x][intensity][reflectivity][0] != 1 and index >= 1:# and index < 0:
                     run_string = "{:<15}".format("Run " + str(index)) + "{:<20}".format("Occurences " + str(parameter_set[speed][goal_x][intensity][reflectivity][0]))
+                    filename = "{:<35}".format("File names " + parameter_set[speed][goal_x][intensity][reflectivity][2])
                     param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , goal x," + str(goal_x)
-                    print(run_string + param_string)
+                    print(run_string+ filename + param_string)
