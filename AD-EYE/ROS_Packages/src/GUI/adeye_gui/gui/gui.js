@@ -287,7 +287,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
         else
         {
-            document.getElementById("state").innerHTML="Unknown State"
+            var unknown = "Unknown State";
+            document.getElementById("state").innerHTML=unknown;
         }
 
     });
@@ -296,11 +297,11 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------- State Change---------------
-    function toggleStateinitial(item1)
+    function toggleStateinitial(initial)
     {
-        if(item1.value == "Off") 
+        if(initial.value == "off") 
         {
-            item1.value="On";
+            initial.value="on";
             var initialToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/initial_checks',
@@ -313,14 +314,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
             initialToggleOn.publish(initialOn);
         }
-        document.getElementById("state").innerHTML="Initial Checks";
     }
 
-    function toggleStateactivation(act)
+    function toggleStateactivation(activation)
     {
-        if(act.value == "Off") 
+        if(activation.value == "off") 
         {
-            act.value="On";
+            activation.value="on";
             var activationToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/activation_request',
@@ -332,16 +332,14 @@ document.addEventListener('DOMContentLoaded', (event) =>
             });
 
             activationToggleOn.publish(activationOn);
-            
         } 
-        document.getElementById("state").innerHTML="Activation Request";
     }
-    
-    function toggleStatefault(flt)
+
+    function toggleStatefault(fault)
     {
-        if(flt.value == "Off") 
+        if(fault.value == "off") 
         {
-            flt.value="On";
+            fault.value="on";
             var faultToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault',
@@ -354,8 +352,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
             faultToggleOn.publish(faultOn);
         } 
-        document.getElementById("state").innerHTML="Fault";
-        
     }
 //-------------------- state Change---------------
 
@@ -507,29 +503,27 @@ feature_listener.subscribe(function(message)
 
 //-------------------- Feature Change---------------
 
-    function toggleStaterec(rec)
+    function toggleStateRecording(recording)
     {
-        //var data=arr;
-        if(rec.value=="off")
+        if(recording.value=="off")
         {
-            rec.value="on";
-            var recToggleOff = new ROSLIB.Topic({
+            recording.value="on";
+            var recordingToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var recOff = new ROSLIB.Message({
+            var recordingOff = new ROSLIB.Message({
                  data: [1,1,1,0,1,0,1,0,1,1,1,0]
             });
                     
-            recToggleOff.publish(recOff);
+            recordingToggleOff.publish(recordingOff);
         } 
     } 
 
-    function toggleStatemap(map)
+    function toggleStateMap(map)
     {
-        
         if(map.value=="off")
         {
             map.value="on";
@@ -540,14 +534,205 @@ feature_listener.subscribe(function(message)
             });
 
             var mapOff = new ROSLIB.Message({
-                 data: arr,
-                 data: [0,0,1,0,1,0,1,0,1,1,1,0],
-                 // testing data: [0,0,0,0,1,0,1,0,1,1,1,0]
+                 data: [0,1,1,0,1,0,1,0,1,1,1,0]
             });
                     
             mapToggleOff.publish(mapOff);
         } 
     } 
+
+    function toggleStateSensing(sensing)
+    {
+        if(sensing.value=="off")
+        {
+            sensing.value="on";
+            var sensingToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var sensingOff = new ROSLIB.Message({
+                data: [0,1,1,0,1,0,1,0,1,1,1,0]
+            });
+                    
+            sensingToggleOff.publish(sensingOff);
+        } 
+    } 
+
+    function toggleStateLocalization(localization)
+    {
+        if(localization.value=="off")
+        {
+            localization.value="on";
+            var localizationToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var localizationOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,0,1,0,1,1,1,0]
+            });
+                    
+            localizationToggleOff.publish(localizationOff);
+        } 
+    } 
+
+    function toggleStateFakeLocalization(fakelocalization)
+    {
+        if(fakelocalization.value=="off")
+        {
+            fakelocalization.value="on";
+            var fakelocalizationToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var fakelocalizationOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,0,1,0,1,1,1,0]
+            });
+                    
+            fakelocalizationToggleOff.publish(fakelocalizationOff);
+        } 
+    } 
+
+    function toggleStateDetection(detection)
+    {
+        if(detection.value=="off")
+        {
+            detection.value="on";
+            var detectionToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var detectionOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,0,1,1,1,0]
+            });
+                    
+            detectionToggleOff.publish(detectionOff);
+        } 
+    } 
+
+    function toggleStateMissionPlanning(missionplanning)
+    {
+        if(missionplanning.value=="off")
+        {
+            missionplanning.value="on";
+            var missionplanningToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var missionplanningOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,0]
+            });
+                    
+            missionplanningToggleOff.publish(missionplanningOff);
+        } 
+    } 
+
+    function toggleStateMotion(motionplanning)
+    {
+        if(motionplanning.value=="off")
+        {
+            motionplanning.value="on";
+            var motionplanningToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var motionplanningOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,0]
+            });
+                    
+            motionplanningToggleOff.publish(motionplanningOff);
+        } 
+    } 
+
+    function toggleStateSwitch(Switch)
+    {
+        if(Switch.value=="off")
+        {
+            Switch.value="on";
+            var SwitchToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var SwitchOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,0]
+            });
+                    
+            SwitchToggleOff.publish(SwitchOff);
+        } 
+    } 
+
+    function toggleStateSSMP(ssmp)
+    {
+        if(ssmp.value=="off")
+        {
+            ssmp.value="on";
+            var ssmpToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var ssmpOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,0]
+            });
+                    
+            ssmpToggleOff.publish(ssmpOff);
+        } 
+    } 
+
+    function toggleStateRviz(rviz)
+    {
+        if(rviz.value=="off")
+        {
+            rviz.value="on";
+            var rvizToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var rvizOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,0]
+            });
+                    
+            rvizToggleOff.publish(rvizOff);
+        } 
+    } 
+
+    function toggleStateExpRecording(exprecording)
+    {
+        if(exprecording.value=="off")
+        {
+            exprecording.value="on";
+            var exprecordingToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/Features_state',
+                messageType : 'std_msgs/Int32MultiArray'
+            });
+
+            var exprecordingOff = new ROSLIB.Message({
+                data: [0,1,1,1,1,1,1,1,1,1,1,1]
+            });
+                    
+            exprecordingToggleOff.publish(exprecordingOff);
+        } 
+    } 
+
+
+    
 //-------------------- Feature Change---------------
 
 
