@@ -1,6 +1,7 @@
+
+var green="#699b2c";
 document.addEventListener('DOMContentLoaded', (event) => 
 {
-
     var dragSrcEl = null;
 
     function handleDragStart(e) 
@@ -80,8 +81,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------linear velocity----------------
-    //listen to the topic
-    var vel_listener = new ROSLIB.Topic({
+    // Listen to the topic /vehicle_cmd
+    let vel_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
@@ -90,9 +91,9 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     vel_listener.subscribe(function(message)
     {
-        var val = message.ctrl_cmd.linear_velocity;
+        let value = message.ctrl_cmd.linear_velocity;
         const gaugeElement = document.querySelector(".gauge");
-        val = val / 10; //shifting one decimal
+        value = value / 10; //shifting one decimal
                             
         //function to set values of the gauge
         function setGaugeValue(gauge, value) 
@@ -104,13 +105,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
             }
             //making the turn over the gauge body
             gauge.querySelector(".gauge_fill").style.transform = `rotate(${value / 3}turn)`;
-            value = (value * 180) / 5;// to convert the value to km/hr from m/s
+            value = (value * 180) / 5; // to convert the value to km/hr from m/s
             //printing the velocity value
             gauge.querySelector(".gauge_cover").textContent = `${Math.round(value )} km/h`;
         }
 
-        // passing the value to the function
-        setGaugeValue(gaugeElement, val);
+        // passing the value received from the topic /vehicle_cmd to the function to display the velocity
+        setGaugeValue(gaugeElement, value);
     });
 //-------------------linear velocity----------------
 
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 //-------------------linear acceleration----------------
     //listen to the topic
-    var acc_listener = new ROSLIB.Topic({
+    let acc_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
@@ -127,9 +128,9 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     acc_listener.subscribe(function(message)
     {
-        var val_a = message.ctrl_cmd.linear_acceleration;
+        let value_a = message.ctrl_cmd.linear_acceleration;
         const gaugeElement_a = document.querySelector(".gauge_a");
-        val_a = val_a / 10; //shifting one decimal
+        value_a = value_a / 10; //shifting one decimal
 
         //function to set values of the gauge
         function setGaugeValue_a(gauge_a, value_a) 
@@ -145,8 +146,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
             gauge_a.querySelector(".gauge_a_cover").textContent = `${Math.round(value_a*10 )} m/s²`;
         }
 
-        // passing the value to the function
-        setGaugeValue_a(gaugeElement_a, val_a);
+        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration
+        setGaugeValue_a(gaugeElement_a, value_a);
     });
 //-------------------linear acceleration----------------
 
@@ -154,7 +155,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 //-------------------Nominal Vs Safety Channel----------------
     //listen to the topic
-    var data_listener = new ROSLIB.Topic({
+    let data_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/switchCommand',
         messageType : 'std_msgs/Int32'
@@ -163,71 +164,66 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     data_listener.subscribe(function(message) 
     {
-        var val_data = message.data;
-        var num =val_data;
-        // array for two leds
-        var strColorPairs = Array({'position' : 00, 'color' : '#699b2c'},{'position' : 01, 'color' : '#699b2c'});
-        var position = checkPosition(num);
-        colorBox(position);
+        let data = message.data;
+        let number = data;
 
-        //function to change the color of leds and reseting it to gray when not in use
-        function colorBox(position)
+        // array for postion:color pairs
+        let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
+        let position = assignPosition(number);
+        assignColor(position);
+
+        //function to change the color of buttons and reseting it to gray when not in use
+        function assignColor(position)
         {
-            var divList = document.getElementsByClassName('btn1');
-            var i, n = divList.length;
-            curContent = divList[position].id;
-            for (i=0; i<n; i++)
+            let buttonList = document.getElementsByClassName('channel');
+            let numOfButtons = buttonList.length;
+            let buttonId = buttonList[position].id;
+            for (let i = 0; i < numOfButtons; i++)
             {
-              for (j=0; j<strColorPairs.length; j++)
+              for (let j = 0; j < positionColorPairs.length; j++)
                 {
-                    if (strColorPairs[j].position == curContent)
+                    if (positionColorPairs[j].position == buttonId)
                     {
-                     divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                     buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
                     }
                     else 
                     {
-                     divList[i].style.backgroundColor  = 'gray';
+                     buttonList[i].style.backgroundColor  = 'gray';
                     }
                 }
             }
-            
         }
 
-        //function to assign the position in the array base on the data value recived
-        function checkPosition(num)
+        //function to assign the position in the array based on the data value received
+        function assignPosition(number)
         {
-            var position;
-            if((num==0))
+            let position;
+            if((number == 0))
             {
-                position=0;
+                position = 0;
             }
-            else if((num==1))
+            else if((number == 1))
             {
-                position=1;
+                position = 1;
             }
             return position;
             
         }
     });
-//-------------------Nominal Vs Safety Channel ----------------
-
-
-
-//--------------------Toggle state---------------
-    function toggleState(item)
+    
+    // function to switch the channel on buttuon click from nominal to safety and vice-versa 
+    function toggleState_OnClick(channel)
     {
-        //var test1=(item.id);
-        //var currentvalue = document.getElementById(test1).value;
-        if(item.value == "Off")
+        if(channel.value == "off")
         {
-            item.value="On";//document.getElementById(test1).value="On";
-            var dataToggleOn = new ROSLIB.Topic({
+            //channel.value="On";
+            let dataToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/switchCommand',
                 messageType : 'std_msgs/Int32'
             });
 
-            var dataOn = new ROSLIB.Message({
+            let dataOn = new ROSLIB.Message({
                 data : 1
             });
             
@@ -235,27 +231,27 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
         else
         {
-            item.value="Off";
-            var dataToggleOff = new ROSLIB.Topic({
+            //channel.value="Off";
+            let dataToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/switchCommand',
                 messageType : 'std_msgs/Int32'
             });
 
-            var dataOff = new ROSLIB.Message({
+            let dataOff = new ROSLIB.Message({
                 data : 0
             });
 
             dataToggleOff.publish(dataOff);
         }
     }
-//--------------------Toggle state---------------
+//-------------------Nominal Vs Safety Channel ----------------
 
 
 
 //-------------------Manager State----------------
     //listen to the topic
-    var manager_listener = new ROSLIB.Topic({
+    let manager_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/manager/state',
         messageType : 'std_msgs/Int8'
@@ -264,95 +260,150 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     manager_listener.subscribe(function(message) 
     {
-        var num = message.data;
-        if(num==0)
+        let data = message.data;
+        if(data === 0)
         {
-            var initial = "Initiaizing";
-            document.getElementById("state").innerHTML=initial;
+            document.getElementById("state").innerHTML = "Initializing";
         }
-        else if(num==1)
+        else if(data === 1)
         {
-            var enabled = "Enabled";
-            document.getElementById("state").innerHTML=enabled;
+            document.getElementById("state").innerHTML = "Enabled";
         }
-        else if(num==2)
+        else if(data === 2)
         {
-            var engaged = "Engaged";
-            document.getElementById("state").innerHTML=engaged;
+            document.getElementById("state").innerHTML = "Engaged";
         }
-        else if(num==3)
+        else if(data === 3)
         {
-            var fault = "Fault";
-            document.getElementById("state").innerHTML=fault;
+            document.getElementById("state").innerHTML = "Fault";
         }
         else
         {
-            var unknown = "Unknown State";
-            document.getElementById("state").innerHTML=unknown;
+            document.getElementById("state").innerHTML = "Unknown";
         }
 
     });
-//--------------------Manager State--------------
 
-
-
-//-------------------- State Change---------------
+    // function to change the state from one to another by clicking on the buttons.
     function toggleStateinitial(initial)
     {
         if(initial.value == "off") 
         {
-            initial.value="on";
-            var initialToggleOn = new ROSLIB.Topic({
+            initial.value = "on";
+            let initialToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/initial_checks',
                 messageType :'std_msgs/Bool'
             });
 
-            var initialOn = new ROSLIB.Message({
+            let initialOn = new ROSLIB.Message({
                 data : true
             });
 
             initialToggleOn.publish(initialOn);
         }
-    }
 
+        else
+        {
+            initial.value = "off";
+            let initialToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/initial_checks',
+                messageType :'std_msgs/Bool'
+            });
+
+            let initialOff = new ROSLIB.Message({
+                data : false
+            });
+
+            initialToggleOff.publish(initialOff);
+        }
+    }
+    
+    // function to change the state from one to another by clicking on the buttons.
     function toggleStateactivation(activation)
     {
         if(activation.value == "off") 
         {
-            activation.value="on";
-            var activationToggleOn = new ROSLIB.Topic({
+            activation.value = "on";
+            let activationToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/activation_request',
                 messageType : 'std_msgs/Bool'
             });
 
-            var activationOn = new ROSLIB.Message({
+            let activationOn = new ROSLIB.Message({
                 data : true
             });
 
             activationToggleOn.publish(activationOn);
         } 
+        else
+        {
+            activation.value = "off";
+            let activationToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/activation_request',
+                messageType :'std_msgs/Bool'
+            });
+
+            let activationOff = new ROSLIB.Message({
+                data : false
+            });
+
+            activationToggleOff.publish(activationOff);
+        }
     }
 
+    // function to change the state from one to another by clicking on the buttons.
     function toggleStatefault(fault)
     {
         if(fault.value == "off") 
         {
-            fault.value="on";
-            var faultToggleOn = new ROSLIB.Topic({
+            fault.value = "on";
+            let faultToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault',
                 messageType : 'std_msgs/Bool'
             });
 
-            var faultOn = new ROSLIB.Message({
+            let faultOn = new ROSLIB.Message({
                 data : true
             });
 
             faultToggleOn.publish(faultOn);
         } 
+        else
+        {
+            fault.value = "off";
+            let faultToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/fault',
+                messageType :'std_msgs/Bool'
+            });
+
+            let faultOff = new ROSLIB.Message({
+                data : false
+            });
+
+            faultToggleOff.publish(faultOff);
+        }
+        
     }
+//--------------------Manager State--------------
+
+
+
+//-------------------- State Change---------------
+    
+   
+
+//choose consistent function names, including casing
+//each function should have at least a line describing purpose
+//each file in the project should have a few lines describing purpose
+//variable names should be as descrptive as possible, check casing
+//add wiki page about general coding guideline rules and add examples about javascript
+
 //-------------------- state Change---------------
 
 
@@ -405,13 +456,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic
     beh_listener.subscribe(function(message) 
     {
-        let marker=[];
-        var k=0;
+        let marker = [];
+        var k = 0;
         for (var i = 0; i < message.markers.length; i++) 
         {
             for (var j = 0; j < message.markers[i].text.length; j++) 
             {
-                marker[k]=message.markers[i].text[j];
+                marker[k] = message.markers[i].text[j];
                 k++;
             }
             t = marker.join("")
@@ -431,15 +482,16 @@ var feature_listener = new ROSLIB.Topic({
     messageType : 'std_msgs/Int32MultiArray'
 });
 
+
 var arr;
 feature_listener.subscribe(function(message) 
 {
-    var arr = message.data;
+    arr = message.data;
     var num =arr;
     // array for twelve leds
     var strColorPairs = Array(
-    {'position' : 00, 'color' : '#699b2c'},
-    {'position' : 01, 'color' : '#699b2c'},
+    {'position' : 0, 'color' : '#699b2c'},//remove magic numbers
+    {'position' : 1, 'color' : '#699b2c'},
     {'position' : 2, 'color' : '#699b2c'},
     {'position' : 3, 'color' : '#699b2c'},
     {'position' : 4, 'color' : '#699b2c'},
@@ -460,6 +512,7 @@ feature_listener.subscribe(function(message)
     {
         var divList = document.getElementsByClassName('btn2');
         var i, n = divList.length;
+             
         for (p=0; p<position.length; p++)
         {
             curContent = divList[position[p]].id;
@@ -483,7 +536,9 @@ feature_listener.subscribe(function(message)
     }
 
     //function to check the positions of the features to be enabled
-    
+
+
+
     function checkPosition(num)
     {
         let on = [];
@@ -515,7 +570,7 @@ feature_listener.subscribe(function(message)
             });
 
             var recordingOff = new ROSLIB.Message({
-                 data: [1,1,1,0,1,0,1,0,1,1,1,0]
+                data: [1,1,1,0,1,0,1,0,1,1,1,0]
             });
                     
             recordingToggleOff.publish(recordingOff);
@@ -534,7 +589,7 @@ feature_listener.subscribe(function(message)
             });
 
             var mapOff = new ROSLIB.Message({
-                 data: [0,1,1,0,1,0,1,0,1,1,1,0]
+                 data: [0,1,1,0,1,0,1,0,1,1,1,0] //hard coding is incorrect, should subscribe from topic and change exactly one value for each
             });
                     
             mapToggleOff.publish(mapOff);
@@ -553,7 +608,10 @@ feature_listener.subscribe(function(message)
             });
 
             var sensingOff = new ROSLIB.Message({
-                data: [0,1,1,0,1,0,1,0,1,1,1,0]
+                /* data:arr,
+                data[2]1 */
+                data: [0,1,1,0,1,0,1,0,1,1,1,0] 
+                /* data:arr */
             });
                     
             sensingToggleOff.publish(sensingOff);
