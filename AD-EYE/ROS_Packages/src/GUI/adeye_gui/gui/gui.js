@@ -1,13 +1,13 @@
 
-var green="#699b2c";
+
 document.addEventListener('DOMContentLoaded', (event) => 
 {
-    var dragSrcEl = null;
+    var dragSourceEl = null;
 
     function handleDragStart(e) 
     {
       this.style.opacity = '0.4';
-      dragSrcEl = this;
+      dragSourceEl = this;
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/html', this.innerHTML);
     }
@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', (event) =>
       {
         e.stopPropagation(); // stops the browser from redirecting.
       }
-      if (dragSrcEl != this) 
+      if (dragSourceEl != this) 
       {
-       dragSrcEl.innerHTML = this.innerHTML;
+       dragSourceEl.innerHTML = this.innerHTML;
        this.innerHTML = e.dataTransfer.getData('text/html');
       }
       return false;
@@ -81,87 +81,90 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------linear velocity----------------
-    // Listen to the topic /vehicle_cmd
-    let vel_listener = new ROSLIB.Topic({
+    // listen to the topic /vehicle_cmd
+    let velocity_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
      });
 
-    //subscribing to the topic
-    vel_listener.subscribe(function(message)
+    //subscribing to the topic /vehicle_cmd
+    velocity_listener.subscribe(function(message)
     {
         let value = message.ctrl_cmd.linear_velocity;
-        const gaugeElement = document.querySelector(".gauge");
-        value = value / 10; //shifting one decimal
+        const gauge_element = document.querySelector(".gauge_velocity");
+        //shifting value by one decimal
+        value = value / 10; 
                             
         //function to set values of the gauge
-        function setGaugeValue(gauge, value) 
+        function setGaugeValue(gauge_velocity, value) 
         {
-        //safety check for the values within the range
+        //safety check to ensure that the values are within the range
             if (value < 0 || value > 1) 
             {
               return;
             }
             //making the turn over the gauge body
-            gauge.querySelector(".gauge_fill").style.transform = `rotate(${value / 3}turn)`;
-            value = (value * 180) / 5; // to convert the value to km/hr from m/s
+            gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate( ${ value / 3 }turn )`;
+            // to convert the value to km/hr from m/s
+            value = (value * 180) / 5; 
             //printing the velocity value
-            gauge.querySelector(".gauge_cover").textContent = `${Math.round(value )} km/h`;
+            gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${ Math.round( value ) } km/h`;
         }
 
-        // passing the value received from the topic /vehicle_cmd to the function to display the velocity
-        setGaugeValue(gaugeElement, value);
+        // passing the value received from the topic /vehicle_cmd to the function to display the velocity of the car
+        setGaugeValue(gauge_element, value);
     });
 //-------------------linear velocity----------------
 
 
 
 //-------------------linear acceleration----------------
-    //listen to the topic
-    let acc_listener = new ROSLIB.Topic({
+    //listen to the topic /vehicle_cmd
+    let acceleration_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
     });
 
-    //subscribing to the topic
-    acc_listener.subscribe(function(message)
+    //subscribing to the topic /vehicle_cmd
+    acceleration_listener.subscribe(function(message)
     {
-        let value_a = message.ctrl_cmd.linear_acceleration;
-        const gaugeElement_a = document.querySelector(".gauge_a");
-        value_a = value_a / 10; //shifting one decimal
+        let value = message.ctrl_cmd.linear_acceleration;
+        const gauge_element = document.querySelector(".gauge_acceleration");
+        //shifting the value by one decimal
+        value = value / 10; 
 
         //function to set values of the gauge
-        function setGaugeValue_a(gauge_a, value_a) 
+        function setGaugeValue(gauge_acceleration, value) 
         {
-        //safety check for the values within the range
-            if (value_a < 0 || value_a > 1) 
+        //safety check to ensure that values are within the range
+            if (value < 0 || value > 1) 
             {
               return;
             }
             //making the turn over the gauge body
-            gauge_a.querySelector(".gauge_a_fill").style.transform = `rotate(${value_a / 4}turn)`;
+            gauge_acceleration.querySelector(".gauge_acceleration_fill").style.transform = `rotate( ${ value / 4 }turn )`;
             //printing the acceleration value
-            gauge_a.querySelector(".gauge_a_cover").textContent = `${Math.round(value_a*10 )} m/s²`;
+            gauge_acceleration.querySelector(".gauge_acceleration_cover").textContent = `${ Math.round( value * 10 ) } m/s²`;
         }
 
-        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration
-        setGaugeValue_a(gaugeElement_a, value_a);
+        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration of the car
+        setGaugeValue(gauge_element, value);
     });
 //-------------------linear acceleration----------------
 
 
 
 //-------------------Nominal Vs Safety Channel----------------
-    //listen to the topic
+    //listen to the topic /switchCommand
     let data_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/switchCommand',
         messageType : 'std_msgs/Int32'
     });
 
-    //subscribing to the topic
+    //subscribing to the topic /switchCommand
     data_listener.subscribe(function(message) 
     {
         let data = message.data;
@@ -211,7 +214,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     });
     
-    // function to switch the channel on buttuon click from nominal to safety and vice-versa 
+    // function to switch the channel on button click from nominal to safety and vice-versa 
     function toggleState_OnClick(channel)
     {
         if(channel.value == "off")
@@ -250,14 +253,14 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------Manager State----------------
-    //listen to the topic
+    //listen to the topic /manager/state
     let manager_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/manager/state',
         messageType : 'std_msgs/Int8'
     });
 
-    //subscribing to the topic
+    //subscribing to the topic /manager/state
     manager_listener.subscribe(function(message) 
     {
         let data = message.data;
@@ -284,8 +287,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
     });
 
-    // function to change the state from one to another by clicking on the buttons.
-    function toggleStateinitial(initial)
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStateinitial_OnClick(initial)
     {
         if(initial.value == "off") 
         {
@@ -299,10 +302,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let initialOn = new ROSLIB.Message({
                 data : true
             });
-
+            document.getElementById("initial").innerHTML = initialOn.data;
             initialToggleOn.publish(initialOn);
         }
-
+         
         else
         {
             initial.value = "off";
@@ -315,13 +318,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let initialOff = new ROSLIB.Message({
                 data : false
             });
-
+            document.getElementById("initial").innerHTML = initialOff.data;
             initialToggleOff.publish(initialOff);
         }
     }
     
-    // function to change the state from one to another by clicking on the buttons.
-    function toggleStateactivation(activation)
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStateactivation_OnClick(activation)
     {
         if(activation.value == "off") 
         {
@@ -335,7 +338,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let activationOn = new ROSLIB.Message({
                 data : true
             });
-
+            document.getElementById("activation").innerHTML = activationOn.data;
             activationToggleOn.publish(activationOn);
         } 
         else
@@ -350,13 +353,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let activationOff = new ROSLIB.Message({
                 data : false
             });
-
+            document.getElementById("activation").innerHTML = activationOff.data;
             activationToggleOff.publish(activationOff);
         }
     }
 
-    // function to change the state from one to another by clicking on the buttons.
-    function toggleStatefault(fault)
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStatefault_OnClick(fault)
     {
         if(fault.value == "off") 
         {
@@ -370,7 +373,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let faultOn = new ROSLIB.Message({
                 data : true
             });
-
+            document.getElementById("fault").innerHTML = faultOn.data;
             faultToggleOn.publish(faultOn);
         } 
         else
@@ -385,7 +388,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let faultOff = new ROSLIB.Message({
                 data : false
             });
-
+            document.getElementById("fault").innerHTML = faultOff.data;
             faultToggleOff.publish(faultOff);
         }
         
@@ -409,22 +412,22 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------tracked object ----------------
-    //listen to the topic
-    var track_listener = new ROSLIB.Topic({
+    //listen to the topic /tracked_objects 
+    let track_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/tracked_objects',
         messageType : 'autoware_msgs/DetectedObjectArray'
     });
 
-    //subscribing to the topic
+    //subscribing to the topic /tracked_objects
     track_listener.subscribe(function(message) 
-    {
 
+    {
         let object=[];
-        var k=0;
-        for (var i = 0; i < message.objects.length; i++) 
+        let k=0;
+        for (let i = 0; i < message.objects.length; i++) 
         {
-            for (var j = 0; j < message.objects[i].label.length; j++) 
+            for (let j = 0; j < message.objects[i].label.length; j++) 
             {
                 object[k]=message.objects[i].label[j];
                 k++;
@@ -445,525 +448,536 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 
-//---------------------behaviour state--------------
-    //listen to the topic
-    var beh_listener = new ROSLIB.Topic({
+//---------------------behavior state--------------
+    //listen to the topic /behavior_state
+    var behavior_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/behavior_state',
         messageType : 'visualization_msgs/MarkerArray'
     });
 
-    //subscribing to the topic
-    beh_listener.subscribe(function(message) 
+    //subscribing to the topic /behavior_state
+    behavior_listener.subscribe(function(message) 
     {
         let marker = [];
         var k = 0;
-        for (var i = 0; i < message.markers.length; i++) 
+        for (let i = 0; i < message.markers.length; i++) 
         {
-            for (var j = 0; j < message.markers[i].text.length; j++) 
+            for (let j = 0; j < message.markers[i].text.length; j++) 
             {
                 marker[k] = message.markers[i].text[j];
                 k++;
             }
             t = marker.join("")
-            document.getElementById("beh").innerHTML = t;
+            document.getElementById("behavior").innerHTML = t;
             marker.splice(0, marker.length);
         }
     });
-//--------------------behaviour state---------------
+//--------------------behavior state---------------
 
 
 
 //-----------------feature state-----------------
-//listen to the topic
-var feature_listener = new ROSLIB.Topic({
-    ros : ros,
-    name : 'manager/features',
-    messageType : 'std_msgs/Int32MultiArray'
-});
+    //listen to the topic manager/features
+    let feature_listener = new ROSLIB.Topic({
+        ros : ros,
+        name : 'manager/features',
+        messageType : 'std_msgs/Int32MultiArray'
+    });
 
+    let green="#699b2c";
+    let data_array;
 
-var arr;
-feature_listener.subscribe(function(message) 
-{
-    arr = message.data;
-    var num =arr;
-    // array for twelve leds
-    var strColorPairs = Array(
-    {'position' : 0, 'color' : '#699b2c'},//remove magic numbers
-    {'position' : 1, 'color' : '#699b2c'},
-    {'position' : 2, 'color' : '#699b2c'},
-    {'position' : 3, 'color' : '#699b2c'},
-    {'position' : 4, 'color' : '#699b2c'},
-    {'position' : 5, 'color' : '#699b2c'},
-    {'position' : 6, 'color' : '#699b2c'},
-    {'position' : 7, 'color' : '#699b2c'},
-    {'position' : 8, 'color' : '#699b2c'},
-    {'position' : 9, 'color' : '#699b2c'},
-    {'position' : 10, 'color' : '#699b2c'},
-    {'position' : 11, 'color' : '#699b2c'});
-
-    var position = new Array();
-    position = checkPosition(num);
-    colorBox(position);
-
-    //function to change the color of leds and reseting it to gray when not in use
-    function colorBox(position)
+    //subscribing to the topic manager/features
+    feature_listener.subscribe(function(message) 
     {
-        var divList = document.getElementsByClassName('btn2');
-        var i, n = divList.length;
-             
-        for (p=0; p<position.length; p++)
+        data_array = message.data;
+        let number =data_array;
+        // array for position:color pairs
+        let strColorPairs = Array(
+        {'position' : 0, 'color' : green},
+        {'position' : 1, 'color' : green},
+        {'position' : 2, 'color' : green},
+        {'position' : 3, 'color' : green},
+        {'position' : 4, 'color' : green},
+        {'position' : 5, 'color' : green},
+        {'position' : 6, 'color' : green},
+        {'position' : 7, 'color' : green},
+        {'position' : 8, 'color' : green},
+        {'position' : 9, 'color' : green},
+        {'position' : 10, 'color' : green},
+        {'position' : 11, 'color' : green});
+        
+        // array to get postions with the data value 1
+        let position = new Array();
+        position = checkPosition(number);
+        colorBox(position);
+
+        //function to change the color of button and reseting it to gray when not in use
+        function colorBox(position)
         {
-            curContent = divList[position[p]].id;
-            for (i=0; i<n; i++)
+            let divList = document.getElementsByClassName('features');
+            let i, n = divList.length;
+                
+            for (p=0; p<position.length; p++)
             {
-                for (j=0; j<strColorPairs.length; j++)
+                curContent = divList[position[p]].id;
+                for (i=0; i<n; i++)
                 {
-                    if (strColorPairs[j].position !== curContent)
+                    for (j=0; j<strColorPairs.length; j++)
                     {
-                        divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                     //continue;
-                    }
-                    else 
-                    {
-                        divList[i].style.backgroundColor  = 'gray';
+                        if (strColorPairs[j].position !== curContent)
+                        {
+                            divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                        }
+                        else 
+                        {
+                            divList[i].style.backgroundColor  = 'gray';
+                        }
                     }
                 }
             }
-
         }
-    }
 
-    //function to check the positions of the features to be enabled
-
-
-
-    function checkPosition(num)
-    {
-        let on = [];
-        for (let i = 0; i < num.length; i++)
+        //function to check the positions of the features to be enabled based on the data array value received from the topic manager/features
+        function checkPosition(number)
         {
-            if (num[i] === 1)
+            let dataon = [];
+            for (let i = 0; i < number.length; i++)
             {
-              on.push(i);
+                if (number[i] === 1)
+                {
+                dataon.push(i);
+                }
             }
+            return dataon;
         }
-        return on;
-    }
 });
 //-----------------feature state-----------------
 
 
 
-//-------------------- Feature Change---------------
-
-    function toggleStateRecording(recording)
+//-------------------- feature Change---------------
+    // function to switch on the feature recording on button click and publishing the message on to topic /Features_state
+    function toggleStateRecording_OnClick(recording)
     {
-        if(recording.value=="off")
+        if(recording.value == "off")
         {
-            recording.value="on";
-            var recordingToggleOff = new ROSLIB.Topic({
+            recording.value = "on";
+            let recordingToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var recordingOff = new ROSLIB.Message({
+            let recordingOff = new ROSLIB.Message({
                 data: [1,1,1,0,1,0,1,0,1,1,1,0]
             });
-                    
             recordingToggleOff.publish(recordingOff);
         } 
     } 
-
-    function toggleStateMap(map)
+    // function to switch on the feature map on button click and publishing the message on to topic /Features_state
+    function toggleStateMap_OnClick(map)
     {
-        if(map.value=="off")
+        if(map.value == "off")
         {
-            map.value="on";
-            var mapToggleOff = new ROSLIB.Topic({
+            map.value = "on";
+            let mapToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var mapOff = new ROSLIB.Message({
-                 data: [0,1,1,0,1,0,1,0,1,1,1,0] //hard coding is incorrect, should subscribe from topic and change exactly one value for each
+            let mapOff = new ROSLIB.Message({
+                data : data_array,
+                data : data[1]
+    
+                 //data: [0,1,1,0,1,0,1,0,1,1,1,0] //hard coding is incorrect, should subscribe from topic and change exactly one value for each
             });
                     
             mapToggleOff.publish(mapOff);
         } 
     } 
-
-    function toggleStateSensing(sensing)
+    // function to switch on the feature sensing on button click and publishing the message on to topic /Features_state
+    function toggleStateSensing_OnClick(sensing)
     {
-        if(sensing.value=="off")
+        if(sensing.value == "off")
         {
-            sensing.value="on";
-            var sensingToggleOff = new ROSLIB.Topic({
+            sensing.value = "on";
+            let sensingToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var sensingOff = new ROSLIB.Message({
+            let sensingOff = new ROSLIB.Message({
                 /* data:arr,
                 data[2]1 */
                 data: [0,1,1,0,1,0,1,0,1,1,1,0] 
                 /* data:arr */
             });
-                    
             sensingToggleOff.publish(sensingOff);
         } 
     } 
-
-    function toggleStateLocalization(localization)
+    // function to switch on the feature localization on button click and publishing the message on to topic /Features_state
+    function toggleStateLocalization_OnClick(localization)
     {
-        if(localization.value=="off")
+        if(localization.value == "off")
         {
-            localization.value="on";
-            var localizationToggleOff = new ROSLIB.Topic({
+            localization.value = "on";
+            let localizationToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var localizationOff = new ROSLIB.Message({
+            let localizationOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,0,1,0,1,1,1,0]
             });
-                    
             localizationToggleOff.publish(localizationOff);
         } 
     } 
-
-    function toggleStateFakeLocalization(fakelocalization)
+    // function to switch on the feature fakelocalization on button click and publishing the message on to topic /Features_state
+    function toggleStateFakeLocalization_OnClick(fakelocalization)
     {
-        if(fakelocalization.value=="off")
+        if(fakelocalization.value == "off")
         {
-            fakelocalization.value="on";
-            var fakelocalizationToggleOff = new ROSLIB.Topic({
+            fakelocalization.value = "on";
+            let fakelocalizationToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var fakelocalizationOff = new ROSLIB.Message({
+            let fakelocalizationOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,0,1,0,1,1,1,0]
             });
-                    
             fakelocalizationToggleOff.publish(fakelocalizationOff);
         } 
     } 
-
-    function toggleStateDetection(detection)
+    // function to switch on the feature detection on button click and publishing the message on to topic /Features_state
+    function toggleStateDetection_OnClick(detection)
     {
-        if(detection.value=="off")
+        if(detection.value == "off")
         {
-            detection.value="on";
-            var detectionToggleOff = new ROSLIB.Topic({
+            detection.value = "on";
+            let detectionToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var detectionOff = new ROSLIB.Message({
+            let detectionOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,0,1,1,1,0]
             });
-                    
             detectionToggleOff.publish(detectionOff);
         } 
     } 
-
-    function toggleStateMissionPlanning(missionplanning)
+    // function to switch on the feature missionplanning on button click and publishing the message on to topic /Features_state
+    function toggleStateMissionPlanning_OnClick(missionplanning)
     {
-        if(missionplanning.value=="off")
+        if(missionplanning.value == "off")
         {
-            missionplanning.value="on";
-            var missionplanningToggleOff = new ROSLIB.Topic({
+            missionplanning.value = "on";
+            let missionplanningToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var missionplanningOff = new ROSLIB.Message({
+            let missionplanningOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,0]
             });
-                    
             missionplanningToggleOff.publish(missionplanningOff);
         } 
     } 
-
-    function toggleStateMotion(motionplanning)
+    // function to switch on the feature motion planning on button click and publishing the message on to topic /Features_state
+    function toggleStateMotion_OnClick(motionplanning)
     {
-        if(motionplanning.value=="off")
+        if(motionplanning.value == "off")
         {
-            motionplanning.value="on";
-            var motionplanningToggleOff = new ROSLIB.Topic({
+            motionplanning.value = "on";
+            let motionplanningToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var motionplanningOff = new ROSLIB.Message({
+            let motionplanningOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,0]
             });
-                    
             motionplanningToggleOff.publish(motionplanningOff);
         } 
     } 
-
-    function toggleStateSwitch(Switch)
+    // function to switch on the feature switch on button click and publishing the message on to topic /Features_state
+    function toggleStateSwitch_OnClick(Switch)
     {
-        if(Switch.value=="off")
+        if(Switch.value == "off")
         {
-            Switch.value="on";
-            var SwitchToggleOff = new ROSLIB.Topic({
+            Switch.value = "on";
+            let SwitchToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var SwitchOff = new ROSLIB.Message({
+            let SwitchOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,0]
             });
-                    
             SwitchToggleOff.publish(SwitchOff);
         } 
     } 
-
-    function toggleStateSSMP(ssmp)
+    // function to switch on the feature ssmp on button click and publishing the message on to topic /Features_state
+    function toggleStateSSMP_OnClick(ssmp)
     {
-        if(ssmp.value=="off")
+        if(ssmp.value == "off")
         {
-            ssmp.value="on";
-            var ssmpToggleOff = new ROSLIB.Topic({
+            ssmp.value = "on";
+            let ssmpToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var ssmpOff = new ROSLIB.Message({
+            let ssmpOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,0]
             });
-                    
             ssmpToggleOff.publish(ssmpOff);
         } 
     } 
-
-    function toggleStateRviz(rviz)
+    // function to switch on the feature rviz on button click and publishing the message on to topic /Features_state
+    function toggleStateRviz_OnClick(rviz)
     {
-        if(rviz.value=="off")
+        if(rviz.value == "off")
         {
-            rviz.value="on";
-            var rvizToggleOff = new ROSLIB.Topic({
+            rviz.value = "on";
+            let rvizToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var rvizOff = new ROSLIB.Message({
+            let rvizOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,0]
             });
-                    
             rvizToggleOff.publish(rvizOff);
         } 
     } 
-
-    function toggleStateExpRecording(exprecording)
+    // function to switch on the feature experiment recording on button click and publishing the message on to topic /Features_state
+    function toggleStateExpRecording_OnClick(exprecording)
     {
-        if(exprecording.value=="off")
+        if(exprecording.value == "off")
         {
-            exprecording.value="on";
-            var exprecordingToggleOff = new ROSLIB.Topic({
+            exprecording.value = "on";
+            let exprecordingToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/Features_state',
                 messageType : 'std_msgs/Int32MultiArray'
             });
 
-            var exprecordingOff = new ROSLIB.Message({
+            let exprecordingOff = new ROSLIB.Message({
                 data: [0,1,1,1,1,1,1,1,1,1,1,1]
             });
-                    
             exprecordingToggleOff.publish(exprecordingOff);
         } 
     } 
-
-
-    
-//-------------------- Feature Change---------------
+//-------------------- feature Change---------------
 
 
 
 //-------------fault injection---------------
+    // function to switch on gnss on button click and publishing the message on to topic fault_injection/GNSS
+    function faultInjectionGNSS_OnClick(gnss)
+    {
+        if(gnss.className == "on") 
+        {
+            gnss.className = "off";
+            let togglegnssOn = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/GNSS',
+            messageType : 'std_msgs/Int32'
+            });
 
-              function faultinjectiongnss(gnss){
-                 if(gnss.className == "on") {
-                     gnss.className="off";
-                    var togglegnssOn = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/GNSS',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let gnssOn = new ROSLIB.Message({
+            data : 1
+            });
+            togglegnssOn.publish(gnssOn);
+        } 
+        else 
+        {
+            gnss.className = "on";
+            let togglegnssOff = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/GNSS',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var gnssOn = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglegnssOn.publish(gnssOn);
-                 } else {
-                    gnss.className="on";
-                    var togglegnssOff = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/GNSS',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let gnssOff = new ROSLIB.Message({
+            data : 0
+            });
+            togglegnssOff.publish(gnssOff);
+        }
+    }
+    // function to switch on lidar1 on button click and publishing the message on to topic fault_injection/lidar1
+    function faultinjectionlidar1_OnClick(lidar1)
+    {
+        if(lidar1.className == "on") 
+        {
+            lidar1.className = "off";
+            let togglelidar1On = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar1',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var gnssOff = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglegnssOff.publish(gnssOff);
-                 }
-              }
+            let lidar1On = new ROSLIB.Message({
+            data : 1
+            });
+            togglelidar1On.publish(lidar1On);
+        } 
+        else 
+        {
+            lidar1.className = "on";
+            let togglelidar1Off = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar1',
+            messageType : 'std_msgs/Int32'
+            });
 
-              function faultinjectionlidar1(lidar1){
-                 if(lidar1.className == "on") {
-                     lidar1.className="off";
-                    var togglelidar1On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar1',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let lidar1Off = new ROSLIB.Message({
+            data : 0
+            });
+            togglelidar1Off.publish(lidar1Off);
+        }
+    }
+    // function to switch on lidar2 on button click and publishing the message on to topic fault_injection/lidar2
+    function faultinjectionlidar2(lidar2)
+    {
+        if(lidar2.className == "on") 
+        {
+            lidar2.className="off";
+            let togglelidar2On = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar2',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar1On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar1On.publish(lidar1On);
-                 } else {
-                    lidar1.className="on";
-                    var togglelidar1Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar1',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let lidar2On = new ROSLIB.Message({
+            data : 1
+            });
+            togglelidar2On.publish(lidar2On);
+        } 
+        else 
+        {
+            lidar2.className="on";
+            let togglelidar2Off = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar2',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar1Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar1Off.publish(lidar1Off);
-                 }
-              }
+            let lidar2Off = new ROSLIB.Message({
+            data : 0
+            });
+            togglelidar2Off.publish(lidar2Off);
+        }
+    }
+    // function to switch on lidar3 on button click and publishing the message on to topic fault_injection/lidar3
+    function faultinjectionlidar3(lidar3)
+    {
+        if(lidar3.className == "on") 
+        {
+            lidar3.className = "off";
+            let togglelidar3On = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar3',
+            messageType : 'std_msgs/Int32'
+            });
 
-              function faultinjectionlidar2(lidar2){
-                 if(lidar2.className == "on") {
-                     lidar2.className="off";
-                    var togglelidar2On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar2',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let lidar3On = new ROSLIB.Message({
+            data : 1
+            });
+            togglelidar3On.publish(lidar3On);
+        } 
+        else 
+        {
+            lidar3.className="on";
+            let togglelidar3Off = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar3',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar2On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar2On.publish(lidar2On);
-                 } else {
-                    lidar2.className="on";
-                    var togglelidar2Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar2',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let lidar3Off = new ROSLIB.Message({
+            data : 0
+            });
+            togglelidar3Off.publish(lidar3Off);
+        }
+    }
+    // function to switch on lidar4 on button click and publishing the message on to topic fault_injection/lidar4
+    function faultinjectionlidar4(lidar4)
+    {
+        if(lidar4.className == "on") 
+        {
+            lidar4.className = "off";
+            let togglelidar4On = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar4',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar2Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar2Off.publish(lidar2Off);
-                 }
-              }
+            let lidar4On = new ROSLIB.Message({
+            data : 1
+            });
+            togglelidar4On.publish(lidar4On);
+        } 
+        else 
+        {
+            lidar4.className = "on";
+            let togglelidar4Off = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/lidar4',
+            messageType : 'std_msgs/Int32'
+            });
 
-              function faultinjectionlidar3(lidar3){
-                 if(lidar3.className == "on") {
-                     lidar3.className="off";
-                    var togglelidar3On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar3',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let lidar4Off = new ROSLIB.Message({
+            data : 0
+            });
+            togglelidar4Off.publish(lidar4Off);
+        }
+    }
+    // function to switch on radar on button click and publishing the message on to topic fault_injection/radar
+    function faultinjectionradar(radar)
+    {
+        if(radar.className == "on") 
+        {
+            radar.className = "off";
+            let toggleradarOn = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/radar',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar3On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar3On.publish(lidar3On);
-                 } else {
-                    lidar3.className="on";
-                    var togglelidar3Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar3',
-                       messageType : 'std_msgs/Int32'
-                     });
+            let radarOn = new ROSLIB.Message({
+            data : 1
+            });
+            toggleradarOn.publish(radarOn);
+        } 
+        else 
+        {
+            radar.className = "on";
+            let toggleradarOff = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault_injection/radar',
+            messageType : 'std_msgs/Int32'
+            });
 
-                    var lidar3Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar3Off.publish(lidar3Off);
-                 }
-              }
-
-              function faultinjectionlidar4(lidar4){
-                 if(lidar4.className == "on") {
-                     lidar4.className="off";
-                    var togglelidar4On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar4',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar4On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar4On.publish(lidar4On);
-                 } else {
-                    lidar4.className="on";
-                    var togglelidar4Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar4',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar4Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar4Off.publish(lidar4Off);
-                 }
-              }
-
-              function faultinjectionradar(radar){
-                 if(radar.className == "on") {
-                     radar.className="off";
-                    var toggleradarOn = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/radar',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var radarOn = new ROSLIB.Message({
-                       data : 1
-                     });
-                  toggleradarOn.publish(radarOn);
-                 } else {
-                    radar.className="on";
-                    var toggleradarOff = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/radar',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var radarOff = new ROSLIB.Message({
-                       data : 0
-                     });
-                  toggleradarOff.publish(radarOff);
-                 }
-              }
+            let radarOff = new ROSLIB.Message({
+            data : 0
+            });
+            toggleradarOff.publish(radarOff);
+        }
+    }
 
 //-------------fault injection----------------
 
@@ -971,38 +985,36 @@ feature_listener.subscribe(function(message)
 
 //-------------------camera display ----------------
 
-//listen to the topic
-var image_topic = new ROSLIB.Topic({
-    ros : ros,
-    name : '/camera_1/image_raw',
-    messageType : 'sensor_msgs/Image'
- });
+    //listen to the topic camera_1/image_raw
+    var image_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_1/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
 
-//subscribing to the topic
-image_topic.subscribe(function(message)
-{  
-   var msg=atob(message.data);
-   var array = new Uint8Array(new ArrayBuffer(msg.length));
-    for (let i = 0; i < msg.length; i++) 
-    {
-        array[i] = msg.charCodeAt(i);
-    }
+    //subscribing to the topic camera_1/image_raw
+    image_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
 
-    var canvas=document.getElementById("canvas");
-    const ctx = canvas.getContext("2d"); 
+        var canvas = document.getElementById( "canvas" );
+        const ctx = canvas.getContext( "2d" ); 
 
-    var imgData=ctx.createImageData(canvas.width,canvas.height);
-    for(var j=0;j<array.length;j++)
-    {
-        imgData.data[4*j+0]=array[3*j+0];
-        imgData.data[4*j+1]=array[3*j+1];
-        imgData.data[4*j+2]=array[3*j+2];
-        imgData.data[4*j+3]=255;
-    }
-
-    ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
-    
-}); 
+        var imgData = ctx.createImageData(canvas.width,canvas.height);
+        for(var j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
+    }); 
 //-------------------camera display ----------------
 
 

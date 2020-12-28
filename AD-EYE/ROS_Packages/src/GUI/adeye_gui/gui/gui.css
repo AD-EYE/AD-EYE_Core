@@ -31,7 +31,7 @@ body
   font-weight: bold;
 }
 
-.gauge,.gauge_a
+.gauge_velocity,.gauge_acceleration
 {
   width: 100%;
   font-family: "Roboto", sans-serif;
@@ -39,7 +39,7 @@ body
   color: #004033;
 }
 
-.gauge_body,.gauge_a_body
+.gauge_velocity_body,.gauge_acceleration_body
 {
   width: 100%;
   height: 0;
@@ -51,7 +51,7 @@ body
   overflow: hidden;
 }
 
-.gauge_fill,.gauge_a_fill 
+.gauge_velocity_fill,.gauge_acceleration_fill 
 {
   position: absolute;
   top: 100%;
@@ -64,7 +64,7 @@ body
   transition: transform 0.2s ease-out;
 }
 
-.gauge_cover,.gauge_a_cover
+.gauge_velocity_cover,.gauge_acceleration_cover
 {
   width: 75%;
   height: 150%;
@@ -102,16 +102,19 @@ button
   /* box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; */
 }
 
- .btn
+ .manager
 {
+  background: gray;
   color:white;
   border-radius: 15px;
   width:200px;
+  border:none;
 
 } 
 
-.channel,.btn2
+.channel,.features,.fault_injection
 {
+  background: gray;
   color:white;
   border-radius: 15px;
   border:none;
