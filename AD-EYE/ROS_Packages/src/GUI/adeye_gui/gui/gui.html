@@ -79,8 +79,8 @@
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
             <button type="button" value="off" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button>&nbsp;&nbsp;&nbsp; <span id="initial"></span>
-            <button type="button" value="off" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button> &nbsp;&nbsp;&nbsp;<span id="activation"></span>
-            <button type="button" value="off" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button> &nbsp;&nbsp;&nbsp; <span id="fault"></span>
+            <button type="button" value="off" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button>&nbsp;&nbsp;&nbsp; <span id="activation"></span>
+            <button type="button" value="off" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button>&nbsp;&nbsp;&nbsp; <span id="fault"></span>
           </div>
         </div>
 
@@ -127,41 +127,55 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
             <div id="test"></div>
-            <button id="12" type="button" value="off" class="off fault_injection"  onclick="faultInjectionGnss_OnClick(this)">GNSS</button>
+            <button id="12" type="button" value="off" class="fault_injection"  onclick="faultInjectionGnss_OnClick(this)">GNSS</button>
             <select id="gnss">
-              <option value="0">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
+              <option value="0" selected="selected">Off</option>
+              <option value="1">Gaussain</option>
+              <!-- <option value="2">Rain</option> -->
             </select>
-            <button id="13" type="button" value="off" class="off fault_injection"  onclick="faultInjectionLidar1_OnClick(this)">Lidar 1</button>
+            <button id="13" type="button" value="off" class="fault_injection"  onclick="faultInjectionLidar1_OnClick(this)">Lidar 1</button>
             <select id="lidar1">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
-            <button id="14" type="button" value="off" class="off fault_injection" onclick="faultInjectionLidar2(this)">Lidar 2</button>
+            <button id="14" type="button" value="off" class="fault_injection" onclick="faultInjectionLidar2_OnClick(this)">Lidar 2</button>
             <select id="lidar2">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
-            <button id="15" type="button" value="off" class="fault_injection"  onclick="faultInjectionLidar3(this)">Lidar 3</button>
+            <button id="15" type="button" value="off" class="fault_injection"  onclick="faultInjectionLidar3_OnClick(this)">Lidar 3</button>
             <select id="lidar3">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
-            <button id="16" type="button" value="off" class="fault_injection"  onclick="faultInjectionLidar4(this)">Lidar 4</button>
+            <button id="16" type="button" value="off" class="fault_injection"  onclick="faultInjectionLidar4_OnClick(this)">Lidar 4</button>
             <select id="lidar4">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
-            <button id="17" type="button" value="off" class="fault_injection" onclick="faultInjectionRadar(this)">Radar</button>
+            <button id="17" type="button" value="off" class="fault_injection" onclick="faultInjectionRadar_OnClick(this)">Radar</button>
             <select id="radar">
               <option value="0" selected="selected">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
+              <option value="1">On</option>
+            </select>
+            <button id="18" type="button" value="off" class="fault_injection" onclick="faultInjectionCamera1_OnClick(this)">Camera 1</button>
+            <select id="camera_1">
+              <option value="0" selected="selected">Off</option>
+              <option value="1">Black Patch</option>
+            </select>
+            <button id="19" type="button" value="off" class="fault_injection" onclick="faultInjectionCamera2_OnClick(this)">Camera 2</button>
+            <select id="camera_2">
+              <option value="0" selected="selected">Off</option>
+              <option value="1">Black Patch</option>
+            </select>
+            <button id="20" type="button" value="off" class="fault_injection" onclick="faultInjectionTlCamera_OnClick(this)">TL Camera</button>
+            <select id="tl_camera">
+              <option value="0" selected="selected">Off</option>
+              <option value="1">Black Patch</option>
             </select>
 					</div>
 				</div>
@@ -169,12 +183,15 @@
         <!-- card for camera -->
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
-            <h2 class="text-center">Camera Stream_tl</h2>
-            <div id="test1"></div> 
-             <canvas id="canvas" width="960" height="720"></canvas>
-             <!-- <img id="img1"></img>  -->
-            <!-- <img id="my_ima; object-fit: contain' src="http://localhost:9090/stream?topic=/camera_1/image_raw">
-            <a href="http://localhost:8080/sge" style='height: 100%; width: 100%tream?topic=/tl/image_raw">click</a> -->
+            <h2 class="text-center">Camera 1</h2>
+             <canvas id="camera1_canvas" width="960" height="720"></canvas>
+					</div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera 2</h2>
+             <canvas id="camera2_canvas" width="960" height="720"></canvas>
 					</div>
         </div>
       </div>
