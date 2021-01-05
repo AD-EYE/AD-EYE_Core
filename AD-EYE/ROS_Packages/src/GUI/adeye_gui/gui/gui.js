@@ -793,177 +793,117 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------fault injection----------------------
-    
-    //function for fault injection 
-    /* function fault_injection()
-    { 
-       */  /* let data_value;
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementsByClassName("fault_injection").style.background = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementsByClassName("fault_injection").style.background = "red";
-            }
-            else if(data_value == 2)
-            {
-                document.getElementById("12").style.backgroundColor = green;
-            }
-        } */
-        //let data_value;
-        // function to switch on gnss on button click and publishing the message on to topic fault_injection/GNSS
-        function faultInjectionGnss_OnClick(gnss)
+   // function to reset the dropdown list to off value and to change the color of button based on the values on/off
+    function faultInjection_OnClick(button_element)
+    {
+        let selected_element = document.getElementsByClassName("selected");
+        for( let i = 0; i < selected_element.length; i++)
         {
-            let gnss_btn = document.getElementById("gnss");
-            //gnss_btn.selectedIndex=0;
-            let data_value = gnss_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-            
-            if(gnss.value == "on") 
+            if(button_element.name == selected_element[i].name)
             {
-                gnss.value = "off";
-                let togglegnssOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/gnss',
-                messageType : 'std_msgs/Int32'
-                });
-
-                let gnssOn = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglegnssOn.publish(gnssOn);
-                changeColor(data_value);
-
-            } 
-            else 
-            {
-                gnss.value = "on";
-                let togglegnssOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/gnss',
-                messageType : 'std_msgs/Int32'
-                });
-
-                let gnssOff = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglegnssOff.publish(gnssOff);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("12").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("12").style.backgroundColor = green;
+                if(button_element.value == "off")
+                {
+                    button_element.value = "on";
+                    //button_element.style.backgroundColor = green;
+                    selected_element[i].selectedIndex = 0;
+                }
+                else
+                {
+                    button_element.value = "off";
+                    button_element.style.backgroundColor = "gray";
+                    selected_element[i].selectedIndex = 0;
+                }
             }
         }
+    }
+
+    // function to change the color of the button based on the value selected from the dropdown list for fault injection
+    function changeColor(data_value) 
+    { 
+        if(data_value == 0)
+        {
+            document.getElementsByClassName("fault_injection").style.backgroundColor = "gray";
+        }
+        else if(data_value == 1)
+        {
+            document.getElementsByClassName("fault_injection").style.backgroundColor = green;
+        }
+        else if(data_value == 2)
+        {
+            document.getElementsByClassName("fault_injection").style.backgroundColor = green;
+        }
+    } 
+    
+    //let data_value;
+    // function to switch on gnss on button click and publishing the message on to topic fault_injection/gnss
+    function faultInjectionGnss_OnChange(gnss)
+    {
+        let gnss_btn = document.getElementById("gnss");
+        let option = gnss_btn.options[gnss_btn.selectedIndex];
+        let data_value = gnss_btn.value;
+        //document.getElementById("test").innerHTML = gnss_btn;
+        if((option.value)!=0)
+        {
+            let togglegnssOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/fault_injection/gnss',
+                messageType : 'std_msgs/Int32'
+            });
+        
+            let gnssOn = new ROSLIB.Message({
+                data : parseInt(data_value)
+            });
+            togglegnssOn.publish(gnssOn);
+        }
+        changeColor(data_value);
     }
         
-        // function to switch on lidar1 on button click and publishing the message on to topic fault_injection/lidar1
-        function faultInjectionLidar1_OnClick(lidar1)
+    // function to switch on lidar1 on button click and publishing the message on to topic fault_injection/lidar1
+    function faultInjectionLidar1_OnChange(lidar1)
+    {
+        let lidar1_btn = document.getElementById("lidar1");
+        let option = lidar1_btn.options[lidar1_btn.selectedIndex];
+        let data_value = lidar1_btn.value;
+        if((option.value)!=0) 
         {
-            let lidar1_btn = document.getElementById("lidar1");
-            let index = lidar1_btn.options[e.selectedIndex].text;
-            let data_value = lidar1_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-            if(lidar1.value == "on") 
-            {
-                //lidar1_btn.selectedIndex = 0;
-                lidar1.value = "off";
-                let togglelidar1On = new ROSLIB.Topic({
+            let togglelidar1On = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault_injection/lidar1',
                 messageType : 'std_msgs/Int32'
-                });
+            });
 
-                let lidar1On = new ROSLIB.Message({
+            let lidar1On = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                togglelidar1On.publish(lidar1On);
-
-                changeColor(data_value);
-            } 
-            else 
-            {
-                lidar1.value = "on";
-                let togglelidar1Off = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/lidar1',
-                messageType : 'std_msgs/Int32'
-                });
-
-                let lidar1Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglelidar1Off.publish(lidar1Off);
-                changeColor(data_value);
-                
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("13").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("13").style.backgroundColor = green;
-            }
-            else if(data_value == 2)
-            {
-                document.getElementById("13").style.backgroundColor = green;
-            }
-        }
+            });
+            togglelidar1On.publish(lidar1On);
+        } 
+        changeColor(data_value);
     }
 
-        // function to switch on lidar2 on button click and publishing the message on to topic fault_injection/lidar2
-        function faultInjectionLidar2_OnClick(lidar2)
+    // function to switch on lidar2 on button click and publishing the message on to topic fault_injection/lidar2
+    function faultInjectionLidar2_OnChange(lidar2)
+    {
+        let lidar2_btn = document.getElementById("lidar2");
+        let option = lidar2_btn.options[lidar2_btn.selectedIndex];
+        let data_value = lidar2_btn.value;
+        if((option.value)!=0) 
         {
-            let lidar2_btn = document.getElementById("lidar2");
-            let data_value = lidar2_btn.value;
-            document.getElementById("test").innerHTML = data_value;
+            let togglelidar2On = new ROSLIB.Topic({
+                ros : ros,
+                name : '/fault_injection/lidar2',
+                messageType : 'std_msgs/Int32'
+            });
+
+            let lidar2On = new ROSLIB.Message({
+                data : parseInt(data_value)
+            });
+            togglelidar2On.publish(lidar2On);
+        } 
+        changeColor(data_value);
+    
             
-            if(lidar2.value == "on") 
-            {
-                lidar2.value = "off";
-                let togglelidar2On = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/lidar2',
-                messageType : 'std_msgs/Int32'
-                });
-
-                let lidar2On = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglelidar2On.publish(lidar2On);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                lidar2.value = "on";
-                let togglelidar2Off = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/lidar2',
-                messageType : 'std_msgs/Int32'
-                });
-
-                let lidar2Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglelidar2Off.publish(lidar2Off);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
+    // function to change the color of the button based on the value selected from the dropdown list for fault injection
+    function changeColor(data_value) 
         { 
             if(data_value == 0)
             {
@@ -980,315 +920,131 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     }
         
-        // function to switch on lidar3 on button click and publishing the message on to topic fault_injection/lidar3
-        function faultInjectionLidar3_OnClick(lidar3)
+    // function to switch on lidar3 on button click and publishing the message on to topic fault_injection/lidar3
+    function faultInjectionLidar3_OnChange(lidar3)
+    {
+        let lidar3_btn = document.getElementById("lidar3");
+        let option = lidar3_btn.options[lidar3_btn.selectedIndex];
+        let data_value = lidar3_btn.value;
+        if((option.value)!=0) 
         {
-            let lidar3_btn = document.getElementById("lidar3");
-            let data_value = lidar3_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-
-            if(lidar3.value == "on") 
-            {
-                lidar3.value = "off";
-                let togglelidar3On = new ROSLIB.Topic({
+            let togglelidar3On = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault_injection/lidar3',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let lidar3On = new ROSLIB.Message({
+            });
+            let lidar3On = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                togglelidar3On.publish(lidar3On);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                lidar3.value = "on";
-                let togglelidar3Off = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/lidar3',
-                messageType : 'std_msgs/Int32'
-                });
+            });
+            togglelidar3On.publish(lidar3On);
+        } 
+        changeColor(data_value);
+    }
 
-                let lidar3Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglelidar3Off.publish(lidar3Off);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("15").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("15").style.backgroundColor = green;
-            }
-            else if(data_value == 2)
-            {
-                document.getElementById("15").style.backgroundColor = green;
-            }
-        }
-        }
-
-        // function to switch on lidar4 on button click and publishing the message on to topic fault_injection/lidar4
-        function faultInjectionLidar4_OnClick(lidar4)
+    // function to switch on lidar4 on button click and publishing the message on to topic fault_injection/lidar4
+    function faultInjectionLidar4_OnClick(lidar4)
+    {
+        let lidar4_btn = document.getElementById("lidar4");
+        let option = lidar4_btn.options[lidar4_btn.selectedIndex];
+        let data_value = lidar4_btn.value;
+        if((option.value)!=0) 
         {
-            let lidar4_btn = document.getElementById("lidar4");
-            let data_value = lidar4_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-
-            if(lidar4.value == "on") 
-            {
-                lidar4.value = "off";
-                let togglelidar4On = new ROSLIB.Topic({
+            let togglelidar4On = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault_injection/lidar4',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let lidar4On = new ROSLIB.Message({
+            });
+            let lidar4On = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                togglelidar4On.publish(lidar4On);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                lidar4.value = "on";
-                let togglelidar4Off = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/lidar4',
-                messageType : 'std_msgs/Int32'
-                });
+            });
+            togglelidar4On.publish(lidar4On);
+        } 
+        changeColor(data_value);
+    }
 
-                let lidar4Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglelidar4Off.publish(lidar4Off);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("16").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("16").style.backgroundColor = green;
-            }
-            else if(data_value == 2)
-            {
-                document.getElementById("16").style.backgroundColor = green;
-            }
-        }
-        }
-
-        // function to switch on radar on button click and publishing the message on to topic fault_injection/radar
-        function faultInjectionRadar_OnClick(radar)
+    // function to switch on radar on button click and publishing the message on to topic fault_injection/radar
+    function faultInjectionRadar_OnClick(radar)
+    {
+        let radar_btn = document.getElementById("radar");
+        let option = radar_btn.options[radar_btn.selectedIndex];
+        let data_value = radar_btn.value;
+        if((option.value)!=0) 
         {
-            let radar_btn = document.getElementById("radar");
-            let data_value = radar_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-            if(radar.value == "on") 
-            {
-                radar.value = "off";
-                let toggleradarOn = new ROSLIB.Topic({
+            let toggleradarOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/fault_injection/radar',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let radarOn = new ROSLIB.Message({
+            });
+            let radarOn = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                toggleradarOn.publish(radarOn);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                radar.value = "on";
-                let toggleradarOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/radar',
-                messageType : 'std_msgs/Int32'
-                });
+            });
+            toggleradarOn.publish(radarOn);
+        } 
+        changeColor(data_value);
+    }
 
-                let radarOff = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                toggleradarOff.publish(radarOff);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("17").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("17").style.backgroundColor = green;
-            }
-        }
-        }
-
-        // function to switch on camera1 on button click and publishing the message on to topic fault_injection/camera1
-        function faultInjectionCamera1_OnClick(camera1)
+    // function to switch on camera1 on button click and publishing the message on to topic fault_injection/camera1
+    function faultInjectionCamera1_OnClick(camera1)
+    {
+        let camera1_btn = document.getElementById("camera_1");
+        let option = camera1_btn.options[camera1_btn.selectedIndex];
+        let data_value = camera1_btn.value;
+        if((option.value)!=0) 
         {
-            let camera1_btn = document.getElementById("camera_1");
-            let data_value = camera1_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-            if(camera1.value == "on") 
-            {
-                camera1.value = "off";
-                let togglecamera1On = new ROSLIB.Topic({
+            let togglecamera1On = new ROSLIB.Topic({
                 ros : ros,
-                name : '/fault_injection/radar',
+                name : '/fault_injection/camera1',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let camera1On = new ROSLIB.Message({
+            });
+            let camera1On = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                togglecamera1On.publish(camera1On);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                camera1.value = "on";
-                let togglecamera1Off = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/radar',
-                messageType : 'std_msgs/Int32'
-                });
+            });
+            togglecamera1On.publish(camera1On);
+        } 
+        changeColor(data_value);
+    }
 
-                let camera1Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglecamera1Off.publish(camera1Off);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("18").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("18").style.backgroundColor = green;
-            }
-        }
-        }
-
-        // function to switch on camera2 on button click and publishing the message on to topic fault_injection/camera2
-        function faultInjectionCamera2_OnClick(camera2)
+    // function to switch on camera2 on button click and publishing the message on to topic fault_injection/camera2
+    function faultInjectionCamera2_OnClick(camera2)
+    {
+        let camera2_btn = document.getElementById("camera_2");
+        let option = camera2_btn.options[camera2_btn.selectedIndex];
+        let data_value = camera2_btn.value;
+        if((option.value)!=0) 
         {
-            let camera2_btn = document.getElementById("camera_2");
-            let data_value = camera2_btn.value;
-            document.getElementById("test").innerHTML = data_value;
-            if(camera2.value == "on") 
-            {
-                camera2.value = "off";
-                let togglecamera2On = new ROSLIB.Topic({
+            let togglecamera2On = new ROSLIB.Topic({
                 ros : ros,
-                name : '/fault_injection/radar',
+                name : '/fault_injection/camera2',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let camera2On = new ROSLIB.Message({
+            });
+            let camera2On = new ROSLIB.Message({
                 data : parseInt(data_value)
-                });
-                togglecamera2On.publish(camera2On);
-                changeColor(data_value);
-            } 
-            else 
-            {
-                camera2.value = "on";
-                let togglecamera2Off = new ROSLIB.Topic({
+            });
+            togglecamera2On.publish(camera2On);
+        } 
+            changeColor(data_value);
+    }
+
+    // function to switch on tl_camera on button click and publishing the message on to topic fault_injection/tl_camera
+    function faultInjectionTlCamera_OnClick(tlcamera)
+    {
+        let tlcamera_btn = document.getElementById("tl_camera");
+        let option = tlcamera_btn.options[tlcamera_btn.selectedIndex];
+        let data_value = tlcamera_btn.value;
+        if((option.value)!=0) 
+        {
+            let toggletlcameraOn = new ROSLIB.Topic({
                 ros : ros,
-                name : '/fault_injection/radar',
+                name : '/fault_injection/tl_camera',
                 messageType : 'std_msgs/Int32'
-                });
-
-                let camera2Off = new ROSLIB.Message({
-                data : parseInt(data_value)
-                });
-                togglecamera2Off.publish(camera2Off);
-                changeColor(data_value);
-            }
-        // function to change the color of the button based on the value selected from the dropdown list for fault injection
-        function changeColor(data_value) 
-        { 
-            if(data_value == 0)
-            {
-                document.getElementById("19").style.backgroundColor = "gray";
-            }
-            else if(data_value == 1)
-            {
-                document.getElementById("19").style.backgroundColor = green;
-            }
-        }
-        }
-
-         // function to switch on tl_camera on button click and publishing the message on to topic fault_injection/tl_camera
-         function faultInjectionTlCamera_OnClick(tlcamera)
-         {
-             let tlcamera_btn = document.getElementById("tl_camera");
-             let data_value = tlcamera_btn.value;
-             document.getElementById("test").innerHTML = data_value;
-             if(tlcamera.value == "on") 
-             {
-                 tlcamera.value = "off";
-                 let toggletlcameraOn = new ROSLIB.Topic({
-                 ros : ros,
-                 name : '/fault_injection/radar',
-                 messageType : 'std_msgs/Int32'
-                 });
- 
-                 let tlcameraOn = new ROSLIB.Message({
+            });
+            let tlcameraOn = new ROSLIB.Message({
                  data : parseInt(data_value)
-                 });
-                 toggletlcameraOn.publish(tlcameraOn);
-                 changeColor(data_value);
-             } 
-             else 
-             {
-                 tlcamera.value = "on";
-                 let toggletlcameraOff = new ROSLIB.Topic({
-                 ros : ros,
-                 name : '/fault_injection/radar',
-                 messageType : 'std_msgs/Int32'
-                 });
- 
-                 let tlcameraOff = new ROSLIB.Message({
-                 data : parseInt(data_value)
-                 });
-                 toggletlcameraOff.publish(tlcameraOff);
-                 changeColor(data_value);
-             }
-         // function to change the color of the button based on the value selected from the dropdown list for fault injection
-         function changeColor(data_value) 
-         { 
-             if(data_value == 0)
-             {
-                 document.getElementById("20").style.backgroundColor = "gray";
-             }
-             else if(data_value == 1)
-             {
-                 document.getElementById("20").style.backgroundColor = green;
-             }
-         }
-         }
+            });
+            toggletlcameraOn.publish(tlcameraOn);
+        }
+        changeColor(data_value);
+    }
 //-------------fault injection----------------
 
 
