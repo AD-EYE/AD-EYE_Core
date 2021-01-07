@@ -139,40 +139,40 @@
               <option value="2">Rain</option>
             </select>
             <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>
-            <select class="selected" name="lidar2" id="lidar2">
+            <select class="selected" name="lidar2" id="lidar2" onchange="faultInjectionLidar2_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
             <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>
-            <select class="selected" name="lidar3" id="lidar3">
+            <select class="selected" name="lidar3" id="lidar3" onchange="faultInjectionLidar3_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
             <button name="lidar4" type="button" value="off" class="fault_injection"  onclick="faultInjection_OnClick(this)">Lidar 4</button>
-            <select class="selected" name="lidar4" id="lidar4">
+            <select class="selected" name="lidar4" id="lidar4" onchange="faultInjectionLidar4_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
             <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>
-            <select class="selected" name="radar" id="radar">
+            <select class="selected" name="radar" id="radar" onchange="faultInjectionRadar_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">On</option>
             </select>
             <button name="camera_1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>
-            <select class="selected" name="camera_1" id="camera_1">
+            <select class="selected" name="camera_1" id="camera_1" onchange="faultInjectionCamera1_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Black Patch</option>
             </select>
             <button name="camera_2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>
-            <select class="selected" name="camera_2" id="camera_2">
+            <select class="selected" name="camera_2" id="camera_2" onchange="faultInjectionCamera2_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Black Patch</option>
             </select>
             <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>
-            <select class="selected" name="tl_camera" id="tl_camera">
+            <select class="selected" name="tl_camera" id="tl_camera" onchange="faultInjectionTlCamera_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Black Patch</option>
             </select>

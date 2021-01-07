@@ -834,7 +834,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     } 
     
-    //let data_value;
     // function to switch on gnss on button click and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
     {
@@ -842,7 +841,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let option = gnss_btn.options[gnss_btn.selectedIndex];
         let data_value = gnss_btn.value;
         //document.getElementById("test").innerHTML = gnss_btn;
-        if((option.value)!=0)
+        if((option.value) != 0)
         {
             let togglegnssOn = new ROSLIB.Topic({
                 ros : ros,
@@ -864,7 +863,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let lidar1_btn = document.getElementById("lidar1");
         let option = lidar1_btn.options[lidar1_btn.selectedIndex];
         let data_value = lidar1_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let togglelidar1On = new ROSLIB.Topic({
                 ros : ros,
@@ -886,7 +885,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let lidar2_btn = document.getElementById("lidar2");
         let option = lidar2_btn.options[lidar2_btn.selectedIndex];
         let data_value = lidar2_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let togglelidar2On = new ROSLIB.Topic({
                 ros : ros,
@@ -926,7 +925,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let lidar3_btn = document.getElementById("lidar3");
         let option = lidar3_btn.options[lidar3_btn.selectedIndex];
         let data_value = lidar3_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let togglelidar3On = new ROSLIB.Topic({
                 ros : ros,
@@ -947,7 +946,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let lidar4_btn = document.getElementById("lidar4");
         let option = lidar4_btn.options[lidar4_btn.selectedIndex];
         let data_value = lidar4_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let togglelidar4On = new ROSLIB.Topic({
                 ros : ros,
@@ -968,7 +967,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let radar_btn = document.getElementById("radar");
         let option = radar_btn.options[radar_btn.selectedIndex];
         let data_value = radar_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let toggleradarOn = new ROSLIB.Topic({
                 ros : ros,
@@ -989,7 +988,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let camera1_btn = document.getElementById("camera_1");
         let option = camera1_btn.options[camera1_btn.selectedIndex];
         let data_value = camera1_btn.value;
-        if((option.value)!=0) 
+        if((option.value) !=0 ) 
         {
             let togglecamera1On = new ROSLIB.Topic({
                 ros : ros,
@@ -1010,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let camera2_btn = document.getElementById("camera_2");
         let option = camera2_btn.options[camera2_btn.selectedIndex];
         let data_value = camera2_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0 ) 
         {
             let togglecamera2On = new ROSLIB.Topic({
                 ros : ros,
@@ -1031,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let tlcamera_btn = document.getElementById("tl_camera");
         let option = tlcamera_btn.options[tlcamera_btn.selectedIndex];
         let data_value = tlcamera_btn.value;
-        if((option.value)!=0) 
+        if((option.value) != 0) 
         {
             let toggletlcameraOn = new ROSLIB.Topic({
                 ros : ros,
