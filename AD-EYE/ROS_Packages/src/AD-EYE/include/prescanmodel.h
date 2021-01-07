@@ -109,6 +109,7 @@ struct PrescanModel
 		int safetyAreaValue = 0;
 		int u_id = 0;
 		int obj_id = 0;
+        bool isEgoVehicle = false;
 		
 		// looping through the entire xml
 		BOOST_FOREACH(ptree::value_type& val_Experiment, pt.get_child("Experiment"))
@@ -139,18 +140,29 @@ struct PrescanModel
 						{
 							obj_id = strtol(val_Actor_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
 						}
+                        if(val_Actor_Attr.first == "Description")
+                        {
+                            if(val_Actor_Attr.second.data() == "EGO_VEHICLE")
+                            {
+                                isEgoVehicle = true;
+                            }
+                        }
+
 						//std::cout << "After Values: " << val_Actor_Attr.first.data() << ":" <<u_id<<":" <<obj_id<< std::endl;
 					}
 					
 					// Checking if the "Trajectory" node has a child named "TrajectoryBase"
 					optional< ptree& > child = pt_tra.get_child_optional("TrajectoryBase");
-					if( !child )
-					{
-					  //std::cout << "Trajectory not found" << u_id <<std::endl;
-					  load_actor(val_Actors, u_id, obj_id, safetyAreaValue);
-					}
-					else
-						std::cout << "Dynamic Actor" << u_id <<std::endl;				
+					if( !child && !isEgoVehicle)
+                    {
+                        //std::cout << "Trajectory not found" << u_id <<std::endl;
+                        load_actor(val_Actors, u_id, obj_id, safetyAreaValue);
+                    }
+                    else
+                    {
+                        //std::cout << "Dynamic Actor" << u_id <<std::endl;
+                        isEgoVehicle = false;
+                    }				
 				}
 			}
 
