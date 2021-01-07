@@ -173,6 +173,8 @@ class ExperimentARecorder:
 
 
     def writeData(self, Collision, StopDistance, estimated_stop_distance):
+        file.write("Maximum speed reached, "+str(max(self.ego_speeds)))
+        file.write(', ')
         file.write("Collision, "+str(Collision)) # then we write all the data needed in ExperimentA.csv
         file.write(', ')
         file.write("Coll speed, "+str(self.collision_speed))

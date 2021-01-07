@@ -95,7 +95,7 @@ PrescanExpName = PrescanExpNameArray(1);
 % remove .xosc file extension
 for i=1:length(listOfNames)
     ScenarioExpNameArray(i) = erase(ScenarioExpNameArray(i),".xosc");
-    FolderExpNameArray(i) = strcat(PrescanExpName,"/OpenScenario/Results/",ScenarioExpNameArray(i),"/OpenScenario");
+    FolderExpNameArray(i) = strcat(PrescanExpName,"/OpenSCENARIO/Results/",ScenarioExpNameArray(i),"/OpenSCENARIO");
     copyfile(strcat("../OpenSCENARIO_experiments/",ScenarioExpNameArray(i),".xosc"),strcat("../../Experiments/",FolderExpNameArray(i)))
 end
 duplicateEgoNames(length(listOfNames));
@@ -110,15 +110,7 @@ TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareCo
 
 rosshutdown
 
-TA('Configurations/TAOrder.xlsx', 1, 50)
-cd(adeye_base + "TA")
-TA('Configurations/TAOrder.xlsx', 1, 50)
-cd(adeye_base + "TA")
-TA('Configurations/TAOrder.xlsx', 1, 50)
-cd(adeye_base + "TA")
-TA('Configurations/TAOrder.xlsx', 1, 50)
-cd(adeye_base + "TA")
-TA('Configurations/TAOrder.xlsx', 1, 50)
+TA('Configurations/TAOrder.xlsx', 1, 2000)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 %TA('Configurations/TAOrder.xlsx', 1, 500)
 
