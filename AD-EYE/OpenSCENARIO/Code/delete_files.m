@@ -1,6 +1,6 @@
 function delete_files(name_experiment,folder_name)
 
-cd(strcat("..\..\Experiments\",name_experiment,"\OpenScenario\Results\",folder_name,"\OpenScenario\"))
+cd(strcat("..\..\Experiments\",name_experiment,"\OpenSCENARIO\Results\",folder_name,"\OpenSCENARIO\"))
 
 delete(strcat(name_experiment,".pex"))
 delete(strcat(name_experiment,".pb"))

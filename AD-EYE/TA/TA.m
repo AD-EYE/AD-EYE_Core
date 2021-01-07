@@ -40,7 +40,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     killRosNodes = strcat(shFolderPath, '/', 'killRosNodes.sh'); ...
     ...%contains command to kill all the ros nodes and consecutively rosmaster 
     ExeName = 'PreScan.CLI.exe';
-    max_duration = 120; %variable in current matlab script
+    max_duration = 200; %variable in current matlab script
     % goal = '/move_base_simple/goal';
     % poseStamped = 'geometry_msgs/PoseStamped';
 
@@ -220,11 +220,16 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 %                         rethrow(ME)
 %                     case 'MATLAB:MException:MultipleErrors'
 %                         rethrow(ME)
-                    case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue
+                    case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates and try to run again
                         warning("Failed to start experiment. Other attemps will be made until success.")
                         fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
                         fprintf(fileID,RunModel);
                         fclose(fileID);
+                        dir = pwd;
+                        cd(BasePath);
+                        !KillAllFederates.bat
+                        cd(dir);
+                        clear dir;
                     otherwise % if there was a PreScan issue such as missing federates then we can try to run again
                         disp(ME.identifier)
                         rethrow(ME)
@@ -255,6 +260,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         system(device,killRosNodes); 
         rosshutdown
         cd(BasePath);
+        !KillAllFederates.bat
         runtimes(run) = toc;
         writetable(array2table(runtimes),"runtimes.xlsx")
     end
