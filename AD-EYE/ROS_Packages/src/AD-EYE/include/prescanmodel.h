@@ -104,105 +104,105 @@ struct PrescanModel
 		ptree pt;
 		read_xml(filePex, pt);
 
-		ptree pt_Experiment = pt.get_child("Experiment");
+		ptree pt_experiment = pt.get_child("Experiment");
 
-		int safetyAreaValue = 0;
+		int safety_area_value = 0;
 		int u_id = 0;
 		int obj_id = 0;
-        bool isEgoVehicle = false;
+        bool is_ego_vehicle = false;
 		
 		// looping through the entire xml
-		BOOST_FOREACH(ptree::value_type& val_Experiment, pt.get_child("Experiment"))
+		BOOST_FOREACH(ptree::value_type& val_experiment, pt.get_child("Experiment"))
 		{
 			// checking if the child node is "Actors" in "Experiment"
-			if (val_Experiment.first == "Actors")
+			if (val_experiment.first == "Actors")
 			{
 				// tree with all the child nodes inside "Actors"
-				ptree pt_Actors = pt_Experiment.get_child("Actors");
+				ptree pt_actors = pt_experiment.get_child("Actors");
 				// looping through all the child nodes inside "Actors"
-				BOOST_FOREACH(ptree::value_type& val_Actors, pt_Actors)
+				BOOST_FOREACH(ptree::value_type& val_actors, pt_actors)
 				{
 					// tree with all the attributes of each "Actor"
-					ptree pt_Actor_Attr = val_Actors.second.get_child("<xmlattr>");
+					ptree pt_actor_attr = val_actors.second.get_child("<xmlattr>");
 					// tree whose all the child nodes of Trajectories
-					ptree pt_tra = val_Actors.second.get_child("Trajectories");
+					ptree pt_tra = val_actors.second.get_child("Trajectories");
 					// looping through the attributes of "Actor"
-					BOOST_FOREACH(ptree::value_type& val_Actor_Attr, pt_Actor_Attr)
+					BOOST_FOREACH(ptree::value_type& val_actor_attr, pt_actor_attr)
 					{
-						//std::cout << "Values: " << val_Actor_Attr.first.data() << ":" <<val_Actor_Attr.second.data()<< std::endl;
+						//std::cout << "Values: " << val_actor_attr.first.data() << ":" <<val_actor_attr.second.data()<< std::endl;
 						// populating the u_id with the data of the attribute name "UniqueId"
-						if(val_Actor_Attr.first == "UniqueId")
+						if(val_actor_attr.first == "UniqueId")
 						{
-							u_id = strtol(val_Actor_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+							u_id = strtol(val_actor_attr.second.data().c_str(),NULL,DECIMAL_BASE);
 						}
 						// populating the obj_id with the data of the attribute name "ObjectTypeID"
-						if(val_Actor_Attr.first == "ObjectTypeID")
+						if(val_actor_attr.first == "ObjectTypeID")
 						{
-							obj_id = strtol(val_Actor_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+							obj_id = strtol(val_actor_attr.second.data().c_str(),NULL,DECIMAL_BASE);
 						}
-                        if(val_Actor_Attr.first == "Description")
+                        if(val_actor_attr.first == "Description")
                         {
-                            if(val_Actor_Attr.second.data() == "EGO_VEHICLE")
+                            if(val_actor_attr.second.data() == "EGO_VEHICLE")
                             {
-                                isEgoVehicle = true;
+                                is_ego_vehicle = true;
                             }
                         }
 
-						//std::cout << "After Values: " << val_Actor_Attr.first.data() << ":" <<u_id<<":" <<obj_id<< std::endl;
+						//std::cout << "After Values: " << val_actor_attr.first.data() << ":" <<u_id<<":" <<obj_id<< std::endl;
 					}
 					
 					// Checking if the "Trajectory" node has a child named "TrajectoryBase"
 					optional< ptree& > child = pt_tra.get_child_optional("TrajectoryBase");
-					if( !child && !isEgoVehicle)
+					if( !child && !is_ego_vehicle)
                     {
                         //std::cout << "Trajectory not found" << u_id <<std::endl;
-                        load_actor(val_Actors, u_id, obj_id, safetyAreaValue);
+                        load_actor(val_actors, u_id, obj_id, safety_area_value);
                     }
                     else
                     {
                         //std::cout << "Dynamic Actor" << u_id <<std::endl;
-                        isEgoVehicle = false;
+                        is_ego_vehicle = false;
                     }				
 				}
 			}
 
 			// checking if the child node is "Environment" in "Experiment"
-            if (val_Experiment.first == "Environment")
+            if (val_experiment.first == "Environment")
             {
                 // looping through all the child nodes inside "Environment"
-                BOOST_FOREACH(ptree::value_type& val_Environment, pt_Experiment.get_child("Environment"))
+                BOOST_FOREACH(ptree::value_type& val_environment, pt_experiment.get_child("Environment"))
                 {
                     // checking if the child node is "Underlays" in "Environment"
-                    if (val_Environment.first == "Underlays")
+                    if (val_environment.first == "Underlays")
                     {
                         // looping through all the child nodes inside "Underlays"
-                        BOOST_FOREACH(ptree::value_type& val_Underlays, val_Experiment.second.get_child("Underlays"))
+                        BOOST_FOREACH(ptree::value_type& val_underlays, val_experiment.second.get_child("Underlays"))
                         {
                             // tree with all the attributes of each "Underlay"
-                            ptree pt_Underlay_Attr = val_Underlays.second.get_child("<xmlattr>");
-                            BOOST_FOREACH(ptree::value_type& val_Underlay_Attr, pt_Underlay_Attr)
+                            ptree pt_Underlay_Attr = val_underlays.second.get_child("<xmlattr>");
+                            BOOST_FOREACH(ptree::value_type& val_underlay_attr, pt_Underlay_Attr)
                             {
-                                // populating the safetyAreaValue with the data of the attribute name "Description"
-                                if(val_Underlay_Attr.first == "Description")
+                                // populating the safety_area_value with the data of the attribute name "Description"
+                                if(val_underlay_attr.first == "Description")
                                 {
                                     // checking the codition if the attribute "Description" has the value "SAFE" in it
-                                    if(val_Underlay_Attr.second.data().size()>=SAFE_STRING_POS && val_Underlay_Attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
+                                    if(val_underlay_attr.second.data().size()>=SAFE_STRING_POS && val_underlay_attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
                                     {
-                                        safetyAreaValue = strtol(val_Underlay_Attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
+                                        safety_area_value = strtol(val_underlay_attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
                                     }
                                 }
                                 // populating the u_id with the data of the attribute name "UniqueId"
-                                if(val_Underlay_Attr.first == "UniqueId")
+                                if(val_underlay_attr.first == "UniqueId")
                                 {
-                                    u_id = strtol(val_Underlay_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+                                    u_id = strtol(val_underlay_attr.second.data().c_str(),NULL,DECIMAL_BASE);
                                 }
                                 // populating the obj_id with the data of the attribute name "ObjectTypeID"
-                                if(val_Underlay_Attr.first == "ObjectTypeID")
+                                if(val_underlay_attr.first == "ObjectTypeID")
                                 {
-                                    obj_id = strtol(val_Underlay_Attr.second.data().c_str(),NULL,DECIMAL_BASE);
+                                    obj_id = strtol(val_underlay_attr.second.data().c_str(),NULL,DECIMAL_BASE);
                                 }
                             }
-                            load_actor(val_Underlays, u_id, obj_id, safetyAreaValue);						
+                            load_actor(val_underlays, u_id, obj_id, safety_area_value);						
                         }
                     }
                 }
