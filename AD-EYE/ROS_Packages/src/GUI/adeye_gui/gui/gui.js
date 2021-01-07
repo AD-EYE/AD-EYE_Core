@@ -290,18 +290,18 @@ document.addEventListener('DOMContentLoaded', (event) =>
     // function to toggle the state on and off by clicking on the buttons.
     function toggleStateinitial_OnClick(initial)
     {
-        let initialToggleOn;
+        //let initialToggleOn;
         if(initial.value == "off") 
         {
             initial.value = "on";
-            initialToggleOn = new ROSLIB.Topic({
+            let initialToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/initial_checks',
                 messageType :'std_msgs/Bool'
             });
 
             let initialOn = new ROSLIB.Message({
-                data : "True"
+                data : parseBool(True)
             });
             initialToggleOn.publish(initialOn);
             document.getElementById("initial").innerHTML = initialOn.data;
@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             });
 
             let initialOff = new ROSLIB.Message({
-                data : "False"
+                data : parseBool(False)
             });
             document.getElementById("initial").innerHTML = initialOff.data;
             initialToggleOff.publish(initialOff);
@@ -549,7 +549,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             {
                 if (number[i] === 1)
                 {
-                dataon.push(i);
+                    dataon.push(i);
                 }
             }
             return dataon;
@@ -560,6 +560,40 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 
 //-------------------- feature Change---------------
+
+    function toggleFeatureState_OnClick(feature)
+{
+let features = document.getElementsByClassName("features");
+let featureToggleOff = new ROSLIB.Topic({
+ros : ros,
+name : '/Features_state',
+messageType : 'std_msgs/Int32MultiArray'
+});
+let featureOff = new ROSLIB.Message({
+data : data_array 
+});
+for(let i = 0; i < features.length; i++)
+{
+    if(feature.id == i)
+    {
+        if(featureOff.data[i] == 1)
+        {
+        featureOff.data[i] = 0; 
+        }
+        else
+        {
+        featureOff.data[i] = 1; 
+        }
+    }
+    
+}
+/* {
+
+}  */
+
+featureToggleOff.publish(featureOff);
+
+}
     // function to switch on the feature recording on button click and publishing the message on to topic /Features_state
     function toggleStateRecording_OnClick(recording)
     {
@@ -804,7 +838,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 if(button_element.value == "off")
                 {
                     button_element.value = "on";
-                    //button_element.style.backgroundColor = green;
+                    button_element.style.backgroundColor = green;
                     selected_element[i].selectedIndex = 0;
                 }
                 else
@@ -817,7 +851,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
     }
 
-    // function to change the color of the button based on the value selected from the dropdown list for fault injection
+    /* // function to change the color of the button based on the value selected from the dropdown list for fault injection
     function changeColor(data_value) 
     { 
         if(data_value == 0)
@@ -832,7 +866,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         {
             document.getElementsByClassName("fault_injection").style.backgroundColor = green;
         }
-    } 
+    }  */
     
     // function to switch on gnss on button click and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
@@ -1078,6 +1112,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
             imgData.data[ 4 * j + 3 ] = 255;
         }
+        
         ctx.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
     }); 
 //-------------------camera 1 display ----------------

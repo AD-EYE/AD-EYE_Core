@@ -89,7 +89,6 @@ body
   height: 24px;
   background-color: #F00;
   border-radius: 50%;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; */
 }
 
 button
@@ -99,7 +98,6 @@ button
   margin: 5px;
   height:50px;
   width:300px;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; */
 }
 
  .manager,.fault_injection
@@ -118,6 +116,17 @@ button
   border-radius: 15px;
   border:none;
 }
+
+select
+{
+  background-color: #699b2c; 
+  color:white;
+  width: 90px;
+  padding: 5px;
+  border: 8px;
+}
+
+
 /* ----------------------------------------------------------------------------------------------------------- */
 
  /* .bcontainer
