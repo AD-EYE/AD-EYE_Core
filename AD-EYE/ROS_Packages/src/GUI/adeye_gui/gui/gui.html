@@ -126,7 +126,6 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
-            <div id="test"></div>
             <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
             <select class="selected" name="gnss" id="gnss" onchange="faultInjectionGnss_OnChange(this)">
               <option value="0">Off</option>
@@ -150,7 +149,7 @@
               <option value="1">Random</option>
               <option value="2">Rain</option>
             </select>
-            <button name="lidar4" type="button" value="off" class="fault_injection"  onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
+            <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
             <select class="selected" name="lidar4" id="lidar4" onchange="faultInjectionLidar4_OnChange(this)">
               <option value="0" selected="selected">Off</option>
               <option value="1">Random</option>
@@ -183,6 +182,7 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera 1</h2>
+            <div id="b"></div>
              <canvas id="camera1_canvas" width="960" height="720"></canvas>
 					</div>
         </div>
