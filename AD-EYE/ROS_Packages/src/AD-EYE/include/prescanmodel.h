@@ -22,6 +22,7 @@
 #define ATTR_SET ".<xmlattr>"
 #define DECIMAL_BASE 10
 #define SAFE_STRING_POS 4
+int is_ego_vehicle = 0;
 
 struct PrescanModel
 {
@@ -86,7 +87,7 @@ struct PrescanModel
 		{
 			safeAreaObjects.push_back(Obj);
 		}
-		if(type_id == STATICCAR)
+		if(type_id == STATICCAR && safe_value != -1)
 		{
 			staticCarsObjects.push_back(Obj);
 		}
@@ -109,7 +110,7 @@ struct PrescanModel
 		int safety_area_value = 0;
 		int u_id = 0;
 		int obj_id = 0;
-        bool is_ego_vehicle = false;
+        
 		
 		// looping through the entire xml
 		BOOST_FOREACH(ptree::value_type& val_experiment, pt.get_child("Experiment"))
@@ -142,9 +143,10 @@ struct PrescanModel
 						}
                         if(val_actor_attr.first == "Description")
                         {
-                            if(val_actor_attr.second.data() == "EGO_VEHICLE")
+                            std::string abc = val_actor_attr.second.data();
+                            if(abc == "EGO_VEHICLE")
                             {
-                                is_ego_vehicle = true;
+                                safety_area_value = -1;
                             }
                         }
 
@@ -153,15 +155,16 @@ struct PrescanModel
 					
 					// Checking if the "Trajectory" node has a child named "TrajectoryBase"
 					optional< ptree& > child = pt_tra.get_child_optional("TrajectoryBase");
-					if( !child && !is_ego_vehicle)
+					if( !child )
                     {
                         //std::cout << "Trajectory not found" << u_id <<std::endl;
                         load_actor(val_actors, u_id, obj_id, safety_area_value);
+                        safety_area_value = 0;
                     }
                     else
                     {
                         //std::cout << "Dynamic Actor" << u_id <<std::endl;
-                        is_ego_vehicle = false;
+                        //is_ego_vehicle = 0;
                     }				
 				}
 			}

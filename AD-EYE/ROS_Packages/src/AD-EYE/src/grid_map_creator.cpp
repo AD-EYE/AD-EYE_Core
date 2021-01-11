@@ -205,6 +205,8 @@ private:
             grid_map::Polygon polygon = rectangle_creator(pexObjects.staticCarsObjects.at(i).posX, pexObjects.staticCarsObjects.at(i).posY, pexObjects.staticCarsObjects.at(i).sizeX, pexObjects.staticCarsObjects.at(i).sizeY, 0.01745*pexObjects.staticCarsObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
                 map.at("StaticObjects", *it) = pexObjects.staticCarsObjects.at(i).sizeZ;
+                //std::cout<<pexObjects.staticCarsObjects.at(i).ID;
+                ROS_INFO_STREAM("staticObjects map found : " << pexObjects.staticCarsObjects.at(i).ID);
             }
         }
     }
