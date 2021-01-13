@@ -20,10 +20,8 @@ root_dir = os.path.dirname(os.path.abspath(__file__))
 def create_parser(): 
     """Create a parser object"""
     parser = argparse.ArgumentParser(description='Description goes here')
-    parser.add_argument('-r', '--rosbag', type=bool, default=True, help="Run with rosbag <True|False>")
     parser.add_argument("--rosbag-folder", type=str, default="/home/adeye/Downloads/KTH_map/Rosbags/Splitted_bags/", help="Path to rosbag files")
     parser.add_argument("--output-dir", type=str, default="/home/adeye/Downloads/KTH_map/Rosbags/Generated_pcd", help="Path to PCD output dir")
-    parser.add_argument("-rviz","--rviz", type=bool, default=False, help="Runs rviz")
     my_args = parser.parse_args()
     return my_args
 
@@ -156,11 +154,11 @@ class ProcessManager():
 
         # the mapping process is finished when no new message is published on the topic /ndt_map
         try: 
-            while True:
+            while True: # while we receive message mapping is not done
                 self.launch.spin_once()
-                rospy.wait_for_message("/ndt_map", PointCloud2, timeout=5)
+                rospy.wait_for_message("/ndt_map", PointCloud2, timeout=5) # if this function tims out, it throws an exception
                 print("Waiting for the mapping to be finished")
-        except:
+        except: # when no message has been published, the exception leads here
             print("Saving the map as a pcd file")
             # subprocess.Popen(["rostopic", "pub", "-1" ,"/config/approximate_ndt_mapping_output", "autoware_config_msgs/ConfigApproximateNDTMappingOutput", output])
             subprocess.Popen(["rostopic", "pub", "-1" ,"/config/ndt_mapping_output", "autoware_config_msgs/ConfigNDTMappingOutput", output])
