@@ -378,6 +378,8 @@ public:
     {
         nh.getParam("use_pex_file", use_pex_file_);
         nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
+        nh.getParam("car_length", length_ego);
+        nh.getParam("car_width", width_ego);
 
 
         // Initialize node and publishers
@@ -395,9 +397,6 @@ public:
         frequency = 20;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
         rate = ros::Rate(frequency);
 
-        // for now there is no easy way to send the dimensions of the actors, it is assumed all actors are 5x2x2 meters
-        length_ego = 5;
-        width_ego = 2;
         //height_ego = 2; //Height is not critical for now
         length_other = length_ego;
         width_other = width_ego;
@@ -412,16 +411,16 @@ public:
         // Create footprint for car
         footprint_ego.header.frame_id = "SSMP_base_link";
         geometry_msgs::Point32 point;
-        point.x = -0.5*length_ego;
+        point.x = -0.2*length_ego;
         point.y = -0.5*width_ego;
         footprint_ego.polygon.points.emplace_back(point);
-        point.x = 0.5*length_ego;
+        point.x = 0.8*length_ego;
         point.y = -0.5*width_ego;
         footprint_ego.polygon.points.emplace_back(point);
-        point.x = 0.5*length_ego;
+        point.x = 0.8*length_ego;
         point.y = 0.5*width_ego;
         footprint_ego.polygon.points.emplace_back(point);
-        point.x = -0.5*length_ego;
+        point.x = -0.2*length_ego;
         point.y = 0.5*width_ego;
         footprint_ego.polygon.points.emplace_back(point);
 

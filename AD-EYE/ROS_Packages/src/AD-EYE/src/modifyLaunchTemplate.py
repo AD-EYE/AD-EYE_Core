@@ -29,6 +29,9 @@ SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
 
 def listener():
 
+    if not os.path.exists(MODIFIED_LAUNCH_FILES_FULL_PATH):
+        os.makedirs(MODIFIED_LAUNCH_FILES_FULL_PATH)
+
     for filename in os.listdir(MODIFIED_LAUNCH_FILES_FULL_PATH):
         os.remove(MODIFIED_LAUNCH_FILES_FULL_PATH + filename)
 
@@ -50,7 +53,7 @@ def listener():
 
             with open(MODIFIED_LAUNCH_FILES_FULL_PATH + filename, 'w+') as file: #opening new file in directory2('w' represents read&write and '+' implies it will create the file if non-existent)
                 file.write(template)
-                
+
     return()
     rospy.spin()
 

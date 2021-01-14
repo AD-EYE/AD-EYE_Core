@@ -100,7 +100,7 @@ public:
       while(nh_.ok())
       {
           ros::spinOnce();
-          if (lidar_msg_flag == true && radar_msg_flag == true) {
+          if (lidar_msg_flag == true || radar_msg_flag == true) {
               publish();
           }
           rate.sleep();

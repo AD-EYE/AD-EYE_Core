@@ -65,6 +65,7 @@ cd ..
 #meet AD-EYE dependencies
 echo -e "\nInstalling adeye dependencies"
 sudo apt-get -y install ros-kinetic-costmap-2d ros-kinetic-navigation ros-kinetic-grid-map
+sudo apt-get install ros-kinetic-rosbridge-suite
 
 exec bash
 
