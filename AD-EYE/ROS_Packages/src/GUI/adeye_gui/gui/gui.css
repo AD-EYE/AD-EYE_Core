@@ -12,7 +12,7 @@ body
   padding: 10px;
   cursor: move;
   height: auto;
-  width: 350px;
+  width: auto;
   margin:5px;
   color: rgb(255, 253, 253);
   font-weight: bold;
@@ -29,6 +29,12 @@ body
   padding: 3px;
   color:#699b2c;
   font-weight: bold;
+}
+
+.canvas
+{
+  height: auto;
+  width: 200px;
 }
 
 .gauge_velocity,.gauge_acceleration

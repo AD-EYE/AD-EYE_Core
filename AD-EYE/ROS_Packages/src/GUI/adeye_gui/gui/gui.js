@@ -92,22 +92,24 @@ let green = "#699b2c";
     velocity_listener.subscribe(function(message)
     {
         let value = message.ctrl_cmd.linear_velocity;
+        let max_gauge_speed = 10;
         const gauge_element = document.querySelector(".gauge_velocity");
         
         //shifting value by one decimal
-        value = value / 10; 
+        value_percentage = value / max_gauge_speed;
+        //document.getElementById("a").innerHTML = value_percentage;
         //function to set values of the gauge
-        function setGaugeValue(gauge_velocity, value) 
+        function setGaugeValue(gauge_velocity, value_percentage) 
         {
         //safety check to ensure that the values are within the range
-            if (value < 0 || value > 1) 
+            if (value_percentage < 0 || value_percentage > 1) 
             {
               return;
             }
             //making the turn over the gauge body
             gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate( ${ value / 3 }turn )`;
             // to convert the value to km/hr from m/s
-            value = (value * 180) / 5; 
+            value = (value * 18) / 5; 
             //printing the velocity value
             gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${ Math.round( value ) } km/h`;
         }
@@ -595,7 +597,7 @@ let green = "#699b2c";
         }
     }
 
-    /* // function to change the color of the button based on the value selected from the dropdown list for fault injection
+    // function to change the color of the button based on the value selected from the dropdown list for fault injection
     function changeColor(data_value) 
     { 
         if(data_value == 0)
@@ -610,14 +612,16 @@ let green = "#699b2c";
         {
             document.getElementsByClassName("fault_injection").style.backgroundColor = green;
         }
-    }  */
+    }  
+
+    let data_value;
     
     // function to switch on gnss on button click and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
     {
         let gnss_btn = document.getElementById("gnss");
         let option = gnss_btn.options[gnss_btn.selectedIndex];
-        let data_value = gnss_btn.value;
+         data_value = gnss_btn.value;
         //document.getElementById("test").innerHTML = gnss_btn;
         if((option.value) != 0)
         {
@@ -697,6 +701,7 @@ let green = "#699b2c";
             });
             togglelidar3On.publish(lidar3On);
         } 
+        document.getElementById("a").innerHTML = lidar3On;
         changeColor(data_value);
     } 
 
@@ -826,12 +831,12 @@ let green = "#699b2c";
         {
             array[i] = msg.charCodeAt(i);
         }
-        document.getElementById("b").innerHTML = message.height;
-        var canvas1 = document.getElementById( "camera1_canvas" );
+        
+        let canvas1 = document.getElementById( "camera1_canvas" );
         const context = canvas1.getContext( "2d" ); 
 
-        var imgData = context.createImageData(canvas1.width,canvas1.height);
-        for(var j = 0; j < array.length; j++)
+        let imgData = context.createImageData(960,720);
+        for(let j = 0; j < array.length; j++)
         {
             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
@@ -839,7 +844,11 @@ let green = "#699b2c";
             imgData.data[ 4 * j + 3 ] = 255;
         }
         
-        context.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
+       var image = document.getElementById("camera1_canvas");
+       image.style.width = "100%";
+       image.style.height = "auto";
+       context.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
+    
     }); 
 //-------------------camera 1 display ----------------
 
@@ -847,37 +856,86 @@ let green = "#699b2c";
 
 //-------------------camera 2 display ----------------
 
-//listen to the topic camera_2/image_raw
-let camera2_topic = new ROSLIB.Topic({
-    ros : ros,
-    name : '/camera_2/image_raw',
-    messageType : 'sensor_msgs/Image'
-});
+    //listen to the topic camera_2/image_raw
+    let camera2_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_2/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
 
-//subscribing to the topic camera_1/image_raw
-camera2_topic.subscribe(function(message)
-{  
-    let msg = atob(message.data);
-    let array = new Uint8Array(new ArrayBuffer(msg.length));
-    for (let i = 0; i < msg.length; i++) 
-    {
-        array[i] = msg.charCodeAt(i);
-    }
+    //subscribing to the topic camera_1/image_raw
+    camera2_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
 
-    let canvas2 = document.getElementById( "camera2_canvas" );
-    const ctx = canvas2.getContext( "2d" ); 
+        let canvas2 = document.getElementById( "camera2_canvas" );
+        const context = canvas2.getContext( "2d" ); 
 
-    var imgData = ctx.createImageData(canvas2.width,canvas2.height);
-    for(var j = 0; j < array.length; j++)
-    {
-        imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-        imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-        imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-        imgData.data[ 4 * j + 3 ] = 255;
-    }
-    ctx.putImageData(imgData,0,0,0,0,canvas2.width,canvas2.height);
+        let imgData = context.createImageData(canvas2.width,canvas2.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+
+        let image = document.getElementById("camera2_canvas");
+        image.style.width = "100%";
+        image.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas2.width,canvas2.height);
 }); 
-//-------------------camera 2 display ----------------
+//-------------------camera 2 display --------------
+
+
+//-------------------TL camera  display ----------------
+
+    //listen to the topic /tl/image_raw
+    let tl_camera_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/tl/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
+
+    //subscribing to the topic /tl/image_raw
+    tl_camera_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+
+        let canvas3 = document.getElementById( "tl_camera_canvas" );
+        const context = canvas3.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas3.width,canvas3.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+
+        let image = document.getElementById("tl_camera_canvas");
+        image.style.width = "100%";
+        image.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas3.width,canvas3.height);
+}); 
+//------------------- TL camera  display --------------
+        
 
 
 
+
+
+       
+
+         
