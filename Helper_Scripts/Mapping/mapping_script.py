@@ -150,13 +150,13 @@ class ProcessManager():
 
         self.start_ndt_mapping()
 
-        self.run_rviz()
+        # self.run_rviz()
 
         # the mapping process is finished when no new message is published on the topic /ndt_map
         try: 
             while True: # while we receive message mapping is not done
                 self.launch.spin_once()
-                rospy.wait_for_message("/ndt_map", PointCloud2, timeout=5) # if this function tims out, it throws an exception
+                rospy.wait_for_message("/ndt_map", PointCloud2, timeout=500) # if this function tims out, it throws an exception
                 print("Waiting for the mapping to be finished")
         except: # when no message has been published, the exception leads here
             print("Saving the map as a pcd file")
@@ -166,6 +166,26 @@ class ProcessManager():
         finally: 
             self.launch.stop()
 
+
+class RoscoreWrapper(): 
+    """roscore wrapped into a subprocess. 
+    Singleton implementation prevents from creating more than one instance."""
+
+    __initialized = False
+    def __init__(self):
+        if RoscoreWrapper.__initialized:
+            raise Exception("You can't create more than 1 instance of Roscore.")
+        RoscoreWrapper.__initialized = True
+    def start(self):
+        try:
+            self.roscore_process = subprocess.Popen(['roscore'])
+            #self.roscore_pid = self.roscore_process.pid  # pid of the roscore process (which has child processes)
+        except OSError as e:
+            sys.stderr.write('roscore could not be run')
+            raise e
+        
+    def stop(self):
+        subprocess.call(['killall', '-9', 'rosmaster'])
 
 
 
@@ -184,6 +204,9 @@ if __name__ == "__main__":
     print('Killing all processes..')
     force_kill_ros()
 
+
+    roscore_wrapper = RoscoreWrapper() # the roscore wrapper helps start and stop the rosmaster process
+
     i = 1
     for f in files:
         
@@ -194,9 +217,11 @@ if __name__ == "__main__":
         if not os.path.isfile(args.rosbag_folder): 
             raise OSError(2, 'No such file or directory', args.rosbag_folder)
         
-        subprocess.Popen(['roscore'])
-        process_manager = ProcessManager(args)
+        # subprocess.Popen(['roscore'])
+        roscore_wrapper.start()
+        process_manager = ProcessManager(args) # this process manager will start the different ROS nodes that are needed for the mapping
         process_manager.start()
+        roscore_wrapper.stop()
 
         print('Killing all processes..')
         force_kill_ros()
