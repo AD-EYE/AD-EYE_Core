@@ -158,7 +158,7 @@ public:
                 visualization_msgs::Marker marker;
                 marker.header.frame_id = "SSMP_base_link";
                 marker.header.stamp = ros::Time::now();
-                marker.id = i;
+                marker.id = endposes_vis_msg.markers.size();
                 marker.type = visualization_msgs::Marker::CUBE;
                 marker.scale.x = 2.00; // todo: grab from footprint
                 marker.scale.y = 1.5;
@@ -208,14 +208,12 @@ public:
           }
 
           // to clear old markers we will publish ivisible markers with same id
-
           for(size_t i=endposes_vis_msg.markers.size(); i<=traj_set_handler.get_max_trajsubset_size(); i++){
               visualization_msgs::Marker marker;
               marker.header.frame_id = "SSMP_base_link";
               marker.header.stamp = ros::Time();
               marker.id = i;
               marker.type = visualization_msgs::Marker::SPHERE;
-              marker.action = visualization_msgs::Marker::ADD;
               marker.pose.position.x = 1;
               marker.pose.position.y = 1;
               marker.pose.position.z = 1;
