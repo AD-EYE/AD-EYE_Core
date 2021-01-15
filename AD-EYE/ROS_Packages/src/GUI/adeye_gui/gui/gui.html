@@ -40,7 +40,7 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
-            <div id="a"></div>
+            <div id="test"></div>
             <div class="gauge_velocity">
               <div class="gauge_velocity_body">
                 <div class="gauge_velocity_fill"></div>
@@ -130,7 +130,7 @@
             <div id="a"></div>
             <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
             <select class="selected" name="gnss" id="gnss" onchange="faultInjectionGnss_OnChange(this)">
-              <option value="0">Off</option>
+              <option value="0" selected="selected">Off</option>
               <option value="1" >Gaussian</option>
             </select>
             <button name="lidar1" type="button" value="off" class="fault_injection"  onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;

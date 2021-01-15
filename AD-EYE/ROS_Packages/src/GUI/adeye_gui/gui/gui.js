@@ -1,69 +1,67 @@
-
-
 document.addEventListener('DOMContentLoaded', (event) => 
 {
     var dragSourceEl = null;
 
     function handleDragStart(e) 
     {
-      this.style.opacity = '0.4';
-      dragSourceEl = this;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/html', this.innerHTML);
+        this.style.opacity = '0.4';
+        dragSourceEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
     }
 
     function handleDragOver(e) 
     {
-      if (e.preventDefault) 
-      {
-        e.preventDefault();
-      }
-      e.dataTransfer.dropEffect = 'move';
-      return false;
+        if (e.preventDefault) 
+        {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
     }
 
     function handleDragEnter(e) 
     {
-      this.classList.add('over');
+        this.classList.add('over');
     }
 
     function handleDragLeave(e) 
     {
-     this.classList.remove('over');
+        this.classList.remove('over');
     }
 
     function handleDrop(e) 
     {
-      if (e.stopPropagation) 
-      {
-        e.stopPropagation(); // stops the browser from redirecting.
-      }
-      if (dragSourceEl != this) 
-      {
-       dragSourceEl.innerHTML = this.innerHTML;
-       this.innerHTML = e.dataTransfer.getData('text/html');
-      }
-      return false;
+        if (e.stopPropagation) 
+        {
+            e.stopPropagation(); // stops the browser from redirecting.
+        }
+        if (dragSourceEl != this) 
+        {
+            dragSourceEl.innerHTML = this.innerHTML;
+            this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+        return false;
     }
 
     function handleDragEnd(e) 
     {
-      this.style.opacity = '1'; 
-      items.forEach(function (item) 
-      {
-        item.classList.remove('over');
-      });
+        this.style.opacity = '1'; 
+        items.forEach(function (item) 
+        {
+            item.classList.remove('over');
+        });
     }
 
     let items = document.querySelectorAll('.container .box');
     items.forEach(function(item)
     {
-    item.addEventListener('dragstart', handleDragStart, false);
-    item.addEventListener('dragenter', handleDragEnter, false);
-    item.addEventListener('dragover', handleDragOver, false);
-    item.addEventListener('dragleave', handleDragLeave, false);
-    item.addEventListener('drop', handleDrop, false);
-    item.addEventListener('dragend', handleDragEnd, false);
+        item.addEventListener('dragstart', handleDragStart, false);
+        item.addEventListener('dragenter', handleDragEnter, false);
+        item.addEventListener('dragover', handleDragOver, false);
+        item.addEventListener('dragleave', handleDragLeave, false);
+        item.addEventListener('drop', handleDrop, false);
+        item.addEventListener('dragend', handleDragEnd, false);
     });
 });
 
@@ -96,20 +94,24 @@ let green = "#699b2c";
         const gauge_element = document.querySelector(".gauge_velocity");
         
         //shifting value by one decimal
-        value_percentage = value / max_gauge_speed;
-        //document.getElementById("a").innerHTML = value_percentage;
+        value = value / max_gauge_speed;
+        document.getElementById("test").innerHTML= value;
+
         //function to set values of the gauge
-        function setGaugeValue(gauge_velocity, value_percentage) 
+        function setGaugeValue(gauge_velocity, value ) 
         {
-        //safety check to ensure that the values are within the range
-            if (value_percentage < 0 || value_percentage > 1) 
+            //safety check to ensure that the values are within the range
+            if (value < 0 || value > 1) 
             {
               return;
             }
+
             //making the turn over the gauge body
             gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate( ${ value / 3 }turn )`;
+
             // to convert the value to km/hr from m/s
             value = (value * 18) / 5; 
+
             //printing the velocity value
             gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${ Math.round( value ) } km/h`;
         }
@@ -138,13 +140,15 @@ let green = "#699b2c";
         //function to set values of the gauge
         function setGaugeValue(gauge_acceleration, value) 
         {
-        //safety check to ensure that values are within the range
+            //safety check to ensure that values are within the range
             if (value < 0 || value > 1) 
             {
               return;
             }
+
             //making the turn over the gauge body
             gauge_acceleration.querySelector(".gauge_acceleration_fill").style.transform = `rotate( ${ value / 4 }turn )`;
+
             //printing the acceleration value
             gauge_acceleration.querySelector(".gauge_acceleration_cover").textContent = `${ Math.round( value * 10 ) } m/s²`;
         }
@@ -182,15 +186,15 @@ let green = "#699b2c";
             let buttonId = buttonList[position].id;
             for (let i = 0; i < numOfButtons; i++)
             {
-              for (let j = 0; j < positionColorPairs.length; j++)
+                for (let j = 0; j < positionColorPairs.length; j++)
                 {
                     if (positionColorPairs[j].position == buttonId)
                     {
-                     buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
+                        buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
                     }
                     else 
                     {
-                     buttonList[i].style.backgroundColor  = 'gray';
+                        buttonList[i].style.backgroundColor  = 'gray';
                     }
                 }
             }
@@ -403,7 +407,6 @@ let green = "#699b2c";
 
     //subscribing to the topic /tracked_objects
     track_listener.subscribe(function(message) 
-
     {
         let object=[];
         let k=0;
@@ -414,7 +417,7 @@ let green = "#699b2c";
                 object[k]=message.objects[i].label[j];
                 k++;
             }
-            s = object.join("")
+            s = object.join("");
             document.getElementById("track").innerHTML = s;
             x = message.objects[0].pose.position.x;
             document.getElementById("x").innerHTML = x;
@@ -424,7 +427,6 @@ let green = "#699b2c";
             document.getElementById("z").innerHTML = z;
             object.splice(0, object.length);
         }
-
     });
 //-------------------tracked object ----------------
 
@@ -450,7 +452,7 @@ let green = "#699b2c";
                 marker[k] = message.markers[i].text[j];
                 k++;
             }
-            t = marker.join("")
+            t = marker.join("");
             document.getElementById("behavior").innerHTML = t;
             marker.splice(0, marker.length);
         }
@@ -573,7 +575,8 @@ let green = "#699b2c";
 
 
 //-------------fault injection----------------------
-   // function to reset the dropdown list to off value and to change the color of button based on the values on/off
+   
+    // function to reset the dropdown list to off value and to change the color of button based on the values on/off
     function faultInjection_OnClick(button_element)
     {
         let selected_element = document.getElementsByClassName("selected");
@@ -598,7 +601,7 @@ let green = "#699b2c";
     }
 
     // function to change the color of the button based on the value selected from the dropdown list for fault injection
-    function changeColor(data_value) 
+    /* function changeColor(data_value) 
     { 
         if(data_value == 0)
         {
@@ -612,34 +615,101 @@ let green = "#699b2c";
         {
             document.getElementsByClassName("fault_injection").style.backgroundColor = green;
         }
-    }  
+    }   */
 
     let data_value;
+
+    function publish_fault_injection(fault_injection,topic)
+    {
+        let fault_injection_button = document.getElementsByClassName("selected");
+        for( let i = 0; i < fault_injection_button.length; i++)
+        {   
+            if(fault_injection.name === fault_injection_button[i].name)
+            {
+                let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
+                data_value = fault_injection_button[i].value;
+                if((option.value) != 0)
+                {
+                    let fault_injection_topic = new ROSLIB.Topic({
+                        ros : ros,
+                        name : topic,
+                        messageType : 'std_msgs/Int32'
+                    });
+                
+                    let fault_injection_msg = new ROSLIB.Message({
+                        data : parseInt(data_value)
+                    });
+
+                    fault_injection_topic.publish(fault_injection_msg);
+                }
+            }
+        }
+    }
     
-    // function to switch on gnss on button click and publishing the message on to topic fault_injection/gnss
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
     {
-        let gnss_btn = document.getElementById("gnss");
-        let option = gnss_btn.options[gnss_btn.selectedIndex];
-         data_value = gnss_btn.value;
-        //document.getElementById("test").innerHTML = gnss_btn;
-        if((option.value) != 0)
-        {
-            let togglegnssOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault_injection/gnss',
-                messageType : 'std_msgs/Int32'
-            });
-        
-            let gnssOn = new ROSLIB.Message({
-                data : parseInt(data_value)
-            });
-            togglegnssOn.publish(gnssOn);
-        }
-        changeColor(data_value);
+        let topic = "/fault_injection/gnss";
+        publish_fault_injection(gnss,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar1
+    function faultInjectionLidar1_OnChange(lidar1)
+    {
+        let topic = "/fault_injection/lidar1";
+        publish_fault_injection(lidar1,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar2
+    function faultInjectionLidar2_OnChange(lidar2)
+    {
+        let topic = "/fault_injection/lidar2";
+        publish_fault_injection(lidar2,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar3
+    function faultInjectionLidar3_OnChange(lidar3)
+    {
+        let topic = "/fault_injection/lidar3";
+        publish_fault_injection(lidar3,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar4
+    function faultInjectionLidar4_OnChange(lidar4)
+    {
+        let topic = "/fault_injection/lidar4";
+        publish_fault_injection(lidar4,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/radar
+    function faultInjectionRadar_OnChange(radar)
+    {
+        let topic = "/fault_injection/radar";
+        publish_fault_injection(radar,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/camera1
+    function faultInjectionCamera1_OnChange(camera1)
+    {
+        let topic = "/fault_injection/camera1";
+        publish_fault_injection(camera1,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/camera2
+    function faultInjectionCamera2_OnChange(camera2)
+    {
+        let topic = "/fault_injection/camera2";
+        publish_fault_injection(camera2,topic);
+    }
+
+    // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/tl_camera
+    function faultInjectionTlCamera_OnChange(tl_camera)
+    {
+        let topic = "/fault_injection/tl_camera";
+        publish_fault_injection(tl_camera,topic);
     }
         
-    // function to switch on lidar1 on button click and publishing the message on to topic fault_injection/lidar1
+    /* // function to switch on lidar1 on button click and publishing the message on to topic fault_injection/lidar1
     function faultInjectionLidar1_OnChange(lidar1)
     {
         let lidar1_btn = document.getElementById("lidar1");
@@ -701,7 +771,6 @@ let green = "#699b2c";
             });
             togglelidar3On.publish(lidar3On);
         } 
-        document.getElementById("a").innerHTML = lidar3On;
         changeColor(data_value);
     } 
 
@@ -753,7 +822,7 @@ let green = "#699b2c";
         let camera1_btn = document.getElementById("camera_1");
         let option = camera1_btn.options[camera1_btn.selectedIndex];
         let data_value = camera1_btn.value;
-        if((option.value) !=0 ) 
+        if((option.value) != 0) 
         {
             let togglecamera1On = new ROSLIB.Topic({
                 ros : ros,
@@ -774,7 +843,7 @@ let green = "#699b2c";
         let camera2_btn = document.getElementById("camera_2");
         let option = camera2_btn.options[camera2_btn.selectedIndex];
         let data_value = camera2_btn.value;
-        if((option.value) != 0 ) 
+        if((option.value) != 0) 
         {
             let togglecamera2On = new ROSLIB.Topic({
                 ros : ros,
@@ -808,7 +877,7 @@ let green = "#699b2c";
             toggletlcameraOn.publish(tlcameraOn);
         }
         changeColor(data_value);
-    }
+    } */
 //-------------fault injection----------------
 
 
