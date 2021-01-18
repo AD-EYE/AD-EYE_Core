@@ -579,26 +579,144 @@ let green = "#699b2c";
     // function to reset the dropdown list to off value and to change the color of button based on the values on/off
     function faultInjection_OnClick(button_element)
     {
+
         let selected_element = document.getElementsByClassName("selected");
         for( let i = 0; i < selected_element.length; i++)
         {
             if(button_element.name == selected_element[i].name)
             {
+                document.getElementById("a").innerHTML = " ";
                 if(button_element.value == "off")
                 {
                     button_element.value = "on";
                     button_element.style.backgroundColor = green;
                     selected_element[i].selectedIndex = 0;
+                    lidarForm();
+                    x.style.display = "block";
                 }
                 else
                 {
                     button_element.value = "off";
                     button_element.style.backgroundColor = "gray";
                     selected_element[i].selectedIndex = 0;
+                    x.style.display = "none";
                 }
             }
         }
     }
+
+    function lidarForm()
+    {
+    // Create a form dynamically 
+    let form = document.createElement("form"); 
+
+    var values = ["Off", "Random","Rain"];
+    var drop_down = document.createElement("select");
+ 
+    for (const val of values) 
+    {
+        var option = document.createElement("option");
+        //option.value = val;
+        option.text = val;
+        drop_down.append(option);
+    }
+
+    // Create an input element for state
+    let statelabel = document.createElement("label");
+    statelabel.htmlFor = "state";
+   // statelabel.setAttribute("value","State");
+
+    let state = document.createElement("input"); 
+    state.setAttribute("type", "text"); 
+    state.setAttribute("name", "state"); 
+    state.setAttribute("placeholder", "State"); 
+
+    // Create an input element for random/range_variance
+    let random_range_variance = document.createElement("input"); 
+    random_range_variance.setAttribute("type", "text"); 
+    random_range_variance.setAttribute("name", "random/range_variance"); 
+    random_range_variance.setAttribute("placeholder", "random/range_variance"); 
+
+    // Create an input element for random/theta_variance
+    let random_theta_variance = document.createElement("input"); 
+    random_theta_variance.setAttribute("type", "text"); 
+    random_theta_variance.setAttribute("name", "random/theta_variance"); 
+    random_theta_variance.setAttribute("placeholder", "random/theta_variance"); 
+
+    // Create an input element for rain/rain_intensity
+    let rain_rain_intensity = document.createElement("input"); 
+    rain_rain_intensity.setAttribute("type", "text"); 
+    rain_rain_intensity.setAttribute("name", "rain/rain_intensity"); 
+    rain_rain_intensity.setAttribute("placeholder", "rain/rain_intensity"); 
+
+    // Create an input element for rain/a
+    let rain_a = document.createElement("input"); 
+    rain_a.setAttribute("type", "text"); 
+    rain_a.setAttribute("name", "rain/a"); 
+    rain_a.setAttribute("placeholder", "rain/a"); 
+
+    // Create an input element for rain/b
+    let rain_b = document.createElement("input"); 
+    rain_b.setAttribute("type", "text"); 
+    rain_b.setAttribute("name", "rain/b"); 
+    rain_b.setAttribute("placeholder", "rain/b");
+    
+    // Create an input element for rain/reflectivity
+    let rain_reflectivity = document.createElement("input"); 
+    rain_reflectivity.setAttribute("type", "text"); 
+    rain_reflectivity.setAttribute("name", "rain/reflectivity"); 
+    rain_reflectivity.setAttribute("min","0");
+    rain_reflectivity.setAttribute("max","1");
+    rain_reflectivity.setAttribute("placeholder", "rain/reflectivity"); 
+
+    // Create an input element for rain/max_range
+    let rain_max_range = document.createElement("input"); 
+    rain_max_range.setAttribute("type", "text"); 
+    rain_max_range.setAttribute("name", "rain/max_range"); 
+    rain_max_range.setAttribute("placeholder", "rain/max_range"); 
+
+    // Create a submit button 
+    let s = document.createElement("input"); 
+    s.setAttribute("type", "submit"); 
+    s.setAttribute("value", "Submit"); 
+
+    form.append(statelabel);
+
+    form.append(drop_down);
+
+    // Append the state input to the form 
+    form.append(state);  
+    
+    // Append the random_range_variance to the form 
+    form.append(random_range_variance); 
+    
+    // Append the random_theta_variance to the form 
+    form.append(random_theta_variance);  
+    
+    // Append the rain_rain_intensity to the form 
+    form.append(rain_rain_intensity);
+
+    // Append the rain_a to the form 
+    form.append(rain_a);
+
+    // Append the rain_b to the form 
+    form.append(rain_b);
+
+    // Append the rain_reflectivity to the form 
+    form.append(rain_reflectivity);
+
+    // Append the rain_max_range to the form
+    form.append(rain_max_range);
+
+    // Append the button to the form 
+    form.append(s);  
+
+    document.getElementById("a").appendChild(form); 
+
+    
+
+    }
+    
 
     // function to change the color of the button based on the value selected from the dropdown list for fault injection
     /* function changeColor(data_value) 
