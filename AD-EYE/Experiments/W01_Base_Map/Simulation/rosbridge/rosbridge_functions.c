@@ -136,6 +136,7 @@ int unadvertise_topic(int sock, char *topic)
 
 int publish_to_topic_bool(int sock, char *topic, bool data)
 {
+    printf("Starting bool...\n");
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -148,11 +149,13 @@ int publish_to_topic_bool(int sock, char *topic, bool data)
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing bool...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
 int publish_to_topic_clock(int sock, char *topic, time_t secs, time_t nsecs)
 {
+    printf("Starting clock...\n");
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -165,12 +168,14 @@ int publish_to_topic_clock(int sock, char *topic, time_t secs, time_t nsecs)
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing clock...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
 int publish_to_topic_float32multiarray(int sock, char *topic, float data[], int size)
 {
     /* Create JSON message */
+    printf("Starting float32multiarray...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
@@ -197,10 +202,11 @@ int publish_to_topic_float32multiarray(int sock, char *topic, float data[], int 
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing float32multiarray...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
-int publish_to_topic_image(int sock, char *topic, int height, int width, int encoding_length, int step, int data[], int data_length, int frameId_length)
+int publish_to_topic_image(int sock, char *topic, int height, int width, int encoding_length, int step, int data[], int data_length, char *frame_id, int frameId_length)
 {
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
@@ -224,7 +230,7 @@ int publish_to_topic_image(int sock, char *topic, int height, int width, int enc
     }   
     
     char ros_msg[1049000];
-    sprintf(ros_msg, "{\"header\": {\"stamp\": %lu, \"frame_id\": \"/camera_1\"}, \"height\": %d, \"width\": %d, \"step\": %d, \"data\": %s}", (unsigned long)time(NULL), height, width, step, data_array);
+    sprintf(ros_msg, "{\"header\": {\"stamp\": %lu, \"frame_id\": \"%s\"}, \"height\": %d, \"width\": %d, \"step\": %d, \"data\": %s}", (unsigned long)time(NULL), frame_id, height, width, step, data_array);
 
     setlocale(LC_NUMERIC, original_locale);
 
@@ -238,6 +244,7 @@ int publish_to_topic_imu(int sock, char *topic, int seq, int frameId_length,
                      double orientW, double orientX, double orientY, double orientZ,
                      double angularZ, double linearAccX, double linearAccZ){
     
+    printf("Starting imu...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
@@ -257,12 +264,13 @@ int publish_to_topic_imu(int sock, char *topic, int seq, int frameId_length,
 
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
-
+    printf("Publishing imu...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
 int publish_to_topic_int32(int sock, char *topic, int data)
 {
+    printf("Starting int32...\n");
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -275,11 +283,13 @@ int publish_to_topic_int32(int sock, char *topic, int data)
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing int32...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
 int publish_to_topic_int32multiarray(int sock, char *topic, int data[], int size)
 {
+    printf("Starting int32multiarray...\n");
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -307,6 +317,7 @@ int publish_to_topic_int32multiarray(int sock, char *topic, int data[], int size
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing int32multiarray...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
@@ -315,6 +326,8 @@ int publish_to_topic_odometry(int sock, char *topic, int seq, int frameId_length
                      double orientW, double orientX, double orientY, double orientZ,
                      double linearX, double linearY, double linearZ,
                      double angularX, double angularY, double angularZ){
+    
+    printf("Starting odometry...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
@@ -354,12 +367,15 @@ int publish_to_topic_odometry(int sock, char *topic, int seq, int frameId_length
      */
     char msg[3500];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing odometry...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
 int publish_to_topic_pose(int sock, char *topic,
                      double positionX, double positionY, double positionZ,
                      double orientationW, double orientationX, double orientationY, double orientationZ){
+    
+    printf("Starting pose...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
@@ -376,38 +392,48 @@ int publish_to_topic_pose(int sock, char *topic,
 
 
 
-    printf("Publishing to topic...\n");
+    printf("Publishing pose...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
-int publish_to_topic_posearray(int sock, char *topic, int seq, int frameId_length, double positionX, double positionY, double positionZ, double orientationW, double orientationX, double orientationY, double orientationZ, int poses_length)
+int publish_to_topic_posearray(int sock, char *topic, int seq, int frame_id, int frameId_length, double positionX, double positionY, double positionZ, double orientationW, double orientationX, double orientationY, double orientationZ, int poses_length)
 {
+    printf("Starting posearray...\n");
     /* Create JSON message */
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
+    char frame_id_str[10];
+    itoa(frame_id, frame_id_str, 10);
     char ros_msg[500];
-    sprintf(ros_msg, "{\"header\": {\"seq\": %d, \"stamp\": %lu, \"frame_id\": \"/map\"}, \"poses\": [{\"position\": {\"x\": %.1f, \"y\": %.1f, \"z\": %.1f}, \"orientation\": {\"w\": %.1f, \"x\": %.1f, \"y\": %.1f, \"z\": %.1f}}]}", seq, (unsigned long)time(NULL), positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ);
+    sprintf(ros_msg, "{\"header\": {\"seq\": %d, \"stamp\": %lu, \"frame_id\": %s}, \"poses\": [{\"position\": {\"x\": %.1f, \"y\": %.1f, \"z\": %.1f}, \"orientation\": {\"w\": %.1f, \"x\": %.1f, \"y\": %.1f, \"z\": %.1f}}]}", seq, (unsigned long)time(NULL), frame_id_str, positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ);
 
     setlocale(LC_NUMERIC, original_locale);
-
+    
+    
     /* Publish to topic */
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
+    printf("Publishing posearray...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
-int publish_to_topic_posestamped(int sock, char *topic, int seq, int frameId_length,
+int publish_to_topic_posestamped(int sock, char *topic, int seq, int frame_id, int frameId_length,
                      double positionX, double positionY, double positionZ,
                      double orientationW, double orientationX, double orientationY, double orientationZ){
+    
+    printf("Starting posestamped...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
-
+    
+    char frame_id_str[10];
+    itoa(frame_id, frame_id_str, 10);
+    
     char ros_msg [500];
-    sprintf(ros_msg, "{\"header\": {\"seq\": %d, \"stamp\": %lu, \"frame_id\": \"world\"}, \
+    sprintf(ros_msg, "{\"header\": {\"seq\": %d, \"stamp\": %lu, \"frame_id\": %s}, \
                        \"pose\":{\"position\": {\"x\": %.1f, \"y\": %.1f, \"z\": %.1f}, \
                                  \"orientation\": {\"w\": %.1f, \"x\": %.1f, \"y\": %.1f, \"z\": %.1f}}}", 
-                       seq, (unsigned long)time(NULL), positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ);
+                       seq, (unsigned long)time(NULL), frame_id_str, positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ);
     
     setlocale(LC_NUMERIC, original_locale);    
     /*printf("%s\n", ros_msg);
@@ -415,7 +441,9 @@ int publish_to_topic_posestamped(int sock, char *topic, int seq, int frameId_len
     char msg[600];
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
 
-    printf("Publishing to topic...\n");
+
+
+    printf("Publishing posestamped...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 
@@ -423,6 +451,7 @@ int publish_to_topic_twiststamped(int sock, char *topic, int seq, int frameId_le
                      double linearX, double linearY, double linearZ,
                      double angularX, double angularY, double angularZ ){
     
+    printf("Starting twiststamped...\n");
     char *original_locale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
 
@@ -442,6 +471,7 @@ int publish_to_topic_twiststamped(int sock, char *topic, int seq, int frameId_le
     sprintf(msg, "{\"op\": \"%s\", \"topic\": \"%s\", \"msg\": %s}", OP_PUBLISH, topic, ros_msg);
     /*printf("Publishing to topic...\n");
     */
+    printf("Publishing twiststamped...\n");
     return send_message_to_rosbridge(sock, msg);
 }
 

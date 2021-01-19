@@ -1,5 +1,5 @@
 %% File : PoseStamped_publisher.tlc
-%% Created : Fri Jan 15 03:53:58 2021
+%% Created : Tue Jan 19 17:17:27 2021
 %%
 %% Description: 
 %%   Simulink Coder wrapper functions interface generated for 
@@ -32,7 +32,8 @@
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 
     extern void PoseStamped_publisher_Outputs_wrapper(const real_T *seq,
 			const real_T *frameId_length,
@@ -47,13 +48,15 @@
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 
     extern void PoseStamped_publisher_Terminate_wrapper(void **pW,
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 
     #ifdef __cplusplus
     }
@@ -97,7 +100,14 @@
   %else
     %assign pp4 = LibBlockParameterAddr(P4, "", "", 0)
   %endif
-  PoseStamped_publisher_Start_wrapper(%<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>);
+  %assign nelements5 = LibBlockParameterSize(P5)
+  %assign param_width5 = nelements5[0] * nelements5[1]
+  %if (param_width5) > 1
+    %assign pp5 = LibBlockMatrixParameterBaseAddr(P5)
+  %else
+    %assign pp5 = LibBlockParameterAddr(P5, "", "", 0)
+  %endif
+  PoseStamped_publisher_Start_wrapper(%<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>, %<pp5>, %<param_width5>);
 %endfunction
 %% Function: Outputs ==========================================================
 %%
@@ -144,7 +154,14 @@
   %else
     %assign pp4 = LibBlockParameterAddr(P4, "", "", 0)
   %endif
-  PoseStamped_publisher_Outputs_wrapper(%<pu0>, %<pu1>, %<pu2>, %<pu3>, %<pu4>, %<pu5>, %<pu6>, %<pu7>, %<pu8>, %<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>);
+  %assign nelements5 = LibBlockParameterSize(P5)
+  %assign param_width5 = nelements5[0] * nelements5[1]
+  %if (param_width5) > 1
+    %assign pp5 = LibBlockMatrixParameterBaseAddr(P5)
+  %else
+    %assign pp5 = LibBlockParameterAddr(P5, "", "", 0)
+  %endif
+  PoseStamped_publisher_Outputs_wrapper(%<pu0>, %<pu1>, %<pu2>, %<pu3>, %<pu4>, %<pu5>, %<pu6>, %<pu7>, %<pu8>, %<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>, %<pp5>, %<param_width5>);
   %%
 %endfunction
 
@@ -181,7 +198,14 @@
   %else
     %assign pp4 = LibBlockParameterAddr(P4, "", "", 0)
   %endif
-  PoseStamped_publisher_Terminate_wrapper(%<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>);
+  %assign nelements5 = LibBlockParameterSize(P5)
+  %assign param_width5 = nelements5[0] * nelements5[1]
+  %if (param_width5) > 1
+    %assign pp5 = LibBlockMatrixParameterBaseAddr(P5)
+  %else
+    %assign pp5 = LibBlockParameterAddr(P5, "", "", 0)
+  %endif
+  PoseStamped_publisher_Terminate_wrapper(%<ppw>, %<pp1>, %<param_width1>, %<pp2>, %<param_width2>, %<pp3>, %<param_width3>, %<pp4>, %<param_width4>, %<pp5>, %<param_width5>);
 %endfunction
 
 %% [EOF] PoseStamped_publisher.tlc

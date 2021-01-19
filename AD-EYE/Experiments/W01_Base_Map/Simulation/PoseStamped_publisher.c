@@ -26,7 +26,7 @@
  * | See matlabroot/simulink/src/sfuntmpl_doc.c for a more detailed template |
  *  ------------------------------------------------------------------------- 
  *
- * Created: Fri Jan 15 03:53:58 2021
+ * Created: Tue Jan 19 17:17:27 2021
  */
 
 #define S_FUNCTION_LEVEL 2
@@ -190,7 +190,7 @@
 
 #define NUM_OUTPUTS           0
 
-#define NPARAMS               4
+#define NPARAMS               5
 /* Parameter 0 */
 #define PARAMETER_0_NAME      topic
 #define PARAMETER_0_DTYPE     int8_T
@@ -207,6 +207,10 @@
 #define PARAMETER_3_NAME      timeout
 #define PARAMETER_3_DTYPE     real_T
 #define PARAMETER_3_COMPLEX   COMPLEX_NO
+/* Parameter 4 */
+#define PARAMETER_4_NAME      frameId
+#define PARAMETER_4_DTYPE     uint8_T
+#define PARAMETER_4_COMPLEX   COMPLEX_NO
 
 #define SAMPLE_TIME_0         INHERITED_SAMPLE_TIME
 #define NUM_DISC_STATES       0
@@ -230,6 +234,7 @@
 #define PARAM_DEF1(S) ssGetSFcnParam(S, 1)
 #define PARAM_DEF2(S) ssGetSFcnParam(S, 2)
 #define PARAM_DEF3(S) ssGetSFcnParam(S, 3)
+#define PARAM_DEF4(S) ssGetSFcnParam(S, 4)
 
 #define IS_PARAM_INT8(pVal) (mxIsNumeric(pVal) && !mxIsLogical(pVal) &&\
 !mxIsEmpty(pVal) && !mxIsSparse(pVal) && !mxIsComplex(pVal) && mxIsInt8(pVal))
@@ -237,11 +242,15 @@
 #define IS_PARAM_DOUBLE(pVal) (mxIsNumeric(pVal) && !mxIsLogical(pVal) &&\
 !mxIsEmpty(pVal) && !mxIsSparse(pVal) && !mxIsComplex(pVal) && mxIsDouble(pVal))
 
+#define IS_PARAM_UINT8(pVal) (mxIsNumeric(pVal) && !mxIsLogical(pVal) &&\
+!mxIsEmpty(pVal) && !mxIsSparse(pVal) && !mxIsComplex(pVal) && mxIsUint8(pVal))
+
 extern void PoseStamped_publisher_Start_wrapper(void **pW,
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 extern void PoseStamped_publisher_Outputs_wrapper(const real_T *seq,
 			const real_T *frameId_length,
 			const real_T *positionX,
@@ -255,12 +264,14 @@ extern void PoseStamped_publisher_Outputs_wrapper(const real_T *seq,
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 extern void PoseStamped_publisher_Terminate_wrapper(void **pW,
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
 			const real_T *port, const int_T p_width2,
-			const real_T *timeout, const int_T p_width3);
+			const real_T *timeout, const int_T p_width3,
+			const uint8_T *frameId, const int_T p_width4);
 /*====================*
  * S-function methods *
  *====================*/
@@ -308,6 +319,15 @@ static void mdlCheckParameters(SimStruct *S)
         if (!IS_PARAM_DOUBLE(pVal3)) {
             invalidParam = true;
             paramIndex = 3;
+            goto EXIT_POINT;
+        }
+    }
+
+    {
+        const mxArray *pVal4 = ssGetSFcnParam(S, 4);
+        if (!IS_PARAM_UINT8(pVal4)) {
+            invalidParam = true;
+            paramIndex = 4;
             goto EXIT_POINT;
         }
     }
@@ -472,7 +492,7 @@ static void mdlSetDefaultPortDataTypes(SimStruct *S)
 static void mdlSetWorkWidths(SimStruct *S)
 {
 
-    const char_T *rtParamNames[] = {"P1","P2","P3","P4"};
+    const char_T *rtParamNames[] = {"P1","P2","P3","P4","P5"};
     ssRegAllTunableParamsAsRunTimeParams(S, rtParamNames);
 
 }
@@ -494,12 +514,14 @@ static void mdlStart(SimStruct *S)
     const int_T   p_width1  = mxGetNumberOfElements(PARAM_DEF1(S));
     const int_T   p_width2  = mxGetNumberOfElements(PARAM_DEF2(S));
     const int_T   p_width3  = mxGetNumberOfElements(PARAM_DEF3(S));
+    const int_T   p_width4  = mxGetNumberOfElements(PARAM_DEF4(S));
     const int8_T *topic = (const int8_T *) mxGetData(PARAM_DEF0(S));
     const int8_T *message_type = (const int8_T *) mxGetData(PARAM_DEF1(S));
     const real_T *port = (const real_T *) mxGetData(PARAM_DEF2(S));
     const real_T *timeout = (const real_T *) mxGetData(PARAM_DEF3(S));
+    const uint8_T *frameId = (const uint8_T *) mxGetData(PARAM_DEF4(S));
     
-    PoseStamped_publisher_Start_wrapper(pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3);
+    PoseStamped_publisher_Start_wrapper(pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3, frameId, p_width4);
 }
 #endif /*  MDL_START */
 
@@ -522,12 +544,14 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     const int_T   p_width1  = mxGetNumberOfElements(PARAM_DEF1(S));
     const int_T   p_width2  = mxGetNumberOfElements(PARAM_DEF2(S));
     const int_T   p_width3  = mxGetNumberOfElements(PARAM_DEF3(S));
+    const int_T   p_width4  = mxGetNumberOfElements(PARAM_DEF4(S));
     const int8_T *topic = (const int8_T *) mxGetData(PARAM_DEF0(S));
     const int8_T *message_type = (const int8_T *) mxGetData(PARAM_DEF1(S));
     const real_T *port = (const real_T *) mxGetData(PARAM_DEF2(S));
     const real_T *timeout = (const real_T *) mxGetData(PARAM_DEF3(S));
+    const uint8_T *frameId = (const uint8_T *) mxGetData(PARAM_DEF4(S));
     
-    PoseStamped_publisher_Outputs_wrapper(seq, frameId_length, positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ, pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3);
+    PoseStamped_publisher_Outputs_wrapper(seq, frameId_length, positionX, positionY, positionZ, orientationW, orientationX, orientationY, orientationZ, pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3, frameId, p_width4);
 
 }
 
@@ -544,12 +568,14 @@ static void mdlTerminate(SimStruct *S)
     const int_T   p_width1  = mxGetNumberOfElements(PARAM_DEF1(S));
     const int_T   p_width2  = mxGetNumberOfElements(PARAM_DEF2(S));
     const int_T   p_width3  = mxGetNumberOfElements(PARAM_DEF3(S));
+    const int_T   p_width4  = mxGetNumberOfElements(PARAM_DEF4(S));
     const int8_T *topic = (const int8_T *) mxGetData(PARAM_DEF0(S));
     const int8_T *message_type = (const int8_T *) mxGetData(PARAM_DEF1(S));
     const real_T *port = (const real_T *) mxGetData(PARAM_DEF2(S));
     const real_T *timeout = (const real_T *) mxGetData(PARAM_DEF3(S));
+    const uint8_T *frameId = (const uint8_T *) mxGetData(PARAM_DEF4(S));
     
-    PoseStamped_publisher_Terminate_wrapper(pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3);
+    PoseStamped_publisher_Terminate_wrapper(pW, topic, p_width0, message_type, p_width1, port, p_width2, timeout, p_width3, frameId, p_width4);
 
 }
 
