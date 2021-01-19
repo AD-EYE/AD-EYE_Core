@@ -118,7 +118,7 @@ private:
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
-        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes", "SafeAreas"});
+        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
         map.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
@@ -133,6 +133,7 @@ private:
             map.at("DynamicObjects", *it) = 0;
             map.at("Lanes", *it) = 0;
             map.at("SafeAreas", *it) = 0;
+            map.at("EgoVehicle", *it) = 0;
         }
     }
     /*!
@@ -208,6 +209,16 @@ private:
                 //ROS_INFO_STREAM("staticCarsObjects : " << pexObjects.staticCarsObjects.at(i).ID);
             }
         }
+        grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
+        for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
+            map.at("EgoVehicle", *iterator) = heigth_other;
+        }
+        ROS_INFO_STREAM("xego : " <<x_ego);
+        ROS_INFO_STREAM("y_ego : " <<y_ego);
+        ROS_INFO_STREAM("length_ego : " <<length_ego);
+        ROS_INFO_STREAM("width_ego : " <<width_ego);
+        ROS_INFO_STREAM("yaw_ego : " <<yaw_ego);
+        ROS_INFO_STREAM("heigth_other : " <<heigth_other);
     }
     /*!
      * \brief Adds zones from the vector map.
