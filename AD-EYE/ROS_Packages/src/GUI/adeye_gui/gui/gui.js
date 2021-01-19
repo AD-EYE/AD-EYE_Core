@@ -605,136 +605,238 @@ let green = "#699b2c";
         }
     }
 
+    // function for creating a form for lidar fault injection parameters.
     function lidarForm()
     {
-    // Create a form dynamically 
-    let form = document.createElement("form"); 
+        // create a form dynamically 
+        let form = document.createElement("form"); 
 
-    var values = ["Off", "Random","Rain"];
-    var drop_down = document.createElement("select");
- 
-    for (const val of values) 
-    {
-        var option = document.createElement("option");
-        //option.value = val;
-        option.text = val;
-        drop_down.append(option);
+        //--------- state parameter of lidar fault injection ----------
+
+            // label for state parameter of fault injection
+            let state_label = document.createElement("label");
+            state_label.innerHTML = "State"; 
+
+            // drop down element to select the value for state parameter of fault injection.
+            var values = ["Off", "Random","Rain"];
+            var state_drop_down = document.createElement("select");
+            for (const val of values) 
+            {
+                var option = document.createElement("option");
+                option.text = val;
+                state_drop_down.append(option);
+            }
+
+            // create span element for accepting the input for state parameter of fault injection
+            let state_span = document.createElement("span");
+            
+            // adding the label and drop down of state parameter to state_span element
+            state_span.append(state_label);
+            state_span.append(" ");
+            state_span.append(state_drop_down);
+
+        //--------- state parameter of lidar fault injection ----------
+
+        //---------  random/range_variance parameter of lidar fault injection ----------
+
+            // label for random/range_variance parameter of fault injection
+            let range_variance_label = document.createElement("label");
+            range_variance_label.innerHTML = "random/range_variance"; 
+
+            // Create an input element for random/range_variance
+            let random_range_variance = document.createElement("input"); 
+            random_range_variance.setAttribute("type", "text"); 
+            random_range_variance.setAttribute("name", "random/range_variance"); 
+            random_range_variance.setAttribute("placeholder", "random/range_variance"); 
+            random_range_variance.setAttribute("value",0.0001);
+
+            // create span element for accepting the input for random/range_variance parameter of fault injection
+            let range_variance_span = document.createElement("span");
+
+            // adding the label and text feild of random/range_variance parameter to range_variance_span element
+            range_variance_span.append(range_variance_label);
+            range_variance_span.append("  ");
+            range_variance_span.append(random_range_variance);
+
+        //---------  random/range_variance parameter of lidar fault injection ----------
+
+        //---------  random/theta_variance parameter of lidar fault injection ----------
+
+            // label for random/theta_variance parameter of fault injection
+            let theta_variance_label = document.createElement("label");
+            theta_variance_label.innerHTML = "random/theta_variance"; 
+            
+            // Create an input element for random/theta_variance
+            let random_theta_variance = document.createElement("input"); 
+            random_theta_variance.setAttribute("type", "text"); 
+            random_theta_variance.setAttribute("name", "random/theta_variance"); 
+            random_theta_variance.setAttribute("placeholder", "random/theta_variance");
+            random_theta_variance.setAttribute("value",0.0001); 
+
+            // create span element for accepting the input for random/theta_variance parameter of fault injection
+            let theta_variance_span = document.createElement("span");
+
+            // adding the label and text feild of random/theta_variance parameter to theta_variance_span element
+            theta_variance_span.append(theta_variance_label);
+            theta_variance_span.append(" ");
+            theta_variance_span.append(random_theta_variance);
+
+        //---------  random/theta_variance parameter of lidar fault injection ----------
+
+        //---------  rain/rain_intensity parameter of lidar fault injection ----------
+
+            // label for rain/rain_intensity parameter of fault injection
+            let rain_intensity_label = document.createElement("label");
+            rain_intensity_label.innerHTML = "rain/rain_intensity"; 
+
+            // Create an input element for rain/rain_intensity
+            let rain_rain_intensity = document.createElement("input"); 
+            rain_rain_intensity.setAttribute("type", "text"); 
+            rain_rain_intensity.setAttribute("name", "rain/rain_intensity"); 
+            rain_rain_intensity.setAttribute("placeholder", "rain/rain_intensity"); 
+            rain_rain_intensity.setAttribute("value",7.5);
+
+            // create span element for accepting the input for rain/rain_intensity parameter of fault injection
+            let rain_intensity_span = document.createElement("span");
+
+            // adding the label and text feild of rain/rain_intensity parameter to rain_intensity_span element
+            rain_intensity_span.append(rain_intensity_label);
+            rain_intensity_span.append(" ");
+            rain_intensity_span.append(rain_rain_intensity);
+        
+        //---------  rain/rain_intensity parameter of lidar fault injection ----------
+
+        //---------  rain/a parameter of lidar fault injection ----------
+
+            // label for rain/a parameter of fault injection
+            let rain_a_label = document.createElement("label");
+            rain_a_label.innerHTML = "rain/a"; 
+
+            // Create an input element for rain/a
+            let rain_a = document.createElement("input"); 
+            rain_a.setAttribute("type", "text"); 
+            rain_a.setAttribute("name", "rain/a"); 
+            rain_a.setAttribute("placeholder", "rain/a"); 
+            rain_a.setAttribute("value",0.01);
+
+            // create span element for accepting the input for rain/a parameter of fault injection
+            let rain_a_span = document.createElement("span");
+
+            // adding the label and text feild of rain/a parameter to rain_intensity_span element
+            rain_a_span.append(rain_a_label);
+            rain_a_span.append(" ");
+            rain_a_span.append(rain_a);
+
+        //---------  rain/a parameter of lidar fault injection ----------
+
+        //---------  rain/b parameter of lidar fault injection ----------
+
+            // label for rain/b parameter of fault injection
+            let rain_b_label = document.createElement("label");
+            rain_b_label.innerHTML = "rain/b"; 
+
+            // Create an input element for rain/b
+            let rain_b = document.createElement("input"); 
+            rain_b.setAttribute("type", "text"); 
+            rain_b.setAttribute("name", "rain/b"); 
+            rain_b.setAttribute("placeholder", "rain/b");
+            rain_b.setAttribute("value",0.6);
+
+            // create span element for accepting the input for rain/b parameter of fault injection
+            let rain_b_span = document.createElement("span");
+
+            // adding the label and text feild of rain/b parameter to rain_intensity_span element
+            rain_b_span.append(rain_b_label);
+            rain_b_span.append(" ");
+            rain_b_span.append(rain_b);
+
+        //---------  rain/b parameter of lidar fault injection ----------
+
+        //---------  rain/reflectivity parameter of lidar fault injection ----------
+        
+            // label for rain/reflectivity parameter of fault injection
+            let reflectivity_label = document.createElement("label");
+            reflectivity_label.innerHTML = "rain/reflectivity"; 
+
+            // Create an input element for rain/reflectivity
+            let rain_reflectivity = document.createElement("input"); 
+            rain_reflectivity.setAttribute("type", "text"); 
+            rain_reflectivity.setAttribute("name", "rain/reflectivity"); 
+            rain_reflectivity.setAttribute("min","0");
+            rain_reflectivity.setAttribute("max","1");
+            rain_reflectivity.setAttribute("placeholder", "rain/reflectivity"); 
+            rain_reflectivity.setAttribute("value",0.9);
+
+            // create span element for accepting the input for rain/reflectivity parameter of fault injection
+            let reflectivity_span = document.createElement("span");
+
+            // adding the label and text feild of rain/reflectivity parameter to reflectivity_span element
+            reflectivity_span.append(reflectivity_label);
+            reflectivity_span.append(" ");
+            reflectivity_span.append(rain_reflectivity);
+
+        //---------  rain/reflectivity parameter of lidar fault injection ----------
+
+        //---------  rain/max_range parameter of lidar fault injection ----------
+
+            // label for rain/max_range parameter of fault injection
+            let max_range_label = document.createElement("label");
+            max_range_label.innerHTML = "rain/max_range"; 
+
+            // Create an input element for rain/max_range
+            let rain_max_range = document.createElement("input"); 
+            rain_max_range.setAttribute("type", "text"); 
+            rain_max_range.setAttribute("name", "rain/max_range"); 
+            rain_max_range.setAttribute("placeholder", "rain/max_range"); 
+            rain_max_range.setAttribute("value",100);
+
+            // create span element for accepting the input for rain/max_range parameter of fault injection
+            let max_range_span = document.createElement("span");
+
+            // adding the label and text feild of rain/max_range parameter to reflectivity_span element
+            max_range_span.append(max_range_label);
+            max_range_span.append(" ");
+            max_range_span.append(rain_max_range);
+
+        //---------  rain/max_range parameter of lidar fault injection ----------    
+
+            // Create a submit button 
+            let s = document.createElement("input"); 
+            s.setAttribute("type", "submit"); 
+            s.setAttribute("value", "Send"); 
+    
+    
+        // Append the state to the form 
+        form.append(state_span);  
+
+        // Append the random_range_variance to the form 
+        form.append(range_variance_span); 
+
+        // Append the random_theta_variance to the form 
+        form.append(theta_variance_span); 
+        
+        // Append the rain_rain_intensity to the form 
+        form.append(rain_intensity_span);
+
+        // Append the rain_a to the form 
+        form.append(rain_a_span);
+
+        // Append the rain_b to the form 
+        form.append(rain_b_span);
+
+        // Append the rain_reflectivity to the form 
+        form.append(reflectivity_span);
+
+        // Append the rain_max_range to the form
+        form.append(max_range_span);
+
+        // Append the button to the form 
+        form.append(s);  
+
+        document.getElementById("a").appendChild(form); 
+    
     }
-
-    // Create an input element for state
-    let statelabel = document.createElement("label");
-    statelabel.htmlFor = "state";
-   // statelabel.setAttribute("value","State");
-
-    let state = document.createElement("input"); 
-    state.setAttribute("type", "text"); 
-    state.setAttribute("name", "state"); 
-    state.setAttribute("placeholder", "State"); 
-
-    // Create an input element for random/range_variance
-    let random_range_variance = document.createElement("input"); 
-    random_range_variance.setAttribute("type", "text"); 
-    random_range_variance.setAttribute("name", "random/range_variance"); 
-    random_range_variance.setAttribute("placeholder", "random/range_variance"); 
-
-    // Create an input element for random/theta_variance
-    let random_theta_variance = document.createElement("input"); 
-    random_theta_variance.setAttribute("type", "text"); 
-    random_theta_variance.setAttribute("name", "random/theta_variance"); 
-    random_theta_variance.setAttribute("placeholder", "random/theta_variance"); 
-
-    // Create an input element for rain/rain_intensity
-    let rain_rain_intensity = document.createElement("input"); 
-    rain_rain_intensity.setAttribute("type", "text"); 
-    rain_rain_intensity.setAttribute("name", "rain/rain_intensity"); 
-    rain_rain_intensity.setAttribute("placeholder", "rain/rain_intensity"); 
-
-    // Create an input element for rain/a
-    let rain_a = document.createElement("input"); 
-    rain_a.setAttribute("type", "text"); 
-    rain_a.setAttribute("name", "rain/a"); 
-    rain_a.setAttribute("placeholder", "rain/a"); 
-
-    // Create an input element for rain/b
-    let rain_b = document.createElement("input"); 
-    rain_b.setAttribute("type", "text"); 
-    rain_b.setAttribute("name", "rain/b"); 
-    rain_b.setAttribute("placeholder", "rain/b");
     
-    // Create an input element for rain/reflectivity
-    let rain_reflectivity = document.createElement("input"); 
-    rain_reflectivity.setAttribute("type", "text"); 
-    rain_reflectivity.setAttribute("name", "rain/reflectivity"); 
-    rain_reflectivity.setAttribute("min","0");
-    rain_reflectivity.setAttribute("max","1");
-    rain_reflectivity.setAttribute("placeholder", "rain/reflectivity"); 
-
-    // Create an input element for rain/max_range
-    let rain_max_range = document.createElement("input"); 
-    rain_max_range.setAttribute("type", "text"); 
-    rain_max_range.setAttribute("name", "rain/max_range"); 
-    rain_max_range.setAttribute("placeholder", "rain/max_range"); 
-
-    // Create a submit button 
-    let s = document.createElement("input"); 
-    s.setAttribute("type", "submit"); 
-    s.setAttribute("value", "Submit"); 
-
-    form.append(statelabel);
-
-    form.append(drop_down);
-
-    // Append the state input to the form 
-    form.append(state);  
-    
-    // Append the random_range_variance to the form 
-    form.append(random_range_variance); 
-    
-    // Append the random_theta_variance to the form 
-    form.append(random_theta_variance);  
-    
-    // Append the rain_rain_intensity to the form 
-    form.append(rain_rain_intensity);
-
-    // Append the rain_a to the form 
-    form.append(rain_a);
-
-    // Append the rain_b to the form 
-    form.append(rain_b);
-
-    // Append the rain_reflectivity to the form 
-    form.append(rain_reflectivity);
-
-    // Append the rain_max_range to the form
-    form.append(rain_max_range);
-
-    // Append the button to the form 
-    form.append(s);  
-
-    document.getElementById("a").appendChild(form); 
-
-    
-
-    }
-    
-
-    // function to change the color of the button based on the value selected from the dropdown list for fault injection
-    /* function changeColor(data_value) 
-    { 
-        if(data_value == 0)
-        {
-            document.getElementsByClassName("fault_injection").style.backgroundColor = "gray";
-        }
-        else if(data_value == 1)
-        {
-            document.getElementsByClassName("fault_injection").style.backgroundColor = green;
-        }
-        else if(data_value == 2)
-        {
-            document.getElementsByClassName("fault_injection").style.backgroundColor = green;
-        }
-    }   */
-
     let data_value;
 
     function publish_fault_injection(fault_injection,topic)
@@ -751,7 +853,7 @@ let green = "#699b2c";
                     let fault_injection_topic = new ROSLIB.Topic({
                         ros : ros,
                         name : topic,
-                        messageType : 'std_msgs/Int32'
+                        messageType : 'std_msgs/Float64MultiArray'
                     });
                 
                     let fault_injection_msg = new ROSLIB.Message({
