@@ -52,7 +52,7 @@
     </include>
 
     <!-- imm_ukf_pda_track -->
-    <node pkg="imm_ukf_pda_track" type="imm_ukf_pda" name="imm_ukf_pda_01" output="screen">
+    <node pkg="imm_ukf_pda_track" type="imm_ukf_pda" name="imm_ukf_pda" output="screen">
 
         <remap from="/detection/fusion_tools/objects"         to="/detection/lidar_detector/objects" />
         <remap from="/detection/objects"       to="/detection/lidar_tracker/objects" />
