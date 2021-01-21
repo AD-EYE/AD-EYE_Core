@@ -816,10 +816,11 @@ let green = "#699b2c";
 
         //---------  rain/max_range parameter of lidar fault injection ----------    
 
-            // Create a submit button 
-            let s = document.createElement("input"); 
-            s.setAttribute("type", "submit"); 
-            s.setAttribute("value", "Send"); 
+            // Create a send button 
+            let send = document.createElement("input");
+            send.setAttribute("id","send_button"); 
+            send.setAttribute("type", "submit"); 
+            send.setAttribute("value", "Send"); 
     
         // Append the state to the form 
         form.append(state_span);  
@@ -846,21 +847,59 @@ let green = "#699b2c";
         form.append(max_range_span);
 
         // Append the button to the form 
-        form.append(s);  
+        form.append(send);  
 
         document.getElementById("a").appendChild(form); 
+        //document.getElementById("send_button").onclick = function()
+        var formElements=document.getElementById("lidar_parameters").elements;  
+       
+        let storeData = {          
+            "state": "",
+            "range_variance": "formElements[1].value",           
+            "theta_variance": "",
+            "rain_intensity": "",
+            "rain_a":"",
+            "rain_b":"",
+            "reflectivity":"",
+            "max_range":""
+            };
+
+            for (var i=0; i<formElements.length; i++)
+        if (formElements[i].type === "text")
+        {
+            storeData[formElements[i].name]=formElements[i].value;
+        
+
+            //storeData.state = formElements[0].options[formElements[0].selectedIndex].value;
+            document.getElementById("x1").innerHTML = storeData[range_variance].value;
+        }
     
     }
+
+    
+
+    /* function send_button_onClick()
+    {
+        var state =  
+        var lastname =  $('#last1').val();
+        var address =  $('#add1').val(); 
+    var hour =  $('#hour1').val();
+
+    storeData.firstname = firstname;
+    storeData.lastname = lastname;
+    storeData.address = address;
+    storeData.hour = hour;    
+
+    } */
 
     function formData()
     {
         var formElements=document.getElementById("lidar_parameters").elements;    
         var postData={};
         for (var i=0; i<formElements.length; i++)
-        if (formElements[i].type!="submit")
+        if (formElements[i].type === "text")
         {
-            //we dont want to include the submit-buttom
-        postData[formElements[i].name]=formElements[i].value;
+            postData[formElements[i].name]=formElements[i].value;
         }
     }
     
