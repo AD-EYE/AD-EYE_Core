@@ -92,22 +92,22 @@ private:
     void createEmptyGridMap(VectorMap veclane)
     {
         // Determine the boundaries of the map based on the maximum and minimum values for x and y as saved in the vectormap
-        float lowest_x = veclane.point_x.at(veclane.node_pid.at(0)-1);
-        float highest_x = veclane.point_x.at(veclane.node_pid.at(0)-1);
-        float lowest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
-        float highest_y = veclane.point_y.at(veclane.node_pid.at(0)-1);
-        for(int i = 1; i < (int)veclane.node_pid.size(); i++){
-            if(veclane.point_x.at(veclane.node_pid.at(i)-1) < lowest_x){
-                lowest_x = veclane.point_x.at(veclane.node_pid.at(i)-1);
+        float lowest_x = veclane.points_x_.at(veclane.nodes_pid_.at(0)-1);
+        float highest_x = veclane.points_x_.at(veclane.nodes_pid_.at(0)-1);
+        float lowest_y = veclane.points_y_.at(veclane.nodes_pid_.at(0)-1);
+        float highest_y = veclane.points_y_.at(veclane.nodes_pid_.at(0)-1);
+        for(int i = 1; i < (int)veclane.nodes_pid_.size(); i++){
+            if(veclane.points_x_.at(veclane.nodes_pid_.at(i)-1) < lowest_x){
+                lowest_x = veclane.points_x_.at(veclane.nodes_pid_.at(i)-1);
             }
-            if(veclane.point_x.at(veclane.node_pid.at(i)-1) > highest_x){
-                highest_x = veclane.point_x.at(veclane.node_pid.at(i)-1);
+            if(veclane.points_x_.at(veclane.nodes_pid_.at(i)-1) > highest_x){
+                highest_x = veclane.points_x_.at(veclane.nodes_pid_.at(i)-1);
             }
-            if(veclane.point_y.at(veclane.node_pid.at(i)-1) < lowest_y){
-                lowest_y = veclane.point_y.at(veclane.node_pid.at(i)-1);
+            if(veclane.points_y_.at(veclane.nodes_pid_.at(i)-1) < lowest_y){
+                lowest_y = veclane.points_y_.at(veclane.nodes_pid_.at(i)-1);
             }
-            if(veclane.point_y.at(veclane.node_pid.at(i)-1) > highest_y){
-                highest_y = veclane.point_y.at(veclane.node_pid.at(i)-1);
+            if(veclane.points_y_.at(veclane.nodes_pid_.at(i)-1) > highest_y){
+                highest_y = veclane.points_y_.at(veclane.nodes_pid_.at(i)-1);
             }
         }
         //Add some margins for when the car drives close to the boundaries
@@ -225,23 +225,23 @@ private:
         float angle;
         float lanewidth;
         float laneID;
-        for(int i = 0 ; i < static_cast<int>(veclane.lane_startpoint.size()) ; i++) { //For every lane
+        for(int i = 0 ; i < static_cast<int>(veclane.lanes_startpoint_.size()) ; i++) { //For every lane
             if(!nh_.ok()) { break; }
             polygon.removeVertices();
-            point1.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_startpoint.at(i) - 1 ) - 1); //Get the first
-            point1.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_startpoint.at(i) - 1 ) - 1);
-            point2.x() = veclane.point_x.at(veclane.node_pid.at(veclane.lane_endpoint.at(i) - 1 ) - 1); // and the second point
-            point2.y() = veclane.point_y.at(veclane.node_pid.at(veclane.lane_endpoint.at(i) - 1 ) - 1);
+            point1.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanea_startpoint_.at(i) - 1 ) - 1); //Get the first
+            point1.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanea_startpoint_.at(i) - 1 ) - 1);
+            point2.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1); // and the second point
+            point2.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1);
             angle = atan2(point2.y()-point1.y(), point2.x()-point1.x()); //Calculate the angle
             angle += HALF_PI;
-            lanewidth = veclane.dtlane_leftwidth.at(veclane.lane_did.at(i)-1);
+            lanewidth = veclane.dtlanes_leftwidth_.at(veclane.lanes_did_.at(i)-1);
             dx = lanewidth*cos(angle);
             dy = lanewidth*sin(angle);
             polygon.addVertex(Position(point2.x() + dx, point2.y() + dy)); //Draw the rectangle around
             polygon.addVertex(Position(point1.x() + dx, point1.y() + dy));
             polygon.addVertex(Position(point1.x() - dx, point1.y() - dy));
             polygon.addVertex(Position(point2.x() - dx, point2.y() - dy));
-            laneID = veclane.lane_id.at(i);
+            laneID = veclane.lanes_id_.at(i);
             for(grid_map::PolygonIterator iterator(map, polygon) ; !iterator.isPastEnd() ; ++iterator) {
                 map.at("DrivableAreas", *iterator) = 1;
                 map.at("Lanes", *iterator) = laneID;
