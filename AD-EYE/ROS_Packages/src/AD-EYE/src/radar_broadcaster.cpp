@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <std_msgs/Float32MultiArray.h>
 #include <autoware_msgs/DetectedObject.h>
@@ -55,14 +53,13 @@ public:
         autoware_msgs::DetectedObject object;
         autoware_msgs::DetectedObjectArray msg;
 
-        msg.header.frame_id = "radar"; // ------------- !!
+        msg.header.frame_id = "radar";
         for (size_t i = 0; i < detections.size(); i++) {
             if (detections.at(i).x != 0 || detections.at(i).y != 0 || detections.at(i).z != 0) {
-                object.header.frame_id = "radar"; // ------------- !!
-                object.id = i+1; // ------------- !!
-                object.label = "unknown"; // ------------- !!
-                //object.color =
-                object.score = 1; // ------------- !!
+                object.header.frame_id = "radar";
+                object.id = i+1;
+                object.label = "unknown";
+                object.score = 1;
                 object.valid = true;
                 object.space_frame = "radar";
                 object.pose.position.x = detections.at(i).x;
@@ -115,7 +112,6 @@ public:
 
 int main(int argc, char** argv)
 {
-    // Initialize node
     ros::init(argc, argv, "radar_broadcaster");
     ros::NodeHandle nh;
     radarBroadcaster rB(nh, argc, argv);

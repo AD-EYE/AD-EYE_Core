@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <geometry_msgs/Point.h>
