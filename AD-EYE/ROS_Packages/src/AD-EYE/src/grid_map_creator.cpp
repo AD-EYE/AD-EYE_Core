@@ -228,8 +228,8 @@ private:
         for(int i = 0 ; i < static_cast<int>(veclane.lanes_startpoint_.size()) ; i++) { //For every lane
             if(!nh_.ok()) { break; }
             polygon.removeVertices();
-            point1.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanea_startpoint_.at(i) - 1 ) - 1); //Get the first
-            point1.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanea_startpoint_.at(i) - 1 ) - 1);
+            point1.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanes_startpoint_.at(i) - 1 ) - 1); //Get the first
+            point1.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanes_startpoint_.at(i) - 1 ) - 1);
             point2.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1); // and the second point
             point2.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1);
             angle = atan2(point2.y()-point1.y(), point2.x()-point1.x()); //Calculate the angle

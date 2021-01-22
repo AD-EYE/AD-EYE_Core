@@ -30,7 +30,7 @@ public:
     std::vector<int> lanes_endpoint_;
 
     std::vector<int> nodes_nid_;
-    std::vector<int> nodes_nid_;
+    std::vector<int> nodes_pid_;
 
     std::vector<int> dtlanes_did_;
     std::vector<float> dtlanes_leftwidth_;

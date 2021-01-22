@@ -1,4 +1,5 @@
 #include "vectormap.h"
+#include <ros/ros.h>
 
 bool VectorMap::checkFileOpening(const std::ifstream &input_file_stream, const std::string &file_name) {
     if (!input_file_stream.is_open()){
@@ -163,7 +164,7 @@ void VectorMap::readNodes(std::string nodes_file)
                                 this->nodes_nid_.push_back(value);
                                 break;
                             case 1:
-                                this->nodes_nid_.push_back(value);
+                                this->nodes_pid_.push_back(value);
                                 break;
                             default:
                                 ROS_ERROR_STREAM("Unknown parsing case : " << i << " for Nodes");
