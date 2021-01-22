@@ -596,16 +596,16 @@ let green = "#699b2c";
                             gnssForm();
                             break;
                         case "lidar1":
-                            lidarForm();
+                            lidarForm(button_element);
                             break;
                         case "lidar2":
-                            lidarForm();
+                            lidarForm(button_element);
                             break;
                         case "lidar3":
-                            lidarForm();
+                            lidarForm(button_element);
                             break;
                         case "lidar4":
-                            lidarForm();
+                            lidarForm(button_element);
                             break;
                         case "radar":
                             radarForm();
@@ -649,6 +649,7 @@ let green = "#699b2c";
         let lidar_fault_injection_parameters_array = new Array("random/range_variance","random/theta_variance","rain/rain_intensity","rain/a","rain/b","rain/reflectivity","rain/max_range");
         let parameter_default_values_array = new Array("0.0001","0.0001","7.5","0.01","0.6","0.9","100");
         let lidar_parameter = document.createElement("input"); 
+        lidar_parameter.setAttribute("id",lidar_fault_injection_parameters_array[i]);
         lidar_parameter.setAttribute("type", "text"); 
         lidar_parameter.setAttribute("name", lidar_fault_injection_parameters_array[i]); 
         lidar_parameter.setAttribute("placeholder", lidar_fault_injection_parameters_array[i]); 
@@ -657,12 +658,19 @@ let green = "#699b2c";
     }
 
     // function for creating a form for lidar fault injection parameters.
-    function lidarForm()
+    function lidarForm(button_element)
     {
         // create a form dynamically 
         let form = document.createElement("form"); 
         form.setAttribute("id", "lidar_parameters");
-        
+
+        let lidar_div = document.getElementById(button_element.parentElement.id);
+        lidar_div.firstElementChild.style.width ="170px";
+        let lidar_span = document.createElement("span");
+        lidar_span.append(lidar_div);
+        form.append(lidar_span);
+        let space = document.createElement("br");
+        form.append(space);
 
         //--------- state parameter of lidar fault injection ----------
 
@@ -670,8 +678,10 @@ let green = "#699b2c";
             let state_label = lidar_fault_injection_label(0);
 
             // drop down element to select the value for state parameter of fault injection.
-            var values = ["Off", "Random","Rain"];
-            var state_drop_down = document.createElement("select");
+            let values = ["Off", "Random","Rain"];
+            let state_drop_down = document.createElement("select");
+            state_drop_down.setAttribute("id","State");
+
             for (const val of values) 
             {
                 var option = document.createElement("option");
@@ -795,7 +805,7 @@ let green = "#699b2c";
             reflectivity_span.append(reflectivity_label);
             reflectivity_span.append(" ");
             reflectivity_span.append(reflectivity_parameter);
-
+            
         //---------  rain/reflectivity parameter of lidar fault injection ----------
 
         //---------  rain/max_range parameter of lidar fault injection ----------
@@ -821,7 +831,8 @@ let green = "#699b2c";
             send.setAttribute("id","send_button"); 
             send.setAttribute("type", "submit"); 
             send.setAttribute("value", "Send"); 
-    
+            //send.setAttribute("onclick",insert());
+            
         // Append the state to the form 
         form.append(state_span);  
 
@@ -850,49 +861,73 @@ let green = "#699b2c";
         form.append(send);  
 
         document.getElementById("a").appendChild(form); 
-        //document.getElementById("send_button").onclick = function()
-        var formElements=document.getElementById("lidar_parameters").elements;  
-       
+
         let storeData = {          
             "state": "",
-            "range_variance": "formElements[1].value",           
+            "range_variance": "",           
             "theta_variance": "",
             "rain_intensity": "",
             "rain_a":"",
             "rain_b":"",
             "reflectivity":"",
             "max_range":""
-            };
+            }; 
 
-            for (var i=0; i<formElements.length; i++)
-        if (formElements[i].type === "text")
-        {
-            storeData[formElements[i].name]=formElements[i].value;
-        
+            var formElements = document.getElementById("lidar_parameters").elements;
 
-            //storeData.state = formElements[0].options[formElements[0].selectedIndex].value;
-            document.getElementById("x1").innerHTML = storeData[range_variance].value;
+            document.getElementById("x1").innerHTML = storeData.state;
+
+             /* var formElements = document.getElementById("lidar_parameters").elements;
+
+            document.getElementById("x1").innerHTML = storeData; */
+            
         }
-    
-    }
+        function insert()
+        {
+            storeData.push(formElements[0].value);
+            storeData.push(formElements[1].value);
+            storeData.push(formElements[2].value); 
+            //return storeData;
+        } 
 
-    
+            /* var state = document.getElementById("State").value;
+            var range_variance = document.getElementById("random/range_variance").value;
+            var theta_variance = document.getElementById("random/theta_variance").value;
+            var rain_intensity = document.getElementById("rain/rain_intensity").value;
+            var rain_a = document.getElementById("rain/a").value;
+            var rain_b = document.getElementById("rain/b").value;
+            var reflectivity = document.getElementById("rain/reflectivity").value;
+            var max_range = document.getElementById("rain/max_range").value;
 
-    /* function send_button_onClick()
-    {
-        var state =  
-        var lastname =  $('#last1').val();
-        var address =  $('#add1').val(); 
-    var hour =  $('#hour1').val();
 
-    storeData.firstname = firstname;
-    storeData.lastname = lastname;
-    storeData.address = address;
-    storeData.hour = hour;    
+ */
+      //document.getElementById("send_button").addEventListener("click",insert);
 
-    } */
+      //document.getElementById("send_button").onclick = function() {insert()};
 
-    function formData()
+
+
+       
+        //clear();
+        
+     
+
+        
+            //document.getElementById("x1").innerHTML = "he";
+            
+            //let state = document.getElementById("State");
+            //storeData.state = state.value;
+           
+/* 
+            for(i=0;i<storeData.length;i++)
+        {
+            document.getElementById("x1").innerHTML = "he";
+        } 
+            
+
+            
+        }        
+    /* function formData()
     {
         var formElements=document.getElementById("lidar_parameters").elements;    
         var postData={};
@@ -901,7 +936,8 @@ let green = "#699b2c";
         {
             postData[formElements[i].name]=formElements[i].value;
         }
-    }
+    } */
+    
     
     let data_value;
 
