@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <autoware_msgs/DetectedObjectArray.h>
 
@@ -61,45 +59,21 @@ public:
 
     void publish()
     {
-        // THIS DOESN'T WORK BECAUSE THE MESSAGES DON'T HAVE THE SAME ORDER
-
-        //if (msg1.objects.size()==msg2.objects.size()) {
-        //    std::cout << "Everything OK" << '\n';
-        //    msg3 = msg1;
-        //    for (size_t i = 0; i < msg2.objects.size(); i++) {
-        //        std::cout << msg2.objects.at(i).label << '\n';
-        //        if (msg2.objects.at(i).label!="unknown") {
-        //            std::cout << "The tag is: " << msg2.objects.at(i).label << '\n';
-        //            msg3.objects.at(i).label = msg2.objects.at(i).label;
-        //        }
-        //    }
-        //    pub.publish(msg3);
-        //} else {
-        //    std::cout << "Error: The lists don't have the same size" << '\n';
-        //}
-
 
         msg3 = msg1;
         bool objectAssigned = false;
-        std::cout << "Size of msg1: " << msg1.objects.size() << '\n';
-        std::cout << "Size of msg2: " << msg2.objects.size() << '\n';
+        // std::cout << "Size of msg1: " << msg1.objects.size() << '\n';
+        // std::cout << "Size of msg2: " << msg2.objects.size() << '\n';
 
 
 
         for (size_t i = 0; i < msg2.objects.size(); i++) {
             if (msg2.objects.at(i).label!="unknown") {
                 for (size_t j = 0; j < msg3.objects.size(); j++) {
-                    //if (msg3.objects.at(j).id == msg2.objects.at(i).id) {
-                    //if (msg3.objects.at(j).pose.position.x == msg2.objects.at(i).pose.position.x) {
-                    //if (msg3.objects.at(j).user_defined_info == msg2.objects.at(i).user_defined_info) {
-                    //if (msg3.objects.at(j).pose.position.x - msg2.objects.at(i).pose.position.x < 0.5 &&
-                    //    msg3.objects.at(j).pose.position.y - msg2.objects.at(i).pose.position.y < 0.5 &&
-                    //    msg3.objects.at(j).pose.position.z - msg2.objects.at(i).pose.position.z < 0.5) {
                     if (msg3.objects.at(j).user_defined_info.size() > 0 && msg2.objects.at(i).user_defined_info.size() > 0) {
                         if (msg3.objects.at(j).user_defined_info.at(0) == msg2.objects.at(i).user_defined_info.at(0)) {
                             msg3.objects.at(j) = msg2.objects.at(i);
-                            //msg3.objects.at(j).label = msg2.objects.at(i).label;
-                            std::cout << "label: " << msg2.objects.at(i).label << '\n';
+                            // std::cout << "label: " << msg2.objects.at(i).label << '\n';
                         }
                     }
                 }

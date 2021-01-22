@@ -1,13 +1,10 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
-#include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
@@ -19,13 +16,7 @@
 
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
-//#define _USE_MATH_DEFINES
-//#include <math.h>
-//#include "RoadNetwork.h"
 
-//#include "op_ros_helpers/op_ROSHelpers.h"
-
-//using namespace grid_map;
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
