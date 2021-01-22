@@ -71,7 +71,6 @@ void VectorMap::readPoints(std::string points_file)
     input_file_stream.close();
 }
 
-
 void VectorMap::readLanes(std::string lanes_file)
 {
     std::ifstream input_file_stream;
@@ -138,8 +137,6 @@ void VectorMap::readLanes(std::string lanes_file)
     }
     input_file_stream.close();
 }
-
-
 
 void VectorMap::readNodes(std::string nodes_file)
 {

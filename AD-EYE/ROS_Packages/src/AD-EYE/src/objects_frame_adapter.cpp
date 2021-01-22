@@ -25,13 +25,6 @@ private:
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener;
 
-public:
-    objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic, std::string targetFrame) : nh_(nh), tfListener(tfBuffer)
-    {
-        target_frame = targetFrame;
-        subObjects = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic, 1, &objectsFrameAdapter::detectedObjects_callback, this);
-        pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
-    }
 
     void detectedObjects_callback(autoware_msgs::DetectedObjectArray msg)
     {
@@ -77,6 +70,14 @@ public:
         }
 
         pubObjects.publish(msg);
+    }
+
+public:
+    objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic, std::string targetFrame) : nh_(nh), tfListener(tfBuffer)
+    {
+        target_frame = targetFrame;
+        subObjects = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic, 1, &objectsFrameAdapter::detectedObjects_callback, this);
+        pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
     }
 
     void run()

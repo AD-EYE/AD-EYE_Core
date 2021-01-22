@@ -26,13 +26,6 @@ private:
     std::vector<detection> detections;
     bool radarDetection_flag = false;
 
-public:
-    radarBroadcaster(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
-    {
-        // Initialize the publishers and subscribers
-        subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
-        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
-    }
 
     void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
     {
@@ -92,6 +85,15 @@ public:
         pubRadarObjects.publish(msg);
 
 
+    }
+
+
+public:
+    radarBroadcaster(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
+    {
+        // Initialize the publishers and subscribers
+        subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
+        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
     }
 
     void run()
