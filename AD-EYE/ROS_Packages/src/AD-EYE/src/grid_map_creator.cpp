@@ -209,16 +209,6 @@ private:
                 //ROS_INFO_STREAM("staticCarsObjects : " << pexObjects.staticCarsObjects.at(i).ID);
             }
         }
-        grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
-        for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
-            map.at("EgoVehicle", *iterator) = heigth_other;
-        }
-        ROS_INFO_STREAM("xego : " <<x_ego);
-        ROS_INFO_STREAM("y_ego : " <<y_ego);
-        ROS_INFO_STREAM("length_ego : " <<length_ego);
-        ROS_INFO_STREAM("width_ego : " <<width_ego);
-        ROS_INFO_STREAM("yaw_ego : " <<yaw_ego);
-        ROS_INFO_STREAM("heigth_other : " <<heigth_other);
     }
     /*!
      * \brief Adds zones from the vector map.
@@ -459,6 +449,17 @@ public:
         q_ego = msg->pose.pose.orientation;
         yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
         connection_established_ = true;
+        //Creating footprint for Ego vehicle
+        grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
+        for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
+            map.at("EgoVehicle", *iterator) = heigth_other;
+        }
+        /*ROS_INFO_STREAM("xego : " <<x_ego);
+        ROS_INFO_STREAM("y_ego : " <<y_ego);
+        ROS_INFO_STREAM("length_ego : " <<length_ego);
+        ROS_INFO_STREAM("width_ego : " <<width_ego);
+        ROS_INFO_STREAM("yaw_ego : " <<yaw_ego);
+        ROS_INFO_STREAM("heigth_other : " <<heigth_other);*/
     }
 
     /*!
