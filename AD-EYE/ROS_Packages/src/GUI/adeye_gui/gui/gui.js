@@ -833,13 +833,13 @@ let green = "#699b2c";
             
 
             let lidar_div = document.getElementById(button_element.parentElement.id);
-            lidar_div.firstElementChild.style.width = "170px";
+            //lidar_div.firstElementChild.style.width = "170px";
             lidar_div.lastElementChild.style.display = "none";
-            let lidar_span = document.createElement("span");
-            lidar_span.append(lidar_div);
-            form.append(lidar_span);
-            let space = document.createElement("br");
-            form.append(space);
+            //let lidar_span = document.createElement("span");
+            //lidar_span.append(lidar_div.firstElementChild);
+            form.append(lidar_div.firstElementChild);
+            //let space = document.createElement("br");
+            //form.append(space);
             
         // Append the state to the form 
         form.append(state_span);  
@@ -869,28 +869,28 @@ let green = "#699b2c";
         form.append(send);  
 
         document.getElementById("a").appendChild(form);
+        form.addEventListener('submit',insert);
         
-        send.setAttribute("onclick",insert(form));
+       // send.setAttribute("onclick",insert(form));
+        //form.elements[1].setAttribute("onchange",faultInjectionLidar1_OnChange(lidar1));
+
+        
         //document.getElementById("send_button").onclick=function(){insert()};
         //let result = send_btn.setAttribute("onclick",insert(form));
         //document.getElementById("x1").innerHTML = result;
 
         }
 
+        let formElements = new Array();
+
         function insert(form)
         {
-             let formElements = new Array();
-
             for (let i=0;i<form.elements.length;i++)
             {
               let form_element = document.getElementById("lidar_parameters");
-              formElements[i]= form_element.elements[i].value;
-              
-             
+              formElements[i] = form_element.elements[i].value;
+              formElements[1] = form_element.elements[1].options[form_element.elements[1].selectedIndex].index;
             }
-            document.getElementById("x1").innerHTML = formElements;
-           //eturn formElements; 
-            
         }  
 
         
