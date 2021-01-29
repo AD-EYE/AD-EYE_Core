@@ -50,12 +50,14 @@ private:
     float x_ego;
     float y_ego;
     float yaw_ego;
-    float x_ego_change;
-    float y_ego_change;
-    float yaw_ego_change;
-    float x_ego_first;
-    float y_ego_first;
-    bool is_first_time = true;
+
+    // for the ego footprint layer
+    float last_x_ego_center;
+    float last_y_ego__center;
+    float last_yaw_ego;
+    bool first_position_callback = true;
+
+    
     float x_egoOld;
     float y_egoOld;
     geometry_msgs::Quaternion q_ego;
@@ -451,35 +453,35 @@ public:
      */
     void positionCallback(const nav_msgs::Odometry::ConstPtr& msg){
         x_ego = msg->pose.pose.position.x;
-        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego) * 0.3 * length_ego;
         y_ego = msg->pose.pose.position.y;
-        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego) * 0.3 * length_ego;
+        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego) * 0.3 * length_ego; // center of the car's rectangular footprint
+        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego) * 0.3 * length_ego; // center of the car's rectangular footprint
         q_ego = msg->pose.pose.orientation;
         yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
         connection_established_ = true;
         //Creating footprint for Ego vehicle
-        if(x_ego_first != x_ego_change || y_ego_first !=y_ego_change)
+        if(x_ego_center != last_x_ego_center || x_ego_center !=last_y_ego__center)
         {
-            grid_map::Polygon egoCar = rectangle_creator(x_ego_change, y_ego_change, length_ego, width_ego, yaw_ego_change);
+            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center, last_y_ego__center, length_ego, width_ego, last_yaw_ego);
             for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
                 map.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(is_first_time == true || (is_first_time == false && (x_ego_center != x_ego_change || y_ego_center != y_ego_change || yaw_ego != yaw_ego_change)))
+        if(first_position_callback == true || (first_position_callback == false && (x_ego_center != last_x_ego_center || y_ego_center != last_y_ego__center || yaw_ego != last_yaw_ego)))
         {
-            if(is_first_time == true)
+            if(first_position_callback == true)
             {
-                x_ego_first = x_ego_center;
-                y_ego_first = y_ego_center;
-                is_first_time = false;        
+                last_x_ego_center = x_ego_center;
+                last_x_ego_center = y_ego_center;
+                first_position_callback = false;        
             }
             grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego, width_ego, yaw_ego);
             for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
                 map.at("EgoVehicle", *iterator) = heigth_other;
             }
-            x_ego_change = x_ego_center;
-            y_ego_change = y_ego_center;
-            yaw_ego_change = yaw_ego;
+            last_x_ego_center = x_ego_center;
+            last_y_ego__center = y_ego_center;
+            last_yaw_ego = yaw_ego;
         }
     }
 
