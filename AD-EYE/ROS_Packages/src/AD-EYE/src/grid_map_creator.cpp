@@ -50,6 +50,12 @@ private:
     float x_ego;
     float y_ego;
     float yaw_ego;
+    float x_ego_change;
+    float y_ego_change;
+    float yaw_ego_change;
+    float x_ego_first;
+    float y_ego_first;
+    bool is_first_time = true;
     float x_egoOld;
     float y_egoOld;
     geometry_msgs::Quaternion q_ego;
@@ -450,16 +456,29 @@ public:
         yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
         connection_established_ = true;
         //Creating footprint for Ego vehicle
-        grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
-        for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
-            map.at("EgoVehicle", *iterator) = heigth_other;
+        if(x_ego_first != x_ego_change || y_ego_first !=y_ego_change)
+        {
+            grid_map::Polygon egoCar = rectangle_creator(x_ego_change, y_ego_change, length_ego, width_ego, yaw_ego_change);
+            for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
+                map.at("EgoVehicle", *iterator) = 0;
+            }
         }
-        /*ROS_INFO_STREAM("xego : " <<x_ego);
-        ROS_INFO_STREAM("y_ego : " <<y_ego);
-        ROS_INFO_STREAM("length_ego : " <<length_ego);
-        ROS_INFO_STREAM("width_ego : " <<width_ego);
-        ROS_INFO_STREAM("yaw_ego : " <<yaw_ego);
-        ROS_INFO_STREAM("heigth_other : " <<heigth_other);*/
+        if(is_first_time == true || (is_first_time == false && (x_ego != x_ego_change || y_ego != y_ego_change || yaw_ego != yaw_ego_change)))
+        {
+            if(is_first_time == true)
+            {
+                x_ego_first = x_ego;
+                y_ego_first = y_ego;
+                is_first_time = false;        
+            }
+            grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
+            for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
+                map.at("EgoVehicle", *iterator) = heigth_other;
+            }
+            x_ego_change = x_ego;
+            y_ego_change = y_ego;
+            yaw_ego_change = yaw_ego;
+        }
     }
 
     /*!
