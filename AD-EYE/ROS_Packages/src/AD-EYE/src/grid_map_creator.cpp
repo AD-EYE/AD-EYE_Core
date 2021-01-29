@@ -451,7 +451,9 @@ public:
      */
     void positionCallback(const nav_msgs::Odometry::ConstPtr& msg){
         x_ego = msg->pose.pose.position.x;
+        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego) * 0.3 * length_ego;
         y_ego = msg->pose.pose.position.y;
+        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego) * 0.3 * length_ego;
         q_ego = msg->pose.pose.orientation;
         yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
         connection_established_ = true;
@@ -463,20 +465,20 @@ public:
                 map.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(is_first_time == true || (is_first_time == false && (x_ego != x_ego_change || y_ego != y_ego_change || yaw_ego != yaw_ego_change)))
+        if(is_first_time == true || (is_first_time == false && (x_ego_center != x_ego_change || y_ego_center != y_ego_change || yaw_ego != yaw_ego_change)))
         {
             if(is_first_time == true)
             {
-                x_ego_first = x_ego;
-                y_ego_first = y_ego;
+                x_ego_first = x_ego_center;
+                y_ego_first = y_ego_center;
                 is_first_time = false;        
             }
-            grid_map::Polygon egoCar = rectangle_creator(x_ego, y_ego, length_ego, width_ego, yaw_ego);
+            grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego, width_ego, yaw_ego);
             for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
                 map.at("EgoVehicle", *iterator) = heigth_other;
             }
-            x_ego_change = x_ego;
-            y_ego_change = y_ego;
+            x_ego_change = x_ego_center;
+            y_ego_change = y_ego_center;
             yaw_ego_change = yaw_ego;
         }
     }
