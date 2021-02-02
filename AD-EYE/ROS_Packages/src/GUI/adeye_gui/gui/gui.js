@@ -632,8 +632,7 @@ let result = new Array();
                             break;        
                     }
                  
-                    let button = document.getElementById("send_button");
-                    result = button.onclick = insert(form1);
+                    
                    
                 }
                 else
@@ -646,7 +645,9 @@ let result = new Array();
                     //div1.style.display = "block";
                     //document.body.append("lidar1_div");
                 }
-                //document.getElementById("x1").innerHTML = result;
+                let button = document.getElementById("send_button");
+                    result = button.onclick = insert(form1);
+                document.getElementById("x1").innerHTML = formElements;
             }
 
         }
@@ -910,10 +911,11 @@ let result = new Array();
             if(fault_injection.name === fault_injection_button[i].name)
             {
                 let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
+                
                 //data_value = fault_injection_button[i].value;
                 data_value.push(...result);
                 //data_value = formElements;
-                document.getElementById("x1").innerHTML = "hello";
+               
                 if((option.value) != 0)
                 {
                     let fault_injection_topic = new ROSLIB.Topic({
@@ -927,7 +929,7 @@ let result = new Array();
                     });
 
                     fault_injection_topic.publish(fault_injection_msg);
-                    //document.getElementById("x1").innerHTML = fault_injection_msg.data;
+                    //document.getElementById("x1").innerHTML = "hello";
                 }
             }
         }
@@ -939,6 +941,7 @@ let result = new Array();
        
         let topic = "/fault_injection/gnss";
         publish_fault_injection(gnss,topic);
+
         //document.getElementById("x1").innerHTML = "hello";
     }
 
@@ -1122,6 +1125,26 @@ let result = new Array();
         context.putImageData(imgData,0,0,0,0,canvas3.width,canvas3.height);
 }); 
 //------------------- TL camera  display --------------
+
+
+//---------------------List of Topics-----------------------
+function getTopics() {
+    var topicsClient = new ROSLIB.Service({
+    ros : ros,
+    name : '/rosapi/topics',
+    serviceType : 'rosapi/Topics'
+    });
+
+    var request = new ROSLIB.ServiceRequest();
+
+    topicsClient.callService(request, function(result) {
+    console.log("Getting topics...");
+    console.log(result.topics);
+    document.getElementById("topics").innerHTML = "test";
+
+    });
+};
+//---------------------List of Topics-----------------------
         
 
 
