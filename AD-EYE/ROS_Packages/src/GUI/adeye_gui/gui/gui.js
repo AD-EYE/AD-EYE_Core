@@ -576,10 +576,17 @@ let green = "#699b2c";
 
 //-------------fault injection----------------------
 
+let formElements = new Array();
+let result = new Array();
+
+
     // function to reset the dropdown list to off value and to change the color of button based on the values on/off
     function faultInjection_OnClick(button_element)
     {
+       
+        let form1;
         let selected_element = document.getElementsByClassName("selected");
+        
         for( let i = 0; i < selected_element.length; i++)
         {
             if(button_element.name == selected_element[i].name)
@@ -589,14 +596,18 @@ let green = "#699b2c";
                 {
                     button_element.value = "on";
                     button_element.style.backgroundColor = green;
-                    selected_element[i].selectedIndex = 0;
+                    //selected_element[i].selectedIndex = 0;
+                    let lidar_div = document.getElementById(button_element.parentElement.id);
+                    lidar_div.lastElementChild.style.display = "none";
+
+            //form.append(lidar_div.firstElementChild);
                     switch(button_element.name)
                     {
                         case "gnss":
                             gnssForm();
                             break;
                         case "lidar1":
-                            lidarForm(button_element);
+                            form1 = lidarForm(button_element,lidar_div.firstElementChild);
                             break;
                         case "lidar2":
                             lidarForm(button_element);
@@ -619,18 +630,25 @@ let green = "#699b2c";
                         case "tl_camera":
                             cameraForm();
                             break;        
-
                     }
-                    x.style.display = "block";
+                 
+                    let button = document.getElementById("send_button");
+                    result = button.onclick = insert(form1);
+                   
                 }
                 else
                 {
-                    button_element.value = "off";
+                   button_element.value = "off";
                     button_element.style.backgroundColor = "gray";
-                    selected_element[i].selectedIndex = 0;
-                    x.style.display = "none";
+                    selected_element[i].selectedIndex = 0; 
+                    
+                    //lidar_div.style.display = "block";
+                    //div1.style.display = "block";
+                    //document.body.append("lidar1_div");
                 }
+                //document.getElementById("x1").innerHTML = result;
             }
+
         }
     }
 
@@ -657,8 +675,10 @@ let green = "#699b2c";
         return lidar_parameter;
     }
 
+    
+
     // function for creating a form for lidar fault injection parameters.
-    function lidarForm(button_element)
+    function lidarForm(button_element,lidar_div)
     {
        // let storeData = new Array();
         
@@ -825,22 +845,15 @@ let green = "#699b2c";
             send.setAttribute("id","send_button"); 
             send.setAttribute("type", "submit"); 
             send.setAttribute("value", "Send");
-            
-            
-            
            // send_button.addEventListener("click", insert);
             //send.setAttribute("onclick",insert(form));
-            
 
-            let lidar_div = document.getElementById(button_element.parentElement.id);
-            //lidar_div.firstElementChild.style.width = "170px";
-            lidar_div.lastElementChild.style.display = "none";
-            //let lidar_span = document.createElement("span");
-            //lidar_span.append(lidar_div.firstElementChild);
-            form.append(lidar_div.firstElementChild);
-            //let space = document.createElement("br");
-            //form.append(space);
             
+            //myFunction(button_element,form);
+            //let lidar_div = document.getElementById(button_element.parentElement.id);
+            //lidar_div.lastElementChild.style.display = "none";
+            form.append(lidar_div); 
+
         // Append the state to the form 
         form.append(state_span);  
 
@@ -869,48 +882,27 @@ let green = "#699b2c";
         form.append(send);  
 
         document.getElementById("a").appendChild(form);
-        form.addEventListener('submit',insert);
-        
-       // send.setAttribute("onclick",insert(form));
-        //form.elements[1].setAttribute("onchange",faultInjectionLidar1_OnChange(lidar1));
-
-        
-        //document.getElementById("send_button").onclick=function(){insert()};
-        //let result = send_btn.setAttribute("onclick",insert(form));
-        //document.getElementById("x1").innerHTML = result;
 
         }
 
-        let formElements = new Array();
-
-        function insert(form)
+        
+        function insert(form1)
         {
-            for (let i=0;i<form.elements.length;i++)
+            let form_element = document.getElementById("lidar_parameters");
+             for (let i=0;i<form_element.length;i++)
             {
-              let form_element = document.getElementById("lidar_parameters");
-              formElements[i] = form_element.elements[i].value;
-              formElements[1] = form_element.elements[1].options[form_element.elements[1].selectedIndex].index;
+              
+              formElements[i] = form_element[i].value;
+              formElements[1] = form_element[1].options[form_element[1].selectedIndex].index;
             }
+            //document.getElementById("x1").innerHTML = formElements;
+            return formElements; 
         }  
 
-        
-            
-          
-    /* function formData()
-    {
-        var formElements=document.getElementById("lidar_parameters").elements;    
-        var postData={};
-        for (var i=0; i<formElements.length; i++)
-        if (formElements[i].type === "text")
-        {
-            postData[formElements[i].name]=formElements[i].value;
-        }
-    } */
-    
-    
-    let data_value;
-
-    function publish_fault_injection(fault_injection,topic)
+        let data_value = new Array();
+        //data_value = result;
+       
+    function publish_fault_injection(fault_injection,topic,result)
     {
         let fault_injection_button = document.getElementsByClassName("selected");
         for( let i = 0; i < fault_injection_button.length; i++)
@@ -918,7 +910,10 @@ let green = "#699b2c";
             if(fault_injection.name === fault_injection_button[i].name)
             {
                 let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
-                data_value = fault_injection_button[i].value;
+                //data_value = fault_injection_button[i].value;
+                data_value.push(...result);
+                //data_value = formElements;
+                document.getElementById("x1").innerHTML = "hello";
                 if((option.value) != 0)
                 {
                     let fault_injection_topic = new ROSLIB.Topic({
@@ -928,10 +923,11 @@ let green = "#699b2c";
                     });
                 
                     let fault_injection_msg = new ROSLIB.Message({
-                        data : parseInt(data_value)
+                        data : parseFloat(data_value)
                     });
 
                     fault_injection_topic.publish(fault_injection_msg);
+                    //document.getElementById("x1").innerHTML = fault_injection_msg.data;
                 }
             }
         }
@@ -940,15 +936,20 @@ let green = "#699b2c";
     // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
     {
+       
         let topic = "/fault_injection/gnss";
         publish_fault_injection(gnss,topic);
+        //document.getElementById("x1").innerHTML = "hello";
     }
 
     // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar1
     function faultInjectionLidar1_OnChange(lidar1)
     {
+        let form = document.getElementById("lidar_parameters");
+        let result = insert(form);
+       // document.getElementById("x1").innerHTML = result;
         let topic = "/fault_injection/lidar1";
-        publish_fault_injection(lidar1,topic);
+        publish_fault_injection(lidar1,topic,result);
     }
 
     // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar2
