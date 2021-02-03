@@ -640,10 +640,6 @@ let result = new Array();
                    button_element.value = "off";
                     button_element.style.backgroundColor = "gray";
                     selected_element[i].selectedIndex = 0; 
-                    
-                    //lidar_div.style.display = "block";
-                    //div1.style.display = "block";
-                    //document.body.append("lidar1_div");
                 }
                 let button = document.getElementById("send_button");
                     result = button.onclick = insert(form1);
@@ -886,7 +882,6 @@ let result = new Array();
 
         }
 
-        
         function insert(form1)
         {
             let form_element = document.getElementById("lidar_parameters");
@@ -911,11 +906,9 @@ let result = new Array();
             if(fault_injection.name === fault_injection_button[i].name)
             {
                 let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
-                
                 //data_value = fault_injection_button[i].value;
                 data_value.push(...result);
                 //data_value = formElements;
-               
                 if((option.value) != 0)
                 {
                     let fault_injection_topic = new ROSLIB.Topic({
@@ -938,10 +931,8 @@ let result = new Array();
     // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/gnss
     function faultInjectionGnss_OnChange(gnss)
     {
-       
         let topic = "/fault_injection/gnss";
         publish_fault_injection(gnss,topic);
-
         //document.getElementById("x1").innerHTML = "hello";
     }
 
@@ -1128,22 +1119,69 @@ let result = new Array();
 
 
 //---------------------List of Topics-----------------------
-function getTopics() {
+function getTopics() 
+{
     var topicsClient = new ROSLIB.Service({
     ros : ros,
     name : '/rosapi/topics',
     serviceType : 'rosapi/Topics'
     });
 
-    var request = new ROSLIB.ServiceRequest();
+    let request = new ROSLIB.ServiceRequest();
+    topicsClient.callService(request, function(result) 
+    {
+        let topics_list = result.topics;
+        //document.getElementById("r").innerHTML = result.topics.messageType;
 
-    topicsClient.callService(request, function(result) {
-    console.log("Getting topics...");
-    console.log(result.topics);
-    document.getElementById("topics").innerHTML = "test";
+        let select = document.getElementById("select_topic");
+        let topics_array = Object.values(topics_list); 
+        for(var i = 0; i < topics_array.length; i++)
+        {
+            let value = topics_array[i];
+            let option = document.createElement("option");
+            option.textContent = value;
+            //option.value = value;
+            select.appendChild(option);
+        }
+        //let topics_datatype = new Array
+        let topic_data = document.getElementById("topic_data_textbox");
+         for(let i=0;i<topics_array.length;i++)
+        { 
+            // Subscribing to a Topic
+            var listener = new ROSLIB.Topic({
+            ros : ros,
+            name : topics_array[i],
+            messageType : 'std_msgs'
+        });
 
+        listener.subscribe(function(message) {
+        //console.log('Received message on ' + listener.name + ': ' + message.data);
+        document.getElementById("r").innerHTML =  message.data;
+        listener.unsubscribe();
+        });
+       
+        }  
+        
+        
     });
 };
+
+ 
+/* ROSLIB.Ros.prototype.getTopics = function(callback) {
+    var topicsClient = new ROSLIB.Service({
+      ros : this,
+      name : '/rosapi/topics',
+      serviceType : 'rosapi/Topics'
+    });
+  
+    var request = new ROSLIB.ServiceRequest();
+  
+    topicsClient.callService(request, function(result) {
+      callback(result.topics);
+    });
+  }; 
+  document.getElementById("topics").innerHTML = "hello";
+ */
 //---------------------List of Topics-----------------------
         
 

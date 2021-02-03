@@ -23,7 +23,7 @@
     </style>
   </head>
 
-  <body> 
+  <body onload="getTopics()"> 
       
     <!-- header of the page -->
     <header class="card">
@@ -235,11 +235,9 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Ros Topics List</h2>
-            <p>Ros Topics: <span id="topics">
-            <select class="topics" id="topics">
-                
-            </select>
-          </span></p>
+            <div id="r"></div>
+              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic"> </select></p>
+              <span><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<input id="topic_data_textbox" type="text" name="topic_data" value="" placeholder="Topic_Data"></input></span>
           </div>
         </div>
 
