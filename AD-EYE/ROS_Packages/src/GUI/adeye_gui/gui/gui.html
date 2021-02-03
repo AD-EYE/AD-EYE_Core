@@ -136,6 +136,18 @@
               <option value="0" selected="selected">Off</option>
               <option value="1" >Gaussian</option>
             </select>
+          </div>
+          <div id="gnss_form" style="display:none;">
+            <form>
+              <label>State</label>
+              <select id="gnss_state">
+                <option value="0" selected="selected">off</option>
+                <option value="1">Gaussian noise</option>
+              </select>
+              <label>noise_variance</label>
+              <input id="gnss_noise" type="text" value="1" ></input>
+              <input id="gnss_send" type="submit" value="send"></input>
+            </form>
           </div> 
           
           <div id="lidar1_div">

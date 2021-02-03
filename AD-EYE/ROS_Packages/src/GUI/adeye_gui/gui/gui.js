@@ -596,27 +596,32 @@ let result = new Array();
                 {
                     button_element.value = "on";
                     button_element.style.backgroundColor = green;
-                    //selected_element[i].selectedIndex = 0;
-                    let lidar_div = document.getElementById(button_element.parentElement.id);
-                    lidar_div.lastElementChild.style.display = "none";
+                    selected_element[i].selectedIndex = 0;
+                    /* let gnss_form = document.getElementById("gnss_form");
+                    gnss_form.style.display = "block"; */
+                    
 
             //form.append(lidar_div.firstElementChild);
                     switch(button_element.name)
                     {
                         case "gnss":
-                            gnssForm();
+                            //gnssForm(button_element);
+                            let gnss_form = document.getElementById("gnss_form");
+                            gnss_form.style.display = "block";
                             break;
                         case "lidar1":
+                            let lidar_div = document.getElementById(button_element.parentElement.id);
+                            lidar_div.lastElementChild.style.display = "none";
                             form1 = lidarForm(button_element,lidar_div.firstElementChild);
                             break;
                         case "lidar2":
-                            lidarForm(button_element);
+                            lidarForm(button_element,lidar_div.firstElementChild);
                             break;
                         case "lidar3":
-                            lidarForm(button_element);
+                            lidarForm(button_element,lidar_div.firstElementChild);
                             break;
                         case "lidar4":
-                            lidarForm(button_element);
+                            lidarForm(button_element,lidar_div.firstElementChild);
                             break;
                         case "radar":
                             radarForm();
@@ -637,18 +642,22 @@ let result = new Array();
                 }
                 else
                 {
-                   button_element.value = "off";
+                    button_element.value = "off";
                     button_element.style.backgroundColor = "gray";
-                    selected_element[i].selectedIndex = 0; 
+                    selected_element[i].selectedIndex = 0;  
+                    let gnss_form = document.getElementById("gnss_form");
+                    gnss_form.style.display = "none";
+                    
                 }
-                let button = document.getElementById("send_button");
+                /* let button = document.getElementById("send_button");
                     result = button.onclick = insert(form1);
-                document.getElementById("x1").innerHTML = formElements;
+                document.getElementById("x1").innerHTML = formElements; */
             }
 
         }
     }
 
+    
     //function to assign labels to lidar fault injection parameters
     function lidar_fault_injection_label(i)
     {
@@ -1165,6 +1174,18 @@ function getTopics()
         
     });
 };
+/* ROSLIB.Ros.prototype.callOnConnection = function(message) {
+    var that = this;
+    var messageJson = JSON.stringify(message);
+  
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+      that.once('connection', function() {
+        that.socket.send(messageJson);
+      });
+    } else {
+      that.socket.send(messageJson);
+    }
+  }; */
 
  
 /* ROSLIB.Ros.prototype.getTopics = function(callback) {
