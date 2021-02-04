@@ -606,7 +606,7 @@ let result = new Array();
                     {
                         case "gnss":
                             //gnssForm(button_element);
-                            let gnss_form = document.getElementById("gnss_form");
+                            let gnss_form = document.getElementById("gnss_div_form");
                             gnss_form.style.display = "block";
                             break;
                         case "lidar1":
@@ -645,7 +645,7 @@ let result = new Array();
                     button_element.value = "off";
                     button_element.style.backgroundColor = "gray";
                     selected_element[i].selectedIndex = 0;  
-                    let gnss_form = document.getElementById("gnss_form");
+                    let gnss_form = document.getElementById("gnss_div_form");
                     gnss_form.style.display = "none";
                     
                 }
@@ -655,6 +655,19 @@ let result = new Array();
             }
 
         }
+    }
+    let gnss_array = new Array();
+    function gnss_parameter_values()
+    {
+        let gnss_form = document.getElementById("gnss_form");
+        for (let i=0;i<gnss_form.length;i++)
+            {
+              gnss_array[i] = gnss_form[i].value;
+            }
+            document.getElementById("x1").innerHTML = gnss_array;
+            //gnss_array[0] = gnss_form[1].options[gnss_form[1].selectedIndex].index;
+            
+
     }
 
     

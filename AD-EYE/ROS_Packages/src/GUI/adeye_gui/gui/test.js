@@ -180,5 +180,5 @@ function clearAndShow () {
         if (formElements[i].type === "text")
         {
             postData[formElements[i].name]=formElements[i].value;
-        }
+        }  method="post" action="\destination" onsubmit="return gnss_parameter_values(this);"
     } */
