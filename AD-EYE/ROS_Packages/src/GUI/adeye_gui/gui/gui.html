@@ -129,96 +129,71 @@
             <h2 class="text-center">Fault Injection</h2>
             <div id="a"></div>
             <div id="x1"></div>
+            <div id="gnss_div" style="display:inline-flex">
+              <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
+              <input name="gnss" class="state" type="text" value="" placeholder="State"></input>
+            </div>
+            <div id="gnss_div_form" >
+              <form id="gnss_form" name="gnss" style="display:none;">
+                <label>State</label>
+                <select id="gnss_state">
+                  <option value="0" >off</option>
+                  <option value="1">Gaussian noise</option>
+                </select>
+                <label>noise_variance</label>
+                <input id="gnss_noise"type="text" value="1" ></input>
+                <input id="gnss_send" type="button" value="send" onclick="gnss_parameter_values()"></input>
+              </form>
+            </div> 
+          
+            <div id="lidar1_div" style="display:inline-flex">
+              <button name="lidar1" type="button" value="off" class="fault_injection"  onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
+              <input name="lidar1" type="text" class="state" value="" placeholder="State"></input>
+              <form id="lidar1_form" name="lidar1" style="display:none"></form>
+            </div>
+            
+            <div id="lidar2_div" style="display:inline-flex">
+              <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
+              <input name="lidar2" type="text" class="state" value="" placeholder="State"></input>
+              <form id="lidar2_form" name="lidar2" style="display:none"></form>
+            </div>
+            
+            <div id="lidar3_div" style="display:inline-flex">
+              <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
+              <input name="lidar3" type="text" class="state" value="" placeholder="State"></input>
+              <form id="lidar3_form" name="lidar3" style="display:none"></form>
+            </div>
+            
+            <div id="lidar4_div" style="display:inline-flex">
+              <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
+              <input name="lidar4" type="text" class="state" value="" placeholder="State"></input>
+              <form id="lidar4_form" name="lidar4" style="display:none"></form>
+            </div>
 
-          <div id="gnss_div">
-            <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
-            <select class="selected" name="gnss" id="gnss" onchange="faultInjectionGnss_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1" >Gaussian</option>
-            </select>
-          </div>
-          <div id="gnss_div_form" style="display:none;">
-            <form id="gnss_form">
-              <label>State</label>
-              <select id="gnss_state">
-                <option value="0" selected="selected">off</option>
-                <option value="1">Gaussian noise</option>
-              </select>
-              <label>noise_variance</label>
-              <input id="gnss_noise" type="text" value="1" ></input>
-              <input id="gnss_send" type="button" value="send" onclick="gnss_parameter_values()"></input>
-            </form>
-          </div> 
-          
-          <div id="lidar1_div">
-            <button name="lidar1" type="button" value="off" class="fault_injection"  onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
-            <select class="selected" name="lidar1" id="lidar1" onchange="faultInjectionLidar1_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
-            </select>
-          </div>
-          
-          <div id="lidar2_div">
-            <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
-            <select class="selected" name="lidar2" id="lidar2" onchange="faultInjectionLidar2_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
-            </select>
-          </div>
-          
-          <div id="lidar3_div">
-            <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
-            <select class="selected" name="lidar3" id="lidar3" onchange="faultInjectionLidar3_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
-            </select>
-          </div>
-          
-          <div id="lidar4_div">
-            <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
-            <select class="selected" name="lidar4" id="lidar4" onchange="faultInjectionLidar4_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Random</option>
-              <option value="2">Rain</option>
-            </select>
-          </div>
-
-          <div>
-            <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
-            <select class="selected" name="radar" id="radar" onchange="faultInjectionRadar_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">On</option>
-            </select>
-          </div>
-          
-          <div>
-            <button name="camera_1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
-            <select class="selected" name="camera_1" id="camera_1" onchange="faultInjectionCamera1_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Black Patch</option>
-            </select>
-          </div>
-          
-          <div>
-            <button name="camera_2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
-            <select class="selected" name="camera_2" id="camera_2" onchange="faultInjectionCamera2_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Black Patch</option>
-            </select>
-          </div>
-          
-          <div>
-            <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
-            <select class="selected" name="tl_camera" id="tl_camera" onchange="faultInjectionTlCamera_OnChange(this)">
-              <option value="0" selected="selected">Off</option>
-              <option value="1">Black Patch</option>
-            </select>
-          </div>
-
-				</div>
+            <div id="radar_div" style="display:inline-flex">
+              <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
+              <input name="radar" type="text" class="state" value="" placeholder="State"></input>
+              <form id="radar_form" name="radar" style="display:none"></form>
+            </div>
+            
+            <div id="camera_1_div" style="display:inline-flex">
+              <button name="camera_1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
+              <input name="camera_1" type="text" class="state" value="" placeholder="State"></input>
+              <form id="camera1_form" name="camera_1" style="display:none"></form>
+            </div>
+            
+            <div id="camera_2_div" style="display:inline-flex">
+              <button name="camera_2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
+              <input name="camera_2" type="text" class="state" value="" placeholder="State"></input>
+              <form id="camera2_form" name="camera_2" style="display:none"></form>
+            </div>
+            
+            <div id="tl_camera_div" style="display:inline-flex">
+              <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
+              <input name="tl_camera" type="text" class="state" value="test" placeholder="State"></input>
+              <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
+            </div>
+				  </div>
 				</div>
 
         <!-- card for camera -->
