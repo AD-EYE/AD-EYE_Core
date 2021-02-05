@@ -16,7 +16,7 @@ class PointCloudFrameChanger {
         {
             sensor_msgs::PointCloud2 cloud_out_transformed;
             try {
-                tf_listener_.waitForTransform("/base_link", "/world", ros::Time(0),
+                tf_listener_.waitForTransform("/base_link", "/world", cloud_in.header.stamp,
                                             ros::Duration(3.0));
                 pcl_ros::transformPointCloud("/world", cloud_in,
                                             cloud_out_transformed, tf_listener_);

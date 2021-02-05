@@ -239,9 +239,23 @@ add_dependencies(pointCloudAccumulator
   ${catkin_EXPORTED_TARGETS}
 )
 
+
+
+add_executable(
+  pointCloudToOccupancyGrid
+  src/point_cloud_to_occupancy_grid.cpp
+)
+target_link_libraries(
+  pointCloudToOccupancyGrid
+  ${catkin_LIBRARIES}
+)
+add_dependencies(pointCloudToOccupancyGrid
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception pointCloudFrameChanger
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception pointCloudFrameChanger pointCloudToOccupancyGrid
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
