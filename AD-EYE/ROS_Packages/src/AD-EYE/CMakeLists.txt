@@ -119,6 +119,11 @@ add_executable(
   src/point_cloud_frame_changer.cpp
 )
 
+add_executable(
+  pointCloudAccumulator
+  src/point_cloud_accumulator.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -180,6 +185,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  pointCloudAccumulator
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -222,6 +232,10 @@ add_dependencies(safetyChannelPerception
 )
 
 add_dependencies(pointCloudFrameChanger
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(pointCloudAccumulator
   ${catkin_EXPORTED_TARGETS}
 )
 
