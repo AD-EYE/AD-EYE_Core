@@ -114,6 +114,11 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
+add_executable(
+  pointCloudFrameChanger
+  src/point_cloud_frame_changer.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -170,6 +175,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  pointCloudFrameChanger
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -211,10 +221,13 @@ add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(pointCloudFrameChanger
+  ${catkin_EXPORTED_TARGETS}
+)
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception pointCloudFrameChanger
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
