@@ -576,7 +576,7 @@ let green = "#699b2c";
 //-------------fault injection----------------------
 function faultInjection_OnClick(button)
 {
-    var formsCollection = document.getElementsByTagName("form");
+    formsCollection = document.getElementsByTagName("form");
     if(button.value == "off")
     {
         button.value = "on";
@@ -584,7 +584,12 @@ function faultInjection_OnClick(button)
         for(let i = 0; i < formsCollection.length; i++)
         {
             if(button.name == formsCollection[i].name)
-            formsCollection[i].style.display = "block";
+            {
+                //document.getElementById("a").innerHTML = "";
+               formsCollection[i].style.display = "block";
+               let forms = document.getElementsByClassName("forms");
+               document.getElementById("a").append(forms[i]);
+            }
         }
     }
     else
@@ -604,24 +609,78 @@ let gnss_array = new Array();
 function gnss_parameter_values()
     {
         let gnss_form = document.getElementById("gnss_form");
-        for (let i=0;i<gnss_form.length;i++)
-            {
-              gnss_array[i] = gnss_form[i].value;
-            }
-            let input = document.getElementsByTagName("input");
+        let gnss_state = document.getElementById("gnss_state");
+        let gnss_input = document.getElementById("gnss_input");
+        let input = document.getElementsByTagName("input");
        
+        for (let i=0;i<gnss_form.length-1;i++)
+        {
+            gnss_array[i] = gnss_form[i].value;
+        }
+        
         for(var i = 0; i < input.length; i++)
         {
             if(input[i].type.toLowerCase() == "text")
             {
-                let e = document.getElementById("gnss_state");
-                document.getElementById("x1").innerHTML = e.options[e.selectedIndex].text;
+                let selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+                gnss_input.value = selected_value;
             }
-               
         }
+        //let option = gnss_state.options[gnss_state.selectedIndex].value;
+       
+        //if((option) != 0)
+        //{
+            let fault_injection_topic = new ROSLIB.Topic({
+                ros : ros,
+                name :'/fault_injection/gnss',
+                messageType : 'std_msgs/Float64MultiArray'
+            });
+
+            fault_injection_msg = new ROSLIB.Message({
+                data : parseFloat(["1.0","2",3.1])
+            });
+
+            fault_injection_topic.publish(fault_injection_msg); 
+            document.getElementById("x1").innerHTML = typeof(fault_injection_msg.data);
+        //}
     }
 //-------------fault injection----------------
 
+/* fault_injection_msg = new ROSLIB.Message({
+                data : [1.0,2.0]
+            }); */
+
+            //fault_injection_topic.publish("data:[1,1]");  
+
+
+//function publish_fault_injection(fault_injection,topic,result)
+    // {
+    //     let fault_injection_button = document.getElementsByClassName("selected");
+    //     for( let i = 0; i < fault_injection_button.length; i++)
+    //     {   
+    //         if(fault_injection.name === fault_injection_button[i].name)
+    //         {
+    //             let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
+    //             //data_value = fault_injection_button[i].value;
+    //             data_value.push(...result);
+    //             //data_value = formElements;
+    //             if((option.value) != 0)
+    //             {
+    //                 let fault_injection_topic = new ROSLIB.Topic({
+    //                     ros : ros,
+    //                     name : topic,
+    //                     messageType : 'std_msgs/Float64MultiArray'
+    //                 });
+                
+    //                 let fault_injection_msg = new ROSLIB.Message({
+    //                     data : parseFloat(data_value)
+    //                 });
+
+    //                 fault_injection_topic.publish(fault_injection_msg);
+    //                 //document.getElementById("x1").innerHTML = "hello";
+    //             }
+    //         }
+    //     }
 
 
 //-------------------camera 1 display ----------------
