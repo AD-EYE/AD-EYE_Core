@@ -577,10 +577,38 @@ let green = "#699b2c";
 function faultInjection_OnClick(button)
 {
     formsCollection = document.getElementsByTagName("form");
-    if(button.value == "off")
+    for(let i = 0; i < formsCollection.length; i++)
+        {
+            if(button.name == formsCollection[i].name)
+            {
+                //let forms = document.getElementsByClassName("forms");
+                if(button.value == "off")
+                {
+                    button.value = "on";
+                    button.style.backgroundColor = green;
+                    formsCollection[i].style.display = "block";
+                    document.getElementById("a").append(formsCollection[i]);
+                }
+                else
+                {
+                    button.value = "off";
+                    button.style.backgroundColor = "gray";
+        /* for(let i = 0; i < formsCollection.length; i++)
+        {
+            if(button.name == formsCollection[i].name) */
+                    formsCollection[i].style.display = "none";
+                    //document.getElementById("a").innerHTML = "";
+                   // document.getElementById("a").append(" ");
+        
+                }
+            }
+        }      
+
+    /* if(button.value == "off")
     {
         button.value = "on";
         button.style.backgroundColor = green;
+        //document.getElementById("a").innerHTML = "";
         for(let i = 0; i < formsCollection.length; i++)
         {
             if(button.name == formsCollection[i].name)
@@ -591,21 +619,12 @@ function faultInjection_OnClick(button)
                document.getElementById("a").append(forms[i]);
             }
         }
-    }
-    else
-    {
-        button.value = "off";
-        button.style.backgroundColor = "gray";
-        for(let i = 0; i < formsCollection.length; i++)
-        {
-            if(button.name == formsCollection[i].name)
-            formsCollection[i].style.display = "none";
-        }
-    }
+    } */
+    
     
 }
 
-let gnss_array = new Array();
+let gnss_array = new Float64Array();
 function gnss_parameter_values()
     {
         let gnss_form = document.getElementById("gnss_form");
@@ -629,19 +648,28 @@ function gnss_parameter_values()
         //let option = gnss_state.options[gnss_state.selectedIndex].value;
        
         //if((option) != 0)
-        //{
-            let fault_injection_topic = new ROSLIB.Topic({
+        //
+        //let fault_injection_topic = new Array();
+        //let fault_injection_msg = new Array();
+        // for(let i=0; i<gnss_array.length; i++)
+        // {
+            fault_injection_topic = new ROSLIB.Topic({
                 ros : ros,
                 name :'/fault_injection/gnss',
                 messageType : 'std_msgs/Float64MultiArray'
             });
 
-            fault_injection_msg = new ROSLIB.Message({
-                data : parseFloat(["1.0","2",3.1])
+             fault_injection_msg = new ROSLIB.Message({
+                data : gnss_array
             });
 
             fault_injection_topic.publish(fault_injection_msg); 
-            document.getElementById("x1").innerHTML = typeof(fault_injection_msg.data);
+            document.getElementById("x1").innerHTML = typeof(gnss_array);
+            
+       /*  } */
+        
+        
+            
         //}
     }
 //-------------fault injection----------------
