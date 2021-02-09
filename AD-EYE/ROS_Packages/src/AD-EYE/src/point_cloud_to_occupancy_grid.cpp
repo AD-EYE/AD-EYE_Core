@@ -19,25 +19,6 @@ class PointsToOccupancyGrid {
         double map_offset_z_;
         nav_msgs::OccupancyGrid occupancy_grid_;
 
-        std::vector<int> createCostMap(const pcl::PointCloud<pcl::PointXYZ> &scan)
-        {
-            std::vector<int> cost_map(map_width_ * map_height_, 0);
-            double map_center_x = (map_width_ / 2.0) * map_resolution_ - map_offset_x_;
-            double map_center_y = (map_height_ / 2.0) * map_resolution_ - map_offset_y_;
-            for (const auto &p : scan.points)
-            {
-                // Calculate grid index
-                int grid_x = (p.x + map_center_x) / map_resolution_;
-                int grid_y = (p.y + map_center_y) / map_resolution_;
-                if (!(grid_x < 0 || grid_x >= map_width_ || grid_y < 0 || grid_y >= map_height_)) { // if index is in the grid
-                    int index = map_width_ * grid_y + grid_x;
-                    cost_map[index] += 1;
-                    if (cost_map[index] > 100) // saturate at 100
-                        cost_map[index] = 100;
-                }
-            }
-            return cost_map;
-        }
 
         void updateCostMap(const pcl::PointCloud<pcl::PointXYZ> &scan)
         {
@@ -45,7 +26,7 @@ class PointsToOccupancyGrid {
             double map_center_y = (map_height_ / 2.0) * map_resolution_ - map_offset_y_;
             for (const auto &p : scan.points)
             {
-                // Calculate grid index
+                // Compute grid index
                 int grid_x = (p.x + map_center_x) / map_resolution_;
                 int grid_y = (p.y + map_center_y) / map_resolution_;
                 if (!(grid_x < 0 || grid_x >= map_width_ || grid_y < 0 || grid_y >= map_height_)) { // if index is in the grid
@@ -75,29 +56,14 @@ class PointsToOccupancyGrid {
 
         void pointsCallback(const sensor_msgs::PointCloud2::ConstPtr &input_scan)
         {
-            
             pcl::PointCloud<pcl::PointXYZ> scan;
             pcl::fromROSMsg(*input_scan, scan);
-
-            
-            
             if(input_scan->header.frame_id != "")
             {
-                occupancy_grid_.header = input_scan->header;
-
-                // create cost map with pointcloud
-                // std::vector<int> cost_map = createCostMap(scan);
-                
+                occupancy_grid_.header = input_scan->header;        
                 updateCostMap(scan);
-
-
-                // occupancy_grid_.data.insert(occupancy_grid_.data.end(), cost_map.begin(), cost_map.end());
                 costmap_pub_.publish(occupancy_grid_);
-                // occupancy_grid_.data.clear();
-
             }
-            
-            
         }
 
 
@@ -106,8 +72,8 @@ class PointsToOccupancyGrid {
         PointsToOccupancyGrid(ros::NodeHandle nh)
         {
             nh.param<double>("map_resolution_", map_resolution_, 1.0);
-            nh.param<int>("map_width_", map_width_, 100);
-            nh.param<int>("map_height_", map_height_, 100);
+            nh.param<int>("map_width_", map_width_, 1000);
+            nh.param<int>("map_height_", map_height_, 1000);
             nh.param<double>("map_offset_x_", map_offset_x_, 130.0);
             nh.param<double>("map_offset_y_", map_offset_y_, 150.0);
             nh.param<double>("map_offset_z_", map_offset_z_, -2.0);
@@ -130,11 +96,6 @@ class PointsToOccupancyGrid {
         }
         
 };
-
-
-
-
-
 
 
 
