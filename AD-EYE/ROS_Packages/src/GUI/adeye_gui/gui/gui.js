@@ -95,10 +95,12 @@ let green = "#699b2c";
         
         //shifting value by one decimal
         value = value / max_gauge_speed;
-        document.getElementById("test").innerHTML= value;
+
+        // passing the value received from the topic /vehicle_cmd to the function to display the velocity of the car
+        setGaugeValue(gauge_element,value);
 
         //function to set values of the gauge
-        function setGaugeValue(gauge_velocity, value ) 
+        function setGaugeValue(gauge_velocity,value) 
         {
             //safety check to ensure that the values are within the range
             if (value < 0 || value > 1) 
@@ -107,17 +109,14 @@ let green = "#699b2c";
             }
 
             //making the turn over the gauge body
-            gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate( ${ value / 3 }turn )`;
+            gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate(${value/3}turn)`;
 
             // to convert the value to km/hr from m/s
-            value = (value * 18) / 5; 
+            value = (value * 180) / 5; 
 
             //printing the velocity value
-            gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${ Math.round( value ) } km/h`;
+            gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${Math.round(value)} km/h`;
         }
-
-        // passing the value received from the topic /vehicle_cmd to the function to display the velocity of the car
-        setGaugeValue(gauge_element, value);
     });
 //-------------------linear velocity----------------
 
@@ -137,6 +136,9 @@ let green = "#699b2c";
         let value = message.ctrl_cmd.linear_acceleration;
         const gauge_element = document.querySelector(".gauge_acceleration");
 
+        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration of the car
+        setGaugeValue(gauge_element, value);
+
         //function to set values of the gauge
         function setGaugeValue(gauge_acceleration, value) 
         {
@@ -152,9 +154,6 @@ let green = "#699b2c";
             //printing the acceleration value
             gauge_acceleration.querySelector(".gauge_acceleration_cover").textContent = `${ Math.round( value * 10 ) } m/s²`;
         }
-
-        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration of the car
-        setGaugeValue(gauge_element, value);
     });
 //-------------------linear acceleration----------------
 
@@ -574,57 +573,36 @@ let green = "#699b2c";
 
 
 //-------------fault injection----------------------
+function forms()
+{
+    lidar2_form = document.getElementById("lidar_form");
+    document.getElementById("lidar2_form").append(lidar2_form);
+}
 function faultInjection_OnClick(button)
 {
     formsCollection = document.getElementsByTagName("form");
     for(let i = 0; i < formsCollection.length; i++)
-        {
-            if(button.name == formsCollection[i].name)
-            {
-                //let forms = document.getElementsByClassName("forms");
-                if(button.value == "off")
-                {
-                    button.value = "on";
-                    button.style.backgroundColor = green;
-                    formsCollection[i].style.display = "block";
-                    document.getElementById("a").append(formsCollection[i]);
-                }
-                else
-                {
-                    button.value = "off";
-                    button.style.backgroundColor = "gray";
-        /* for(let i = 0; i < formsCollection.length; i++)
-        {
-            if(button.name == formsCollection[i].name) */
-                    formsCollection[i].style.display = "none";
-                    //document.getElementById("a").innerHTML = "";
-                   // document.getElementById("a").append(" ");
-        
-                }
-            }
-        }      
-
-    /* if(button.value == "off")
     {
-        button.value = "on";
-        button.style.backgroundColor = green;
-        //document.getElementById("a").innerHTML = "";
-        for(let i = 0; i < formsCollection.length; i++)
+        if(button.name == formsCollection[i].name)
         {
-            if(button.name == formsCollection[i].name)
+            if(button.value == "off")
             {
-                //document.getElementById("a").innerHTML = "";
-               formsCollection[i].style.display = "block";
-               let forms = document.getElementsByClassName("forms");
-               document.getElementById("a").append(forms[i]);
+                button.value = "on";
+                button.style.backgroundColor = green;
+                formsCollection[i].style.display = "block";
+                document.getElementById("form_display").append(formsCollection[i]);
+            }
+            else
+            {
+                button.value = "off";
+                button.style.backgroundColor = "gray";
+                formsCollection[i].style.display = "none";
             }
         }
-    } */
-    
-    
+    }      
 }
 
-let gnss_array = new Float64Array();
+let gnss_array = new Array();
 function gnss_parameter_values()
     {
         let gnss_form = document.getElementById("gnss_form");
@@ -636,79 +614,36 @@ function gnss_parameter_values()
         {
             gnss_array[i] = gnss_form[i].value;
         }
-        
+        // coverting the string array to float array
+        for (let i=0;i<gnss_array.length;i++)
+        {
+            gnss_array[i] = parseFloat(gnss_array[i]);
+        }
+        // To display the selected value of dropdown in the textbox
         for(var i = 0; i < input.length; i++)
         {
             if(input[i].type.toLowerCase() == "text")
             {
-                let selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+                selected_value = gnss_state.options[gnss_state.selectedIndex].text;
                 gnss_input.value = selected_value;
             }
         }
-        //let option = gnss_state.options[gnss_state.selectedIndex].value;
-       
-        //if((option) != 0)
-        //
-        //let fault_injection_topic = new Array();
-        //let fault_injection_msg = new Array();
-        // for(let i=0; i<gnss_array.length; i++)
-        // {
-            fault_injection_topic = new ROSLIB.Topic({
-                ros : ros,
-                name :'/fault_injection/gnss',
-                messageType : 'std_msgs/Float64MultiArray'
-            });
-
-             fault_injection_msg = new ROSLIB.Message({
-                data : gnss_array
-            });
-
-            fault_injection_topic.publish(fault_injection_msg); 
-            document.getElementById("x1").innerHTML = typeof(gnss_array);
-            
-       /*  } */
         
-        
-            
-        //}
+        fault_injection_topic = new ROSLIB.Topic({
+            ros : ros,
+            name :'/fault_injection/gnss',
+            messageType : 'std_msgs/Float64MultiArray'
+        });
+
+        fault_injection_msg = new ROSLIB.Message({
+            data : gnss_array
+        });
+
+        fault_injection_topic.publish(fault_injection_msg); 
     }
 //-------------fault injection----------------
 
-/* fault_injection_msg = new ROSLIB.Message({
-                data : [1.0,2.0]
-            }); */
 
-            //fault_injection_topic.publish("data:[1,1]");  
-
-
-//function publish_fault_injection(fault_injection,topic,result)
-    // {
-    //     let fault_injection_button = document.getElementsByClassName("selected");
-    //     for( let i = 0; i < fault_injection_button.length; i++)
-    //     {   
-    //         if(fault_injection.name === fault_injection_button[i].name)
-    //         {
-    //             let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
-    //             //data_value = fault_injection_button[i].value;
-    //             data_value.push(...result);
-    //             //data_value = formElements;
-    //             if((option.value) != 0)
-    //             {
-    //                 let fault_injection_topic = new ROSLIB.Topic({
-    //                     ros : ros,
-    //                     name : topic,
-    //                     messageType : 'std_msgs/Float64MultiArray'
-    //                 });
-                
-    //                 let fault_injection_msg = new ROSLIB.Message({
-    //                     data : parseFloat(data_value)
-    //                 });
-
-    //                 fault_injection_topic.publish(fault_injection_msg);
-    //                 //document.getElementById("x1").innerHTML = "hello";
-    //             }
-    //         }
-    //     }
 
 
 //-------------------camera 1 display ----------------
@@ -843,8 +778,6 @@ function getTopics()
     topicsClient.callService(request, function(result) 
     {
         let topics_list = result.topics;
-        //document.getElementById("r").innerHTML = result.topics.messageType;
-
         let select = document.getElementById("select_topic");
         let topics_array = Object.values(topics_list); 
         for(var i = 0; i < topics_array.length; i++)
@@ -852,12 +785,10 @@ function getTopics()
             let value = topics_array[i];
             let option = document.createElement("option");
             option.textContent = value;
-            //option.value = value;
             select.appendChild(option);
         }
-        //let topics_datatype = new Array
         let topic_data = document.getElementById("topic_data_textbox");
-         for(let i=0;i<topics_array.length;i++)
+        for(let i = 0; i < topics_array.length; i++)
         { 
             // Subscribing to a Topic
             var listener = new ROSLIB.Topic({
@@ -867,13 +798,9 @@ function getTopics()
         });
 
         listener.subscribe(function(message) {
-        //console.log('Received message on ' + listener.name + ': ' + message.data);
-        document.getElementById("r").innerHTML =  message.data;
         listener.unsubscribe();
         });
-       
         }  
-        
         
     });
 };

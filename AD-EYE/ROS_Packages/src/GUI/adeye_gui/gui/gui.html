@@ -40,6 +40,7 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
+            <div id="test"></div>
             <div class="gauge_velocity">
               <div class="gauge_velocity_body">
                 <div class="gauge_velocity_fill"></div>
@@ -123,18 +124,12 @@
         </div>
 
         <!-- card for fault injection -->
-
-        <!-- ----------forms--------- -->
-
-        
-        <!-- ----------------------------------- -->
-        
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
-            <div id="a"></div>
-            <div id="x1"></div>
-            <!---------gnss--------------->
+            <div id="form_display"></div>
+
+            <!----gnss---->
             <div id="gnss_div" style="display:inline-flex">
               <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
               <input id="gnss_input" name="gnss" class="state" type="text" value="" placeholder="State"></input>
@@ -151,15 +146,15 @@
                 <input id="gnss_send" type="button" value="send" onclick="gnss_parameter_values()"></input>
               </form>
             </div> 
-            <!---------gnss--------------->
-            <!---------lidar--------------->
-          
+            <!----gnss---->
+
+            <!----lidar---->
             <div id="lidar1_div" style="display:inline-flex">
               <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
               <input name="lidar1" type="text" class="state" value="" placeholder="State"></input>
             </div>
             <div class="forms">
-              <form name="lidar" style="display:none">
+              <form id="lidar form" name="lidar" style="display:none">
                 <label>State</label>
                 <select id="lidar_state">
                   <option value="0" >off</option>
@@ -188,6 +183,7 @@
               <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
               <input name="lidar2" type="text" class="state" value="" placeholder="State"></input>
             </div>
+            <div id="lidar2_form"></div>
             
             <div id="lidar3_div" style="display:inline-flex">
               <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
@@ -198,9 +194,9 @@
               <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
               <input name="lidar4" type="text" class="state" value="" placeholder="State"></input>
             </div>
-              <!---------lidar--------------->
-               <!---------radar--------------->
+            <!----lidar---->
 
+            <!----radar---->
             <div id="radar_div" style="display:inline-flex">
               <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
               <input name="radar" type="text" class="state" value="" placeholder="State"></input>
@@ -221,10 +217,9 @@
                 <input id="lidar_send" type="button" value="send" onclick="gnss_parameter_values()"></input>
               </form>
             </div>
-              <!---------radar--------------->
-             <!---------camera--------------->
+            <!----radar---->
 
-            
+            <!----camera---->
             <div id="camera_1_div" style="display:inline-flex">
               <button name="camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
               <input name="camera_1" type="text" class="state" value="" placeholder="State"></input>
@@ -261,10 +256,9 @@
             
             <div id="tl_camera_div" style="display:inline-flex">
               <button name="camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
-              <input name="tl_camera" type="text" class="state" value="test" placeholder="State"></input>
+              <input name="tl_camera" type="text" class="state" value="" placeholder="State"></input>
             </div>
-            <!---------camera--------------->
-
+            <!----camera---->
 				  </div>
 				</div>
 
@@ -291,10 +285,10 @@
 					</div>
         </div>
 
+        <!-- card for ROS topics list -->
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Ros Topics List</h2>
-            <div id="r"></div>
               <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic"> </select></p>
               <span><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<input id="topic_data_textbox" type="text" name="topic_data" value="" placeholder="Topic_Data"></input></span>
           </div>
