@@ -1,0 +1,96 @@
+%implements s3_b0_bti8q_Start "C"
+
+%function Start(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%openfile localVarDecl
+
+static const char_T tmp[11] = { '/', 'v', 'e', 'l', 'o', 'c', 'i', 't', 'y', '_', 'x' };
+char_T tmp_0[12];
+int32_T i;
+%closefile localVarDecl
+%assign tlcStartFcnOfS3B0 = OpaqueTLCBlockFcn("Start", 3, 0, 0, 1)
+%assign tlcStartFcnOfS3B1 = OpaqueTLCBlockFcn("Start", 3, 1, 0, 1)
+%assign tlcStartFcnOfS3B2 = OpaqueTLCBlockFcn("Start", 3, 2, 0, 1)
+%assign tlcStartFcnOfS3B3 = OpaqueTLCBlockFcn("Start", 3, 3, 0, 1)
+%assign tlcStartFcnOfS3B4 = OpaqueTLCBlockFcn("Start", 3, 4, 0, 1)
+%assign tlcStartFcnOfS3B5 = OpaqueTLCBlockFcn("Start", 3, 5, 0, 1)
+%assign tlcStartFcnOfS3B6 = OpaqueTLCBlockFcn("Start", 3, 6, 0, 1)
+%assign tlcStartFcnOfS3B7 = OpaqueTLCBlockFcn("Start", 3, 7, 0, 1)
+%assign tlcStartFcnOfS3B9 = OpaqueTLCBlockFcn("Start", 3, 9, 0, 1)
+%assign tlcStartFcnOfS3B10 = OpaqueTLCBlockFcn("Start", 3, 10, 0, 1)
+%assign tlcStartFcnOfS3B14 = OpaqueTLCBlockFcn("Start", 3, 14, 0, 1)
+%if !WHITE_SPACE(tlcStartFcnOfS3B0)
+/* {S!d230}Start for S-Function (sfun_Controller): '<S4>/sfun_Controller' */
+%<tlcStartFcnOfS3B0>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B1)
+/* {S!d232}Start for S-Function (sfun_SpeedProfile): '<S5>/SpeedProfile' */
+%<tlcStartFcnOfS3B1>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B2)
+/* {S!d234}Start for S-Function (sfun_Path): '<S5>/Path' */
+%<tlcStartFcnOfS3B2>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B3)
+/* {S!d236}Start for S-Function (sfun_StateActuator): '<S9>/Actuator' */
+%<tlcStartFcnOfS3B3>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B4)
+/* {S!d238}Start for S-Function (sfun_ScenarioEngine): '<S10>/sfun_ScenarioEngine' */
+%<tlcStartFcnOfS3B4>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B5)
+/* {S!d240}Start for S-Function (sfun_Synchronizer): '<S11>/sfun_Synchronizer' */
+%<tlcStartFcnOfS3B5>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B6)
+/* {S!d242}Start for S-Function (sfun_AIRSensor): '<S1>/Sensor' */
+%<tlcStartFcnOfS3B6>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B7)
+/* {S!d244}Start for S-Function (sfun_Camera): '<S3>/Sensor' */
+%<tlcStartFcnOfS3B7>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B9)
+/* {S!d246}Start for S-Function (sfun_SelfSensor): '<S8>/Sensor' */
+%<tlcStartFcnOfS3B9>\
+%endif
+%if !WHITE_SPACE(tlcStartFcnOfS3B10)
+/* {S!d248}Start for S-Function (sfun_Terminator): '<S6>/sfun_Terminator' */
+%<tlcStartFcnOfS3B10>\
+%endif
+/* {S!d227}Start for Atomic SubSystem: '<Root>/Publish' */
+/* {S!d250}Start for MATLABSystem: '<S7>/SinkBlock' */
+ExperimentIL2209_cs_DW.obj.matlabCodegenIsDeleted = true;
+ExperimentIL2209_cs_DW.obj.isInitialized = 0;
+ExperimentIL2209_cs_DW.obj.matlabCodegenIsDeleted = false;
+ExperimentIL2209_cs_DW.objisempty = true;
+ExperimentIL2209_cs_DW.obj.isSetupComplete = false;
+ExperimentIL2209_cs_DW.obj.isInitialized = 1;
+for (i = 0; i < 11; i++) {
+    tmp_0[i] = tmp[i];
+}
+tmp_0[11] = '\x00';
+Pub_ExperimentIL2209_cs_334.createPublisher(tmp_0, 1);
+ExperimentIL2209_cs_DW.obj.isSetupComplete = true;
+/* {E!d250}End of Start for MATLABSystem: '<S7>/SinkBlock' */
+/* {E!d227}End of Start for SubSystem: '<Root>/Publish' */
+%if !WHITE_SPACE(tlcStartFcnOfS3B14)
+
+/* {S!d252}Start for Scope: '<Root>/Scope' */
+%<tlcStartFcnOfS3B14>\
+%endif
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedStartLocalVars", localVarDecl)>
+%endfunction
+%function StartFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Start(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 1, fcnProtoType)>
+%endfunction

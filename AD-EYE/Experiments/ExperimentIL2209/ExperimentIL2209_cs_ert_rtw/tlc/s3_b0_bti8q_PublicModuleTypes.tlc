@@ -1,0 +1,14 @@
+%implements s3_b0_bti8q_PublicModuleTypes "C"
+
+%function PublicModuleTypes(block) Output
+
+#ifndef typedef_robotics_slros_internal_block_T
+#define typedef_robotics_slros_internal_block_T
+typedef struct
+{
+    boolean_T matlabCodegenIsDeleted;
+    int32_T isInitialized;
+    boolean_T isSetupComplete;
+} robotics_slros_internal_block_T;
+#endif /*typedef_robotics_slros_internal_block_T*/
+%endfunction

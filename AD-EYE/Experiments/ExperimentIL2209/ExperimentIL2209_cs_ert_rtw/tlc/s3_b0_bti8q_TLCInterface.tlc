@@ -1,0 +1,1934 @@
+%implements s3_b0_bti8q_TLCInterface "C"
+
+%function getOutputAddr_3_0_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "&rtb_sfun_Controller"
+%endfunction
+
+%function getOutput_3_0_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "rtb_sfun_Controller"
+%endfunction
+
+%function getDWorkAddr_3_0_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParam_3_0_0_1_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParam_3_0_0_1_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParam_3_0_0_1_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParam_3_0_0_1_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParam_3_0_0_1_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParam_3_0_0_1_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParam_3_0_0_1_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParam_3_0_0_1_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParam_3_0_0_1_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParamAddr_3_0_0_1_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getParam_3_0_0_1_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getOutputAddr_3_1_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutput_3_1_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getDWorkAddr_3_1_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_1_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getParam_3_1_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getInputAddr_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getInput_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutputAddr_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getOutput_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_2_0_1_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParam_3_2_0_1_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParamAddr_3_2_0_1_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getParam_3_2_0_1_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getInputAddr_3_3_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getInput_3_3_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_3_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_3_0_1_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getParam_3_3_0_1_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getInputAddr_3_4_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getInput_3_4_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getDWorkAddr_3_4_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getDWork_3_4_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getOutputAddr_3_5_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "&rtb_sfun_Synchronizer"
+%endfunction
+
+%function getOutput_3_5_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "rtb_sfun_Synchronizer"
+%endfunction
+
+%function getDWorkAddr_3_5_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutputAddr_3_6_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getOutput_3_6_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getDWorkAddr_3_6_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_6_0_1_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_6_0_1_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_6_0_1_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getParam_3_6_0_1_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getOutputAddr_3_7_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutput_3_7_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_7_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getDWork_3_7_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getParamAddr_3_7_0_1_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParam_3_7_0_1_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParamAddr_3_7_0_1_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_1_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_1_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_1_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_1_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParam_3_7_0_1_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParamAddr_3_7_0_1_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getParam_3_7_0_1_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getOutputAddr_3_9_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getOutput_3_9_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getDWorkAddr_3_9_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_9_0_1_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getParam_3_9_0_1_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getOutputAddr_3_10_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "&rtb_sfun_Terminator"
+%endfunction
+
+%function getOutput_3_10_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "rtb_sfun_Terminator"
+%endfunction
+
+%function getDWorkAddr_3_10_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_1_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_1_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_14_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(6, 0, "")> %% rtb_VelocityX
+
+%return "&rtb_VelocityX"
+%endfunction
+
+%function getInput_3_14_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(6, 0, "")> %% rtb_VelocityX
+
+%return "rtb_VelocityX"
+%endfunction
+
+%function getDWorkAddr_3_14_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Scope_PWORK"
+%endfunction
+
+%function getDWork_3_14_0_1_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Scope_PWORK"
+%endfunction
+
+%function getOutputAddr_3_0_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "&rtb_sfun_Controller"
+%endfunction
+
+%function getOutput_3_0_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "rtb_sfun_Controller"
+%endfunction
+
+%function getDWorkAddr_3_0_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParam_3_0_0_3_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParam_3_0_0_3_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParam_3_0_0_3_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParam_3_0_0_3_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParam_3_0_0_3_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParam_3_0_0_3_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParam_3_0_0_3_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParam_3_0_0_3_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParam_3_0_0_3_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParamAddr_3_0_0_3_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getParam_3_0_0_3_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getOutputAddr_3_1_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutput_3_1_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getDWorkAddr_3_1_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_1_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getParam_3_1_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getInputAddr_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getInput_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutputAddr_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getOutput_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_2_0_3_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParam_3_2_0_3_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParamAddr_3_2_0_3_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getParam_3_2_0_3_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getInputAddr_3_3_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getInput_3_3_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_3_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_3_0_3_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getParam_3_3_0_3_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getInputAddr_3_4_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getInput_3_4_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getDWorkAddr_3_4_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getDWork_3_4_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getOutputAddr_3_5_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "&rtb_sfun_Synchronizer"
+%endfunction
+
+%function getOutput_3_5_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "rtb_sfun_Synchronizer"
+%endfunction
+
+%function getDWorkAddr_3_5_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutputAddr_3_6_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getOutput_3_6_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getDWorkAddr_3_6_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_6_0_3_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_6_0_3_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_6_0_3_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getParam_3_6_0_3_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getOutputAddr_3_7_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutput_3_7_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_7_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getDWork_3_7_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getParamAddr_3_7_0_3_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParam_3_7_0_3_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParamAddr_3_7_0_3_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_3_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_3_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_3_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_3_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParam_3_7_0_3_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParamAddr_3_7_0_3_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getParam_3_7_0_3_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getInputAddr_3_8_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_8_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector1" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector1" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_8_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector2" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector2" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_8_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.fighandle"
+%endfunction
+
+%function getDWork_3_8_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.fighandle"
+%endfunction
+
+%function getDWorkAddr_3_8_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.counter"
+%endfunction
+
+%function getDWork_3_8_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.counter"
+%endfunction
+
+%function getOutputAddr_3_9_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getOutput_3_9_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getDWorkAddr_3_9_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_9_0_3_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getParam_3_9_0_3_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getOutputAddr_3_10_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "&rtb_sfun_Terminator"
+%endfunction
+
+%function getOutput_3_10_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "rtb_sfun_Terminator"
+%endfunction
+
+%function getDWorkAddr_3_10_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_3_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_3_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_14_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(6, 0, "")> %% rtb_VelocityX
+
+%return "&rtb_VelocityX"
+%endfunction
+
+%function getInput_3_14_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(6, 0, "")> %% rtb_VelocityX
+
+%return "rtb_VelocityX"
+%endfunction
+
+%function getDWorkAddr_3_14_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Scope_PWORK"
+%endfunction
+
+%function getDWork_3_14_0_3_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Scope_PWORK"
+%endfunction
+
+%function getInputAddr_3_8_0_4_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_4_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_8_0_4_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector1" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_4_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector1" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInputAddr_3_8_0_4_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Selector2" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getInput_3_8_0_4_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Selector2" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_8_0_4_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.fighandle"
+%endfunction
+
+%function getDWork_3_8_0_4_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.fighandle"
+%endfunction
+
+%function getDWorkAddr_3_8_0_4_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.counter"
+%endfunction
+
+%function getDWork_3_8_0_4_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.counter"
+%endfunction
+
+%function getOutputAddr_3_0_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "&rtb_sfun_Controller"
+%endfunction
+
+%function getOutput_3_0_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(9, 0, "")> %% rtb_sfun_Controller
+
+%return "rtb_sfun_Controller"
+%endfunction
+
+%function getDWorkAddr_3_0_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_0_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_0_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Controller_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParam_3_0_0_5_1_7(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter1"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParam_3_0_0_5_1_9(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter2"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParam_3_0_0_5_1_20(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_p3"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParam_3_0_0_5_1_6(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter4"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParam_3_0_0_5_1_4(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_PreScanExecutionMode"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParam_3_0_0_5_1_5(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter6"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParam_3_0_0_5_1_2(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerCount"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParam_3_0_0_5_1_3(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Controller_ControllerIndex"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParam_3_0_0_5_1_10(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter9"
+%endfunction
+
+%function getParamAddr_3_0_0_5_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getParam_3_0_0_5_1_8(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.sfun_Controller_SParameter10"
+%endfunction
+
+%function getOutputAddr_3_1_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutput_3_1_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getDWorkAddr_3_1_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_1_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_1_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.SpeedProfile_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_1_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getParam_3_1_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_6b87ba9607f3da20"
+%endfunction
+
+%function getInputAddr_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getInput_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.SpeedProfile"
+%endfunction
+
+%function getOutputAddr_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getOutput_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_2_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_2_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Path_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_2_0_5_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParam_3_2_0_5_1_12(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Path_p1"
+%endfunction
+
+%function getParamAddr_3_2_0_5_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getParam_3_2_0_5_1_1(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.ExperimentIL2209_cs_Mazda_RX8_Coupe_1_Path_pathUniqueID"
+%endfunction
+
+%function getInputAddr_3_3_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getInput_3_3_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Path"
+%endfunction
+
+%function getDWorkAddr_3_3_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_3_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_3_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Actuator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_3_0_5_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getParam_3_3_0_5_1_13(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Actuator_p1"
+%endfunction
+
+%function getInputAddr_3_4_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getInput_3_4_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Clock"
+%endfunction
+
+%function getDWorkAddr_3_4_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getDWork_3_4_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_ScenarioEngine_PWORK"
+%endfunction
+
+%function getOutputAddr_3_5_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "&rtb_sfun_Synchronizer"
+%endfunction
+
+%function getOutput_3_5_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(4, 0, "")> %% rtb_sfun_Synchronizer
+
+%return "rtb_sfun_Synchronizer"
+%endfunction
+
+%function getDWorkAddr_3_5_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_5_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_5_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Synchronizer_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutputAddr_3_6_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getOutput_3_6_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_j"
+%endfunction
+
+%function getDWorkAddr_3_6_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_6_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_6_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_6_0_5_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_6_0_5_1_21(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_6_0_5_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getParam_3_6_0_5_1_14(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p2"
+%endfunction
+
+%function getOutputAddr_3_7_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getOutput_3_7_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor_c" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_7_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getDWork_3_7_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_i"
+%endfunction
+
+%function getParamAddr_3_7_0_5_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParam_3_7_0_5_1_15(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1"
+%endfunction
+
+%function getParamAddr_3_7_0_5_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_5_1_22(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_5_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParam_3_7_0_5_1_23(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return ""
+%endfunction
+
+%function getParamAddr_3_7_0_5_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParam_3_7_0_5_1_16(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p4"
+%endfunction
+
+%function getParamAddr_3_7_0_5_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getParam_3_7_0_5_1_17(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p5"
+%endfunction
+
+%function getOutputAddr_3_9_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getOutput_3_9_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_B.Sensor"
+%endfunction
+
+%function getDWorkAddr_3_9_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtSizeInfo_d" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_dtBusInfo_p" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_9_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_9_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.Sensor_PWORK_o" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getParamAddr_3_9_0_5_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getParam_3_9_0_5_1_18(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_P.Sensor_p1_e"
+%endfunction
+
+%function getOutputAddr_3_10_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "&rtb_sfun_Terminator"
+%endfunction
+
+%function getOutput_3_10_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+%<SLibCGIRAccessLocalVar(8, 0, "")> %% rtb_sfun_Terminator
+
+%return "rtb_sfun_Terminator"
+%endfunction
+
+%function getDWorkAddr_3_10_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_5_0_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtSizeInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_5_1_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_dtBusInfo" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWorkAddr_3_10_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "&ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+
+%function getDWork_3_10_0_5_2_0(opaqueBlock, block, lcv, ucv, sigIdx, reim) void
+
+%return "ExperimentIL2209_cs_DW.sfun_Terminator_PWORK" + SLibCG_ArrayIndexer(ucv, lcv, sigIdx)
+%endfunction
+

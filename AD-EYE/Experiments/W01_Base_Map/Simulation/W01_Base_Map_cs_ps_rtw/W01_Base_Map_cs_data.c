@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.290
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Thu Jan 21 23:46:14 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -407,6 +407,7 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
 
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by:
+   *   '<Root>/Enable'
    *   '<S8>/Constant11'
    *   '<S8>/Detection'
    *   '<S8>/EnableSendCamera1'
@@ -535,7 +536,6 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
    *   '<S243>/S-Function Builder'
    *   '<S245>/S-Function Builder'
    *   '<S246>/S-Function Builder1'
-   *   '<S247>/S-Function Builder1'
    *   '<S252>/S-Function Builder'
    *   '<S253>/S-Function Builder'
    *   '<S255>/S-Function Builder1'
@@ -558,6 +558,11 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
    *   '<S194>/S-Function Builder'
    */
   2.0,
+
+  /* Expression: timeout
+   * Referenced by: '<S247>/S-Function Builder1'
+   */
+  5.0,
 
   /* Expression: -9.82
    * Referenced by: '<S150>/Constant'
@@ -1032,10 +1037,17 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
    */
   { 47, 102, 97, 117, 108, 116 },
 
-  /* Expression: uint8(1)
-   * Referenced by: '<S247>/S-Function Builder1'
+  /* Pooled Parameter (Mixed Expressions)
+   * Referenced by:
+   *   '<S149>/Constant9'
+   *   '<S247>/S-Function Builder1'
    */
-  1U,
+  { 119U, 111U, 114U, 108U, 100U },
+
+  /* Expression: uint8(['map'])
+   * Referenced by: '<S94>/Constant25'
+   */
+  { 109U, 97U, 112U },
 
   /* Expression: SParameter1
    * Referenced by: '<S15>/sfun_Controller'

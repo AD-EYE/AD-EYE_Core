@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.290
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Thu Jan 21 23:46:14 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -964,35 +964,35 @@ static void W01_Base_Map_cs_output(void)
   uint8_T rtb_VariableSelector_i[720];
   uint8_T rtb_VariableSelector1_i[960];
   real_T *lastU;
-  real_T rtb_DataTypeConversion2;
-  real_T rtb_DataTypeConversion1;
-  real_T rtb_DataTypeConversion;
-  real_T rtb_q3;
-  real_T rtb_q2;
-  real_T rtb_q1;
-  real_T rtb_q0;
   real_T rtb_DataTypeConversion2_c;
   real_T rtb_DataTypeConversion1_h;
   real_T rtb_DataTypeConversion_k;
   real_T rtb_q3_g;
+  boolean_T rtb_disjunction;
+  boolean_T rtb_disjunction_d;
+  uint8_T rtb_Sum;
+  boolean_T rtb_disjunction_o;
+  boolean_T rtb_disjunction_j;
   real_T rtb_q1_e;
   real_T rtb_DataTypeConversion2_o;
   real_T rtb_DataTypeConversion1_o;
   real_T rtb_DataTypeConversion_b;
-  real_T rtb_MatrixConcatenate5[21];
-  real_T rtb_RandomNumber2[7];
+  real_T rtb_q0;
+  real_T rtb_q1;
+  real_T rtb_q2;
+  real_T rtb_q3;
+  real_T rtb_DataTypeConversion;
+  real_T rtb_DataTypeConversion1;
+  real_T rtb_DataTypeConversion2;
   real_T rtb_Product5_k;
-  uint8_T rtb_Sum;
-  real32_T rtb_RandomSource3;
-  real32_T rtb_RandomSource2;
-  real32_T rtb_RandomSource1;
-  real_T rtb_Product3_a;
   real_T rtb_Product1_k3;
-  boolean_T rtb_disjunction_g;
-  boolean_T rtb_disjunction_o;
-  boolean_T rtb_disjunction_j;
-  boolean_T rtb_disjunction;
+  real_T rtb_Product3_a;
   real_T rtb_Product5;
+  real32_T rtb_RandomSource1;
+  real32_T rtb_RandomSource2;
+  real32_T rtb_RandomSource3;
+  real_T rtb_RandomNumber2[7];
+  real_T rtb_MatrixConcatenate5[21];
   uint32_T Previousvector_PreviousInput_f[7];
   real_T Previousvector_PreviousInput[7];
   real_T Previousvector_PreviousInput_i[7];
@@ -1701,13 +1701,13 @@ static void W01_Base_Map_cs_output(void)
    *  RelationalOperator: '<S366>/max_relop'
    *  RelationalOperator: '<S366>/min_relop'
    */
-  rtb_disjunction_j = ((270.5 <= rtb_PosVEHwrtGLOB_idx_2) ||
+  rtb_disjunction_d = ((270.5 <= rtb_PosVEHwrtGLOB_idx_2) ||
                        (rtb_PosVEHwrtGLOB_idx_2 <= 269.5));
 
   /* Switch: '<S365>/Switch1' incorporates:
    *  Constant: '<S365>/Substitution  Value'
    */
-  if (!rtb_disjunction_j) {
+  if (!rtb_disjunction_d) {
     rtb_PosVEHwrtGLOB_idx_2 = 269.5;
   }
 
@@ -2577,13 +2577,13 @@ static void W01_Base_Map_cs_output(void)
    *  RelationalOperator: '<S188>/max_relop'
    *  RelationalOperator: '<S188>/min_relop'
    */
-  rtb_disjunction_g = ((270.5 <= rtb_PosVEHwrtGLOB_idx_2) ||
+  rtb_disjunction_j = ((270.5 <= rtb_PosVEHwrtGLOB_idx_2) ||
                        (rtb_PosVEHwrtGLOB_idx_2 <= 269.5));
 
   /* Switch: '<S187>/Switch1' incorporates:
    *  Constant: '<S187>/Substitution  Value'
    */
-  if (!rtb_disjunction_g) {
+  if (!rtb_disjunction_j) {
     rtb_PosVEHwrtGLOB_idx_2 = 269.5;
   }
 
@@ -2913,7 +2913,7 @@ static void W01_Base_Map_cs_output(void)
   prescan_outputFcn(&W01_Base_Map_cs_DW.Sensor_PWORK_m[0], &rtb_Sensor_n);
 
   /* Assertion: '<S366>/Assertion' */
-  utAssert(rtb_disjunction_j);
+  utAssert(rtb_disjunction_d);
 
   /* Assertion: '<S367>/Assertion' */
   utAssert(rtb_disjunction);
@@ -3399,7 +3399,7 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Outputs for SubSystem: '<S8>/ROS Send Velocity' */
   /* Assertion: '<S188>/Assertion' */
-  utAssert(rtb_disjunction_g);
+  utAssert(rtb_disjunction_j);
 
   /* Assertion: '<S189>/Assertion' */
   utAssert(rtb_disjunction_o);
@@ -3610,7 +3610,7 @@ static void W01_Base_Map_cs_output(void)
    *  Math: '<S159>/Math Function1'
    */
   for (i = 0; i < 21; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_k[i] = (real32_T)
+    W01_Base_Map_cs_B.DataTypeConversion2[i] = (real32_T)
       rtb_MatrixConcatenate5_0[i];
   }
 
@@ -3618,7 +3618,7 @@ static void W01_Base_Map_cs_output(void)
 
   /* S-Function (Float32MultiArray_radar_publisher): '<S292>/S-Function Builder' */
   Float32MultiArray_radar_publisher_Outputs_wrapper
-    (&W01_Base_Map_cs_B.DataTypeConversion2_k[0],
+    (&W01_Base_Map_cs_B.DataTypeConversion2[0],
      &W01_Base_Map_cs_ConstB.Width5_fn,
      &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_j0,
      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_a, 16,
@@ -3657,7 +3657,7 @@ static void W01_Base_Map_cs_output(void)
         W01_Base_Map_cs_B.Sensor_n0[((225 + i) << 4) + i_0];
 
       /* Selector: '<S132>/Selector1' */
-      W01_Base_Map_cs_B.Selector1_kk[rtb_Selector_h_tmp] =
+      W01_Base_Map_cs_B.Selector1_m[rtb_Selector_h_tmp] =
         W01_Base_Map_cs_B.Sensor_n0[((450 + i) << 4) + i_0];
     }
   }
@@ -3671,7 +3671,7 @@ static void W01_Base_Map_cs_output(void)
      */
     W01_Base_Map_cs_RainModel(W01_Base_Map_cs_B.Selector_h,
       W01_Base_Map_cs_B.Selector3, 0.01, W01_Base_Map_cs_B.Selector_m,
-      W01_Base_Map_cs_B.Selector1_kk, W01_Base_Map_cs_B.Merge7_i,
+      W01_Base_Map_cs_B.Selector1_m, W01_Base_Map_cs_B.Merge7_i,
       W01_Base_Map_cs_B.Product3_f, W01_Base_Map_cs_B.Product1_b,
       W01_Base_Map_cs_B.Merge_k, &W01_Base_Map_cs_B.RainModel,
       &W01_Base_Map_cs_ConstB.RainModel, &W01_Base_Map_cs_DW.RainModel);
@@ -3682,7 +3682,7 @@ static void W01_Base_Map_cs_output(void)
      *  ActionPort: '<S207>/Action Port'
      */
     W01_Base_M_IfActionSubsystem1_i(W01_Base_Map_cs_B.Selector_h,
-      W01_Base_Map_cs_B.Selector_m, W01_Base_Map_cs_B.Selector1_kk,
+      W01_Base_Map_cs_B.Selector_m, W01_Base_Map_cs_B.Selector1_m,
       W01_Base_Map_cs_B.Selector3, W01_Base_Map_cs_B.Merge7_i,
       W01_Base_Map_cs_B.Product3_f, W01_Base_Map_cs_B.Product1_b,
       W01_Base_Map_cs_B.Merge_k, &W01_Base_Map_cs_DW.IfActionSubsystem1_i);
@@ -3693,7 +3693,7 @@ static void W01_Base_Map_cs_output(void)
      *  ActionPort: '<S206>/Action Port'
      */
     W01_Base_Ma_IfActionSubsystem_e(W01_Base_Map_cs_B.Selector_h,
-      W01_Base_Map_cs_B.Selector_m, W01_Base_Map_cs_B.Selector1_kk,
+      W01_Base_Map_cs_B.Selector_m, W01_Base_Map_cs_B.Selector1_m,
       W01_Base_Map_cs_B.Selector3, W01_Base_Map_cs_B.Merge7_i,
       W01_Base_Map_cs_B.Product3_f, W01_Base_Map_cs_B.Product1_b,
       W01_Base_Map_cs_B.Merge_k);
@@ -4036,7 +4036,7 @@ static void W01_Base_Map_cs_output(void)
         W01_Base_Map_cs_B.Sensor_n0[((225 + i) << 4) + i_0];
 
       /* Selector: '<S141>/Selector1' */
-      W01_Base_Map_cs_B.Selector1_c_m[rtb_Selector_h_tmp] =
+      W01_Base_Map_cs_B.Selector1_c_k[rtb_Selector_h_tmp] =
         W01_Base_Map_cs_B.Sensor_n0[((450 + i) << 4) + i_0];
     }
   }
@@ -4050,7 +4050,7 @@ static void W01_Base_Map_cs_output(void)
      */
     W01_Base_Map_cs_RainModel(W01_Base_Map_cs_B.Selector_b_c,
       W01_Base_Map_cs_B.Selector3_i, 0.01, W01_Base_Map_cs_B.Selector_g,
-      W01_Base_Map_cs_B.Selector1_c_m, W01_Base_Map_cs_B.Merge_k,
+      W01_Base_Map_cs_B.Selector1_c_k, W01_Base_Map_cs_B.Merge_k,
       W01_Base_Map_cs_B.Merge5_e, W01_Base_Map_cs_B.Merge6_h,
       W01_Base_Map_cs_B.Merge7_i, &W01_Base_Map_cs_B.RainModel_o,
       &W01_Base_Map_cs_ConstB.RainModel_o, &W01_Base_Map_cs_DW.RainModel_o);
@@ -4061,7 +4061,7 @@ static void W01_Base_Map_cs_output(void)
      *  ActionPort: '<S216>/Action Port'
      */
     W01_Base_M_IfActionSubsystem1_i(W01_Base_Map_cs_B.Selector_b_c,
-      W01_Base_Map_cs_B.Selector_g, W01_Base_Map_cs_B.Selector1_c_m,
+      W01_Base_Map_cs_B.Selector_g, W01_Base_Map_cs_B.Selector1_c_k,
       W01_Base_Map_cs_B.Selector3_i, W01_Base_Map_cs_B.Merge_k,
       W01_Base_Map_cs_B.Merge5_e, W01_Base_Map_cs_B.Merge6_h,
       W01_Base_Map_cs_B.Merge7_i, &W01_Base_Map_cs_DW.IfActionSubsystem1_jk);
@@ -4072,7 +4072,7 @@ static void W01_Base_Map_cs_output(void)
      *  ActionPort: '<S215>/Action Port'
      */
     W01_Base_Ma_IfActionSubsystem_e(W01_Base_Map_cs_B.Selector_b_c,
-      W01_Base_Map_cs_B.Selector_g, W01_Base_Map_cs_B.Selector1_c_m,
+      W01_Base_Map_cs_B.Selector_g, W01_Base_Map_cs_B.Selector1_c_k,
       W01_Base_Map_cs_B.Selector3_i, W01_Base_Map_cs_B.Merge_k,
       W01_Base_Map_cs_B.Merge5_e, W01_Base_Map_cs_B.Merge6_h,
       W01_Base_Map_cs_B.Merge7_i);
@@ -4291,20 +4291,12 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S144>/Math Function3' */
 
-  /* DataTypeConversion: '<S144>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_i[i] =
-      W01_Base_Map_cs_B.MathFunction3_h[i];
-  }
-
-  /* End of DataTypeConversion: '<S144>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S241>/S-Function Builder' */
   Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width_l,
     &W01_Base_Map_cs_ConstB.Width1_o, &W01_Base_Map_cs_ConstB.Width5_fb,
     &W01_Base_Map_cs_ConstB.DataTypeConversion_h,
-    &W01_Base_Map_cs_B.DataTypeConversion2_i[0],
-    &W01_Base_Map_cs_ConstB.Width9_i, &W01_Base_Map_cs_ConstB.Width10_j,
+    &W01_Base_Map_cs_B.MathFunction3_h[0], &W01_Base_Map_cs_ConstB.Width9_i,
+    &W01_Base_Map_cs_ConstB.Width10_j,
     &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_a4,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1, 19,
     W01_Base_Map_cs_ConstP.pooled73, 17,
@@ -4431,18 +4423,11 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S146>/Math Function3' */
 
-  /* DataTypeConversion: '<S146>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2[i] = W01_Base_Map_cs_B.MathFunction3[i];
-  }
-
-  /* End of DataTypeConversion: '<S146>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S243>/S-Function Builder' */
   Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width,
     &W01_Base_Map_cs_ConstB.Width1, &W01_Base_Map_cs_ConstB.Width5_i,
     &W01_Base_Map_cs_ConstB.DataTypeConversion,
-    &W01_Base_Map_cs_B.DataTypeConversion2[0], &W01_Base_Map_cs_ConstB.Width9,
+    &W01_Base_Map_cs_B.MathFunction3[0], &W01_Base_Map_cs_ConstB.Width9,
     &W01_Base_Map_cs_ConstB.Width10,
     &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_k, 13,
@@ -4597,20 +4582,12 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S145>/Math Function3' */
 
-  /* DataTypeConversion: '<S145>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_m[i] =
-      W01_Base_Map_cs_B.MathFunction3_i[i];
-  }
-
-  /* End of DataTypeConversion: '<S145>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S242>/S-Function Builder' */
   Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width_f,
     &W01_Base_Map_cs_ConstB.Width1_c, &W01_Base_Map_cs_ConstB.Width5_k,
     &W01_Base_Map_cs_ConstB.DataTypeConversion_j,
-    &W01_Base_Map_cs_B.DataTypeConversion2_m[0],
-    &W01_Base_Map_cs_ConstB.Width9_n, &W01_Base_Map_cs_ConstB.Width10_c,
+    &W01_Base_Map_cs_B.MathFunction3_i[0], &W01_Base_Map_cs_ConstB.Width9_n,
+    &W01_Base_Map_cs_ConstB.Width10_c,
     &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b0,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 19,
     W01_Base_Map_cs_ConstP.pooled73, 17,
@@ -4701,8 +4678,9 @@ static void W01_Base_Map_cs_output(void)
       &W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-      &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-      &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+      &W01_Base_Map_cs_ConstP.pooled8, 1,
+      &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P4, 1,
+      W01_Base_Map_cs_ConstP.pooled80, 5);
   } else {
     if (W01_Base_Map_cs_DW.ROSSendGoal_MODE) {
       W01_Base_Map_cs_DW.ROSSendGoal_MODE = false;
@@ -4888,6 +4866,50 @@ static void W01_Base_Map_cs_output(void)
   W01_Base_Map_cs_B.VectorConcatenate[20] = rtb_PosVEHwrtGLOB_idx_2 *
     rtb_TmpSignalConversionAtDotP_0 + rtb_TmpSignalConversionAtDotP_3 *
     rtb_TmpSignalConversionAtDotP_4;
+
+  /* Outputs for Enabled SubSystem: '<Root>/pose_otheCar' incorporates:
+   *  EnablePort: '<S94>/Enable'
+   */
+  /* Sum: '<S94>/Add5' incorporates:
+   *  Constant: '<S94>/Constant24'
+   *  Memory: '<S94>/Memory2'
+   */
+  W01_Base_Map_cs_B.Add5_a = W01_Base_Map_cs_DW.Memory2_PreviousInput_cm + 1U;
+
+  /* S-Function (PoseArray3_publisher): '<S443>/S-Function Builder' incorporates:
+   *  Constant: '<S94>/Constant25'
+   */
+  PoseArray3_publisher_Outputs_wrapper(&W01_Base_Map_cs_B.Add5_a,
+    W01_Base_Map_cs_ConstP.Constant25_Value_l, &W01_Base_Map_cs_ConstB.Width5_p,
+    &W01_Base_Map_cs_B.VectorConcatenate[0],
+    &W01_Base_Map_cs_B.VectorConcatenate[1],
+    &W01_Base_Map_cs_B.VectorConcatenate[2],
+    &W01_Base_Map_cs_B.VectorConcatenate[3],
+    &W01_Base_Map_cs_B.VectorConcatenate[4],
+    &W01_Base_Map_cs_B.VectorConcatenate[5],
+    &W01_Base_Map_cs_B.VectorConcatenate[6], &W01_Base_Map_cs_ConstB.Width_m,
+    &W01_Base_Map_cs_B.Add5_a, W01_Base_Map_cs_ConstP.Constant25_Value_l,
+    &W01_Base_Map_cs_ConstB.Width5_p, &W01_Base_Map_cs_B.VectorConcatenate[7],
+    &W01_Base_Map_cs_B.VectorConcatenate[8],
+    &W01_Base_Map_cs_B.VectorConcatenate[9],
+    &W01_Base_Map_cs_B.VectorConcatenate[10],
+    &W01_Base_Map_cs_B.VectorConcatenate[11],
+    &W01_Base_Map_cs_B.VectorConcatenate[12],
+    &W01_Base_Map_cs_B.VectorConcatenate[13], &W01_Base_Map_cs_ConstB.Width1_k,
+    &W01_Base_Map_cs_B.Add5_a, W01_Base_Map_cs_ConstP.Constant25_Value_l,
+    &W01_Base_Map_cs_ConstB.Width5_p, &W01_Base_Map_cs_B.VectorConcatenate[14],
+    &W01_Base_Map_cs_B.VectorConcatenate[15],
+    &W01_Base_Map_cs_B.VectorConcatenate[16],
+    &W01_Base_Map_cs_B.VectorConcatenate[17],
+    &W01_Base_Map_cs_B.VectorConcatenate[18],
+    &W01_Base_Map_cs_B.VectorConcatenate[19],
+    &W01_Base_Map_cs_B.VectorConcatenate[20], &W01_Base_Map_cs_ConstB.Width2,
+    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_pp,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_i, 14,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_j, 23,
+    &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
+
+  /* End of Outputs for SubSystem: '<Root>/pose_otheCar' */
 }
 
 /* Model update function */
@@ -5053,6 +5075,14 @@ static void W01_Base_Map_cs_update(void)
   }
 
   /* End of Update for SubSystem: '<S8>/ROS Send Goal' */
+
+  /* Update for Enabled SubSystem: '<Root>/pose_otheCar' incorporates:
+   *  EnablePort: '<S94>/Enable'
+   */
+  /* Update for Memory: '<S94>/Memory2' */
+  W01_Base_Map_cs_DW.Memory2_PreviousInput_cm = W01_Base_Map_cs_B.Add5_a;
+
+  /* End of Update for SubSystem: '<Root>/pose_otheCar' */
 
   /* Update absolute time for base rate */
   /* The "clockTick0" counts the number of times the code of this task has
@@ -6185,7 +6215,7 @@ static void W01_Base_Map_cs_initialize(void)
       addToSerializationBuffer(work1,
         "AAAAAAAZAAAAAAAAAABAAVobCTMzMzMzM9M/EeF6FK5H4eI/GSlcj8L1KLw/YAFwAYkBAAAAAAAA"
         "HkCRAQAAAAAAAARAmQEAAAAAAAAEQFgBYABoAHAAogEPCPuU6bXByr2A1AEQARgAEhwKCWJ1aWxk"
-        "VGltZRIPMjAyMTAxMTlUMTk0OTIxEiEKDmV4cGlyYXRpb25UaW1lEg8yMDIxMDEyNlQxOTQ5MjES"
+        "VGltZRIPMjAyMTAxMjFUMjI0NjEzEiEKDmV4cGlyYXRpb25UaW1lEg8yMDIxMDEyOFQyMjQ2MTMS"
         "HAoYcGltcC9ncmFwaGJhc2Vkcm9hZG1vZGVsEgASjccCChJwaW1wL3NjZW5hcmlvbW9kZWwS9cYC"
         "Erm+AgqVXBL6EAoMUGF0aE9iamVjdF8yENqPARgAIAIqSgo+CjwKOgobCQAAAIAzwlJAEQAAACAY"
         "BGdAGQAAAAAAAAAAEhsJAAAAAAAAAAARAAAAAAAAAAAZAAAAAAAAAAASCAgDIgQIABAAKkoKPgo8"
@@ -15777,9 +15807,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK[0], 646.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled81, (uint8_T*)
                      W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled81, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled82, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -15795,9 +15825,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_o[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_o[0], 646.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_h, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled84, (uint8_T*)
                      W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled83, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled84, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -15813,9 +15843,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_l[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_l[0], 646.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_l, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled84, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled84, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled85, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled85, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -15831,9 +15861,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_d[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_d[0], 647.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_e, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled85, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled85, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled86, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled86, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -15849,9 +15879,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_g[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_g[0], 647.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_hg, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled86, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled86, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled87, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled87, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -15867,9 +15897,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_e[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_e[0], 647.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_e4, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled87, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled87, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled88, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled88, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -15885,9 +15915,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_j[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_j[0], 649.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_o, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled88, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled88, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled89, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled89, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -15903,9 +15933,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_oz[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_oz[0], 649.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_a, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled89, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled89, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled90, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled90, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -15921,9 +15951,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_f[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_f[0], 649.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_hx, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled90, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled90, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled91, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled91, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -15939,9 +15969,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_k[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_k[0], 650.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_hz, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled91, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled91, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled92, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled92, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -15957,9 +15987,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_m[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_m[0], 650.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_ae, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled92, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled92, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled93, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled93, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -15975,9 +16005,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_c[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_c[0], 650.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_m, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled93, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled93, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled94, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled94, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -15993,9 +16023,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_lo[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_lo[0], 651.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_mz, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled94, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled94, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled95, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled95, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -16011,9 +16041,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_e5[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_e5[0], 651.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_ll, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled95, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled95, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled96, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled96, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -16029,9 +16059,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_h[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_h[0], 651.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_lz, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled96, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled96, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled97, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled97, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -16047,9 +16077,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_lz[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_lz[0], 10446.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_hn, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled97, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled97, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled98, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled98, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -16065,9 +16095,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_f4[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_f4[0], 10446.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_l1, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled98, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled98, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled99, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled99, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -16083,9 +16113,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_n[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_n[0], 10446.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_c, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled99, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled99, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled100, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled100, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -16101,9 +16131,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_mu[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_mu[0], 653.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_l2, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled100, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled100, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled101, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled101, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -16119,9 +16149,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_gu[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_gu[0], 653.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_i, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled101, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled101, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled102, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled102, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -16137,9 +16167,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_fv[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_fv[0], 653.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_k, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled102, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled102, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled103, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled103, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -16155,9 +16185,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_ot[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_ot[0], 654.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_cp, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled103, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled103, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled104, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled104, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled16, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled17, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled67);
@@ -16173,9 +16203,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_lf[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_lf[0], 654.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_cr, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled104, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled104, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled105, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled105, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled19, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled20, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled68);
@@ -16191,9 +16221,9 @@ static void W01_Base_Map_cs_initialize(void)
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_lh[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_lh[0], 654.0, (uint8_T*)
                      W01_Base_Map_cs_ConstP.Actuator_p2_p, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled105, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled82, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled105, (real_T*)
+                     W01_Base_Map_cs_ConstP.pooled106, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled83, (uint8_T*)
+                     W01_Base_Map_cs_ConstP.pooled106, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled22, (real_T*)
                      W01_Base_Map_cs_ConstP.pooled23, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled69);
@@ -16320,7 +16350,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_l4[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_l4[0], 18395.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled107, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_ColorActuator): '<S84>/Actuator' */
@@ -16333,7 +16363,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_a[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_a[0], 18395.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled71);
 
     /* Start for S-Function (sfun_ColorActuator): '<S89>/Actuator' */
@@ -16346,7 +16376,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_ev[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_ev[0], 18395.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled110, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_SpeedProfile): '<S13>/SpeedProfile' */
@@ -16400,7 +16430,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_lzg[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_lzg[0], 18628.0,
-                     (uint8_T*)W01_Base_Map_cs_ConstP.pooled107, (uint32_T*)
+                     (uint8_T*)W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_ColorActuator): '<S85>/Actuator' */
@@ -16413,7 +16443,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_fq[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_fq[0], 18628.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled71);
 
     /* Start for S-Function (sfun_ColorActuator): '<S90>/Actuator' */
@@ -16426,7 +16456,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_eq[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_eq[0], 18628.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled110, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_SpeedProfile): '<S16>/SpeedProfile' */
@@ -16480,7 +16510,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_hh[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_hh[0], 18631.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled107, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_ColorActuator): '<S86>/Actuator' */
@@ -16493,7 +16523,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_iw[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_iw[0], 18631.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled71);
 
     /* Start for S-Function (sfun_ColorActuator): '<S91>/Actuator' */
@@ -16506,7 +16536,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_ha[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_ha[0], 18631.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled110, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_SpeedProfile): '<S19>/SpeedProfile' */
@@ -16560,7 +16590,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_jr[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_jr[0], 18634.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled107, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_ColorActuator): '<S87>/Actuator' */
@@ -16573,7 +16603,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_jw[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_jw[0], 18634.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled71);
 
     /* Start for S-Function (sfun_ColorActuator): '<S92>/Actuator' */
@@ -16586,7 +16616,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_gnk[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_gnk[0], 18634.0,
-                     (uint8_T*)W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
+                     (uint8_T*)W01_Base_Map_cs_ConstP.pooled110, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_SpeedProfile): '<S20>/SpeedProfile' */
@@ -16640,7 +16670,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_n2[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_n2[0], 18853.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled107, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_ColorActuator): '<S88>/Actuator' */
@@ -16653,7 +16683,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_g1[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_g1[0], 18853.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled108, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled71);
 
     /* Start for S-Function (sfun_ColorActuator): '<S93>/Actuator' */
@@ -16666,7 +16696,7 @@ static void W01_Base_Map_cs_initialize(void)
       "void prescan_outputFcn(void ** work1, PRESCAN_COLOR_DATA u1[1])");
     setSampleTime(*&W01_Base_Map_cs_DW.Actuator_PWORK_f5[0], 0.05);
     prescan_startFcn(&W01_Base_Map_cs_DW.Actuator_PWORK_f5[0], 18853.0, (uint8_T*)
-                     W01_Base_Map_cs_ConstP.pooled109, (uint32_T*)
+                     W01_Base_Map_cs_ConstP.pooled110, (uint32_T*)
                      W01_Base_Map_cs_ConstP.pooled70);
 
     /* Start for S-Function (sfun_SelfSensor): '<S28>/Sensor' */
@@ -17223,8 +17253,9 @@ static void W01_Base_Map_cs_initialize(void)
       (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
        W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
        W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-       &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+       &W01_Base_Map_cs_ConstP.pooled8, 1,
+       &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P4, 1,
+       W01_Base_Map_cs_ConstP.pooled80, 5);
 
     /* End of Start for SubSystem: '<S8>/ROS Send Goal' */
 
@@ -17512,6 +17543,12 @@ static void W01_Base_Map_cs_initialize(void)
     W01_Base_Map_cs_DW.Memory1_PreviousInput = 0.0;
 
     /* End of SystemInitialize for SubSystem: '<S8>/ROS Send Goal' */
+
+    /* SystemInitialize for Enabled SubSystem: '<Root>/pose_otheCar' */
+    /* InitializeConditions for Memory: '<S94>/Memory2' */
+    W01_Base_Map_cs_DW.Memory2_PreviousInput_cm = 0U;
+
+    /* End of SystemInitialize for SubSystem: '<Root>/pose_otheCar' */
   }
 }
 
@@ -18064,8 +18101,9 @@ static void W01_Base_Map_cs_terminate(void)
     (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
      W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
      W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-     &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+     &W01_Base_Map_cs_ConstP.pooled8, 1,
+     &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P4, 1,
+     W01_Base_Map_cs_ConstP.pooled80, 5);
 
   /* End of Terminate for SubSystem: '<S8>/ROS Send Goal' */
 
@@ -18275,20 +18313,8 @@ RT_MODEL_W01_Base_Map_cs_T *W01_Base_Map_cs(void)
       W01_Base_Map_cs_B.TmpSignalConversionAtSFunctionB[i] = 0.0;
     }
 
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2[i] = 0.0;
-    }
-
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_m[i] = 0.0;
-    }
-
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_i[i] = 0.0;
-    }
-
     for (i = 0; i < 21; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_k[i] = 0.0F;
+      W01_Base_Map_cs_B.DataTypeConversion2[i] = 0.0F;
     }
 
     for (i = 0; i < 57600; i++) {
@@ -18444,7 +18470,7 @@ RT_MODEL_W01_Base_Map_cs_T *W01_Base_Map_cs(void)
   W01_Base_Map_cs_M->Sizes.numU = (0); /* Number of model inputs */
   W01_Base_Map_cs_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   W01_Base_Map_cs_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  W01_Base_Map_cs_M->Sizes.numBlocks = (1432);/* Number of blocks */
+  W01_Base_Map_cs_M->Sizes.numBlocks = (1430);/* Number of blocks */
   W01_Base_Map_cs_M->Sizes.numBlockIO = (80);/* Number of block outputs */
   W01_Base_Map_cs_M->Sizes.numBlockPrms = (26);/* Sum of parameter "widths" */
   return W01_Base_Map_cs_M;

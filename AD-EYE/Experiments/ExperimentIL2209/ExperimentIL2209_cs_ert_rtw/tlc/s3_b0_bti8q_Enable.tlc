@@ -1,0 +1,22 @@
+%implements s3_b0_bti8q_Enable "C"
+
+%function Enable(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%assign tlcEnableFcnOfS3B8 = OpaqueTLCBlockFcn("Enable", 3, 8, 0, 4)
+%if !WHITE_SPACE(tlcEnableFcnOfS3B8)
+/* Enable for M-S-Function: '<S5>/CameraSensor_1_CM_Display' */
+%<tlcEnableFcnOfS3B8>\
+%endif
+%closefile cfgTxt
+%<cfgTxt>
+%endfunction
+%function EnableFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Enable(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 4, fcnProtoType)>
+%endfunction

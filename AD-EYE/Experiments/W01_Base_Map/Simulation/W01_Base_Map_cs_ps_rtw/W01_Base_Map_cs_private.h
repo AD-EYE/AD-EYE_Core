@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.290
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Thu Jan 21 23:46:14 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -41,7 +41,7 @@ extern "C" {
     const real_T *width,
     const real_T *encoding_length,
     const real_T *step,
-    const real_T *data,
+    const uint8_T *data,
     const real_T *data_length,
     const real_T *frameId_length,
     void **pW,

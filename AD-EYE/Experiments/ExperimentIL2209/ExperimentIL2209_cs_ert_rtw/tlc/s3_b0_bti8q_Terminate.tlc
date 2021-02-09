@@ -1,0 +1,71 @@
+%implements s3_b0_bti8q_Terminate "C"
+
+%function Terminate(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%assign tlcTerminateFcnOfS3B0 = OpaqueTLCBlockFcn("Terminate", 3, 0, 0, 5)
+%assign tlcTerminateFcnOfS3B1 = OpaqueTLCBlockFcn("Terminate", 3, 1, 0, 5)
+%assign tlcTerminateFcnOfS3B2 = OpaqueTLCBlockFcn("Terminate", 3, 2, 0, 5)
+%assign tlcTerminateFcnOfS3B3 = OpaqueTLCBlockFcn("Terminate", 3, 3, 0, 5)
+%assign tlcTerminateFcnOfS3B4 = OpaqueTLCBlockFcn("Terminate", 3, 4, 0, 5)
+%assign tlcTerminateFcnOfS3B5 = OpaqueTLCBlockFcn("Terminate", 3, 5, 0, 5)
+%assign tlcTerminateFcnOfS3B6 = OpaqueTLCBlockFcn("Terminate", 3, 6, 0, 5)
+%assign tlcTerminateFcnOfS3B7 = OpaqueTLCBlockFcn("Terminate", 3, 7, 0, 5)
+%assign tlcTerminateFcnOfS3B9 = OpaqueTLCBlockFcn("Terminate", 3, 9, 0, 5)
+%assign tlcTerminateFcnOfS3B10 = OpaqueTLCBlockFcn("Terminate", 3, 10, 0, 5)
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B0)
+/* Terminate for S-Function (sfun_Controller): '<S4>/sfun_Controller' */
+%<tlcTerminateFcnOfS3B0>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B1)
+/* Terminate for S-Function (sfun_SpeedProfile): '<S5>/SpeedProfile' */
+%<tlcTerminateFcnOfS3B1>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B2)
+/* Terminate for S-Function (sfun_Path): '<S5>/Path' */
+%<tlcTerminateFcnOfS3B2>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B3)
+/* Terminate for S-Function (sfun_StateActuator): '<S9>/Actuator' */
+%<tlcTerminateFcnOfS3B3>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B4)
+/* Terminate for S-Function (sfun_ScenarioEngine): '<S10>/sfun_ScenarioEngine' */
+%<tlcTerminateFcnOfS3B4>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B5)
+/* Terminate for S-Function (sfun_Synchronizer): '<S11>/sfun_Synchronizer' */
+%<tlcTerminateFcnOfS3B5>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B6)
+/* Terminate for S-Function (sfun_AIRSensor): '<S1>/Sensor' */
+%<tlcTerminateFcnOfS3B6>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B7)
+/* Terminate for S-Function (sfun_Camera): '<S3>/Sensor' */
+%<tlcTerminateFcnOfS3B7>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B9)
+/* Terminate for S-Function (sfun_SelfSensor): '<S8>/Sensor' */
+%<tlcTerminateFcnOfS3B9>\
+%endif
+%if !WHITE_SPACE(tlcTerminateFcnOfS3B10)
+/* Terminate for S-Function (sfun_Terminator): '<S6>/sfun_Terminator' */
+%<tlcTerminateFcnOfS3B10>\
+%endif
+/* Terminate for Atomic SubSystem: '<Root>/Publish' */
+/* Terminate for MATLABSystem: '<S7>/SinkBlock' */
+%<(SLibCGCallSubFcn("matlabCodegenHandle_matlabCodeg", ["&ExperimentIL2209_cs_DW.obj"], 0, 5, 0))>;
+/* End of Terminate for SubSystem: '<Root>/Publish' */
+%closefile cfgTxt
+%<cfgTxt>
+%endfunction
+%function TerminateFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Terminate(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 5, fcnProtoType)>
+%endfunction

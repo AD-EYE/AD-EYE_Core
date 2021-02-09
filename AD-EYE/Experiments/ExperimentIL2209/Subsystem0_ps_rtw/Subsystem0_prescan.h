@@ -1,0 +1,1 @@
+void Subsystem0_prescan_parameters(RT_MODEL_Subsystem0_T *const Subsystem0_M);

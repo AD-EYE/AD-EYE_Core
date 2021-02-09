@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.290
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Thu Jan 21 23:46:14 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -919,36 +919,32 @@ typedef struct {
 typedef struct {
   uint8_T Sensor_m[6062040];           /* '<S18>/Sensor' */
   uint8_T Sensor_g[2073600];           /* '<S10>/Sensor' */
-  uint8_T MathFunction3_h[2073600];    /* '<S144>/Math Function3' */
-  uint8_T MathFunction3[2073600];      /* '<S146>/Math Function3' */
-  uint8_T MathFunction3_i[2073600];    /* '<S145>/Math Function3' */
   uint8_T MatrixConcatenate[2073600];  /* '<S145>/Matrix Concatenate' */
-  real32_T MatrixConcatenate5_k[14400];/* '<S131>/Matrix Concatenate5' */
-  real32_T MatrixConcatenate5_l[14400];/* '<S130>/Matrix Concatenate5' */
   real32_T MatrixConcatenate5_c[14400];/* '<S129>/Matrix Concatenate5' */
-  real32_T MatrixConcatenate5_b[14400];/* '<S128>/Matrix Concatenate5' */
-  real32_T Merge7_i[3600];             /* '<S116>/Merge7' */
-  real32_T Merge6_h[3600];             /* '<S116>/Merge6' */
-  real32_T Merge5_e[3600];             /* '<S116>/Merge5' */
-  real32_T Merge_k[3600];              /* '<S116>/Merge' */
-  real32_T Selector3_i[3600];          /* '<S142>/Selector3' */
-  real32_T Selector1_c_m[3600];        /* '<S141>/Selector1' */
-  real32_T Selector_g[3600];           /* '<S141>/Selector' */
-  real32_T Selector_b_c[3600];         /* '<S143>/Selector' */
-  real32_T Selector3_f[3600];          /* '<S139>/Selector3' */
-  real32_T Selector1_k[3600];          /* '<S138>/Selector1' */
-  real32_T Selector_f[3600];           /* '<S138>/Selector' */
-  real32_T Selector_i[3600];           /* '<S140>/Selector' */
-  real32_T Selector3_k[3600];          /* '<S136>/Selector3' */
-  real32_T Selector1_f[3600];          /* '<S135>/Selector1' */
-  real32_T Selector_k[3600];           /* '<S135>/Selector' */
-  real32_T Selector_hz[3600];          /* '<S137>/Selector' */
-  real32_T Product1_b[3600];           /* '<S239>/Product1' */
-  real32_T Product3_f[3600];           /* '<S239>/Product3' */
-  real32_T Selector3[3600];            /* '<S133>/Selector3' */
-  real32_T Selector1_kk[3600];         /* '<S132>/Selector1' */
-  real32_T Selector_m[3600];           /* '<S132>/Selector' */
+  real32_T MatrixConcatenate5_l[14400];/* '<S130>/Matrix Concatenate5' */
+  real32_T MatrixConcatenate5_k[14400];/* '<S131>/Matrix Concatenate5' */
   real32_T Selector_h[3600];           /* '<S134>/Selector' */
+  real32_T Selector3[3600];            /* '<S133>/Selector3' */
+  real32_T Selector_m[3600];           /* '<S132>/Selector' */
+  real32_T Selector1_m[3600];          /* '<S132>/Selector1' */
+  real32_T Merge7_i[3600];             /* '<S116>/Merge7' */
+  real32_T Product3_f[3600];           /* '<S239>/Product3' */
+  real32_T Product1_b[3600];           /* '<S239>/Product1' */
+  real32_T Merge_k[3600];              /* '<S116>/Merge' */
+  real32_T Selector_hz[3600];          /* '<S137>/Selector' */
+  real32_T Selector3_k[3600];          /* '<S136>/Selector3' */
+  real32_T Selector_k[3600];           /* '<S135>/Selector' */
+  real32_T Selector1_f[3600];          /* '<S135>/Selector1' */
+  real32_T Merge5_e[3600];             /* '<S116>/Merge5' */
+  real32_T Merge6_h[3600];             /* '<S116>/Merge6' */
+  real32_T Selector_i[3600];           /* '<S140>/Selector' */
+  real32_T Selector3_f[3600];          /* '<S139>/Selector3' */
+  real32_T Selector_f[3600];           /* '<S138>/Selector' */
+  real32_T Selector1_k[3600];          /* '<S138>/Selector1' */
+  real32_T Selector_b_c[3600];         /* '<S143>/Selector' */
+  real32_T Selector3_i[3600];          /* '<S142>/Selector3' */
+  real32_T Selector_g[3600];           /* '<S141>/Selector' */
+  real32_T Selector1_c_k[3600];        /* '<S141>/Selector1' */
   real_T TSamp;                        /* '<S356>/TSamp' */
   real_T TSamp_h;                      /* '<S357>/TSamp' */
   real_T TSamp_p;                      /* '<S358>/TSamp' */
@@ -1007,11 +1003,8 @@ typedef struct {
   real_T Add4;                         /* '<S149>/Add4' */
   real_T Floor;                        /* '<S147>/Floor' */
   real_T Product_p;                    /* '<S147>/Product' */
-  real_T DataTypeConversion2[2073600]; /* '<S146>/Data Type Conversion2' */
-  real_T DataTypeConversion2_m[2073600];/* '<S145>/Data Type Conversion2' */
-  real_T DataTypeConversion2_i[2073600];/* '<S144>/Data Type Conversion2' */
   uint32_T Add5_a;                     /* '<S94>/Add5' */
-  real32_T DataTypeConversion2_k[21];  /* '<S159>/Data Type Conversion2' */
+  real32_T DataTypeConversion2[21];    /* '<S159>/Data Type Conversion2' */
   real32_T MathFunction1[57600];       /* '<S151>/Math Function1' */
   uint8_T Selector[691200];            /* '<S103>/Selector' */
   uint8_T Selector1[691200];           /* '<S103>/Selector1' */
@@ -1025,17 +1018,21 @@ typedef struct {
   uint8_T Selector_o[691200];          /* '<S104>/Selector' */
   uint8_T Selector1_d[691200];         /* '<S104>/Selector1' */
   uint8_T Selector2_j[691200];         /* '<S104>/Selector2' */
-  uint8_T Merge2_p[691200];            /* '<S109>/Merge2' */
-  uint8_T Merge1_p[691200];            /* '<S109>/Merge1' */
-  uint8_T Merge_ng[691200];            /* '<S109>/Merge' */
-  uint8_T Merge2_l[691200];            /* '<S110>/Merge2' */
-  uint8_T Merge1_c[691200];            /* '<S110>/Merge1' */
-  uint8_T Merge_n[691200];             /* '<S110>/Merge' */
-  uint8_T Merge2_b[691200];            /* '<S111>/Merge2' */
-  uint8_T Merge1_b[691200];            /* '<S111>/Merge1' */
+  uint8_T MathFunction3[2073600];      /* '<S146>/Math Function3' */
+  uint8_T MathFunction3_i[2073600];    /* '<S145>/Math Function3' */
+  uint8_T MathFunction3_h[2073600];    /* '<S144>/Math Function3' */
   uint8_T Merge_m[691200];             /* '<S111>/Merge' */
+  uint8_T Merge1_b[691200];            /* '<S111>/Merge1' */
+  uint8_T Merge2_b[691200];            /* '<S111>/Merge2' */
+  uint8_T Merge_n[691200];             /* '<S110>/Merge' */
+  uint8_T Merge1_c[691200];            /* '<S110>/Merge1' */
+  uint8_T Merge2_l[691200];            /* '<S110>/Merge2' */
+  uint8_T Merge_ng[691200];            /* '<S109>/Merge' */
+  uint8_T Merge1_p[691200];            /* '<S109>/Merge1' */
+  uint8_T Merge2_p[691200];            /* '<S109>/Merge2' */
   uint8_T MathFunction[691200];        /* '<S145>/Math Function' */
   real32_T Sensor_n0[14400];           /* '<S24>/Sensor' */
+  real32_T MatrixConcatenate5_b[14400];/* '<S128>/Matrix Concatenate5' */
   B_CoordinateTransformationCon_T CoordinateTransformationConve_f;
                              /* '<S107>/Coordinate Transformation Conversion' */
   B_RainModel_W01_Base_Map_cs_T RainModel_o;/* '<S116>/Rain Model' */
@@ -1376,6 +1373,7 @@ typedef struct {
   int32_T Sensor_dtBusInfo_a[34];      /* '<S26>/Sensor' */
   int32_T sfun_Terminator_dtSizeInfo[2];/* '<S25>/sfun_Terminator' */
   int32_T sfun_Terminator_dtBusInfo[2];/* '<S25>/sfun_Terminator' */
+  uint32_T Memory2_PreviousInput_cm;   /* '<S94>/Memory2' */
   uint32_T RandSeed[7];                /* '<S228>/Random Number' */
   uint32_T RandSeed_e[7];              /* '<S228>/Random Number1' */
   uint32_T RandSeed_n[7];              /* '<S228>/Random Number2' */
@@ -1696,6 +1694,7 @@ typedef struct {
 
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by:
+   *   '<Root>/Enable'
    *   '<S8>/Constant11'
    *   '<S8>/Detection'
    *   '<S8>/EnableSendCamera1'
@@ -1824,7 +1823,6 @@ typedef struct {
    *   '<S243>/S-Function Builder'
    *   '<S245>/S-Function Builder'
    *   '<S246>/S-Function Builder1'
-   *   '<S247>/S-Function Builder1'
    *   '<S252>/S-Function Builder'
    *   '<S253>/S-Function Builder'
    *   '<S255>/S-Function Builder1'
@@ -1847,6 +1845,11 @@ typedef struct {
    *   '<S194>/S-Function Builder'
    */
   real_T pooled9;
+
+  /* Expression: timeout
+   * Referenced by: '<S247>/S-Function Builder1'
+   */
+  real_T SFunctionBuilder1_P4;
 
   /* Expression: -9.82
    * Referenced by: '<S150>/Constant'
@@ -2291,10 +2294,17 @@ typedef struct {
    */
   int8_T SFunctionBuilder_P1_b[6];
 
-  /* Expression: uint8(1)
-   * Referenced by: '<S247>/S-Function Builder1'
+  /* Pooled Parameter (Mixed Expressions)
+   * Referenced by:
+   *   '<S149>/Constant9'
+   *   '<S247>/S-Function Builder1'
    */
-  uint8_T SFunctionBuilder1_P5;
+  uint8_T pooled80[5];
+
+  /* Expression: uint8(['map'])
+   * Referenced by: '<S94>/Constant25'
+   */
+  uint8_T Constant25_Value_l[3];
 
   /* Expression: SParameter1
    * Referenced by: '<S15>/sfun_Controller'
@@ -2329,7 +2339,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S48>/Actuator'
    */
-  uint8_T pooled81[31];
+  uint8_T pooled82[31];
 
   /* Pooled Parameter (Expression: mbxruntime.parameters.convert(TextureResources))
    * Referenced by:
@@ -2358,7 +2368,7 @@ typedef struct {
    *   '<S77>/Actuator'
    *   '<S78>/Actuator'
    */
-  uint8_T pooled82[52];
+  uint8_T pooled83[52];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S49>/Actuator'
@@ -2368,7 +2378,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S49>/Actuator'
    */
-  uint8_T pooled83[32];
+  uint8_T pooled84[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S50>/Actuator'
@@ -2378,7 +2388,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S50>/Actuator'
    */
-  uint8_T pooled84[29];
+  uint8_T pooled85[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S52>/Actuator'
@@ -2388,7 +2398,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S52>/Actuator'
    */
-  uint8_T pooled85[31];
+  uint8_T pooled86[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S53>/Actuator'
@@ -2398,7 +2408,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S53>/Actuator'
    */
-  uint8_T pooled86[32];
+  uint8_T pooled87[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S54>/Actuator'
@@ -2408,7 +2418,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S54>/Actuator'
    */
-  uint8_T pooled87[29];
+  uint8_T pooled88[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S56>/Actuator'
@@ -2418,7 +2428,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S56>/Actuator'
    */
-  uint8_T pooled88[31];
+  uint8_T pooled89[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S57>/Actuator'
@@ -2428,7 +2438,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S57>/Actuator'
    */
-  uint8_T pooled89[32];
+  uint8_T pooled90[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S58>/Actuator'
@@ -2438,7 +2448,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S58>/Actuator'
    */
-  uint8_T pooled90[29];
+  uint8_T pooled91[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S60>/Actuator'
@@ -2448,7 +2458,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S60>/Actuator'
    */
-  uint8_T pooled91[31];
+  uint8_T pooled92[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S61>/Actuator'
@@ -2458,7 +2468,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S61>/Actuator'
    */
-  uint8_T pooled92[32];
+  uint8_T pooled93[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S62>/Actuator'
@@ -2468,7 +2478,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S62>/Actuator'
    */
-  uint8_T pooled93[29];
+  uint8_T pooled94[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S64>/Actuator'
@@ -2478,7 +2488,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S64>/Actuator'
    */
-  uint8_T pooled94[31];
+  uint8_T pooled95[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S65>/Actuator'
@@ -2488,7 +2498,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S65>/Actuator'
    */
-  uint8_T pooled95[32];
+  uint8_T pooled96[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S66>/Actuator'
@@ -2498,7 +2508,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S66>/Actuator'
    */
-  uint8_T pooled96[29];
+  uint8_T pooled97[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S68>/Actuator'
@@ -2508,7 +2518,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S68>/Actuator'
    */
-  uint8_T pooled97[31];
+  uint8_T pooled98[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S69>/Actuator'
@@ -2518,7 +2528,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S69>/Actuator'
    */
-  uint8_T pooled98[32];
+  uint8_T pooled99[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S70>/Actuator'
@@ -2528,7 +2538,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S70>/Actuator'
    */
-  uint8_T pooled99[29];
+  uint8_T pooled100[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S72>/Actuator'
@@ -2538,7 +2548,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S72>/Actuator'
    */
-  uint8_T pooled100[31];
+  uint8_T pooled101[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S73>/Actuator'
@@ -2548,7 +2558,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S73>/Actuator'
    */
-  uint8_T pooled101[32];
+  uint8_T pooled102[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S74>/Actuator'
@@ -2558,7 +2568,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S74>/Actuator'
    */
-  uint8_T pooled102[29];
+  uint8_T pooled103[29];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S76>/Actuator'
@@ -2568,7 +2578,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S76>/Actuator'
    */
-  uint8_T pooled103[31];
+  uint8_T pooled104[31];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S77>/Actuator'
@@ -2578,7 +2588,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S77>/Actuator'
    */
-  uint8_T pooled104[32];
+  uint8_T pooled105[32];
 
   /* Expression: mbxruntime.parameters.convert(LightName)
    * Referenced by: '<S78>/Actuator'
@@ -2588,7 +2598,7 @@ typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by: '<S78>/Actuator'
    */
-  uint8_T pooled105[29];
+  uint8_T pooled106[29];
 
   /* Pooled Parameter (Expression: mbxruntime.parameters.convert(WorldModelSubPath))
    * Referenced by:
@@ -2598,7 +2608,7 @@ typedef struct {
    *   '<S82>/Actuator'
    *   '<S83>/Actuator'
    */
-  uint8_T pooled107[43];
+  uint8_T pooled108[43];
 
   /* Pooled Parameter (Expression: mbxruntime.parameters.convert(WorldModelSubPath))
    * Referenced by:
@@ -2608,7 +2618,7 @@ typedef struct {
    *   '<S87>/Actuator'
    *   '<S88>/Actuator'
    */
-  uint8_T pooled108[38];
+  uint8_T pooled109[38];
 
   /* Pooled Parameter (Expression: mbxruntime.parameters.convert(WorldModelSubPath))
    * Referenced by:
@@ -2618,7 +2628,7 @@ typedef struct {
    *   '<S92>/Actuator'
    *   '<S93>/Actuator'
    */
-  uint8_T pooled109[43];
+  uint8_T pooled110[43];
 } ConstP_W01_Base_Map_cs_T;
 
 /* Backward compatible GRT Identifiers */

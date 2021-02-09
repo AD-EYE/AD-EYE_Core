@@ -1,5 +1,5 @@
 %% File : Image_publisher.tlc
-%% Created : Tue Jan 19 20:40:55 2021
+%% Created : Thu Jan 21 12:32:16 2021
 %%
 %% Description: 
 %%   Simulink Coder wrapper functions interface generated for 
@@ -39,7 +39,7 @@
 			const real_T *width,
 			const real_T *encoding_length,
 			const real_T *step,
-			const real_T *data,
+			const uint8_T *data,
 			const real_T *data_length,
 			const real_T *frameId_length,
 			void **pW,

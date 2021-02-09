@@ -26,7 +26,7 @@
  * | See matlabroot/simulink/src/sfuntmpl_doc.c for a more detailed template |
  *  ------------------------------------------------------------------------- 
  *
- * Created: Tue Jan 19 20:40:55 2021
+ * Created: Thu Jan 21 12:32:16 2021
  */
 
 #define S_FUNCTION_LEVEL 2
@@ -106,7 +106,7 @@
 #define IN_PORT_4_NAME        data
 #define INPUT_4_WIDTH         2073600
 #define INPUT_DIMS_4_COL      1
-#define INPUT_4_DTYPE         real_T
+#define INPUT_4_DTYPE         uint8_T
 #define INPUT_4_COMPLEX       COMPLEX_NO
 #define IN_4_FRAME_BASED      FRAME_NO
 #define IN_4_BUS_BASED        0
@@ -218,7 +218,7 @@ extern void Image_publisher_Outputs_wrapper(const real_T *height,
 			const real_T *width,
 			const real_T *encoding_length,
 			const real_T *step,
-			const real_T *data,
+			const uint8_T *data,
 			const real_T *data_length,
 			const real_T *frameId_length,
 			void **pW,
@@ -366,7 +366,7 @@ static void mdlInitializeSizes(SimStruct *S)
 
     /* Input Port 4 */
     ssSetInputPortWidth(S, 4, INPUT_4_WIDTH);
-    ssSetInputPortDataType(S, 4, SS_DOUBLE);
+    ssSetInputPortDataType(S, 4, SS_UINT8);
     ssSetInputPortComplexSignal(S, 4, INPUT_4_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 4, INPUT_4_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 4, 1); /*direct input signal access*/
@@ -482,7 +482,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     const real_T *width = (real_T *) ssGetInputPortRealSignal(S, 1);
     const real_T *encoding_length = (real_T *) ssGetInputPortRealSignal(S, 2);
     const real_T *step = (real_T *) ssGetInputPortRealSignal(S, 3);
-    const real_T *data = (real_T *) ssGetInputPortRealSignal(S, 4);
+    const uint8_T *data = (uint8_T *) ssGetInputPortRealSignal(S, 4);
     const real_T *data_length = (real_T *) ssGetInputPortRealSignal(S, 5);
     const real_T *frameId_length = (real_T *) ssGetInputPortRealSignal(S, 6);
     const int_T   p_width0  = mxGetNumberOfElements(PARAM_DEF0(S));
