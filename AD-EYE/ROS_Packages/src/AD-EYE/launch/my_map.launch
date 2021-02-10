@@ -1,6 +1,7 @@
 <!-- -->
 <launch>
-    <arg name="world_name" value="W01_Base_Map"/> 
+
+    <arg name="world_name" value="W12_Crossing"/> 
     <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Pointcloud_Files/"/>
     <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Vector_Map_Files/"/>
     <!-- world_to_map -->
