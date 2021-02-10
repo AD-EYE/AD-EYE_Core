@@ -573,13 +573,23 @@ let green = "#699b2c";
 
 
 //-------------fault injection----------------------
-function forms()
+
+function create_forms()
 {
-    lidar2_form = document.getElementById("lidar_form");
-    document.getElementById("lidar2_form").append(lidar2_form);
+    let lidar_form = document.getElementById("lidar_form");
+    let lidar2_form = document.getElementById("lidar2_form");
+    lidar2_form.innerHTML = lidar_form.innerHTML;
+
+
 }
+    
+
+
 function faultInjection_OnClick(button)
 {
+    /* let lidar2_form = document.getElementById("lidar_form");
+    document.getElementById("lidar2_form").append(lidar2_form); */
+    
     formsCollection = document.getElementsByTagName("form");
     for(let i = 0; i < formsCollection.length; i++)
     {
@@ -598,6 +608,7 @@ function faultInjection_OnClick(button)
                 button.style.backgroundColor = "gray";
                 formsCollection[i].style.display = "none";
             }
+            //document.getElementById("x1").innerHTML = formsCollection.length;
         }
     }      
 }
