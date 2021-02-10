@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W12_Crossing" UniqueId="0" TotalSimulationTime="217.60000000000002" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="71D58790E9AB500F9C376F15D98F12F2C65793DB5670470D9C85D697116C2F65" UniqueExperimentIdentifier="dfc09485-861c-4986-a667-79e852667790" UniqueIdCounter="1531" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W12_Crossing" UniqueId="0" TotalSimulationTime="217.60000000000002" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="0ACCB6A6CE32BFA7EDE003EEF57ED7955F7FEC20963FD16E8D0F993BE47B269E" UniqueExperimentIdentifier="7982a0b2-cc52-4976-9379-5d3cbf86659c" UniqueIdCounter="1638" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Monument with towers" id="Monument_1" UniqueId="1013" SensorDetectability="Occluding" NumericalID="4" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Monument" AnimatedActor="false" CompilationSheetPicture="MonumentWithTowers_HighPoly.png" HashCode="3a3431c6597dd5e6b47e30c100269bde" ModelFile="Buildings\MonumentWithTowers\MonumentWithTowers.osgb" GenericModelSourceFile="Buildings\MonumentWithTowers\MonumentWithTowers.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="163.76089477539063" Y="-66.424690246582031" Z="0" />
@@ -3179,7 +3179,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="1527" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="1634" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3204,7 +3204,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="1528" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="1635" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3229,7 +3229,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="1529" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="1636" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3254,7 +3254,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="1530" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="1637" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5120,8 +5120,8 @@
       <RoadSegment xsi:type="XCrossing" Description="" id="XCrossing_1" UniqueId="462" SensorDetectability="Occluding" NumericalID="18" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="629" SidewalkUniqueId="630" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" Radius="18" FilletRadius="2" DrivingDirection="Right">
         <Location X="223.26014589846861" Y="-10.895747545142058" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="89.74794697944867" />
-        <Origin X="0.82758629322052" Y="0.50000005960464478" Z="0" />
-        <Size X="21.749998092651367" Y="35.999996185302734" Z="0" />
+        <Origin X="0.49768438935279846" Y="0.50000005960464478" Z="0" />
+        <Size X="36.167499542236328" Y="35.999996185302734" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -5157,6 +5157,12 @@
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
+          <LaneLineDefinition Description="" id="XCrossing_1_Line_13" UniqueId="1629" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_98" UniqueId="1630" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions />
         <Asphalt xsi:type="StandardAsphalt">
@@ -5170,7 +5176,7 @@
         <RoadMarkings />
         <DirtSpots />
         <CrossSections>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="XCrossing_1CrossingRoadEnd_1" UniqueId="637" MaxSpeed="50" Heading="90" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.25" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="XCrossing_1CrossingRoadEnd_1" UniqueId="637" MaxSpeed="50" Heading="90" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="11.9527225" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -5226,6 +5232,27 @@
             <LaneLineDefinitions>
               <LaneLineDefinition Description="" id="XCrossing_1_Line_4" UniqueId="475" Label="1">
                 <MarkerAppearance Description="" id="MarkerAppearance_131" UniqueId="645" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+                <MarkerPatterns>
+                  <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+                </MarkerPatterns>
+              </LaneLineDefinition>
+            </LaneLineDefinitions>
+            <NumberOfExitLanes>1</NumberOfExitLanes>
+          </RoadCrossSection>
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="XCrossing_1CrossingRoadEnd_0" UniqueId="1631" MaxSpeed="50" Heading="2.8869610594917439" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="11.9527235" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+            <RoadJointList>
+              <RoadJoint JointId="4" NumberOfLanes="2" StartLane="1" />
+            </RoadJointList>
+            <BankAngleDeg>0</BankAngleDeg>
+            <CentralLineDefinition Description="" id="XCrossing_1_Line_6" UniqueId="1627" Label="0">
+              <MarkerAppearance Description="" id="MarkerAppearance_60" UniqueId="1632" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+              <MarkerPatterns>
+                <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+              </MarkerPatterns>
+            </CentralLineDefinition>
+            <LaneLineDefinitions>
+              <LaneLineDefinition Description="" id="XCrossing_1_Line_1" UniqueId="1628" Label="1">
+                <MarkerAppearance Description="" id="MarkerAppearance_61" UniqueId="1633" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
                 <MarkerPatterns>
                   <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
                 </MarkerPatterns>
@@ -6824,15 +6851,15 @@
             <int>464</int>
             <int>465</int>
             <int>466</int>
-            <int>467</int>
-            <int>468</int>
-            <int>469</int>
+            <int>1629</int>
             <int>470</int>
             <int>471</int>
             <int>472</int>
             <int>473</int>
             <int>474</int>
             <int>475</int>
+            <int>1627</int>
+            <int>1628</int>
           </Aliases>
         </SemanticItem>
         <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="476" />
