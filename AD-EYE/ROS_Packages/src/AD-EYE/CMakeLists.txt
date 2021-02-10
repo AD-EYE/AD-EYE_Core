@@ -59,6 +59,13 @@ add_library(
   vectorMap src/vectormap.cpp
 )
 
+add_library(
+  experimentRecording src/experiment_recording.cpp
+)
+# add_library(
+#   pointCloudToOccupancyGridLib src/point_cloud_to_occupancy_grid.cpp
+# )
+
 add_executable(
   GridMapCreator
   src/grid_map_creator.cpp
@@ -243,6 +250,7 @@ add_dependencies(pointCloudAccumulator
 
 add_executable(
   pointCloudToOccupancyGrid
+  src/point_cloud_to_occupancy_grid_wrapper.cpp
   src/point_cloud_to_occupancy_grid.cpp
 )
 target_link_libraries(
@@ -253,9 +261,27 @@ add_dependencies(pointCloudToOccupancyGrid
   ${catkin_EXPORTED_TARGETS}
 )
 
+
+
+add_executable(
+  ExperimentC
+  src/experimentC.cpp
+  src/point_cloud_to_occupancy_grid.cpp
+)
+target_link_libraries(
+  ExperimentC
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  experimentRecording
+)
+add_dependencies(
+  ExperimentC
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception pointCloudFrameChanger pointCloudToOccupancyGrid
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception pointCloudFrameChanger pointCloudToOccupancyGrid ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

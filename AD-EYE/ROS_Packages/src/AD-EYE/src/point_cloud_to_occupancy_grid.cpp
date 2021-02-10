@@ -46,10 +46,9 @@ void PointsToOccupancyGrid::pointsCallback(const sensor_msgs::PointCloud2::Const
         occupancy_grid_.header = input_scan->header;        
         updateCostMap(scan);
     }
-    costmap_pub_.publish(occupancy_grid_);
 }
 
-PointsToOccupancyGrid::PointsToOccupancyGrid(ros::NodeHandle nh, bool delayed_start = false)
+PointsToOccupancyGrid::PointsToOccupancyGrid(ros::NodeHandle nh, bool delayed_start)
 {
     nh.param<double>("map_resolution_", map_resolution_, 1.0);
     nh.param<int>("map_width_", map_width_, 1000);
@@ -88,11 +87,3 @@ void PointsToOccupancyGrid::run()
 
 
 
-
-int main(int argc, char **argv)
-{
-    ros::init(argc, argv, "points2costmap");
-    ros::NodeHandle private_nh("~");
-    PointsToOccupancyGrid points_to_occupancy_grid(private_nh);
-    points_to_occupancy_grid.run();
-}

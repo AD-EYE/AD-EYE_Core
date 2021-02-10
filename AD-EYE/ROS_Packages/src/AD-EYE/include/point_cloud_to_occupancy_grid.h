@@ -8,6 +8,7 @@
 #include <pcl/point_types.h>
 
 
+
 class PointsToOccupancyGrid {
     private:
         ros::Subscriber points_sub_;
