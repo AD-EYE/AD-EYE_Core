@@ -22,6 +22,7 @@ class PointsToOccupancyGrid {
         nav_msgs::OccupancyGrid occupancy_grid_;
         std::string points_topic_;
         std::string cost_map_topic_;
+        double scan_z_min_ = 0.1;
 
         /*!
         * \brief Updates the occupancy grid
