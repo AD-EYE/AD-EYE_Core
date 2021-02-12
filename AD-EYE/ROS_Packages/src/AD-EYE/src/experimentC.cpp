@@ -8,6 +8,7 @@
 #include <thread>
 #include <chrono>
 #include <iostream>
+#include <sstream>
 #include <boost/filesystem.hpp>
 
 
@@ -20,9 +21,12 @@ class ExperimentC: ExperimentRecording {
         PointsToOccupancyGrid point_cloud_to_occupancy_grid_;
         float ego_speed_ = 0.0;
         float max_speed_allowed_ = 0.0;
+        float rain_intensity_ = 0.0;
+        float rain_reflectivity_ = 0.0;
         float speed_threshold_start_ = 0.0;
         float speed_threshold_stop_ = 0.0;
         ros::Rate rate_;
+        std::string bag_name_;
 
         void speedCallback(geometry_msgs::TwistStamped msg)
         {
@@ -33,7 +37,12 @@ class ExperimentC: ExperimentRecording {
         ExperimentC(ros::NodeHandle nh): nh_(nh), point_cloud_to_occupancy_grid_(nh, true), rate_(20)
         {
             speed_sub_ = nh.subscribe("/current_velocity", 10, &ExperimentC::speedCallback, this);
-            nh.param<float>("adeye/motion_planning/op_common_params/maxVelocity", max_speed_allowed_, 10.0);
+            nh.param<float>("/adeye/motion_planning/op_common_params/maxVelocity", max_speed_allowed_, 10.0);
+            nh.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
+            nh.param<float>("/simulink/reflectivity", rain_reflectivity_, 0.0);
+            std::ostringstream ss;
+            ss << "speed_" << max_speed_allowed_ << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
+            bag_name_ = std::string(ss.str());
             speed_threshold_start_ = max_speed_allowed_ * 0.9;
             speed_threshold_stop_ = max_speed_allowed_ * 0.8;
             std::cout << "ExperimentC: initialized node" << std::endl;
@@ -77,7 +86,14 @@ class ExperimentC: ExperimentRecording {
         {
             ExperimentRecording::stopRecording();
             //TODO start rosbag
-            system("rosbag record /cost_map -O ~/Experiment_Results/test.bag __name:=expC_rosbag_recorder &");
+            std::string recording_command_part_1 = "rosbag record /cost_map -O ~/Experiment_Results/";
+            std::string recording_command_part_2 = ".bag __name:=expC_rosbag_recorder &";
+            std::string recording_command = recording_command_part_1 + bag_name_ + recording_command_part_2;
+            char char_command[recording_command.length()];
+            for (int i = 0; i < sizeof(char_command); i++) {
+                char_command[i] = recording_command[i];
+            }
+            system(char_command);
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             point_cloud_to_occupancy_grid_.publishOccupancyGrid();
             //TODO wait a bit and stop rosbag

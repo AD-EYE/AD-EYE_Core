@@ -9,7 +9,7 @@ void PointsToOccupancyGrid::updateCostMap(const pcl::PointCloud<pcl::PointXYZ> &
     double map_center_y = (map_height_ / 2.0) * map_resolution_ - map_offset_y_;
     for (const auto &p : scan.points)
     {
-        if(p.z < scan_z_min_)
+        if(p.z >= scan_z_min_)
         {
             // Compute grid index
             int grid_x = (p.x + map_center_x) / map_resolution_;
