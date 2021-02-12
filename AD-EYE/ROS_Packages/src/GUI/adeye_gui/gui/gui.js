@@ -576,11 +576,21 @@ let green = "#699b2c";
 
 function create_forms()
 {
-    let lidar_form = document.getElementById("lidar_form");
+    // forms for lidar
+    let lidar1_form = document.getElementById("lidar1_form");
     let lidar2_form = document.getElementById("lidar2_form");
-    lidar2_form.innerHTML = lidar_form.innerHTML;
+    lidar2_form.innerHTML = lidar1_form.innerHTML;
+    let lidar3_form = document.getElementById("lidar3_form")
+    lidar3_form.innerHTML = lidar1_form.innerHTML;
+    let lidar4_form = document.getElementById("lidar4_form");
+    lidar4_form.innerHTML = lidar1_form.innerHTML;
 
-
+    // forms for camera
+    let camera1_form = document.getElementById("camera1_form");
+    let camera2_form = document.getElementById("camera2_form");
+    camera2_form.innerHTML = camera1_form.innerHTML;
+    let tl_camera_form = document.getElementById("tl_camera_form");
+    tl_camera_form.innerHTML = camera1_form.innerHTML;
 }
     
 
@@ -591,6 +601,7 @@ function faultInjection_OnClick(button)
     document.getElementById("lidar2_form").append(lidar2_form); */
     
     formsCollection = document.getElementsByTagName("form");
+    document.getElementById("x1").innerHTML = button.name;
     for(let i = 0; i < formsCollection.length; i++)
     {
         if(button.name == formsCollection[i].name)
@@ -608,13 +619,20 @@ function faultInjection_OnClick(button)
                 button.style.backgroundColor = "gray";
                 formsCollection[i].style.display = "none";
             }
-            //document.getElementById("x1").innerHTML = formsCollection.length;
+            
         }
     }      
 }
 
 let gnss_array = new Array();
-function gnss_parameter_values()
+function fault_injection_parameters()
+{
+    let form_array = new Array("gnss_form","lidar1_form","lidar2_form","lidar3_form","lidar4_form","radar_form","camera_form");
+    let state_array = new Array("gnss_state","lidar_state","radar_state","camera_state");
+    let input_array = new Array("gnss_input","lidar1_input","lidar2_input","lidar3_input","lidar4_input","radar_input","camera1_input","camera2_input","tl_camera_input")
+    //let input_array = new Array("")
+}
+/* function gnss_parameter_values()
     {
         let gnss_form = document.getElementById("gnss_form");
         let gnss_state = document.getElementById("gnss_state");
@@ -651,7 +669,7 @@ function gnss_parameter_values()
         });
 
         fault_injection_topic.publish(fault_injection_msg); 
-    }
+    } */
 //-------------fault injection----------------
 
 

@@ -132,17 +132,18 @@
             <!----gnss---->
             <div id="gnss_div" style="display:inline-flex">
               <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
-              <input id="gnss_input" name="gnss" class="state" type="text" value="" placeholder="State"></input>
+              <input id="gnss_input" type="text" value="" placeholder="State"></input> <!-- name="gnss" class="state" -->
             </div>
             <div class="forms">
               <form id="gnss_form" name="gnss" style="display:none;">
+                <!-- <label style="text-align:center; font-size: x-large;">Gnss_Form</label> -->
                 <label>State</label>
                 <select id="gnss_state">
                   <option value="0.0" >off</option>
                   <option value="1.0">Gaussian noise</option>
                 </select>
                 <label>noise_variance</label>
-                <input id="gnss_noise"type="text" value="1.0" ></input>
+                <input type="text" value="1.0" ></input>
                 <input id="gnss_send" type="button" value="send" onclick="gnss_parameter_values()"></input>
               </form>
             </div> 
@@ -150,11 +151,12 @@
 
             <!----lidar---->
             <div id="lidar1_div" style="display:inline-flex">
-              <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
-              <input name="lidar1" type="text" class="state" value="" placeholder="State"></input>
+              <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
+              <input id="lidar1_input" type="text"  value="" placeholder="State"></input><!-- class="state" -->
             </div>
             <div class="forms">
-              <form id="lidar_form" name="lidar" style="display:none">
+              <form id="lidar1_form" name="lidar1" style="display:none">
+                <!-- <label id="Lidar1_form" style="text-align:center; font-size: x-large;">Lidar1_Form</label> -->
                 <label>State</label>
                 <select id="lidar_state">
                   <option value="0" >off</option>
@@ -180,22 +182,28 @@
             </div>
             
             <div id="lidar2_div" style="display:inline-flex">
-              <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
-              <input name="lidar2" type="text" class="state" value="" placeholder="State"></input>
+              <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
+              <input name="lidar2_input" type="text" class="state" value="" placeholder="State"></input>
             </div>
             <div class="forms">
-              <form id="lidar2_form" style="display:none"></form>
+              <form id="lidar2_form" name="lidar2" style="display:none"></form>
             </div>
             
             
             <div id="lidar3_div" style="display:inline-flex">
-              <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
+              <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
               <input name="lidar3" type="text" class="state" value="" placeholder="State"></input>
+            </div>
+            <div class="forms">
+              <form id="lidar3_form" name="lidar3" style="display:none"></form>
             </div>
             
             <div id="lidar4_div" style="display:inline-flex">
-              <button name="lidar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
+              <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
               <input name="lidar4" type="text" class="state" value="" placeholder="State"></input>
+            </div>
+            <div class="forms">
+              <form id="lidar4_form" name="lidar4" style="display:none"></form>
             </div>
             <!----lidar---->
 
@@ -224,11 +232,11 @@
 
             <!----camera---->
             <div id="camera_1_div" style="display:inline-flex">
-              <button name="camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
+              <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
               <input name="camera_1" type="text" class="state" value="" placeholder="State"></input>
             </div>
             <div class="forms">
-              <form id="camera1_form" name="camera" style="display:none">
+              <form id="camera1_form" name="camera1" style="display:none">
                 <label>State</label>
                 <select id="camera_state">
                   <option value="0" >off</option>
@@ -253,13 +261,19 @@
             </div>
             
             <div id="camera_2_div" style="display:inline-flex">
-              <button name="camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
+              <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
               <input name="camera_2" type="text" class="state" value="" placeholder="State"></input>
+            </div>
+            <div class="forms">
+              <form id="camera2_form" name="camera2" style="display:none"></form>
             </div>
             
             <div id="tl_camera_div" style="display:inline-flex">
-              <button name="camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
+              <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
               <input name="tl_camera" type="text" class="state" value="" placeholder="State"></input>
+            </div>
+            <div class="forms">
+              <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
             </div>
             <!----camera---->
 				  </div>
