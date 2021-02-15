@@ -1,7 +1,8 @@
 <!-- -->
 <launch>
 
-    <arg name="world_name" value="W01_Base_Map"/> 
+
+    <arg name="world_name" value="W12_Crossing"/> 
 
 
     <rosparam>
@@ -22,6 +23,7 @@
     </group>
 
 
+ 
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Simulation/"/>
     <arg name="area_width" value="35" />
