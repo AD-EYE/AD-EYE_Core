@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<afc xmlns="http://www.mscsoftware.com/:vfc" xmlns:afc="http://www.mscsoftware.com/:afc">
+     <afc:Bibliography>
+          <File schema="afc" version="2.0.0.0" URI="mdids://prescan_demo/subsystems.tbl/brake.xml" publicationDate="2015-04-02 11:14:57+02:00"/>
+          <Revision version="17.0"/>
+          <Corporation author="MSC.Software" URI="http://www.mscsoftware.com/"/>
+          <Author user="battags" name="-unknown name-"/>
+          <Environment hostName="nw164" operatingSystem="MS Windows NT 6.1"/>
+          <Application name="MSC/AFC" version="02.00.00"/>
+     </afc:Bibliography>
+     <afc:Units>
+          <afc:UnitSetting name="angle" current="deg"/>
+          <afc:UnitSetting name="current" current="ampere"/>
+          <afc:UnitSetting name="force" current="newton"/>
+          <afc:UnitSetting name="length" current="mm"/>
+          <afc:UnitSetting name="luminosity" current="candela"/>
+          <afc:UnitSetting name="mass" current="kg"/>
+          <afc:UnitSetting name="quantity" current="mole"/>
+          <afc:UnitSetting name="solidAngle" current="steradian"/>
+          <afc:UnitSetting name="temperature" current="kelvin"/>
+          <afc:UnitSetting name="time" current="sec"/>
+          <afc:UnitSetting name="frequency" current="Hz"/>
+     </afc:Units>
+     <Subsystem name="brake" active="true" userDefined="false">
+          <ParameterTree name="brake_parameters" active="true" userDefined="false">
+               <ParameterTree name="brake_system" active="true" userDefined="false">
+                    <FloatParameter name="bias_front" active="true" userDefined="false" value="0.6"/>
+                    <FloatParameter name="master_cylinder_pressure_gain" active="true" userDefined="false" value="0.1" unit="pressure"/>
+               </ParameterTree>
+               <ParameterTree name="front" active="true" userDefined="false">
+                    <FloatParameterPair name="mu" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="0.4"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="0.4"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="effective_piston_radius" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="177" unit="length"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="177" unit="length"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="piston_area" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="2300" unit="area"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="2300" unit="area"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_natural_frequency" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="10" unit="frequency"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="10" unit="frequency"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_damping_ratio" active="true" userDefined="false" symmetry="left_right">
+                         <FloatParameter name="left" active="true" userDefined="false" value="1"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_speed" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="139" unit="velocity"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="139" unit="velocity"/>
+                    </FloatParameterPair>
+               </ParameterTree>
+               <ParameterTree name="rear" active="true" userDefined="false">
+                    <FloatParameterPair name="mu" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="0.4"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="0.4"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="effective_piston_radius" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="167" unit="length"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="167" unit="length"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="piston_area" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="2300" unit="area"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="2300" unit="area"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_natural_frequency" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="10" unit="frequency"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="10" unit="frequency"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_damping_ratio" active="true" userDefined="false" symmetry="left_right">
+                         <FloatParameter name="left" active="true" userDefined="false" value="1"/>
+                    </FloatParameterPair>
+                    <FloatParameterPair name="lockup_speed" active="true" userDefined="false" symmetry="none">
+                         <FloatParameter name="left" active="true" userDefined="false" value="139" unit="velocity"/>
+                         <FloatParameter name="right" active="true" userDefined="false" value="139" unit="velocity"/>
+                    </FloatParameterPair>
+               </ParameterTree>
+          </ParameterTree>
+     </Subsystem>
+</afc>

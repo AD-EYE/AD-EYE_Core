@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ExperimentConfig>
+  <Federates>
+    <Federate federateId="0" hostId="localhost" gpuId="default gpu" enableOpenCL="False" />
+    <Federate federateId="1" hostId="localhost" gpuId="default gpu" enableOpenCL="False" />
+    <Federate federateId="2" hostId="localhost" gpuId="default gpu" enableOpenCL="False" />
+  </Federates>
+  <SensorAssignments>
+    <SensorAssignment sensorId="Ultrasonic_1" federateId="0" />
+    <SensorAssignment sensorId="Ultrasonic_2" federateId="1" />
+    <SensorAssignment sensorId="Ultrasonic_3" federateId="2" />
+  </SensorAssignments>
+</ExperimentConfig>

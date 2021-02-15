@@ -1,0 +1,161 @@
+$-----------------------------------------------------------------VIGRADE_HEADER
+[VIGRADE_HEADER]
+FILE_TYPE = 'VDF'
+FILE_VERSION = 17
+FILE_FORMAT = 'ASCII'
+$--------------------------------------------------------------------------UNITS
+[UNITS]
+LENGTH = 'METER'
+ANGLE = 'RADIAN'
+FORCE = 'NEWTON'
+MASS = 'KILOGRAM'
+TIME = 'SECOND'
+$----------------------------------------------------------------GLOBAL_SETTINGS
+[GLOBAL_SETTINGS]
+MODEL_TYPE = 'CAR_STANDARD'
+$------------------------------------------------------------------------STARTUP
+[STARTUP]
+INITIAL_SPEED = 13.8889
+INITIAL_STEERING = 0
+INITIAL_THROTTLE = 0
+INITIAL_BRAKING = 0
+INITIAL_BRAKING2 = 0
+INITIAL_GEAR = 3
+INITIAL_CLUTCH = 0
+INITIAL_SETUP = 'OFF'
+$--------------------------------------------------------------STEERING_STANDARD
+[STEERING_STANDARD]
+MODEL = 'STANDARD'
+MAX_VALUE = 12.56637061435917
+MIN_VALUE = -12.56637061435917
+$--------------------------------------------------------------THROTTLE_STANDARD
+[THROTTLE_STANDARD]
+MAX_VALUE = 100
+MIN_VALUE = 0
+SCALING_FACTOR = 100
+$---------------------------------------------------------------BRAKING_STANDARD
+[BRAKING_STANDARD]
+MAX_VALUE = 100
+MIN_VALUE = 0
+SCALING_FACTOR = 100
+$------------------------------------------------------------------GEAR_STANDARD
+[GEAR_STANDARD]
+MODEL = 'STANDARD'
+MAX_VALUE = 6
+MIN_VALUE = 1
+(PROPERTIES_MAP)
+{id  opt  upRPM  dwRPM  up_sftT  up_tfallT  up_criseT  up_cfallT  up_triseT  up_dt1  up_dt2  dw_sftT  dw_tfallT  dw_criseT  dw_cfallT  dw_triseT  dw_dt1  dw_dt2  }
+ -1 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 1 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 2 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 3 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 4 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 5 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 6 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+ 7 0 7900 3500 0.15 0.03 0.05 0.03 0.03 0 0.1 0.15 0.03 0.05 0.03 0.03 0 0.1
+$----------------------------------------------------------------CLUTCH_STANDARD
+[CLUTCH_STANDARD]
+MAX_VALUE = 1
+MIN_VALUE = 0
+$-----------------------------------------------------------------------MANEUVER
+[MANEUVER]
+TASK = 'STANDARD'
+CONTROLLER_SETTINGS = 'CONTROLLER_OPTIONS_1'
+(STEERING)
+CONTROLLER_NAME = 'STEERING_1'
+(THROTTLE)
+CONTROLLER_NAME = 'THROTTLE_1'
+(BRAKING)
+CONTROLLER_NAME = 'BRAKING_1'
+(GEAR)
+CONTROLLER_NAME = 'GEAR_1'
+(CLUTCH)
+CONTROLLER_NAME = 'CLUTCH_1'
+(OPTIONS)
+FOLLOW_TARGET_SPEED = 'FALSE'
+CONNECT_PATH = 'FALSE'
+SPEED_MAP_GLOBAL_S = 'FALSE'
+(MACHINE)
+ENGINE_PWRMAP_ACTIVE = 'FALSE'
+$-----------------------------------------------------------------MANEUVERS_LIST
+[MANEUVERS_LIST]
+{name  abort_time  sampling_step  }
+ 'MANEUVER' 10 0.01
+$-----------------------------------------------------------CONTROLLER_OPTIONS_1
+[CONTROLLER_OPTIONS_1]
+PREVIEW_TIME = 0.5
+MIN_PREVIEW_DISTANCE = 5
+STEERING_PDC_ACTIVE = 'TRUE'
+LAT_ANT_COMP_TIME = 0
+LON_ANT_COMP_TIME = 0
+STEERING_YAW_PID_ACTIVE = 'TRUE'
+THROTTLE_FEED_FWD_TRQ_ACTIVE = 'TRUE'
+THROTTLE_SAT_TGTACCX_ACTIVE = 'TRUE'
+$---------------------------------------------------------------------STEERING_1
+[STEERING_1]
+CONTROLLER_DATA = 'STEERING'
+METHOD = 'OPENLOOP'
+SMOOTHING_ACTIVE = 'TRUE'
+SMOOTHING_TIME = 0.1
+SIGNAL = 'SIGNAL_1'
+$-----------------------------------------------------------------------SIGNAL_1
+[SIGNAL_1]
+TYPE = 'USER'
+MEASURE_NAME = 'NOT_DEFINED'
+$---------------------------------------------------------------------THROTTLE_1
+[THROTTLE_1]
+CONTROLLER_DATA = 'THROTTLE'
+METHOD = 'OPENLOOP'
+SMOOTHING_ACTIVE = 'TRUE'
+SMOOTHING_TIME = 0.1
+SIGNAL = 'SIGNAL_2'
+$-----------------------------------------------------------------------SIGNAL_2
+[SIGNAL_2]
+TYPE = 'USER'
+MEASURE_NAME = 'NOT_DEFINED'
+$-------------------------------------------------------------------------GEAR_1
+[GEAR_1]
+CONTROLLER_DATA = 'GEAR'
+METHOD = 'MACHINE'
+SMOOTHING_ACTIVE = 'FALSE'
+SMOOTHING_TIME = 0
+$-----------------------------------------------------------------------CLUTCH_1
+[CLUTCH_1]
+CONTROLLER_DATA = 'CLUTCH'
+METHOD = 'MACHINE'
+SMOOTHING_ACTIVE = 'FALSE'
+SMOOTHING_TIME = 0
+$----------------------------------------------------------------------BRAKING_1
+[BRAKING_1]
+CONTROLLER_DATA = 'BRAKING'
+METHOD = 'OPENLOOP'
+SMOOTHING_ACTIVE = 'TRUE'
+SMOOTHING_TIME = 0.1
+SIGNAL = 'SIGNAL_3'
+$-----------------------------------------------------------------------SIGNAL_3
+[SIGNAL_3]
+TYPE = 'USER'
+MEASURE_NAME = 'NOT_DEFINED'
+$-------------------------------------------------__EVENTBUILDER_RESERVED_DATA__
+[__EVENTBUILDER_RESERVED_DATA__]
+DEBUG_PARAMETERS = 'GFX{0,0,152,34,0}CE_PARAMS{}'
+GLOBAL_SETTINGS = 'GFX{0,0,223,54,0}CE_PARAMS{}'
+VEHICLE_PARAMETERS = 'GFX{0,0,163,34,0}CE_PARAMS{}'
+STARTUP = 'GFX{448,5,152,74,0}CE_PARAMS{}'
+STEERING_STANDARD = 'GFX{0,0,155,34,0}CE_PARAMS{}'
+THROTTLE_STANDARD = 'GFX{0,0,158,34,0}CE_PARAMS{}'
+BRAKING_STANDARD = 'GFX{0,0,151,34,0}CE_PARAMS{}'
+GEAR_STANDARD = 'GFX{0,0,129,34,0}CE_PARAMS{}'
+CLUTCH_STANDARD = 'GFX{0,0,143,34,0}CE_PARAMS{}'
+MANEUVER = 'GFX{412,110,188,412,0}CE_PARAMS{}'
+MANEUVERS_LIST = 'GFX{826,235,174,88,0}CE_PARAMS{}'
+CONTROLLER_OPTIONS_1 = 'GFX{22,89,178,54,0}CE_PARAMS{}'
+STEERING_1 = 'GFX{73,160,127,66,0}CE_PARAMS{}'
+SIGNAL_1 = 'GFX{-363,153,163,70,0}CE_PARAMS{}'
+THROTTLE_1 = 'GFX{73,250,127,66,0}CE_PARAMS{}'
+SIGNAL_2 = 'GFX{-363,243,163,70,0}CE_PARAMS{}'
+GEAR_1 = 'GFX{73,423,127,50,0}CE_PARAMS{}'
+CLUTCH_1 = 'GFX{73,483,127,50,0}CE_PARAMS{}'
+BRAKING_1 = 'GFX{73,340,127,66,0}CE_PARAMS{}'
+SIGNAL_3 = 'GFX{-363,333,163,70,0}CE_PARAMS{}'

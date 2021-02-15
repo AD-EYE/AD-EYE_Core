@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<afc xmlns="http://www.mscsoftware.com/:vfc" xmlns:afc="http://www.mscsoftware.com/:afc">
+     <afc:Bibliography>
+          <File schema="afc" version="2.0.0.0" publicationDate="2014-10-03 18:55:48+02:00"/>
+          <Revision version="17.0"/>
+          <Corporation author="MSC.Software" URI="http://www.mscsoftware.com/"/>
+          <Author user="Michele" name="-unknown name-"/>
+          <Environment hostName="DUKKO" operatingSystem="MS Windows NT 6.1"/>
+          <Application name="MSC/AFC" version="02.00.00"/>
+     </afc:Bibliography>
+     <afc:Units>
+          <afc:UnitSetting name="angle" current="deg"/>
+          <afc:UnitSetting name="current" current="ampere"/>
+          <afc:UnitSetting name="force" current="newton"/>
+          <afc:UnitSetting name="length" current="mm"/>
+          <afc:UnitSetting name="luminosity" current="candela"/>
+          <afc:UnitSetting name="mass" current="kg"/>
+          <afc:UnitSetting name="quantity" current="mole"/>
+          <afc:UnitSetting name="solidAngle" current="steradian"/>
+          <afc:UnitSetting name="temperature" current="kelvin"/>
+          <afc:UnitSetting name="time" current="sec"/>
+          <afc:UnitSetting name="frequency" current="Hz"/>
+     </afc:Units>
+     <Subsystem name="RT_VI_CRT_Demo_rear_wheels" active="true" userDefined="false">
+          <CRTWheelPair name="rear_wheels" active="true" userDefined="false" symmetry="left_right">
+               <CRTWheel name="left" active="true" userDefined="false" spinInertia="1000000.0" unsprungMass="35.318" wheelCenterHeight="340.0" ixx="1112090.0" iyy="1081140.0" izz="1094010.0" longitudinalDynamicsFlag="false" longitudinalDynamicsMass="25.0" longitudinalDynamicsCutoffFrequency="500.0" longitudinalDynamicsDamping="0.01">
+                    <Tire name="tire_data" active="true" userDefined="false">
+                         <TireContext active="true" propertyURI="mdids://carrealtime_shared/tires.tbl/p96r.tir" userDefined="false" context="default" offset="(0 0 0)" lateralForceScale="1" overturningMomentScale="1" aligningTorqueScale="1" rollingRadiusOffset="0" plysteerLateralForce="0" conicityLateralForce="0" plysteerAligningTorque="0" conicityAligningTorque="0" cmOffset="0" wheelCenterOffset="0" contactType="handling" useMode="900"/>
+                    </Tire>
+                    <Part name="part_data" active="true" userDefined="false" location="(0 0 0)" cm_location="(0 0 0)" im_location="(0 0 0)" part_num="-1" mass="0" ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0" use_offdiagonal_terms="false" default_cg="false" user_sprung="false" percent_sprung="100"/>
+                    <WheelGraphics name="graphics_parameters" active="true" userDefined="false" bulgeRatio="0" wheelWidth="0"/>
+               </CRTWheel>
+          </CRTWheelPair>
+     </Subsystem>
+</afc>

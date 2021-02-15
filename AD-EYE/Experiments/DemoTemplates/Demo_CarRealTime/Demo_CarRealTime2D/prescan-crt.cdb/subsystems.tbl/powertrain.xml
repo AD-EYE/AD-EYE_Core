@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<afc xmlns="http://www.mscsoftware.com/:vfc" xmlns:afc="http://www.mscsoftware.com/:afc">
+     <afc:Bibliography>
+          <File schema="afc" version="2.0.0.0" URI="mdids://prescan_demo/subsystems.tbl/powertrain.xml" publicationDate="2015-04-02 11:14:57+02:00"/>
+          <Revision version="17.0"/>
+          <Corporation author="MSC.Software" URI="http://www.mscsoftware.com/"/>
+          <Author user="battags" name="-unknown name-"/>
+          <Environment hostName="nw164" operatingSystem="MS Windows NT 6.1"/>
+          <Application name="MSC/AFC" version="02.00.00"/>
+     </afc:Bibliography>
+     <afc:Units>
+          <afc:UnitSetting name="angle" current="deg"/>
+          <afc:UnitSetting name="current" current="ampere"/>
+          <afc:UnitSetting name="force" current="newton"/>
+          <afc:UnitSetting name="length" current="mm"/>
+          <afc:UnitSetting name="luminosity" current="candela"/>
+          <afc:UnitSetting name="mass" current="kg"/>
+          <afc:UnitSetting name="quantity" current="mole"/>
+          <afc:UnitSetting name="solidAngle" current="steradian"/>
+          <afc:UnitSetting name="temperature" current="kelvin"/>
+          <afc:UnitSetting name="time" current="sec"/>
+          <afc:UnitSetting name="frequency" current="Hz"/>
+     </afc:Units>
+     <Subsystem name="powertrain" active="true" userDefined="false">
+          <CRTPowertrain name="powertrain" active="true" userDefined="false" driveTorqueFrontBias="0" upshiftRPM="4000.0" downshiftRPM="1200.0" engineInertia="70000.0" engineIdleRPM="900.0" engineRevLimitRPM="7000.0" clutchOpen="1.0" clutchClose="0.25" clutchTau="0.05" clutchCapacity="1000000.0" clutchStiffness="2000.0" clutchDamping="800.0" driveMethod="awd" differentialMethod="open" gearShiftMethod="constant" clutchAndInertiaActive="true" trasmissionRatio="1.0" finalDriveRatio="3.36" fuelDensity="7.3e-07" engineVolume="0.001" bSFCActiveFlag="true" pwrTorqueScaling="100.0" ramAirEffectActive="false" referenceAirDensity="1.2e-09" ambientPressure="0.101325" ambientTemperature="293.15" engineTorqueReactionDirection="No Torque Reaction">
+               <Spline2d name="gearRatios" id="0" active="true" userDefined="false" interpolation_method="akima">
+                 <![CDATA[
+              1            2.88
+              2            1.77
+              3            1.27
+              4               1
+              5            0.83
+              6            0.71
+]]>
+               </Spline2d>
+               <Spline3d name="powertrainMap" active="true" userDefined="false" interpolation_method="akima" xLabel="RPM" yLabel="Torque" yUnit="force-length" datablock="Powertrain Map" zLabel="Throttle">
+                    <afc:VectorAttribute name="x_data">
+                      0 500 1000 1500 2000 2500 3000 3500 4000 4500 5000 5500 6000 6500 7000 7500
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="y_data">
+                      0 -69262 -69263 -69266 -69272 -69284 -69307 -69353 -69447 -69625 -69750 -69875 -70250 -73000 -72000 -74000 0 80000 235000 400000 600000 625000 650000 700000 750000 740000 710000 680000 650000 570000 520000 500000
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="z_data">
+                      0 1
+                    </afc:VectorAttribute>
+                    <Comment userDefined="false">
+                      <![CDATA[]]>
+                    </Comment>
+               </Spline3d>
+               <Spline3d name="gearShiftTable" active="true" userDefined="false" interpolation_method="akima" xLabel="Gear" yLabel="RPM">
+                    <afc:VectorAttribute name="x_data">
+                      1 2 3 4 5 6
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="y_data">
+                      3000 3000 3000 3000 3000 3000 6900 6900 6900 6900 6900 6900
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="z_data">
+                      -1 1
+                    </afc:VectorAttribute>
+                    <Comment userDefined="false">
+                      <![CDATA[]]>
+                    </Comment>
+               </Spline3d>
+               <Spline3d name="fuelConsumptionTable" active="true" userDefined="false" interpolation_method="akima" xLabel="RPM" yLabel="Fuel Consumption [volume/time]" yUnit="volume/time" datablock="Fuel Consumption Map" zLabel="Throttle">
+                    <afc:VectorAttribute name="x_data">
+                      0 1000 5000 10000 15000
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="y_data">
+                      0 0 0 0 0 0 0 0 0 0
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="z_data">
+                      0 1
+                    </afc:VectorAttribute>
+               </Spline3d>
+               <Spline3d name="bSFCTable" active="true" userDefined="false" interpolation_method="akima">
+                    <afc:VectorAttribute name="x_data">
+                      -50000 -20000 0 20000 50000
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="y_data">
+                      0 0 0 0 0 0 0 0 0 0
+                    </afc:VectorAttribute>
+                    <afc:VectorAttribute name="z_data">
+                      -1 1
+                    </afc:VectorAttribute>
+               </Spline3d>
+               <Spline name="ramAirEfficiency" id="0" active="true" userDefined="false" interpolation_method="akima" xLabel="Longitudinal Velocity" yLabel="Efficiency" xUnit="velocity" datablock="Ram Air Efficiency">
+                 <![CDATA[
+              0               1
+          25000               1
+          50000               1
+          75000               1
+         100000               1
+]]>
+               </Spline>
+          </CRTPowertrain>
+          <Differential name="front" active="false" userDefined="false" activeFlag="false" inertia="100.0" driveRatio="3.36" method="open" LSD_C0_pos="10.0" LSD_C0_neg="10.0" LSD_C2="0.8" LSD_C3="0.5" detroitLocker="false">
+               <CRTSuspensionData name="LSD_C1" active="true" userDefined="false" method="table" constant="0">
+                    <Spline3d name="table" active="true" userDefined="false" interpolation_method="akima" xLabel="Differential Input Torque [newton-mm]" xUnit="torque">
+                         <afc:VectorAttribute name="x_data">
+                           -1000000 -600000 -400000 -200000 -50000 -10000 0 10000 50000 200000 400000 600000 1000000
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="y_data">
+                           0.2 0.2 0.2 0.2 0.1 0 0 0 0.1 0.3 0.3 0.3 0.3
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="z_data">
+                           0
+                         </afc:VectorAttribute>
+                    </Spline3d>
+               </CRTSuspensionData>
+               <Spline2d name="userSpline" id="0" active="true" userDefined="false" interpolation_method="akima" xLabel="Delta Angular Velocity" xUnit="angular_velocity">
+                 <![CDATA[
+         -50000               0
+         -25000               0
+              0               0
+          25000               0
+          50000               0
+]]>
+               </Spline2d>
+          </Differential>
+          <Differential name="rear" active="false" userDefined="false" activeFlag="true" inertia="100.0" driveRatio="3.36" method="open" LSD_C0_pos="10.0" LSD_C0_neg="10.0" LSD_C2="0.8" LSD_C3="0.5" detroitLocker="false">
+               <CRTSuspensionData name="LSD_C1" active="true" userDefined="false" method="table" constant="0">
+                    <Spline3d name="table" active="true" userDefined="false" interpolation_method="akima" xLabel="Differential Input Torque [newton-mm]" xUnit="torque">
+                         <afc:VectorAttribute name="x_data">
+                           -1000000 -600000 -400000 -200000 -50000 -10000 0 10000 50000 200000 400000 600000 1000000
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="y_data">
+                           0.2 0.2 0.2 0.2 0.1 0 0 0 0.1 0.3 0.3 0.3 0.3
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="z_data">
+                           0
+                         </afc:VectorAttribute>
+                    </Spline3d>
+               </CRTSuspensionData>
+               <Spline2d name="userSpline" id="0" active="true" userDefined="false" interpolation_method="akima" xLabel="Delta Angular Velocity" xUnit="angular_velocity">
+                 <![CDATA[
+         -50000               0
+         -25000               0
+              0               0
+          25000               0
+          50000               0
+]]>
+               </Spline2d>
+          </Differential>
+          <Differential name="center" active="false" userDefined="false" activeFlag="false" inertia="100.0" driveRatio="3.36" method="open" LSD_C0_pos="10.0" LSD_C0_neg="10.0" LSD_C2="0.8" LSD_C3="0.5" detroitLocker="false">
+               <CRTSuspensionData name="LSD_C1" active="true" userDefined="false" method="table" constant="0">
+                    <Spline3d name="table" active="true" userDefined="false" interpolation_method="akima" xLabel="Differential Input Torque [newton-mm]" xUnit="torque">
+                         <afc:VectorAttribute name="x_data">
+                           -1000000 -600000 -400000 -200000 -50000 -10000 0 10000 50000 200000 400000 600000 1000000
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="y_data">
+                           0.2 0.2 0.2 0.2 0.1 0 0 0 0.1 0.3 0.3 0.3 0.3
+                         </afc:VectorAttribute>
+                         <afc:VectorAttribute name="z_data">
+                           0
+                         </afc:VectorAttribute>
+                    </Spline3d>
+               </CRTSuspensionData>
+               <Spline2d name="userSpline" id="0" active="true" userDefined="false" interpolation_method="akima" xLabel="Delta Angular Velocity" xUnit="angular_velocity">
+                 <![CDATA[
+         -50000               0
+         -25000               0
+              0               0
+          25000               0
+          50000               0
+]]>
+               </Spline2d>
+          </Differential>
+     </Subsystem>
+</afc>
