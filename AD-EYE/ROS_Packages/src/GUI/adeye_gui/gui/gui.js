@@ -578,19 +578,25 @@ function create_forms()
 {
     // forms for lidar
     let lidar1_form = document.getElementById("lidar1_form");
+
     let lidar2_form = document.getElementById("lidar2_form");
     lidar2_form.innerHTML = lidar1_form.innerHTML;
+    lidar2_form[0].id = "lidar2_state";
     
-    //lidar2_form_send.onclick("lidar2_parameter_values()");
     let lidar3_form = document.getElementById("lidar3_form")
     lidar3_form.innerHTML = lidar1_form.innerHTML;
+    lidar3_form[0].id = "lidar3_state";
+
     let lidar4_form = document.getElementById("lidar4_form");
     lidar4_form.innerHTML = lidar1_form.innerHTML;
+    lidar4_form[0].id = "lidar4_state";
 
     // forms for camera
     let camera1_form = document.getElementById("camera1_form");
+
     let camera2_form = document.getElementById("camera2_form");
     camera2_form.innerHTML = camera1_form.innerHTML;
+
     let tl_camera_form = document.getElementById("tl_camera_form");
     tl_camera_form.innerHTML = camera1_form.innerHTML;
 }
@@ -620,96 +626,90 @@ function faultInjection_OnClick(button)
     }      
 }
 
-let gnss_array = new Array();
-// function to collect the values of gnss parameters from the form and put them in an array
-function gnss_parameter_values()
-    {
-        let gnss_form = document.getElementById("gnss_form");
-        let gnss_state = document.getElementById("gnss_state");
-        let gnss_input = document.getElementById("gnss_input");
-        
-        // values are collected from form and kept in an array
-        for (let i=0;i<gnss_form.length-1;i++)
-        {
-            gnss_array[i] = gnss_form[i].value;
-        }
 
-        // coverting the string array to float array as we need float data to publish
-        for (let i=0;i<gnss_array.length;i++)
-        {
-            gnss_array[i] = parseFloat(gnss_array[i]);
-        }
-
-        // To display the selected value of dropdown in the textbox beside the button
-        let selected_value = gnss_state.options[gnss_state.selectedIndex].text;
-        gnss_input.value = selected_value;
-        
-        // publishing the data from the form to gnss fault injection topic 
-        publish_fault_injection(0);
-        /* fault_injection_topic = new ROSLIB.Topic({
-            ros : ros,
-            name :'/fault_injection/gnss',
-            messageType : 'std_msgs/Float64MultiArray'
-        });
-
-        fault_injection_msg = new ROSLIB.Message({
-            data : gnss_array
-        });
-
-        fault_injection_topic.publish(fault_injection_msg);  */
-    }
-
+    let gnss_array = new Array();
     let lidar1_array = new Array();
     let lidar2_array = new Array(); 
     let lidar3_array = new Array(); 
     let lidar4_array = new Array(); 
+    let radar_array = new Array();
+    
 
     // function to collect the values of lidar parameters from the form and put them in an array
-     function lidar_parameter_values()
+    function fault_injection_parameter_values(button)
     {
+        var form = button.parentNode.id;
+        let gnss_form = document.getElementById("gnss_form");
         let lidar1_form = document.getElementById("lidar1_form");
         let lidar2_form = document.getElementById("lidar2_form");
         let lidar3_form = document.getElementById("lidar3_form");
         let lidar4_form = document.getElementById("lidar4_form");
-        let form_array = new Array("lidar1_form","lidar2_form","lidar3_form","lidar4_form");
-        //form_array.push(lidar1_form);
-        //("lidar1_form","lidar2_form","lidar3_form","lidar4_form");
+        let radar_form = document.getElementById("radar_form");
+        //let form_array = new Array("gnss_form","lidar1_form","lidar2_form","lidar3_form","lidar4_form");
+        
+        let gnss_state = document.getElementById("gnss_state");
+        let lidar1_state = document.getElementById("lidar1_state");
+        let lidar2_state = document.getElementById("lidar2_state");
+        let lidar3_state = document.getElementById("lidar3_state");
+        let lidar4_state = document.getElementById("lidar4_state");
+        let radar_state = document.getElementById("radar_state");
 
-        let lidar_state = document.getElementById("lidar_state");
+        let gnss_input = document.getElementById("gnss_input");
         let lidar1_input = document.getElementById("lidar1_input");
         let lidar2_input = document.getElementById("lidar2_input");
         let lidar3_input = document.getElementById("lidar3_input");
         let lidar4_input = document.getElementById("lidar4_input");
-//        let input = document.getElementsByTagName("input");
-       
-        for (let i = 0; i < form_array.length; i++)
+        let radar_input = document.getElementById("radar_input");
+
+        switch(form)
         {
-            switch(form_array[i])
-            {
+            case "gnss_form":
+                    // values are collected from form and kept in an array
+                    for (let i=0;i<gnss_form.length-1;i++)
+                    {
+                        gnss_array[i] = gnss_form[i].value;
+                        
+                    }
+
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i=0;i<gnss_array.length;i++)
+                    {
+                        gnss_array[i] = parseFloat(gnss_array[i]);
+                        
+                    }
+
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+                    gnss_input.value = selected_value;
+                    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(0,gnss_array);
+                    break;
+
                 case "lidar1_form":
-                    document.getElementById("x1").innerHTML = "test2";
                     // values are collected from form and kept in an array
                     for (let i = 0; i < lidar1_form.length-1; i++)
                     {
                         lidar1_array[i] = lidar1_form[i].value;
+                        //document.getElementById("x1").innerHTML = lidar1_array;
                     }
 
                     // coverting the string array to float array as we need float data to publish
                     for (let i = 0; i < lidar1_array.length; i++)
                     {
                         lidar1_array[i] = parseFloat(lidar1_array[i]);
+                        //document.getElementById("x1").innerHTML =lidar1_array;
                     }
 
                     // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar_state.options[lidar_state.selectedIndex].text;
+                    selected_value = lidar1_state.options[lidar1_state.selectedIndex].text;
                     lidar1_input.value = selected_value;
 
                     // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(1);
+                    publish_fault_injection(1,lidar1_array);
                     break;
 
                 case "lidar2_form":
-                    document.getElementById("x1").innerHTML = "test";
 
                     // values are collected from form and kept in an array
                     for (let i = 0; i < lidar2_form.length-1; i++)
@@ -724,11 +724,11 @@ function gnss_parameter_values()
                     }
 
                     // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar_state.options[lidar_state.selectedIndex].text;
+                    selected_value = lidar2_state.options[lidar2_state.selectedIndex].text;
                     lidar2_input.value = selected_value;
 
                     // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(2);
+                    publish_fault_injection(2,lidar2_array);
                     break;
 
                 case "lidar3_form":
@@ -746,73 +746,65 @@ function gnss_parameter_values()
                     }
 
                     // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar_state.options[lidar_state.selectedIndex].text;
+                    selected_value = lidar3_state.options[lidar3_state.selectedIndex].text;
                     lidar3_input.value = selected_value;
 
                     // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(3);
+                    publish_fault_injection(3,lidar3_array);
                     break;
 
-            }
-        }  
-       
-        // coverting the string array to float array
-        /* for (let i = 0; i < lidar1_array.length; i++)
-        {
-            lidar1_array[i] = parseFloat(lidar1_array[i]);
-        } */
-       
-        // To display the selected value of dropdown in the textbox
-        /* for(var i = 0; i < input.length; i++)
-        {
-            if(input[i].type.toLowerCase() == "text")
-            {
-                selected_value = lidar_state.options[lidar_state.selectedIndex].text;
-                lidar1_input.value = selected_value;
-            }
-        } */
-       /*  let lidar_topics_array = new Array("/fault_injection/lidar1","/fault_injection/lidar2","/fault_injection/lidar3","/fault_injection/lidar4");
-        let lidar_parameters_array = new Array();
-        lidar_parameters_array[0] = lidar1_array;
-        lidar_parameters_array[1] = lidar2_array;
+                case "lidar4_form":
 
-        document.getElementById("x1").innerHTML = lidar_parameters_array[0][1];
-        //lidar_parameters_array.push(lidar2_array);
-
- for (let i = 0; i < lidar_topics_array.length; i++)
-       {
-            fault_injection_topic = new ROSLIB.Topic({
-                ros : ros,
-                name : lidar_topics_array[i],
-                messageType : 'std_msgs/Float64MultiArray'
-            });
-        }
-            
-            for (let i = 0; i < lidar_topics_array.length; i++)
-            {
-                fault_injection_msg = new ROSLIB.Message({
-                    data : lidar_parameters_array[i]
-                });
-            }
-            
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < lidar4_form.length-1; i++)
+                    {
+                        lidar4_array[i] = lidar4_form[i].value;
+                    }
     
-            fault_injection_topic.publish(fault_injection_msg);  */
- 
-        
-        
-        
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < lidar4_array.length; i++)
+                    {
+                        lidar4_array[i] = parseFloat(lidar4_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = lidar4_state.options[lidar4_state.selectedIndex].text;
+                    lidar4_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(4,lidar4_array);
+                    break;
 
-     }
+                case "radar_form":
+
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < radar_form.length-1; i++)
+                    {
+                        radar_array[i] = radar_form[i].value;
+                    }
+    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < radar_array.length; i++)
+                    {
+                        radar_array[i] = parseFloat(radar_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = radar_state.options[radar_state.selectedIndex].text;
+                    radar_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(5,radar_array);
+                    break;
+                }  
+    }
      
-
-    function publish_fault_injection(i)
+    // Function to publish the fault injection parameter values from user to specific rostopic
+    function publish_fault_injection(i,array)
     {
-        let lidar_topics_array = new Array("/fault_injection/gnss","/fault_injection/lidar1","/fault_injection/lidar2","/fault_injection/lidar3","/fault_injection/lidar4");
-        let lidar_parameters_array = new Array();
-        lidar_parameters_array[0] = gnss_array;
-        lidar_parameters_array[1] = lidar1_array;
-        lidar_parameters_array[2] = lidar2_array;
-
+        document.getElementById("x1").innerHTML = array;
+        let lidar_topics_array = new Array("/fault_injection/gnss","/fault_injection/lidar1","/fault_injection/lidar2","/fault_injection/lidar3","/fault_injection/lidar4","/fault_injection/radar","/fault_injection/camera1","/fault_injection/camera2","/fault_injection/tl_camera");
+        
         let fault_injection_topic = new ROSLIB.Topic({
             ros : ros,
             name : lidar_topics_array[i],
@@ -820,57 +812,13 @@ function gnss_parameter_values()
             });
                     
         let fault_injection_msg = new ROSLIB.Message({
-            data : lidar_parameters_array[i]
+            data : array
             });
     
         fault_injection_topic.publish(fault_injection_msg);
-
     }
-     
-
-    /* let lidar2_array = new Array();
-    function lidar2_parameter_values()
-    {
-        let lidar2_form = document.getElementById("lidar2_form");
-        let lidar_state = document.getElementById("lidar_state");
-        let lidar2_input = document.getElementById("lidar2_input");
-        let input = document.getElementsByTagName("input");
-       
-        for (let i = 0; i < lidar2_form.length-1; i++)
-        {
-            lidar2_array[i] = lidar2_form[i].value;
-        }
-       
-        // coverting the string array to float array
-        for (let i = 0; i < lidar2_array.length; i++)
-        {
-            lidar2_array[i] = parseFloat(lidar2_array[i]);
-        }
-       
-        // To display the selected value of dropdown in the textbox
-        for(var i = 0; i < input.length; i++)
-        {
-            if(input[i].type.toLowerCase() == "text")
-            {
-                selected_value = lidar_state.options[lidar_state.selectedIndex].text;
-                lidar2_input.value = selected_value;
-            }
-        }
-        
-        fault_injection_topic = new ROSLIB.Topic({
-            ros : ros,
-            name :'/fault_injection/lidar2',
-            messageType : 'std_msgs/Float64MultiArray'
-        });
-
-        fault_injection_msg = new ROSLIB.Message({
-            data : lidar2_array
-        });
-
-        fault_injection_topic.publish(fault_injection_msg); 
-    } */
+    
 //-------------fault injection----------------
-
 
 
 
@@ -1533,6 +1481,47 @@ function getTopics()
 }*/ 
     //-----------------code------------------
         
+    /*/* let lidar2_array = new Array();
+    function lidar2_parameter_values()
+    {
+        let lidar2_form = document.getElementById("lidar2_form");
+        let lidar_state = document.getElementById("lidar_state");
+        let lidar2_input = document.getElementById("lidar2_input");
+        let input = document.getElementsByTagName("input");
+       
+        for (let i = 0; i < lidar2_form.length-1; i++)
+        {
+            lidar2_array[i] = lidar2_form[i].value;
+        }
+       
+        // coverting the string array to float array
+        for (let i = 0; i < lidar2_array.length; i++)
+        {
+            lidar2_array[i] = parseFloat(lidar2_array[i]);
+        }
+       
+        // To display the selected value of dropdown in the textbox
+        for(var i = 0; i < input.length; i++)
+        {
+            if(input[i].type.toLowerCase() == "text")
+            {
+                selected_value = lidar_state.options[lidar_state.selectedIndex].text;
+                lidar2_input.value = selected_value;
+            }
+        }
+        
+        fault_injection_topic = new ROSLIB.Topic({
+            ros : ros,
+            name :'/fault_injection/lidar2',
+            messageType : 'std_msgs/Float64MultiArray'
+        });
+
+        fault_injection_msg = new ROSLIB.Message({
+            data : lidar2_array
+        });
+
+        fault_injection_topic.publish(fault_injection_msg); 
+    } */
 
 
        
