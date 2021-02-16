@@ -132,19 +132,18 @@
             <!----gnss---->
             <div id="gnss_div" style="display:inline-flex">
               <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
-              <input id="gnss_input" type="text" value="" placeholder="State"></input> <!-- name="gnss" class="state" -->
+              <input id="gnss_input" type="text" value="" placeholder="State"></input> 
             </div>
             <div class="forms">
               <form id="gnss_form" name="gnss" style="display:none;">
-                <!-- <label style="text-align:center; font-size: x-large;">Gnss_Form</label> -->
                 <label>State</label>
                 <select id="gnss_state">
-                  <option value="0.0" >off</option>
-                  <option value="1.0">Gaussian noise</option>
+                  <option value="0" >Off</option>
+                  <option value="1">Gaussian Noise</option>
                 </select>
                 <label>noise_variance</label>
                 <input type="text" value="1.0" ></input>
-                <input id="gnss_send" type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div> 
             <!----gnss---->
@@ -152,16 +151,15 @@
             <!----lidar---->
             <div id="lidar1_div" style="display:inline-flex">
               <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
-              <input id="lidar1_input" type="text"  value="" placeholder="State"></input><!-- class="state" -->
+              <input id="lidar1_input" type="text"  value="" placeholder="State"></input>
             </div>
             <div class="forms">
               <form id="lidar1_form" name="lidar1" style="display:none">
-                <!-- <label id="Lidar1_form" style="text-align:center; font-size: x-large;">Lidar1_Form</label> -->
                 <label>State</label>
                 <select id="lidar1_state">
-                  <option value="0.0" >off</option>
-                  <option value="1.0">random</option>
-                  <option value="2.0">rain</option>
+                  <option value="0" >Off</option>
+                  <option value="1">Random</option>
+                  <option value="2">Rain</option>
                 </select>
                 <label>random/range_variance</label>
                 <input type="text" value="0.0001"></input>
@@ -177,13 +175,13 @@
                 <input type="text" min="0" max="0" value="0.9"></input>
                 <label>rain/max_range</label>
                 <input type="text" value="100"></input>
-                <input id="lidar_send" type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
             
             <div id="lidar2_div" style="display:inline-flex">
               <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
-              <input id="lidar2_input" type="text" class="state" value="" placeholder="State"></input>
+              <input id="lidar2_input" type="text" value="" placeholder="State"></input>
             </div>
             <div class="forms">
               <form id="lidar2_form" name="lidar2" style="display:none"></form>
@@ -192,7 +190,7 @@
             
             <div id="lidar3_div" style="display:inline-flex">
               <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
-              <input id="lidar3_input" type="text" class="state" value="" placeholder="State"></input>
+              <input id="lidar3_input" type="text" value="" placeholder="State"></input>
             </div>
             <div class="forms">
               <form id="lidar3_form" name="lidar3" style="display:none"></form>
@@ -200,7 +198,7 @@
             
             <div id="lidar4_div" style="display:inline-flex">
               <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
-              <input id="lidar4_input" type="text" class="state" value="" placeholder="State"></input>
+              <input id="lidar4_input" type="text" value="" placeholder="State"></input>
             </div>
             <div class="forms">
               <form id="lidar4_form" name="lidar4" style="display:none"></form>
@@ -210,14 +208,14 @@
             <!----radar---->
             <div id="radar_div" style="display:inline-flex">
               <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
-              <input id="radar_input" type="text" class="state" value="" placeholder="State"></input>
+              <input id="radar_input" type="text" value="" placeholder="State"></input>
             </div>
             <div class="forms">
               <form id="radar_form" name="radar" style="display:none">
                 <label>State</label>
                 <select id="radar_state">
-                  <option value="0" >off</option>
-                  <option value="1">Gaussian noise</option>
+                  <option value="0" >Off</option>
+                  <option value="1">Gaussian Noise</option>
                 </select>
                 <label>range_variance</label>
                 <input type="text" value="1"></input>
@@ -225,7 +223,7 @@
                 <input type="text" value="1"></input>
                 <label>phi_variance</label>
                 <input type="text" value="1"></input>
-                <input id="lidar_send" type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
             <!----radar---->
@@ -239,8 +237,8 @@
               <form id="camera1_form" name="camera1" style="display:none">
                 <label>State</label>
                 <select id="camera_state">
-                  <option value="0" >off</option>
-                  <option value="1">colored patch</option>
+                  <option value="0" >Off</option>
+                  <option value="1">Colored Patch</option>
                 </select>
                 <label>patch/start_x</label>
                 <input type="text" value="200"></input>
@@ -256,7 +254,7 @@
                 <input type="text" value="0"></input>
                 <label>patch/B</label>
                 <input type="text" value="0"></input>
-                <input id="camera_send" type="button" value="send" onclick="fault_injection_parameter_values()"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
             
