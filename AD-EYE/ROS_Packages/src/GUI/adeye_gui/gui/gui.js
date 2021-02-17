@@ -802,22 +802,23 @@ function faultInjection_OnClick(button)
                     break;
 
                 case "camera1_form":
+                    
                     // values are collected from form and kept in an array
                     for (let i = 0; i < camera1_form.length-1; i++)
                     {
                         camera1_array[i] = camera1_form[i].value;
                     }
-    
+                    
                     // coverting the string array to float array as we need float data to publish
                     for (let i = 0; i < camera1_array.length; i++)
                     {
                         camera1_array[i] = parseFloat(camera1_array[i]);
                     }
-    
                     // To display the selected value of dropdown in the textbox beside the button
                     selected_value = camera1_state.options[camera1_state.selectedIndex].text;
                     camera1_input.value = selected_value;
-    
+                    document.getElementById("x1").innerHTML = "test";
+
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(6,camera1_array);
                     break;
