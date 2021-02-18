@@ -606,6 +606,7 @@ function create_forms()
 function faultInjection_OnClick(button)
 {
     formsCollection = document.getElementsByTagName("form");
+    let parent_div = button.parentNode;
     for(let i = 0; i < formsCollection.length; i++)
     {
         if(button.name == formsCollection[i].name)
@@ -614,14 +615,26 @@ function faultInjection_OnClick(button)
             {
                 button.value = "on";
                 button.style.backgroundColor = green;
+                formsCollection[i].append(parent_div);
+                //formsCollection[i].append(parent_second_element);
                 formsCollection[i].style.display = "block";
-                document.getElementById("form_display").append(formsCollection[i]);
+
             }
             else
             {
                 button.value = "off";
                 button.style.backgroundColor = "gray";
+                //document.getElementById("form_display").innerHTML = button.parentNode.parentNode.parentNode.id;
+                //formsCollection[i].remove(formsCollection[i].firstElementChild);
+                document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
+
+               
+                //document.getElementById("x1").innerHTML = formsCollection[i].lastElementChild;
+
+                //let removed = formsCollection[i].remove(parent_div);
+                //parent.append(removed);
                 formsCollection[i].style.display = "none";
+
             }
             
         }
@@ -643,7 +656,8 @@ function faultInjection_OnClick(button)
     function fault_injection_parameter_values(button)
     {
         var form = button.parentNode.id;
-        let gnss_form = document.getElementById("gnss_form");
+        /* let gnss_form = document.getElementById("gnss_form");
+
         let lidar1_form = document.getElementById("lidar1_form");
         let lidar2_form = document.getElementById("lidar2_form");
         let lidar3_form = document.getElementById("lidar3_form");
@@ -651,9 +665,9 @@ function faultInjection_OnClick(button)
         let radar_form = document.getElementById("radar_form");
         let camera1_form = document.getElementById("camera1_form");
         let camera2_form = document.getElementById("camera2_form");
-        let tl_camera_form = document.getElementById("tl_camera_form");
+        let tl_camera_form = document.getElementById("tl_camera_form"); */
         
-        let gnss_state = document.getElementById("gnss_state");
+        /* let gnss_state = document.getElementById("gnss_state");
         let lidar1_state = document.getElementById("lidar1_state");
         let lidar2_state = document.getElementById("lidar2_state");
         let lidar3_state = document.getElementById("lidar3_state");
@@ -661,9 +675,9 @@ function faultInjection_OnClick(button)
         let radar_state = document.getElementById("radar_state");
         let camera1_state = document.getElementById("camera1_state");
         let camera2_state = document.getElementById("camera2_state");
-        let tl_camera_state = document.getElementById("tl_camera_state");
+        let tl_camera_state = document.getElementById("tl_camera_state"); */
 
-        let gnss_input = document.getElementById("gnss_input");
+        /* let gnss_input = document.getElementById("gnss_input");
         let lidar1_input = document.getElementById("lidar1_input");
         let lidar2_input = document.getElementById("lidar2_input");
         let lidar3_input = document.getElementById("lidar3_input");
@@ -672,12 +686,12 @@ function faultInjection_OnClick(button)
         let camera1_input = document.getElementById("camera1_input");
         let camera2_input = document.getElementById("camera2_input");
         let tl_camera_input = document.getElementById("tl_camera_input");
-
+ */
         switch(form)
         {
             case "gnss_form":
                     // values are collected from form and kept in an array
-                    for (let i=0;i<gnss_form.length-1;i++)
+                    for (let i=0;i<gnss_form.length-3;i++)
                     {
                         gnss_array[i] = gnss_form[i].value;
                     }
@@ -698,7 +712,7 @@ function faultInjection_OnClick(button)
 
                 case "lidar1_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar1_form.length-1; i++)
+                    for (let i = 0; i < lidar1_form.length-3; i++)
                     {
                         lidar1_array[i] = lidar1_form[i].value;
                     }
@@ -719,7 +733,7 @@ function faultInjection_OnClick(button)
 
                 case "lidar2_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar2_form.length-1; i++)
+                    for (let i = 0; i < lidar2_form.length-3; i++)
                     {
                         lidar2_array[i] = lidar2_form[i].value;
                     }
@@ -740,7 +754,7 @@ function faultInjection_OnClick(button)
 
                 case "lidar3_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar3_form.length-1; i++)
+                    for (let i = 0; i < lidar3_form.length-3; i++)
                     {
                         lidar3_array[i] = lidar3_form[i].value;
                     }
@@ -761,7 +775,7 @@ function faultInjection_OnClick(button)
 
                 case "lidar4_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar4_form.length-1; i++)
+                    for (let i = 0; i < lidar4_form.length-3; i++)
                     {
                         lidar4_array[i] = lidar4_form[i].value;
                     }
@@ -782,7 +796,7 @@ function faultInjection_OnClick(button)
 
                 case "radar_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < radar_form.length-1; i++)
+                    for (let i = 0; i < radar_form.length-3; i++)
                     {
                         radar_array[i] = radar_form[i].value;
                     }
@@ -804,7 +818,7 @@ function faultInjection_OnClick(button)
                 case "camera1_form":
                     
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < camera1_form.length-1; i++)
+                    for (let i = 0; i < camera1_form.length-3; i++)
                     {
                         camera1_array[i] = camera1_form[i].value;
                     }
@@ -817,15 +831,14 @@ function faultInjection_OnClick(button)
                     // To display the selected value of dropdown in the textbox beside the button
                     selected_value = camera1_state.options[camera1_state.selectedIndex].text;
                     camera1_input.value = selected_value;
-                    document.getElementById("x1").innerHTML = "test";
-
+                    
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(6,camera1_array);
                     break;
 
                 case "camera2_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < camera2_form.length-1; i++)
+                    for (let i = 0; i < camera2_form.length-3; i++)
                     {
                         camera2_array[i] = camera2_form[i].value;
                     }
@@ -846,7 +859,7 @@ function faultInjection_OnClick(button)
 
                 case "tl_camera_form":
                     // values are collected from form and kept in an array
-                    for (let i = 0; i < tl_camera_form.length-1; i++)
+                    for (let i = 0; i < tl_camera_form.length-3; i++)
                     {
                         tl_camera_array[i] = tl_camera_form[i].value;
                     }
