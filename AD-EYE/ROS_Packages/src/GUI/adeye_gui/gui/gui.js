@@ -1091,6 +1091,50 @@ function getTopics()
   document.getElementById("topics").innerHTML = "hello";
  */
 //---------------------List of Topics-----------------------
+
+//----------------generic card----------------
+{/* <div class="generic" class="col-md-4 col-sm-12" style="display:none">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Generic card</h2>
+            <p> Add the content here</p>
+          </div>
+        </div> */}
+
+  function createGenericCard()
+  {
+    /* let parent_div = document.createElement("div");
+    //parent_div.class = "col-md-4 col-sm-12";
+
+    let child_div = document.createElement("div");
+    child_div.class ="box";
+    child_div.style.border = "5px";
+    child_div.style.borderBottomLeftRadius = "5px";
+    
+
+    let h2 = document.createElement("h2");
+    h2.class ="text_center";
+
+    let text = document.createTextNode("Generic Card");
+    h2.appendChild(text);
+    h2.style.color = "red";
+    h2.style.background = "gray";
+
+    child_div.appendChild(h2);
+    parent_div.appendChild(child_div);
+
+    document.getElementById("main").appendChild(parent_div); */
+
+
+
+    let div1 = document.createElement("div");
+    div1.className += "generic_div";
+    let generic = document.getElementsByClassName("generic");
+    generic.style.display = "block";
+   div1.innerHTML = generic.innerHTML; 
+   
+   
+  }
+//----------------generic card----------------
         
 
 
