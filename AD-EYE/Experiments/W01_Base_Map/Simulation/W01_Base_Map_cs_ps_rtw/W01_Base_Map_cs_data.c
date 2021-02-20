@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.298
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Sat Feb 20 15:25:39 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -79,29 +79,26 @@ const ConstB_W01_Base_Map_cs_T W01_Base_Map_cs_ConstB = {
   5.0,                                 /* '<S149>/Width4' */
   720.0,                               /* '<S146>/Width' */
   960.0,                               /* '<S146>/Width1' */
-  4.0,                                 /* '<S146>/Width5' */
-  2880.0,                              /* '<S146>/Data Type Conversion' */
-  2.0736E+6,                           /* '<S146>/Width9' */
-  9.0,                                 /* '<S146>/Width10' */
   720.0,                               /* '<S145>/Width' */
   960.0,                               /* '<S145>/Width1' */
-  4.0,                                 /* '<S145>/Width5' */
-  2880.0,                              /* '<S145>/Data Type Conversion' */
-  2.0736E+6,                           /* '<S145>/Width9' */
-  8.0,                                 /* '<S145>/Width10' */
   720.0,                               /* '<S144>/Width' */
   960.0,                               /* '<S144>/Width1' */
-  4.0,                                 /* '<S144>/Width5' */
-  2880.0,                              /* '<S144>/Data Type Conversion' */
-  2.0736E+6,                           /* '<S144>/Width9' */
-  8.0,                                 /* '<S144>/Width10' */
   3U,                                  /* '<S94>/Width5' */
   7U,                                  /* '<S94>/Width' */
   7U,                                  /* '<S94>/Width1' */
   7U,                                  /* '<S94>/Width2' */
+  4U,                                  /* '<S146>/Width5' */
   2880U,                               /* '<S146>/Product' */
+  2073600U,                            /* '<S146>/Width9' */
+  9U,                                  /* '<S146>/Width10' */
+  4U,                                  /* '<S145>/Width5' */
   2880U,                               /* '<S145>/Product' */
+  2073600U,                            /* '<S145>/Width9' */
+  8U,                                  /* '<S145>/Width10' */
+  4U,                                  /* '<S144>/Width5' */
   2880U,                               /* '<S144>/Product' */
+  2073600U,                            /* '<S144>/Width9' */
+  8U,                                  /* '<S144>/Width10' */
   0.0F,                                /* '<S231>/Gain1' */
   1.0F,                                /* '<S229>/Trigonometric Function1' */
   0.0F,                                /* '<S229>/Trigonometric Function' */
@@ -251,7 +248,7 @@ P_W01_Base_Map_cs_T W01_Base_Map_cs_P = {
   0.0,
   18396.0,
   18629.0,
-  171.38909912109375,
+  171.27021789550781,
   18854.0,
   0.52999997138977051,
   0.044595826874806004,
@@ -264,10 +261,10 @@ P_W01_Base_Map_cs_T W01_Base_Map_cs_P = {
   18626.0,
   18627.0,
   18852.0,
-  0.15947934259868268,
+  0.46961237355690089,
   171.27838134765625,
   18646.0,
-  83.025539398193359,
+  84.599590301513672,
   18635.0,
   0.0,
   18632.0,
@@ -279,7 +276,6 @@ P_W01_Base_Map_cs_T W01_Base_Map_cs_P = {
 const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by:
-   *   '<S8>/Constant27'
    *   '<S8>/Constant6'
    *   '<S8>/EnableSendFeatures'
    *   '<S8>/EnableSendSwitch'
@@ -414,6 +410,7 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
    *   '<S8>/EnableSendCameraTL'
    *   '<S8>/EnableSendClock'
    *   '<S8>/EnableSendGNSS'
+   *   '<S8>/EnableSendGoal'
    *   '<S8>/EnableSendIMU'
    *   '<S8>/EnableSendLidar'
    *   '<S8>/EnableSendOdometry'
@@ -841,7 +838,8 @@ const ConstP_W01_Base_Map_cs_T W01_Base_Map_cs_ConstP = {
   /* Expression: int8(topic)
    * Referenced by: '<S247>/S-Function Builder1'
    */
-  { 47, 109, 121, 95, 116, 111, 112, 105, 99 },
+  { 47, 109, 111, 118, 101, 95, 98, 97, 115, 101, 95, 115, 105, 109, 112, 108,
+    101, 47, 103, 111, 97, 108 },
 
   /* Expression: int8(message_type)
    * Referenced by: '<S247>/S-Function Builder1'

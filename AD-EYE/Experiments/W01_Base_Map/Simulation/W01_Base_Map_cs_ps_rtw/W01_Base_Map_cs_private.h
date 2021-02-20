@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.298
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Sat Feb 20 15:25:39 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -39,11 +39,11 @@ extern "C" {
     const real_T *timeout, const int_T p_width4);
   extern void Image_publisher_Outputs_wrapper(const real_T *height,
     const real_T *width,
-    const real_T *encoding_length,
-    const real_T *step,
-    const real_T *data,
-    const real_T *data_length,
-    const real_T *frameId_length,
+    const uint32_T *encoding_length,
+    const uint32_T *step,
+    const uint8_T *data,
+    const uint32_T *data_length,
+    const uint32_T *frameId_length,
     void **pW,
     const int8_T *topic, const int_T p_width0,
     const int8_T *message_type, const int_T p_width1,

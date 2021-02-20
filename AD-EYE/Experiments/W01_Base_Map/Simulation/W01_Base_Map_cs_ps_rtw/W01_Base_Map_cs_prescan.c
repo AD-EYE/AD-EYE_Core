@@ -113,7 +113,7 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     } else {
       double p1 = 0.0;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/orientation/pitch";
+      const char* p1_modelPath = "object:14/pose/orientation/pitch";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       *W01_Base_Map_cs_9f504bb84aebc2fd = (real_T)(p1 * 57.2958);
@@ -130,7 +130,7 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     } else {
       double p1 = 0.0;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/orientation/roll";
+      const char* p1_modelPath = "object:14/pose/orientation/roll";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       *W01_Base_Map_cs_9538d35a279fbe4e = (real_T)(p1 * 57.2958);
@@ -145,9 +145,9 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     if (W01_Base_Map_cs_a242ed7539861165 == NULL) {
       printf("WARNING: Address not found. Possible loss of tunability detected for variable: <W01_Base_Map_cs_a242ed7539861165>.\n");
     } else {
-      double p1 = 0.0027834396172630627;
+      double p1 = 0.0081962821266734747;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/orientation/yaw";
+      const char* p1_modelPath = "object:14/pose/orientation/yaw";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       *W01_Base_Map_cs_a242ed7539861165 = (real_T)(p1 * 57.2958);
@@ -162,27 +162,27 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     if (W01_Base_Map_cs_b7f45a070fa6e639 == NULL) {
       printf("WARNING: Address not found. Possible loss of tunability detected for variable: <W01_Base_Map_cs_b7f45a070fa6e639>.\n");
     } else {
-      double p1 = 81.3355458876369;
+      double p1 = 82.909647010266738;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/position/x";
+      const char* p1_modelPath = "object:14/pose/position/x";
       double p2 = 0.0;
       const char* p2_modelName = "pimp/worldmodel";
-      const char* p2_modelPath = "object:15/pose/orientation/roll";
+      const char* p2_modelPath = "object:14/pose/orientation/roll";
       double p3 = 0.0;
       const char* p3_modelName = "pimp/worldmodel";
-      const char* p3_modelPath = "object:15/pose/orientation/pitch";
-      double p4 = 0.0027834396172630627;
+      const char* p3_modelPath = "object:14/pose/orientation/pitch";
+      double p4 = 0.0081962821266734747;
       const char* p4_modelName = "pimp/worldmodel";
-      const char* p4_modelPath = "object:15/pose/orientation/yaw";
+      const char* p4_modelPath = "object:14/pose/orientation/yaw";
       double p5 = 1.690000057220459;
       const char* p5_modelName = "pimp/worldmodel";
-      const char* p5_modelPath = "object:15/cogOffset/x";
+      const char* p5_modelPath = "object:14/cogOffset/x";
       double p6 = 0.0;
       const char* p6_modelName = "pimp/worldmodel";
-      const char* p6_modelPath = "object:15/cogOffset/y";
+      const char* p6_modelPath = "object:14/cogOffset/y";
       double p7 = 0.68999999761581421;
       const char* p7_modelName = "pimp/worldmodel";
-      const char* p7_modelPath = "object:15/cogOffset/z";
+      const char* p7_modelPath = "object:14/cogOffset/z";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       prescan_experiment_get_double(experimentHandle, p2_modelName, p2_modelPath,
@@ -210,27 +210,27 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     if (W01_Base_Map_cs_563ebd29d1fd6c09 == NULL) {
       printf("WARNING: Address not found. Possible loss of tunability detected for variable: <W01_Base_Map_cs_563ebd29d1fd6c09>.\n");
     } else {
-      double p1 = 171.38439511405539;
+      double p1 = 171.25636633333505;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/position/y";
+      const char* p1_modelPath = "object:14/pose/position/y";
       double p2 = 0.0;
       const char* p2_modelName = "pimp/worldmodel";
-      const char* p2_modelPath = "object:15/pose/orientation/roll";
+      const char* p2_modelPath = "object:14/pose/orientation/roll";
       double p3 = 0.0;
       const char* p3_modelName = "pimp/worldmodel";
-      const char* p3_modelPath = "object:15/pose/orientation/pitch";
-      double p4 = 0.0027834396172630627;
+      const char* p3_modelPath = "object:14/pose/orientation/pitch";
+      double p4 = 0.0081962821266734747;
       const char* p4_modelName = "pimp/worldmodel";
-      const char* p4_modelPath = "object:15/pose/orientation/yaw";
+      const char* p4_modelPath = "object:14/pose/orientation/yaw";
       double p5 = 1.690000057220459;
       const char* p5_modelName = "pimp/worldmodel";
-      const char* p5_modelPath = "object:15/cogOffset/x";
+      const char* p5_modelPath = "object:14/cogOffset/x";
       double p6 = 0.0;
       const char* p6_modelName = "pimp/worldmodel";
-      const char* p6_modelPath = "object:15/cogOffset/y";
+      const char* p6_modelPath = "object:14/cogOffset/y";
       double p7 = 0.68999999761581421;
       const char* p7_modelName = "pimp/worldmodel";
-      const char* p7_modelPath = "object:15/cogOffset/z";
+      const char* p7_modelPath = "object:14/cogOffset/z";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       prescan_experiment_get_double(experimentHandle, p2_modelName, p2_modelPath,
@@ -260,25 +260,25 @@ void W01_Base_Map_cs_prescan_parameters(RT_MODEL_W01_Base_Map_cs_T *const
     } else {
       double p1 = -2.2204460492503131E-16;
       const char* p1_modelName = "pimp/worldmodel";
-      const char* p1_modelPath = "object:15/pose/position/z";
+      const char* p1_modelPath = "object:14/pose/position/z";
       double p2 = 0.0;
       const char* p2_modelName = "pimp/worldmodel";
-      const char* p2_modelPath = "object:15/pose/orientation/roll";
+      const char* p2_modelPath = "object:14/pose/orientation/roll";
       double p3 = 0.0;
       const char* p3_modelName = "pimp/worldmodel";
-      const char* p3_modelPath = "object:15/pose/orientation/pitch";
-      double p4 = 0.0027834396172630627;
+      const char* p3_modelPath = "object:14/pose/orientation/pitch";
+      double p4 = 0.0081962821266734747;
       const char* p4_modelName = "pimp/worldmodel";
-      const char* p4_modelPath = "object:15/pose/orientation/yaw";
+      const char* p4_modelPath = "object:14/pose/orientation/yaw";
       double p5 = 1.690000057220459;
       const char* p5_modelName = "pimp/worldmodel";
-      const char* p5_modelPath = "object:15/cogOffset/x";
+      const char* p5_modelPath = "object:14/cogOffset/x";
       double p6 = 0.0;
       const char* p6_modelName = "pimp/worldmodel";
-      const char* p6_modelPath = "object:15/cogOffset/y";
+      const char* p6_modelPath = "object:14/cogOffset/y";
       double p7 = 0.68999999761581421;
       const char* p7_modelName = "pimp/worldmodel";
-      const char* p7_modelPath = "object:15/cogOffset/z";
+      const char* p7_modelPath = "object:14/cogOffset/z";
       prescan_experiment_get_double(experimentHandle, p1_modelName, p1_modelPath,
         &p1);
       prescan_experiment_get_double(experimentHandle, p2_modelName, p2_modelPath,

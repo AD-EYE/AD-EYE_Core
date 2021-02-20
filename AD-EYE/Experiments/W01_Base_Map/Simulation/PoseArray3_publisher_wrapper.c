@@ -93,9 +93,8 @@ void PoseArray3_publisher_Outputs_wrapper(const uint32_T *seq,
 char topic_str[60];
 sprintf(topic_str, "%.*s", p_width0, topic);
 
-publish_to_topic_posearray(pW[0], topic_str, seq[0], frameId[0], frameId_length[0], positionX[0], positionY[0], positionZ[0], orientationW[0], orientationX[0], orientationY[0], orientationZ[0], poses_length[0]);
-publish_to_topic_posearray(pW[0], topic_str, seq1[0], frameId1[0], frameId_length1[0], positionX1[0], positionY1[0], positionZ1[0], orientationW1[0], orientationX1[0], orientationY1[0], orientationZ1[0], poses_length1[0]);
-publish_to_topic_posearray(pW[0], topic_str, seq2[0], frameId2[0], frameId_length2[0], positionX2[0], positionY2[0], positionZ2[0], orientationW2[0], orientationX2[0], orientationY2[0], orientationZ2[0], poses_length2[0]);
+publish_to_topic_posearray(pW[0], topic_str, seq[0], frameId[0], frameId_length[0], positionX[0], positionY[0], positionZ[0], orientationW[0], orientationX[0], orientationY[0], orientationZ[0], poses_length[0], positionX1[0], positionY1[0], positionZ1[0], orientationW1[0], orientationX1[0], orientationY1[0], orientationZ1[0], positionX2[0], positionY2[0], positionZ2[0], orientationW2[0], orientationX2[0], orientationY2[0], orientationZ2[0]);
+
 /* %%%-SFUNWIZ_wrapper_Outputs_Changes_END --- EDIT HERE TO _BEGIN */
 }
 

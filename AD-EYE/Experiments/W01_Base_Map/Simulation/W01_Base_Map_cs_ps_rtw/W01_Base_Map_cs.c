@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.298
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Sat Feb 20 15:25:39 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -959,10 +959,10 @@ static void W01_Base_Map_cs_output(void)
   PRESCAN_COLOR_DATA rtb_BusCreator_e;
   uint8_T rtb_VariableSelector[720];
   uint8_T rtb_VariableSelector1[960];
-  uint8_T rtb_VariableSelector_p[720];
-  uint8_T rtb_VariableSelector1_n[960];
-  uint8_T rtb_VariableSelector_i[720];
-  uint8_T rtb_VariableSelector1_i[960];
+  uint8_T rtb_VariableSelector_h[720];
+  uint8_T rtb_VariableSelector1_h[960];
+  uint8_T rtb_VariableSelector_hy[720];
+  uint8_T rtb_VariableSelector1_b[960];
   real_T *lastU;
   real_T rtb_DataTypeConversion2;
   real_T rtb_DataTypeConversion1;
@@ -2322,7 +2322,6 @@ static void W01_Base_Map_cs_output(void)
    *  Clock: '<S153>/Clock'
    *  Clock: '<S45>/Clock'
    *  Clock: '<S8>/Clock'
-   *  Clock: '<S8>/Clock2'
    *  Derivative: '<S150>/Derivative'
    */
   rtb_TmpSignalConversionAtDotP_3 = W01_Base_Map_cs_M->Timing.t[0];
@@ -3325,7 +3324,7 @@ static void W01_Base_Map_cs_output(void)
        &W01_Base_Map_cs_ConstP.Constant_Value, &W01_Base_Map_cs_B.Add5_m,
        &W01_Base_Map_cs_ConstB.Width5_g,
        &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bo,
-       W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 8,
+       W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_cz, 8,
        W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_b, 15,
        &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
   }
@@ -3610,7 +3609,7 @@ static void W01_Base_Map_cs_output(void)
    *  Math: '<S159>/Math Function1'
    */
   for (i = 0; i < 21; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_k[i] = (real32_T)
+    W01_Base_Map_cs_B.DataTypeConversion2[i] = (real32_T)
       rtb_MatrixConcatenate5_0[i];
   }
 
@@ -3618,7 +3617,7 @@ static void W01_Base_Map_cs_output(void)
 
   /* S-Function (Float32MultiArray_radar_publisher): '<S292>/S-Function Builder' */
   Float32MultiArray_radar_publisher_Outputs_wrapper
-    (&W01_Base_Map_cs_B.DataTypeConversion2_k[0],
+    (&W01_Base_Map_cs_B.DataTypeConversion2[0],
      &W01_Base_Map_cs_ConstB.Width5_fn,
      &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_j0,
      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_a, 16,
@@ -4009,7 +4008,7 @@ static void W01_Base_Map_cs_output(void)
   /* S-Function (int16_subscriber): '<S224>/S-Function Builder' */
   int16_subscriber_Outputs_wrapper(&W01_Base_Map_cs_B.SFunctionBuilder_dw,
     &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 23,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_gw, 23,
     W01_Base_Map_cs_ConstP.pooled76, 14, &W01_Base_Map_cs_ConstP.pooled8, 1,
     &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -4291,21 +4290,12 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S144>/Math Function3' */
 
-  /* DataTypeConversion: '<S144>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_i[i] =
-      W01_Base_Map_cs_B.MathFunction3_h[i];
-  }
-
-  /* End of DataTypeConversion: '<S144>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S241>/S-Function Builder' */
-  Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width_l,
-    &W01_Base_Map_cs_ConstB.Width1_o, &W01_Base_Map_cs_ConstB.Width5_fb,
-    &W01_Base_Map_cs_ConstB.DataTypeConversion_h,
-    &W01_Base_Map_cs_B.DataTypeConversion2_i[0],
-    &W01_Base_Map_cs_ConstB.Width9_i, &W01_Base_Map_cs_ConstB.Width10_j,
-    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_a4,
+  Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width_k,
+    &W01_Base_Map_cs_ConstB.Width1_a, &W01_Base_Map_cs_ConstB.Width5_p1,
+    &W01_Base_Map_cs_ConstB.Product_h, &W01_Base_Map_cs_B.MathFunction3_h[0],
+    &W01_Base_Map_cs_ConstB.Width9_p, &W01_Base_Map_cs_ConstB.Width10_n,
+    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bj,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1, 19,
     W01_Base_Map_cs_ConstP.pooled73, 17,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P3, 8,
@@ -4313,14 +4303,14 @@ static void W01_Base_Map_cs_output(void)
 
   /* S-Function (sdspperm2): '<S144>/Variable Selector' */
   for (i = 0; i < 720; i++) {
-    rtb_VariableSelector_i[i] = W01_Base_Map_cs_B.MathFunction[960 * i];
+    rtb_VariableSelector_hy[i] = W01_Base_Map_cs_B.MathFunction[960 * i];
   }
 
   /* End of S-Function (sdspperm2): '<S144>/Variable Selector' */
 
   /* S-Function (sdspperm2): '<S144>/Variable Selector1' */
   for (i = 0; i < 960; i++) {
-    rtb_VariableSelector1_i[i] = W01_Base_Map_cs_B.Merge_m[720 * i];
+    rtb_VariableSelector1_b[i] = W01_Base_Map_cs_B.Merge_m[720 * i];
   }
 
   /* End of S-Function (sdspperm2): '<S144>/Variable Selector1' */
@@ -4431,23 +4421,15 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S146>/Math Function3' */
 
-  /* DataTypeConversion: '<S146>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2[i] = W01_Base_Map_cs_B.MathFunction3[i];
-  }
-
-  /* End of DataTypeConversion: '<S146>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S243>/S-Function Builder' */
   Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width,
-    &W01_Base_Map_cs_ConstB.Width1, &W01_Base_Map_cs_ConstB.Width5_i,
-    &W01_Base_Map_cs_ConstB.DataTypeConversion,
-    &W01_Base_Map_cs_B.DataTypeConversion2[0], &W01_Base_Map_cs_ConstB.Width9,
-    &W01_Base_Map_cs_ConstB.Width10,
-    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_k, 13,
+    &W01_Base_Map_cs_ConstB.Width1, &W01_Base_Map_cs_ConstB.Width5_d,
+    &W01_Base_Map_cs_ConstB.Product, &W01_Base_Map_cs_B.MathFunction3[0],
+    &W01_Base_Map_cs_ConstB.Width9, &W01_Base_Map_cs_ConstB.Width10,
+    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_lg,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 13,
     W01_Base_Map_cs_ConstP.pooled73, 17,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_g, 9,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_k, 9,
     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
   /* S-Function (sdspperm2): '<S146>/Variable Selector' */
@@ -4597,36 +4579,27 @@ static void W01_Base_Map_cs_output(void)
 
   /* End of Math: '<S145>/Math Function3' */
 
-  /* DataTypeConversion: '<S145>/Data Type Conversion2' */
-  for (i = 0; i < 2073600; i++) {
-    W01_Base_Map_cs_B.DataTypeConversion2_m[i] =
-      W01_Base_Map_cs_B.MathFunction3_i[i];
-  }
-
-  /* End of DataTypeConversion: '<S145>/Data Type Conversion2' */
-
   /* S-Function (Image_publisher): '<S242>/S-Function Builder' */
   Image_publisher_Outputs_wrapper(&W01_Base_Map_cs_ConstB.Width_f,
-    &W01_Base_Map_cs_ConstB.Width1_c, &W01_Base_Map_cs_ConstB.Width5_k,
-    &W01_Base_Map_cs_ConstB.DataTypeConversion_j,
-    &W01_Base_Map_cs_B.DataTypeConversion2_m[0],
-    &W01_Base_Map_cs_ConstB.Width9_n, &W01_Base_Map_cs_ConstB.Width10_c,
-    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b0,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 19,
+    &W01_Base_Map_cs_ConstB.Width1_g, &W01_Base_Map_cs_ConstB.Width5_dj,
+    &W01_Base_Map_cs_ConstB.Product_p, &W01_Base_Map_cs_B.MathFunction3_i[0],
+    &W01_Base_Map_cs_ConstB.Width9_n, &W01_Base_Map_cs_ConstB.Width10_i,
+    &W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 19,
     W01_Base_Map_cs_ConstP.pooled73, 17,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_a, 8,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_h, 8,
     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
   /* S-Function (sdspperm2): '<S145>/Variable Selector' */
   for (i = 0; i < 720; i++) {
-    rtb_VariableSelector_p[i] = W01_Base_Map_cs_B.MathFunction[960 * i];
+    rtb_VariableSelector_h[i] = W01_Base_Map_cs_B.MathFunction[960 * i];
   }
 
   /* End of S-Function (sdspperm2): '<S145>/Variable Selector' */
 
   /* S-Function (sdspperm2): '<S145>/Variable Selector1' */
   for (i = 0; i < 960; i++) {
-    rtb_VariableSelector1_n[i] = W01_Base_Map_cs_B.Merge_ng[720 * i];
+    rtb_VariableSelector1_h[i] = W01_Base_Map_cs_B.Merge_ng[720 * i];
   }
 
   /* End of S-Function (sdspperm2): '<S145>/Variable Selector1' */
@@ -4666,51 +4639,6 @@ static void W01_Base_Map_cs_output(void)
   }
 
   /* End of Outputs for SubSystem: '<S8>/ROS Send Clock' */
-
-  /* Outputs for Enabled SubSystem: '<S8>/ROS Send Goal' incorporates:
-   *  EnablePort: '<S149>/Enable'
-   */
-  /* RelationalOperator: '<S8>/Relational Operator1' incorporates:
-   *  Constant: '<S8>/Constant27'
-   */
-  if (rtb_TmpSignalConversionAtDotP_3 == 0.0) {
-    if (!W01_Base_Map_cs_DW.ROSSendGoal_MODE) {
-      W01_Base_Map_cs_DW.ROSSendGoal_MODE = true;
-    }
-
-    /* Sum: '<S149>/Add4' incorporates:
-     *  Constant: '<S149>/Constant8'
-     *  Memory: '<S149>/Memory1'
-     */
-    W01_Base_Map_cs_B.Add4 = W01_Base_Map_cs_DW.Memory1_PreviousInput + 1.0;
-
-    /* S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
-     *  Constant: '<S8>/GoalOrientW'
-     *  Constant: '<S8>/GoalOrientX'
-     *  Constant: '<S8>/GoalOrientY'
-     *  Constant: '<S8>/GoalOrientZ'
-     *  Constant: '<S8>/GoalPoseX'
-     *  Constant: '<S8>/GoalPoseY'
-     *  Constant: '<S8>/GoalPoseZ'
-     */
-    PoseStamped_publisher_Outputs_wrapper(&W01_Base_Map_cs_B.Add4,
-      &W01_Base_Map_cs_ConstB.Width4, &W01_Base_Map_cs_ConstP.GoalPoseX_Value,
-      &W01_Base_Map_cs_ConstP.GoalPoseY_Value, &W01_Base_Map_cs_ConstP.pooled1,
-      &W01_Base_Map_cs_ConstP.pooled60, &W01_Base_Map_cs_ConstP.pooled1,
-      &W01_Base_Map_cs_ConstP.pooled1, &W01_Base_Map_cs_ConstP.pooled60,
-      &W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-      &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-      &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
-  } else {
-    if (W01_Base_Map_cs_DW.ROSSendGoal_MODE) {
-      W01_Base_Map_cs_DW.ROSSendGoal_MODE = false;
-    }
-  }
-
-  /* End of RelationalOperator: '<S8>/Relational Operator1' */
-  /* End of Outputs for SubSystem: '<S8>/ROS Send Goal' */
 
   /* Outputs for Enabled SubSystem: '<S8>/ROS Send Simulink State' incorporates:
    *  EnablePort: '<S153>/Enable'
@@ -4823,6 +4751,37 @@ static void W01_Base_Map_cs_output(void)
   }
 
   /* End of Outputs for SubSystem: '<S8>/ROS Send Simulink State' */
+
+  /* Outputs for Enabled SubSystem: '<S8>/ROS Send Goal' incorporates:
+   *  EnablePort: '<S149>/Enable'
+   */
+  /* Sum: '<S149>/Add4' incorporates:
+   *  Constant: '<S149>/Constant8'
+   *  Memory: '<S149>/Memory1'
+   */
+  W01_Base_Map_cs_B.Add4 = W01_Base_Map_cs_DW.Memory1_PreviousInput + 1.0;
+
+  /* S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
+   *  Constant: '<S8>/GoalOrientW'
+   *  Constant: '<S8>/GoalOrientX'
+   *  Constant: '<S8>/GoalOrientY'
+   *  Constant: '<S8>/GoalOrientZ'
+   *  Constant: '<S8>/GoalPoseX'
+   *  Constant: '<S8>/GoalPoseY'
+   *  Constant: '<S8>/GoalPoseZ'
+   */
+  PoseStamped_publisher_Outputs_wrapper(&W01_Base_Map_cs_B.Add4,
+    &W01_Base_Map_cs_ConstB.Width4, &W01_Base_Map_cs_ConstP.GoalPoseX_Value,
+    &W01_Base_Map_cs_ConstP.GoalPoseY_Value, &W01_Base_Map_cs_ConstP.pooled1,
+    &W01_Base_Map_cs_ConstP.pooled60, &W01_Base_Map_cs_ConstP.pooled1,
+    &W01_Base_Map_cs_ConstP.pooled1, &W01_Base_Map_cs_ConstP.pooled60,
+    &W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 22,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
+    &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
+    &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+
+  /* End of Outputs for SubSystem: '<S8>/ROS Send Goal' */
 
   /* S-Function (sfun_Terminator): '<S25>/sfun_Terminator' */
   prescan_outputFcn(&W01_Base_Map_cs_DW.sfun_Terminator_PWORK[0],
@@ -5047,10 +5006,8 @@ static void W01_Base_Map_cs_update(void)
   /* Update for Enabled SubSystem: '<S8>/ROS Send Goal' incorporates:
    *  EnablePort: '<S149>/Enable'
    */
-  if (W01_Base_Map_cs_DW.ROSSendGoal_MODE) {
-    /* Update for Memory: '<S149>/Memory1' */
-    W01_Base_Map_cs_DW.Memory1_PreviousInput = W01_Base_Map_cs_B.Add4;
-  }
+  /* Update for Memory: '<S149>/Memory1' */
+  W01_Base_Map_cs_DW.Memory1_PreviousInput = W01_Base_Map_cs_B.Add4;
 
   /* End of Update for SubSystem: '<S8>/ROS Send Goal' */
 
@@ -6185,7 +6142,7 @@ static void W01_Base_Map_cs_initialize(void)
       addToSerializationBuffer(work1,
         "AAAAAAAZAAAAAAAAAABAAVobCTMzMzMzM9M/EeF6FK5H4eI/GSlcj8L1KLw/YAFwAYkBAAAAAAAA"
         "HkCRAQAAAAAAAARAmQEAAAAAAAAEQFgBYABoAHAAogEPCPuU6bXByr2A1AEQARgAEhwKCWJ1aWxk"
-        "VGltZRIPMjAyMTAxMTlUMTk0OTIxEiEKDmV4cGlyYXRpb25UaW1lEg8yMDIxMDEyNlQxOTQ5MjES"
+        "VGltZRIPMjAyMTAyMjBUMTQyNTM4EiEKDmV4cGlyYXRpb25UaW1lEg8yMDIxMDIyN1QxNDI1MzgS"
         "HAoYcGltcC9ncmFwaGJhc2Vkcm9hZG1vZGVsEgASjccCChJwaW1wL3NjZW5hcmlvbW9kZWwS9cYC"
         "Erm+AgqVXBL6EAoMUGF0aE9iamVjdF8yENqPARgAIAIqSgo+CjwKOgobCQAAAIAzwlJAEQAAACAY"
         "BGdAGQAAAAAAAAAAEhsJAAAAAAAAAAARAAAAAAAAAAAZAAAAAAAAAAASCAgDIgQIABAAKkoKPgo8"
@@ -16860,7 +16817,7 @@ static void W01_Base_Map_cs_initialize(void)
 
     /* S-Function Block: <S252>/S-Function Builder */
     Imu_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bo,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 8,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_cz, 8,
       W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_b, 15,
       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -17022,7 +16979,7 @@ static void W01_Base_Map_cs_initialize(void)
 
     /* S-Function Block: <S224>/S-Function Builder */
     int16_subscriber_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 23,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_gw, 23,
       W01_Base_Map_cs_ConstP.pooled76, 14, &W01_Base_Map_cs_ConstP.pooled8, 1,
       &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -17082,7 +17039,7 @@ static void W01_Base_Map_cs_initialize(void)
     /* Start for S-Function (Image_publisher): '<S241>/S-Function Builder' */
 
     /* S-Function Block: <S241>/S-Function Builder */
-    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_a4,
+    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bj,
       W01_Base_Map_cs_ConstP.SFunctionBuilder_P1, 19,
       W01_Base_Map_cs_ConstP.pooled73, 17,
       W01_Base_Map_cs_ConstP.SFunctionBuilder_P3, 8,
@@ -17113,10 +17070,10 @@ static void W01_Base_Map_cs_initialize(void)
     /* Start for S-Function (Image_publisher): '<S243>/S-Function Builder' */
 
     /* S-Function Block: <S243>/S-Function Builder */
-    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_k, 13,
+    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_lg,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 13,
       W01_Base_Map_cs_ConstP.pooled73, 17,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_g, 9,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_k, 9,
       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
     /* End of Start for SubSystem: '<S8>/ROS Send Camera TL' */
@@ -17154,10 +17111,10 @@ static void W01_Base_Map_cs_initialize(void)
     /* Start for S-Function (Image_publisher): '<S242>/S-Function Builder' */
 
     /* S-Function Block: <S242>/S-Function Builder */
-    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b0,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 19,
+    Image_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 19,
       W01_Base_Map_cs_ConstP.pooled73, 17,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_a, 8,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_h, 8,
       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
     /* End of Start for SubSystem: '<S8>/ROS Send Camera 2' */
@@ -17205,29 +17162,6 @@ static void W01_Base_Map_cs_initialize(void)
 
     /* End of Start for SubSystem: '<S8>/ROS Send Clock' */
 
-    /* Start for Enabled SubSystem: '<S8>/ROS Send Goal' */
-    W01_Base_Map_cs_DW.ROSSendGoal_MODE = false;
-
-    /* Start for S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
-     *  Constant: '<S8>/GoalOrientW'
-     *  Constant: '<S8>/GoalOrientX'
-     *  Constant: '<S8>/GoalOrientY'
-     *  Constant: '<S8>/GoalOrientZ'
-     *  Constant: '<S8>/GoalPoseX'
-     *  Constant: '<S8>/GoalPoseY'
-     *  Constant: '<S8>/GoalPoseZ'
-     */
-
-    /* S-Function Block: <S247>/S-Function Builder1 */
-    PoseStamped_publisher_Start_wrapper
-      (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
-       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
-       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-       &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
-
-    /* End of Start for SubSystem: '<S8>/ROS Send Goal' */
-
     /* Start for Enabled SubSystem: '<S8>/ROS Send Switch Command' */
 
     /* Start for S-Function (Int32_publisher): '<S259>/S-Function Builder' incorporates:
@@ -17236,7 +17170,7 @@ static void W01_Base_Map_cs_initialize(void)
 
     /* S-Function Block: <S259>/S-Function Builder */
     Int32_publisher_Start_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_o,
-      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_fq, 14,
+      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 14,
       W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_a, 14,
       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -17258,6 +17192,28 @@ static void W01_Base_Map_cs_initialize(void)
        &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
     /* End of Start for SubSystem: '<S8>/ROS Send Simulink State' */
+
+    /* Start for Enabled SubSystem: '<S8>/ROS Send Goal' */
+
+    /* Start for S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
+     *  Constant: '<S8>/GoalOrientW'
+     *  Constant: '<S8>/GoalOrientX'
+     *  Constant: '<S8>/GoalOrientY'
+     *  Constant: '<S8>/GoalOrientZ'
+     *  Constant: '<S8>/GoalPoseX'
+     *  Constant: '<S8>/GoalPoseY'
+     *  Constant: '<S8>/GoalPoseZ'
+     */
+
+    /* S-Function Block: <S247>/S-Function Builder1 */
+    PoseStamped_publisher_Start_wrapper
+      (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
+       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 22,
+       W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
+       &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
+       &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+
+    /* End of Start for SubSystem: '<S8>/ROS Send Goal' */
 
     /* Start for S-Function (sfun_Terminator): '<S25>/sfun_Terminator' */
     *&W01_Base_Map_cs_DW.sfun_Terminator_PWORK[0] = (void*)
@@ -17796,7 +17752,7 @@ static void W01_Base_Map_cs_terminate(void)
 
   /* S-Function Block: <S252>/S-Function Builder */
   Imu_publisher_Terminate_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bo,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 8,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_cz, 8,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_b, 15,
     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -17904,7 +17860,7 @@ static void W01_Base_Map_cs_terminate(void)
   /* S-Function Block: <S224>/S-Function Builder */
   int16_subscriber_Terminate_wrapper
     (&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b,
-     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 23,
+     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_gw, 23,
      W01_Base_Map_cs_ConstP.pooled76, 14, &W01_Base_Map_cs_ConstP.pooled8, 1,
      &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -17942,7 +17898,7 @@ static void W01_Base_Map_cs_terminate(void)
 
   /* S-Function Block: <S241>/S-Function Builder */
   Image_publisher_Terminate_wrapper
-    (&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_a4,
+    (&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_bj,
      W01_Base_Map_cs_ConstP.SFunctionBuilder_P1, 19,
      W01_Base_Map_cs_ConstP.pooled73, 17,
      W01_Base_Map_cs_ConstP.SFunctionBuilder_P3, 8,
@@ -17967,11 +17923,12 @@ static void W01_Base_Map_cs_terminate(void)
   /* Terminate for S-Function (Image_publisher): '<S243>/S-Function Builder' */
 
   /* S-Function Block: <S243>/S-Function Builder */
-  Image_publisher_Terminate_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_k, 13,
-    W01_Base_Map_cs_ConstP.pooled73, 17,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_g, 9,
-    &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
+  Image_publisher_Terminate_wrapper
+    (&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_lg,
+     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_g, 13,
+     W01_Base_Map_cs_ConstP.pooled73, 17,
+     W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_k, 9,
+     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
   /* End of Terminate for SubSystem: '<S8>/ROS Send Camera TL' */
 
@@ -17995,12 +17952,11 @@ static void W01_Base_Map_cs_terminate(void)
   /* Terminate for S-Function (Image_publisher): '<S242>/S-Function Builder' */
 
   /* S-Function Block: <S242>/S-Function Builder */
-  Image_publisher_Terminate_wrapper
-    (&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_b0,
-     W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 19,
-     W01_Base_Map_cs_ConstP.pooled73, 17,
-     W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_a, 8,
-     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
+  Image_publisher_Terminate_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_g,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_c, 19,
+    W01_Base_Map_cs_ConstP.pooled73, 17,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P3_h, 8,
+    &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
   /* End of Terminate for SubSystem: '<S8>/ROS Send Camera 2' */
 
@@ -18047,28 +18003,6 @@ static void W01_Base_Map_cs_terminate(void)
 
   /* End of Terminate for SubSystem: '<S8>/ROS Send Clock' */
 
-  /* Terminate for Enabled SubSystem: '<S8>/ROS Send Goal' */
-
-  /* Terminate for S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
-   *  Constant: '<S8>/GoalOrientW'
-   *  Constant: '<S8>/GoalOrientX'
-   *  Constant: '<S8>/GoalOrientY'
-   *  Constant: '<S8>/GoalOrientZ'
-   *  Constant: '<S8>/GoalPoseX'
-   *  Constant: '<S8>/GoalPoseY'
-   *  Constant: '<S8>/GoalPoseZ'
-   */
-
-  /* S-Function Block: <S247>/S-Function Builder1 */
-  PoseStamped_publisher_Terminate_wrapper
-    (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
-     W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 9,
-     W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
-     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
-     &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
-
-  /* End of Terminate for SubSystem: '<S8>/ROS Send Goal' */
-
   /* Terminate for Enabled SubSystem: '<S8>/ROS Send Switch Command' */
 
   /* Terminate for S-Function (Int32_publisher): '<S259>/S-Function Builder' incorporates:
@@ -18077,7 +18011,7 @@ static void W01_Base_Map_cs_terminate(void)
 
   /* S-Function Block: <S259>/S-Function Builder */
   Int32_publisher_Terminate_wrapper(&W01_Base_Map_cs_DW.SFunctionBuilder_PWORK_o,
-    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_fq, 14,
+    W01_Base_Map_cs_ConstP.SFunctionBuilder_P1_f, 14,
     W01_Base_Map_cs_ConstP.SFunctionBuilder_P2_a, 14,
     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
@@ -18095,6 +18029,28 @@ static void W01_Base_Map_cs_terminate(void)
      &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1);
 
   /* End of Terminate for SubSystem: '<S8>/ROS Send Simulink State' */
+
+  /* Terminate for Enabled SubSystem: '<S8>/ROS Send Goal' */
+
+  /* Terminate for S-Function (PoseStamped_publisher): '<S247>/S-Function Builder1' incorporates:
+   *  Constant: '<S8>/GoalOrientW'
+   *  Constant: '<S8>/GoalOrientX'
+   *  Constant: '<S8>/GoalOrientY'
+   *  Constant: '<S8>/GoalOrientZ'
+   *  Constant: '<S8>/GoalPoseX'
+   *  Constant: '<S8>/GoalPoseY'
+   *  Constant: '<S8>/GoalPoseZ'
+   */
+
+  /* S-Function Block: <S247>/S-Function Builder1 */
+  PoseStamped_publisher_Terminate_wrapper
+    (&W01_Base_Map_cs_DW.SFunctionBuilder1_PWORK_d,
+     W01_Base_Map_cs_ConstP.SFunctionBuilder1_P1_b, 22,
+     W01_Base_Map_cs_ConstP.SFunctionBuilder1_P2_f, 25,
+     &W01_Base_Map_cs_ConstP.pooled8, 1, &W01_Base_Map_cs_ConstP.pooled9, 1,
+     &W01_Base_Map_cs_ConstP.SFunctionBuilder1_P5, 1);
+
+  /* End of Terminate for SubSystem: '<S8>/ROS Send Goal' */
 
   /* Terminate for S-Function (sfun_Terminator): '<S25>/sfun_Terminator' */
   prescan_terminateFcn(&W01_Base_Map_cs_DW.sfun_Terminator_PWORK[0]);
@@ -18275,20 +18231,8 @@ RT_MODEL_W01_Base_Map_cs_T *W01_Base_Map_cs(void)
       W01_Base_Map_cs_B.TmpSignalConversionAtSFunctionB[i] = 0.0;
     }
 
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2[i] = 0.0;
-    }
-
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_m[i] = 0.0;
-    }
-
-    for (i = 0; i < 2073600; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_i[i] = 0.0;
-    }
-
     for (i = 0; i < 21; i++) {
-      W01_Base_Map_cs_B.DataTypeConversion2_k[i] = 0.0F;
+      W01_Base_Map_cs_B.DataTypeConversion2[i] = 0.0F;
     }
 
     for (i = 0; i < 57600; i++) {
@@ -18444,8 +18388,8 @@ RT_MODEL_W01_Base_Map_cs_T *W01_Base_Map_cs(void)
   W01_Base_Map_cs_M->Sizes.numU = (0); /* Number of model inputs */
   W01_Base_Map_cs_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   W01_Base_Map_cs_M->Sizes.numSampTimes = (2);/* Number of sample times */
-  W01_Base_Map_cs_M->Sizes.numBlocks = (1432);/* Number of blocks */
-  W01_Base_Map_cs_M->Sizes.numBlockIO = (80);/* Number of block outputs */
+  W01_Base_Map_cs_M->Sizes.numBlocks = (1424);/* Number of blocks */
+  W01_Base_Map_cs_M->Sizes.numBlockIO = (79);/* Number of block outputs */
   W01_Base_Map_cs_M->Sizes.numBlockPrms = (26);/* Sum of parameter "widths" */
   return W01_Base_Map_cs_M;
 }

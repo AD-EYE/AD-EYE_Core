@@ -7,9 +7,9 @@
  *
  * Code generation for model "W01_Base_Map_cs".
  *
- * Model version              : 1.280
+ * Model version              : 1.298
  * Simulink Coder version : 9.1 (R2019a) 23-Nov-2018
- * C source code generated on : Tue Jan 19 20:49:22 2021
+ * C source code generated on : Sat Feb 20 15:25:39 2021
  *
  * Target selection: ps.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -919,11 +919,7 @@ typedef struct {
 typedef struct {
   uint8_T Sensor_m[6062040];           /* '<S18>/Sensor' */
   uint8_T Sensor_g[2073600];           /* '<S10>/Sensor' */
-  uint8_T MathFunction3_h[2073600];    /* '<S144>/Math Function3' */
-  uint8_T MathFunction3[2073600];      /* '<S146>/Math Function3' */
-  uint8_T MathFunction3_i[2073600];    /* '<S145>/Math Function3' */
   uint8_T MatrixConcatenate[2073600];  /* '<S145>/Matrix Concatenate' */
-  real32_T MatrixConcatenate5_k[14400];/* '<S131>/Matrix Concatenate5' */
   real32_T MatrixConcatenate5_l[14400];/* '<S130>/Matrix Concatenate5' */
   real32_T MatrixConcatenate5_c[14400];/* '<S129>/Matrix Concatenate5' */
   real32_T MatrixConcatenate5_b[14400];/* '<S128>/Matrix Concatenate5' */
@@ -1007,11 +1003,8 @@ typedef struct {
   real_T Add4;                         /* '<S149>/Add4' */
   real_T Floor;                        /* '<S147>/Floor' */
   real_T Product_p;                    /* '<S147>/Product' */
-  real_T DataTypeConversion2[2073600]; /* '<S146>/Data Type Conversion2' */
-  real_T DataTypeConversion2_m[2073600];/* '<S145>/Data Type Conversion2' */
-  real_T DataTypeConversion2_i[2073600];/* '<S144>/Data Type Conversion2' */
   uint32_T Add5_a;                     /* '<S94>/Add5' */
-  real32_T DataTypeConversion2_k[21];  /* '<S159>/Data Type Conversion2' */
+  real32_T DataTypeConversion2[21];    /* '<S159>/Data Type Conversion2' */
   real32_T MathFunction1[57600];       /* '<S151>/Math Function1' */
   uint8_T Selector[691200];            /* '<S103>/Selector' */
   uint8_T Selector1[691200];           /* '<S103>/Selector1' */
@@ -1025,6 +1018,9 @@ typedef struct {
   uint8_T Selector_o[691200];          /* '<S104>/Selector' */
   uint8_T Selector1_d[691200];         /* '<S104>/Selector1' */
   uint8_T Selector2_j[691200];         /* '<S104>/Selector2' */
+  uint8_T MathFunction3[2073600];      /* '<S146>/Math Function3' */
+  uint8_T MathFunction3_i[2073600];    /* '<S145>/Math Function3' */
+  uint8_T MathFunction3_h[2073600];    /* '<S144>/Math Function3' */
   uint8_T Merge2_p[691200];            /* '<S109>/Merge2' */
   uint8_T Merge1_p[691200];            /* '<S109>/Merge1' */
   uint8_T Merge_ng[691200];            /* '<S109>/Merge' */
@@ -1036,6 +1032,7 @@ typedef struct {
   uint8_T Merge_m[691200];             /* '<S111>/Merge' */
   uint8_T MathFunction[691200];        /* '<S145>/Math Function' */
   real32_T Sensor_n0[14400];           /* '<S24>/Sensor' */
+  real32_T MatrixConcatenate5_k[14400];/* '<S131>/Matrix Concatenate5' */
   B_CoordinateTransformationCon_T CoordinateTransformationConve_f;
                              /* '<S107>/Coordinate Transformation Conversion' */
   B_RainModel_W01_Base_Map_cs_T RainModel_o;/* '<S116>/Rain Model' */
@@ -1211,9 +1208,9 @@ typedef struct {
   void *SFunctionBuilder1_PWORK_d;     /* '<S247>/S-Function Builder1' */
   void *SFunctionBuilder1_PWORK_p;     /* '<S246>/S-Function Builder1' */
   void *SFunctionBuilder_PWORK_hu;     /* '<S245>/S-Function Builder' */
-  void *SFunctionBuilder_PWORK_g;      /* '<S243>/S-Function Builder' */
-  void *SFunctionBuilder_PWORK_b0;     /* '<S242>/S-Function Builder' */
-  void *SFunctionBuilder_PWORK_a4;     /* '<S241>/S-Function Builder' */
+  void *SFunctionBuilder_PWORK_lg;     /* '<S243>/S-Function Builder' */
+  void *SFunctionBuilder_PWORK_g;      /* '<S242>/S-Function Builder' */
+  void *SFunctionBuilder_PWORK_bj;     /* '<S241>/S-Function Builder' */
   int32_T sfun_Controller_dtSizeInfo[2];/* '<S15>/sfun_Controller' */
   int32_T sfun_Controller_dtBusInfo[2];/* '<S15>/sfun_Controller' */
   int32_T Actuator_dtSizeInfo[6];      /* '<S48>/Actuator' */
@@ -1390,7 +1387,6 @@ typedef struct {
   int8_T If_ActiveSubsystem_f;         /* '<S153>/If' */
   boolean_T ROSSendSimulinkState_MODE; /* '<S8>/ROS Send Simulink State' */
   boolean_T ROSSendIMU_MODE;           /* '<S8>/ROS Send IMU' */
-  boolean_T ROSSendGoal_MODE;          /* '<S8>/ROS Send Goal' */
   boolean_T ROSSendClock_MODE;         /* '<S8>/ROS Send Clock' */
   DW_CoordinateTransformationCo_T CoordinateTransformationConve_f;
                              /* '<S107>/Coordinate Transformation Conversion' */
@@ -1452,29 +1448,26 @@ typedef struct {
   const real_T Width4;                 /* '<S149>/Width4' */
   const real_T Width;                  /* '<S146>/Width' */
   const real_T Width1;                 /* '<S146>/Width1' */
-  const real_T Width5_i;               /* '<S146>/Width5' */
-  const real_T DataTypeConversion;     /* '<S146>/Data Type Conversion' */
-  const real_T Width9;                 /* '<S146>/Width9' */
-  const real_T Width10;                /* '<S146>/Width10' */
   const real_T Width_f;                /* '<S145>/Width' */
-  const real_T Width1_c;               /* '<S145>/Width1' */
-  const real_T Width5_k;               /* '<S145>/Width5' */
-  const real_T DataTypeConversion_j;   /* '<S145>/Data Type Conversion' */
-  const real_T Width9_n;               /* '<S145>/Width9' */
-  const real_T Width10_c;              /* '<S145>/Width10' */
-  const real_T Width_l;                /* '<S144>/Width' */
-  const real_T Width1_o;               /* '<S144>/Width1' */
-  const real_T Width5_fb;              /* '<S144>/Width5' */
-  const real_T DataTypeConversion_h;   /* '<S144>/Data Type Conversion' */
-  const real_T Width9_i;               /* '<S144>/Width9' */
-  const real_T Width10_j;              /* '<S144>/Width10' */
+  const real_T Width1_g;               /* '<S145>/Width1' */
+  const real_T Width_k;                /* '<S144>/Width' */
+  const real_T Width1_a;               /* '<S144>/Width1' */
   const uint32_T Width5_p;             /* '<S94>/Width5' */
   const uint32_T Width_m;              /* '<S94>/Width' */
   const uint32_T Width1_k;             /* '<S94>/Width1' */
   const uint32_T Width2;               /* '<S94>/Width2' */
+  const uint32_T Width5_d;             /* '<S146>/Width5' */
   const uint32_T Product;              /* '<S146>/Product' */
-  const uint32_T Product_o;            /* '<S145>/Product' */
-  const uint32_T Product_c;            /* '<S144>/Product' */
+  const uint32_T Width9;               /* '<S146>/Width9' */
+  const uint32_T Width10;              /* '<S146>/Width10' */
+  const uint32_T Width5_dj;            /* '<S145>/Width5' */
+  const uint32_T Product_p;            /* '<S145>/Product' */
+  const uint32_T Width9_n;             /* '<S145>/Width9' */
+  const uint32_T Width10_i;            /* '<S145>/Width10' */
+  const uint32_T Width5_p1;            /* '<S144>/Width5' */
+  const uint32_T Product_h;            /* '<S144>/Product' */
+  const uint32_T Width9_p;             /* '<S144>/Width9' */
+  const uint32_T Width10_n;            /* '<S144>/Width10' */
   const real32_T Gain1_g2;             /* '<S231>/Gain1' */
   const real32_T TrigonometricFunction1;/* '<S229>/Trigonometric Function1' */
   const real32_T TrigonometricFunction;/* '<S229>/Trigonometric Function' */
@@ -1568,7 +1561,6 @@ typedef struct {
 typedef struct {
   /* Pooled Parameter (Mixed Expressions)
    * Referenced by:
-   *   '<S8>/Constant27'
    *   '<S8>/Constant6'
    *   '<S8>/EnableSendFeatures'
    *   '<S8>/EnableSendSwitch'
@@ -1703,6 +1695,7 @@ typedef struct {
    *   '<S8>/EnableSendCameraTL'
    *   '<S8>/EnableSendClock'
    *   '<S8>/EnableSendGNSS'
+   *   '<S8>/EnableSendGoal'
    *   '<S8>/EnableSendIMU'
    *   '<S8>/EnableSendLidar'
    *   '<S8>/EnableSendOdometry'
@@ -2078,22 +2071,22 @@ typedef struct {
   /* Expression: int8(topic)
    * Referenced by: '<S242>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P1_f[19];
+  int8_T SFunctionBuilder_P1_c[19];
 
   /* Expression: int8(frame_id)
    * Referenced by: '<S242>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P3_a[8];
+  int8_T SFunctionBuilder_P3_h[8];
 
   /* Expression: int8(topic)
    * Referenced by: '<S243>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P1_k[13];
+  int8_T SFunctionBuilder_P1_g[13];
 
   /* Expression: int8(frame_id)
    * Referenced by: '<S243>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P3_g[9];
+  int8_T SFunctionBuilder_P3_k[9];
 
   /* Expression: int8(topic)
    * Referenced by: '<S245>/S-Function Builder'
@@ -2118,7 +2111,7 @@ typedef struct {
   /* Expression: int8(topic)
    * Referenced by: '<S247>/S-Function Builder1'
    */
-  int8_T SFunctionBuilder1_P1_b[9];
+  int8_T SFunctionBuilder1_P1_b[22];
 
   /* Expression: int8(message_type)
    * Referenced by: '<S247>/S-Function Builder1'
@@ -2128,7 +2121,7 @@ typedef struct {
   /* Expression: int8(topic)
    * Referenced by: '<S252>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P1_c[8];
+  int8_T SFunctionBuilder_P1_cz[8];
 
   /* Expression: int8(message_type)
    * Referenced by: '<S252>/S-Function Builder'
@@ -2170,7 +2163,7 @@ typedef struct {
   /* Expression: int8(topic)
    * Referenced by: '<S259>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P1_fq[14];
+  int8_T SFunctionBuilder_P1_f[14];
 
   /* Expression: int8(message_type)
    * Referenced by: '<S259>/S-Function Builder'
@@ -2251,7 +2244,7 @@ typedef struct {
   /* Expression: int8(topic)
    * Referenced by: '<S224>/S-Function Builder'
    */
-  int8_T SFunctionBuilder_P1_g[23];
+  int8_T SFunctionBuilder_P1_gw[23];
 
   /* Expression: int8(topic)
    * Referenced by: '<S218>/S-Function Builder'
@@ -3150,9 +3143,9 @@ extern RT_MODEL_W01_Base_Map_cs_T *const W01_Base_Map_cs_M;
  * '<S238>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/Lidar Adapter3/Rotate over Z'
  * '<S239>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/Lidar Adapter3/Spherical to cartesian'
  * '<S240>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/Lidar Adapter3/Rotate over Z/Degrees to Radians1'
- * '<S241>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera/Image Publisher'
- * '<S242>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera 2/Image Publisher'
- * '<S243>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera TL/Image Publisher'
+ * '<S241>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera/Image Publisher1'
+ * '<S242>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera 2/Image Publisher1'
+ * '<S243>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera TL/Image Publisher1'
  * '<S244>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Camera TL/VECTORES'
  * '<S245>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send Clock/Clock Publisher'
  * '<S246>' : 'W01_Base_Map_cs/BMW_X5_SUV_1/ROS Send GNSS/geometry_msgs//Pose'

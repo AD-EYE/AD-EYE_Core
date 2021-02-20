@@ -26,7 +26,7 @@
  * | See matlabroot/simulink/src/sfuntmpl_doc.c for a more detailed template |
  *  ------------------------------------------------------------------------- 
  *
- * Created: Tue Jan 19 20:40:55 2021
+ * Created: Tue Feb 16 21:57:01 2021
  */
 
 #define S_FUNCTION_LEVEL 2
@@ -72,7 +72,7 @@
 #define IN_PORT_2_NAME        encoding_length
 #define INPUT_2_WIDTH         1
 #define INPUT_DIMS_2_COL      1
-#define INPUT_2_DTYPE         real_T
+#define INPUT_2_DTYPE         uint32_T
 #define INPUT_2_COMPLEX       COMPLEX_NO
 #define IN_2_FRAME_BASED      FRAME_NO
 #define IN_2_BUS_BASED        0
@@ -89,7 +89,7 @@
 #define IN_PORT_3_NAME        step
 #define INPUT_3_WIDTH         1
 #define INPUT_DIMS_3_COL      1
-#define INPUT_3_DTYPE         real_T
+#define INPUT_3_DTYPE         uint32_T
 #define INPUT_3_COMPLEX       COMPLEX_NO
 #define IN_3_FRAME_BASED      FRAME_NO
 #define IN_3_BUS_BASED        0
@@ -106,7 +106,7 @@
 #define IN_PORT_4_NAME        data
 #define INPUT_4_WIDTH         2073600
 #define INPUT_DIMS_4_COL      1
-#define INPUT_4_DTYPE         real_T
+#define INPUT_4_DTYPE         uint8_T
 #define INPUT_4_COMPLEX       COMPLEX_NO
 #define IN_4_FRAME_BASED      FRAME_NO
 #define IN_4_BUS_BASED        0
@@ -123,7 +123,7 @@
 #define IN_PORT_5_NAME        data_length
 #define INPUT_5_WIDTH         1
 #define INPUT_DIMS_5_COL      1
-#define INPUT_5_DTYPE         real_T
+#define INPUT_5_DTYPE         uint32_T
 #define INPUT_5_COMPLEX       COMPLEX_NO
 #define IN_5_FRAME_BASED      FRAME_NO
 #define IN_5_BUS_BASED        0
@@ -140,7 +140,7 @@
 #define IN_PORT_6_NAME        frameId_length
 #define INPUT_6_WIDTH         1
 #define INPUT_DIMS_6_COL      1
-#define INPUT_6_DTYPE         real_T
+#define INPUT_6_DTYPE         uint32_T
 #define INPUT_6_COMPLEX       COMPLEX_NO
 #define IN_6_FRAME_BASED      FRAME_NO
 #define IN_6_BUS_BASED        0
@@ -216,11 +216,11 @@ extern void Image_publisher_Start_wrapper(void **pW,
 			const real_T *timeout, const int_T p_width4);
 extern void Image_publisher_Outputs_wrapper(const real_T *height,
 			const real_T *width,
-			const real_T *encoding_length,
-			const real_T *step,
-			const real_T *data,
-			const real_T *data_length,
-			const real_T *frameId_length,
+			const uint32_T *encoding_length,
+			const uint32_T *step,
+			const uint8_T *data,
+			const uint32_T *data_length,
+			const uint32_T *frameId_length,
 			void **pW,
 			const int8_T *topic, const int_T p_width0,
 			const int8_T *message_type, const int_T p_width1,
@@ -352,35 +352,35 @@ static void mdlInitializeSizes(SimStruct *S)
 
     /* Input Port 2 */
     ssSetInputPortWidth(S, 2, INPUT_2_WIDTH);
-    ssSetInputPortDataType(S, 2, SS_DOUBLE);
+    ssSetInputPortDataType(S, 2, SS_UINT32);
     ssSetInputPortComplexSignal(S, 2, INPUT_2_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 2, INPUT_2_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 2, 1); /*direct input signal access*/
 
     /* Input Port 3 */
     ssSetInputPortWidth(S, 3, INPUT_3_WIDTH);
-    ssSetInputPortDataType(S, 3, SS_DOUBLE);
+    ssSetInputPortDataType(S, 3, SS_UINT32);
     ssSetInputPortComplexSignal(S, 3, INPUT_3_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 3, INPUT_3_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 3, 1); /*direct input signal access*/
 
     /* Input Port 4 */
     ssSetInputPortWidth(S, 4, INPUT_4_WIDTH);
-    ssSetInputPortDataType(S, 4, SS_DOUBLE);
+    ssSetInputPortDataType(S, 4, SS_UINT8);
     ssSetInputPortComplexSignal(S, 4, INPUT_4_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 4, INPUT_4_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 4, 1); /*direct input signal access*/
 
     /* Input Port 5 */
     ssSetInputPortWidth(S, 5, INPUT_5_WIDTH);
-    ssSetInputPortDataType(S, 5, SS_DOUBLE);
+    ssSetInputPortDataType(S, 5, SS_UINT32);
     ssSetInputPortComplexSignal(S, 5, INPUT_5_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 5, INPUT_5_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 5, 1); /*direct input signal access*/
 
     /* Input Port 6 */
     ssSetInputPortWidth(S, 6, INPUT_6_WIDTH);
-    ssSetInputPortDataType(S, 6, SS_DOUBLE);
+    ssSetInputPortDataType(S, 6, SS_UINT32);
     ssSetInputPortComplexSignal(S, 6, INPUT_6_COMPLEX);
     ssSetInputPortDirectFeedThrough(S, 6, INPUT_6_FEEDTHROUGH);
     ssSetInputPortRequiredContiguous(S, 6, 1); /*direct input signal access*/
@@ -480,11 +480,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     void **pW = ssGetPWork(S);
     const real_T *height = (real_T *) ssGetInputPortRealSignal(S, 0);
     const real_T *width = (real_T *) ssGetInputPortRealSignal(S, 1);
-    const real_T *encoding_length = (real_T *) ssGetInputPortRealSignal(S, 2);
-    const real_T *step = (real_T *) ssGetInputPortRealSignal(S, 3);
-    const real_T *data = (real_T *) ssGetInputPortRealSignal(S, 4);
-    const real_T *data_length = (real_T *) ssGetInputPortRealSignal(S, 5);
-    const real_T *frameId_length = (real_T *) ssGetInputPortRealSignal(S, 6);
+    const uint32_T *encoding_length = (uint32_T *) ssGetInputPortRealSignal(S, 2);
+    const uint32_T *step = (uint32_T *) ssGetInputPortRealSignal(S, 3);
+    const uint8_T *data = (uint8_T *) ssGetInputPortRealSignal(S, 4);
+    const uint32_T *data_length = (uint32_T *) ssGetInputPortRealSignal(S, 5);
+    const uint32_T *frameId_length = (uint32_T *) ssGetInputPortRealSignal(S, 6);
     const int_T   p_width0  = mxGetNumberOfElements(PARAM_DEF0(S));
     const int_T   p_width1  = mxGetNumberOfElements(PARAM_DEF1(S));
     const int_T   p_width2  = mxGetNumberOfElements(PARAM_DEF2(S));
