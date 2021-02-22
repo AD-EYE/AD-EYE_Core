@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W04_Town" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="AD5DD89FEB017B7781646D43EFCC5BE985C6E6136B23AAD21C21DE6D110A41B7" UniqueExperimentIdentifier="88473f48-39ed-4247-91e6-89bd7c28fb18" UniqueIdCounter="16894" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W04_Town" UniqueId="0" Authors="Adeye" TotalSimulationTime="7.8000000000000007" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="6169B983E89E45DFA553E51F765E646BB2ADF5630942DA2F741F79D3084A8D62" UniqueExperimentIdentifier="0d2fdf21-09e2-4db3-97b7-1266c7746678" UniqueIdCounter="16996" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="82.085516929626465" Y="128.98248291015625" Z="0.52999997138977051" />
@@ -2535,8 +2535,8 @@
       <VehicleGeometry TrackWidthFront="1.437000036239624" TrackWidthRear="1.437000036239624" TyreRadius="0.28999999165534973" Wheelbase="2.4600000381469727" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="A model of an Audi A8 Sedan" id="Audi_A8_Sedan_3" UniqueId="6648" SensorDetectability="Detectable" NumericalID="37" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Audi_A8_Sedan" AnimatedActor="false" CompilationSheetPicture="Audi_A8_HighPoly.png" HashCode="e33fe1ddcf3e8ae97caccbc8f2fa74ac" ModelFile="Vehicles\Audi_A8\Audi_A8.osgb" GenericModelSourceFile="Vehicles\Audi_A8\Audi_A8.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="85.3409423828125" Y="202.06877517700195" Z="0.550000011920929" />
-      <Orientation Bank="0" Tilt="0" Heading="90.375391284186591" />
+      <Location X="82.147109985351563" Y="207.82435607910156" Z="0.550000011920929" />
+      <Orientation Bank="0" Tilt="0" Heading="270" />
       <Origin X="0.25" Y="0.5" Z="0" />
       <Size X="5.2100000381469727" Y="2.0399999618530273" Z="1.440000057220459" />
       <CoGOffset X="1.7699999809265137" Y="0" Z="0.550000011920929" />
@@ -2877,7 +2877,17 @@
           <Point X="-1.2599999904632568" Y="0" Z="0.44999998807907104" />
         </ConnectionPoint>
       </ConnectionPoints>
-      <Trajectories />
+      <Trajectories>
+        <TrajectoryBase xsi:type="Trajectory" Description="" id="Trajectory_1" UniqueId="16994" IsActive="true" ReferencePathName="InheritedPath_1" SampleFrequency="20" SpeedProfileName="SpeedProfile_21" SyncTimePoint="0" TrajectoryColor="FF996600" CompareActorToTrajectory="false">
+          <Location X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <Origin X="0.5" Y="0.5" Z="0" />
+          <Size X="0" Y="0" Z="0" />
+          <CoGOffset X="0" Y="0" Z="0" />
+          <StartLocation X="82.147109985351563" Y="207.82435607910156" Z="0.550000011920929" />
+          <StartOrientation Bank="0" Tilt="0" Heading="270" />
+        </TrajectoryBase>
+      </Trajectories>
       <Cameras />
       <UserSpecDyn Jxx="210" Jyy="3278" M="1820" Jzz="3746" Krear="121449" Kfront="72653" SteeringRatio="25" MaxSwa="500" L="2.94" A="1.17000008" />
       <RecolorRegions>
@@ -4979,7 +4989,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16886" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16984" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5004,7 +5014,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16887" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16985" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5029,7 +5039,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16888" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16986" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5054,7 +5064,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16889" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16987" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5092,7 +5102,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16890" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16988" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5127,7 +5137,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16891" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16989" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5165,7 +5175,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16892" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16990" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5227,7 +5237,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="16893" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="16991" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -8389,7 +8399,108 @@
     <InfraOthers />
     <SensorHolders />
   </InfraStructure>
-  <Paths />
+  <Paths>
+    <Path xsi:type="InheritedPath" Description="" id="InheritedPath_1" UniqueId="16992" PreventDragging="true" StartHeading="270">
+      <Location X="82.147109985351563" Y="207.82435607910156" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="270" />
+      <Origin X="0.5" Y="0.5" Z="0" />
+      <Size X="0" Y="0" Z="0" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <Segments>
+        <Segment xsi:type="StraightLink" ID="Link447" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="12.25" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="StraightLink" ID="Link448" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="11.5" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="StraightLink" ID="Link449" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="12.25" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link450" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="15" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="83.897109985351563" Y="171.82435607910156" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <Length>15</Length>
+        </Segment>
+        <Segment xsi:type="StraightLink" ID="Link451" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="12.25" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="StraightLink" ID="Link452" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="11.5" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="StraightLink" ID="Link453" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="12.25" Height="0" AngleDeg="0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link454" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="83.897109985351563" Y="120.82435607910156" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <Length>30</Length>
+        </Segment>
+      </Segments>
+      <LinePlacements />
+      <PathShapes>
+        <Spline StartPointX="82.147109985351563" StartPointY="207.82435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="203.74102274576822" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="199.65768941243491" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="195.57435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="195.57435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="191.74102274576825" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="187.90768941243488" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="184.07435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="184.07435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="179.99102274576825" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="175.90768941243491" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="171.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="171.82435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="166.82435607910156" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="161.82435607910156" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="156.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="156.82435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="152.74102274576822" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="148.65768941243491" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="144.57435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="144.57435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="140.74102274576822" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="136.90768941243491" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="133.07435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="133.07435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="128.99102274576822" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="124.90768941243491" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="120.82435607910156" EndPointZ="0" />
+        <Spline StartPointX="82.147109985351563" StartPointY="120.82435607910156" StartPointZ="0" StartControlPointX="82.147109985351563" StartControlPointY="110.82435607910159" StartControlPointZ="0" EndControlPointX="82.147109985351563" EndControlPointY="100.82435607910153" EndControlPointZ="0" EndPointX="82.147109985351563" EndPointY="90.824356079101563" EndPointZ="0" />
+      </PathShapes>
+      <PathOrientations>
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+      </PathOrientations>
+      <SelectionPoints>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="0" Lane="2" RoadSegmentId="XCrossing_1" CrossSectionIndex="1">
+          <AbsoluteLocation X="82.147109985351563" Y="207.82435607910156" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="3" Lane="2" RoadSegmentId="StraightRoad_4" CrossSectionIndex="0">
+          <AbsoluteLocation X="82.147109985351563" Y="171.82435607910156" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="XCrossing_4" CrossSectionIndex="1">
+          <AbsoluteLocation X="82.147109985351563" Y="156.82435607910156" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="3" Lane="2" RoadSegmentId="StraightRoad_8" CrossSectionIndex="0">
+          <AbsoluteLocation X="82.147109985351563" Y="120.82435607910156" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="XCrossing_8" CrossSectionIndex="1">
+          <AbsoluteLocation X="82.147109985351563" Y="90.824356079101563" Z="0" />
+        </SelectionPointBase>
+      </SelectionPoints>
+      <SubStatePath>AddSegment</SubStatePath>
+    </Path>
+  </Paths>
   <ArticulatedActors />
   <PhysicsEnvironment AirDensity="1.28" Gravitation="9.81" AirTemperature="293.15" AtmPressure="101.325" AirHumidityPercentage="10" />
   <UsedPreScanBuilds>
@@ -9790,6 +9901,17 @@
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot799" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="15">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
           <EndState Distance="0" Situation="Reached" Speed="0" Time="0" />
+        </Slot>
+      </Slots>
+      <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
+    </SpeedProfileBase>
+    <SpeedProfileBase xsi:type="SpeedProfile" Description="" id="SpeedProfile_21" UniqueId="16993">
+      <Physics Drag="0.27000001072883606" Mass="1820" MaxAcceleration="0.30000001192092896" MaxDeceleration="1" ReferenceArea="2.332564115524292" RollFriction="0.0099999997764825821" />
+      <PhysicsEnvironment AirDensity="1.28" Gravitation="9.81" AirTemperature="293.15" AtmPressure="101.325" AirHumidityPercentage="10" />
+      <Slots>
+        <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot2252" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="8">
+          <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
+          <EndState Distance="117.00" Situation="Reached" Speed="15" Time="7.80" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
