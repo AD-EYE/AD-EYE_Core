@@ -25,11 +25,11 @@ EgoNameArray = ["BMW_X5_SUV_1"];
 % SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
 
 %% Experiment B Map 2
-ScenarioExpNameArray = ["Experiment_B"];
-FolderExpNameArray = ["Experiment_B"];
-PrescanExpNameArray = ["W03_Forest"];
-AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-SimulinkConfigArray = ["SimulinkConfigExpBmap2goal1.xlsx", "SimulinkConfigExpBmap2goal2.xlsx", "SimulinkConfigExpBmap2goal3.xlsx"];
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W03_Forest"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap2goal1.xlsx", "SimulinkConfigExpBmap2goal2.xlsx", "SimulinkConfigExpBmap2goal3.xlsx"];
 
 %% Experiment B Map 3
 % ScenarioExpNameArray = ["Experiment_B"];
@@ -38,6 +38,12 @@ SimulinkConfigArray = ["SimulinkConfigExpBmap2goal1.xlsx", "SimulinkConfigExpBma
 % AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 % SimulinkConfigArray = ["SimulinkConfigExpBmap3goal1.xlsx", "SimulinkConfigExpBmap3goal2.xlsx", "SimulinkConfigExpBmap3goal3.xlsx"];
 
+%% Experiment C Map 1
+ScenarioExpNameArray = ["Experiment_C"];
+FolderExpNameArray = ["ExperimentC"];
+PrescanExpNameArray = ["ExperimentC_W01"];
+AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 
 
 
@@ -137,7 +143,7 @@ TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareCo
 
 rosshutdown
 
-TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
+TA('Configurations/TAOrder.xlsx', 0, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 %TA('Configurations/TAOrder.xlsx', 1, 500)
 
