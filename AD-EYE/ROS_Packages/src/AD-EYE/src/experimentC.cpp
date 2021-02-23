@@ -37,11 +37,13 @@ class ExperimentC: ExperimentRecording {
         ExperimentC(ros::NodeHandle nh): nh_(nh), point_cloud_to_occupancy_grid_(nh, true), rate_(20)
         {
             speed_sub_ = nh.subscribe("/current_velocity", 10, &ExperimentC::speedCallback, this);
-            nh.param<float>("/adeye/motion_planning/op_common_params/maxVelocity", max_speed_allowed_, 10.0);
+            max_speed_allowed_ = 10.0;
+            // nh.param<float>("/adeye/motion_planning/op_common_params/maxVelocity", max_speed_allowed_, 10.0);
             nh.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
             nh.param<float>("/simulink/reflectivity", rain_reflectivity_, 0.0);
             std::ostringstream ss;
-            ss << "speed_" << max_speed_allowed_ << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
+            ss << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
+            // ss << "speed_" << max_speed_allowed_ << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
             bag_name_ = std::string(ss.str());
             speed_threshold_start_ = max_speed_allowed_ * 0.9;
             speed_threshold_stop_ = max_speed_allowed_ * 0.8;

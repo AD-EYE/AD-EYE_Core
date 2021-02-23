@@ -14,28 +14,13 @@ class PointCloudFrameChanger {
         ros::Subscriber sub_;
         tf::TransformListener tf_listener_;
 
-        void pointcloud_transform_callback(sensor_msgs::PointCloud2 cloud_in)
+
+        void pointcloud_transform_callback(const sensor_msgs::PointCloud2::ConstPtr& cloud_in)
         {
             sensor_msgs::PointCloud2 cloud_out_transformed;
             std::string error_msg;
-            tf_listener_.waitForTransform("/base_link", "/world", cloud_in.header.stamp, ros::Duration(3.0), ros::Duration(0.01), &error_msg);
-            pcl_ros::transformPointCloud("/world", cloud_in, cloud_out_transformed, tf_listener_);
-
-            // try {
-            //     tf_listener_.waitForTransform("/base_link", "/world", cloud_in.header.stamp,
-            //                                 ros::Duration(3.0), ros::Duration(0.01), &error_msg);
-            //     tf::StampedTransform transform;
-            //     tf_listener_.lookupTransform("/world","/base_link", cloud_in.header.stamp, transform);
-            //     pcl_ros::transformPointCloud(cloud_in, cloud_out_transformed, transform);
-            //     // pcl_ros::transformPointCloud("/world", cloud_in, cloud_out_transformed, tf_listener_);
-            // }
-            // catch(tf::TransformException &ex) {
-            //     std::cout << "error caught" << std::endl;
-            //     ROS_ERROR("%s",ex.what());
-            // }
-
-            // Convert PCL type to ROS message
-            std::cout << "message from the waitForTransform" << error_msg << std::endl;
+            tf_listener_.waitForTransform("/base_link", "/world", cloud_in->header.stamp, ros::Duration(3.0), ros::Duration(0.01), &error_msg);
+            pcl_ros::transformPointCloud("/world", *cloud_in, cloud_out_transformed, tf_listener_);
             pub_.publish(cloud_out_transformed);
         }
 
