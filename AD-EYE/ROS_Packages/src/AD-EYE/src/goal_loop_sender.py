@@ -5,24 +5,37 @@ import tf
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 
-class loop:
-    def __inif__(self):
-        rospy.Subscriber("/gnss_pose", PoseStamped)
 
-    def goal1(self):
-        pub = rospy.Publisher("/move_base_simple/goal", PoseStamped,, queue_size=1)
+def listener():
+    rospy.Subscriber("/gnss_pose", PoseStamped)
+
+def talker():
+ 
+    goal_publisher = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=10)
+
+    goal = PoseStamped()
+    goal.header.seq = 1 
+    goal.header.stamp = rospy.Time.now()
+    goal.header.frame_id = 'world'
+
+    goal.pose.position.x = 257.0
+    goal.pose.position.y = 170.0
+    goal.pose.position.z = 0.0
+
+    goal.pose.orientation.x = 1.0
+    goal.pose.orientation.y = 0.0
+    goal.pose.orientation.z = 0.0
+    goal.pose.orientation.2 = 0.0
+
+    goal_publisher.publish(goal)
+    rate = rospy.Rate(1)
 
 
 
 
 
 if __name__ == '__main__':
-    rospy.init_node('sender', anonymous=True)
-    if len(sys.argv) < 3:
-        Sender(True)
-    else:
-        if sys.argv[1]=="false":
-            Sender(False)
-        else:
-            Sender(True)
+    rospy.init_node('loop', anonymous=True)
+    talker()
+    rospy.loginfo(loop goal)
     rospy.spin()

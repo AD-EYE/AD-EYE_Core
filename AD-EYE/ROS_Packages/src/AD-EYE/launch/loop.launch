@@ -1,0 +1,10 @@
+<!-- -->
+<launch>
+
+
+    <node type="goal_loop.py"
+        pkg="adeye"
+        name="loop"
+        respawn="true"
+
+</launch>
