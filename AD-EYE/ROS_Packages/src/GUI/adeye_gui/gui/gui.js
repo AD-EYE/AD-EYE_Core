@@ -1102,13 +1102,14 @@ function getTopics()
 
   function createGenericCard()
   {
-    /* let parent_div = document.createElement("div");
+   // let parent_div = document.createElement("div");
     //parent_div.class = "col-md-4 col-sm-12";
 
     let child_div = document.createElement("div");
-    child_div.class ="box";
-    child_div.style.border = "5px";
-    child_div.style.borderBottomLeftRadius = "5px";
+    child_div.classList.add("box");
+
+    child_div.draggable = "true";
+    
     
 
     let h2 = document.createElement("h2");
@@ -1116,21 +1117,19 @@ function getTopics()
 
     let text = document.createTextNode("Generic Card");
     h2.appendChild(text);
-    h2.style.color = "red";
-    h2.style.background = "gray";
-
     child_div.appendChild(h2);
-    parent_div.appendChild(child_div);
+    //parent_div.appendChild(child_div);
 
-    document.getElementById("main").appendChild(parent_div); */
+    document.getElementById("generic").append(child_div);
 
 
-
+/* 
     let div1 = document.createElement("div");
-    div1.className += "generic_div";
+    div1.className = "generic_div";
     let generic = document.getElementsByClassName("generic");
     generic.style.display = "block";
    div1.innerHTML = generic.innerHTML; 
+   document.appendChild(div1); */
    
    
   }
