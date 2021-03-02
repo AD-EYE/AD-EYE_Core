@@ -34,7 +34,7 @@
     <!-- main content -->
     <main>
       <div class="container">
-      <div class="row">
+      <div id="row_div" class="row">
 
         <!-- card for linear velocity -->
         <div class="col-md-4 col-sm-12">
@@ -370,7 +370,7 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Ros Topics List</h2>
               <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic"> </select></p>
-              <span><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<input id="topic_data_textbox" type="text" name="topic_data" value="" placeholder="Topic_Data"></input></span>
+              <span><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<input id="topic_data_textbox" type="text"  value="" placeholder="Topic_Data"></input></span>
           </div>
         </div>
 
@@ -396,27 +396,12 @@
              <canvas id="tl_camera_canvas" width="960" height="720"></canvas>
 					</div>
         </div>
-
-        <!-- <div class="plus">+</div>
-         <button class="plus">
-            <div class="item">
-            <p>title</p>
-        </div>
-        </button> -->  
-        
-        <!-- <div class="generic" class="col-md-4 col-sm-12" style="display:none">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Generic card</h2>
-            <p> Add the content here</p>
-          </div>
-        </div>  -->
-        <div id="generic" class="col-md-4 col-sm-12"></div>
-        <button id="generic_button" onclick="createGenericCard()">+</button>
-        
-        
+      </div>
+      <div><button id="generic_button" onclick="createGenericCard()">+</button></div>
 
       </div>
-      </div>
+
+
 	  </main>
 
     <!-- footer -->

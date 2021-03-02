@@ -624,15 +624,7 @@ function faultInjection_OnClick(button)
             {
                 button.value = "off";
                 button.style.backgroundColor = "gray";
-                //document.getElementById("form_display").innerHTML = button.parentNode.parentNode.parentNode.id;
-                //formsCollection[i].remove(formsCollection[i].firstElementChild);
                 document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
-
-               
-                //document.getElementById("x1").innerHTML = formsCollection[i].lastElementChild;
-
-                //let removed = formsCollection[i].remove(parent_div);
-                //parent.append(removed);
                 formsCollection[i].style.display = "none";
 
             }
@@ -656,37 +648,6 @@ function faultInjection_OnClick(button)
     function fault_injection_parameter_values(button)
     {
         var form = button.parentNode.id;
-        /* let gnss_form = document.getElementById("gnss_form");
-
-        let lidar1_form = document.getElementById("lidar1_form");
-        let lidar2_form = document.getElementById("lidar2_form");
-        let lidar3_form = document.getElementById("lidar3_form");
-        let lidar4_form = document.getElementById("lidar4_form");
-        let radar_form = document.getElementById("radar_form");
-        let camera1_form = document.getElementById("camera1_form");
-        let camera2_form = document.getElementById("camera2_form");
-        let tl_camera_form = document.getElementById("tl_camera_form"); */
-        
-        /* let gnss_state = document.getElementById("gnss_state");
-        let lidar1_state = document.getElementById("lidar1_state");
-        let lidar2_state = document.getElementById("lidar2_state");
-        let lidar3_state = document.getElementById("lidar3_state");
-        let lidar4_state = document.getElementById("lidar4_state");
-        let radar_state = document.getElementById("radar_state");
-        let camera1_state = document.getElementById("camera1_state");
-        let camera2_state = document.getElementById("camera2_state");
-        let tl_camera_state = document.getElementById("tl_camera_state"); */
-
-        /* let gnss_input = document.getElementById("gnss_input");
-        let lidar1_input = document.getElementById("lidar1_input");
-        let lidar2_input = document.getElementById("lidar2_input");
-        let lidar3_input = document.getElementById("lidar3_input");
-        let lidar4_input = document.getElementById("lidar4_input");
-        let radar_input = document.getElementById("radar_input");
-        let camera1_input = document.getElementById("camera1_input");
-        let camera2_input = document.getElementById("camera2_input");
-        let tl_camera_input = document.getElementById("tl_camera_input");
- */
         switch(form)
         {
             case "gnss_form":
@@ -1034,32 +995,47 @@ function getTopics()
     let request = new ROSLIB.ServiceRequest();
     topicsClient.callService(request, function(result) 
     {
-        let topics_list = result.topics;
+
+        let topics_list = result.topics.sort();
+        let topic_types = result.types;
         let select = document.getElementById("select_topic");
-        let topics_array = Object.values(topics_list); 
-        for(var i = 0; i < topics_array.length; i++)
+        let topic_data = document.getElementById("topic_data_textbox");
+
+        //let topics_array = Object.values(topics_list); 
+        //let topic_types_array = topic_types;
+        for(var i = 0; i < topics_list.length; i++)
         {
-            let value = topics_array[i];
+            let value = topics_list[i];
+            //let value = topic_types[i];
             let option = document.createElement("option");
             option.textContent = value;
-            select.appendChild(option);
+            select.append(option);
+            let selected_topic = select.options[select.selectedIndex].text;
+            topic_data.value = select.options[select.selectedIndex].text;
+
+
         }
-        let topic_data = document.getElementById("topic_data_textbox");
-        for(let i = 0; i < topics_array.length; i++)
+
+        //document.getElementById("topic_data_textbox").value = selected_topic;
+
+        for(let i = 0; i < topics_list.length; i++)
         { 
             // Subscribing to a Topic
             var listener = new ROSLIB.Topic({
             ros : ros,
-            name : topics_array[i],
-            messageType : 'std_msgs'
+            name : topics_list[i],
+            messageType : topic_types[i]
             });
 
             listener.subscribe(function(message) {
+
             listener.unsubscribe();
             });
-        }  
+            
+        }   
         
     });
+    //topic_data.innerHTML = message.data;
 }
 /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
     var that = this;
@@ -1093,34 +1069,27 @@ function getTopics()
 //---------------------List of Topics-----------------------
 
 //----------------generic card----------------
-{/* <div class="generic" class="col-md-4 col-sm-12" style="display:none">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Generic card</h2>
-            <p> Add the content here</p>
-          </div>
-        </div> */}
 
   function createGenericCard()
   {
-   // let parent_div = document.createElement("div");
-    //parent_div.class = "col-md-4 col-sm-12";
+    let generic = document.createElement("div");
+    generic.className = "col-md-4 col-sm-12";
 
-    let child_div = document.createElement("div");
-    child_div.classList.add("box");
+    let row_div = document.getElementById("row_div");
+    let generic_child_div = document.createElement("div");
 
-    child_div.draggable = "true";
-    
-    
+    generic_child_div.classList.add("box");
+    generic_child_div.draggable = "true";
 
     let h2 = document.createElement("h2");
     h2.class ="text_center";
 
     let text = document.createTextNode("Generic Card");
     h2.appendChild(text);
-    child_div.appendChild(h2);
-    //parent_div.appendChild(child_div);
+    generic_child_div.appendChild(h2);
+    generic.appendChild(generic_child_div);
 
-    document.getElementById("generic").append(child_div);
+    row_div.appendChild(generic);
 
 
 /* 

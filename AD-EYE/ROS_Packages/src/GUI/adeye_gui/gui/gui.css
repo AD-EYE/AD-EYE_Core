@@ -18,6 +18,27 @@ body
   font-weight: bold;
 }
 
+.float-button {
+  position: fixed;
+  background-color: #699b2c;
+  right: -77px;
+  top: 270px;
+  transition: all 0.2s ease-in 0s;
+  z-index: 9999;
+  cursor: pointer;
+
+ /*  width: 60px;
+  height:60px;
+  border-radius: 100%;
+  border:none;
+  font-size: xx-large; */ 
+/*   float: left;
+ */  }
+
+  .float-button:hover {
+    right: -1px;
+    }
+
 .card
 {
   
@@ -115,9 +136,9 @@ button
   border:none;
   font-size: xx-large; 
   float: left;
-}
+} 
 
- .manager,.fault_injection
+.manager,.fault_injection
 {
   background: gray;
   color:white;
