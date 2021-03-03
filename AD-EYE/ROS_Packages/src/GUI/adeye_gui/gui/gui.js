@@ -1034,9 +1034,17 @@ function getTopics()
                 });
     
                 listener.subscribe(function(message) {
-                    document.getElementById("topic_data_textbox").value = message.data;
+                    var data = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = data;
                     listener.unsubscribe();
-                });
+                }); 
+
+                /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
+                    var that = this;
+                    var messageJson = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = messageJson;
+
+                } */
             }
         }   
     });
