@@ -8,6 +8,8 @@ from geometry_msgs.msg import PoseStamped
 
 def listener():
     rospy.Subscriber("/gnss_pose", PoseStamped)
+    rospy.spin()
+
 
 def talker():
  
@@ -25,10 +27,12 @@ def talker():
     goal.pose.orientation.x = 1.0
     goal.pose.orientation.y = 0.0
     goal.pose.orientation.z = 0.0
-    goal.pose.orientation.2 = 0.0
+    goal.pose.orientation.w = 0.0
 
     goal_publisher.publish(goal)
     rate = rospy.Rate(1)
+    rospy.spin()
+
 
 
 
@@ -38,4 +42,3 @@ if __name__ == '__main__':
     rospy.init_node('loop', anonymous=True)
     talker()
     rospy.loginfo(loop goal)
-    rospy.spin()
