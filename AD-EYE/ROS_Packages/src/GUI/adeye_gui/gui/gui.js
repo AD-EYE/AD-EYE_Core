@@ -984,59 +984,64 @@ function faultInjection_OnClick(button)
 
 
 //---------------------List of Topics-----------------------
+var isClicked = false;
+
 function getTopics() 
 {
-    var topicsClient = new ROSLIB.Service({
-    ros : ros,
-    name : '/rosapi/topics',
-    serviceType : 'rosapi/Topics'
-    });
+    let select = document.getElementById("select_topic");
 
+    var topicsClient = new ROSLIB.Service({
+        ros : ros,
+        name : '/rosapi/topics',
+        serviceType : 'rosapi/Topics'
+        });
+    
     let request = new ROSLIB.ServiceRequest();
+
+    if(isClicked === false)
+    {
+        topicsClient.callService(request, function(result) 
+        {
+            topics_list = result.topics;
+            for(var i = 0; i < topics_list.length; i++)
+            {
+                let topic_name = topics_list[i];
+                let option = document.createElement("option");
+                option.value = i;
+                option.text = topic_name;
+                select.append(option);
+                  
+            }
+        });
+    }
+    isClicked = true;
+
+    let selected_topic = select.options[select.selectedIndex].text;
+    let selected_topic_value = select.options[select.selectedIndex].value;
+
     topicsClient.callService(request, function(result) 
     {
-
-        let topics_list = result.topics.sort();
-        let topic_types = result.types;
-        let select = document.getElementById("select_topic");
-        let topic_data = document.getElementById("topic_data_textbox");
-
-        //let topics_array = Object.values(topics_list); 
-        //let topic_types_array = topic_types;
-        for(var i = 0; i < topics_list.length; i++)
-        {
-            let value = topics_list[i];
-            //let value = topic_types[i];
-            let option = document.createElement("option");
-            option.textContent = value;
-            select.append(option);
-            let selected_topic = select.options[select.selectedIndex].text;
-            topic_data.value = select.options[select.selectedIndex].text;
-
-
-        }
-
-        //document.getElementById("topic_data_textbox").value = selected_topic;
-
-        for(let i = 0; i < topics_list.length; i++)
+        topic_types = result.types;
+        for(let i = 0; i < topic_types.length; i++)
         { 
-            // Subscribing to a Topic
-            var listener = new ROSLIB.Topic({
-            ros : ros,
-            name : topics_list[i],
-            messageType : topic_types[i]
-            });
-
-            listener.subscribe(function(message) {
-
-            listener.unsubscribe();
-            });
-            
+            if(i == selected_topic_value)
+            {
+                // Subscribing to a Topic
+                var listener = new ROSLIB.Topic({
+                    ros : ros,
+                    name : selected_topic,
+                    messageType : topic_types[i]
+                });
+    
+                listener.subscribe(function(message) {
+                    document.getElementById("topic_data_textbox").value = message.data;
+                    listener.unsubscribe();
+                });
+            }
         }   
-        
     });
-    //topic_data.innerHTML = message.data;
 }
+
 /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
     var that = this;
     var messageJson = JSON.stringify(message);
@@ -1049,29 +1054,13 @@ function getTopics()
       that.socket.send(messageJson);
     }
   }; */
-
  
-/* ROSLIB.Ros.prototype.getTopics = function(callback) {
-    var topicsClient = new ROSLIB.Service({
-      ros : this,
-      name : '/rosapi/topics',
-      serviceType : 'rosapi/Topics'
-    });
-  
-    var request = new ROSLIB.ServiceRequest();
-  
-    topicsClient.callService(request, function(result) {
-      callback(result.topics);
-    });
-  }; 
-  document.getElementById("topics").innerHTML = "hello";
- */
 //---------------------List of Topics-----------------------
 
 //----------------generic card----------------
 
-  function createGenericCard()
-  {
+function createGenericCard()
+{
     let generic = document.createElement("div");
     generic.className = "col-md-4 col-sm-12";
 
@@ -1090,533 +1079,8 @@ function getTopics()
     generic.appendChild(generic_child_div);
 
     row_div.appendChild(generic);
-
-
-/* 
-    let div1 = document.createElement("div");
-    div1.className = "generic_div";
-    let generic = document.getElementsByClassName("generic");
-    generic.style.display = "block";
-   div1.innerHTML = generic.innerHTML; 
-   document.appendChild(div1); */
-   
-   
-  }
+}
 //----------------generic card----------------
-        
-
-
-
-//-----------------code------------------
-// let formElements = new Array();
-// let result = new Array();
-
-
-//     // function to reset the dropdown list to off value and to change the color of button based on the values on/off
-//     function faultInjection_OnClick(button_element)
-//     {
-//         let selected_element = document.getElementsByClassName("selected");
-        
-//         for( let i = 0; i < selected_element.length; i++)
-//         {
-//             if(button_element.name == selected_element[i].name)
-//             {
-//                 document.getElementById("a").innerHTML = " ";
-//                 if(button_element.value == "off")
-//                 {
-//                     button_element.value = "on";
-//                     button_element.style.backgroundColor = green;
-//                     selected_element[i].selectedIndex = 0;
-//                     /* let gnss_form = document.getElementById("gnss_form");
-//                     gnss_form.style.display = "block"; */
-                    
-
-//             //form.append(lidar_div.firstElementChild);
-//                     switch(button_element.name)
-//                     {
-//                         case "gnss":
-//                             //gnssForm(button_element);
-//                             let gnss_form = document.getElementById("gnss_div_form");
-//                             gnss_form.style.display = "block";
-//                             break;
-//                         case "lidar1":
-//                             let lidar_div = document.getElementById(button_element.parentElement.id);
-//                             lidar_div.lastElementChild.style.display = "none";
-//                             form1 = lidarForm(button_element,lidar_div.firstElementChild);
-//                             break;
-//                         case "lidar2":
-//                             lidarForm(button_element,lidar_div.firstElementChild);
-//                             break;
-//                         case "lidar3":
-//                             lidarForm(button_element,lidar_div.firstElementChild);
-//                             break;
-//                         case "lidar4":
-//                             lidarForm(button_element,lidar_div.firstElementChild);
-//                             break;
-//                         case "radar":
-//                             radarForm();
-//                             break;
-//                         case "camera_1":
-//                             cameraForm();
-//                             break;
-//                         case "camera_2":
-//                             cameraForm();
-//                             break;
-//                         case "tl_camera":
-//                             cameraForm();
-//                             break;        
-//                     }
-                 
-                    
-                   
-//                 }
-//                 else
-//                 {
-//                     button_element.value = "off";
-//                     button_element.style.backgroundColor = "gray";
-//                     selectlet gnss_array = new Array();
-    // function gnss_parameter_values()
-    // {
-    //     let gnss_form = document.getElementById("gnss_form");
-    //     for (let i=0;i<gnss_form.length;i++)
-    //         {
-    //           gnss_array[i] = gnss_form[i].value;
-    //         }
-    //         document.getElementById("x1").innerHTML = gnss_array;
-    //         //gnss_array[0] = gnss_form[1].options[gnss_form[1].selectedIndex].index;
-            
-
-    // }
-
-    
-    // //function to assign labels to lidar fault injection parameters
-    // function lidar_fault_injection_label(i)
-    // {
-    //     let lidar_fault_injection_labels_array = new Array("State","random/range_variance","random/theta_variance","rain/rain_intensity","rain/a","rain/b","rain/reflectivity","rain/max_range");
-    //     let lidar_label = document.createElement("label");
-    //     lidar_label.innerHTML = lidar_fault_injection_labels_array[i];
-    //     return lidar_label;
-    // }
-    
-    // //function to create a feild in the form for lidar fault injection parameter
-    // function lidar_fault_injection_parameters(i)
-    // {
-    //     let lidar_fault_injection_parameters_array = new Array("random/range_variance","random/theta_variance","rain/rain_intensity","rain/a","rain/b","rain/reflectivity","rain/max_range");
-    //     let parameter_default_values_array = new Array("0.0001","0.0001","7.5","0.01","0.6","0.9","100");
-    //     let lidar_parameter = document.createElement("input"); 
-    //     lidar_parameter.setAttribute("id",lidar_fault_injection_parameters_array[i]);
-    //     lidar_parameter.setAttribute("type", "text"); 
-    //     lidar_parameter.setAttribute("name", lidar_fault_injection_parameters_array[i]); 
-    //     lidar_parameter.setAttribute("placeholder", lidar_fault_injection_parameters_array[i]); 
-    //     lidar_parameter.setAttribute("value",parameter_default_values_array[i]);
-    //     return lidar_parameter;
-    // }
-
-    
-
-    // // function for creating a form for lidar fault injection parameters.
-    // function lidarForm(button_element,lidar_div)
-    // {
-    //    // let storeData = new Array();
-        
-    //     // create a form dynamically 
-    //     let form = document.createElement("form"); 
-    //     form.setAttribute("id", "lidar_parameters");
-
-    //     //--------- state parameter of lidar fault injection ----------
-
-    //         // label for state parameter of fault injection
-    //         let state_label = lidar_fault_injection_label(0);
-
-    //         // drop down element to select the value for state parameter of fault injection.
-    //         let values = ["Off", "Random","Rain"];
-    //         let state_drop_down = document.createElement("select");
-    //         state_drop_down.setAttribute("id","State");
-
-    //         for (const val of values) 
-    //         {
-    //             var option = document.createElement("option");
-    //             option.text = val;
-    //             state_drop_down.append(option);
-    //         }
-            
-    //         // create span element for accepting the input for state parameter of fault injection
-    //         let state_span = document.createElement("span");
-            
-    //         // adding the label and drop down of state parameter to state_span element
-    //         state_span.append(state_label);
-    //         state_span.append(" ");
-    //         state_span.append(state_drop_down); 
-            
- 
-    //     //--------- state parameter of lidar fault injection ----------
-
-    //     //---------  random/range_variance parameter of lidar fault injection ----------
-
-    //         // label for random/range_variance parameter of fault injection
-    //         let range_variance_label = lidar_fault_injection_label(1);
-
-    //         // Create an input element for random/range_variance
-    //         let range_variance_parameter = lidar_fault_injection_parameters(0);
-
-    //         // create span element for accepting the input for random/range_variance parameter of fault injection
-    //         let range_variance_span = document.createElement("span");
-
-    //         // adding the label and text feild of random/range_variance parameter to range_variance_span element
-    //         range_variance_span.append(range_variance_label);
-    //         range_variance_span.append("  ");
-    //         range_variance_span.append(range_variance_parameter);
- 
-    //     //---------  random/range_variance parameter of lidar fault injection ----------
-
-    //     //---------  random/theta_variance parameter of lidar fault injection ----------
-
-    //         // label for random/theta_variance parameter of fault injection
-    //         let theta_variance_label = lidar_fault_injection_label(2);
-            
-    //         // Create an input element for random/theta_variance
-    //         let theta_variance_parameter = lidar_fault_injection_parameters(1);
-
-    //         // create span element for accepting the input for random/theta_variance parameter of fault injection
-    //         let theta_variance_span = document.createElement("span");
-
-    //         // adding the label and text feild of random/theta_variance parameter to theta_variance_span element
-    //         theta_variance_span.append(theta_variance_label);
-    //         theta_variance_span.append(" ");
-    //         theta_variance_span.append(theta_variance_parameter);
-
-    //     //---------  random/theta_variance parameter of lidar fault injection ----------
-
-    //     //---------  rain/rain_intensity parameter of lidar fault injection ----------
-
-    //         // label for rain/rain_intensity parameter of fault injection
-    //         let rain_intensity_label = lidar_fault_injection_label(3); 
-
-    //         // Create an input element for rain/rain_intensity
-    //         let rain_intensity_parameter = lidar_fault_injection_parameters(2);
-
-    //         // create span element for accepting the input for rain/rain_intensity parameter of fault injection
-    //         let rain_intensity_span = document.createElement("span");
-
-    //         // adding the label and text feild of rain/rain_intensity parameter to rain_intensity_span element
-    //         rain_intensity_span.append(rain_intensity_label);
-    //         rain_intensity_span.append(" ");
-    //         rain_intensity_span.append(rain_intensity_parameter);
-        
-    //     //---------  rain/rain_intensity parameter of lidar fault injection ----------
-
-    //     //---------  rain/a parameter of lidar fault injection ----------
-
-    //         // label for rain/a parameter of fault injection
-    //         let rain_a_label = lidar_fault_injection_label(4); 
-
-    //         // Create an input element for rain/a
-    //         let rain_a_parameter = lidar_fault_injection_parameters(3);
-
-    //         // create span element for accepting the input for rain/a parameter of fault injection
-    //         let rain_a_span = document.createElement("span");
-
-    //         // adding the label and text feild of rain/a parameter to rain_intensity_span element
-    //         rain_a_span.append(rain_a_label);
-    //         rain_a_span.append(" ");
-    //         rain_a_span.append(rain_a_parameter);
-
-    //     //---------  rain/a parameter of lidar fault injection ----------
-
-    //     //---------  rain/b parameter of lidar fault injection ----------
-
-    //         // label for rain/b parameter of fault injection
-    //         let rain_b_label = lidar_fault_injection_label(5);
-
-    //         // Create an input element for rain/b
-    //         let rain_b_parameter = lidar_fault_injection_parameters(4);
-
-    //         // create span element for accepting the input for rain/b parameter of fault injection
-    //         let rain_b_span = document.createElement("span");
-
-    //         // adding the label and text feild of rain/b parameter to rain_intensity_span element
-    //         rain_b_span.append(rain_b_label);
-    //         rain_b_span.append(" ");
-    //         rain_b_span.append(rain_b_parameter);
-
-    //     //---------  rain/b parameter of lidar fault injection ----------
-
-    //     //---------  rain/reflectivity parameter of lidar fault injection ----------
-        
-    //         // label for rain/reflectivity parameter of fault injection
-    //         let reflectivity_label = lidar_fault_injection_label(6); 
-
-    //         // Create an input element for rain/reflectivity
-    //         let reflectivity_parameter = lidar_fault_injection_parameters(5);
-
-    //         // create span element for accepting the input for rain/reflectivity parameter of fault injection
-    //         let reflectivity_span = document.createElement("span");
-
-    //         // adding the label and text feild of rain/reflectivity parameter to reflectivity_span element
-    //         reflectivity_span.append(reflectivity_label);
-    //         reflectivity_span.append(" ");
-    //         reflectivity_span.append(reflectivity_parameter);
-            
-    //     //---------  rain/reflectivity parameter of lidar fault injection ----------
-
-    //     //---------  rain/max_range parameter of lidar fault injection ----------
-
-    //         // label for rain/max_range parameter of fault injection
-    //         let max_range_label = lidar_fault_injection_label(7); 
-
-    //         // Create an input element for rain/max_range
-    //         let max_range_parameter = lidar_fault_injection_parameters(6);
-
-    //         // create span element for accepting the input for rain/max_range parameter of fault injection
-    //         let max_range_span = document.createElement("span");
-
-    //         // adding the label and text feild of rain/max_range parameter to reflectivity_span element
-    //         max_range_span.append(max_range_label);
-    //         max_range_span.append(" ");
-    //         max_range_span.append(max_range_parameter);
-
-    //     //---------  rain/max_range parameter of lidar fault injection ----------    
-
-    //         // Create a send button 
-    //         let send = document.createElement("input");
-    //         send.setAttribute("id","send_button"); 
-    //         send.setAttribute("type", "submit"); 
-    //         send.setAttribute("value", "Send");
-    //        // send_button.addEventListener("click", insert);
-    //         //send.setAttribute("onclick",insert(form));
-
-            
-    //         //myFunction(button_element,form);
-    //         //let lidar_div = document.getElementById(button_element.parentElement.id);
-    //         //lidar_div.lastElementChild.style.display = "none";
-    //         form.append(lidar_div); 
-
-    //     // Append the state to the form 
-    //     form.append(state_span);  
-
-    //     // Append the random_range_variance to the form 
-    //     form.append(range_variance_span); 
-
-    //     // Append the random_theta_variance to the form 
-    //     form.append(theta_variance_span); 
-        
-    //     // Append the rain_rain_intensity to the form 
-    //     form.append(rain_intensity_span);
-
-    //     // Append the rain_a to the form 
-    //     form.append(rain_a_span);
-
-    //     // Append the rain_b to the form 
-    //     form.append(rain_b_span);
-
-    //     // Append the rain_reflectivity to the form 
-    //     form.append(reflectivity_span);
-
-    //     // Append the rain_max_range to the form
-    //     form.append(max_range_span);
-
-    //     // Append the button to the form 
-    //     form.append(send);  
-
-    //     document.getElementById("a").appendChild(form);
-
-    //     }
-
-    //     function insert(form1)
-    //     {
-    //         let form_element = document.getElementById("lidar_parameters");
-    //          for (let i=0;i<form_element.length;i++)
-    //         {
-              
-    //           formElements[i] = form_element[i].value;
-    //           formElements[1] = form_element[1].options[form_element[1].selectedIndex].index;
-    //         }
-    //         //document.getElementById("x1").innerHTML = formElements;
-    //         return formElements; 
-    //     }  
-
-    //     let data_value = new Array();
-    //     //data_value = result;
-       
-    // function publish_fault_injection(fault_injection,topic,result)
-    // {
-    //     let fault_injection_button = document.getElementsByClassName("selected");
-    //     for( let i = 0; i < fault_injection_button.length; i++)
-    //     {   
-    //         if(fault_injection.name === fault_injection_button[i].name)
-    //         {
-    //             let option = fault_injection_button[i].options[fault_injection_button[i].selectedIndex];
-    //             //data_value = fault_injection_button[i].value;
-    //             data_value.push(...result);
-    //             //data_value = formElements;
-    //             if((option.value) != 0)
-    //             {
-    //                 let fault_injection_topic = new ROSLIB.Topic({
-    //                     ros : ros,
-    //                     name : topic,
-    //                     messageType : 'std_msgs/Float64MultiArray'
-    //                 });
-                
-    //                 let fault_injection_msg = new ROSLIB.Message({
-    //                     data : parseFloat(data_value)
-    //                 });
-
-    //                 fault_injection_topic.publish(fault_injection_msg);
-    //                 //document.getElementById("x1").innerHTML = "hello";
-    //             }
-    //         }
-    //     }
-    // }
-    
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/gnss
-    // function faultInjectionGnss_OnChange(gnss)
-    // {
-    //     let topic = "/fault_injection/gnss";
-    //     publish_fault_injection(gnss,topic);
-    //     //document.getElementById("x1").innerHTML = "hello";
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar1
-    // function faultInjectionLidar1_OnChange(lidar1)
-    // {
-    //     let form = document.getElementById("lidar_parameters");
-    //     let result = insert(form);
-    //    // document.getElementById("x1").innerHTML = result;
-    //     let topic = "/fault_injection/lidar1";
-    //     publish_fault_injection(lidar1,topic,result);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar2
-    // function faultInjectionLidar2_OnChange(lidar2)
-    // {
-    //     let topic = "/fault_injection/lidar2";
-    //     publish_fault_injection(lidar2,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar3
-    // function faultInjectionLidar3_OnChange(lidar3)
-    // {
-    //     let topic = "/fault_injection/lidar3";
-    //     publish_fault_injection(lidar3,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/lidar4
-    // function faultInjectionLidar4_OnChange(lidar4)
-    // {
-    //     let topic = "/fault_injection/lidar4";
-    //     publish_fault_injection(lidar4,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/radar
-    // function faultInjectionRadar_OnChange(radar)
-    // {
-    //     let topic = "/fault_injection/radar";
-    //     publish_fault_injection(radar,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/camera1
-    // function faultInjectionCamera1_OnChange(camera1)
-    // {
-    //     let topic = "/fault_injection/camera1";
-    //     publish_fault_injection(camera1,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/camera2
-    // function faultInjectionCamera2_OnChange(camera2)
-    // {
-    //     let topic = "/fault_injection/camera2";
-    //     publish_fault_injection(camera2,topic);
-    // }
-
-    // // function to switch on fault_injection on value change of dropdown and publishing the message on to topic fault_injection/tl_camera
-    // function faultInjectionTlCamera_OnChange(tl_camera)
-    // {
-    //     let topic = "/fault_injection/tl_camera";
-    //     publish_fault_injection(tl_camera,topic);
-    // } 
-    
-   /*  function fault_injection_parameters()
-{
-    let form_array = new Array("gnss_form","lidar1_form","lidar2_form","lidar3_form","lidar4_form","radar_form","camera_form");
-    let state_array = new Array("gnss_state","lidar_state","radar_state","camera_state");
-    let input_array = new Array("gnss_input","lidar1_input","lidar2_input","lidar3_input","lidar4_input","radar_input","camera1_input","camera2_input","tl_camera_input")
-    
-    for (let i = 0;i < form_array.length-1;i++)
-    {
-        gnss_array[i] = form_array[i].value;
-    }
-
-    // coverting the string array to float array
-    for (let i = 0;i < form_array.length;i++)
-    {
-        gnss_array[i] = parseFloat(gnss_array[i]);
-    }
-
-    // To display the selected value of dropdown in the textbox
-    for(var i = 0; i < input_array.length; i++)
-    {
-        selected_value = state_array[i].options[state_array[i].selectedIndex].text;
-        input_array[i].value = selected_value;
-    }
-
-    fault_injection_topic = new ROSLIB.Topic({
-        ros : ros,
-        name :'/fault_injection/gnss',
-        messageType : 'std_msgs/Float64MultiArray'
-    });
-
-    fault_injection_msg = new ROSLIB.Message({
-        data : gnss_array
-    });
-
-    fault_injection_topic.publish(fault_injection_msg); 
-    document.getElementById("x1").innerHTML = fault_injection_msg.data;
-}*/ 
-    //-----------------code------------------
-        
-    /*/* let lidar2_array = new Array();
-    function lidar2_parameter_values()
-    {
-        let lidar2_form = document.getElementById("lidar2_form");
-        let lidar_state = document.getElementById("lidar_state");
-        let lidar2_input = document.getElementById("lidar2_input");
-        let input = document.getElementsByTagName("input");
-       
-        for (let i = 0; i < lidar2_form.length-1; i++)
-        {
-            lidar2_array[i] = lidar2_form[i].value;
-        }
-       
-        // coverting the string array to float array
-        for (let i = 0; i < lidar2_array.length; i++)
-        {
-            lidar2_array[i] = parseFloat(lidar2_array[i]);
-        }
-       
-        // To display the selected value of dropdown in the textbox
-        for(var i = 0; i < input.length; i++)
-        {
-            if(input[i].type.toLowerCase() == "text")
-            {
-                selected_value = lidar_state.options[lidar_state.selectedIndex].text;
-                lidar2_input.value = selected_value;
-            }
-        }
-        
-        fault_injection_topic = new ROSLIB.Topic({
-            ros : ros,
-            name :'/fault_injection/lidar2',
-            messageType : 'std_msgs/Float64MultiArray'
-        });
-
-        fault_injection_msg = new ROSLIB.Message({
-            data : lidar2_array
-        });
-
-        fault_injection_topic.publish(fault_injection_msg); 
-    } */
-
-
        
 
          

@@ -23,7 +23,7 @@
     </style>
   </head>
 
-  <body onload="getTopics(); create_forms();"> 
+  <body onload="create_forms();"> 
       
     <!-- header of the page -->
     <header class="card">
@@ -369,7 +369,7 @@
          <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Ros Topics List</h2>
-              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic"> </select></p>
+              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
               <span><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<input id="topic_data_textbox" type="text"  value="" placeholder="Topic_Data"></input></span>
           </div>
         </div>
