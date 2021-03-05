@@ -1,6 +1,6 @@
 <!-- -->
 <launch>
-    <arg name="world_name" value="W01_Base_Map"/> 
+    <arg name="world_name" value="W13_Road_Map_World"/> 
     <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Pointcloud_Files/"/>
     <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Vector_Map_Files/"/>
     <!-- world_to_map -->
