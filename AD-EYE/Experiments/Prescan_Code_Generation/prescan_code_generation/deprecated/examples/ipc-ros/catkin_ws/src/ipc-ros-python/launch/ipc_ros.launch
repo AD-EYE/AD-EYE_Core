@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find rosbridge_server)/launch/rosbridge_tcp.launch" />
+  <node name="python_node" pkg="ipc-ros-python" type="run_node.py" output="screen" />
+</launch>

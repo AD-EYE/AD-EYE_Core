@@ -1,0 +1,199 @@
+%% Implement PreScan TA
+
+
+%%=================================================================================================================
+%% C API functions: access variables in the generated code via the C API interface
+%%=================================================================================================================
+
+%function generate_TA_CAPI_utils() Output
+
+    void* prescan_CAPI_get_address_by_name(rtwCAPI_ModelMappingInfo* capiMap, const char_T* tuningVariable)
+    {
+        uint_T nModelParams = rtwCAPI_GetNumModelParameters(capiMap);
+        const rtwCAPI_ModelParameters* modelParams = rtwCAPI_GetModelParameters(capiMap);
+        uint_T        idx;
+        uint_T        addrIdx;
+        const char_T* paramName;
+
+        for (idx=0; idx < nModelParams; idx++) {
+            paramName = rtwCAPI_GetModelParameterName(modelParams, idx); 
+            if (strcmp(paramName, tuningVariable) == 0) {
+                void** dataAddrMap = rtwCAPI_GetDataAddressMap(capiMap);
+                addrIdx = rtwCAPI_GetModelParameterAddrIdx(modelParams, idx);
+                return (void *) rtwCAPI_GetDataAddress(dataAddrMap, addrIdx);
+            }
+        }
+        return 0;
+    }
+
+%endfunction
+
+%function generate_TA_CAPI_setup() Output
+
+    rtwCAPI_ModelMappingInfo* capiMap = &(rtmGetDataMapInfo(%<GlobalScope.tSimStruct>).mmi);
+
+%endfunction
+
+%function generate_TA_CAPI_print(dataType,tuningVariable,dataSize) Output
+    
+    %switch dataType
+        %case "double"
+            printf("%s = %g  \n", "%<tuningVariable>", *%<tuningVariable>);
+        %break
+        %case "int"
+            printf("%s = %d  \n", "%<tuningVariable>", *%<tuningVariable>);
+        %break
+    %endswitch
+
+%endfunction
+
+
+%%=================================================================================================================
+%% generate main TA header + implementation
+%%=================================================================================================================
+
+%function checkTunableData() Output
+
+    /* Check consistency of tunable data */
+    if (PRESCAN_SUCCESS != prescan_tunabledata_create(experimentHandle, &tunableDataHandle))
+    {
+        printf("ERROR: %s\nAborting simulation.\n", prescan_error_get_last_error_message());
+        prescan_experiment_destroy(&experimentHandle);
+        exit(1);
+    }
+    isApiSuccessful = prescan_tunabledata_is_regeneration_needed(tunableDataHandle, &isRegenerationNeeded);
+    if (PRESCAN_SUCCESS != isApiSuccessful || isRegenerationNeeded)
+    {
+        printf("ERROR: %s\nAborting simulation.\n", prescan_error_get_last_error_message());
+        prescan_tunabledata_destroy(&tunableDataHandle);
+        prescan_experiment_destroy(&experimentHandle);
+        exit(1);
+    }
+    prescan_tunabledata_destroy(&tunableDataHandle);
+
+%endfunction
+
+%function generate_CLI_declarations() Output
+
+        char csName[256], experimentFileName[256];
+        size_t csNameLen;
+        prescan_object_t* experimentHandle;
+        prescan_object_t* tunableDataHandle;
+        const char pbExt[] = ".pb";
+        prescan_bool_t isRegenerationNeeded;
+        prescan_bool_t isApiSuccessful;
+        
+%endfunction
+
+%function generate_TA_header() Output
+
+    %openfile model_h = "%<Name>_prescan.h"
+    %selectfile model_h
+    void %<Name>_prescan_parameters(%<GlobalScope.tSimStructType> *const %<GlobalScope.tSimStruct>);
+    %closefile model_h
+
+%endfunction
+
+%function generate_TA_impl() Output
+
+    %assign registry_status = FEVAL("mbxparameters.registry.tlc_interface.create",Name)
+
+    %openfile model_c = "%<Name>_prescan.c"
+    %selectfile model_c
+
+    #include "%<Name>.h"
+    #include "%<Name>_prescan.h"
+
+    #include "rtwtypes.h"
+    #include "rtw_modelmap.h"
+    #include "prescan_api_error.h"
+    #include "prescan_api_experiment.h"
+    #include "prescan_internal_tunabledata.h"
+    #include "prescan_internal_testautomation.h"
+    #include <string.h>
+
+
+    %<generate_TA_CAPI_utils()>
+   
+    void %<Name>_prescan_parameters(%<GlobalScope.tSimStructType> *const %<GlobalScope.tSimStruct>)
+    {
+    %<generate_TA_CAPI_setup()>
+    %<generate_CLI_declarations()>
+
+        strcpy(csName,"%<Name>");
+        csNameLen = strlen(csName);
+        csName[csNameLen-3]='\0';
+        strcpy(experimentFileName, strcat(csName,pbExt));
+
+        if(PRESCAN_SUCCESS != prescan_experiment_create_from_file(experimentFileName, &experimentHandle))
+        {
+            printf("ERROR: %s\nAborting simulation.\n", prescan_error_get_last_error_message());
+            exit(1);
+        }
+
+        %<checkTunableData()>
+
+        /* Reset errors before adding tunable data */
+        prescan_error_last_error_reset();
+
+        %assign numExpr = FEVAL("mbxparameters.registry.tlc_interface.getNumberOfExpressions")
+        %foreach idx = numExpr
+
+            %assign tuningVariable  = FEVAL("mbxparameters.registry.tlc_interface.getTuningVariable",idx+1)
+            %assign dataType        = FEVAL("mbxparameters.registry.tlc_interface.getType",idx+1)
+            %assign dataSize        = FEVAL("mbxparameters.registry.tlc_interface.getSize",idx+1)
+
+            /* %<idx> : registry tuning variable = "%<tuningVariable>" type="%<dataType>" size=%<dataSize> */
+            {
+                %<dataType>* %<tuningVariable> = (%<dataType>*) prescan_CAPI_get_address_by_name(capiMap, "%<tuningVariable>");
+                if (%<tuningVariable> == NULL) {
+                    printf("WARNING: Address not found. Possible loss of tunability detected for variable: <%<tuningVariable>>.\n");
+                } else {
+                    %assign numOfVariables = FEVAL("mbxparameters.registry.tlc_interface.getNumberOfVariables",idx+1)
+                    %% Declare variables
+                    %foreach idx2 = numOfVariables
+                        %assign varDmType = FEVAL("mbxparameters.registry.tlc_interface.getDmType",idx+1,idx2+1)
+                        %assign varValue  = FEVAL("mbxparameters.registry.tlc_interface.getValue",idx+1,idx2+1)
+                        %assign modelName = FEVAL("mbxparameters.registry.tlc_interface.getModelName",idx+1,idx2+1)
+                        %assign pathName  = FEVAL("mbxparameters.registry.tlc_interface.getModelPath",idx+1,idx2+1)
+                        %<varDmType> p%<idx2+1> = %<varValue>;
+                        const char* p%<idx2+1>_modelName = "%<modelName>";
+                        const char* p%<idx2+1>_modelPath = "%<pathName>";
+
+                    %endforeach
+                    %% Place function calls
+                    %foreach idx2 = numOfVariables
+                        %assign varDmType = FEVAL("mbxparameters.registry.tlc_interface.getDmType",idx+1,idx2+1)
+                        prescan_experiment_get_%<varDmType>(experimentHandle, p%<idx2+1>_modelName, p%<idx2+1>_modelPath, &p%<idx2+1>);
+
+                    %endforeach
+
+                    %assign tuningExpression = FEVAL("mbxparameters.registry.tlc_interface.getExpression",idx+1)
+                    *%<tuningVariable> = (%<dataType>)(%<tuningExpression>);
+                }
+            }
+        %endforeach
+        prescan_experiment_destroy(&experimentHandle);
+        {
+            const char* errorMessage = prescan_error_get_last_error_message();
+            if (errorMessage)
+            {
+                printf("%s\n", errorMessage);
+                prescan_error_last_error_reset();
+            }
+        }
+    }
+
+    %closefile model_c
+    %assign registry_status = FEVAL("mbxparameters.registry.tlc_interface.clear")
+
+%endfunction
+
+%%=================================================================================================================
+%% MAIN
+%%=================================================================================================================
+
+%with CompiledModel
+    %<generate_TA_header()>
+    %<generate_TA_impl()>
+%endwith %%End of CompiledModel

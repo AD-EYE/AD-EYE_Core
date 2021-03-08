@@ -1,0 +1,7 @@
+%% Specify custom code to call PreScan TA
+
+%% TODO findout why tParametersNonReused for model referencing
+
+%with CompiledModel
+    %assign ConfigSet.CustomSourceCode	= "%<ConfigSet.CustomSourceCode>\n#include \"%<Name>_prescan.h\""
+%endwith %%End of CompiledModel
