@@ -27,7 +27,7 @@ class Features(Enum):
     SWITCH = 8
     SSMP = 9
     RVIZ = 10
-    loop = 11
+
 
 
 # Basic folder locations
@@ -47,7 +47,6 @@ SWITCH_LAUNCH_FILE_NAME = "switch.launch"
 MISSION_PLANNING_LAUNCH_FILE_NAME = "my_mission_planning.launch"
 MOTION_PLANNING_LAUNCH_FILE_NAME = "my_motion_planning.launch"
 SSMP_LAUNCH_FILE_NAME = "SSMP.launch"
-LOOP_GOAL_LAUNCH_FILE_NAME = "loop.launch"
 
 # Full path to each launch file
 RVIZ_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, RVIZ_LAUNCH_FILE_NAME))
@@ -62,7 +61,6 @@ MISSION_PLANNING_FULL_PATH = (
 MOTION_PLANNING_FULL_PATH = (
         "%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME))
 SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, SSMP_LAUNCH_FILE_NAME))
-LOOP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, LAUNCH_FOLDER_LOCATION, LOOP_GOAL_LAUNCH_FILE_NAME))
 EXPA_PATH = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/ExperimentA.launch"
 
 
@@ -85,15 +83,15 @@ current_state_nb = INITIALIZING_STATE_NB #this is the current state of the state
 
 
 # actual states (what features they have enables)
-# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA, LOOP]      # DISABLED = false = wait | ENABLED = True = run
-INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False, True]
-ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False, True]
-ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False, True]
-FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False, True]
+# FEATURES ORDER:         [RECORDING,     MAP,      SENSING,  LOCALIZATION, FAKE_LOCALIZATION, DETECTION, MISSION_PLANNING, MOTION_PLANNING, SWITCH,   SSMP, RVIZ, ExperimentA]      # DISABLED = false = wait | ENABLED = True = run
+INITIALIZING_STATE =      [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENABLED_STATE =           [    False,    True,        False,         False,             False,     False,             True,           False,   True,  False, True, False]
+ENGAGED_STATE =           [    False,    True,         True,          False,             True,      True,             True,            True,   True,   True, True, False]
+FAULT_STATE =             [    False,    True,         True,          False,             True,      True,             True,           False,   True,   True, True, False]
 FEATURES_STATE_LIST = [INITIALIZING_STATE, ENABLED_STATE, ENGAGED_STATE, FAULT_STATE]
 
 # saves the previous state so that we can detect changes
-previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False,False, True]
+previous_state =          [    False,   False,        False,         False,             False,     False,            False,           False,  False,   False,False,False]
 # holds the current state of  the features
 current_state =  INITIALIZING_STATE
 
@@ -200,7 +198,6 @@ if __name__ == '__main__':
         MISSION_PLANNING_LAUNCH_FILE_NAME = "rp_my_mission_planning.launch" #changes made in the manager file
         MOTION_PLANNING_LAUNCH_FILE_NAME = "rp_my_motion_planning.launch" #changes made in the manager file
         SSMP_LAUNCH_FILE_NAME = "rp_SSMP.launch"
-        LOOP_GOAL_LAUNCH_FILE_NAME = "rp_loop.launch"
         RVIZ_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, RVIZ_LAUNCH_FILE_NAME))
         MAP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, MAP_LAUNCH_FILE_NAME))
         LOCALIZATION_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, LOCALIZATION_LAUNCH_FILE_NAME)) #changes made in the manager file
@@ -213,7 +210,6 @@ if __name__ == '__main__':
         MOTION_PLANNING_FULL_PATH = (
                 "%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, MOTION_PLANNING_LAUNCH_FILE_NAME)) #changes made in the manager file
         SSMP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, SSMP_LAUNCH_FILE_NAME))
-        LOOP_FULL_PATH = ("%s%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION, LOOP_GOAL_LAUNCH_FILE_NAME))
 
 
 
@@ -251,8 +247,6 @@ if __name__ == '__main__':
     active_features.append(FeatureControl(SSMP_FULL_PATH, "SSMP"))
     active_features.append(FeatureControl(RVIZ_FULL_PATH, "Rviz"))
     active_features.append(FeatureControl(EXPA_PATH, "EXPa"))
-    active_features.append(FeatureControl(LOOP_FULL_PATH, "LOOP"))
-
 
 
 
