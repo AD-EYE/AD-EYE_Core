@@ -127,7 +127,6 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
             <div id="form_display"></div>
-            <div id="x1"></div>
 
             <!----gnss---->
             <div id="gnss_div" >
@@ -396,32 +395,31 @@
              <canvas id="tl_camera_canvas" width="960" height="720"></canvas>
 					</div>
         </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Goal Setting</h2>
+            <img src="car.jpeg" width="310" height="300" id="myImgId"></img>
+            <p>X:<span id="x-co-ordinate"></span></p>
+            <p>Y:<span id="y-co-ordinate"></span></p>
+					</div>
+        </div>
+
       </div>
       <div><button id="generic_button" onclick="createGenericCard()">+</button></div>
-
       </div>
-
-
 	  </main>
 
     <!-- footer -->
 	  <footer class="footer mt-auto bg-dark text-light">
 			<h5 style="text-align: center;">AD-EYE <a href="https://www.adeye.se/">(adeye.se)</a> Platform for Automated Driving Systems</h5>
     </footer>
-    <!-- <script>
-      var canvasElement = document.getElementById("myCanvas");
-      var context = canvasElement.getContext("2d"); 
-      context.fillStyle = "yellow";
-      context.fillRect(20, 20, 128, 128);
-      context.fillStyle = "red";
-      context.fillRect(150, 20, 128, 128);
-      context.fillStyle = "green";
-      context.fillRect(20, 150, 128, 128);
-      context.fillStyle = "blue"; 
-      context.fillRect(150, 150, 128, 128);
-      
-      </script>   -->
-     
+
+    <script>
+      var myImg = document.getElementById("myImgId");
+      myImg.onmousedown = GetCoordinates;
+    </script>
+   
   </body>
 </html>
 
