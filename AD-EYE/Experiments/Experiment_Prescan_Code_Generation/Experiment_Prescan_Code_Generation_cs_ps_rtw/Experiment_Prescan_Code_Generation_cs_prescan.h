@@ -1,0 +1,2 @@
+void Experiment_Prescan_Code_Generation_cs_prescan_parameters
+  (RT_MODEL_Experiment_Prescan_C_T *const Experiment_Prescan_Code_Gene_M);

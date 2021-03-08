@@ -1,0 +1,2 @@
+set MATLAB=C:\Program Files\MATLAB\R2019a
+gmake -f Experiment_Prescan_Code_Generation_cs.mk  MODELLIB=Experiment_Prescan_Code_Generation_cslib.lib MAT_FILE=1 COMBINE_OUTPUT_UPDATE_FCNS=0 INCLUDE_MDL_TERMINATE_FCN=1 MULTI_INSTANCE_CODE=0 ISPROTECTINGMODEL=NOTPROTECTING
