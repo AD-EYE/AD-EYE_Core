@@ -12,7 +12,7 @@
     <!-- traffic_light_camera_info -->
     <include file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="traffic_light_camera_info_publisher"/>
-        <arg name="args_list" value="/tl/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+        <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
 
     <!-- lidar_euclidean_cluster_detect -->
