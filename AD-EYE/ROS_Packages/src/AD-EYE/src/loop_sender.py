@@ -14,53 +14,51 @@ class loopgoal:
         self.goal_pub = rospy.Publisher('move_base_simple/goal', PoseStamped, queue_size=1)
 
     def goalcallback(self, data):
-       ''' Use absolute value for distance. 
+        goal = PoseStamped()
+        ''' Use absolute value for distance. 
         Since three points have different x positions, use x position to find the current goal'''
-        if (abs(data.pose.position.x - 257.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x =257.0:
-                goal = PoseStamped()
-                goal.header.seq = 1
-                goal.header.stamp = rospy.Time.now()
-                goal.header.frame_id = "world"
+        if (abs(data.pose.position.x - 257.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x == 257.0:
+            goal.header.seq = 1
+            goal.header.stamp = rospy.Time.now()
+            goal.header.frame_id = "world"
 
-                goal.pose.position.x = 223.0
-                goal.pose.position.y = 225.0
-                goal.pose.position.z = 0.0
+            goal.pose.position.x = 223.0
+            goal.pose.position.y = 225.0
+            goal.pose.position.z = 0.0
 
-                goal.pose.orientation.x = 0.0
-                goal.pose.orientation.y = 0.0
-                goal.pose.orientation.z = 0.0
-                goal.pose.orientation.w = 1.0
+            goal.pose.orientation.x = 0.0
+            goal.pose.orientation.y = 0.0
+            goal.pose.orientation.z = 0.0
+            goal.pose.orientation.w = 1.0
 
-        if (abs(data.pose.position.x - 223.0) + abs(data.pose.position.y - 225.0)) < 5.0 and data.pose.position.x =223.0:
-                goal = PoseStamped()
-                goal.header.seq = 1
-                goal.header.stamp = rospy.Time.now()
-                goal.header.frame_id = "world"
+        if (abs(data.pose.position.x - 223.0) + abs(data.pose.position.y - 225.0)) < 5.0 and data.pose.position.x == 223.0:
+            goal.header.seq = 1
+            goal.header.stamp = rospy.Time.now()
+            goal.header.frame_id = "world"
 
-                goal.pose.position.x = 84.0
-                goal.pose.position.y = 170.0
-                goal.pose.position.z = 0.0
+            goal.pose.position.x = 84.0
+            goal.pose.position.y = 170.0
+            goal.pose.position.z = 0.0
 
-                goal.pose.orientation.x = 1.0
-                goal.pose.orientation.y = 0.0
-                goal.pose.orientation.z = 0.0
-                goal.pose.orientation.w = 0.0
+            goal.pose.orientation.x = 1.0
+            goal.pose.orientation.y = 0.0
+            goal.pose.orientation.z = 0.0
+            goal.pose.orientation.w = 0.0
 
 
-        if (abs(data.pose.position.x - 84.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x =84.0:
-                goal = PoseStamped()
-                goal.header.seq = 1
-                goal.header.stamp = rospy.Time.now()
-                goal.header.frame_id = "world"
+        if (abs(data.pose.position.x - 84.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x == 84.0:
+            goal.header.seq = 1
+            goal.header.stamp = rospy.Time.now()
+            goal.header.frame_id = "world"
 
-                goal.pose.position.x = 257.0
-                goal.pose.position.y = 170.0
-                goal.pose.position.z = 0.0
+            goal.pose.position.x = 257.0
+            goal.pose.position.y = 170.0
+            goal.pose.position.z = 0.0
 
-                goal.pose.orientation.x = 1.0
-                goal.pose.orientation.y = 0.0
-                goal.pose.orientation.z = 0.0
-                goal.pose.orientation.w = 0.0
+            goal.pose.orientation.x = 1.0
+            goal.pose.orientation.y = 0.0
+            goal.pose.orientation.z = 0.0
+            goal.pose.orientation.w = 0.0
         self.goal_pub.publish(goal)
 
 
