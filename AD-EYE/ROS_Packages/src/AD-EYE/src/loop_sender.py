@@ -40,10 +40,10 @@ class loopgoal:
             goal.pose.position.y = 170.0
             goal.pose.position.z = 0.0
 
-            goal.pose.orientation.x = 1.0
+            goal.pose.orientation.x = 0.0
             goal.pose.orientation.y = 0.0
             goal.pose.orientation.z = 0.0
-            goal.pose.orientation.w = 0.0
+            goal.pose.orientation.w = 1.0
 
 
         if (abs(data.pose.position.x - 84.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x == 84.0:
@@ -55,10 +55,10 @@ class loopgoal:
             goal.pose.position.y = 170.0
             goal.pose.position.z = 0.0
 
-            goal.pose.orientation.x = 1.0
+            goal.pose.orientation.x = 0,0
             goal.pose.orientation.y = 0.0
             goal.pose.orientation.z = 0.0
-            goal.pose.orientation.w = 0.0
+            goal.pose.orientation.w = 1.0
         self.goal_pub.publish(goal)
 
 
