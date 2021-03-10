@@ -1092,16 +1092,14 @@ function createGenericCard()
 
 //----------------goal setting--------------------------
 
-/*  var myImg = document.getElementById("myImgId");
+var myImg = document.getElementById("myImgId");
  myImg.onmousedown = GetCoordinates;
-  */
+
 function FindPosition(oElement)
 {
 
-   
   if(typeof( oElement.offsetParent ) != "undefined")
   {
-
     for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
     {
       posX += oElement.offsetLeft;
@@ -1122,12 +1120,9 @@ function GetCoordinates(e)
   var PosY = 0;
   var ImgPos;
   ImgPos = FindPosition(myImg);
-/*   document.getElementById("x1").innerHTML = ImgPos[1];
- */
 
   if (!e) 
   var e = window.event;
-
 
   if (e.pageX || e.pageY)
   {
@@ -1142,12 +1137,17 @@ function GetCoordinates(e)
         + document.documentElement.scrollLeft;
       PosY = e.clientY + document.body.scrollTop
         + document.documentElement.scrollTop;
-
     }
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
   document.getElementById("x-co-ordinate").innerHTML = PosX;
   document.getElementById("y-co-ordinate").innerHTML = PosY;
 } 
+
+function setGoal()
+{
+  GetCoordinates(e);
+  document.getElementById("x1").innerHTML = e;
+}
 
 //----------------goal setting------------------
