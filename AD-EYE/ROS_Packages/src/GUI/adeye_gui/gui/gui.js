@@ -1092,9 +1092,9 @@ function createGenericCard()
 
 //----------------goal setting--------------------------
 
-var myImg = document.getElementById("myImgId");
+/* var myImg = document.getElementById("myImgId");
  myImg.onmousedown = GetCoordinates;
-
+ */
 function FindPosition(oElement)
 {
 
@@ -1124,6 +1124,7 @@ function GetCoordinates(e)
   if (!e) 
   var e = window.event;
 
+
   if (e.pageX || e.pageY)
   {
 
@@ -1142,12 +1143,29 @@ function GetCoordinates(e)
   PosY = PosY - ImgPos[1];
   document.getElementById("x-co-ordinate").innerHTML = PosX;
   document.getElementById("y-co-ordinate").innerHTML = PosY;
+
+  // setting goal
+  var x1=108,x2=286,y1=38,y2=244,xw1=173,xw2=-25,yw1=675,yw2= -759;
+  var scale_X;
+  var scale_Y;
+  var offset_X,offset_Y;
+
+  //PosX1 = scale_X * PosX + offset_X;
+  //PosY1 = scale_Y * PosY + offset_Y;
+
+  //xw1 = scale_X * x1 + offset_X;
+  //xw2 = scale_X * x2 + offset_X;
+  //(xw1 - xw2) = scale_X * (x1 - x2)
+  scale_X= (xw1-xw2)/(x1-x2);
+  offset_X = xw1 - scale_X * x1;
+
+  scale_Y = (yw1-yw2)/(y1-y2);
+  offset_Y = yw1 - scale_Y * y1;
+  document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
+
+
 } 
 
-function setGoal()
-{
-  GetCoordinates(e);
-  document.getElementById("x1").innerHTML = e;
-}
+
 
 //----------------goal setting------------------
