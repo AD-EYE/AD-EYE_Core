@@ -886,7 +886,7 @@ function faultInjection_OnClick(button)
         let canvas1 = document.getElementById( "camera1_canvas" );
         const context = canvas1.getContext( "2d" ); 
 
-        let imgData = context.createImageData(960,720);
+        let imgData = context.createImageData(canvas1.width,canvas1.height);
         for(let j = 0; j < array.length; j++)
         {
             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
@@ -895,9 +895,9 @@ function faultInjection_OnClick(button)
             imgData.data[ 4 * j + 3 ] = 255;
         }
         
-       var image = document.getElementById("camera1_canvas");
-       image.style.width = "100%";
-       image.style.height = "auto";
+       //var image = document.getElementById("camera1_canvas");
+       canvas1.style.width = "100%";
+       canvas1.style.height = "auto";
        context.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
     
     }); 
@@ -936,9 +936,9 @@ function faultInjection_OnClick(button)
             imgData.data[ 4 * j + 3 ] = 255;
         }
 
-        let image = document.getElementById("camera2_canvas");
-        image.style.width = "100%";
-        image.style.height = "auto";
+        //let image = document.getElementById("camera2_canvas");
+        canvas2.style.width = "100%";
+        canvas2.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas2.width,canvas2.height);
 }); 
 //-------------------camera 2 display --------------
@@ -975,12 +975,51 @@ function faultInjection_OnClick(button)
             imgData.data[ 4 * j + 3 ] = 255;
         }
 
-        let image = document.getElementById("tl_camera_canvas");
-        image.style.width = "100%";
-        image.style.height = "auto";
+        //let image = document.getElementById("tl_camera_canvas");
+        canvas3.style.width = "100%";
+        canvas3.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas3.width,canvas3.height);
 }); 
 //------------------- TL camera  display --------------
+
+//----------------Image Display------------------
+    
+    //listen to the topic camera_1/image_raw
+    let camera_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_1/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
+
+    //subscribing to the topic camera_1/image_raw
+    camera_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+        
+        let canvas4 = document.getElementById( "image_canvas" );
+        const context= canvas4.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas4.width,canvas4.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+        
+       //var image = document.getElementById("camera1_canvas");
+       canvas4.style.width = "100%";
+       canvas4.style.height = "auto";
+       context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
+    
+    }); 
+//----------------Image Display--------------------------
 
 
 //---------------------List of Topics-----------------------
@@ -1072,6 +1111,61 @@ function createGenericCard()
     let generic = document.createElement("div");
     generic.className = "col-md-4 col-sm-12";
 
+    let generic_child_div = document.createElement("div");
+
+    generic_child_div.classList.add("box");
+    generic_child_div.draggable = "true";
+
+    let h2 = document.createElement("h2");
+    h2.class ="text_center";
+    let text = document.createTextNode("ROS Topics List");
+    h2.appendChild(text);
+    generic_child_div.appendChild(h2);
+
+    let p = document.createElement("p");
+
+    let label1 = document.createElement("label");
+    let label1_text = document.createTextNode("Topic");
+    label1.appendChild(label1_text);
+
+    let dropdown = document.createElement("select");
+    dropdown.id = "select_topic";
+    dropdown.onclick = getTopics;
+    dropdown.style.width = "100%";
+
+    p.appendChild(label1);
+    p.appendChild(dropdown);
+
+    let p1 = document.createElement("p");
+
+    let label2 = document.createElement("label");
+    let label2_text = document.createTextNode("Topic_Data");
+    label2.appendChild(label2_text);
+
+    let textarea = document.createElement("textarea");
+    textarea.id = "topic_data_textbox";
+    textarea.rows = "6";
+    textarea.columns = "250";
+    textarea.value = "";
+    textarea.style.width = "100%";
+
+    p1.appendChild(label2);
+    p1.appendChild(textarea);
+
+    generic_child_div.appendChild(p);
+    generic_child_div.appendChild(p1);
+    generic.appendChild(generic_child_div);
+    let row_div = document.getElementById("row_div");
+    
+
+    row_div.appendChild(generic); 
+
+
+
+
+    /* let generic = document.createElement("div");
+    generic.className = "col-md-4 col-sm-12";
+
     let row_div = document.getElementById("row_div");
     let generic_child_div = document.createElement("div");
 
@@ -1086,15 +1180,23 @@ function createGenericCard()
     generic_child_div.appendChild(h2);
     generic.appendChild(generic_child_div);
 
-    row_div.appendChild(generic);
+    row_div.appendChild(generic); 
+    
+    <div class="col-md-4 col-sm-12" >
+          <div draggable="true" class="box" style="display:none">
+            <h2 class="text-center">Ros Topics List</h2>
+              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
+              <span class="textarea"><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<textarea id="topic_data_textbox" rows="2" cols="50" value="" placeholder="Topic_Data"></textarea></span>
+          </div>
+        </div>*/
 }
 //----------------generic card----------------
 
 //----------------goal setting--------------------------
 
-/* var myImg = document.getElementById("myImgId");
+var myImg = document.getElementById("myImgId");
  myImg.onmousedown = GetCoordinates;
- */
+ 
 function FindPosition(oElement)
 {
 
@@ -1154,7 +1256,7 @@ function GetCoordinates(e)
   //PosY1 = scale_Y * PosY + offset_Y;
 
   //xw1 = scale_X * x1 + offset_X;
-  //xw2 = scale_X * x2 + offset_X;
+  //xw2 = scale_X * x2 + offset_X -43 -507   742 -517;
   //(xw1 - xw2) = scale_X * (x1 - x2)
   scale_X= (xw1-xw2)/(x1-x2);
   offset_X = xw1 - scale_X * x1;
@@ -1169,3 +1271,4 @@ function GetCoordinates(e)
 
 
 //----------------goal setting------------------
+

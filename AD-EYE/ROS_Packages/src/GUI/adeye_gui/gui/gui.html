@@ -145,18 +145,7 @@
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
-            <!-- <div class="forms">
-              <form id="gnss_form" name="gnss" style="display:none;">
-                <label>State</label>
-                <select id="gnss_state">
-                  <option value="0" >Off</option>
-                  <option value="1">Gaussian Noise</option>
-                </select>
-                <label>noise_variance</label>
-                <input type="text" value="1.0" ></input>
-                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
-              </form>
-            </div>  -->
+            
             <!----gnss---->
 
             <!----lidar---->
@@ -189,32 +178,7 @@
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
-            <!-- <div class="forms">
-              <form id="lidar1_form" name="lidar1" style="display:none">
-                <label>State</label>
-                <select id="lidar1_state">
-                  <option value="0" >Off</option>
-                  <option value="1">Random</option>
-                  <option value="2">Rain</option>
-                </select>
-                <label>random/range_variance</label>
-                <input type="text" value="0.0001"></input>
-                <label>random/theta_variance</label>
-                <input type="text" value="0.0001"></input>
-                <label>rain/rain_intensity</label>
-                <input type="text" value="7.5"></input>
-                <label>rain/a</label>
-                <input type="text" value="0.01"></input>
-                <label>rain/b</label>
-                <input type="text" value="0.6"></input>
-                <label>rain/reflectivity</label>
-                <input type="text" min="0" max="0" value="0.9"></input>
-                <label>rain/max_range</label>
-                <input type="text" value="100"></input>
-                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
-              </form>
-            </div>
-             -->
+             
             <div id="lidar2_div" >
               <div  style="display:inline-flex">
                 <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
@@ -222,9 +186,7 @@
               </div>
               <form id="lidar2_form" name="lidar2" style="display:none"></form>
             </div>
-            <!-- <div class="forms">
-              <form id="lidar2_form" name="lidar2" style="display:none"></form>
-            </div> -->
+            
             
             <div id="lidar3_div">
               <div style="display:inline-flex">
@@ -233,9 +195,7 @@
               </div>
               <form id="lidar3_form" name="lidar3" style="display:none"></form>
             </div>
-            <!-- <div class="forms">
-              <form id="lidar3_form" name="lidar3" style="display:none"></form>
-            </div> -->
+            
             
             <div id="lidar4_div" style="display:inline-flex">
               <div style="display:inline-flex">
@@ -244,9 +204,7 @@
               </div>
               <form id="lidar4_form" name="lidar4" style="display:none"></form>
             </div>
-            <!-- <div class="forms">
-              <form id="lidar4_form" name="lidar4" style="display:none"></form>
-            </div> -->
+            
             <!----lidar---->
 
             <!----radar---->
@@ -270,22 +228,7 @@
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
-            <!-- <div class="forms">
-              <form id="radar_form" name="radar" style="display:none">
-                <label>State</label>
-                <select id="radar_state">
-                  <option value="0" >Off</option>
-                  <option value="1">Gaussian Noise</option>
-                </select>
-                <label>range_variance</label>
-                <input type="text" value="1"></input>
-                <label>theta_variance</label>
-                <input type="text" value="1"></input>
-                <label>phi_variance</label>
-                <input type="text" value="1"></input>
-                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
-              </form>
-            </div> -->
+            
             <!----radar---->
 
             <!----camera---->
@@ -317,30 +260,7 @@
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
-            <!-- <div class="forms">
-              <form id="camera1_form" name="camera1" style="display:none">
-                <label>State</label>
-                <select id="camera1_state">
-                  <option value="0" >Off</option>
-                  <option value="1">Colored Patch</option>
-                </select>
-                <label>patch/start_x</label>
-                <input type="text" value="200"></input>
-                <label>path/start_y</label>
-                <input type="text" value="100"></input>
-                <label>patch/size_x</label>
-                <input type="text" value="100"></input>
-                <label>patch/size_y</label>
-                <input type="text" value="150"></input>
-                <label>patch/R</label>
-                <input type="text" value="0"></input>
-                <label>patch/G</label>
-                <input type="text" value="0"></input>
-                <label>patch/B</label>
-                <input type="text" value="0"></input>
-                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
-              </form>
-            </div> -->
+            
             
             <div id="camera_2_div">
               <div style="display:inline-flex">
@@ -357,21 +277,23 @@
               </div>
               <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
             </div>
-            <!-- <div class="forms">
-              <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
-            </div> -->
-            <!----camera---->
+             <!----camera---->
+            
 				  </div>
         </div>
-        
-         <!-- card for ROS topics list -->
-         <div class="col-md-4 col-sm-12">
+        <!-- card for fault injection -->
+
+        <!-- card for goal setting-->
+
+        <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
-            <h2 class="text-center">Ros Topics List</h2>
-              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
-              <span class="textarea"><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<textarea id="topic_data_textbox" rows="2" cols="50" value="" placeholder="Topic_Data"></textarea></span>
-          </div>
+            <h2 class="text-center">Image Display</h2>
+            <img id="my_image" style='height: 100%; width: 100%; object-fit: contain' src="assets/img/placeholder.png">
+            <canvas id="image_canvas" width="960" height="720"></canvas>
+ 		      </div>
         </div>
+
+        <!-- card for goal setting-->
 
         <!-- card for camera -->
         <div class="col-md-4 col-sm-12">
@@ -394,21 +316,35 @@
              <canvas id="tl_camera_canvas" width="960" height="720"></canvas>
 					</div>
         </div>
+        <!-- card for camera -->
 
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Goal Setting</h2>
             <div id="x1"></div>
-
             <img src="KTH-Map.PNG" width="315" height="300" id="myImgId"></img>
             <p>X:<span id="x-co-ordinate"></span></p>
             <p>Y:<span id="y-co-ordinate"></span></p>
+            <div id="x2"></div>
 					</div>
         </div>
 
+        <div><button id="generic_button" onclick="createGenericCard()">+</button></div>
+
       </div>
-      <div><button id="generic_button" onclick="createGenericCard()">+</button></div>
-      </div>
+    </div>
+
+        <!-- card for ROS topics list -->
+        <!-- <div class="col-md-4 col-sm-12" >
+          <div draggable="true" class="box" style="display:none">
+            <h2 class="text-center">Ros Topics List</h2>
+              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
+              <span class="textarea"><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<textarea id="topic_data_textbox" rows="2" cols="50" value="" placeholder="Topic_Data"></textarea></span>
+          </div>
+        </div> -->
+
+
+     
 	  </main>
 
     <!-- footer -->
