@@ -109,15 +109,6 @@ body
   box-sizing: border-box;
 }
 
-/* .ratingBox
- {
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-}
- */
 button
 {
   border-radius: 15px;
@@ -137,11 +128,6 @@ button
   font-size: xx-large; 
   float: left;
 } 
-
-.textarea *
-{
-  vertical-align: middle;
-}
 
 .manager,.fault_injection
 {
@@ -206,9 +192,10 @@ label
 {
   background-color: #699b2c; 
   color:white;
-  width: 200px;
+  width: 95%;
   padding: 5px;
   border: 8px;
+  border-radius: 15px;
 }
 
 #topic_data
@@ -218,7 +205,9 @@ label
 
 #topic_data_textbox
 {
-  width: 200px;
+  width: 95%;
+  border: 8px;
+  border-radius: 15px;
 }
 
 

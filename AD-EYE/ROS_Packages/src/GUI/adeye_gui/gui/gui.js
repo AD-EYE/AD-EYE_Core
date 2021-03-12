@@ -991,9 +991,51 @@ function faultInjection_OnClick(button)
         messageType : 'sensor_msgs/Image'
     });
 
+
+   
+
+
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(message)
-    {  
+    { 
+        let msg = atob(message.data);
+        document.getElementById("x2").innerHTML = typeof(msg);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        } 
+        let canvas = document.getElementById('image-canvas');
+        const context = canvas.getContext('2d');
+        var image = new Image();
+        image.onload = function() {
+          context.drawImage(image, 0, 0);
+        };
+        image.src = array; 
+        /* ---------------------
+
+  function rgb8ImageToBase64Jpeg (msg) {
+    var raw = atob(msg.data)
+    var array = new Uint8Array(new ArrayBuffer(raw.length))
+    for (let i = 0; i < raw.length; i++) {
+      array[i] = raw.charCodeAt(i)
+    }
+
+    var frameData = Buffer.alloc(msg.width * msg.height * 4)
+    for (let i = 0; i < msg.width * msg.height; i++) {
+      frameData[4 * i + 0] = array[3 * i + 0]
+      frameData[4 * i + 1] = array[3 * i + 1]
+      frameData[4 * i + 2] = array[3 * i + 2]
+      frameData[4 * i + 3] = 0
+    }
+    var rawImageData = {
+      data: frameData,
+      width: msg.width,
+      height: msg.height
+    }
+    return jpeg.encode(rawImageData, 50).data.toString('base64')
+  }---------------------------------------
+        
         let msg = atob(message.data);
         let array = new Uint8Array(new ArrayBuffer(msg.length));
         for (let i = 0; i < msg.length; i++) 
@@ -1016,7 +1058,7 @@ function faultInjection_OnClick(button)
        //var image = document.getElementById("camera1_canvas");
        canvas4.style.width = "100%";
        canvas4.style.height = "auto";
-       context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
+       context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height); */
     
     }); 
 //----------------Image Display--------------------------
@@ -1105,11 +1147,27 @@ function getTopics()
 //---------------------List of Topics-----------------------
 
 //----------------generic card----------------
+let button_clicked = false;
 
 function createGenericCard()
 {
-    let generic = document.createElement("div");
-    generic.className = "col-md-4 col-sm-12";
+    // two divs should be created one holds the generic card and the other holds the + button
+    let div1 = document.createElement("div");
+    div1.id = "div1";
+    div1.className = "col-md-4 col-sm-12";
+    let div2 = document.createElement("div");
+    div2.id = "div2";
+
+    // appending both the created divs to main row_div
+
+    let row_div = document.getElementById("row_div");
+    row_div.appendChild(div1);
+    row_div.appendChild(div2);
+    
+    if(button_clicked === false)
+    {
+    /* let generic = document.createElement("div");
+    generic.className = "col-md-4 col-sm-12"; */
 
     let generic_child_div = document.createElement("div");
 
@@ -1117,7 +1175,7 @@ function createGenericCard()
     generic_child_div.draggable = "true";
 
     let h2 = document.createElement("h2");
-    h2.class ="text_center";
+    h2.style.textAlign = "center";
     let text = document.createTextNode("ROS Topics List");
     h2.appendChild(text);
     generic_child_div.appendChild(h2);
@@ -1131,7 +1189,7 @@ function createGenericCard()
     let dropdown = document.createElement("select");
     dropdown.id = "select_topic";
     dropdown.onclick = getTopics;
-    dropdown.style.width = "100%";
+    
 
     p.appendChild(label1);
     p.appendChild(dropdown);
@@ -1144,51 +1202,26 @@ function createGenericCard()
 
     let textarea = document.createElement("textarea");
     textarea.id = "topic_data_textbox";
-    textarea.rows = "6";
+    textarea.rows = "9";
     textarea.columns = "250";
     textarea.value = "";
-    textarea.style.width = "100%";
 
     p1.appendChild(label2);
     p1.appendChild(textarea);
 
     generic_child_div.appendChild(p);
     generic_child_div.appendChild(p1);
-    generic.appendChild(generic_child_div);
-    let row_div = document.getElementById("row_div");
-    
+    div1.appendChild(generic_child_div);
 
-    row_div.appendChild(generic); 
+    //appending the button element to div2
 
+    let generic_button = document.getElementById("generic_button");
+    generic_button.style.display = "none";
+    div2.appendChild(generic_button);
+    generic_button.style.display = "block";
+    }
+    button_clicked = true;
 
-
-
-    /* let generic = document.createElement("div");
-    generic.className = "col-md-4 col-sm-12";
-
-    let row_div = document.getElementById("row_div");
-    let generic_child_div = document.createElement("div");
-
-    generic_child_div.classList.add("box");
-    generic_child_div.draggable = "true";
-
-    let h2 = document.createElement("h2");
-    h2.class ="text_center";
-
-    let text = document.createTextNode("Generic Card");
-    h2.appendChild(text);
-    generic_child_div.appendChild(h2);
-    generic.appendChild(generic_child_div);
-
-    row_div.appendChild(generic); 
-    
-    <div class="col-md-4 col-sm-12" >
-          <div draggable="true" class="box" style="display:none">
-            <h2 class="text-center">Ros Topics List</h2>
-              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
-              <span class="textarea"><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<textarea id="topic_data_textbox" rows="2" cols="50" value="" placeholder="Topic_Data"></textarea></span>
-          </div>
-        </div>*/
 }
 //----------------generic card----------------
 

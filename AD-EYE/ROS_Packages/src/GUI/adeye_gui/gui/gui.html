@@ -288,6 +288,8 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
+            <div id="x2"></div>
+
             <img id="my_image" style='height: 100%; width: 100%; object-fit: contain' src="assets/img/placeholder.png">
             <canvas id="image_canvas" width="960" height="720"></canvas>
  		      </div>
@@ -325,11 +327,15 @@
             <img src="KTH-Map.PNG" width="315" height="300" id="myImgId"></img>
             <p>X:<span id="x-co-ordinate"></span></p>
             <p>Y:<span id="y-co-ordinate"></span></p>
-            <div id="x2"></div>
 					</div>
         </div>
 
-        <div><button id="generic_button" onclick="createGenericCard()">+</button></div>
+        <div id="generic">
+          <div></div>
+          <button id="generic_button" onclick="createGenericCard()">+</button>
+        </div>
+
+        
 
       </div>
     </div>
