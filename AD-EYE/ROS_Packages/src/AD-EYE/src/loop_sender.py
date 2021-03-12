@@ -17,21 +17,35 @@ class loopgoal:
         goal = PoseStamped()
         ''' Use absolute value for distance. 
         Since three points have different x positions, use x position to find the current goal'''
-        if (abs(data.pose.position.x - 257.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x == 257.0:
+        if (data.pose.position.x == 257.0 and 
+            data.pose.position.y == 170.0 and 
+            data.pose.position.z == 0.0 and
+            data.pose.orientation.x == 0,0 and
+            data.pose.orientation.y == 0.0 and
+            data.pose.orientation.z == 0.0 and
+            data.pose.orientation.w == 1.0):
             goal.header.seq = 1
             goal.header.stamp = rospy.Time.now()
             goal.header.frame_id = "world"
 
             goal.pose.position.x = 223.0
-            goal.pose.position.y = 225.0
+            goal.pose.position.y = 226.0
             goal.pose.position.z = 0.0
 
             goal.pose.orientation.x = 0.0
-            goal.pose.orientation.y = 0.0
+            goal.pose.orientation.y = 1.0
             goal.pose.orientation.z = 0.0
-            goal.pose.orientation.w = 1.0
+            goal.pose.orientation.w = 0.0
+            self.goal_pub.publish(goal)
 
-        if (abs(data.pose.position.x - 223.0) + abs(data.pose.position.y - 225.0)) < 5.0 and data.pose.position.x == 223.0:
+        if (data.pose.position.x == 223.0 and
+            data.pose.position.y == 226.0 and
+            data.pose.position.z == 0.0 and
+            data.pose.orientation.x == 0.0 and
+            data.pose.orientation.y == 1.0 and
+            data.pose.orientation.z == 0.0 and
+            data.pose.orientation.w == 0.0):
+
             goal.header.seq = 1
             goal.header.stamp = rospy.Time.now()
             goal.header.frame_id = "world"
@@ -40,13 +54,23 @@ class loopgoal:
             goal.pose.position.y = 170.0
             goal.pose.position.z = 0.0
 
-            goal.pose.orientation.x = 0.0
+            goal.pose.orientation.x = 1.0
             goal.pose.orientation.y = 0.0
             goal.pose.orientation.z = 0.0
-            goal.pose.orientation.w = 1.0
+            goal.pose.orientation.w = 0.0
+            self.goal_pub.publish(goal)
 
 
-        if (abs(data.pose.position.x - 84.0) + abs(data.pose.position.y - 170.0)) < 5.0 and data.pose.position.x == 84.0:
+
+        if (data.pose.position.x == 84.0 and
+            data.pose.position.y == 170.0 and
+            data.pose.position.z == 0.0 and
+            data.pose.orientation.x == 1.0 and
+            data.pose.orientation.y == 0.0 and
+            data.pose.orientation.z == 0.0 and
+            data.pose.orientation.w == 0.0):
+
+
             goal.header.seq = 1
             goal.header.stamp = rospy.Time.now()
             goal.header.frame_id = "world"
@@ -59,7 +83,7 @@ class loopgoal:
             goal.pose.orientation.y = 0.0
             goal.pose.orientation.z = 0.0
             goal.pose.orientation.w = 1.0
-        self.goal_pub.publish(goal)
+            self.goal_pub.publish(goal)
 
 
 if __name__ == '__main__':
