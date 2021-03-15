@@ -997,7 +997,8 @@ function faultInjection_OnClick(button)
 
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(msg)
-    {  function rgb8ImageToBase64Jpeg (msg) {
+    {  
+        function rgb8ImageToBase64Jpeg (msg) {
         var raw = atob(msg.data)
         var array = new Uint8Array(new ArrayBuffer(raw.length))
         for (let i = 0; i < raw.length; i++) {
@@ -1016,9 +1017,10 @@ function faultInjection_OnClick(button)
           width: msg.width,
           height: msg.height
         }
-        return jpeg.encode(rawImageData, 50).data.toString('base64')
+        return jpeg.encode(rawImageData, 50).data.toString('base64');
+    }
         
-        /* let msg = atob(message.data);
+      /* let msg = atob(message.data);
         document.getElementById("x2").innerHTML = typeof(msg);
         let array = new Uint8Array(new ArrayBuffer(msg.length));
         for (let i = 0; i < msg.length; i++) 
