@@ -996,9 +996,29 @@ function faultInjection_OnClick(button)
 
 
     //subscribing to the topic camera_1/image_raw
-    camera_topic.subscribe(function(message)
-    { 
-        let msg = atob(message.data);
+    camera_topic.subscribe(function(msg)
+    {  function rgb8ImageToBase64Jpeg (msg) {
+        var raw = atob(msg.data)
+        var array = new Uint8Array(new ArrayBuffer(raw.length))
+        for (let i = 0; i < raw.length; i++) {
+          array[i] = raw.charCodeAt(i)
+        }
+    
+        var frameData = Buffer.alloc(msg.width * msg.height * 4)
+        for (let i = 0; i < msg.width * msg.height; i++) {
+          frameData[4 * i + 0] = array[3 * i + 0]
+          frameData[4 * i + 1] = array[3 * i + 1]
+          frameData[4 * i + 2] = array[3 * i + 2]
+          frameData[4 * i + 3] = 0
+        }
+        var rawImageData = {
+          data: frameData,
+          width: msg.width,
+          height: msg.height
+        }
+        return jpeg.encode(rawImageData, 50).data.toString('base64')
+        
+        /* let msg = atob(message.data);
         document.getElementById("x2").innerHTML = typeof(msg);
         let array = new Uint8Array(new ArrayBuffer(msg.length));
         for (let i = 0; i < msg.length; i++) 
@@ -1011,7 +1031,7 @@ function faultInjection_OnClick(button)
         image.onload = function() {
           context.drawImage(image, 0, 0);
         };
-        image.src = array; 
+        image.src = array;  */
         /* ---------------------
 
   function rgb8ImageToBase64Jpeg (msg) {
@@ -1066,18 +1086,44 @@ function faultInjection_OnClick(button)
 
 //---------------------List of Topics-----------------------
 var isClicked = false;
+//-----------------------------------
+
+/* Ros.prototype.getTopics = function(callback, failedCallback) {
+    var topicsClient = new Service({
+      ros : this,
+      name : '/rosapi/topics',
+      serviceType : 'rosapi/Topics'
+    });
+    var request = new ServiceRequest();
+    if (typeof failedCallback === 'function'){
+      topicsClient.callService(request,
+        function(result) {
+          callback(result);
+        },
+        function(message){
+          failedCallback(message);
+        }
+      );
+    }else{
+      topicsClient.callService(request, function(result) {
+        callback(result);
+      });
+    }
+  }; */
+//------------------------------------------  
+var topicsClient = new ROSLIB.Service({
+    ros : ros,
+    name : '/rosapi/topics',
+    serviceType : 'rosapi/Topics'
+    });
+
+let request = new ROSLIB.ServiceRequest();
 
 function getTopics() 
 {
     let select = document.getElementById("select_topic");
 
-    var topicsClient = new ROSLIB.Service({
-        ros : ros,
-        name : '/rosapi/topics',
-        serviceType : 'rosapi/Topics'
-        });
-    
-    let request = new ROSLIB.ServiceRequest();
+   
 
     if(isClicked === false)
     {
@@ -1120,16 +1166,19 @@ function getTopics()
                     listener.unsubscribe();
                 }); 
 
-                /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
+               /*  ROSLIB.Ros.prototype.callOnConnection = function(message) {
                     var that = this;
                     var messageJson = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = messageJson;
+                    document.getElementById("topic_data_textbox").value = messageJson; */
 
-                } */
+                
             }
         }   
     });
 }
+
+
+
 
 /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
     var that = this;
