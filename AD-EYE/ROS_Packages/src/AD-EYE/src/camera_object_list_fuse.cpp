@@ -88,7 +88,7 @@ public:
       while(nh_.ok())
       {
           ros::spinOnce();
-          if (msg1_flag == true && msg2_flag == true) {
+          if (msg1_flag == true || msg2_flag == true) {
               publish();
           }
           rate.sleep();
