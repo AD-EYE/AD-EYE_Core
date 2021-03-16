@@ -991,14 +991,15 @@ function faultInjection_OnClick(button)
         messageType : 'sensor_msgs/Image'
     });
 
-
-   
-
-
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(msg)
     {  
-        function rgb8ImageToBase64Jpeg (msg) {
+        var image = rgb8ImageToBase64Jpeg(msg);
+        document.getElementById("my_image").src = "KTH-Map.PNG";
+        
+    });
+
+    function rgb8ImageToBase64Jpeg (msg) {
         var raw = atob(msg.data)
         var array = new Uint8Array(new ArrayBuffer(raw.length))
         for (let i = 0; i < raw.length; i++) {
@@ -1020,20 +1021,7 @@ function faultInjection_OnClick(button)
         return jpeg.encode(rawImageData, 50).data.toString('base64');
     }
         
-      /* let msg = atob(message.data);
-        document.getElementById("x2").innerHTML = typeof(msg);
-        let array = new Uint8Array(new ArrayBuffer(msg.length));
-        for (let i = 0; i < msg.length; i++) 
-        {
-            array[i] = msg.charCodeAt(i);
-        } 
-        let canvas = document.getElementById('image-canvas');
-        const context = canvas.getContext('2d');
-        var image = new Image();
-        image.onload = function() {
-          context.drawImage(image, 0, 0);
-        };
-        image.src = array;  */
+      
         /* ---------------------
 
   function rgb8ImageToBase64Jpeg (msg) {
@@ -1082,37 +1070,13 @@ function faultInjection_OnClick(button)
        canvas4.style.height = "auto";
        context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height); */
     
-    }); 
+    
 //----------------Image Display--------------------------
 
 
 //---------------------List of Topics-----------------------
-var isClicked = false;
-//-----------------------------------
 
-/* Ros.prototype.getTopics = function(callback, failedCallback) {
-    var topicsClient = new Service({
-      ros : this,
-      name : '/rosapi/topics',
-      serviceType : 'rosapi/Topics'
-    });
-    var request = new ServiceRequest();
-    if (typeof failedCallback === 'function'){
-      topicsClient.callService(request,
-        function(result) {
-          callback(result);
-        },
-        function(message){
-          failedCallback(message);
-        }
-      );
-    }else{
-      topicsClient.callService(request, function(result) {
-        callback(result);
-      });
-    }
-  }; */
-//------------------------------------------  
+var isClicked = false;
 var topicsClient = new ROSLIB.Service({
     ros : ros,
     name : '/rosapi/topics',
@@ -1165,7 +1129,6 @@ function getTopics()
                 listener.subscribe(function(message) {
                     var data = JSON.stringify(message);
                     document.getElementById("topic_data_textbox").value = data;
-                    listener.unsubscribe();
                 }); 
 
                /*  ROSLIB.Ros.prototype.callOnConnection = function(message) {
@@ -1178,22 +1141,6 @@ function getTopics()
         }   
     });
 }
-
-
-
-
-/* ROSLIB.Ros.prototype.callOnConnection = function(message) {
-    var that = this;
-    var messageJson = JSON.stringify(message);
-  
-    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-      that.once('connection', function() {
-        that.socket.send(messageJson);
-      });
-    } else {
-      that.socket.send(messageJson);
-    }
-  }; */
  
 //---------------------List of Topics-----------------------
 
@@ -1239,7 +1186,7 @@ function createGenericCard()
 
     let dropdown = document.createElement("select");
     dropdown.id = "select_topic";
-    dropdown.onclick = getTopics;
+    //dropdown.onclick= getTopics;
     
 
     p.appendChild(label1);
