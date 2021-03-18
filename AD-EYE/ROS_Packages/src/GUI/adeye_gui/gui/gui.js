@@ -1088,9 +1088,6 @@ let request = new ROSLIB.ServiceRequest();
 function getTopics() 
 {
     let select = document.getElementById("select_topic");
-
-   
-
     if(isClicked === false)
     {
         topicsClient.callService(request, function(result) 
@@ -1103,16 +1100,88 @@ function getTopics()
                 option.value = i;
                 option.text = topic_name;
                 select.append(option);
-                  
             }
         });
     }
     isClicked = true;
+}
 
+function display_topic_data()
+{
+    let select = document.getElementById("select_topic");
+    let topic_data = document.getElementsByName("topic_data");
+document.topic_data.value = "";
+ 
     let selected_topic = select.options[select.selectedIndex].text;
     let selected_topic_value = select.options[select.selectedIndex].value;
+    document.getElementById("x1").innerHTML = selected_topic_value;
 
     topicsClient.callService(request, function(result) 
+    {
+        topic_types = result.types;
+        for(var i = 0; i < topic_types.length; i++)
+        {
+            if(i == selected_topic_value)
+            { 
+                // Subscribing to a Topic
+                let listener = new ROSLIB.Topic({
+                ros : ros,
+                name : selected_topic,
+                messageType : topic_types[i]
+                });
+
+                let topic_data = listener.subscribe(function(message) {
+                    data_val = JSON.stringify(message);
+                    topic_data.value = selected_topic;
+
+                });
+
+
+            }  
+  
+        }
+        //var data;
+/*         document.getElementById("topic_data_textbox").value = " ";
+ */        
+        
+
+        //listener.unsubscribe();
+    });
+}
+            
+
+
+            /* topic_types = result.types;
+            for(let i = 0; i < topic_types.length; i++)
+            { 
+            if(i == selected_topic_value)
+            {
+                // Subscribing to a Topic
+                var listener = new ROSLIB.Topic({
+                    ros : ros,
+                    name : selected_topic,
+                    messageType : topic_types[i]
+                });
+                document.getElementById("topic_data_textbox").value = " ";
+                listener.subscribe(function(message) {
+                    var data = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = data;
+                }); 
+
+               /*  ROSLIB.Ros.prototype.callOnConnection = function(message) {
+                    var that = this;
+                    var messageJson = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = messageJson; */
+
+                
+            /* }
+            }   
+         */ 
+       /*  });
+    } */
+
+
+    /* topicsClient.callService(request, function(result) 
     {
         topic_types = result.types;
         for(let i = 0; i < topic_types.length; i++)
@@ -1125,7 +1194,7 @@ function getTopics()
                     name : selected_topic,
                     messageType : topic_types[i]
                 });
-    
+                document.getElementById("topic_data_textbox").value = " ";
                 listener.subscribe(function(message) {
                     var data = JSON.stringify(message);
                     document.getElementById("topic_data_textbox").value = data;
@@ -1137,11 +1206,10 @@ function getTopics()
                     document.getElementById("topic_data_textbox").value = messageJson; */
 
                 
-            }
+          /*   }
         }   
-    });
-}
- 
+    });  */
+    
 //---------------------List of Topics-----------------------
 
 //----------------generic card----------------
@@ -1186,7 +1254,8 @@ function createGenericCard()
 
     let dropdown = document.createElement("select");
     dropdown.id = "select_topic";
-    //dropdown.onclick= getTopics;
+    dropdown.onclick = getTopics;
+    dropdown.onchange = display_topic_data;
     
 
     p.appendChild(label1);
@@ -1202,7 +1271,7 @@ function createGenericCard()
     textarea.id = "topic_data_textbox";
     textarea.rows = "9";
     textarea.columns = "250";
-    textarea.value = "";
+    textarea.name = "topic_data";
 
     p1.appendChild(label2);
     p1.appendChild(textarea);
@@ -1214,9 +1283,9 @@ function createGenericCard()
     //appending the button element to div2
 
     let generic_button = document.getElementById("generic_button");
-    generic_button.style.display = "none";
+    //generic_button.style.display = "none";
     div2.appendChild(generic_button);
-    generic_button.style.display = "block";
+    //generic_button.style.display = "block";
     }
     button_clicked = true;
 
@@ -1294,7 +1363,7 @@ function GetCoordinates(e)
 
   scale_Y = (yw1-yw2)/(y1-y2);
   offset_Y = yw1 - scale_Y * y1;
-  document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
+  //document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
 
 
 } 
