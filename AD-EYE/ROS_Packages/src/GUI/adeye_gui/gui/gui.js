@@ -992,36 +992,47 @@ function faultInjection_OnClick(button)
     });
 
     //subscribing to the topic camera_1/image_raw
-    camera_topic.subscribe(function(msg)
-    {  
-        var image = rgb8ImageToBase64Jpeg(msg);
-        document.getElementById("my_image").src = "KTH-Map.PNG";
-        
-    });
+    camera_topic.subscribe(function(message)
+    { 
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
 
-    function rgb8ImageToBase64Jpeg (msg) {
-        var raw = atob(msg.data)
-        var array = new Uint8Array(new ArrayBuffer(raw.length))
-        for (let i = 0; i < raw.length; i++) {
-          array[i] = raw.charCodeAt(i)
-        }
+        let canvas4 = document.getElementById( "image_canvas" );
+        const context = canvas4.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas4.width,canvas4.height);
     
-        var frameData = Buffer.alloc(msg.width * msg.height * 4)
-        for (let i = 0; i < msg.width * msg.height; i++) {
-          frameData[4 * i + 0] = array[3 * i + 0]
-          frameData[4 * i + 1] = array[3 * i + 1]
-          frameData[4 * i + 2] = array[3 * i + 2]
-          frameData[4 * i + 3] = 0
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
         }
-        var rawImageData = {
-          data: frameData,
-          width: msg.width,
-          height: msg.height
-        }
-        return jpeg.encode(rawImageData, 50).data.toString('base64');
-    }
+
+        //let image = document.getElementById("tl_camera_canvas");
+        canvas4.style.width = "100%";
+        canvas4.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
+        let image = document.getElementById("my_image");
+        image.setAttribute('src','KTH-Map.PNG');
+
+        /* [137,80,78,71,13,10,26,10,0,...]
+
+<img id="image" src="" />
+
+var imgsrc = "data:image/png;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array([137,80,78,71,13,10,26,10,0,...])));
+
+document.getElementById('image').src = imgsrc; */
+
+    });    
+ 
         
-      
+        
         /* ---------------------
 
   function rgb8ImageToBase64Jpeg (msg) {
@@ -1043,33 +1054,8 @@ function faultInjection_OnClick(button)
       width: msg.width,
       height: msg.height
     }
-    return jpeg.encode(rawImageData, 50).data.toString('base64')
-  }---------------------------------------
-        
-        let msg = atob(message.data);
-        let array = new Uint8Array(new ArrayBuffer(msg.length));
-        for (let i = 0; i < msg.length; i++) 
-        {
-            array[i] = msg.charCodeAt(i);
-        }
-        
-        let canvas4 = document.getElementById( "image_canvas" );
-        const context= canvas4.getContext( "2d" ); 
-
-        let imgData = context.createImageData(canvas4.width,canvas4.height);
-        for(let j = 0; j < array.length; j++)
-        {
-            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-            imgData.data[ 4 * j + 3 ] = 255;
-        }
-        
-       //var image = document.getElementById("camera1_canvas");
-       canvas4.style.width = "100%";
-       canvas4.style.height = "auto";
-       context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height); */
-    
+    return jpeg.encode(rawImageData, 50).data.toString('base64')*/
+  
     
 //----------------Image Display--------------------------
 
@@ -1124,7 +1110,6 @@ function display_topic_data()
 
             if(i == selected_topic_value)
             { 
-                document.getElementById("x1").innerHTML = i;
 
                 // Subscribing to a Topic
                 let listener = new ROSLIB.Topic({
