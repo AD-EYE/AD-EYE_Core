@@ -1100,6 +1100,7 @@ function getTopics()
                 option.value = i;
                 option.text = topic_name;
                 select.append(option);
+
             }
         });
     }
@@ -1109,20 +1110,22 @@ function getTopics()
 function display_topic_data()
 {
     let select = document.getElementById("select_topic");
-    let topic_data = document.getElementsByName("topic_data");
-document.topic_data.value = "";
+
  
     let selected_topic = select.options[select.selectedIndex].text;
+
     let selected_topic_value = select.options[select.selectedIndex].value;
-    document.getElementById("x1").innerHTML = selected_topic_value;
 
     topicsClient.callService(request, function(result) 
     {
         topic_types = result.types;
         for(var i = 0; i < topic_types.length; i++)
         {
+
             if(i == selected_topic_value)
             { 
+                document.getElementById("x1").innerHTML = i;
+
                 // Subscribing to a Topic
                 let listener = new ROSLIB.Topic({
                 ros : ros,
@@ -1130,85 +1133,18 @@ document.topic_data.value = "";
                 messageType : topic_types[i]
                 });
 
-                let topic_data = listener.subscribe(function(message) {
-                    data_val = JSON.stringify(message);
-                    topic_data.value = selected_topic;
-
+                listener.subscribe(function(message) {
+                    topic_val = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = topic_val ;
                 });
-
-
             }  
-  
         }
-        //var data;
-/*         document.getElementById("topic_data_textbox").value = " ";
- */        
-        
-
-        //listener.unsubscribe();
     });
 }
             
 
 
-            /* topic_types = result.types;
-            for(let i = 0; i < topic_types.length; i++)
-            { 
-            if(i == selected_topic_value)
-            {
-                // Subscribing to a Topic
-                var listener = new ROSLIB.Topic({
-                    ros : ros,
-                    name : selected_topic,
-                    messageType : topic_types[i]
-                });
-                document.getElementById("topic_data_textbox").value = " ";
-                listener.subscribe(function(message) {
-                    var data = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = data;
-                }); 
-
-               /*  ROSLIB.Ros.prototype.callOnConnection = function(message) {
-                    var that = this;
-                    var messageJson = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = messageJson; */
-
-                
-            /* }
-            }   
-         */ 
-       /*  });
-    } */
-
-
-    /* topicsClient.callService(request, function(result) 
-    {
-        topic_types = result.types;
-        for(let i = 0; i < topic_types.length; i++)
-        { 
-            if(i == selected_topic_value)
-            {
-                // Subscribing to a Topic
-                var listener = new ROSLIB.Topic({
-                    ros : ros,
-                    name : selected_topic,
-                    messageType : topic_types[i]
-                });
-                document.getElementById("topic_data_textbox").value = " ";
-                listener.subscribe(function(message) {
-                    var data = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = data;
-                }); 
-
-               /*  ROSLIB.Ros.prototype.callOnConnection = function(message) {
-                    var that = this;
-                    var messageJson = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = messageJson; */
-
-                
-          /*   }
-        }   
-    });  */
+           
     
 //---------------------List of Topics-----------------------
 
@@ -1232,8 +1168,6 @@ function createGenericCard()
     
     if(button_clicked === false)
     {
-    /* let generic = document.createElement("div");
-    generic.className = "col-md-4 col-sm-12"; */
 
     let generic_child_div = document.createElement("div");
 
@@ -1283,9 +1217,7 @@ function createGenericCard()
     //appending the button element to div2
 
     let generic_button = document.getElementById("generic_button");
-    //generic_button.style.display = "none";
     div2.appendChild(generic_button);
-    //generic_button.style.display = "block";
     }
     button_clicked = true;
 
