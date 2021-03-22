@@ -996,6 +996,7 @@ function faultInjection_OnClick(button)
     { 
         let msg = atob(message.data);
         let array = new Uint8Array(new ArrayBuffer(msg.length));
+
         for (let i = 0; i < msg.length; i++) 
         {
             array[i] = msg.charCodeAt(i);
@@ -1005,133 +1006,117 @@ function faultInjection_OnClick(button)
         const context = canvas4.getContext( "2d" ); 
 
         let imgData = context.createImageData(canvas4.width,canvas4.height);
-    
-        for(let j = 0; j < array.length; j++)
+
+        for(let j = 0; j < (array.length)/2; j++)
         {
             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
             imgData.data[ 4 * j + 3 ] = 255;
-        }
 
-        //let image = document.getElementById("tl_camera_canvas");
+        }
         canvas4.style.width = "100%";
         canvas4.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
-        let image = document.getElementById("my_image");
-        image.setAttribute('src','KTH-Map.PNG');
-
-        /* [137,80,78,71,13,10,26,10,0,...]
-
-<img id="image" src="" />
-
-var imgsrc = "data:image/png;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array([137,80,78,71,13,10,26,10,0,...])));
-
-document.getElementById('image').src = imgsrc; */
 
     });    
- 
-        
-        
-        /* ---------------------
-
-  function rgb8ImageToBase64Jpeg (msg) {
-    var raw = atob(msg.data)
-    var array = new Uint8Array(new ArrayBuffer(raw.length))
-    for (let i = 0; i < raw.length; i++) {
-      array[i] = raw.charCodeAt(i)
-    }
-
-    var frameData = Buffer.alloc(msg.width * msg.height * 4)
-    for (let i = 0; i < msg.width * msg.height; i++) {
-      frameData[4 * i + 0] = array[3 * i + 0]
-      frameData[4 * i + 1] = array[3 * i + 1]
-      frameData[4 * i + 2] = array[3 * i + 2]
-      frameData[4 * i + 3] = 0
-    }
-    var rawImageData = {
-      data: frameData,
-      width: msg.width,
-      height: msg.height
-    }
-    return jpeg.encode(rawImageData, 50).data.toString('base64')*/
   
     
 //----------------Image Display--------------------------
 
 
-//---------------------List of Topics-----------------------
 
-var isClicked = false;
-var topicsClient = new ROSLIB.Service({
-    ros : ros,
-    name : '/rosapi/topics',
-    serviceType : 'rosapi/Topics'
-    });
 
-let request = new ROSLIB.ServiceRequest();
+//----------------goal setting--------------------------
 
-function getTopics() 
-{
-    let select = document.getElementById("select_topic");
-    if(isClicked === false)
-    {
-        topicsClient.callService(request, function(result) 
-        {
-            topics_list = result.topics;
-            for(var i = 0; i < topics_list.length; i++)
-            {
-                let topic_name = topics_list[i];
-                let option = document.createElement("option");
-                option.value = i;
-                option.text = topic_name;
-                select.append(option);
+/* var myImg = document.getElementById("myImgId");
+ myImg.onmousedown = GetCoordinates; */
+ 
+ function FindPosition(oElement)
+ {
+ 
+   if(typeof( oElement.offsetParent ) != "undefined")
+   {
+     for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
+     {
+       posX += oElement.offsetLeft;
+       posY += oElement.offsetTop;
+ 
+     }
+       return [ posX, posY ];
+     }
+     else
+     {
+       return [ oElement.x, oElement.y ];
+     }
+ }
+ 
+ function GetCoordinates(e)
+ {
+     let can = document.getElementById("image_canvas");
+     let rect = can.getBoundingClientRect();
+     document.getElementById("x5").innerHTML = rect.width;
+   var PosX = 0;
+   var PosY = 0;
+   var ImgPos;
+   ImgPos = FindPosition(image_canvas);
+ 
+   if (!e) 
+   var e = window.event;
+ 
+ 
+   if (e.pageX || e.pageY)
+   {
+ 
+     PosX = e.pageX;
+     PosY = e.pageY;
+ 
+   }
+   else if (e.clientX || e.clientY)
+     {
+       PosX = e.clientX + document.body.scrollLeft
+         + document.documentElement.scrollLeft;
+       PosY = e.clientY + document.body.scrollTop
+         + document.documentElement.scrollTop;
+     }
+   PosX = PosX - ImgPos[0];
+   PosY = PosY - ImgPos[1];
+   document.getElementById("x-co-ordinate").innerHTML = PosX;
+   document.getElementById("y-co-ordinate").innerHTML = PosY;
 
-            }
-        });
-    }
-    isClicked = true;
-}
-
-function display_topic_data()
-{
-    let select = document.getElementById("select_topic");
+  /*  x=314
+   y=235
+   x1=960
+   y1=720 */
 
  
-    let selected_topic = select.options[select.selectedIndex].text;
-
-    let selected_topic_value = select.options[select.selectedIndex].value;
-
-    topicsClient.callService(request, function(result) 
-    {
-        topic_types = result.types;
-        for(var i = 0; i < topic_types.length; i++)
-        {
-
-            if(i == selected_topic_value)
-            { 
-
-                // Subscribing to a Topic
-                let listener = new ROSLIB.Topic({
-                ros : ros,
-                name : selected_topic,
-                messageType : topic_types[i]
-                });
-
-                listener.subscribe(function(message) {
-                    topic_val = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = topic_val ;
-                });
-            }  
-        }
-    });
-}
-            
-
-
-           
-    
-//---------------------List of Topics-----------------------
+   // setting goal
+   /* var x1=108,x2=286,y1=38,y2=244,xw1=173,xw2=-25,yw1=675,yw2= -759;
+   var scale_X;
+   var scale_Y;
+   var offset_X,offset_Y; */
+ 
+   //PosX1 = scale_X * PosX + offset_X; 
+   //PosY1 = scale_Y * PosY + offset_Y;
+ 
+   //xw1 = scale_X * x1 + offset_X;
+   //xw2 = scale_X * x2 + offset_X -43 -507   742 -517;
+   //(xw1 - xw2) = scale_X * (x1 - x2)
+   /* scale_X= (xw1-xw2)/(x1-x2);
+   offset_X = xw1 - scale_X * x1;
+ 
+   scale_Y = (yw1-yw2)/(y1-y2);
+   offset_Y = yw1 - scale_Y * y1; */
+   //document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
+ 
+ 
+ } 
+ 
+ 
+ 
+ //----------------goal setting------------------
+ 
+ 
 
 //----------------generic card----------------
 let button_clicked = false;
@@ -1209,83 +1194,73 @@ function createGenericCard()
 }
 //----------------generic card----------------
 
-//----------------goal setting--------------------------
 
-var myImg = document.getElementById("myImgId");
- myImg.onmousedown = GetCoordinates;
- 
-function FindPosition(oElement)
+
+//---------------------List of Topics-----------------------
+
+var isClicked = false;
+var topicsClient = new ROSLIB.Service({
+    ros : ros,
+    name : '/rosapi/topics',
+    serviceType : 'rosapi/Topics'
+    });
+
+let request = new ROSLIB.ServiceRequest();
+
+function getTopics() 
 {
-
-  if(typeof( oElement.offsetParent ) != "undefined")
-  {
-    for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
+    let select = document.getElementById("select_topic");
+    if(isClicked === false)
     {
-      posX += oElement.offsetLeft;
-      posY += oElement.offsetTop;
+        topicsClient.callService(request, function(result) 
+        {
+            topics_list = result.topics;
+            for(var i = 0; i < topics_list.length; i++)
+            {
+                let topic_name = topics_list[i];
+                let option = document.createElement("option");
+                option.value = i;
+                option.text = topic_name;
+                select.append(option);
 
+            }
+        });
     }
-      return [ posX, posY ];
-    }
-    else
-    {
-      return [ oElement.x, oElement.y ];
-    }
+    isClicked = true;
 }
 
-function GetCoordinates(e)
+function display_topic_data()
 {
-  var PosX = 0;
-  var PosY = 0;
-  var ImgPos;
-  ImgPos = FindPosition(myImg);
+    let select = document.getElementById("select_topic");
 
-  if (!e) 
-  var e = window.event;
+ 
+    let selected_topic = select.options[select.selectedIndex].text;
 
+    let selected_topic_value = select.options[select.selectedIndex].value;
 
-  if (e.pageX || e.pageY)
-  {
-
-    PosX = e.pageX;
-    PosY = e.pageY;
-
-  }
-  else if (e.clientX || e.clientY)
+    topicsClient.callService(request, function(result) 
     {
-      PosX = e.clientX + document.body.scrollLeft
-        + document.documentElement.scrollLeft;
-      PosY = e.clientY + document.body.scrollTop
-        + document.documentElement.scrollTop;
-    }
-  PosX = PosX - ImgPos[0];
-  PosY = PosY - ImgPos[1];
-  document.getElementById("x-co-ordinate").innerHTML = PosX;
-  document.getElementById("y-co-ordinate").innerHTML = PosY;
+        topic_types = result.types;
+        for(var i = 0; i < topic_types.length; i++)
+        {
 
-  // setting goal
-  var x1=108,x2=286,y1=38,y2=244,xw1=173,xw2=-25,yw1=675,yw2= -759;
-  var scale_X;
-  var scale_Y;
-  var offset_X,offset_Y;
+            if(i == selected_topic_value)
+            { 
 
-  //PosX1 = scale_X * PosX + offset_X;
-  //PosY1 = scale_Y * PosY + offset_Y;
+                // Subscribing to a Topic
+                let listener = new ROSLIB.Topic({
+                ros : ros,
+                name : selected_topic,
+                messageType : topic_types[i]
+                });
 
-  //xw1 = scale_X * x1 + offset_X;
-  //xw2 = scale_X * x2 + offset_X -43 -507   742 -517;
-  //(xw1 - xw2) = scale_X * (x1 - x2)
-  scale_X= (xw1-xw2)/(x1-x2);
-  offset_X = xw1 - scale_X * x1;
-
-  scale_Y = (yw1-yw2)/(y1-y2);
-  offset_Y = yw1 - scale_Y * y1;
-  //document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
-
-
-} 
-
-
-
-//----------------goal setting------------------
-
+                listener.subscribe(function(message) {
+                    topic_val = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = topic_val ;
+                });
+            }  
+        }
+    });
+}
+            
+//---------------------List of Topics-----------------------

@@ -288,12 +288,24 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
-
-            <img id="my_image" src="" style='height: 720; width: 960; margin:20px; object-fit: contain'></img>
+            <div id="x5"></div>
              <canvas id="image_canvas" width="960" height="720"></canvas>
+             <div id="xy">
+               <p>X:<span id="x-co-ordinate"></span></p>
+              <p>Y:<span id="y-co-ordinate"></span></p></div>
+             
  		      </div>
         </div>
 
+        <!-- <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Goal Setting</h2>
+            <div id="x1"></div>
+            <img src="KTH-Map.PNG" width="315" height="300" id="myImgId"></img>
+            
+					</div>
+        </div>
+ -->
         <!-- card for goal setting-->
 
         <!-- card for camera -->
@@ -318,19 +330,8 @@
 					</div>
         </div>
         <!-- card for camera -->
-
-        <div class="col-md-4 col-sm-12">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Goal Setting</h2>
-            <div id="x1"></div>
-            <img src="KTH-Map.PNG" width="315" height="300" id="myImgId"></img>
-            <p>X:<span id="x-co-ordinate"></span></p>
-            <p>Y:<span id="y-co-ordinate"></span></p>
-					</div>
-        </div>
-
-       
-          <button id="generic_button" onclick="createGenericCard()">+</button>
+        
+        <button id="generic_button" onclick="createGenericCard()">+</button>
         
 
       </div>
@@ -355,9 +356,36 @@
     </footer>
 
     <script>
-      var myImg = document.getElementById("myImgId");
-      myImg.onmousedown = GetCoordinates;
+      var image_canvas = document.getElementById("image_canvas");
+      image_canvas.onmousedown = GetCoordinates;
     </script>
+
+<!-- <script>
+  let canvasTAG = document.querySelector("canvas");
+  
+  canvasTAG.addEventListener("mousedown", function(e) 
+    {
+      getXY(canvasTAG, e);
+    });
+  
+  function getXY(canvas,event) 
+  {
+    var x=0; y= 0;
+  let rect = canvas.getBoundingClientRect();
+   x = event.clientX - rect.left;
+  y = event.clientY - rect.top;
+  var cordinates = "X : " + x + "\n" + "Y : " + y; 
+  document.getElementById("xy").innerHTML=cordinates;	
+    
+  var c = document.getElementById("image_canvas");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0,0,c.width,c.height);
+ /*  ctx.beginPath();
+  ctx.arc(x, y, 5, 0, 2 * Math.PI);
+  ctx.fillStyle="red";
+  ctx.fill();  */
+  }
+  </script> -->
    
   </body>
 </html>
