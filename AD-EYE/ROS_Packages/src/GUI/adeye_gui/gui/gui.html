@@ -26,7 +26,7 @@
   <body onload="create_forms();"> 
       
     <!-- header of the page -->
-    <header class="card">
+    <header class="header">
         <h1>AD-EYE Graphical Interface</h1>
         <p style="font-style: italic;">Connection status: <span id="status"></span></p>
     </header>
@@ -179,14 +179,13 @@
               </form>
             </div>
              
-            <div id="lidar2_div" >
+            <div id="lidar2_div">
               <div  style="display:inline-flex">
                 <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
                 <input id="lidar2_input" class="state" type="text" value="" placeholder="State"></input>
               </div>
               <form id="lidar2_form" name="lidar2" style="display:none"></form>
             </div>
-            
             
             <div id="lidar3_div">
               <div style="display:inline-flex">
@@ -196,8 +195,7 @@
               <form id="lidar3_form" name="lidar3" style="display:none"></form>
             </div>
             
-            
-            <div id="lidar4_div" style="display:inline-flex">
+            <div id="lidar4_div">
               <div style="display:inline-flex">
                 <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
                 <input id="lidar4_input" class="state" type="text" value="" placeholder="State"></input>
@@ -228,7 +226,6 @@
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
               </form>
             </div>
-            
             <!----radar---->
 
             <!----camera---->
@@ -261,7 +258,6 @@
               </form>
             </div>
             
-            
             <div id="camera_2_div">
               <div style="display:inline-flex">
                 <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
@@ -284,28 +280,16 @@
         <!-- card for fault injection -->
 
         <!-- card for goal setting-->
-
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
             <div id="x5"></div>
              <canvas id="image_canvas" width="960" height="720"></canvas>
-             <div id="xy">
                <p>X:<span id="x-co-ordinate"></span></p>
-              <p>Y:<span id="y-co-ordinate"></span></p></div>
+              <p>Y:<span id="y-co-ordinate"></span></p>
              
  		      </div>
         </div>
-
-        <!-- <div class="col-md-4 col-sm-12">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Goal Setting</h2>
-            <div id="x1"></div>
-            <img src="KTH-Map.PNG" width="315" height="300" id="myImgId"></img>
-            
-					</div>
-        </div>
- -->
         <!-- card for goal setting-->
 
         <!-- card for camera -->
@@ -332,21 +316,8 @@
         <!-- card for camera -->
         
         <button id="generic_button" onclick="createGenericCard()">+</button>
-        
-
       </div>
     </div>
-
-        <!-- card for ROS topics list -->
-        <!-- <div class="col-md-4 col-sm-12" >
-          <div draggable="true" class="box" style="display:none">
-            <h2 class="text-center">Ros Topics List</h2>
-              <p> Topic &nbsp;&nbsp;&nbsp;<select id="select_topic" onclick="getTopics()"> </select></p>
-              <span class="textarea"><label id="topic_data">Topic Data</label>&nbsp;&nbsp;&nbsp;<textarea id="topic_data_textbox" rows="2" cols="50" value="" placeholder="Topic_Data"></textarea></span>
-          </div>
-        </div> -->
-
-
      
 	  </main>
 

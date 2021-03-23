@@ -1019,187 +1019,185 @@ function faultInjection_OnClick(button)
         canvas4.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
 
-    });    
-  
+    }); 
     
 //----------------Image Display--------------------------
 
 
 
-
 //----------------goal setting--------------------------
+    // function to find the position of canvas
+    function FindPosition(oElement)
+    {
+        if(typeof( oElement.offsetParent ) != "undefined")
+        {
+            for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
+            {
+                posX += oElement.offsetLeft;
+                posY += oElement.offsetTop;
+            }
+            return [ posX, posY ];
+        }
+        else
+        {
+            return [ oElement.x, oElement.y ];
+        }
+    }
+ 
+    // function to find the coordinates of the point on mouse click
+    function GetCoordinates(e)
+    {
+        let PosX = 0;
+        let PosY = 0;
+        let ImgPos;
+        ImgPos = FindPosition(image_canvas);
+        if (!e) 
+        var e = window.event;
+        
+        if (e.pageX || e.pageY)
+        {
+            PosX = e.pageX;
+            PosY = e.pageY;
+        }
+        else if (e.clientX || e.clientY)
+        {
+            PosX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            PosY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+        PosX = PosX - ImgPos[0];
+        PosY = PosY - ImgPos[1];
+        document.getElementById("x-co-ordinate").innerHTML = PosX;
+        document.getElementById("y-co-ordinate").innerHTML = PosY;
 
-/* var myImg = document.getElementById("myImgId");
- myImg.onmousedown = GetCoordinates; */
- 
- function FindPosition(oElement)
- {
- 
-   if(typeof( oElement.offsetParent ) != "undefined")
-   {
-     for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
-     {
-       posX += oElement.offsetLeft;
-       posY += oElement.offsetTop;
- 
-     }
-       return [ posX, posY ];
-     }
-     else
-     {
-       return [ oElement.x, oElement.y ];
-     }
- }
- 
- function GetCoordinates(e)
- {
-     let can = document.getElementById("image_canvas");
-     let rect = can.getBoundingClientRect();
-     document.getElementById("x5").innerHTML = rect.width;
-   var PosX = 0;
-   var PosY = 0;
-   var ImgPos;
-   ImgPos = FindPosition(image_canvas);
- 
-   if (!e) 
-   var e = window.event;
- 
- 
-   if (e.pageX || e.pageY)
-   {
- 
-     PosX = e.pageX;
-     PosY = e.pageY;
- 
-   }
-   else if (e.clientX || e.clientY)
-     {
-       PosX = e.clientX + document.body.scrollLeft
-         + document.documentElement.scrollLeft;
-       PosY = e.clientY + document.body.scrollTop
-         + document.documentElement.scrollTop;
-     }
-   PosX = PosX - ImgPos[0];
-   PosY = PosY - ImgPos[1];
-   document.getElementById("x-co-ordinate").innerHTML = PosX;
-   document.getElementById("y-co-ordinate").innerHTML = PosY;
+        // real image coordinates
+        let real_width = 960; 
+        let real_height = 720;
 
-  /*  x=314
-   y=235
-   x1=960
-   y1=720 */
+        let canvas = document.getElementById("image_canvas");
+        let rect = canvas.getBoundingClientRect();
 
- 
-   // setting goal
-   /* var x1=108,x2=286,y1=38,y2=244,xw1=173,xw2=-25,yw1=675,yw2= -759;
-   var scale_X;
-   var scale_Y;
-   var offset_X,offset_Y; */
- 
-   //PosX1 = scale_X * PosX + offset_X; 
-   //PosY1 = scale_Y * PosY + offset_Y;
- 
-   //xw1 = scale_X * x1 + offset_X;
-   //xw2 = scale_X * x2 + offset_X -43 -507   742 -517;
-   //(xw1 - xw2) = scale_X * (x1 - x2)
-   /* scale_X= (xw1-xw2)/(x1-x2);
-   offset_X = xw1 - scale_X * x1;
- 
-   scale_Y = (yw1-yw2)/(y1-y2);
-   offset_Y = yw1 - scale_Y * y1; */
-   //document.getElementById("x1").innerHTML = " offset_x = " + offset_X + "\n" + " offset_y = "+ offset_Y + "\n" + "\n"+ "scale_x = "+ scale_X+ "\n" +"scale_y = "+ scale_Y;
- 
- 
- } 
- 
- 
+        // coordinates of image displayed on gui
+        let image_width = rect.width;
+        let image_height = rect.height;
+
+        // scaling factor
+        let scaling_width = real_width / image_width;
+        let scaling_height = real_height / image_height;
+
+        let coordinate_array = new Array();
+        coordinate_array[0] = PosX * Math.floor(scaling_width);
+        coordinate_array[1] = PosY * Math.floor(scaling_height);
+        
+        // publishing the coordinate values to rostopic /gui/goal_pixels
+        let set_goal_topic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/gui/goal_pixels',
+            messageType : 'std_msgs/Int16MultiArray'
+        });
+                    
+        let set_goal_msg = new ROSLIB.Message({
+            data : coordinate_array
+        });
+
+        set_goal_topic.publish(set_goal_msg);
+    }
  
  //----------------goal setting------------------
  
  
 
-//----------------generic card----------------
-let button_clicked = false;
+//---------------- creating a generic card----------------
+    let button_clicked = false;
 
-function createGenericCard()
-{
-    // two divs should be created one holds the generic card and the other holds the + button
-    let div1 = document.createElement("div");
-    div1.id = "div1";
-    div1.className = "col-md-4 col-sm-12";
-    let div2 = document.createElement("div");
-    div2.id = "div2";
-
-    // appending both the created divs to main row_div
-
-    let row_div = document.getElementById("row_div");
-    row_div.appendChild(div1);
-    row_div.appendChild(div2);
-    
-    if(button_clicked === false)
+    function createGenericCard()
     {
+        // two divs should be created one holds the generic card and the other holds the + button
+        // div1 holds newly created generic card
+        let div1 = document.createElement("div");
+        div1.id = "div1";
+        div1.className = "col-md-4 col-sm-12";
 
-    let generic_child_div = document.createElement("div");
+        // div2 will hold the + button
+        let div2 = document.createElement("div");
+        div2.id = "div2";
 
-    generic_child_div.classList.add("box");
-    generic_child_div.draggable = "true";
+        // appending both the created divs to main row_div
 
-    let h2 = document.createElement("h2");
-    h2.style.textAlign = "center";
-    let text = document.createTextNode("ROS Topics List");
-    h2.appendChild(text);
-    generic_child_div.appendChild(h2);
+        let row_div = document.getElementById("row_div");
+        row_div.appendChild(div1);
+        row_div.appendChild(div2);
+        
+        if(button_clicked === false)
+        {
 
-    let p = document.createElement("p");
+        let generic_child_div = document.createElement("div");
+        generic_child_div.classList.add("box");
+        generic_child_div.draggable = "true";
 
-    let label1 = document.createElement("label");
-    let label1_text = document.createTextNode("Topic");
-    label1.appendChild(label1_text);
+        // h2 element creation and asigning text to it
+        let h2 = document.createElement("h2");
+        h2.style.textAlign = "center";
+        let text = document.createTextNode("ROS Topics List");
+        h2.appendChild(text);
+        generic_child_div.appendChild(h2);
 
-    let dropdown = document.createElement("select");
-    dropdown.id = "select_topic";
-    dropdown.onclick = getTopics;
-    dropdown.onchange = display_topic_data;
-    
+        // creation of p element
+        let p = document.createElement("p");
 
-    p.appendChild(label1);
-    p.appendChild(dropdown);
+        // creation of label element
+        let label1 = document.createElement("label");
+        let label1_text = document.createTextNode("Topic");
+        label1.appendChild(label1_text);
 
-    let p1 = document.createElement("p");
+        // creation of dropdown to hold list of rostopics 
+        let dropdown = document.createElement("select");
+        dropdown.id = "select_topic";
+        dropdown.onclick = getTopics;
+        dropdown.onchange = display_topic_data;
 
-    let label2 = document.createElement("label");
-    let label2_text = document.createTextNode("Topic_Data");
-    label2.appendChild(label2_text);
+        // appending label and dropdown to p element
+        p.appendChild(label1);
+        p.appendChild(dropdown);
 
-    let textarea = document.createElement("textarea");
-    textarea.id = "topic_data_textbox";
-    textarea.rows = "9";
-    textarea.columns = "250";
-    textarea.name = "topic_data";
+        // creation of another p element
+        let p1 = document.createElement("p");
 
-    p1.appendChild(label2);
-    p1.appendChild(textarea);
+        // creation of label element
+        let label2 = document.createElement("label");
+        let label2_text = document.createTextNode("Topic_Data");
+        label2.appendChild(label2_text);
 
-    generic_child_div.appendChild(p);
-    generic_child_div.appendChild(p1);
-    div1.appendChild(generic_child_div);
+        // creation of textarea to hold the data of selected rostopic
+        let textarea = document.createElement("textarea");
+        textarea.id = "topic_data_textbox";
+        textarea.rows = "9";
+        textarea.columns = "250";
+        textarea.name = "topic_data";
 
-    //appending the button element to div2
+        // appending label and textarea to p element
+        p1.appendChild(label2);
+        p1.appendChild(textarea);
 
-    let generic_button = document.getElementById("generic_button");
-    div2.appendChild(generic_button);
+        // appending both p elements to div tag and appending that div to div1 created to hold generic card
+        generic_child_div.appendChild(p);
+        generic_child_div.appendChild(p1);
+        div1.appendChild(generic_child_div);
+
+        //appending the button element to div2
+        let generic_button = document.getElementById("generic_button");
+        div2.appendChild(generic_button);
+        }
+        
+        button_clicked = true;
     }
-    button_clicked = true;
-
-}
 //----------------generic card----------------
 
 
 
-//---------------------List of Topics-----------------------
+//-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
 
-var isClicked = false;
-var topicsClient = new ROSLIB.Service({
+let isClicked = false;
+let topicsClient = new ROSLIB.Service({
     ros : ros,
     name : '/rosapi/topics',
     serviceType : 'rosapi/Topics'
@@ -1207,6 +1205,7 @@ var topicsClient = new ROSLIB.Service({
 
 let request = new ROSLIB.ServiceRequest();
 
+// function to get the list of rostopics 
 function getTopics() 
 {
     let select = document.getElementById("select_topic");
@@ -1229,13 +1228,11 @@ function getTopics()
     isClicked = true;
 }
 
+// function to display the data of selected rostopic in the teaxarea of generic card
 function display_topic_data()
 {
     let select = document.getElementById("select_topic");
-
- 
     let selected_topic = select.options[select.selectedIndex].text;
-
     let selected_topic_value = select.options[select.selectedIndex].value;
 
     topicsClient.callService(request, function(result) 
@@ -1243,15 +1240,13 @@ function display_topic_data()
         topic_types = result.types;
         for(var i = 0; i < topic_types.length; i++)
         {
-
             if(i == selected_topic_value)
             { 
-
                 // Subscribing to a Topic
                 let listener = new ROSLIB.Topic({
-                ros : ros,
-                name : selected_topic,
-                messageType : topic_types[i]
+                    ros : ros,
+                    name : selected_topic,
+                    messageType : topic_types[i]
                 });
 
                 listener.subscribe(function(message) {
@@ -1262,5 +1257,4 @@ function display_topic_data()
         }
     });
 }
-            
-//---------------------List of Topics-----------------------
+//-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------

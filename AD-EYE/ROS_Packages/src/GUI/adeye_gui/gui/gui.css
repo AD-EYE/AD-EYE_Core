@@ -4,6 +4,7 @@ body
   height:100%;
 }
 
+/* properties for the card displays */
 .box
 {
   border: 3px solid #666;
@@ -18,11 +19,9 @@ body
   font-weight: bold;
 }
 
-
-
-.card
+/* properties for the header  */
+.header
 {
-  
   background-color:#EBEBEB;
   border-width: 10px;
   border-radius: 3px;
@@ -33,12 +32,7 @@ body
   font-weight: bold;
 }
 
-/* .canvas
-{
-  height: auto;
-  width: 200px;
-} */
-
+/* properties for the velocity and acceleration card  */
 .gauge_velocity,.gauge_acceleration
 {
   width: 100%;
@@ -90,6 +84,7 @@ body
   box-sizing: border-box;
 }
 
+/* properties for the buttons */
 button
 {
   border-radius: 15px;
@@ -99,6 +94,7 @@ button
   width:300px;
 }
 
+/* properties for the + button  */
 #generic_button
 {
   background-color:#699b2c;
@@ -110,6 +106,7 @@ button
   float: left;
 } 
 
+/* properties for the manager state & fault injection cards */
 .manager,.fault_injection
 {
   background: gray;
@@ -118,7 +115,8 @@ button
   width:200px;
   border:none;
 } 
-
+ 
+/* properties for the control channel & features card  */
 .channel,.features
 {
   background: gray;
@@ -127,34 +125,7 @@ button
   border:none;
 }
 
-select
-{
-  background-color: #699b2c; 
-  color:white;
-  width: 90px;
-  padding: 5px;
-  border: 8px;
-}
-
-form
-{
-  background-color: gray;
-  border-radius: 15px;
-  border: 2px;
-  padding: 10px;
-  margin : 5px;
-}
-
-input,#drop_down
-{
-  width: 30%;
-  padding: 5px;
-  margin: 5px;
-  border: 2px;
-  border-radius: 10px;
-
-}
-
+/* properties for input in the fault injection card */
 .state
 {
   height: 48px;
@@ -164,11 +135,43 @@ input,#drop_down
   margin-top: 5px;
 }
 
+/* properties for the form of fault injection  */
+form
+{
+  background-color: gray;
+  border-radius: 15px;
+  border: 2px;
+  padding: 10px;
+  margin : 5px;
+}
+
+/* properties for the select tag in the form for fault injection */
+select
+{
+  background-color: #699b2c; 
+  color:white;
+  width: 90px;
+  padding: 5px;
+  border: 8px;
+}
+
+/* properties for the input box in th form for fault injection card  */
+input
+{
+  width: 30%;
+  padding: 5px;
+  margin: 5px;
+  border: 2px;
+  border-radius: 10px;
+}
+
+/* properties for the label in the form for fault injection  */
 label
 {
   width:63%;
 }
 
+/* properties for the select tag in ros topics list card */
 #select_topic
 {
   background-color: #699b2c; 
@@ -176,104 +179,14 @@ label
   width: 95%;
   padding: 5px;
   border: 8px;
+  border-style: none;
   border-radius: 15px;
 }
 
-#topic_data
-{
-  width:auto;
-}
-
+/* properties for the textarea tag in ros topics list card */
 #topic_data_textbox
 {
   width: 95%;
   border: 8px;
   border-radius: 15px;
 }
-
-
-
-
-
-
-
-
-
-
-
-/* ----------------------------------------------------------------------------------------------------------- */
-
- /* .bcontainer
-{
-  display: grid | inline-grid; 
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px; 
-  
-} */
-
-/* .box.over 
-{
-  border: 3px dotted #666;
-} */
-
-/* .gauge_a 
-{
-  width: 100%;
-  max-width: 250px;
-  font-family: "Roboto", sans-serif;
-  font-size: 32px;
-  color: #004033;
-}
-
-.gauge_a__body 
-{
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  background: #b4c0be;
-  position: relative;
-  border-top-left-radius: 100% 200%;
-  border-top-right-radius: 100% 200%;
-  overflow: hidden;
-}
-
-.gauge_a__fill 
-{
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: inherit;
-  height: 100%;
-  background: #009578;
-  transform-origin: center top;
-  transform: rotate(0.25turn);
-  transition: transform 0.2s ease-out;
-}
-
-.gauge_a__cover 
-{
-  width: 75%;
-  height: 150%;
-  background: #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 25%;
-  box-sizing: border-box;
-}*/
-/* .ratingBoxs
-{
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
-}
- */
