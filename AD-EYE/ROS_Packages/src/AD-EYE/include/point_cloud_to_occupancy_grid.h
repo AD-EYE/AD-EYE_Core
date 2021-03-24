@@ -46,7 +46,7 @@ class PointsToOccupancyGrid {
         /*!
         * \brief Constructor
         * \param nh A NodeHandle to retrieve ROS parameters, subscribe and publish
-        * \param delayed_start If false, the node listens immediately to the poibt cloud topic. If true the method start() needs to be called.
+        * \param delayed_start If false, the node listens immediately to the point cloud topic. If true the method startSubsciber() needs to be called.
         */
         PointsToOccupancyGrid(ros::NodeHandle nh, bool delayed_start = false);
 

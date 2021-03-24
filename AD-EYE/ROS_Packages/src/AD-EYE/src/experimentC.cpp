@@ -34,7 +34,7 @@ class ExperimentC: ExperimentRecording {
         }
 
     public:
-        ExperimentC(ros::NodeHandle nh): nh_(nh), point_cloud_to_occupancy_grid_(nh, true), rate_(20)
+        ExperimentC(ros::NodeHandle nh): ExperimentRecording(nh), nh_(nh), point_cloud_to_occupancy_grid_(nh, true), rate_(20)
         {
             speed_sub_ = nh.subscribe("/current_velocity", 10, &ExperimentC::speedCallback, this);
             max_speed_allowed_ = 10.0;
@@ -101,7 +101,7 @@ class ExperimentC: ExperimentRecording {
             //TODO wait a bit and stop rosbag
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             system("rosnode kill /expC_rosbag_recorder &");
-            stopExperiment(nh_);
+            stopExperiment();
 
         }
 
