@@ -38,13 +38,7 @@ class ExperimentC: ExperimentRecording {
         {
             speed_sub_ = nh.subscribe("/current_velocity", 10, &ExperimentC::speedCallback, this);
             max_speed_allowed_ = 10.0;
-            // nh.param<float>("/adeye/motion_planning/op_common_params/maxVelocity", max_speed_allowed_, 10.0);
-            nh.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
-            nh.param<float>("/simulink/reflectivity", rain_reflectivity_, 0.0);
-            std::ostringstream ss;
-            ss << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
-            // ss << "speed_" << max_speed_allowed_ << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
-            bag_name_ = std::string(ss.str());
+            
             speed_threshold_start_ = max_speed_allowed_ * 0.9;
             speed_threshold_stop_ = max_speed_allowed_ * 0.8;
             std::cout << "ExperimentC: initialized node" << std::endl;
@@ -84,9 +78,18 @@ class ExperimentC: ExperimentRecording {
             point_cloud_to_occupancy_grid_.startSubsciber(nh_);
         }
 
+        void makeBagName() {
+            nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
+            nh_.param<float>("/simulink/reflectivity", rain_reflectivity_, 0.0);
+            std::ostringstream ss;
+            ss << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
+            bag_name_ = std::string(ss.str());
+        }
+
         void stopRecording()
         {
             ExperimentRecording::stopRecording();
+            makeBagName();
             //TODO start rosbag
             std::string recording_command_part_1 = "rosbag record /cost_map -O ~/Experiment_Results/";
             std::string recording_command_part_2 = ".bag __name:=expC_rosbag_recorder &";
