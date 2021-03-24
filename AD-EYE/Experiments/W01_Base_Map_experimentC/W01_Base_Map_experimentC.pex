@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map_experimentC" UniqueId="0" Authors="Adeye" TotalSimulationTime="78.550000000000011" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="4A1B436F098BFE7D5572B9DCFA877F9B15049F420DA3E7FB2C6916643A3867BD" UniqueExperimentIdentifier="2eedd841-4284-4bf2-b1c1-7fa32abfa0a8" UniqueIdCounter="28163" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map_experimentC" UniqueId="0" Authors="Adeye" TotalSimulationTime="78.550000000000011" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="AA9E0EDD60DB3298B10E12AFB8D3FBF20D401C9559DA832BCE90107BB05293CE" UniqueExperimentIdentifier="e8141e8b-b6de-435e-85e0-09b20a76caa2" UniqueIdCounter="28371" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of terraced building" id="TerracedHouses_1" UniqueId="124" SensorDetectability="Invisible" NumericalID="84" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TerracedHouses" AnimatedActor="false" CompilationSheetPicture="TerracedHouses_HighPoly.png" HashCode="01b0cf4ea299e102ec424d5d6cc0a8af" ModelFile="Buildings\TerracedHouses\TerracedHouses.osgb" GenericModelSourceFile="Buildings\TerracedHouses\TerracedHouses.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="151.75918262695313" Y="144.12117764501954" Z="0" />
@@ -5686,11 +5686,11 @@
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="28151" SensorDetectability="Invisible" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="110.8379437292831" Y="98.265348286155472" Z="0.68999999761581421" />
+      <Location X="110.8379437292831" Y="98.265348286155472" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
-      <CoGOffset X="1.690000057220459" Y="0" Z="0.68999999761581421" />
+      <CoGOffset X="0" Y="0" Z="0" />
       <SensorInfo>
         <TISSensorInfo DefaultORMFile="DefaultORM.txt">
           <UserSpecifiedModels />
@@ -6079,7 +6079,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="27115" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28367" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6104,7 +6104,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="27116" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28368" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6129,7 +6129,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="27117" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28369" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6154,7 +6154,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="27118" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28370" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6175,7 +6175,7 @@
           <Origin X="0.5" Y="0.5" Z="0" />
           <Size X="0" Y="0" Z="0" />
           <CoGOffset X="0" Y="0" Z="0" />
-          <StartLocation X="110.8379437292831" Y="98.265348286155472" Z="0.68999999761581421" />
+          <StartLocation X="110.8379437292831" Y="98.265348286155472" Z="0" />
           <StartOrientation Bank="0" Tilt="0" Heading="0" />
         </TrajectoryBase>
       </Trajectories>
@@ -11778,7 +11778,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot3413" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="10.00" CalculationValue2="33">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
-          <EndState Distance="1178.475848611298102" Situation="Reached" Speed="10.00" Time="94.27806788890384816" />
+          <EndState Distance="0" Situation="Reached" Speed="0" Time="0" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
