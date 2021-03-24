@@ -982,7 +982,11 @@ function faultInjection_OnClick(button)
 }); 
 //------------------- TL camera  display --------------
 
-//----------------Image Display------------------
+
+
+//----------------goal setting--------------------------
+
+//--- displaying the image from ros topic---
     
     //listen to the topic camera_1/image_raw
     let camera_topic = new ROSLIB.Topic({
@@ -991,9 +995,17 @@ function faultInjection_OnClick(button)
         messageType : 'sensor_msgs/Image'
     });
 
+    // original image coordinates
+    let original_width; 
+    let original_height;
+
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(message)
     { 
+        // original image coordinates
+        original_width = message.width;
+        original_height = message.height;
+
         let msg = atob(message.data);
         let array = new Uint8Array(new ArrayBuffer(msg.length));
 
@@ -1018,90 +1030,81 @@ function faultInjection_OnClick(button)
         canvas4.style.width = "100%";
         canvas4.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
-
     }); 
     
-//----------------Image Display--------------------------
+//---displaying the image from ros topic---
 
-
-
-//----------------goal setting--------------------------
-    // function to find the position of canvas
-    function FindPosition(oElement)
+    // function to find the position of canvas element
+    function findPosition(canvas_element)
     {
-        if(typeof( oElement.offsetParent ) != "undefined")
+        if(typeof( canvas_element.offsetParent ) != "undefined")
         {
-            for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
+            for(var posX = 0, posY = 0;canvas_element ;canvas_element = canvas_element.offsetParent)
             {
-                posX += oElement.offsetLeft;
-                posY += oElement.offsetTop;
+                posX += canvas_element.offsetLeft;
+                posY += canvas_element.offsetTop;
             }
             return [ posX, posY ];
         }
         else
         {
-            return [ oElement.x, oElement.y ];
+            return [ canvas_element.x, canvas_element.y ];
         }
     }
- 
+
     // function to find the coordinates of the point on mouse click
-    function GetCoordinates(e)
+    function getCoordinates(e)
     {
-        let PosX = 0;
-        let PosY = 0;
-        let ImgPos;
-        ImgPos = FindPosition(image_canvas);
+        let posX = 0;
+        let posY = 0;
+        let imgPos;
+        imgPos = findPosition(image_canvas);
         if (!e) 
         var e = window.event;
         
         if (e.pageX || e.pageY)
         {
-            PosX = e.pageX;
-            PosY = e.pageY;
+            posX = e.pageX;
+            posY = e.pageY;
         }
         else if (e.clientX || e.clientY)
         {
-            PosX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            PosY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+            posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         }
-        PosX = PosX - ImgPos[0];
-        PosY = PosY - ImgPos[1];
-        document.getElementById("x-co-ordinate").innerHTML = PosX;
-        document.getElementById("y-co-ordinate").innerHTML = PosY;
-
-        // real image coordinates
-        let real_width = 960; 
-        let real_height = 720;
-
+        posX = posX - imgPos[0];
+        posY = posY - imgPos[1];
+        document.getElementById("x-co-ordinate").innerHTML = posX;
+        document.getElementById("y-co-ordinate").innerHTML = posY;
+    
         let canvas = document.getElementById("image_canvas");
         let rect = canvas.getBoundingClientRect();
 
-        // coordinates of image displayed on gui
-        let image_width = rect.width;
-        let image_height = rect.height;
+        // coordinates of image displayed on canvas 
+        let canvas_width = rect.width;
+        let canvas_height = rect.height;
 
         // scaling factor
-        let scaling_width = real_width / image_width;
-        let scaling_height = real_height / image_height;
+        let width_scaling = original_width / canvas_width;
+        let height_scaling = original_height / canvas_height;
 
-        let coordinate_array = new Array();
-        coordinate_array[0] = PosX * Math.floor(scaling_width);
-        coordinate_array[1] = PosY * Math.floor(scaling_height);
-        
-        // publishing the coordinate values to rostopic /gui/goal_pixels
-        let set_goal_topic = new ROSLIB.Topic({
-            ros : ros,
-            name : '/gui/goal_pixels',
-            messageType : 'std_msgs/Int16MultiArray'
-        });
-                    
-        let set_goal_msg = new ROSLIB.Message({
-            data : coordinate_array
-        });
+            let coordinate_array = new Array();
+            coordinate_array[0] = posX * Math.floor(width_scaling);
+            coordinate_array[1] = posY * Math.floor(height_scaling);
+            
+            // publishing the coordinate values to rostopic /gui/goal_pixels
+            let goal_pixel_topic = new ROSLIB.Topic({
+                ros : ros,
+                name : '/gui/goal_pixels',
+                messageType : 'std_msgs/Int16MultiArray'
+            });
+                        
+            let goal_pixel_msg = new ROSLIB.Message({
+                data : coordinate_array
+            });
 
-        set_goal_topic.publish(set_goal_msg);
+            goal_pixel_topic.publish(goal_pixel_msg);
     }
- 
  //----------------goal setting------------------
  
  
@@ -1112,6 +1115,7 @@ function faultInjection_OnClick(button)
     function createGenericCard()
     {
         // two divs should be created one holds the generic card and the other holds the + button
+
         // div1 holds newly created generic card
         let div1 = document.createElement("div");
         div1.id = "div1";
@@ -1196,65 +1200,68 @@ function faultInjection_OnClick(button)
 
 //-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
 
-let isClicked = false;
-let topicsClient = new ROSLIB.Service({
-    ros : ros,
-    name : '/rosapi/topics',
-    serviceType : 'rosapi/Topics'
-    });
+    let isClicked = false;
+    let topicsClient = new ROSLIB.Service({
+        ros : ros,
+        name : '/rosapi/topics',
+        serviceType : 'rosapi/Topics'
+        });
 
-let request = new ROSLIB.ServiceRequest();
+    let request = new ROSLIB.ServiceRequest();
 
-// function to get the list of rostopics 
-function getTopics() 
-{
-    let select = document.getElementById("select_topic");
-    if(isClicked === false)
+    // function to get the list of rostopics 
+    function getTopics() 
     {
+        let select = document.getElementById("select_topic");
+        if(isClicked === false)
+        {
+            topicsClient.callService(request, function(result) 
+            {
+                topics_list = result.topics;
+                for(var i = 0; i < topics_list.length; i++)
+                {
+                    let topic_name = topics_list[i];
+                    let option = document.createElement("option");
+                    option.value = i;
+                    option.text = topic_name;
+                    select.append(option);
+
+                }
+            });
+        }
+        isClicked = true;
+    }
+
+    // function to display the data of selected rostopic in the teaxarea of generic card
+    function display_topic_data()
+    {
+        let select = document.getElementById("select_topic");
+        let selected_topic = select.options[select.selectedIndex].text;
+        let selected_topic_value = select.options[select.selectedIndex].value;
+
         topicsClient.callService(request, function(result) 
         {
-            topics_list = result.topics;
-            for(var i = 0; i < topics_list.length; i++)
+            topic_types = result.types;
+            for(var i = 0; i < topic_types.length; i++)
             {
-                let topic_name = topics_list[i];
-                let option = document.createElement("option");
-                option.value = i;
-                option.text = topic_name;
-                select.append(option);
+                if(i == selected_topic_value)
+                { 
+                    // Subscribing to a Topic
+                    let listener = new ROSLIB.Topic({
+                        ros : ros,
+                        name : selected_topic,
+                        messageType : topic_types[i]
+                    });
 
+                    listener.subscribe(function(message) {
+                        topic_val = JSON.stringify(message);
+
+                    });
+                    document.getElementById("topic_data_textbox").value = selected_topic ;
+
+
+                }  
             }
         });
     }
-    isClicked = true;
-}
-
-// function to display the data of selected rostopic in the teaxarea of generic card
-function display_topic_data()
-{
-    let select = document.getElementById("select_topic");
-    let selected_topic = select.options[select.selectedIndex].text;
-    let selected_topic_value = select.options[select.selectedIndex].value;
-
-    topicsClient.callService(request, function(result) 
-    {
-        topic_types = result.types;
-        for(var i = 0; i < topic_types.length; i++)
-        {
-            if(i == selected_topic_value)
-            { 
-                // Subscribing to a Topic
-                let listener = new ROSLIB.Topic({
-                    ros : ros,
-                    name : selected_topic,
-                    messageType : topic_types[i]
-                });
-
-                listener.subscribe(function(message) {
-                    topic_val = JSON.stringify(message);
-                    document.getElementById("topic_data_textbox").value = topic_val ;
-                });
-            }  
-        }
-    });
-}
 //-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
