@@ -1016,7 +1016,7 @@ function faultInjection_OnClick(button)
 
         let canvas4 = document.getElementById( "image_canvas" );
        
-         const context = canvas4.getContext( "2d" ); 
+        const context = canvas4.getContext( "2d" ); 
 
         let imgData = context.createImageData(message.width,message.height);
 
@@ -1027,9 +1027,9 @@ function faultInjection_OnClick(button)
             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
             imgData.data[ 4 * j + 3 ] = 255;
         }
-/*         canvas4.width = "100%";
-        canvas4.height = "auto";
- */        context.putImageData(imgData,0,0,0,0,message.width,message.height);
+/* canvas4.width = message.width;
+        canvas4.height = message.height; */
+      context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
     }); 
     
 //---displaying the image from ros topic---
