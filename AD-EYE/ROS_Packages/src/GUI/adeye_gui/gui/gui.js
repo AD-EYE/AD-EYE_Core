@@ -618,7 +618,6 @@ function faultInjection_OnClick(button)
                 formsCollection[i].append(parent_div);
                 //formsCollection[i].append(parent_second_element);
                 formsCollection[i].style.display = "block";
-
             }
             else
             {
@@ -626,7 +625,6 @@ function faultInjection_OnClick(button)
                 button.style.backgroundColor = "gray";
                 document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
                 formsCollection[i].style.display = "none";
-
             }
             
         }
@@ -1007,7 +1005,9 @@ function faultInjection_OnClick(button)
         original_height = message.height;
 
         let msg = atob(message.data);
+
         let array = new Uint8Array(new ArrayBuffer(msg.length));
+
 
         for (let i = 0; i < msg.length; i++) 
         {
@@ -1015,21 +1015,21 @@ function faultInjection_OnClick(button)
         }
 
         let canvas4 = document.getElementById( "image_canvas" );
-        const context = canvas4.getContext( "2d" ); 
+       
+         const context = canvas4.getContext( "2d" ); 
 
-        let imgData = context.createImageData(canvas4.width,canvas4.height);
+        let imgData = context.createImageData(message.width,message.height);
 
-        for(let j = 0; j < (array.length)/2; j++)
+        for(let j = 0; j < array.length; j++)
         {
             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
             imgData.data[ 4 * j + 3 ] = 255;
-
         }
-        canvas4.style.width = "100%";
-        canvas4.style.height = "auto";
-        context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
+/*         canvas4.width = "100%";
+        canvas4.height = "auto";
+ */        context.putImageData(imgData,0,0,0,0,message.width,message.height);
     }); 
     
 //---displaying the image from ros topic---
@@ -1077,7 +1077,7 @@ function faultInjection_OnClick(button)
         document.getElementById("x-co-ordinate").innerHTML = posX;
         document.getElementById("y-co-ordinate").innerHTML = posY;
     
-        let canvas = document.getElementById("image_canvas");
+       /*  let canvas = document.getElementById("image_canvas");
         let rect = canvas.getBoundingClientRect();
 
         // coordinates of image displayed on canvas 
@@ -1087,10 +1087,12 @@ function faultInjection_OnClick(button)
         // scaling factor
         let width_scaling = original_width / canvas_width;
         let height_scaling = original_height / canvas_height;
+        document.getElementById("x5").innerHTML = width_scaling;  */
+
 
             let coordinate_array = new Array();
-            coordinate_array[0] = posX * Math.floor(width_scaling);
-            coordinate_array[1] = posY * Math.floor(height_scaling);
+            coordinate_array[0] = posX;
+            coordinate_array[1] = posY;
             
             // publishing the coordinate values to rostopic /gui/goal_pixels
             let goal_pixel_topic = new ROSLIB.Topic({
@@ -1241,6 +1243,8 @@ function faultInjection_OnClick(button)
 
         topicsClient.callService(request, function(result) 
         {
+            let topic_val;
+
             topic_types = result.types;
             for(var i = 0; i < topic_types.length; i++)
             {
@@ -1255,9 +1259,9 @@ function faultInjection_OnClick(button)
 
                     listener.subscribe(function(message) {
                         topic_val = JSON.stringify(message);
+                        document.getElementById("topic_data_textbox").value = topic_val ;
 
                     });
-                    document.getElementById("topic_data_textbox").value = selected_topic ;
 
 
                 }  
