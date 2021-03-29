@@ -1000,37 +1000,108 @@ function faultInjection_OnClick(button)
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(message)
     { 
-        // original image coordinates
-        original_width = message.width;
-        original_height = message.height;
+         // original image coordinates
+         original_width = message.width;
+         original_height = message.height;
+ 
+         let msg = atob(message.data);
+ 
+         let array = new Uint8Array(new ArrayBuffer(msg.length));
+ 
+ 
+         for (let i = 0; i < msg.length; i++) 
+         {
+             array[i] = msg.charCodeAt(i);
+         }
+         
+ 
+         let canvas4 = document.getElementById( "image_canvas" );
+        
+         const context = canvas4.getContext( "2d" );
 
-        let msg = atob(message.data);
+         var hRatio = canvas4.width / message.width    ;
+var vRatio = canvas4.height / message.height  ;
+var ratio  = Math.min ( hRatio, vRatio );
 
-        let array = new Uint8Array(new ArrayBuffer(msg.length));
+let imgData = context.createImageData(message.width ,message.height);
+ 
+         for(let j = 0; j < array.length; j++)
+         {
+             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+             imgData.data[ 4 * j + 3 ] = 255;
+         }
+
+context.drawImage(imgData, 0,0,0,0,message.width*ratio, message.height*ratio);
+         
+        // context.drawImage(array,0,0,message.width,message.height,0,0,canvas4.width,canvas4.height);
 
 
-        for (let i = 0; i < msg.length; i++) 
-        {
-            array[i] = msg.charCodeAt(i);
-        }
 
-        let canvas4 = document.getElementById( "image_canvas" );
-       
-        const context = canvas4.getContext( "2d" ); 
+         scale_factor_width = canvas4.width/message.width;
+         scale_factor_height = 3*scale_factor_width;
+         var scale = Math.min(canvas4.width / message.width, canvas4.height / message.height);
+         document.getElementById("x5").innerHTML = scale;
 
-        let imgData = context.createImageData(message.width,message.height);
 
-        for(let j = 0; j < array.length; j++)
-        {
-            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-            imgData.data[ 4 * j + 3 ] = 255;
-        }
-/* canvas4.width = message.width;
-        canvas4.height = message.height; */
-      context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
-    }); 
+
+
+
+
+
+
+         /* var scale = Math.min(ctx.canvas4.width / message.width, ctx.canvas.height / canvas.height); // get the min scale to fit
+         var x = (ctx.canvas4.width - (message.width * scale) ) / 2; // centre x
+         var y = (ctx.canvas4.height - (message.height * scale) ) / 2; // centre y
+         ctx.drawImage(array, x, y, message.width * scale, message.height * scale);
+ */
+ 
+ 
+         /* let imgData = context.createImageData(canvas4.width ,canvas4.height);
+ 
+         for(let j = 0; j < array.length; j++)
+         {
+             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+             imgData.data[ 4 * j + 3 ] = 255;
+         }
+
+  
+   context.putImageData(imgData,0,0,0,0,message.width*scale,message.height*scale);
+         */
+
+     }); 
+
+        /* let canvas4 = document.getElementById( "image_canvas" );
+        const ctx = canvas4.getContext( "2d" ); 
+        //document.getElementById("x5").innerHTML = array;
+
+// first, create a new ImageData to contain our pixels
+var imgData = ctx.createImageData(4, 2); // width x height
+var data = imgData.data;
+
+// copy img byte-per-byte into our ImageData
+for (var i = 0; i < array.length; i++) {
+    
+    imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+    imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+    imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+    imgData.data[ 4 * j + 3 ] = 255;
+}
+
+// now we can draw our imagedata onto the canvas
+ctx.putImageData(imgData, 0, 0);
+         */
+
+        
+
+        
+/*         canvas4.style.width = "100%";
+        canvas4.style.height = "auto";
+/*  */        
+   
     
 //---displaying the image from ros topic---
 
@@ -1059,6 +1130,7 @@ function faultInjection_OnClick(button)
         let posY = 0;
         let imgPos;
         imgPos = findPosition(image_canvas);
+
         if (!e) 
         var e = window.event;
         
@@ -1066,7 +1138,9 @@ function faultInjection_OnClick(button)
         {
             posX = e.pageX;
             posY = e.pageY;
+
         }
+
         else if (e.clientX || e.clientY)
         {
             posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
@@ -1077,35 +1151,38 @@ function faultInjection_OnClick(button)
         document.getElementById("x-co-ordinate").innerHTML = posX;
         document.getElementById("y-co-ordinate").innerHTML = posY;
     
-       /*  let canvas = document.getElementById("image_canvas");
-        let rect = canvas.getBoundingClientRect();
+       let canvas = document.getElementById("image_canvas");
+
+        /* let rect = canvas.getBoundingClientRect();
 
         // coordinates of image displayed on canvas 
         let canvas_width = rect.width;
-        let canvas_height = rect.height;
+        let canvas_height = rect.height;  */
 
         // scaling factor
-        let width_scaling = original_width / canvas_width;
-        let height_scaling = original_height / canvas_height;
-        document.getElementById("x5").innerHTML = width_scaling;  */
+        let width_scaling = canvas.width / original_width;
 
+        let height_scaling = canvas.height / original_height;
 
-            let coordinate_array = new Array();
-            coordinate_array[0] = posX;
-            coordinate_array[1] = posY;
+        posX = width_scaling * posX;
+        posY = height_scaling * posY;
+ 
+        let coordinate_array = new Array();
+        coordinate_array[0] = posX ;
+        coordinate_array[1] = posY ;
             
-            // publishing the coordinate values to rostopic /gui/goal_pixels
-            let goal_pixel_topic = new ROSLIB.Topic({
-                ros : ros,
-                name : '/gui/goal_pixels',
-                messageType : 'std_msgs/Int16MultiArray'
-            });
+        // publishing the coordinate values to rostopic /gui/goal_pixels
+        let goal_pixel_topic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/gui/goal_pixels',
+            messageType : 'std_msgs/Int16MultiArray'
+        });
                         
-            let goal_pixel_msg = new ROSLIB.Message({
-                data : coordinate_array
-            });
+        let goal_pixel_msg = new ROSLIB.Message({
+            data : coordinate_array
+        });
 
-            goal_pixel_topic.publish(goal_pixel_msg);
+        goal_pixel_topic.publish(goal_pixel_msg);
     }
  //----------------goal setting------------------
  
