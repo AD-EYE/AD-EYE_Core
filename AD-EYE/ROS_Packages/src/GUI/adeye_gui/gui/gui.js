@@ -1019,11 +1019,15 @@ function faultInjection_OnClick(button)
         
          const context = canvas4.getContext( "2d" );
 
-         var hRatio = canvas4.width / message.width    ;
-var vRatio = canvas4.height / message.height  ;
-var ratio  = Math.min ( hRatio, vRatio );
+          /* ----------Way 1------ */
+         var scale_factor = canvas4.width / original_width;
+            scaled_width = canvas4.width;
+            scaled_height = original_height * scale_factor;
 
-let imgData = context.createImageData(message.width ,message.height);
+         let imgData = context.createImageData(scaled_width, scaled_height);
+
+         //var imgData = context.getImageData(0, 0, scaled_width, scaled_height);
+
  
          for(let j = 0; j < array.length; j++)
          {
@@ -1032,76 +1036,36 @@ let imgData = context.createImageData(message.width ,message.height);
              imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
              imgData.data[ 4 * j + 3 ] = 255;
          }
+        canvas4.style.width = "100%";
+        canvas4.style.height = "auto"; 
+        context.putImageData(imgData,0,0,0,0,scaled_width,scaled_height);
+        if(original_width < canvas4.width)
+        {
+            context.drawImage( canvas4, 0, 0,canvas4.width *100  , canvas4.height * 100);
+        }
 
-context.drawImage(imgData, 0,0,0,0,message.width*ratio, message.height*ratio);
+        
+ 
+
+         /* var canvas_resize = document.getElementById ('resize_canvas')
+var ctx_resize = canvas_resize.getContext ('2d');
+ctx_resize.clearRect(0, 0, scaled_width, scaled_height);
+ctx_resize.scale(20, 20);
+ctx_resize.drawImage(canvas4, 0, 0,0, 0, scaled_width, scaled_height);  */
+
+//ctx_resize.drawImage (canvas4, 0, 0, 0, 0, canvas4.width, canvas4.hight)
+
          
-        // context.drawImage(array,0,0,message.width,message.height,0,0,canvas4.width,canvas4.height);
-
-
-
-         scale_factor_width = canvas4.width/message.width;
-         scale_factor_height = 3*scale_factor_width;
-         var scale = Math.min(canvas4.width / message.width, canvas4.height / message.height);
-         document.getElementById("x5").innerHTML = scale;
-
-
-
-
-
-
-
-
-         /* var scale = Math.min(ctx.canvas4.width / message.width, ctx.canvas.height / canvas.height); // get the min scale to fit
-         var x = (ctx.canvas4.width - (message.width * scale) ) / 2; // centre x
-         var y = (ctx.canvas4.height - (message.height * scale) ) / 2; // centre y
-         ctx.drawImage(array, x, y, message.width * scale, message.height * scale);
- */
+         /* context.clearRect(0, 0, scaled_width, scaled_height);
+context.scale(2, 2);
+context.drawImage(canvas4, 0, 0);  */
  
- 
-         /* let imgData = context.createImageData(canvas4.width ,canvas4.height);
- 
-         for(let j = 0; j < array.length; j++)
-         {
-             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-             imgData.data[ 4 * j + 3 ] = 255;
-         }
-
-  
-   context.putImageData(imgData,0,0,0,0,message.width*scale,message.height*scale);
-         */
+   //context.putImageData(imgData,0,0,canvas4.width,canvas4.height,scaled_width,scaled_height);
+        
 
      }); 
 
-        /* let canvas4 = document.getElementById( "image_canvas" );
-        const ctx = canvas4.getContext( "2d" ); 
-        //document.getElementById("x5").innerHTML = array;
-
-// first, create a new ImageData to contain our pixels
-var imgData = ctx.createImageData(4, 2); // width x height
-var data = imgData.data;
-
-// copy img byte-per-byte into our ImageData
-for (var i = 0; i < array.length; i++) {
-    
-    imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-    imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-    imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-    imgData.data[ 4 * j + 3 ] = 255;
-}
-
-// now we can draw our imagedata onto the canvas
-ctx.putImageData(imgData, 0, 0);
-         */
-
-        
-
-        
-/*         canvas4.style.width = "100%";
-        canvas4.style.height = "auto";
-/*  */        
-   
+       
     
 //---displaying the image from ros topic---
 
@@ -1160,12 +1124,12 @@ ctx.putImageData(imgData, 0, 0);
         let canvas_height = rect.height;  */
 
         // scaling factor
-        let width_scaling = canvas.width / original_width;
+        /* let width_scaling = canvas.width / original_width;
 
         let height_scaling = canvas.height / original_height;
 
         posX = width_scaling * posX;
-        posY = height_scaling * posY;
+        posY = height_scaling * posY; */
  
         let coordinate_array = new Array();
         coordinate_array[0] = posX ;
@@ -1346,3 +1310,92 @@ ctx.putImageData(imgData, 0, 0);
         });
     }
 //-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
+
+ /* 
+
+ 
+        
+
+         scale_factor_width = canvas4.width/message.width;
+         scale_factor_height = 3*scale_factor_width;
+
+
+        let canvas4 = document.getElementById( "image_canvas" );
+        const ctx = canvas4.getContext( "2d" ); 
+        //document.getElementById("x5").innerHTML = array;
+
+// first, create a new ImageData to contain our pixels
+var imgData = ctx.createImageData(4, 2); // width x height
+var data = imgData.data;
+
+// copy img byte-per-byte into our ImageData
+for (var i = 0; i < array.length; i++) {
+    
+    imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+    imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+    imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+    imgData.data[ 4 * j + 3 ] = 255;
+}
+
+// now we can draw our imagedata onto the canvas
+ctx.putImageData(imgData, 0, 0);
+         */
+
+        
+
+        
+/*         canvas4.style.width = "100%";
+        canvas4.style.height = "auto";
+/*  */ 
+
+/*  var hRatio = canvas4.width / message.width    ;
+var vRatio = canvas4.height / message.height  ;
+var ratio  = Math.min ( hRatio, vRatio );
+
+let imgData = context.createImageData(message.width ,message.height);
+ 
+         for(let j = 0; j < array.length; j++)
+         {
+             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+             imgData.data[ 4 * j + 3 ] = 255;
+         }
+
+context.drawImage(imgData, 0,0,0,0,message.width*ratio, message.height*ratio); */
+         
+        // context.drawImage(array,0,0,message.width,message.height,0,0,canvas4.width,canvas4.height);
+
+
+         /* var scale = Math.min(ctx.canvas4.width / message.width, ctx.canvas.height / canvas.height); // get the min scale to fit
+         var x = (ctx.canvas4.width - (message.width * scale) ) / 2; // centre x
+         var y = (ctx.canvas4.height - (message.height * scale) ) / 2; // centre y
+         ctx.drawImage(array, x, y, message.width * scale, message.height * scale);
+ */
+
+    //  /* /* /* ----------Way 2----- */
+    //  original_aspect_ratio = original_width / original_height;
+
+    //  canvas_aspect_ratio = canvas4.width / canvas4.height;
+
+    //  if(original_aspect_ratio < canvas_aspect_ratio)
+    //  {
+    //      new_width = original_width * canvas4.height/original_height;
+    //      new_height = canvas4.height;
+    //  }
+    //  else
+    //  {
+    //      new_width = canvas4.width;
+    //      new_height = original_height * canvas4.width/original_width;
+    //  }
+     
+    //  /* ----------Way 3----- */
+    //  //var scale = Math.min(canvas4.width / original_width, canvas4.height / original_height);
+    //  var scale = canvas4.width / canvas4.height;
+
+    //  new_w = original_width * scale;
+    //  new_h = original_height * scale;
+ 
+ 
+
+   
