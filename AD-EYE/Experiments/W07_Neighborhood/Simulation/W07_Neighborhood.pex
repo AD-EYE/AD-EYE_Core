@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="79.833333333333329" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="592AAF3993D0CA8EB575E172789DD1E4D37FC53954058E9BBF839EE4DF29CA00" UniqueExperimentIdentifier="afc3dc2b-604e-474f-9118-14bfedd79493" UniqueIdCounter="9137" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="79.833333333333329" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="72434D613B45FA92D113A73763D20B11A0567BA92B5CB4E5ED4B67E27057E1E8" UniqueExperimentIdentifier="afc3dc2b-604e-474f-9118-14bfedd79493" UniqueIdCounter="9367" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Dutch Church." id="DutchChurch_1" UniqueId="3119" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="DutchChurch" AnimatedActor="false" CompilationSheetPicture="Church_HighPoly.png" HashCode="c456ae2c187d90a5895639c7917575ff" ModelFile="Buildings\Church\Church.osgb" GenericModelSourceFile="Buildings\Church\Church.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="26.703933715820313" Y="19.858810424804688" Z="0" />
@@ -3005,7 +3005,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9129" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9359" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3030,7 +3030,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9130" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9360" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3055,7 +3055,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9131" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9361" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3080,7 +3080,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9132" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9362" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3118,7 +3118,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9133" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9363" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3153,7 +3153,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9134" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9364" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3191,7 +3191,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9135" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9365" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3253,7 +3253,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9136" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9366" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -10637,7 +10637,7 @@
       <DefaultVisuAidPositions />
       <Animation />
       <LightElements>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="4" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Red" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="1" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Red" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="3.4479999542236328" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="3.4479999542236328" />
@@ -10645,7 +10645,7 @@
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
         </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="5" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Orange" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="2" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Orange" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="3.1480000019073486" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="3.1480000019073486" />
@@ -10653,7 +10653,7 @@
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
         </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="6" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Green" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="3" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Green" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="2.8480000495910645" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="2.8480000495910645" />
@@ -10798,7 +10798,7 @@
       <DefaultVisuAidPositions />
       <Animation />
       <LightElements>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="7" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Red" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="4" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Red" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="3.4479999542236328" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="3.4479999542236328" />
@@ -10806,7 +10806,7 @@
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
         </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="8" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Orange" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="5" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Orange" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="3.1480000019073486" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="3.1480000019073486" />
@@ -10814,7 +10814,7 @@
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
         </LightElement>
-        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="9" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Green" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-60" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="true" LeftAngle="-60" LightID="6" LightPosition="GenericLight" MSCDIntensity="1.84164481483743000000" Name="Green" ResourceId="1" RightAngle="60" TopAngle="60" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
           <Defaults LeftAngle="-60" RightAngle="60" TopAngle="60" BottomAngle="-60" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
           <Location X="0" Y="-0.17104899883270264" Z="2.8480000495910645" />
           <ReferenceLocation X="0" Y="-0.17104899883270264" Z="2.8480000495910645" />
@@ -12094,8 +12094,24 @@
         </LightElement>
       </LightElements>
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
