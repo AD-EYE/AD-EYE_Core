@@ -1000,73 +1000,50 @@ function faultInjection_OnClick(button)
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(message)
     { 
-         // original image coordinates
-         original_width = message.width;
-         original_height = message.height;
- 
-         let msg = atob(message.data);
- 
-         let array = new Uint8Array(new ArrayBuffer(msg.length));
- 
- 
-         for (let i = 0; i < msg.length; i++) 
-         {
-             array[i] = msg.charCodeAt(i);
-         }
-         
- 
-         let canvas4 = document.getElementById( "image_canvas" );
-        
-         const context = canvas4.getContext( "2d" );
+       
+        // original image coordinates
+        original_width = message.width;
+        original_height = message.height;
 
-          /* ----------Way 1------ */
-         var scale_factor = canvas4.width / original_width;
-            scaled_width = canvas4.width;
-            scaled_height = original_height * scale_factor;
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
 
-         let imgData = context.createImageData(scaled_width, scaled_height);
-
-         //var imgData = context.getImageData(0, 0, scaled_width, scaled_height);
-
- 
-         for(let j = 0; j < array.length; j++)
-         {
-             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-             imgData.data[ 4 * j + 3 ] = 255;
-         }
-        canvas4.style.width = "100%";
-        canvas4.style.height = "auto"; 
-        context.putImageData(imgData,0,0,0,0,scaled_width,scaled_height);
-        if(original_width < canvas4.width)
+        for (let i = 0; i < msg.length; i++) 
         {
-            context.drawImage( canvas4, 0, 0,canvas4.width *100  , canvas4.height * 100);
+            array[i] = msg.charCodeAt(i);
         }
 
-        
- 
+        let canvas4 = document.getElementById( "image_canvas" );
+        const context = canvas4.getContext( "2d" );
 
-         /* var canvas_resize = document.getElementById ('resize_canvas')
-var ctx_resize = canvas_resize.getContext ('2d');
-ctx_resize.clearRect(0, 0, scaled_width, scaled_height);
-ctx_resize.scale(20, 20);
-ctx_resize.drawImage(canvas4, 0, 0,0, 0, scaled_width, scaled_height);  */
+        /* ----------Way 1------ */
+        var scale_factor = canvas4.width / original_width;
+        scaled_width = canvas4.width;
+        scaled_height = original_height * scale_factor;
 
-//ctx_resize.drawImage (canvas4, 0, 0, 0, 0, canvas4.width, canvas4.hight)
+        //let imgData = context.createImageData(scaled_width, scaled_height);
+        var imgData = context.getImageData(0, 0, canvas4.width, canvas4.height);
 
-         
-         /* context.clearRect(0, 0, scaled_width, scaled_height);
-context.scale(2, 2);
-context.drawImage(canvas4, 0, 0);  */
- 
-   //context.putImageData(imgData,0,0,canvas4.width,canvas4.height,scaled_width,scaled_height);
-        
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+        canvas4.style.width = "100%";
+        canvas4.style.height = "auto";  
+        context.putImageData(imgData,0,0,0,0,scaled_width, scaled_height);
+        document.getElementById("x5").innerHTML = array.length;
+        context.scale(10,6);
+        if(original_width < canvas4.width)
+        {
+            context.drawImage( canvas4, 0, 0,canvas4.width, canvas4.height,0,0,scaled_width, scaled_width);
+        }
 
      }); 
 
-       
-    
+   
 //---displaying the image from ros topic---
 
     // function to find the position of canvas element
@@ -1124,12 +1101,15 @@ context.drawImage(canvas4, 0, 0);  */
         let canvas_height = rect.height;  */
 
         // scaling factor
-        /* let width_scaling = canvas.width / original_width;
-
+        var scale_factor = canvas.width / original_width;
+        scaled_width = canvas.width;
+        scaled_height = original_height * scale_factor;
+        /* 
+        let width_scaling = canvas.width / original_width;
         let height_scaling = canvas.height / original_height;
-
-        posX = width_scaling * posX;
-        posY = height_scaling * posY; */
+ */
+        /* posX = scale_factor * posX;
+        posY = scale_factor * posY;   */
  
         let coordinate_array = new Array();
         coordinate_array[0] = posX ;
