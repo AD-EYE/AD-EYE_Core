@@ -962,6 +962,8 @@ function faultInjection_OnClick(button)
         }
 
         let canvas3 = document.getElementById( "tl_camera_canvas" );
+        canvas3.width = message.width;
+        canvas3.height = message.height;
         const context = canvas3.getContext( "2d" ); 
 
         let imgData = context.createImageData(canvas3.width,canvas3.height);
@@ -1015,9 +1017,26 @@ function faultInjection_OnClick(button)
 
         let canvas4 = document.getElementById( "image_canvas" );
         const context = canvas4.getContext( "2d" );
+        canvas4.width = message.width;
+        canvas4.height = message.height;
+
+        let imgData = context.createImageData(canvas4.width,canvas4.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+
+        //let image = document.getElementById("tl_camera_canvas");
+        canvas4.style.width = "100%";
+        canvas4.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
+        //context.fillRect(0, 0, 100, 100);
 
         /* ----------Way 1------ */
-        var scale_factor = canvas4.width / original_width;
+        /* var scale_factor = canvas4.width / original_width;
         scaled_width = canvas4.width;
         scaled_height = original_height * scale_factor;
 
@@ -1033,13 +1052,13 @@ function faultInjection_OnClick(button)
         }
         canvas4.style.width = "100%";
         canvas4.style.height = "auto";  
-        context.putImageData(imgData,0,0,0,0,scaled_width, scaled_height);
+        context.putImageData(imgData,0,0,0,0,canvas4.width, canvas4.height);
         document.getElementById("x5").innerHTML = array.length;
-        context.scale(10,6);
+        context.scale(10,5);
         if(original_width < canvas4.width)
         {
-            context.drawImage( canvas4, 0, 0,canvas4.width, canvas4.height,0,0,scaled_width, scaled_width);
-        }
+            context.drawImage( canvas4, 0, 0,canvas4.width, canvas4.height,0,0,scaled_width, scaled_height);
+        } */
 
      }); 
 
