@@ -82,7 +82,7 @@ class ExperimentC: ExperimentRecording {
             nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
             nh_.param<float>("/simulink/reflectivity", rain_reflectivity_, 0.0);
             std::ostringstream ss;
-            ss << "_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
+            ss << "ExpC_intensity_" << rain_intensity_ << "_reflectivity_" << rain_reflectivity_;
             bag_name_ = std::string(ss.str());
         }
 
