@@ -208,7 +208,7 @@ function setROSParamFromOpenSCENARIO(runs, run_index)
     cd ('..\OpenSCENARIO\Code')
 
     splitted_string = split(runs(run_index).FolderExpName,"/");
-    experiment_name = splitted_string(length(splitted_string)-1);
+    experiment_name = splitted_string(end);
     clear splitted_string;
     experiment_name = experiment_name{1};
     if isfile(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"))
