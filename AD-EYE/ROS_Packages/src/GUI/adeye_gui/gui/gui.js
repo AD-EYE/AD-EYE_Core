@@ -861,7 +861,6 @@ function faultInjection_OnClick(button)
 //-------------fault injection----------------
 
 
-
 //-------------------camera 1 display ----------------
 
     //listen to the topic camera_1/image_raw
@@ -871,7 +870,45 @@ function faultInjection_OnClick(button)
         messageType : 'sensor_msgs/Image'
     });
 
-    //subscribing to the topic camera_1/image_raw
+    camera1_topic.subscribe(function(message)
+    {
+        subscribe_to_topic();
+    });
+
+    function subscribe_to_topic()
+    {
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+
+        let canvas = document.getElementById( "camera1_canvas" );
+        canvas.width = message.width;
+        canvas.height = message.height;
+        const context = canvas.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas.width,canvas.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+       //var image = document.getElementById("camera1_canvas");
+       canvas.style.width = "100%";
+       canvas.style.height = "auto";
+       context.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
+    }
+
+
+    /* let canvas1 = document.getElementById( "camera1_canvas" );
+    
+    subscribe_to_topic(canvas1); */
+ 
+    /* //subscribing to the topic camera_1/image_raw
     camera1_topic.subscribe(function(message)
     {  
         let msg = atob(message.data);
@@ -882,6 +919,8 @@ function faultInjection_OnClick(button)
         }
         
         let canvas1 = document.getElementById( "camera1_canvas" );
+        canvas1.width = message.width;
+        canvas1.height = message.height;
         const context = canvas1.getContext( "2d" ); 
 
         let imgData = context.createImageData(canvas1.width,canvas1.height);
@@ -898,7 +937,7 @@ function faultInjection_OnClick(button)
        canvas1.style.height = "auto";
        context.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
     
-    }); 
+    });  */
 //-------------------camera 1 display ----------------
 
 
@@ -923,6 +962,8 @@ function faultInjection_OnClick(button)
         }
 
         let canvas2 = document.getElementById( "camera2_canvas" );
+        canvas2.width = message.width;
+        canvas2.height = message.height;
         const context = canvas2.getContext( "2d" ); 
 
         let imgData = context.createImageData(canvas2.width,canvas2.height);
@@ -979,7 +1020,7 @@ function faultInjection_OnClick(button)
         canvas3.style.width = "100%";
         canvas3.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas3.width,canvas3.height);
-}); 
+});  
 //------------------- TL camera  display --------------
 
 
@@ -1030,8 +1071,10 @@ function faultInjection_OnClick(button)
         }
 
         //let image = document.getElementById("tl_camera_canvas");
+
         canvas4.style.width = "100%";
         canvas4.style.height = "auto";
+
         context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height);
         //context.fillRect(0, 0, 100, 100);
 
@@ -1113,11 +1156,12 @@ function faultInjection_OnClick(button)
     
        let canvas = document.getElementById("image_canvas");
 
-        /* let rect = canvas.getBoundingClientRect();
+        let rect = canvas.getBoundingClientRect();
 
         // coordinates of image displayed on canvas 
         let canvas_width = rect.width;
-        let canvas_height = rect.height;  */
+        let canvas_height = rect.height; 
+
 
         // scaling factor
         var scale_factor = canvas.width / original_width;
