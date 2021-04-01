@@ -13,9 +13,9 @@ EgoNameArray = ["BMW_X5_SUV_1"];
 %% Experiment A
 % ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 % FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
-% PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light W01_Base_Map
+% PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
 % AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-% SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
+% SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig
 
 %% Experiment B Map 1
 % ScenarioExpNameArray = ["Experiment_B"];
@@ -38,12 +38,6 @@ EgoNameArray = ["BMW_X5_SUV_1"];
 % AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 % SimulinkConfigArray = ["SimulinkConfigExpBmap3goal1.xlsx", "SimulinkConfigExpBmap3goal2.xlsx", "SimulinkConfigExpBmap3goal3.xlsx"];
 
-%% Experiment C Map 1
-ScenarioExpNameArray = ["Experiment_C"];
-FolderExpNameArray = ["ExperimentC"];
-PrescanExpNameArray = ["ExperimentC_W01"];
-AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 
 
 
