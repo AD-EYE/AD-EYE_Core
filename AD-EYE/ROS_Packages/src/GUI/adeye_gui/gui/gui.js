@@ -641,7 +641,25 @@ function faultInjection_OnClick(button)
     let camera2_array = new Array();
     let tl_camera_array = new Array();
     
+    function form_values(form,array,state,input)
+    {
+        // values are collected from form and kept in an array
+        for (let i=0;i<form.length-3;i++)
+        {
+            array[i] = form[i].value;
+        }
 
+        // coverting the string array to float array as we need float data to publish
+        for (let i=0;i<array.length;i++)
+        {
+            array[i] = parseFloat(array[i]);
+        }
+
+        // To display the selected value of dropdown in the textbox beside the button
+        selected_value = state.options[state.selectedIndex].text;
+        input.value = selected_value;
+
+    }
     // function to collect the values of lidar parameters from the form and put them in an array
     function fault_injection_parameter_values(button)
     {
@@ -649,190 +667,55 @@ function faultInjection_OnClick(button)
         switch(form)
         {
             case "gnss_form":
-                    // values are collected from form and kept in an array
-                    for (let i=0;i<gnss_form.length-3;i++)
-                    {
-                        gnss_array[i] = gnss_form[i].value;
-                    }
-
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i=0;i<gnss_array.length;i++)
-                    {
-                        gnss_array[i] = parseFloat(gnss_array[i]);
-                    }
-
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = gnss_state.options[gnss_state.selectedIndex].text;
-                    gnss_input.value = selected_value;
-                    
+                    form_values(gnss_form,gnss_array,gnss_state,gnss_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(0,gnss_array);
                     break;
 
                 case "lidar1_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar1_form.length-3; i++)
-                    {
-                        lidar1_array[i] = lidar1_form[i].value;
-                    }
-
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < lidar1_array.length; i++)
-                    {
-                        lidar1_array[i] = parseFloat(lidar1_array[i]);
-                    }
-
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar1_state.options[lidar1_state.selectedIndex].text;
-                    lidar1_input.value = selected_value;
-
+                    form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(1,lidar1_array);
                     break;
 
                 case "lidar2_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar2_form.length-3; i++)
-                    {
-                        lidar2_array[i] = lidar2_form[i].value;
-                    }
-
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < lidar2_array.length; i++)
-                    {
-                        lidar2_array[i] = parseFloat(lidar2_array[i]);
-                    }
-
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar2_state.options[lidar2_state.selectedIndex].text;
-                    lidar2_input.value = selected_value;
-
+                    form_values(lidar2_form,lidar2_array,lidar2_state,lidar2_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(2,lidar2_array);
                     break;
 
                 case "lidar3_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar3_form.length-3; i++)
-                    {
-                        lidar3_array[i] = lidar3_form[i].value;
-                    }
-
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < lidar3_array.length; i++)
-                    {
-                        lidar3_array[i] = parseFloat(lidar3_array[i]);
-                    }
-
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar3_state.options[lidar3_state.selectedIndex].text;
-                    lidar3_input.value = selected_value;
-
+                    form_values(lidar3_form,lidar3_array,lidar3_state,lidar3_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(3,lidar3_array);
                     break;
 
                 case "lidar4_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < lidar4_form.length-3; i++)
-                    {
-                        lidar4_array[i] = lidar4_form[i].value;
-                    }
-    
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < lidar4_array.length; i++)
-                    {
-                        lidar4_array[i] = parseFloat(lidar4_array[i]);
-                    }
-    
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = lidar4_state.options[lidar4_state.selectedIndex].text;
-                    lidar4_input.value = selected_value;
-    
+                    form_values(lidar4_form,lidar4_array,lidar4_state,lidar4_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(4,lidar4_array);
                     break;
 
                 case "radar_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < radar_form.length-3; i++)
-                    {
-                        radar_array[i] = radar_form[i].value;
-                    }
-    
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < radar_array.length; i++)
-                    {
-                        radar_array[i] = parseFloat(radar_array[i]);
-                    }
-    
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = radar_state.options[radar_state.selectedIndex].text;
-                    radar_input.value = selected_value;
-    
+                    form_values(radar_form,radar_array,radar_state,radar_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(5,radar_array);
                     break;
 
                 case "camera1_form":
-                    
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < camera1_form.length-3; i++)
-                    {
-                        camera1_array[i] = camera1_form[i].value;
-                    }
-                    
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < camera1_array.length; i++)
-                    {
-                        camera1_array[i] = parseFloat(camera1_array[i]);
-                    }
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = camera1_state.options[camera1_state.selectedIndex].text;
-                    camera1_input.value = selected_value;
-                    
+                    form_values(camera1_form,camera1_array,camera1_state,camera1_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(6,camera1_array);
                     break;
 
                 case "camera2_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < camera2_form.length-3; i++)
-                    {
-                        camera2_array[i] = camera2_form[i].value;
-                    }
-    
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < camera2_array.length; i++)
-                    {
-                        camera2_array[i] = parseFloat(camera2_array[i]);
-                    }
-    
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = camera2_state.options[camera2_state.selectedIndex].text;
-                    camera2_input.value = selected_value;
-    
+                    form_values(camera2_form,camera2_array,camera2_state,camera2_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(7,camera2_array);
                     break;
 
                 case "tl_camera_form":
-                    // values are collected from form and kept in an array
-                    for (let i = 0; i < tl_camera_form.length-3; i++)
-                    {
-                        tl_camera_array[i] = tl_camera_form[i].value;
-                    }
-    
-                    // coverting the string array to float array as we need float data to publish
-                    for (let i = 0; i < tl_camera_array.length; i++)
-                    {
-                        tl_camera_array[i] = parseFloat(tl_camera_array[i]);
-                    }
-    
-                    // To display the selected value of dropdown in the textbox beside the button
-                    selected_value = tl_camera_state.options[tl_camera_state.selectedIndex].text;
-                    tl_camera_input.value = selected_value;
-    
+                    form_values(tl_camera_form,tl_camera_array,tl_camera_state,tl_camera_input);
                     // publishing the data from the form to gnss fault injection topic 
                     publish_fault_injection(8,tl_camera_array);
                     break;
@@ -947,7 +830,7 @@ function subscribe_to_topic(message,canvas)
 
 //----------------goal setting--------------------------
 
-//--- displaying the image from ros topic---
+    //--- displaying the image from ros topic---
     
     //listen to the topic camera_1/image_raw
     let camera_topic = new ROSLIB.Topic({
@@ -963,7 +846,6 @@ function subscribe_to_topic(message,canvas)
     //subscribing to the topic camera_1/image_raw
     camera_topic.subscribe(function(message)
     { 
-       
         // original image coordinates
         original_width = message.width;
         original_height = message.height;
@@ -971,65 +853,8 @@ function subscribe_to_topic(message,canvas)
         let image_canvas = document.getElementById( "image_canvas" );
         subscribe_to_topic(message,image_canvas);
 
-        /* let msg = atob(message.data);
-        let array = new Uint8Array(new ArrayBuffer(msg.length));
-
-        for (let i = 0; i < msg.length; i++) 
-        {
-            array[i] = msg.charCodeAt(i);
-        }
-
-        let canvas4 = document.getElementById( "image_canvas" );
-        const context = canvas4.getContext( "2d" );
-        canvas4.width = message.width;
-        canvas4.height = message.height;
-
-        let imgData = context.createImageData(canvas4.width,canvas4.height);
-        for(let j = 0; j < array.length; j++)
-        {
-            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-            imgData.data[ 4 * j + 3 ] = 255;
-        }
-
-        //let image = document.getElementById("tl_camera_canvas");
-
-        canvas4.style.width = "100%";
-        canvas4.style.height = "auto";
-
-        context.putImageData(imgData,0,0,0,0,canvas4.width,canvas4.height); */
-        //context.fillRect(0, 0, 100, 100);
-
-        /* ----------Way 1------ */
-        /* var scale_factor = canvas4.width / original_width;
-        scaled_width = canvas4.width;
-        scaled_height = original_height * scale_factor;
-
-        //let imgData = context.createImageData(scaled_width, scaled_height);
-        var imgData = context.getImageData(0, 0, canvas4.width, canvas4.height);
-
-        for(let j = 0; j < array.length; j++)
-        {
-            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-            imgData.data[ 4 * j + 3 ] = 255;
-        }
-        canvas4.style.width = "100%";
-        canvas4.style.height = "auto";  
-        context.putImageData(imgData,0,0,0,0,canvas4.width, canvas4.height);
-        document.getElementById("x5").innerHTML = array.length;
-        context.scale(10,5);
-        if(original_width < canvas4.width)
-        {
-            context.drawImage( canvas4, 0, 0,canvas4.width, canvas4.height,0,0,scaled_width, scaled_height);
-        } */
-
      }); 
-
-   
-//---displaying the image from ros topic---
+    //---displaying the image from ros topic---
 
     // function to find the position of canvas element
     function findPosition(canvas_element)
@@ -1064,7 +889,6 @@ function subscribe_to_topic(message,canvas)
         {
             posX = e.pageX;
             posY = e.pageY;
-
         }
 
         else if (e.clientX || e.clientY)
@@ -1077,7 +901,7 @@ function subscribe_to_topic(message,canvas)
         document.getElementById("x-co-ordinate").innerHTML = posX;
         document.getElementById("y-co-ordinate").innerHTML = posY;
     
-       let canvas = document.getElementById("image_canvas");
+        let canvas = document.getElementById("image_canvas");
 
         let rect = canvas.getBoundingClientRect();
 
@@ -1085,21 +909,18 @@ function subscribe_to_topic(message,canvas)
         let canvas_width = rect.width;
         let canvas_height = rect.height; 
 
-
         // scaling factor
-        var scale_factor = canvas.width / original_width;
-        scaled_width = canvas.width;
-        scaled_height = original_height * scale_factor;
-        /* 
-        let width_scaling = canvas.width / original_width;
-        let height_scaling = canvas.height / original_height;
- */
-        /* posX = scale_factor * posX;
-        posY = scale_factor * posY;   */
+        var scale_factor = original_width / canvas_width;
+
+       /*  scaled_width = canvas.width;
+        scaled_height = original_height * scale_factor; */
+        // finding the pixels coordinates that correspond to original image 
+        posX = scale_factor * posX;
+        posY = scale_factor * posY; 
  
         let coordinate_array = new Array();
-        coordinate_array[0] = posX ;
-        coordinate_array[1] = posY ;
+        coordinate_array[0] = parseInt(posX) ;
+        coordinate_array[1] = parseInt(posY) ;
             
         // publishing the coordinate values to rostopic /gui/goal_pixels
         let goal_pixel_topic = new ROSLIB.Topic({
