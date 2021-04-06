@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # license removed for brevity
 import rospy
-import roslaunch
-import math as m
 from std_msgs.msg import Float32MultiArray
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import PointField

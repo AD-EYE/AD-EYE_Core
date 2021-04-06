@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <autoware_msgs/DetectedObjectArray.h>
 
@@ -22,14 +20,6 @@ private:
     bool msg1_flag = false;
     bool msg2_flag = false;
 
-public:
-    objectListFuse(ros::NodeHandle &nh, std::string inputTopic1, std::string inputTopic2, std::string outputTopic) : nh_(nh)
-    {
-        // Initialize the publishers and subscribers
-        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic1, 1, &objectListFuse::msg1_callback, this);
-        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic2, 1, &objectListFuse::msg2_callback, this);
-        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
-    }
 
     void msg1_callback(autoware_msgs::DetectedObjectArray msg)
     {
@@ -52,13 +42,23 @@ public:
         pub.publish(msg3);
     }
 
+
+public:
+    objectListFuse(ros::NodeHandle &nh, std::string inputTopic1, std::string inputTopic2, std::string outputTopic) : nh_(nh)
+    {
+        // Initialize the publishers and subscribers
+        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic1, 1, &objectListFuse::msg1_callback, this);
+        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic2, 1, &objectListFuse::msg2_callback, this);
+        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
+    }
+
     void run()
     {
       ros::Rate rate(20);
       while(nh_.ok())
       {
           ros::spinOnce();
-          if (msg1_flag == true && msg2_flag == true) {
+          if (msg1_flag == true || msg2_flag == true) {
               publish();
           }
           rate.sleep();

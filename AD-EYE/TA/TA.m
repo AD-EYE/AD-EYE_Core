@@ -1,25 +1,193 @@
-function TA(TAOrderFile,firstcolumn,lastcolumn)
+function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
+
     switch nargin
-      case 0
-        error('The TA order files must be passed as an argument')
-      case 1
-        firstcolumn = 1;
-        lastcolumn = width(TAOrder);
-      case 2
-        lastcolumn = width(TAOrder);
-      case 3
+      case 1 % Only the TAOrder was passed, run all the experiments.
+          firstcolumn = 1;
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = width(TAOrder);
+          clear_files = 0;
+      case 2 % the TAorder and one index were passed, rin only this one.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = firstcolumn;
+          clear_files = 0;
+      case 3 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = min(lastcolumn, width(TAOrder));
+          clear_files = 0;
+      case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = min(lastcolumn, width(TAOrder));
       otherwise
-        error('3 inputs are accepted.')
+          error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
     
-    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+    if(firstcolumn<1)
+        error("first column index must be strictly greater than zero");
+    end
+    if(firstcolumn>lastcolumn)
+        error("first column index must lesser than the last column index");
+    end
+    if(lastcolumn>width(TAOrder))
+        error("last column index must lesser than the number of column in the TAOrder file");
+    end
     
     
-    %setting up experiments
-    BasePath = pwd;
+    
+    ta_path = pwd;
     rosshutdown;
-    SSHConfigFile = TAOrder{'SHHConfig',1}{1};
     
+    [device, hostname] = getSSHDevice(TAOrder); % Cofiguration of the Ubuntu computer
+    
+    max_duration = 200;
+    % goal = '/move_base_simple/goal';
+    % poseStamped = 'geometry_msgs/PoseStamped';
+ 
+
+    for c = firstcolumn:min(lastcolumn,width(TAOrder))
+        runs(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
+        runs(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
+        runs(c).EgoName = TAOrder{'EgoName',c}{1};
+        runs(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
+        runs(c).SimulinkConfig = [ta_path,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+    %     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
+        runs(c).TagsConfig = TAOrder{'TagsConfig',c}{1}; %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
+    end
+
+    
+    disp(['Scheduling ' num2str(length(runs)-firstcolumn+1) ' simulations...']);
+
+    runtimes = zeros(1,length(runs));
+
+
+    logInit()
+    failed_experiments = [];
+    
+    for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
+        if simulation_ran == 0
+            failed_experiments = [failed_experiments,run_index];
+        end
+        if mod(run_index,fix((lastcolumn-firstcolumn+1)/10)) == 0 % Regularly try to rerun the failed experiments
+            disp("Retrying the experiments that failed to run so far")
+            failed_experiments_copy = failed_experiments;
+            for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
+                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
+                if simulation_ran == 1% If this run suceeded then we can remove it from the failed experiments
+                    failed_experiments(i) = [];
+                end
+            end
+        end
+    end
+
+    
+    cd(ta_path);
+    clear()
+end
+
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files)
+    tic
+    runCore(device) % Start roscore
+    rosinit(hostname) % Start Matlab node
+
+    setROSParamFromOpenSCENARIO(runs, run_index);
+
+    setROSParamAndLaunch(runs, run_index, device); % set ROS params from the AutowareConfig and starts the ADI
+
+    cd(ta_path)
+    cd(['../Experiments/',runs(run_index).FolderExpName]);
+    MainExperiment = pwd;
+
+    % creating experiment names and folders
+    run_directory = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
+    disp(['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
+    run_name = ['Run_' num2str(run_index, '%01i')]; %name of the experiment(for eg. 'Run_1'); also visible in VisViewer
+    simulink_name = [run_name '_cs']; %model name (for eg. 'Run_1_cs')
+    folder_to_delete = run_directory;
+    run_directory = [run_directory '\' run_name]; %creating a folder in ResultsDir named 'Run_1' containing all the files 
+
+    settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory); % Use PreScan CLI to duplicate the template
+
+    storeConfiguration(runs, run_index, ta_path, run_directory, settings); % Saves the TA config files in the run folder
+
+    cd(run_directory); % Navigate to new experiment
+
+    % Update the Simulink model
+    load_system([simulink_name,'.slx']);
+    simconstantSet(runs(run_index).SimulinkConfig, run_name, runs(run_index).EgoName);
+    save_system([simulink_name,'.slx']);
+
+    open_system(simulink_name); % Opens the simulink model for the next two function calls
+    regenerateCompilationSheet(simulink_name);
+    [startTime, endTime] = checkSimulationTimes(simulink_name, max_duration); % Determine simulation start and end times and saturate the total length (avoid infinite durations).
+
+    simulation_ran = 0;
+    run_counter = 0;
+    while simulation_ran==0 && run_counter<5
+        try
+            run_counter = run_counter + 1;
+            sim(simulink_name, [startTime endTime]); %running the simulation
+            simulation_ran = 1;
+        catch ME
+            switch ME.identifier
+                case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
+                    rethrow(ME) % we throw the Matlab Exception
+                case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates, log and try to run again
+                    warning("Failed to start experiment. Other attemps will be made until success.")
+                    storeFailedExperimentLog(run_index, ME);
+                    killPrescanFederates(ta_path)
+                otherwise % if there was a PreScan issue such as missing federates then we can try to run again
+                    disp(ME.identifier)
+                    rethrow(ME)
+            end
+        end
+    end
+
+    %Close the experiment
+    save_system(simulink_name);
+    close_system(simulink_name);
+
+    disp('Killing all the ros nodes');
+
+    %contains command to kill all the ros nodes and consecutively rosmaster 
+    system(device,'/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killRosNodes.sh'); 
+    rosshutdown;
+
+    cd(ta_path);
+    killPrescanFederates(ta_path)
+
+    if clear_files
+        rmdir(folder_to_delete,'s') % cleanup the experiment folder
+    end
+    
+    runtimes(run_index) = toc;
+    writetable(array2table(runtimes),"runtimes.xlsx")
+end
+
+function setROSParamAndLaunch(runs, run_index, device)
+    sh_folder_path = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
+    launch_template_modifier = strcat(sh_folder_path, '/' , 'launchTemplateModifier.sh'); % Script to run the node modifies the launch files 
+    manager_file_launch = strcat(sh_folder_path, '/', 'managerFileLaunch.sh'); %contains command to launch manager file in adeye package
+    rosparamScript(runs(run_index).AutowareConfig, runs(run_index).PrescanExpName); % Send all the ros parameters to the linux computer
+    cd('..');
+    disp('Python node recieving the ros parameters and modifying launch files');
+    system(device, launch_template_modifier); 
+    disp('Launching the manager file')
+    system(device, manager_file_launch);
+end
+
+function storeFailedExperimentLog(run_index, ME)
+    fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
+    fprintf(fileID,strcat(num2str(run_index),"\n"));
+    fprintf(fileID,ME.message);
+    c = clock;
+    fprintf(fileID,num2str(strcat("time: ",num2str(fix(c(4))),"_",num2str(fix(c(5))),"_",num2str(fix(1000*c(6))))));
+    fprintf(fileID,"\n");
+    fprintf(fileID,"\n");
+    fclose(fileID);
+end
+
+function [device, hostname] = getSSHDevice(TAOrder)
+    SSHConfigFile = TAOrder{'SHHConfig',1}{1};
     if(~isfile(SSHConfigFile))
         error('The SSH configuration files was not found. A template can be found, copied and modified in AD-EYE/TA/Configurations/SSHConfigTemplate.csv')
     end
@@ -30,80 +198,27 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
     catkin_workspace = SSHConfig{'catkin_workspace',1}{1};
     ROS_folder = SSHConfig{'ROS_folder',1}{1};
     hostname = SSHConfig{'hostname',1}{1};
-
-    shFolderPath = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
-    launchTemplateModifier = strcat(shFolderPath, '/' , 'launchTemplateModifier.sh'); ...
-        ...%contains command to run the python node which receives ros parameters and modifies launch files 
-    managerFileLaunch = strcat(shFolderPath, '/', 'managerFileLaunch.sh'); ...
-    ...%contains command to launch manager file in adeye package
-
-    killRosNodes = strcat(shFolderPath, '/', 'killRosNodes.sh'); ...
-    ...%contains command to kill all the ros nodes and consecutively rosmaster 
-    ExeName = 'PreScan.CLI.exe';
-    max_duration = 120; %variable in current matlab script
-    % goal = '/move_base_simple/goal';
-    % poseStamped = 'geometry_msgs/PoseStamped';
-
-    %setting test automation feature tags
-    clear Results Run; %clear any earlier tags or values
-
-    %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to ...
-    ...Experiment > Test Automation Settings > Open Test Automation dialog box  
-
-    
-
-    if(firstcolumn<1)
-        error("first column index must be strictly greater than zero");
-    end
-    if(firstcolumn>lastcolumn)
-        error("first column index must lesser than the last column index");
-    end
-
-    for c = firstcolumn:min(lastcolumn,width(TAOrder))
-        Run(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
-        Run(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
-        Run(c).EgoName = TAOrder{'EgoName',c}{1};
-        Run(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-        Run(c).SimulinkConfig = [BasePath,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
-    %     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
-        Run(c).TagsConfig = TAOrder{'TagsConfig',c}{1};
-    end
-
-
-
-    disp('Setting-up variables...');
-    NrOfRuns = length(Run); % Number of simulations
-
-    %% running the simulation
     device = rosdevice(ipaddress,user,password); %setting up the device
     device.CatkinWorkspace = catkin_workspace; %setting up the catkin workspace
     device.ROSFolder = ROS_folder; %setting up the ROS folder
-    Results(NrOfRuns).Data = []; % Preallocate results structure.
-    disp(['Scheduling ' num2str(NrOfRuns) ' simulations...']);
+end
 
-    runtimes = zeros(1,NrOfRuns);
+function setROSParamFromOpenSCENARIO(runs, run_index)
+    ptree = rosparam;
+    cd ('..\OpenSCENARIO\Code')
 
-    for run = firstcolumn:min(lastcolumn,width(TAOrder))
-        tic
-        runCore(device) %start roscore
-        rosinit(hostname) %initialise
-
-        ptree = rosparam;
-        cd ('..\OpenSCENARIO\Code')
-        
-        
-        splitted_string = split(Run(run).FolderExpName,"/");
-        experiment_name = splitted_string(length(splitted_string)-1);
-        clear splitted_string;
-        experiment_name = experiment_name{1};
-        if isfile(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"))
-            Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",Run(run).FolderExpName,"/",experiment_name,".xosc"));
-            if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
-                set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
-                disp('Setting ros parameters from TArosparam Table');
-            end
+    splitted_string = split(runs(run_index).FolderExpName,"/");
+    experiment_name = splitted_string(length(splitted_string)-1);
+    clear splitted_string;
+    experiment_name = experiment_name{1};
+    if isfile(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"))
+        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"));
+        if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
+            set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
+            disp('Setting ros parameters from OpenSCENARIO file');
         end
-        
+    end
+
 %         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).AutowareConfig));
 %         [index,] = intersect(find(rosparamTable{:,2}=="op_common_params"),find(rosparamTable{:,3}=="maxVelocity"));
 %         if ~isempty(index)
@@ -111,182 +226,83 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
 % 
 %             disp('Setting ros parameters from TArosparam Table');
 %         end
-        cd('..\..\TA\Configurations');
-
-
-
-
-        rosparamScript(Run(run).AutowareConfig, Run(run).PrescanExpName); %function (runs a MATLAB script...
-        ...to send all the ros parameters to the linux computer)
-        cd('..');
-    %     disp('Setting up goal for actor in simulation');
-    %     [pub, msg] = rospublisher(goal ,poseStamped);
-    %     goalpoints(pub, msg, Run(run).GoalConfig);
-        disp('Python node recieving the ros parameters and modifying launch files');
-        system(device, launchTemplateModifier); 
-        disp('Launching the manager file')
-        system(device, managerFileLaunch);
-
-
-        %cd(['.././Experiments/',Run(run).ExpName,'/Simulation']);
-        cd(BasePath)
-        cd(['../Experiments/',Run(run).FolderExpName]);
-        MainExperiment = pwd;
-        
-        ResultsDir = [MainExperiment '\Results\Run_' sprintf('%04.0f%02.0f%02.0f_%02.0f%02.0f%02.0f',clock)]; %save the name of the ...
-        ...experiment folder in the format '\Results\Run_YearMonthDate_HourMinuteSeconds' 
-        disp(['Run: ' num2str(run) '/' num2str(NrOfRuns)]);
-        RunName = ['Run_' num2str(run, '%01i')]; %name of the experiment(for eg. 'Run_1'); also visible in VisViewer
-        RunModel = [RunName '_cs']; %model name (for eg. 'Run_1_cs')
-        ResultDir = [ResultsDir '\' RunName]; %creating a folder in ResultsDir named 'Run_1' containing all the files 
-
-
-        % Create the complete command.
-        Settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
-        ...and save it in cell array named 'Settings'
-        Command = ExeName; %all the commands in 'Command' variable ...
-        ...are concatenated and executed using a dos function in the end
-        CurrentExperiment = strcat(MainExperiment, '/', Run(run).PrescanExpName, '.pex');
-        Command = [Command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
-        Command = [Command ' -save ' '"' ResultDir '"']; %save it in ResultDir created    
-
-        for setting=1:size(Run(run).TagsConfig,1) %size of each cell in ...
-            ...Run.TagsConfig() consisting test automation tags and its values
-            tag = Run(run).TagsConfig{setting,1};
-            val = num2str(Run(run).TagsConfig{setting,2}, '%50.50g');
-            Command = [Command ' -set ' tag '=' val];
-            Settings(end+1) = cellstr([tag ' = ' val]);
-        end
-
-
-        Command = [Command ' -realignPaths']; %unknown use from PreScan
-        Command = [Command ' -build']; %build the experiment    
-        Command = [Command ' -close'];
-
-        % Execute the command (creates altered PreScan experiment).
-        errorCode = dos(Command); %takes all the above commands in 'Command' variable and execute
-        if errorCode ~= 0
-            disp(['Failed to perform command: ' Command]);
-            continue;
-        end
-
-
-        % Put the configuration files with the experiment
-        copyfile(Run(run).SimulinkConfig,ResultDir)
-        copyfile(strcat(BasePath,"/Configurations/",Run(run).AutowareConfig),ResultDir)
-
-        % Navigate to new experiment.
-        cd(ResultDir);
-        %Update the Simulink model
-        load_system([RunModel,'.slx']);
-        disp('Setting up constant blocks in Simulink model');
-        simconstantSet(Run(run).SimulinkConfig, RunName, Run(run).EgoName);
-        save_system([RunModel,'.slx']);
-        open_system(RunModel); %opens the simulink model
-
-
-        % Regenerate compilation sheet.
-        regenButtonHandle = find_system(RunModel, 'FindAll', 'on', 'type', 'annotation','text','Regenerate'); %find the 'regenerate'...
-        ...command block in simulink model
-        regenButtonCallbackText = get_param(regenButtonHandle,'ClickFcn'); %execute the command
-        eval(regenButtonCallbackText); %regenerates the compilation sheet
-
-        % Determine simulation start and end times (avoid infinite durations).
-        activeConfig = getActiveConfigSet(RunModel);
-        startTime = str2double(get_param(activeConfig, 'StartTime')); %'StartTime'always set to 0
-        endTime = str2double(get_param(activeConfig, 'StopTime'));
-        duration = endTime - startTime;
-        if (duration >= max_duration)
-            endTime = startTime + max_duration;
-        end
-
-        % Simulate the new model.
-        
-        
-        simulation_ran = 0;
-        run_counter = 0;
-        while simulation_ran==0 && run_counter<3
-            try
-                run_counter = run_counter + 1;
-                sim(RunModel, [startTime endTime]); %running the simulation
-                simulation_ran = 1;
-            catch ME
-                switch ME.identifier
-%                     case 'SystemBlock:MATLABSystem:MethodInvokeError' % if the user interruped the code
-%                         rethrow(ME)
-                    case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
-                        rethrow(ME)
-%                     case 'SL_SERVICES:utils:UNEXPECTED_EXCEPTION' % if the user interruped the code
-%                         rethrow(ME)
-%                     case 'MATLAB:MException:MultipleErrors'
-%                         rethrow(ME)
-                    case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates and try to run again
-                        warning("Failed to start experiment. Other attemps will be made until success.")
-                        fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
-                        fprintf(fileID,RunModel);
-                        fclose(fileID);
-                        dir = pwd;
-                        cd(BasePath);
-                        !KillAllFederates.bat
-                        cd(dir);
-                        clear dir;
-                    otherwise % if there was a PreScan issue such as missing federates then we can try to run again
-                        disp(ME.identifier)
-                        rethrow(ME)
-                end
-            end
-        end
-        
-        %Results(i).Data = 'simout';
-
-        % Store current settings to file.
-        fileID = fopen([ResultDir '\settings.txt'],'wt');
-        for line=1:length(Settings)
-            fprintf(fileID, '%s\n',char(Settings(line)));
-        end
-        fclose(fileID);
-
-        % Store results to file.
-        %ResultFileDir = [ResultDir '\Results\'];
-        %[mkDirStatus,mkDirMessage,mkDirMessageid] = mkdir(ResultFileDir);
-        %resultFileName = [ResultFileDir 'simout.mat'];
-        %save(resultFileName,'simout');
-
-        %Close the experiment
-        save_system(RunModel); %save the model
-        close_system(RunModel); %close the model
-
-        disp('Killing all the ros nodes');
-        system(device,killRosNodes); 
-        rosshutdown
-        cd(BasePath);
-        !KillAllFederates.bat
-        runtimes(run) = toc;
-        writetable(array2table(runtimes),"runtimes.xlsx")
-    end
-
-    %% simulations
-
-    for run = 1:NrOfRuns
-        runResult = Results(run).Data;
-
-        % Skip non-existant results.
-        if isempty(runResult)
-            continue;
-        end
-    end
-    %% restoring experiment repository
-    cd(MainExperiment); %MATLAB file path returns back to the last running Experiment directory
-    Command = ExeName;
-    %Command = [Command ' -load ' '"' CurrentExperiment '"' ' -close']; %loads last running experiment again
-    %dos(Command);
-    cd(BasePath);
-    %% clean up workspace
-    clear Command ExeName MainExperiment ResultDir RunModel RunName activeConfig duration endTime startTime ...
-        errorCode fileID i j line regenButtonCallbackText regenButtonHandle runResult simout tag val Settings tout;
-    clear()
+    cd('..\..\TA\Configurations');
 end
 
+function [startTime, endTime] = checkSimulationTimes(simulink_name, max_duration)
+    % Determine simulation start and end times (avoid infinite durations).
+    activeConfig = getActiveConfigSet(simulink_name);
+    startTime = str2double(get_param(activeConfig, 'StartTime')); %'StartTime' always set to 0
+    endTime = str2double(get_param(activeConfig, 'StopTime'));
+    duration = endTime - startTime;
+    if (duration >= max_duration)
+        endTime = startTime + max_duration;
+    end
+end
+
+function storeConfiguration(runs, run_index, ta_path, run_directory, settings)
+    % Put the configuration files with the experiment
+    copyfile(runs(run_index).SimulinkConfig,run_directory)
+    copyfile(strcat(ta_path,"/Configurations/",runs(run_index).AutowareConfig),run_directory)
+    % Store current settings to file.
+    fileID = fopen([run_directory '\settings.txt'],'wt');
+    for line=1:length(settings)
+        fprintf(fileID, '%s\n',char(settings(line)));
+    end
+    fclose(fileID);
+end
+
+function killPrescanFederates(ta_path)
+    dir = pwd;
+    cd(ta_path);
+    !KillAllFederates.bat
+    cd(dir);
+    clear dir;
+end
+
+function logInit()
+    % Store information about this TA session
+    fileID = fopen('C:\Users\adeye\Documents\TA_status.txt','a');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'\n');
+    c = clock;
+    fprintf(fileID,num2str(strcat("TA start time: ",num2str(fix(c(4))),"_",num2str(fix(c(5))),"_",num2str(fix(1000*c(6))),".pcd")));
+    fprintf(fileID,'\n');
+    fprintf(fileID,'\n');
+    fclose(fileID);
+end
+
+function setting = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
+    % Create the complete command.
+    setting = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
+    ...and save it in cell array named 'Settings'
+    command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
+    ...are concatenated and executed using a dos function in the end
+    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).PrescanExpName, '.pex');
+    command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
+    command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
+    for setting=1:size(runs(run_index).TagsConfig,1) %size of each cell in ...
+        ...Run.TagsConfig() consisting test automation tags and its values
+        tag = runs(run_index).TagsConfig{setting,1};
+        val = num2str(runs(run_index).TagsConfig{setting,2}, '%50.50g');
+        command = [command ' -set ' tag '=' val];
+        setting(end+1) = cellstr([tag ' = ' val]);
+    end
+    command = [command ' -realignPaths']; %unknown use from PreScan
+    command = [command ' -build']; %build the experiment    
+    command = [command ' -close'];
+    errorCode = dos(command); %takes all the above commands in 'Command' variable and execute
+    if errorCode ~= 0
+        error(['Failed to perform command: ' command]);
+    end
+end
+
+function regenerateCompilationSheet(simulink_name)
+    regenButtonHandle = find_system(simulink_name, 'FindAll', 'on', 'type', 'annotation','text','Regenerate'); % find the 'regenerate' block in simulink model
+    regenButtonCallbackText = get_param(regenButtonHandle,'ClickFcn'); % get the command from the block
+    eval(regenButtonCallbackText); %  the command
+end
 
 %% function rosparamTable
 function rosparamTable = readROSConfigTable(table)
@@ -305,16 +321,13 @@ function rosparamTable = readROSConfigTable(table)
     rosparamTable = readtable(table, opts, "UseExcel", false);
 end
 
-
 %% function rosparam script
 function rosparamScript(table, worldName)
-    %% function
-    %[pnames,pvalues]=search(ptree, paramname)
     isaninteger = @(p)isfinite(p) & p==floor(p);
     
     rosparamTable = readROSConfigTable(table);
 
-    %% set parameters and evaluate the table for range
+    % set parameters and evaluate the table for range
     ptree = rosparam;
     set(ptree, 'adeye/config/manager/WorldName', worldName); %for the parameters-
     ...map/points_map_loader/PointCloud_Files_Folder, map/vector_map_loader/VectorMap_files_Folder,
@@ -347,12 +360,13 @@ function rosparamScript(table, worldName)
             warning on backtrace
         end
     end
-    %% Clear temporary variables
+    % Clear temporary variables
     clear opts
 end
 
 %% function simconstantset
 function simconstantSet(table, expname, EgoName)
+    disp('Setting up constant blocks in Simulink model');
     simconstantTable = readtable(table,'ReadRowNames',false);
     for h = 1:height(simconstantTable)
         constant_block_name = strcat(expname, '_cs', '/', EgoName, '/', char(simconstantTable.BlockName(h)));
@@ -376,13 +390,4 @@ function goalpoints(pub, msg, table)
         send(pub,msg);
         pause(1);
     end
-end
-
-%% kill the ssh sever, rosmaster and ros shutdown the process in case of error
-function killall()
-    rosshutdown;
-    device = evalin('base', 'device');
-    killAllScript = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killall.sh';
-    system(device, killAllScript);
-    %evalin('base', 'clear');
 end

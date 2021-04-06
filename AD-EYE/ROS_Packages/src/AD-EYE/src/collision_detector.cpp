@@ -16,9 +16,9 @@
 
 /*!
   \brief A node that detect collision with other objects using the SSMP_gridMap
-  \details Output a message when collision occurs and also output the car position and speed.
+  \details Output a message when collision occurs and also output the car position and speed.\n
   Currently it only supports collision detection for dynamic objects and only print the speed of the car.
-  TODO:
+  \todo
     - Get the car footprint dimensions from a message (not hardcoded values)
     - Static Object collision
     - For dynamic object : Output both speed of the car and the object.
