@@ -117,7 +117,7 @@ for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of
                                                      ERROR = 0;
                                                     array =  str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
                                                         .Act.Sequence.Maneuver{1,m}.Event{1, i}.Action.Private.Longitudinal.Speed.Dynamics.Attributes.time);
-                                                    q = length(array)
+                                                    q = length(array);
                                                     Main_struct(1:length(array),1) = Struct_OpenSCENARIO;
                                                     for x = 1:length(array)
                                                         Main_struct(x).OpenSCENARIO.Storyboard.Story{1,k}...
