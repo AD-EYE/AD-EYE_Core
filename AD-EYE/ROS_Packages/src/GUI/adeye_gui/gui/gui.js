@@ -574,62 +574,62 @@ let green = "#699b2c";
 
 //-------------fault injection----------------------
 
-function create_forms()
-{
-    // forms for lidar
-    let lidar1_form = document.getElementById("lidar1_form");
-
-    let lidar2_form = document.getElementById("lidar2_form");
-    lidar2_form.innerHTML = lidar1_form.innerHTML;
-    lidar2_form[0].id = "lidar2_state";
-    
-    let lidar3_form = document.getElementById("lidar3_form")
-    lidar3_form.innerHTML = lidar1_form.innerHTML;
-    lidar3_form[0].id = "lidar3_state";
-
-    let lidar4_form = document.getElementById("lidar4_form");
-    lidar4_form.innerHTML = lidar1_form.innerHTML;
-    lidar4_form[0].id = "lidar4_state";
-
-    // forms for camera
-    let camera1_form = document.getElementById("camera1_form");
-
-    let camera2_form = document.getElementById("camera2_form");
-    camera2_form.innerHTML = camera1_form.innerHTML;
-    camera2_form[0].id = "camera2_state";
-
-    let tl_camera_form = document.getElementById("tl_camera_form");
-    tl_camera_form.innerHTML = camera1_form.innerHTML;
-    tl_camera_form[0].id = "tl_camera_state";
-}
-    
-function faultInjection_OnClick(button)
-{
-    formsCollection = document.getElementsByTagName("form");
-    let parent_div = button.parentNode;
-    for(let i = 0; i < formsCollection.length; i++)
+    function create_forms()
     {
-        if(button.name == formsCollection[i].name)
+        // forms for lidar
+        let lidar1_form = document.getElementById("lidar1_form");
+
+        let lidar2_form = document.getElementById("lidar2_form");
+        lidar2_form.innerHTML = lidar1_form.innerHTML;
+        lidar2_form[0].id = "lidar2_state";
+        
+        let lidar3_form = document.getElementById("lidar3_form")
+        lidar3_form.innerHTML = lidar1_form.innerHTML;
+        lidar3_form[0].id = "lidar3_state";
+
+        let lidar4_form = document.getElementById("lidar4_form");
+        lidar4_form.innerHTML = lidar1_form.innerHTML;
+        lidar4_form[0].id = "lidar4_state";
+
+        // forms for camera
+        let camera1_form = document.getElementById("camera1_form");
+
+        let camera2_form = document.getElementById("camera2_form");
+        camera2_form.innerHTML = camera1_form.innerHTML;
+        camera2_form[0].id = "camera2_state";
+
+        let tl_camera_form = document.getElementById("tl_camera_form");
+        tl_camera_form.innerHTML = camera1_form.innerHTML;
+        tl_camera_form[0].id = "tl_camera_state";
+    }
+        
+    function faultInjection_OnClick(button)
+    {
+        formsCollection = document.getElementsByTagName("form");
+        let parent_div = button.parentNode;
+        for(let i = 0; i < formsCollection.length; i++)
         {
-            if(button.value == "off")
+            if(button.name == formsCollection[i].name)
             {
-                button.value = "on";
-                button.style.backgroundColor = green;
-                formsCollection[i].append(parent_div);
-                //formsCollection[i].append(parent_second_element);
-                formsCollection[i].style.display = "block";
+                if(button.value == "off")
+                {
+                    button.value = "on";
+                    button.style.backgroundColor = green;
+                    formsCollection[i].append(parent_div);
+                    //formsCollection[i].append(parent_second_element);
+                    formsCollection[i].style.display = "block";
+                }
+                else
+                {
+                    button.value = "off";
+                    button.style.backgroundColor = "gray";
+                    document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
+                    formsCollection[i].style.display = "none";
+                }
+                
             }
-            else
-            {
-                button.value = "off";
-                button.style.backgroundColor = "gray";
-                document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
-                formsCollection[i].style.display = "none";
-            }
-            
-        }
-    }      
-}
+        }      
+    }
 
     let gnss_array = new Array();
     let lidar1_array = new Array();
@@ -660,6 +660,7 @@ function faultInjection_OnClick(button)
         input.value = selected_value;
 
     }
+
     // function to collect the values of lidar parameters from the form and put them in an array
     function fault_injection_parameter_values(button)
     {
@@ -667,63 +668,63 @@ function faultInjection_OnClick(button)
         switch(form)
         {
             case "gnss_form":
-                    form_values(gnss_form,gnss_array,gnss_state,gnss_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(0,gnss_array);
-                    break;
+                form_values(gnss_form,gnss_array,gnss_state,gnss_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(0,gnss_array);
+                break;
 
-                case "lidar1_form":
-                    form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(1,lidar1_array);
-                    break;
+            case "lidar1_form":
+                form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(1,lidar1_array);
+                break;
 
-                case "lidar2_form":
-                    form_values(lidar2_form,lidar2_array,lidar2_state,lidar2_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(2,lidar2_array);
-                    break;
+            case "lidar2_form":
+                form_values(lidar2_form,lidar2_array,lidar2_state,lidar2_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(2,lidar2_array);
+                break;
 
-                case "lidar3_form":
-                    form_values(lidar3_form,lidar3_array,lidar3_state,lidar3_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(3,lidar3_array);
-                    break;
+            case "lidar3_form":
+                form_values(lidar3_form,lidar3_array,lidar3_state,lidar3_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(3,lidar3_array);
+                break;
 
-                case "lidar4_form":
-                    form_values(lidar4_form,lidar4_array,lidar4_state,lidar4_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(4,lidar4_array);
-                    break;
+            case "lidar4_form":
+                form_values(lidar4_form,lidar4_array,lidar4_state,lidar4_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(4,lidar4_array);
+                break;
 
-                case "radar_form":
-                    form_values(radar_form,radar_array,radar_state,radar_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(5,radar_array);
-                    break;
+            case "radar_form":
+                form_values(radar_form,radar_array,radar_state,radar_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(5,radar_array);
+                break;
 
-                case "camera1_form":
-                    form_values(camera1_form,camera1_array,camera1_state,camera1_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(6,camera1_array);
-                    break;
+            case "camera1_form":
+                form_values(camera1_form,camera1_array,camera1_state,camera1_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(6,camera1_array);
+                break;
 
-                case "camera2_form":
-                    form_values(camera2_form,camera2_array,camera2_state,camera2_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(7,camera2_array);
-                    break;
+            case "camera2_form":
+                form_values(camera2_form,camera2_array,camera2_state,camera2_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(7,camera2_array);
+                break;
 
-                case "tl_camera_form":
-                    form_values(tl_camera_form,tl_camera_array,tl_camera_state,tl_camera_input);
-                    // publishing the data from the form to gnss fault injection topic 
-                    publish_fault_injection(8,tl_camera_array);
-                    break;
-                }  
+            case "tl_camera_form":
+                form_values(tl_camera_form,tl_camera_array,tl_camera_state,tl_camera_input);
+                // publishing the data from the form to gnss fault injection topic 
+                publish_fault_injection(8,tl_camera_array);
+                break;
+        }  
 
     }
      
-    // Function to publish the fault injection parameter values from user to specific rostopic
+    // Function to publish the fault injection parameter values specified by the user to corresponding rostopic
     function publish_fault_injection(i,array)
     {
         let lidar_topics_array = new Array("/fault_injection/gnss","/fault_injection/lidar1","/fault_injection/lidar2","/fault_injection/lidar3","/fault_injection/lidar4","/fault_injection/radar","/fault_injection/camera1","/fault_injection/camera2","/fault_injection/tl_camera");
@@ -743,33 +744,37 @@ function faultInjection_OnClick(button)
     
 //-------------fault injection----------------
 
-// function that takes the raw int8 data from ros topic and paints raw data as image on canvas 
-function subscribe_to_topic(message,canvas)
-    {
-        let msg = atob(message.data);
-        let array = new Uint8Array(new ArrayBuffer(msg.length));
-        for (let i = 0; i < msg.length; i++) 
-        {
-            array[i] = msg.charCodeAt(i);
-        }
 
-        canvas.width = message.width;
-        canvas.height = message.height;
-        const context = canvas.getContext( "2d" ); 
 
-        let imgData = context.createImageData(canvas.width,canvas.height);
-        for(let j = 0; j < array.length; j++)
+//---------------camera displays----------------------
+
+    // function that takes the raw int8 data from ros topic and paints raw data as image on canvas 
+    function subscribe_to_topic(message,canvas)
         {
-            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-            imgData.data[ 4 * j + 3 ] = 255;
+            let msg = atob(message.data);
+            let array = new Uint8Array(new ArrayBuffer(msg.length));
+            for (let i = 0; i < msg.length; i++) 
+            {
+                array[i] = msg.charCodeAt(i);
+            }
+
+            canvas.width = message.width;
+            canvas.height = message.height;
+            const context = canvas.getContext( "2d" ); 
+
+            let imgData = context.createImageData(canvas.width,canvas.height);
+            for(let j = 0; j < array.length; j++)
+            {
+                imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+                imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+                imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+                imgData.data[ 4 * j + 3 ] = 255;
+            }
+        //var image = document.getElementById("camera1_canvas");
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
         }
-       //var image = document.getElementById("camera1_canvas");
-       canvas.style.width = "100%";
-       canvas.style.height = "auto";
-       context.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
-    }
 
 //-------------------camera 1 display ----------------
 
@@ -874,7 +879,7 @@ function subscribe_to_topic(message,canvas)
         }
     }
 
-    // function to find the coordinates of the point on mouse click
+    // function to find the coordinates of the point on canvas on mouse click
     function getCoordinates(e)
     {
         let posX = 0;
@@ -936,6 +941,9 @@ function subscribe_to_topic(message,canvas)
         goal_pixel_topic.publish(goal_pixel_msg);
     }
  //----------------goal setting------------------
+
+ //---------------camera displays----------------------
+
  
  
 
@@ -1024,7 +1032,7 @@ function subscribe_to_topic(message,canvas)
         
         button_clicked = true;
     }
-//----------------generic card----------------
+//---------------- creating a generic card----------------
 
 
 
