@@ -1,11 +1,10 @@
-
-ta_openscenario_progress_bar = waitbar(0,'Starting TA OpenSCENARIO interface');
+ta_openscenario_progress_bar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
+% cleanup = onCleanup( @()(delete(ta_openscenario_progress_bar)));
 
 
 %% Parameter onfigurations
 
 global EgoNameArray
-global ExpNameArray
 global PrescanExpNameArray
 global AutowareConfigArray
 global SimulinkConfigArray
@@ -51,7 +50,7 @@ SSHConfig = "Configurations/SSHConfig.csv";
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
 waitbar(.13,ta_openscenario_progress_bar,'Extract TA specific configurations from xosc scenarios');
-convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)))
+convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)));
 cd(adeye_base + "OpenSCENARIO\Code")
 Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1))), '.xosc']);
 %Struct_OpenSCENARIO = xml2struct(['..\OpenSCENARIO_experiments\KTH_pedestrian_autowareRain', '.xosc']);
@@ -61,10 +60,10 @@ cd(adeye_base + "TA\Configurations")
 addpath(adeye_base+"OpenSCENARIO\Code")
 
 for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
-    if('Ego' == convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))))
+    if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))) == "Ego")
         speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value"));
         %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
-        if(length(strfind(speed_ego, '{')) > 0)
+        if(contains(speed_ego, '{'))
             findOpen = strfind(speed_ego, ',');
                 start_val = extractBetween(speed_ego, 2, findOpen(1)-1);
                 step = extractBetween(speed_ego, findOpen(1)+1, findOpen(2)-1);
@@ -94,7 +93,7 @@ end
 
 if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
     reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
-    if(length(strfind(reflectivity, '{')) > 0)
+    if(contains(reflectivity, '{'))
         findOpen = strfind(reflectivity, ',');
             start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
             step = extractBetween(reflectivity, findOpen(1)+1, findOpen(2)-1);

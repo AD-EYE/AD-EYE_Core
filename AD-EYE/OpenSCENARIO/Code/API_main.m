@@ -28,10 +28,10 @@ cd(strcat("OpenSCENARIO/Results/",folder_name,"/OpenSCENARIO"))
 
 
 
-close_system(convertStringsToChars(name_simulink),0)
+close_system(convertStringsToChars(name_simulink), 0)
 open_system(convertStringsToChars(name_simulink))
 %Constructing structure from xml file OpenSCENARIO
-models = prescan.experiment.readDataModels( convertStringsToChars(strcat(name_experiment,".pb")) );
+models = prescan.experiment.readDataModels(convertStringsToChars(strcat(name_experiment, ".pb")));
 
 
 
@@ -72,7 +72,7 @@ trajectory_labels(Velocity_variable,models,name_simulink);
 %creating initial_velocity simulink blocks
 initial_velocity_dynamics(name_simulink,models,Struct_OpenSCENARIO,Velocity_variable);
 %Adding block for lonitudinal and lateral dynamics
- trajectory_dynamics(name_simulink,models,Struct_OpenSCENARIO,trajectory_variable,Lateral_events,Longitudinal_events,name_ego)
+trajectory_dynamics(name_simulink,models,Struct_OpenSCENARIO,trajectory_variable,Lateral_events,Longitudinal_events,name_ego)
 
 
 
