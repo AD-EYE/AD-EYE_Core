@@ -11,8 +11,6 @@
 #include <nav_msgs/Odometry.h>
 #include <vectormap.h>
 #include <prescanmodel.h>
-#include <tf/transform_listener.h>
-#include <tf/transform_broadcaster.h>
 #include <rcv_common_msgs/SSMP_control.h>
 #include <cpp_utils/pose_datatypes.h>
 #include <geometry_msgs/PoseArray.h>
@@ -719,10 +717,6 @@ public:
      * dynamic objects, and then, publish.
      */
     void run() {
-        static tf::TransformBroadcaster br;
-        tf::Transform carTF;
-        static tf::TransformBroadcaster br2;
-        tf::Transform mapTF;
 
         Position subMap_center;
         const Length subMap_size(submap_dimensions, submap_dimensions);
@@ -737,18 +731,6 @@ public:
         while (nh_.ok()) {
             rostime = ros::Time::now().toSec();
             ros::spinOnce();
-
-            // Transform between gridmap frame and ego frame
-            carTF.setOrigin( tf::Vector3(x_ego, y_ego, 0) );
-            tf::Quaternion q = cpp_utils::quat_to_tf_quat(q_ego);
-            carTF.setRotation(q);
-            br.sendTransform(tf::StampedTransform(carTF, ros::Time::now(), map.getFrameId(), "SSMP_base_link"));
-
-            mapTF.setOrigin( tf::Vector3(0, 0, 0) );
-            //tf::Quaternion map_q = cpp_utils::quat_to_tf_quat(q_ego);
-            mapTF.setRotation(tf::createQuaternionFromRPY(0, 0, 0));
-            br2.sendTransform(tf::StampedTransform(mapTF, ros::Time::now(), "map", "SSMP_map"));
-
 
             if(use_ground_truth_dynamic_objects_)
             {
