@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   op_planner
   op_ros_helpers
   tf2_ros
+  sensor_msgs
 )
 
 
@@ -39,6 +40,7 @@ catkin_package(
     op_planner
     op_ros_helpers
     tf2_ros
+    sensor_msgs
   DEPENDS
 )
 
@@ -114,6 +116,11 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
+add_executable(
+  imageSubscriber
+  src/image_subscriber.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -169,6 +176,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  imageSubscriber
+  ${catkin LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -210,6 +222,10 @@ add_dependencies(lidarRadarFuse
 )
 
 add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(imageSubscriber
   ${catkin_EXPORTED_TARGETS}
 )
 
