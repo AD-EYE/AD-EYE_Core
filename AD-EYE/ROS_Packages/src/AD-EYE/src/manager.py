@@ -83,20 +83,6 @@ class Feature:
 
 
 class ManagerFeaturesHandler:
-    # features = {
-    #     "Recording": Feature("Recording", "", 0, 0),
-    #     "Map": Feature("Map", "my_map.launch", 8, 0),
-    #     "Sensing": Feature("Sensing", "my_sensing.launch", 0, 0),
-    #     "Localization": Feature("Localization", "my_localization.launch", 8, 5),
-    #     "Fake_Localization": Feature("Fake_Localization", "my_fake_localization.launch", 0, 0),
-    #     "Detection": Feature("", "my_detection.launch", 0, 5),
-    #     "Mission_Planning": Feature("Mission_Planning", "my_mission_planning.launch", 2, 5),
-    #     "Motion_Planning": Feature("Motion_Planning", "my_motion_planning.launch", 0, 5),
-    #     "Switch": Feature("Switch", "switch.launch", 0, 0),
-    #     "SSMP": Feature("SSMP", "SSMP.launch", 0, 0),
-    #     "Rviz": Feature("Rviz", "my_rviz.launch", 0, 0),
-    #     "Experiment_specific_recording": Feature("Experiment_specific_recording", "", 0, 0)
-    # }
     features = OrderedDict()
     features["Recording"] = Feature("Recording", "", 0, 0)
     features["Map"] = Feature("Map", "my_map.launch", 8, 0)
@@ -112,7 +98,6 @@ class ManagerFeaturesHandler:
     features["Experiment_specific_recording"] = Feature("Experiment_specific_recording", "", 0, 0)
 
     def __init__(self):
-        print("Started manager")
         self.createLaunchPaths()
         self.createFeaturesControls()
 
@@ -203,16 +188,15 @@ class Manager:
     ROSBAG_PATH = "/recording" + str(time.time()) + ".bag"  # ~ is added as a prefix, name of the bag
     ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH + " __name:=rosbag_recorder"  # command to start the rosbag
 
-    manager_state_machine = ManagerStateMachine()
-    current_state = manager_state_machine.States.INITIALIZING_STATE
-    manager_features_handler = ManagerFeaturesHandler()
-
     # To output an error message when safety channel is not running
     last_switch_time = 0
     last_switch_time_initialized = False
     SWITCH_TIME_THRESHOLD = 3  # after this amount of time (sec) the manager will write an error message if nothing is received from the safety supervisor
 
     def __init__(self):
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
+        self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switchCommand", Int32, self.switchCallback)
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI

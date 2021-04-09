@@ -20,8 +20,8 @@
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
- * \details His goal is to trigger the switch that decides if the vehicle
- * listen to the DDT given by the nominal chanel or by the safety channel.
+ * \details Its goal is to trigger the switch that decides if the vehicle
+ * listen to the DDT given by the nominal channel or by the safety channel.
  */
 class SafetySupervisor
 {
@@ -42,8 +42,8 @@ private:
     ros::Subscriber sub_current_velocity_;
 
     // constants
-    const bool SAFE = 0;
-    const bool UNSAFE = 1;
+    const bool SAFE = false;
+    const bool UNSAFE = true;
     const int FREE_AUTOWARE = 0;
     enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
@@ -75,8 +75,8 @@ private:
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
-    bool active_nodes_;
-    bool dynamic_objects_;
+    bool are_critical_nodes_alive_;
+    bool is_object_in_critical_area_;
     bool car_off_road_;
 
     struct Curvature {
@@ -118,7 +118,7 @@ private:
     }
 
     /*!
-     * \brief Autoware trajectory Callback : Called when the autoware trajectory information has changed.
+     * \brief Autoware trajectory Callback : Called when the trajectory from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      * \details Updates the autoware trajectory information.
      */
@@ -129,7 +129,7 @@ private:
     }
 
     /*!
-     * \brief Autoware global plan Callback : Called when the autoware global plan information has changed.
+     * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      */
     void autowareGlobalPlan_callback(const autoware_msgs::LaneArrayConstPtr& msg)
@@ -150,7 +150,7 @@ private:
 
 
     /*!
-     * \brief Get distance to lane : Called at every interation of the main loop
+     * \brief Get distance to lane : Called at every iteration of the main loop
      * \return Distance to the center line of the lane
      */
     double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory, const geometry_msgs::Pose& pose)
@@ -162,14 +162,14 @@ private:
         int secondClosestIndex = twoClosestIndex.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
         PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
-        // the distance is the disctance from the car's position to the line formed by the two points fron the path
+        // the distance is the distance from the car's position to the line formed by the two points fron the path
         double distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
         std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
         return distance;
     }
 
     /*!
-     * \brief Get closest index : Called at every interation of the main loop
+     * \brief Get closest index : Called at every iteration of the main loop
      * \Finds the closest point in a trajectory to a certain point
      */
     std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
@@ -202,7 +202,7 @@ private:
     }
 
     /*!
-     * \brief Get the distance to the road edges : Called at every interation of the main loop
+     * \brief Get the distance to the road edges : Called at every iteration of the main loop
      * \return The distance to the closest road edge
      */
     double getDistanceToRoadEdge(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
@@ -234,13 +234,13 @@ private:
                 right_distance = d;
             }
         }
-        std::cout << "The distance to the right roadedge is: " << right_distance << '\n';
-        std::cout << "The distance to the left roadedge is: " << left_distance << '\n';
+        std::cout << "The distance to the right road edge is: " << right_distance << '\n';
+        std::cout << "The distance to the left road edge is: " << left_distance << '\n';
         return std::min(right_distance, left_distance);
     }
 
     /*!
-     * \brief Get curvature : Called at every interation of the main loop
+     * \brief Get curvature : Called at every iteration of the main loop
      * \return The minimum and maximum curvature of the global plan
      */
     Curvature getCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
@@ -266,13 +266,13 @@ private:
 
     /*!
      * \brief Get menger curvature : References can be found looking for "Menger curvature"
-     * \Calculates the inverse of the radius of the curcle defined by 3 points
+     * \Calculates the inverse of the radius of the circle defined by 3 points
      */
     double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         double curv = 0;
         double crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
-        if (crossProduct != 0) { //If the points are not collineal
+        if (crossProduct != 0) { //If the points are not collinear
             double areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
             double dist12 = getDistance(P1, P2);
             double dist13 = getDistance(P1, P3);
@@ -283,7 +283,7 @@ private:
     }
 
     /*!
-     * \brief Get distance : Called at every interation of the main loop
+     * \brief Get distance : Called at every iteration of the main loop
      * \return Distance between 2 points
      */
     double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
@@ -292,7 +292,7 @@ private:
     }
 
     /*!
-     * \brief Check dynamic objects : Called at every interation of the main loop
+     * \brief Check dynamic objects : Called at every iteration of the main loop
      * \Checks if there is a dynamic object in the critical area
      * \return Boolean indicating the presence of an obstacle in the critical area
      */
@@ -319,14 +319,14 @@ private:
         critical_area_.addVertex(point3);
         critical_area_.addVertex(point4);
 
-        visualization_msgs::Marker critial_area_marker;  //Used for critical area visualization
+        visualization_msgs::Marker criticalAreaMarker;  //Used for critical area visualization
         std_msgs::ColorRGBA color;
         color.r = 1.0;
         color.a = 1.0;
-        grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, critial_area_marker);
-        critial_area_marker.header.frame_id = gridmap.getFrameId();
-        critial_area_marker.header.stamp.fromNSec(gridmap.getTimestamp());
-        pub_critical_area_.publish(critial_area_marker);
+        grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
+        criticalAreaMarker.header.frame_id = gridmap.getFrameId();
+        criticalAreaMarker.header.stamp.fromNSec(gridmap.getTimestamp());
+        pub_critical_area_.publish(criticalAreaMarker);
 
         for(grid_map::PolygonIterator areaIt(gridmap, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) {
             if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
@@ -339,8 +339,8 @@ private:
     }
 
     /*!
-     * \brief Check active nodes : Called at every interation of the main loop
-     * \Checks if all the necesary nodes are alive
+     * \brief Check active nodes : Called at every iteration of the main loop
+     * \Checks if all the necessary nodes are alive
      */
     bool checkActiveNodes()
     {
@@ -372,7 +372,7 @@ private:
 
     /*!
      * \brief It is in this function that the switch
-     * is trigerred or not.
+     * is triggered or not.
      */
     void publish()
     {
@@ -430,7 +430,7 @@ private:
      * \details The situation is evaluated and the state of the vehicle is
      * declared safe or unsafe.
      */
-    void performCecks()
+    void performChecks()
     {
         varoverwrite_behavior_ = FREE_AUTOWARE;
 
@@ -443,26 +443,26 @@ private:
         // Check the curvature of the global plan
         Curvature curvature = getCurvature(autoware_global_path_.at(0));
 
-        // // Check that all the necesary nodes are active
-        // active_nodes_ = checkActiveNodes();
-        // if (active_nodes_ == false){
-        //     var_switch_ = UNSAFE;
-        //     return;
-        // }
+        // // Check that all the necessary nodes are active
+         are_critical_nodes_alive_ = checkActiveNodes();
+         if (!are_critical_nodes_alive_ ){
+             var_switch_ = UNSAFE;
+             return;
+         }
 
         // // Check that the center of the car on the road
-        // car_off_road_ = checkCarOnRoad(gridmap_, pose_);
-        // if (car_off_road_ == false){
-        //     var_switch_ = UNSAFE;
-        //     return;
-        // }
+         car_off_road_ = checkCarOffRoad(gridmap_, pose_);
+         if (car_off_road_){
+             var_switch_ = UNSAFE;
+             return;
+         }
 
         // //Is there a dynamic object in the critical area
-        dynamic_objects_ = checkDynamicObjects(gridmap_, pose_);
-        // if (dynamic_objects_ == true){
-        //     var_switch_ = UNSAFE;
-        //     return;
-        // }
+        is_object_in_critical_area_ = checkDynamicObjects(gridmap_, pose_);
+         if (is_object_in_critical_area_){
+             var_switch_ = UNSAFE;
+             return;
+         }
 
     }
 
@@ -520,7 +520,7 @@ public:
             ros::spinOnce();
             if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
             {
-                performCecks();
+                performChecks();
                 publish();
             }
             rate.sleep();
