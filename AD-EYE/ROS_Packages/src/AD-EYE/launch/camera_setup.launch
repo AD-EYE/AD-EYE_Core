@@ -18,7 +18,7 @@
     <!-- camera_info_1 -->
     <include ns="$(arg camera)" file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="camera_info_publisher"/>
-        <arg name="args_list" value="camera_info $(arg camera) 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+        <arg name="args_list" value="camera_info $(arg camera) 960 1280 0.0 0.0 0.0 0.0 0.0 1125 0.0 640 0.0 1125 480 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 640 0.0 0.0 1125 480 0.0 0.0 0.0 1.0 0.0"/>
     </include>
 
     <!-- vision_ssd_detect-->
