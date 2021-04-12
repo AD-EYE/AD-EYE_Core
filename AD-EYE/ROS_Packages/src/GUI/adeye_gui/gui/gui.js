@@ -296,19 +296,20 @@ let green = "#699b2c";
             messageType :'std_msgs/Bool'
         });
         
-        if(initial.value == "off") 
-        {
-            initial.value = "on";
+        /* if(initial.value == "off") 
+        { */
+            //initial.value = "on";
             let initialOn = new ROSLIB.Message({
                 data : true
             });
 
             let stringData = (initialOn.data).toString();
             let data = stringData.toUpperCase();
-            document.getElementById("initial").innerHTML = data;
             initialChecksTopic.publish(initialOn);
-        }
-        else
+            document.getElementById("latest_state").value = initial.value;
+
+/*         }
+ */       /*  else
         {
             initial.value = "off";
             let initialOff = new ROSLIB.Message({
@@ -319,7 +320,7 @@ let green = "#699b2c";
             let data = stringData.toUpperCase();
             document.getElementById("initial").innerHTML = data;
             initialChecksTopic.publish(initialOff);
-        }
+        } */
     }
     
     // function to toggle the state on and off by clicking on the buttons.
@@ -331,19 +332,21 @@ let green = "#699b2c";
             messageType : 'std_msgs/Bool'
         });
 
-        if(activation.value == "off") 
-        {
-            activation.value = "on";
-            let activationOn = new ROSLIB.Message({
+        /* if(activation.value == "off") 
+        { */
+/*             activation.value = "on";
+ */            let activationOn = new ROSLIB.Message({
                 data : true
             });
 
-            let stringData = (activationOn.data).toString();
+            /* let stringData = (activationOn.data).toString();
             let data = stringData.toUpperCase();
-            document.getElementById("activation").innerHTML = data;
+            document.getElementById("activation").innerHTML = data; */
             activationRequestTopic.publish(activationOn);
-        } 
-        else
+            document.getElementById("latest_state").value = activation.value;
+
+        /* }  */
+       /*  else
         {
             activation.value = "off";
             let activationOff = new ROSLIB.Message({
@@ -354,8 +357,25 @@ let green = "#699b2c";
             let data = stringData.toUpperCase();
             document.getElementById("activation").innerHTML = data;
             activationRequestTopic.publish(activationOff);
-        }
+        } */
     }
+
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStatedeactivation_OnClick(deactivation)
+    {
+        let activationRequestTopic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/activation_request',
+            messageType : 'std_msgs/Bool'
+        });
+
+        let activationOff = new ROSLIB.Message({
+            data : false
+        });
+        activationRequestTopic.publish(activationOff);
+            document.getElementById("latest_state").value = deactivation.value;
+    }
+
 
     // function to toggle the state on and off by clicking on the buttons.
     function toggleStatefault_OnClick(fault)
@@ -366,18 +386,20 @@ let green = "#699b2c";
             messageType : 'std_msgs/Bool'
         });
 
-        if(fault.value == "off") 
+/*         if(fault.value == "off") 
         {
             fault.value = "on";
-            let faultOn = new ROSLIB.Message({
+ */            let faultOn = new ROSLIB.Message({
                 data : true
             });
 
-            let stringData = (faultOn.data).toString();
+            /* let stringData = (faultOn.data).toString();
             let data = stringData.toUpperCase();
-            document.getElementById("fault").innerHTML = data;
+            document.getElementById("fault").innerHTML = data; */
             faultTopic.publish(faultOn);
-        } 
+            document.getElementById("latest_state").value = fault.value; 
+
+       /*  } 
         else
         {
             fault.value = "off";
@@ -390,7 +412,7 @@ let green = "#699b2c";
             document.getElementById("fault").innerHTML = data;
             faultTopic.publish(faultOff);
         }
-        
+         */
     }
 //--------------------Manager State--------------
 

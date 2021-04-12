@@ -78,9 +78,12 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
-            <button type="button" value="off" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button>&nbsp;&nbsp;&nbsp; <span id="initial"></span>
-            <button type="button" value="off" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button>&nbsp;&nbsp;&nbsp; <span id="activation"></span>
-            <button type="button" value="off" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button>&nbsp;&nbsp;&nbsp; <span id="fault"></span>
+            <button type="button" value="Initial Checks" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button><!-- <span id="initial"></span> -->
+            <button type="button" value="Activation Request" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button><!-- <span id="activation"></span> -->
+            <button type="button" value="Deactivation" class="manager" onclick="toggleStatedeactivation_OnClick(this)">Deactivation</button> <!-- <span id="deactivation"></span> -->
+            <button type="button" value="Fault" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button><!-- <span id="fault"></span> -->
+            <label>Latest State Transition</label>
+            <input type="text" id="latest_state" value="" disabled>
           </div>
         </div>
 
@@ -132,7 +135,7 @@
             <div id="gnss_div" >
               <div style="display:inline-flex">
                 <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
-                <input id="gnss_input" class="state" type="text" value="" placeholder="State"></input> 
+                <input id="gnss_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="gnss_form" name="gnss" style="display:none;">
                 <label>State</label>
@@ -152,7 +155,7 @@
             <div id="lidar1_div" >
               <div style="display:inline-flex">
                 <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
-                <input id="lidar1_input" class="state" type="text"  value="" placeholder="State"></input>
+                <input id="lidar1_input" class="state" type="text"  value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar1_form" name="lidar1" style="display:none">
                 <label>State</label>
@@ -182,7 +185,7 @@
             <div id="lidar2_div">
               <div  style="display:inline-flex">
                 <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
-                <input id="lidar2_input" class="state" type="text" value="" placeholder="State"></input>
+                <input id="lidar2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar2_form" name="lidar2" style="display:none"></form>
             </div>
@@ -190,7 +193,7 @@
             <div id="lidar3_div">
               <div style="display:inline-flex">
                 <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
-                <input id="lidar3_input" class="state" type="text" value="" placeholder="State"></input>
+                <input id="lidar3_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar3_form" name="lidar3" style="display:none"></form>
             </div>
@@ -198,7 +201,7 @@
             <div id="lidar4_div">
               <div style="display:inline-flex">
                 <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
-                <input id="lidar4_input" class="state" type="text" value="" placeholder="State"></input>
+                <input id="lidar4_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar4_form" name="lidar4" style="display:none"></form>
             </div>
@@ -209,7 +212,7 @@
             <div id="radar_div">
               <div style="display:inline-flex">
                 <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
-                <input id="radar_input" class="state" type="text" value="" placeholder="State"></input>
+                <input id="radar_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="radar_form" name="radar" style="display:none">
                 <label>State</label>
@@ -232,7 +235,7 @@
             <div id="camera_1_div">
               <div style="display:inline-flex">
                 <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
-                <input id="camera1_input" class="state" type="text" class="state" value="" placeholder="State"></input> 
+                <input id="camera1_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input> 
               </div>
               <form id="camera1_form" name="camera1" style="display:none">
                 <label>State</label>
@@ -261,7 +264,7 @@
             <div id="camera_2_div">
               <div style="display:inline-flex">
                 <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
-                <input id="camera2_input" class="state" type="text" class="state" value="" placeholder="State"></input>
+                <input id="camera2_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input>
               </div>
               <form id="camera2_form" name="camera2" style="display:none"></form>
             </div>
@@ -269,7 +272,7 @@
             <div id="tl_camera_div">
               <div style="display:inline-flex">
                 <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
-                <input id="tl_camera_input" class="state" type="text" class="state" value="" placeholder="State"></input>
+                <input id="tl_camera_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input>
               </div>
               <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
             </div>
@@ -331,33 +334,6 @@
       image_canvas.onmousedown = getCoordinates;
     </script>
 
-<!-- <script>
-  let canvasTAG = document.querySelector("canvas");
-  
-  canvasTAG.addEventListener("mousedown", function(e) 
-    {
-      getXY(canvasTAG, e);
-    });
-  
-  function getXY(canvas,event) 
-  {
-    var x=0; y= 0;
-  let rect = canvas.getBoundingClientRect();
-   x = event.clientX - rect.left;
-  y = event.clientY - rect.top;
-  var cordinates = "X : " + x + "\n" + "Y : " + y; 
-  document.getElementById("xy").innerHTML=cordinates;	
-    
-  var c = document.getElementById("image_canvas");
-  var ctx = c.getContext("2d");
-  ctx.clearRect(0,0,c.width,c.height);
- /*  ctx.beginPath();
-  ctx.arc(x, y, 5, 0, 2 * Math.PI);
-  ctx.fillStyle="red";
-  ctx.fill();  */
-  }
-  </script> -->
-   
   </body>
 </html>
 

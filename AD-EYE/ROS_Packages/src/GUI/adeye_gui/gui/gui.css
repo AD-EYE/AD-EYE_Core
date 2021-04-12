@@ -107,14 +107,29 @@ button
 } 
 
 /* properties for the manager state & fault injection cards */
-.manager,.fault_injection
+.manager
 {
   background: gray;
   color:white;
   border-radius: 15px;
-  width:200px;
+  width: 90;
   border:none;
 } 
+
+#latest_state
+{
+  width: 100%;
+  background-color: white;
+}
+
+.fault_injection
+{
+  background: gray;
+  color:white;
+  border-radius: 15px;
+  width: 200px;
+  border: none;
+}
  
 /* properties for the control channel & features card  */
 .channel,.features
@@ -122,7 +137,7 @@ button
   background: gray;
   color:white;
   border-radius: 15px;
-  border:none;
+  border: none;
 }
 
 /* properties for input in the fault injection card */
@@ -133,6 +148,7 @@ button
   border-radius: 10px;
   padding: 5px;
   margin-top: 5px;
+  background-color: white;
 }
 
 /* properties for the form of fault injection  */
@@ -148,8 +164,8 @@ form
 /* properties for the select tag in the form for fault injection */
 select
 {
-  background-color: #699b2c; 
-  color:white;
+  background-color: whitesmoke; 
+  color:black;
   width: 90px;
   padding: 5px;
   border: 8px;
