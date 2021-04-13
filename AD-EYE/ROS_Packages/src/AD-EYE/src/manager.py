@@ -287,6 +287,9 @@ class Manager:
             elif state == self.manager_state_machine.States.ENGAGED_STATE:
                 self.current_features = self.ENGAGED_FEATURES
             elif state == self.manager_state_machine.States.FAULT_STATE:
+                msg = Int32()
+                msg.data = 1
+                self.switch_request_pub.publish() # when we enter fault state we first force the switch to safety channel
                 self.current_features = self.FAULT_FEATURES
     
     ## Checks if a feature is now in the list of features that should be active but was not in the previous iteration
