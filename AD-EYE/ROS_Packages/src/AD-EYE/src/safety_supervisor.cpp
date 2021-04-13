@@ -40,6 +40,7 @@ private:
     ros::Subscriber sub_autoware_trajectory_;
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_current_velocity_;
+    ros::Subscriber sub_switch_request_;
 
     // constants
     const bool SAFE = false;
@@ -48,6 +49,9 @@ private:
     enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
     const float pi = 3.141592654;
+
+    bool was_switch_requested_ = false;
+    std_msgs::Int32 switch_request_value_;
 
     //Critical area
     float car_length_ = 5;
@@ -148,15 +152,25 @@ private:
       }
     }
 
+    /*!
+     * \brief Switch request Callback : Called when the manager makes a request to change control channel.
+     * \param msg A smart pointer to the message from the topic.
+     */
+    void switchRequest_callback(const std_msgs::Int32& msg)
+    {
+        was_switch_requested_ = true;
+        switch_request_value_ = msg;
+    }
+
 
     /*!
      * \brief Get distance to lane : Called at every iteration of the main loop
      * \return Distance to the center line of the lane
      */
-    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory, const geometry_msgs::Pose& pose)
+    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
 
-        PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose.position.x, pose.position.y, pose.position.z, tf::getYaw(pose.orientation));
+        PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
         std::vector<int> twoClosestIndex = getClosestIndex(trajectory, p0);
         int closestIndex = twoClosestIndex.at(0);
         int secondClosestIndex = twoClosestIndex.at(1);
@@ -170,7 +184,7 @@ private:
 
     /*!
      * \brief Get closest index : Called at every iteration of the main loop
-     * \Finds the closest point in a trajectory to a certain point
+     * Finds the closest point in a trajectory to a certain point
      */
     std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
@@ -205,13 +219,13 @@ private:
      * \brief Get the distance to the road edges : Called at every iteration of the main loop
      * \return The distance to the closest road edge
      */
-    double getDistanceToRoadEdge(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    double getDistanceToRoadEdge()
     {
         float right_lane_id;
         float left_lane_id;
-        double x = pose.position.x;
-        double y = pose.position.y;
-        double h = tf::getYaw(pose.orientation);
+        double x = pose_.position.x;
+        double y = pose_.position.y;
+        double h = tf::getYaw(pose_.orientation);
         double h_left = h + M_PI/2;
         double h_right = h - M_PI/2;
         double max_distance_to_check = 3;
@@ -225,11 +239,11 @@ private:
             double y_left = y + d*std::sin(h_left);
             double x_right = x + d*std::cos(h_right);
             double y_right = y + d*std::sin(h_right);
-            left_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x_left, y_left));
+            left_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_left, y_left));
             if (left_lane_id != 0) {
                 left_distance = d;
             }
-            right_lane_id = gridmap.atPosition("Lanes", grid_map::Position(x_right, y_right));
+            right_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_right, y_right));
             if (right_lane_id != 0) {
                 right_distance = d;
             }
@@ -250,12 +264,12 @@ private:
         curvature.min = 0;
         if(trajectory.size()>2){
             for (size_t i = 0; i<trajectory.size()-2; i++) {
-                double curv = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
-                if (curv > curvature.max) {
-                    curvature.max = curv;
+                double signed_curvature = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
+                if (signed_curvature > curvature.max) {
+                    curvature.max = signed_curvature;
                 }
-                if (curv < curvature.min) {
-                    curvature.min = curv;
+                if (signed_curvature < curvature.min) {
+                    curvature.min = signed_curvature;
                 }
             }
         }
@@ -270,16 +284,16 @@ private:
      */
     double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
-        double curv = 0;
+        double curvature = 0;
         double crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
         if (crossProduct != 0) { //If the points are not collinear
             double areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
             double dist12 = getDistance(P1, P2);
             double dist13 = getDistance(P1, P3);
             double dist23 = getDistance(P2, P3);
-            curv = 4 * areaTriangle / (dist12 * dist13 * dist23);
+            curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
         }
-        return curv;
+        return curvature;
     }
 
     /*!
@@ -296,11 +310,11 @@ private:
      * \Checks if there is a dynamic object in the critical area
      * \return Boolean indicating the presence of an obstacle in the critical area
      */
-    bool checkDynamicObjects(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    bool checkDynamicObjects()
     {
-        const float x = pose.position.x;    //Center is currently in the front of the car
-        const float y = pose.position.y;
-        const float yaw = cpp_utils::extract_yaw(pose.orientation);
+        const float x = pose_.position.x;    //Center is currently in the front of the car
+        const float y = pose_.position.y;
+        const float yaw = cpp_utils::extract_yaw(pose_.orientation);
         const grid_map::Position center(x + car_length_ * cos(yaw)/2, y + car_length_ * sin(yaw)/2);
         critical_area_length_ = car_length_  + current_velocity_;
 
@@ -324,12 +338,12 @@ private:
         color.r = 1.0;
         color.a = 1.0;
         grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
-        criticalAreaMarker.header.frame_id = gridmap.getFrameId();
-        criticalAreaMarker.header.stamp.fromNSec(gridmap.getTimestamp());
+        criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
+        criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
         pub_critical_area_.publish(criticalAreaMarker);
 
-        for(grid_map::PolygonIterator areaIt(gridmap, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) {
-            if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
+        for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) {
+            if(gridmap_.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
                 ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
                 return true;
             }
@@ -359,9 +373,9 @@ private:
      * \brief Check car off road : Called at every interation of the main loop
      * \return Boolean indicating if the center of the car is off the road
      */
-    bool checkCarOffRoad(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    bool checkCarOffRoad()
     {
-      float current_lane_id = gridmap.atPosition("Lanes", grid_map::Position(pose.position.x, pose.position.y));
+      float current_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(pose_.position.x, pose_.position.y));
       //ROS_INFO("Lane ID : %f", current_lane_id);
       if (current_lane_id == 0) {
           ROS_WARN_THROTTLE(1, "The center of the car is not on the road");
@@ -376,9 +390,16 @@ private:
      */
     void publish()
     {
-        std_msgs::Int32 msg_switch;
-        msg_switch.data = var_switch_;
-        pub_switch_.publish(msg_switch);
+        if(was_switch_requested_)
+        {
+            pub_switch_.publish(switch_request_value_);
+        }
+        else
+        {
+            std_msgs::Int32 msg_switch;
+            msg_switch.data = var_switch_;
+            pub_switch_.publish(msg_switch);
+        }
 
 
         std_msgs::Int32 msg_overwrite_behavior;
@@ -435,30 +456,30 @@ private:
         varoverwrite_behavior_ = FREE_AUTOWARE;
 
         // Check the distance to the center line of the lane
-        distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0), pose_);
+        distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
 
-        // Check the distance to the roadedge
-        distance_to_road_edge_ = getDistanceToRoadEdge(gridmap_, pose_);
+        // Check the distance to the road edge
+        distance_to_road_edge_ = getDistanceToRoadEdge();
 
         // Check the curvature of the global plan
         Curvature curvature = getCurvature(autoware_global_path_.at(0));
 
-        // // Check that all the necessary nodes are active
+         // Check that all the necessary nodes are active
          are_critical_nodes_alive_ = checkActiveNodes();
          if (!are_critical_nodes_alive_ ){
              var_switch_ = UNSAFE;
              return;
          }
 
-        // // Check that the center of the car on the road
-         car_off_road_ = checkCarOffRoad(gridmap_, pose_);
+         // Check that the center of the car on the road
+         car_off_road_ = checkCarOffRoad();
          if (car_off_road_){
              var_switch_ = UNSAFE;
              return;
          }
 
-        // //Is there a dynamic object in the critical area
-        is_object_in_critical_area_ = checkDynamicObjects(gridmap_, pose_);
+         //Is there a dynamic object in the critical area
+        is_object_in_critical_area_ = checkDynamicObjects();
          if (is_object_in_critical_area_){
              var_switch_ = UNSAFE;
              return;
@@ -488,6 +509,7 @@ public:
         sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
         sub_current_velocity_ = nh.subscribe("/current_velocity_", 	1,		&SafetySupervisor::currentVelocity_callback, 	this);
+        sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequest_callback, this);
 
 
         // Initialize the list of nodes to check
