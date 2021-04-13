@@ -217,7 +217,9 @@ class Manager:
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
         self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
-        rospy.Subscriber("/switchCommand", Int32, self.switchCallback)
+        rospy.Subscriber("/switchCommand", Int32, self.switchCallback) # to check if safety channel is still alive
+        rospy.Subscriber("manager/switch_request", Int32, self.switchRequestCallback) # for GUI, request to switch between control channels
+        self.switch_request_pub = rospy.Publisher('safety_channel/switch_request', Int32, queue_size=1)  # to send the request to the safety supervisor
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
 
@@ -251,7 +253,11 @@ class Manager:
         self.last_switch_time = rospy.Time.now()
         self.last_switch_time_initialized = True
 
-    ## Checks if the a message from the safety channel has been recived recently, if not prints warning
+    ## Callback listening to switch request to change control channel
+    def switchRequestCallback(self, msg):
+        self.switch_request_pub.publish(msg)
+
+    ## Checks if the a message from the safety channel has been received recently, if not prints warning
     def checkSafetyChannel(self):
         if self.last_switch_time_initialized:
             if (rospy.Time.now() - self.last_switch_time).to_sec() > self.SWITCH_TIME_THRESHOLD:
@@ -309,28 +315,8 @@ class Manager:
                             pass # nothing to do, feature stays enable/disabled
                     except Exception as exc:
                         rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
-
-
         self.previous_features = self.current_features
 
-    # ## Starts the individual features based on the current feature list
-    # def startAndStopFeatures(self):
-    #     for feature_name in self.manager_features_handler.features:
-    #         if feature_name in self.current_features and feature_name not in self.previous_features:
-    #             if feature_name == "Recording":
-    #                 self.startRecording()
-    #             else:
-    #                 try: # to not kill the manager when a launch is malformed (in that case an exception is thrown)
-    #                     self.manager_features_handler.features[feature_name].featureControl.start()
-    #                 except Exception as exc:
-    #                     rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
-    #
-    #         elif feature_name not in self.current_features and feature_name in self.previous_features:
-    #             if feature_name == "Recording":
-    #                 self.stopRecording()
-    #             else:
-    #                 self.manager_features_handler.features[feature_name].featureControl.stop()
-    #     self.previous_features = self.current_features
 
     ## Starts the rosbag recording process
     def startRecording(self):
