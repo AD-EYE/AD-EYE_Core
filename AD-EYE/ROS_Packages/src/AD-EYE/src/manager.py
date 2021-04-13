@@ -33,9 +33,9 @@ class ManagerStateMachine:
     ## Constructor
     def __init__(self):
         # Set up subscriber for registering state switch commands
-        rospy.Subscriber("/initial_checks", Bool, self.initial_checks_callback)
-        rospy.Subscriber("/activation_request", Bool, self.activation_request_callback)
-        rospy.Subscriber("/fault", Bool, self.fault_callback)
+        rospy.Subscriber("/initial_checks", Bool, self.initialChecksCallback)
+        rospy.Subscriber("/activation_request", Bool, self.activationRequestCallback)
+        rospy.Subscriber("/fault", Bool, self.faultCallback)
 
     ## Returns the state the machine is currently in
     def getState(self):
@@ -46,7 +46,7 @@ class ManagerStateMachine:
         rospy.loginfo("Request refused. Manager will stay in" + self.getState().name)
 
     ## Callback to switch from initializing to enabled, listens to /initial_checks
-    def initial_checks_callback(self, msg):
+    def initialChecksCallback(self, msg):
         if msg.data and self.current_state == self.States.INITIALIZING_STATE:
             rospy.loginfo("Entering Enabled state")
             self.current_state = self.States.ENABLED_STATE
@@ -55,7 +55,7 @@ class ManagerStateMachine:
             self.printRefusedRequest()
 
     ## Callback to switch from enabled to engaged or the other way, listens to /activation_request
-    def activation_request_callback(self, msg):
+    def activationRequestCallback(self, msg):
         if msg.data and self.current_state == self.States.ENABLED_STATE:
             rospy.loginfo("Entering Engaged state")
             self.current_state = self.States.ENGAGED_STATE
@@ -66,7 +66,7 @@ class ManagerStateMachine:
             self.printRefusedRequest()
 
     ## Callback to switch to the fault state from any state, listens to /fault
-    def fault_callback(self, msg):
+    def faultCallback(self, msg):
         if msg.data:
             rospy.loginfo("Entering Fault state")
             self.current_state = self.States.FAULT_STATE
@@ -225,15 +225,16 @@ class Manager:
     def run(self):
         rate = rospy.Rate(10.0)
         while not rospy.is_shutdown():
-            self.checkSafetyChannel()  # checks if safety channel is active, if not prints warning
-            self.checkManagerState()  # check state of the state machine and updates current features accordingly
-            if self.current_features != self.previous_features:  # checks if the list of active features has changed
-                self.updateFeatures()
-
-            self.state_pub.publish(self.manager_state_machine.getState())  # publish the state machine state (for GUI)
-            self.publishActiveFeatures()  # publish the current active features (for GUI)
-
+            self.runOnce()
             rate.sleep()
+
+    def runOnce(self):
+        self.checkSafetyChannel()  # checks if safety channel is active, if not prints warning
+        self.checkManagerState()  # check state of the state machine and updates current features accordingly
+        if self.current_features != self.previous_features:  # checks if the list of active features has changed
+            self.startAndStopFeatures()
+        self.state_pub.publish(self.manager_state_machine.getState())  # publish the state machine state (for GUI)
+        self.publishActiveFeatures()  # publish the current active features (for GUI)
 
     ## Callback listening to the features requests (features that we want to activate/deactivate)
     def featuresRequestCallback(self, msg):
@@ -281,21 +282,55 @@ class Manager:
                 self.current_features = self.ENGAGED_FEATURES
             elif state == self.manager_state_machine.States.FAULT_STATE:
                 self.current_features = self.FAULT_FEATURES
+    
+    ## Checks if a feature is now in the list of features that should be active but was not in the previous iteration
+    def isFeatureJustActivated(self, feature_name):
+        return feature_name in self.current_features and feature_name not in self.previous_features
+
+    ## Checks if a feature is not in the list of features that should be active but was in the previous iteration
+    def isFeatureJustDeactivated(self, feature_name):
+        return feature_name not in self.current_features and feature_name in self.previous_features
 
     ## Starts the individual features based on the current feature list
-    def updateFeatures(self):
+    def startAndStopFeatures(self):
         for feature_name in self.manager_features_handler.features:
-            if feature_name in self.current_features and feature_name not in self.previous_features:
-                if feature_name == "Recording":
-                    self.startRecording()
-                else:
-                    self.manager_features_handler.features[feature_name].featureControl.start()
-            elif feature_name not in self.current_features and feature_name in self.previous_features:
-                if feature_name == "Recording":
-                    self.stopRecording()
-                else:
-                    self.manager_features_handler.features[feature_name].featureControl.stop()
+                if feature_name == "Recording": # recording needs special case as it is not a launch file like other features
+                    if self.isFeatureJustActivated(feature_name):
+                        self.startRecording()
+                    elif self.isFeatureJustDeactivated(feature_name):
+                        self.stopRecording()
+                else: # "normal" features
+                    try: # to not kill the manager when a launch is malformed (in that case an exception is thrown)
+                        if self.isFeatureJustActivated(feature_name):
+                            self.manager_features_handler.features[feature_name].featureControl.start()
+                        elif self.isFeatureJustDeactivated(feature_name):
+                            self.manager_features_handler.features[feature_name].featureControl.stop()
+                        else:
+                            pass # nothing to do, feature stays enable/disabled
+                    except Exception as exc:
+                        rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
+
+
         self.previous_features = self.current_features
+
+    # ## Starts the individual features based on the current feature list
+    # def startAndStopFeatures(self):
+    #     for feature_name in self.manager_features_handler.features:
+    #         if feature_name in self.current_features and feature_name not in self.previous_features:
+    #             if feature_name == "Recording":
+    #                 self.startRecording()
+    #             else:
+    #                 try: # to not kill the manager when a launch is malformed (in that case an exception is thrown)
+    #                     self.manager_features_handler.features[feature_name].featureControl.start()
+    #                 except Exception as exc:
+    #                     rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
+    #
+    #         elif feature_name not in self.current_features and feature_name in self.previous_features:
+    #             if feature_name == "Recording":
+    #                 self.stopRecording()
+    #             else:
+    #                 self.manager_features_handler.features[feature_name].featureControl.stop()
+    #     self.previous_features = self.current_features
 
     ## Starts the rosbag recording process
     def startRecording(self):
