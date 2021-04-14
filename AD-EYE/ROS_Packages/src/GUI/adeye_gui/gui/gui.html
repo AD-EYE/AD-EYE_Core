@@ -78,10 +78,10 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
-            <button type="button" value="Initial Checks" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button><!-- <span id="initial"></span> -->
-            <button type="button" value="Activation Request" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button><!-- <span id="activation"></span> -->
-            <button type="button" value="Deactivation" class="manager" onclick="toggleStatedeactivation_OnClick(this)">Deactivation</button> <!-- <span id="deactivation"></span> -->
-            <button type="button" value="Fault" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button><!-- <span id="fault"></span> -->
+            <button type="button" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button>
+            <button type="button" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button>
+            <button type="button" class="manager" onclick="toggleStatedeactivation_OnClick(this)">Deactivation</button> 
+            <button type="button" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button>
             <label>Latest State Transition</label>
             <input type="text" id="latest_state" value="" disabled>
           </div>
@@ -123,7 +123,7 @@
             <button id="10" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Rviz</button>
             <button id="11" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Experiment Recording</button>
             <label>Latest features array </label>
-            <input type="textarea" id="features_array" value="" disabled>
+            <input type="text" id="features_array" value="" disabled>
           </div>
         </div>
 
@@ -135,22 +135,25 @@
 
             <!----gnss---->
             <div id="gnss_div" >
-              <div style="display:inline-flex">
-                <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
+              <div id="button_div" style="display:inline-flex">
+                <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
                 <input id="gnss_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="gnss_form" name="gnss" style="display:none;">
-                <label>State</label>
-                <select id="gnss_state">
-                  <option value="0" >Off</option>
-                  <option value="1">Gaussian Noise</option>
-                </select>
-                <label>noise_variance</label>
-                <input type="text" value="1.0" ></input>
-                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                <div id="include_button_div" style="display:inline-flex"></div>
+                <div id="form_content"> <label>State</label>
+                  <select id="gnss_state">
+                    <option value="0" >Off</option>
+                    <option value="1">Gaussian Noise</option>
+                  </select>
+                  <label>noise_variance</label>
+                  <input type="text" value="1.0" ></input>
+                  <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                </div> 
+
+               
               </form>
             </div>
-            
             <!----gnss---->
 
             <!----lidar---->
@@ -237,7 +240,7 @@
             <div id="camera_1_div">
               <div style="display:inline-flex">
                 <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
-                <input id="camera1_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input> 
+                <input id="camera1_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="camera1_form" name="camera1" style="display:none">
                 <label>State</label>
@@ -266,7 +269,7 @@
             <div id="camera_2_div">
               <div style="display:inline-flex">
                 <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
-                <input id="camera2_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input>
+                <input id="camera2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="camera2_form" name="camera2" style="display:none"></form>
             </div>
@@ -274,7 +277,7 @@
             <div id="tl_camera_div">
               <div style="display:inline-flex">
                 <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
-                <input id="tl_camera_input" class="state" type="text" class="state" value="" placeholder="State" disabled></input>
+                <input id="tl_camera_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
             </div>

@@ -110,10 +110,10 @@ button
   background: gray;
   color:white;
   border-radius: 15px;
-  width: 90;
   border:none;
 } 
 
+/* properties for text box displaying the latest information in each card*/
 #latest_state, #features_array, #fault_injection_values
 {
   width: 95%;
@@ -121,6 +121,7 @@ button
   height: 50px;
 }
 
+/* properties for the fault injection card  */
 .fault_injection
 {
   background: gray;

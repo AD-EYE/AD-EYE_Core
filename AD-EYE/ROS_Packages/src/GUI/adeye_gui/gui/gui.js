@@ -78,6 +78,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
 let green = "#699b2c";
 
+let today = new Date();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
 //-------------------linear velocity----------------
     // listen to the topic /vehicle_cmd
     let velocity_listener = new ROSLIB.Topic({
@@ -202,7 +206,7 @@ let green = "#699b2c";
         //function to assign the position in the array based on the data value received
         function assignPosition(channel_id)
         {
-            let position;
+            let position = 0;
             if((channel_id == 0))
             {
                 position = 0;
@@ -284,11 +288,8 @@ let green = "#699b2c";
         {
             document.getElementById("state").innerHTML = "Unknown";
         }
-
     });
 
-    let today = new Date();
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     // function to toggle the state on and off by clicking on the buttons.
     function toggleStateinitial_OnClick(initial)
     {
@@ -297,32 +298,11 @@ let green = "#699b2c";
             name : '/initial_checks',
             messageType :'std_msgs/Bool'
         });
-        
-        /* if(initial.value == "off") 
-        { */
-            //initial.value = "on";
-            let initialOn = new ROSLIB.Message({
-                data : true
-            });
-
-            let stringData = (initialOn.data).toString();
-            let data = stringData.toUpperCase();
-            initialChecksTopic.publish(initialOn);
-            document.getElementById("latest_state").value = time + " " + initialChecksTopic.name + ": " + initialOn.data;
-
-/*         }
- */       /*  else
-        {
-            initial.value = "off";
-            let initialOff = new ROSLIB.Message({
-                data : false
-            });
-
-            let stringData = (initialOff.data).toString();
-            let data = stringData.toUpperCase();
-            document.getElementById("initial").innerHTML = data;
-            initialChecksTopic.publish(initialOff);
-        } */
+        let initialOn = new ROSLIB.Message({
+            data : true
+        });
+        initialChecksTopic.publish(initialOn);
+        document.getElementById("latest_state").value = time + " " + initialChecksTopic.name + ": " + initialOn.data;
     }
     
     // function to toggle the state on and off by clicking on the buttons.
@@ -333,33 +313,11 @@ let green = "#699b2c";
             name : '/activation_request',
             messageType : 'std_msgs/Bool'
         });
-
-        /* if(activation.value == "off") 
-        { */
-/*             activation.value = "on";
- */            let activationOn = new ROSLIB.Message({
-                data : true
-            });
-
-            /* let stringData = (activationOn.data).toString();
-            let data = stringData.toUpperCase();
-            document.getElementById("activation").innerHTML = data; */
-            activationRequestTopic.publish(activationOn);
-            document.getElementById("latest_state").value = activation.value;
-
-        /* }  */
-       /*  else
-        {
-            activation.value = "off";
-            let activationOff = new ROSLIB.Message({
-                data : false
-            });
-
-            let stringData = (activationOff.data).toString();
-            let data = stringData.toUpperCase();
-            document.getElementById("activation").innerHTML = data;
-            activationRequestTopic.publish(activationOff);
-        } */
+        let activationOn = new ROSLIB.Message({
+            data : true
+        });
+        activationRequestTopic.publish(activationOn);
+        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOn.data;;
     }
 
     // function to toggle the state on and off by clicking on the buttons.
@@ -375,7 +333,7 @@ let green = "#699b2c";
             data : false
         });
         activationRequestTopic.publish(activationOff);
-        document.getElementById("latest_state").value = deactivation.value;
+        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOff.data;;
     }
 
 
@@ -387,34 +345,11 @@ let green = "#699b2c";
             name : '/fault',
             messageType : 'std_msgs/Bool'
         });
-
-/*         if(fault.value == "off") 
-        {
-            fault.value = "on";
- */            let faultOn = new ROSLIB.Message({
+        let faultOn = new ROSLIB.Message({
                 data : true
-            });
-
-            /* let stringData = (faultOn.data).toString();
-            let data = stringData.toUpperCase();
-            document.getElementById("fault").innerHTML = data; */
-            faultTopic.publish(faultOn);
-            document.getElementById("latest_state").value = fault.value; 
-
-       /*  } 
-        else
-        {
-            fault.value = "off";
-            let faultOff = new ROSLIB.Message({
-                data : false
-            });
-
-            let stringData = (faultOff.data).toString();
-            let data = stringData.toUpperCase();
-            document.getElementById("fault").innerHTML = data;
-            faultTopic.publish(faultOff);
-        }
-         */
+        });
+        faultTopic.publish(faultOn);
+        document.getElementById("latest_state").value = time + " " + faultTopic.name + ": " + faultOn.data;; 
     }
 //--------------------Manager State--------------
 
@@ -431,8 +366,8 @@ let green = "#699b2c";
     //subscribing to the topic /tracked_objects
     track_listener.subscribe(function(message) 
     {
-        let object=[];
-        let k=0;
+        let object = [];
+        let k = 0;
         for (let i = 0; i < message.objects.length; i++) 
         {
             for (let j = 0; j < message.objects[i].label.length; j++) 
@@ -492,7 +427,7 @@ let green = "#699b2c";
         messageType : 'std_msgs/Int32MultiArray'
     });
 
-    let data_array;
+    let data_array = 0;
 
     //subscribing to the topic manager/features
     feature_listener.subscribe(function(message) 
@@ -642,21 +577,22 @@ let green = "#699b2c";
                     button.value = "on";
                     button.style.backgroundColor = "white";
                     button.style.color = "black";
-                    formsCollection[i].append(parent_div);
-                    //formsCollection[i].append(parent_second_element);
-                    formsCollection[i].style.display = "block";
+                    document.getElementById("include_button_div").innerHTML = document.getElementById("button_div").innerHTML;
+                    document.getElementById("button_div").innerHTML = "";
+/*                     formsCollection[i].append(parent_div);
+ */                    formsCollection[i].style.display = "block";
                 }
                 else
                 {
                     button.value = "off";
                     button.style.backgroundColor = "gray";
-                    document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
+                    document.getElementById("button_div").innerHTML = document.getElementById("include_button_div").innerHTML;
+
+                    //document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
                     formsCollection[i].style.display = "none";
                     button.style.color = "white";
 
-                }
-
-                
+                }              
             }
         }      
     }
@@ -674,13 +610,13 @@ let green = "#699b2c";
     function form_values(form,array,state,input)
     {
         // values are collected from form and kept in an array
-        for (let i=0;i<form.length-3;i++)
+        for (let i=2;i<form.length-1;i++)
         {
             array[i] = form[i].value;
         }
 
         // coverting the string array to float array as we need float data to publish
-        for (let i=0;i<array.length;i++)
+        for (let i=2;i<array.length-1;i++)
         {
             array[i] = parseFloat(array[i]);
         }
@@ -694,7 +630,7 @@ let green = "#699b2c";
     // function to collect the values of lidar parameters from the form and put them in an array
     function fault_injection_parameter_values(button)
     {
-        var form = button.parentNode.id;
+        var form = button.parentNode.parentNode.id;
         switch(form)
         {
             case "gnss_form":
@@ -802,7 +738,6 @@ let green = "#699b2c";
                 imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
                 imgData.data[ 4 * j + 3 ] = 255;
             }
-        //var image = document.getElementById("camera1_canvas");
         canvas.style.width = "100%";
         canvas.style.height = "auto";
         context.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
@@ -949,8 +884,6 @@ let green = "#699b2c";
         // scaling factor
         var scale_factor = original_width / canvas_width;
 
-       /*  scaled_width = canvas.width;
-        scaled_height = original_height * scale_factor; */
         // finding the pixels coordinates that correspond to original image 
         posX = scale_factor * posX;
         posY = scale_factor * posY; 
@@ -989,8 +922,9 @@ let green = "#699b2c";
     //subscribing to the topic /vehicle_cmd
     clock_topic.subscribe(function(message)
     {
-        document.getElementById("x5").innerHTML = "hello";
-        ducument.getElementById("simulation_time").innerHTML = "hello";
+        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs;
+        document.getElementById("real_time").innerHTML = " " + time;
+
     });
 
  //--------------Time Displays------------------
@@ -1130,7 +1064,7 @@ let green = "#699b2c";
 
         topicsClient.callService(request, function(result) 
         {
-            let topic_val;
+            let topic_val = 0;
 
             topic_types = result.types;
             for(var i = 0; i < topic_types.length; i++)
