@@ -74,10 +74,10 @@ class SafetyChannelPerception {
         */
         void run() {
             while (nh_.ok()) {
-            ros::spinOnce();
-            
-            rate_.sleep();
-        }
+                ros::spinOnce();
+                
+                rate_.sleep();
+            }
         }
 
 };

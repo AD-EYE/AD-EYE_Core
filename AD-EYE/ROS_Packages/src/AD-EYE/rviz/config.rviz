@@ -9,6 +9,8 @@ Panels:
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
+        - /Autoware1/Perception1/Detected_objects1
+        - /Autoware1/Perception1/Lidar1
         - /Autoware1/Planning1
         - /Autoware1/Planning1/Global Planning1/Global Path1
       Splitter Ratio: 0.695804
@@ -169,7 +171,7 @@ Visualization Manager:
           Marker Topic: /critArea
           Name: Safety Supervisor critical area
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
@@ -221,13 +223,17 @@ Visualization Manager:
         - Class: rviz/Group
           Displays:
             - Class: rviz/MarkerArray
-              Enabled: false
-              Marker Topic: /detection/fusion_tools/objects_markers
+              Enabled: true
+              Marker Topic: /objects_markers
               Name: Detected_objects
               Namespaces:
-                {}
+                //arrow_markers: true
+                //box_markers: true
+                //centroid_markers: true
+                //hull_markers: true
+                //label_markers: true
               Queue Size: 100
-              Value: false
+              Value: true
             - Class: rviz/MarkerArray
               Enabled: false
               Marker Topic: /camera_1/objects_markers
@@ -572,9 +578,9 @@ Visualization Manager:
                   Enabled: false
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
-                  Max Intensity: 1.01857924
+                  Max Intensity: 0.223550722
                   Min Color: 0; 0; 0
-                  Min Intensity: 0.0627451017
+                  Min Intensity: 0
                   Name: Raw Lidar Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -602,7 +608,7 @@ Visualization Manager:
                   Enabled: true
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
-                  Max Intensity: 1
+                  Max Intensity: 0.223550722
                   Min Color: 0; 0; 0
                   Min Intensity: 0.0509803928
                   Name: Voxel Filtered Points
@@ -646,6 +652,14 @@ Visualization Manager:
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
+                  Value: false
+                - Class: rviz/MarkerArray
+                  Enabled: false
+                  Marker Topic: /detection/lidar_detector/objects_markers
+                  Name: Deteced objects Lidar
+                  Namespaces:
+                    {}
+                  Queue Size: 100
                   Value: false
               Enabled: true
               Name: Lidar
@@ -801,21 +815,21 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 54.5384331
+      Distance: 40.584816
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -10.1746235
-        Y: 0.851658702
-        Z: -1.32738032e-05
+        X: 1.67087746
+        Y: 1.29863834
+        Z: -1.35489445e-05
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
-      Near Clip Distance: 0.00999999978
+      Near Clip Distance: 0.0099999997
       Pitch: 0.354798496
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)

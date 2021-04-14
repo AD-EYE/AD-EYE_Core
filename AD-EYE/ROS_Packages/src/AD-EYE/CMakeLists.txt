@@ -55,9 +55,9 @@ include_directories(
 )
 
 
-#add_library(${PROJECT_NAME}
-#   include/vectormaploader.h
-#)
+add_library(
+  vectorMap src/vectormap.cpp
+)
 
 add_executable(
   GridMapCreator
@@ -117,6 +117,7 @@ add_executable(
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
+  vectorMap
 )
 
 target_link_libraries(
@@ -169,9 +170,6 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-#add_dependencies(${PROJECT_NAME}
-#  ${catkin_EXPORTED_TARGETS}
-#)
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -212,6 +210,7 @@ add_dependencies(lidarRadarFuse
 add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
+
 
 # Mark executables and/or libraries for installation
 install(

@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <std_msgs/Float32MultiArray.h>
 #include <autoware_msgs/DetectedObject.h>
@@ -28,13 +26,6 @@ private:
     std::vector<detection> detections;
     bool radarDetection_flag = false;
 
-public:
-    radarBroadcaster(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
-    {
-        // Initialize the publishers and subscribers
-        subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
-        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
-    }
 
     void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
     {
@@ -55,14 +46,13 @@ public:
         autoware_msgs::DetectedObject object;
         autoware_msgs::DetectedObjectArray msg;
 
-        msg.header.frame_id = "radar"; // ------------- !!
+        msg.header.frame_id = "radar";
         for (size_t i = 0; i < detections.size(); i++) {
             if (detections.at(i).x != 0 || detections.at(i).y != 0 || detections.at(i).z != 0) {
-                object.header.frame_id = "radar"; // ------------- !!
-                object.id = i+1; // ------------- !!
-                object.label = "unknown"; // ------------- !!
-                //object.color =
-                object.score = 1; // ------------- !!
+                object.header.frame_id = "radar";
+                object.id = i+1;
+                object.label = "unknown";
+                object.score = 1;
                 object.valid = true;
                 object.space_frame = "radar";
                 object.pose.position.x = detections.at(i).x;
@@ -97,6 +87,15 @@ public:
 
     }
 
+
+public:
+    radarBroadcaster(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
+    {
+        // Initialize the publishers and subscribers
+        subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
+        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
+    }
+
     void run()
     {
       ros::Rate rate(20);
@@ -115,7 +114,6 @@ public:
 
 int main(int argc, char** argv)
 {
-    // Initialize node
     ros::init(argc, argv, "radar_broadcaster");
     ros::NodeHandle nh;
     radarBroadcaster rB(nh, argc, argv);

@@ -1,6 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
-#include <ros/this_node.h>
 
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <geometry_msgs/Point.h>
@@ -25,14 +23,6 @@ private:
     bool lidar_msg_flag = false;
     bool radar_msg_flag = false;
 
-public:
-    lidarRadarFuse(ros::NodeHandle &nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic) : nh_(nh)
-    {
-        // Initialize the publishers and subscribers
-        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(lidar_topic, 1, &lidarRadarFuse::lidar_msg_callback, this);
-        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &lidarRadarFuse::radar_msg_callback, this);
-        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(fused_topic, 1, true);
-    }
 
     void lidar_msg_callback(autoware_msgs::DetectedObjectArray msg)
     {
@@ -94,13 +84,23 @@ public:
         pub.publish(fused_msg);
     }
 
+
+public:
+    lidarRadarFuse(ros::NodeHandle &nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic) : nh_(nh)
+    {
+        // Initialize the publishers and subscribers
+        sub1 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(lidar_topic, 1, &lidarRadarFuse::lidar_msg_callback, this);
+        sub2 = nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &lidarRadarFuse::radar_msg_callback, this);
+        pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(fused_topic, 1, true);
+    }
+
     void run()
     {
       ros::Rate rate(20);
       while(nh_.ok())
       {
           ros::spinOnce();
-          if (lidar_msg_flag == true && radar_msg_flag == true) {
+          if (lidar_msg_flag == true || radar_msg_flag == true) {
               publish();
           }
           rate.sleep();

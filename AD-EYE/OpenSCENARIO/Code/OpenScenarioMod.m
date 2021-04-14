@@ -11,7 +11,7 @@ findOpen = strfind(document, '[');
 findClose = strfind(document, ']');
 %findSeparator = strfind(document, ',');
 
-if length(findOpen)==0
+if isempty(findOpen)
     listOfNames(1) = convertCharsToStrings([fileName, '.xosc']);
     cd '..\Code';
     return
@@ -26,9 +26,9 @@ for c = 1:length(findOpen)
     text = extractBetween(document,  findOpen(c)+1,  findClose(c)-1)
     findSeparator = strfind(text, ',');
     findSeparator = findSeparator{1,1};
-    changes(c).valueLow = str2double(extractBetween(document, changes(c).textOrigin+1, changes(c).textOrigin-1+findSeparator(1)))
-    changes(c).valueStep = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(1), changes(c).textOrigin-1+findSeparator(2)))
-    changes(c).valueHigh = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(2), changes(c).textEnd-1))
+    changes(c).valueLow = str2double(extractBetween(document, changes(c).textOrigin+1, changes(c).textOrigin-1+findSeparator(1)));
+    changes(c).valueStep = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(1), changes(c).textOrigin-1+findSeparator(2)));
+    changes(c).valueHigh = str2double(extractBetween(document, changes(c).textOrigin+1+findSeparator(2), changes(c).textEnd-1));
 end
 
 %copy document
