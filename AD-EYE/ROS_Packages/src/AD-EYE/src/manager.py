@@ -147,7 +147,7 @@ class ManagerFeaturesHandler:
 
 ## Manager class
 class Manager:
-    INITIALIZING_FEATURES = [
+    INITIALIZING_DEFAULT_FEATURES = [
         # "Recording",
         "Map",
         # "Sensing",
@@ -161,7 +161,7 @@ class Manager:
         "Rviz",
         # "Experiment_specific_recording"
     ]
-    ENABLED_FEATURES = [
+    ENABLED_DEFAULT_FEATURES = [
         # "Recording",
         "Map",
         # "Sensing",
@@ -175,7 +175,7 @@ class Manager:
         "Rviz",
         # "Experiment_specific_recording"
     ]
-    ENGAGED_FEATURES = [
+    ENGAGED_DEFAULT_FEATURES = [
         # "Recording",
         "Map",
         "Sensing",
@@ -189,7 +189,7 @@ class Manager:
         "Rviz",
         # "Experiment_specific_recording"
     ]
-    FAULT_FEATURES = [
+    FAULT_DEFAULT_FEATURES = [
         # "Recording",
         "Map",
         "Sensing",
@@ -203,8 +203,64 @@ class Manager:
         "Rviz",
         # "Experiment_specific_recording"
     ]
+    INITIALIZING_ALLOWED_FEATURES = [
+        # "Recording",
+        "Map",
+        # "Sensing",
+        # "Localization",
+        # "Fake_Localization",
+        # "Detection",
+        # "Mission_Planning",
+        # "Motion_Planning",
+        "Switch",
+        # "SSMP",
+        "Rviz",
+        # "Experiment_specific_recording"
+    ]
+    ENABLED_ALLOWED_FEATURES = [
+        # "Recording",
+        "Map",
+        # "Sensing",
+        # "Localization",
+        # "Fake_Localization",
+        # "Detection",
+        # "Mission_Planning",
+        # "Motion_Planning",
+        "Switch",
+        # "SSMP",
+        "Rviz",
+        # "Experiment_specific_recording"
+    ]
+    ENGAGED_ALLOWED_FEATURES = [
+        "Recording",
+        "Map",
+        "Sensing",
+        "Localization",
+        "Fake_Localization",
+        "Detection",
+        "Mission_Planning",
+        "Motion_Planning",
+        "Switch",
+        "SSMP",
+        "Rviz",
+        "Experiment_specific_recording"
+    ]
+    FAULT_ALLOWED_FEATURES = [
+        # "Recording",
+        "Map",
+        "Sensing",
+        "Localization",
+        "Fake_Localization",
+        # "Detection",
+        # "Mission_Planning",
+        # "Motion_Planning",
+        "Switch",
+        "SSMP",
+        "Rviz",
+        # "Experiment_specific_recording"
+    ]
     previous_features = []
-    current_features = INITIALIZING_FEATURES
+    current_features = INITIALIZING_DEFAULT_FEATURES
 
     # Rosbag related constants
     ROSBAG_PATH = "/recording" + str(time.time()) + ".bag"  # ~ is added as a prefix, name of the bag
@@ -273,13 +329,13 @@ class Manager:
     def getAllowedFeatures(self):
         state = self.manager_state_machine.getState()
         if state == self.manager_state_machine.States.INITIALIZING_STATE:
-            return self.INITIALIZING_FEATURES
+            return self.INITIALIZING_ALLOWED_FEATURES
         elif state == self.manager_state_machine.States.ENABLED_STATE:
-            return self.ENABLED_FEATURES
+            return self.ENABLED_ALLOWED_FEATURES
         elif state == self.manager_state_machine.States.ENGAGED_STATE:
-            return self.ENGAGED_FEATURES
+            return self.ENGAGED_ALLOWED_FEATURES
         elif state == self.manager_state_machine.States.FAULT_STATE:
-            return self.FAULT_FEATURES
+            return self.FAULT_ALLOWED_FEATURES
 
     ## Checks if the manager state has changed. If so, updates the current features list
     def checkManagerState(self):
@@ -287,16 +343,16 @@ class Manager:
         if state != self.current_state:  # the state has changed since last iteration
             self.current_state = state
             if state == self.manager_state_machine.States.INITIALIZING_STATE:
-                self.current_features = self.INITIALIZING_FEATURES
+                self.current_features = self.INITIALIZING_DEFAULT_FEATURES
             elif state == self.manager_state_machine.States.ENABLED_STATE:
-                self.current_features = self.ENABLED_FEATURES
+                self.current_features = self.ENABLED_DEFAULT_FEATURES
             elif state == self.manager_state_machine.States.ENGAGED_STATE:
-                self.current_features = self.ENGAGED_FEATURES
+                self.current_features = self.ENGAGED_DEFAULT_FEATURES
             elif state == self.manager_state_machine.States.FAULT_STATE:
                 msg = Int32()
                 msg.data = 1
                 self.switch_request_pub.publish(msg)  # when we enter fault state we first force the switch to safety channel
-                self.current_features = self.FAULT_FEATURES
+                self.current_features = self.FAULT_DEFAULT_FEATURES
 
     ## Checks if a feature is now in the list of features that should be active but was not in the previous iteration
     def isFeatureJustActivated(self, feature_name):
