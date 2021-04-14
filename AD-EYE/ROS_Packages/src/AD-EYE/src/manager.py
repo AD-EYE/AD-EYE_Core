@@ -278,10 +278,6 @@ class Manager:
         self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switchCommand", Int32, self.switchCallback)  # to check if safety channel is still alive
-        rospy.Subscriber("manager/switch_request", Int32,
-                         self.switchRequestCallback)  # for GUI, request to switch between control channels
-        self.switch_request_pub = rospy.Publisher('safety_channel/switch_request', Int32,
-                                                  queue_size=1)  # to send the request to the safety supervisor
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
 
@@ -314,10 +310,6 @@ class Manager:
     def switchCallback(self, msg):
         self.last_switch_time = rospy.Time.now()
         self.last_switch_time_initialized = True
-
-    ## Callback listening to switch request to change control channel
-    def switchRequestCallback(self, msg):
-        self.switch_request_pub.publish(msg)
 
     ## Checks if the a message from the safety channel has been received recently, if not prints warning
     def checkSafetyChannel(self):
