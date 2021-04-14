@@ -4,7 +4,7 @@
     <title>AD-EYE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=0">
     <link rel="stylesheet" href="gui.css">
     <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
     <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
@@ -122,6 +122,8 @@
             <button id="9" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">SSMP</button>
             <button id="10" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Rviz</button>
             <button id="11" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Experiment Recording</button>
+            <label>Latest features array </label>
+            <input type="textarea" id="features_array" value="" disabled>
           </div>
         </div>
 
@@ -277,6 +279,9 @@
               <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
             </div>
              <!----camera---->
+             <label style="display: inline;">Latest values </label>
+             <input type="textarea" id="fault_injection_values" value="" disabled>
+ 
             
 				  </div>
         </div>
@@ -286,7 +291,6 @@
         <div class="col-md-4 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
-            <div id="x5"></div>
              <canvas id="image_canvas" ></canvas>
                <p>X:<span id="x-co-ordinate"></span></p>
               <p>Y:<span id="y-co-ordinate"></span></p>
@@ -317,6 +321,19 @@
 					</div>
         </div>
         <!-- card for camera -->
+
+         <!-- card for clock -->
+
+        <div class="col-md-4 col-sm-12">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Time Display</h2>
+            <div id="x5"></div>
+            <p>Simulation Time:<span id="simulation_time"></span></p>
+            <p>Real Time:<span id="real_time"></span></p>
+					</div>
+        </div>
+         <!-- card for clock -->
+
         
         <button id="generic_button" onclick="createGenericCard()">+</button>
       </div>

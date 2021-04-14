@@ -287,6 +287,8 @@ let green = "#699b2c";
 
     });
 
+    let today = new Date();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     // function to toggle the state on and off by clicking on the buttons.
     function toggleStateinitial_OnClick(initial)
     {
@@ -306,7 +308,7 @@ let green = "#699b2c";
             let stringData = (initialOn.data).toString();
             let data = stringData.toUpperCase();
             initialChecksTopic.publish(initialOn);
-            document.getElementById("latest_state").value = initial.value;
+            document.getElementById("latest_state").value = time + " " + initialChecksTopic.name + ": " + initialOn.data;
 
 /*         }
  */       /*  else
@@ -373,7 +375,7 @@ let green = "#699b2c";
             data : false
         });
         activationRequestTopic.publish(activationOff);
-            document.getElementById("latest_state").value = deactivation.value;
+        document.getElementById("latest_state").value = deactivation.value;
     }
 
 
@@ -516,6 +518,8 @@ let green = "#699b2c";
         let position = new Array();
         position = checkPosition(data_array);
         colorBox(position);
+        document.getElementById("features_array").value = time + "\n " + feature_listener.name + ": " + data_array;
+
         
 
         //function to change the color of button and reseting it to gray when not in use
@@ -636,7 +640,8 @@ let green = "#699b2c";
                 if(button.value == "off")
                 {
                     button.value = "on";
-                    button.style.backgroundColor = green;
+                    button.style.backgroundColor = "white";
+                    button.style.color = "black";
                     formsCollection[i].append(parent_div);
                     //formsCollection[i].append(parent_second_element);
                     formsCollection[i].style.display = "block";
@@ -647,7 +652,10 @@ let green = "#699b2c";
                     button.style.backgroundColor = "gray";
                     document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
                     formsCollection[i].style.display = "none";
+                    button.style.color = "white";
+
                 }
+
                 
             }
         }      
@@ -762,6 +770,8 @@ let green = "#699b2c";
             });
     
         fault_injection_topic.publish(fault_injection_msg);
+        document.getElementById("fault_injection_values").value = time + "\n " + fault_injection_topic.name + ": " + fault_injection_msg.data;
+
     }
     
 //-------------fault injection----------------
@@ -965,6 +975,25 @@ let green = "#699b2c";
  //----------------goal setting------------------
 
  //---------------camera displays----------------------
+
+
+ //--------------Time Displays------------------
+    // listen to the topic /clock
+    let clock_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/clock',
+        messageType : 'rosgraph_msgs/Clock'
+        
+    });
+
+    //subscribing to the topic /vehicle_cmd
+    clock_topic.subscribe(function(message)
+    {
+        document.getElementById("x5").innerHTML = "hello";
+        ducument.getElementById("simulation_time").innerHTML = "hello";
+    });
+
+ //--------------Time Displays------------------
 
  
  

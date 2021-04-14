@@ -12,8 +12,6 @@ body
   border-radius: .5em;
   padding: 10px;
   cursor: move;
-  
-  width: auto;
   margin:5px;
   color: rgb(255, 253, 253);
   font-weight: bold;
@@ -116,10 +114,11 @@ button
   border:none;
 } 
 
-#latest_state
+#latest_state, #features_array, #fault_injection_values
 {
-  width: 100%;
+  width: 95%;
   background-color: white;
+  height: 50px;
 }
 
 .fault_injection
