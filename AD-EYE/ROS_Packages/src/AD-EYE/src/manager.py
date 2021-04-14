@@ -28,6 +28,7 @@ class ManagerStateMachine:
         ENABLED_STATE = 1
         ENGAGED_STATE = 2
         FAULT_STATE = 3
+
     current_state = States.INITIALIZING_STATE  # this is the current state of the state machine
 
     ## Constructor
@@ -73,7 +74,8 @@ class ManagerStateMachine:
         else:
             self.printRefusedRequest()
 
-## Feature wrapper for convininence of the ManagerFeaturesHandler class
+
+## Feature wrapper for convenience of the ManagerFeaturesHandler class
 class Feature:
     name = ""
     path = ""
@@ -95,22 +97,23 @@ class Feature:
     def createFeatureControl(self):
         self.featureControl = FeatureControl(self.path, self.name, self.start_delay, self.stop_delay)
 
+
 ## Class handling all the features as well as performing the launch files paths construction
 class ManagerFeaturesHandler:
     features = OrderedDict()
     # Ordered dictionary object                 = Feature(Feature_name,                    launch_file_name,              start_delay, stop_delay)
-    features["Recording"]                       = Feature("Recording",                     "",                            0,           0)
-    features["Map"]                             = Feature("Map",                           "my_map.launch",               8,           0)
-    features["Sensing"]                         = Feature("Sensing",                       "my_sensing.launch",           0,           0)
-    features["Localization"]                    = Feature("Localization",                  "my_localization.launch",      8,           5)
-    features["Fake_Localization"]               = Feature("Fake_Localization",             "my_fake_localization.launch", 0,           0)
-    features["Detection"]                       = Feature("Detection",                     "my_detection.launch",         0,           5)
-    features["Mission_Planning"]                = Feature("Mission_Planning",              "my_mission_planning.launch",  2,           5)
-    features["Motion_Planning"]                 = Feature("Motion_Planning",               "my_motion_planning.launch",   0,           5)
-    features["Switch"]                          = Feature("Switch",                        "switch.launch",               0,           0)
-    features["SSMP"]                            = Feature("SSMP",                          "SSMP.launch",                 0,           0)
-    features["Rviz"]                            = Feature("Rviz",                          "my_rviz.launch",              0,           0)
-    features["Experiment_specific_recording"]   = Feature("Experiment_specific_recording", "",                            0,           0)
+    features["Recording"] = Feature("Recording", "", 0, 0)
+    features["Map"] = Feature("Map", "my_map.launch", 8, 0)
+    features["Sensing"] = Feature("Sensing", "my_sensing.launch", 0, 0)
+    features["Localization"] = Feature("Localization", "my_localization.launch", 8, 5)
+    features["Fake_Localization"] = Feature("Fake_Localization", "my_fake_localization.launch", 0, 0)
+    features["Detection"] = Feature("Detection", "my_detection.launch", 0, 5)
+    features["Mission_Planning"] = Feature("Mission_Planning", "my_mission_planning.launch", 2, 5)
+    features["Motion_Planning"] = Feature("Motion_Planning", "my_motion_planning.launch", 0, 5)
+    features["Switch"] = Feature("Switch", "switch.launch", 0, 0)
+    features["SSMP"] = Feature("SSMP", "SSMP.launch", 0, 0)
+    features["Rviz"] = Feature("Rviz", "my_rviz.launch", 0, 0)
+    features["Experiment_specific_recording"] = Feature("Experiment_specific_recording", "", 0, 0)
 
     ## Constructor
     def __init__(self):
@@ -142,6 +145,7 @@ class ManagerFeaturesHandler:
             self.features[key].createFeatureControl()
 
 
+## Manager class
 class Manager:
     INITIALIZING_FEATURES = [
         # "Recording",
@@ -217,9 +221,11 @@ class Manager:
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
         self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
-        rospy.Subscriber("/switchCommand", Int32, self.switchCallback) # to check if safety channel is still alive
-        rospy.Subscriber("manager/switch_request", Int32, self.switchRequestCallback) # for GUI, request to switch between control channels
-        self.switch_request_pub = rospy.Publisher('safety_channel/switch_request', Int32, queue_size=1)  # to send the request to the safety supervisor
+        rospy.Subscriber("/switchCommand", Int32, self.switchCallback)  # to check if safety channel is still alive
+        rospy.Subscriber("manager/switch_request", Int32,
+                         self.switchRequestCallback)  # for GUI, request to switch between control channels
+        self.switch_request_pub = rospy.Publisher('safety_channel/switch_request', Int32,
+                                                  queue_size=1)  # to send the request to the safety supervisor
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
 
@@ -289,9 +295,9 @@ class Manager:
             elif state == self.manager_state_machine.States.FAULT_STATE:
                 msg = Int32()
                 msg.data = 1
-                self.switch_request_pub.publish() # when we enter fault state we first force the switch to safety channel
+                self.switch_request_pub.publish(msg)  # when we enter fault state we first force the switch to safety channel
                 self.current_features = self.FAULT_FEATURES
-    
+
     ## Checks if a feature is now in the list of features that should be active but was not in the previous iteration
     def isFeatureJustActivated(self, feature_name):
         return feature_name in self.current_features and feature_name not in self.previous_features
@@ -303,23 +309,22 @@ class Manager:
     ## Starts the individual features based on the current feature list
     def startAndStopFeatures(self):
         for feature_name in self.manager_features_handler.features:
-                if feature_name == "Recording": # recording needs special case as it is not a launch file like other features
+            if feature_name == "Recording":  # recording needs special case as it is not a launch file like other features
+                if self.isFeatureJustActivated(feature_name):
+                    self.startRecording()
+                elif self.isFeatureJustDeactivated(feature_name):
+                    self.stopRecording()
+            else:  # "normal" features
+                try:  # to not kill the manager when a launch is malformed (in that case an exception is thrown)
                     if self.isFeatureJustActivated(feature_name):
-                        self.startRecording()
+                        self.manager_features_handler.features[feature_name].featureControl.start()
                     elif self.isFeatureJustDeactivated(feature_name):
-                        self.stopRecording()
-                else: # "normal" features
-                    try: # to not kill the manager when a launch is malformed (in that case an exception is thrown)
-                        if self.isFeatureJustActivated(feature_name):
-                            self.manager_features_handler.features[feature_name].featureControl.start()
-                        elif self.isFeatureJustDeactivated(feature_name):
-                            self.manager_features_handler.features[feature_name].featureControl.stop()
-                        else:
-                            pass # nothing to do, feature stays enable/disabled
-                    except Exception as exc:
-                        rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
+                        self.manager_features_handler.features[feature_name].featureControl.stop()
+                    else:
+                        pass  # nothing to do, feature stays enable/disabled
+                except Exception as exc:
+                    rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
         self.previous_features = self.current_features
-
 
     ## Starts the rosbag recording process
     def startRecording(self):
@@ -333,7 +338,7 @@ class Manager:
             "xterm -hold -e bash " + adeye_package_location + "/sh/rosbag_stop ~/" + self.ROSBAG_PATH,
             shell=True, preexec_fn=os.setpgrp, executable='/bin/bash')
 
-    ## Publishes a list of integers (0 or 1) representig the active features (for GUI)
+    ## Publishes a list of integers (0 or 1) representing the active features (for GUI)
     def publishActiveFeatures(self):
         state_array = Int32MultiArray()
         for feature in self.manager_features_handler.features:
