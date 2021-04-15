@@ -4,7 +4,7 @@
     <title>AD-EYE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="gui.css">
     <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
     <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
@@ -33,11 +33,11 @@
 
     <!-- main content -->
     <main>
-      <div class="container">
+      <div class="container-fluid">
       <div id="row_div" class="row">
 
         <!-- card for linear velocity -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
             <div class="gauge_velocity">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- card for linear acceleration -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box"> 
             <h2 class="text-center">Linear Acceleration</h2>
             <div class="gauge_acceleration">
@@ -63,10 +63,10 @@
         </div>
 
         <!-- card for control channel  -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
-            <div class="btn-group" style="height:80px;width:320px;"> 
+            <div style="display:inline-flex; width:100%"> 
               <button  id="00" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Nominal</button>
               <button id="01" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Safety</button>
             </div> 
@@ -74,7 +74,7 @@
         </div>
 
         <!-- card for manager state -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
@@ -88,9 +88,10 @@
         </div>
 
         <!-- card for tracked objects -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Tracked Objects</h2>
+            <p><span id="test"></span></p>
             <p>Tracked object: <span id="track"></span></p>
             <p>X: <span id="x"></span></p>
             <p>Y: <span id="y"></span></p>
@@ -99,7 +100,7 @@
         </div>
 
         <!-- card for behaviour state -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Behavior State</h2>
             <p>State: <span id="behavior"></span></p>
@@ -107,7 +108,7 @@
         </div>
 
         <!-- card for features -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
             <button id="0" type="button" value="off" class="features " onclick="toggleFeatureState_OnClick(this)">Recording</button>
@@ -128,20 +129,22 @@
         </div>
 
         <!-- card for fault injection -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
             <div id="form_display"></div>
-
+<!--             <div style="width:100%">
+ -->
             <!----gnss---->
             <div id="gnss_div" >
-              <div id="button_div" style="display:inline-flex">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
                 <input id="gnss_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="gnss_form" name="gnss" style="display:none;">
-                <div id="include_button_div" style="display:inline-flex"></div>
-                <div id="form_content"> <label>State</label>
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>
+                <div id="form_content"> 
+                  <label>State</label>
                   <select id="gnss_state">
                     <option value="0" >Off</option>
                     <option value="1">Gaussian Noise</option>
@@ -158,11 +161,13 @@
 
             <!----lidar---->
             <div id="lidar1_div" >
-              <div style="display:inline-flex">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
                 <input id="lidar1_input" class="state" type="text"  value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar1_form" name="lidar1" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>
+                <div id="form_content"> 
                 <label>State</label>
                 <select id="lidar1_state">
                   <option value="0" >Off</option>
@@ -184,11 +189,12 @@
                 <label>rain/max_range</label>
                 <input type="text" value="100"></input>
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                </div>
               </form>
             </div>
              
             <div id="lidar2_div">
-              <div  style="display:inline-flex">
+              <div  style="display:inline-flex; width: 100%;">
                 <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
                 <input id="lidar2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -196,7 +202,7 @@
             </div>
             
             <div id="lidar3_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
                 <input id="lidar3_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -204,7 +210,7 @@
             </div>
             
             <div id="lidar4_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
                 <input id="lidar4_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -215,7 +221,7 @@
 
             <!----radar---->
             <div id="radar_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
                 <input id="radar_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -238,7 +244,7 @@
 
             <!----camera---->
             <div id="camera_1_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
                 <input id="camera1_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
@@ -267,7 +273,7 @@
             </div>
             
             <div id="camera_2_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
                 <input id="camera2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -275,7 +281,7 @@
             </div>
             
             <div id="tl_camera_div">
-              <div style="display:inline-flex">
+              <div style="display:inline-flex; width: 100%;">
                 <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
                 <input id="tl_camera_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
@@ -284,14 +290,14 @@
              <!----camera---->
              <label style="display: inline;">Latest values </label>
              <input type="textarea" id="fault_injection_values" value="" disabled>
- 
-            
+<!--             </div>
+ -->            
 				  </div>
         </div>
         <!-- card for fault injection -->
 
         <!-- card for goal setting-->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
              <canvas id="image_canvas" ></canvas>
@@ -303,21 +309,21 @@
         <!-- card for goal setting-->
 
         <!-- card for camera -->
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera 1</h2>
              <canvas id="camera1_canvas"></canvas>
 					</div>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera 2</h2>
              <canvas id="camera2_canvas" ></canvas>
 					</div>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">TL Camera</h2>
              <canvas id="tl_camera_canvas" ></canvas>
@@ -327,7 +333,7 @@
 
          <!-- card for clock -->
 
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
             <h2 class="text-center">Time Display</h2>
             <div id="x5"></div>

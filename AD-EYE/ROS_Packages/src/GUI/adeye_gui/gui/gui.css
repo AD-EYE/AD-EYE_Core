@@ -15,7 +15,10 @@ body
   margin:5px;
   color: rgb(255, 253, 253);
   font-weight: bold;
+  width: 100%;
+  
 }
+
 
 /* properties for the header  */
 .header
@@ -88,8 +91,7 @@ button
   border-radius: 15px;
   color:white;
   margin: 5px;
-  height:50px;
-  width:300px;
+  height: 50px;
 }
 
 /* properties for the + button  */
@@ -111,12 +113,13 @@ button
   color:white;
   border-radius: 15px;
   border:none;
+  width: 100%;
 } 
 
 /* properties for text box displaying the latest information in each card*/
 #latest_state, #features_array, #fault_injection_values
 {
-  width: 95%;
+  width: 100%;
   background-color: white;
   height: 50px;
 }
@@ -127,23 +130,34 @@ button
   background: gray;
   color:white;
   border-radius: 15px;
-  width: 200px;
+  width: 70%;
   border: none;
 }
  
 /* properties for the control channel & features card  */
-.channel,.features
+.channel
 {
   background: gray;
   color:white;
   border-radius: 15px;
   border: none;
+  width: 50%;
+}
+
+.features
+{
+  background: gray;
+  color:white;
+  border-radius: 15px;
+  border: none;
+  width :100%;
 }
 
 /* properties for input in the fault injection card */
 .state
 {
-  height: 48px;
+  height: 50px;
+  width: 30%;
   border: 2px;
   border-radius: 10px;
   padding: 5px;

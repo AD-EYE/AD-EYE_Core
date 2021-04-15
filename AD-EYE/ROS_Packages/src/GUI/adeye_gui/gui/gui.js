@@ -77,9 +77,16 @@ document.addEventListener('DOMContentLoaded', (event) =>
 //------------------Connection with the bridge-------------------
 
 let green = "#699b2c";
+let time = "";
 
-let today = new Date();
-let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+function clock() 
+{
+    let today = new Date();
+    time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+}
+
+setInterval(clock, 1000);
+
 
 
 //-------------------linear velocity----------------
@@ -139,6 +146,7 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
     {
         let value = message.ctrl_cmd.linear_acceleration;
         const gauge_element = document.querySelector(".gauge_acceleration");
+        let max_gauge_acceleration = 1;
 
         // passing the value received from the topic /vehicle_cmd to the function to display the acceleration of the car
         setGaugeValue(gauge_element, value);
@@ -372,18 +380,23 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
         {
             for (let j = 0; j < message.objects[i].label.length; j++) 
             {
-                object[k]=message.objects[i].label[j];
+                object[k] = message.objects[i].label[j];
                 k++;
+            } 
+
+            document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
+            if(message.objects[i].user_defined_info[1] == "lidar")
+            {
+                s = object.join("");
+                document.getElementById("track").innerHTML = s;
+                x = message.objects[i].pose.position.x;
+                document.getElementById("x").innerHTML = x;
+                y = message.objects[i].pose.position.y;
+                document.getElementById("y").innerHTML = y;
+                z = message.objects[i].pose.position.z
+                document.getElementById("z").innerHTML = z;
+                object.splice(0, object.length);
             }
-            s = object.join("");
-            document.getElementById("track").innerHTML = s;
-            x = message.objects[0].pose.position.x;
-            document.getElementById("x").innerHTML = x;
-            y = message.objects[0].pose.position.y;
-            document.getElementById("y").innerHTML = y;
-            z = message.objects[0].pose.position.z
-            document.getElementById("z").innerHTML = z;
-            object.splice(0, object.length);
         }
     });
 //-------------------tracked object ----------------
@@ -567,6 +580,7 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
     function faultInjection_OnClick(button)
     {
         formsCollection = document.getElementsByTagName("form");
+        button_div = document.getElementsByClassName("button_div");
         let parent_div = button.parentNode;
         for(let i = 0; i < formsCollection.length; i++)
         {
@@ -577,8 +591,9 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
                     button.value = "on";
                     button.style.backgroundColor = "white";
                     button.style.color = "black";
-                    document.getElementById("include_button_div").innerHTML = document.getElementById("button_div").innerHTML;
-                    document.getElementById("button_div").innerHTML = "";
+                    formsCollection[i].firstElementChild.innerHTML = button_div[i].innerHTML;
+/*                     document.getElementById("include_button_div").innerHTML = document.getElementById("button_div").innerHTML;
+ */                    button_div[i].innerHTML = "";
 /*                     formsCollection[i].append(parent_div);
  */                    formsCollection[i].style.display = "block";
                 }
@@ -586,11 +601,16 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
                 {
                     button.value = "off";
                     button.style.backgroundColor = "gray";
-                    document.getElementById("button_div").innerHTML = document.getElementById("include_button_div").innerHTML;
+                    button.style.color = "white";
+
+/*                     button_div =  document.getElementById("button_div");
+                    button_div.append(formsCollection[i].firstElementChild);
+ */                    //document.getElementsByClassName("button_div").innerHTML = document.getElementsByClassName("include_button_div").innerHTML;
+                    button_div[i].innerHTML = formsCollection[i].firstElementChild.innerHTML;
+
 
                     //document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
                     formsCollection[i].style.display = "none";
-                    button.style.color = "white";
 
                 }              
             }
@@ -612,11 +632,11 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
         // values are collected from form and kept in an array
         for (let i=2;i<form.length-1;i++)
         {
-            array[i] = form[i].value;
+            array[i-2] = form[i].value;
         }
 
         // coverting the string array to float array as we need float data to publish
-        for (let i=2;i<array.length-1;i++)
+        for (let i=0;i<array.length;i++)
         {
             array[i] = parseFloat(array[i]);
         }
@@ -870,8 +890,9 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
         }
         posX = posX - imgPos[0];
         posY = posY - imgPos[1];
-        document.getElementById("x-co-ordinate").innerHTML = posX;
         document.getElementById("y-co-ordinate").innerHTML = posY;
+        document.getElementById("x-co-ordinate").innerHTML = posX;
+
     
         let canvas = document.getElementById("image_canvas");
 
@@ -879,7 +900,6 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
 
         // coordinates of image displayed on canvas 
         let canvas_width = rect.width;
-        let canvas_height = rect.height; 
 
         // scaling factor
         var scale_factor = original_width / canvas_width;
@@ -891,6 +911,7 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
         let coordinate_array = new Array();
         coordinate_array[0] = parseInt(posX) ;
         coordinate_array[1] = parseInt(posY) ;
+
             
         // publishing the coordinate values to rostopic /gui/goal_pixels
         let goal_pixel_topic = new ROSLIB.Topic({
@@ -922,7 +943,7 @@ let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
     //subscribing to the topic /vehicle_cmd
     clock_topic.subscribe(function(message)
     {
-        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs;
+        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+":"+message.clock.nsecs;
         document.getElementById("real_time").innerHTML = " " + time;
 
     });
