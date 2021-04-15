@@ -314,8 +314,11 @@ public:
 
         // publish msgs
         traj_pub_.publish(traj_msg);
-        traj_vis_pub_.publish(traj_vis_msg);
-        endposes_vis_pub_.publish(endposes_vis_msg);
+        if(SSMP_control == 1)
+        {
+            traj_vis_pub_.publish(traj_vis_msg);
+            endposes_vis_pub_.publish(endposes_vis_msg);
+        }
         entire_traj_pub_.publish(entire_traj_msg);
         if(green_trajs+yellow_trajs+red_trajs != 0){
           amount_trajs_pub_.publish(trajcategory);
