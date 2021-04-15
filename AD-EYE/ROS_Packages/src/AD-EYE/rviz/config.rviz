@@ -9,8 +9,6 @@ Panels:
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
-        - /Autoware1/Perception1/Detected_objects1
-        - /Autoware1/Perception1/Lidar1
         - /Autoware1/Planning1
         - /Autoware1/Planning1/Global Planning1/Global Path1
       Splitter Ratio: 0.695804
@@ -33,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Voxel Filtered Points
+    SyncSource: Points Map
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -92,21 +90,21 @@ Visualization Manager:
         - Class: rviz/Group
           Displays:
             - Class: rviz/MarkerArray
-              Enabled: false
+              Enabled: true
               Marker Topic: /safe_stop_endposes_vis
               Name: safe_stop_endposes_vis
               Namespaces:
-                {}
+                "": true
               Queue Size: 100
-              Value: false
+              Value: true
             - Class: rviz/MarkerArray
-              Enabled: false
+              Enabled: true
               Marker Topic: /safe_stop_traj_vis
               Name: safe_stop_traj_vis
               Namespaces:
-                {}
+                "": true
               Queue Size: 100
-              Value: false
+              Value: true
           Enabled: true
           Name: Safe Stop Planner
         - Class: rviz/Group
@@ -168,10 +166,10 @@ Visualization Manager:
           Value: true
         - Class: rviz/Marker
           Enabled: true
-          Marker Topic: /critArea
+          Marker Topic: /critical_area
           Name: Safety Supervisor critical area
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
           Value: true
       Enabled: true
@@ -232,6 +230,7 @@ Visualization Manager:
                 //centroid_markers: true
                 //hull_markers: true
                 //label_markers: true
+                //model_markers: true
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -322,7 +321,6 @@ Visualization Manager:
                       Perception:
                         Camera 1 and 2:
                           Camera 1 detection overlay: true
-                          Camera 1 marker overlay: true
                           Camera 1 raw image: true
                           Camera 2 detection overlay: true
                           Camera 2 marker overlay: true
@@ -330,31 +328,17 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
-                          Raw Image Traffic Light Camera: true
-                          Traffic Light Camera marker overlay: true
-                          Traffic Light detection: true
+                          "": true
                           Value: true
                         Value: true
                       Planning:
-                        Global Planning:
-                          Global Path: true
-                          Goals: true
-                          Value: true
-                        Local Planning:
-                          Collision Points: true
-                          "OP Eval Rollouts ": true
-                          "OP Gen Rollouts ": true
-                          Value: true
-                        Pure Pursuit:
-                          Next Waypoint Mark: true
-                          PP Trajectory Mark: true
+                        "":
+                          "": true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -402,36 +386,21 @@ Visualization Manager:
                           Camera 1 marker overlay: true
                           Camera 1 raw image: true
                           Camera 2 detection overlay: true
-                          Camera 2 marker overlay: true
                           Camera 2 raw image: true
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
-                          Raw Image Traffic Light Camera: true
-                          Traffic Light Camera marker overlay: true
-                          Traffic Light detection: true
+                          "": true
                           Value: true
                         Value: true
                       Planning:
-                        Global Planning:
-                          Global Path: true
-                          Goals: true
-                          Value: true
-                        Local Planning:
-                          Collision Points: true
-                          "OP Eval Rollouts ": true
-                          "OP Gen Rollouts ": true
-                          Value: true
-                        Pure Pursuit:
-                          Next Waypoint Mark: true
-                          PP Trajectory Mark: true
+                        "":
+                          "": true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -512,31 +481,18 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
                           Raw Image Traffic Light Camera: true
-                          Traffic Light Camera marker overlay: true
                           Traffic Light detection: true
                           Value: true
                         Value: true
                       Planning:
-                        Global Planning:
-                          Global Path: true
-                          Goals: true
-                          Value: true
-                        Local Planning:
-                          Collision Points: true
-                          "OP Eval Rollouts ": true
-                          "OP Gen Rollouts ": true
-                          Value: true
-                        Pure Pursuit:
-                          Next Waypoint Mark: true
-                          PP Trajectory Mark: true
+                        "":
+                          "": true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -608,9 +564,9 @@ Visualization Manager:
                   Enabled: true
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
-                  Max Intensity: 0.223550722
+                  Max Intensity: 1.0151242
                   Min Color: 0; 0; 0
-                  Min Intensity: 0.0509803928
+                  Min Intensity: 0
                   Name: Voxel Filtered Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -829,11 +785,11 @@ Visualization Manager:
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
-      Near Clip Distance: 0.0099999997
-      Pitch: 0.354798496
+      Near Clip Distance: 0.00999999978
+      Pitch: 0.824798286
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.04044175
+      Yaw: 3.18044305
     Saved: ~
 Window Geometry:
   Camera 1 detection overlay:
