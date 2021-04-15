@@ -47,25 +47,6 @@ class controlSwitch
         ros::Rate rate;
         geometry_msgs::TwistStamped Prescandata;
 
-    public:
-
-        /*!
-        * \brief Constructor
-        * \param nh A reference to the ros::NodeHandle initialized in the main function.
-        * \details Initializes the node and its components such as publishers and subscribers.
-        */
-        controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(40)
-        {
-            // Initialize node and publishers
-            pubSSMP_control = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
-            pubPrescan = nh_.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
-            subTraj = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::traj_callback, this);
-            subAutoware = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autoware_callback, this);
-            subControl = nh_.subscribe<std_msgs::Int32>("/switchCommand", 1, &controlSwitch::switchCommand_callback, this);
-
-            // the velocities that will be send to prescan
-            Prescandata.header.frame_id = "base_link";
-        }
 
         /*!
         * \brief SSMP Traj Callback : Called when the SSMP velocities has changed
@@ -102,6 +83,27 @@ class controlSwitch
         void switchCommand_callback(const std_msgs::Int32::ConstPtr& msg){
             switchCommand = msg->data;
         }
+
+    public:
+
+        /*!
+        * \brief Constructor
+        * \param nh A reference to the ros::NodeHandle initialized in the main function.
+        * \details Initializes the node and its components such as publishers and subscribers.
+        */
+        controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(40)
+        {
+            // Initialize node and publishers
+            pubSSMP_control = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
+            pubPrescan = nh_.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
+            subTraj = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::traj_callback, this);
+            subAutoware = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autoware_callback, this);
+            subControl = nh_.subscribe<std_msgs::Int32>("/switchCommand", 1, &controlSwitch::switchCommand_callback, this);
+
+            // the velocities that will be send to prescan
+            Prescandata.header.frame_id = "base_link";
+        }
+
 
         /*!
         * \brief The main function of the Node. Contains the main loop

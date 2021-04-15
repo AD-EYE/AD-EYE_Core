@@ -23,7 +23,7 @@ while NumberFound == False :
         NumberFound=True
 
 
-STOP_DISTANCE_SQUARRED = 144 # we stop the experiment when closer than this value
+STOP_DISTANCE_SQUARRED = 900 # we stop the experiment when closer than this value and not moving
 
 
 class ExperimentBRecorder:
@@ -138,17 +138,6 @@ class ExperimentBRecorder:
             estimate_index = estimates_len
             stat_index = stat_len
 
-            if (round(self.groud_truth_poses[ground_truth_index][0],4)==round(self.esimated_poses[estimate_index][0],4)) and (round(self.groud_truth_poses[ground_truth_index][0],4)==round(self.localization_stats[stat_index][0],4)):
-                None #we need the if to have the else (and it is easier to write it that way than making all configurations of the else in an if)
-
-            else :
-                m=min( round(self.groud_truth_poses[ground_truth_index][0],4),round(self.esimated_poses[estimate_index][0],4),round(self.localization_stats[stat_index][0],4) ) #we found here the data written at the same time step
-                while (round(self.groud_truth_poses[ground_truth_index][0],4)>m) and (ground_truth_index >= 0):
-                    ground_truth_index -= 1
-                while (round(self.esimated_poses[estimate_index][0],4)>m) and (estimate_index>=0) :
-                    estimate_index -= 1
-                while (round(self.localization_stats[stat_index][0],4)>m) and (stat_index>=0) :
-                    stat_index -= 1
 
             xg,yg,zg = self.groud_truth_poses[ground_truth_index][0],self.groud_truth_poses[ground_truth_index][1],self.groud_truth_poses[ground_truth_index][2]
             oxg,oyg,ozg,owg = self.groud_truth_poses[ground_truth_index][4], self.groud_truth_poses[ground_truth_index][5], self.groud_truth_poses[ground_truth_index][6], self.groud_truth_poses[ground_truth_index][7]

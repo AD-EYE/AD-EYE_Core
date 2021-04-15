@@ -55,7 +55,6 @@ def listener():
                 file.write(template)
 
     return()
-    rospy.spin()
 
 
 if __name__ == '__main__':
