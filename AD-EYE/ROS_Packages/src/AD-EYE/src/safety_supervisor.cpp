@@ -45,7 +45,7 @@ private:
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
-    const int FREE_AUTOWARE = 0;
+    const int NO_BEHAVIOR_OVERWRITE = -1;
     enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
     const float pi = 3.141592654;
@@ -450,7 +450,7 @@ private:
      */
     void performChecks()
     {
-        varoverwrite_behavior_ = FREE_AUTOWARE;
+        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE;
 
         // Check the distance to the center line of the lane
         distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
@@ -490,19 +490,19 @@ public:
     SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
     {
         // Initialize the node, publishers and subscribers
-        pub_switch_ = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
-        pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
-        pub_limit_max_speed_ = nh_.advertise<std_msgs::Float32>("/adeye/limitMaxSpeed", 1, true);
-        pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwriteTrajectoryEval", 1, true);
+        pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
+        pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwrite_behavior", 1, true);
+        pub_limit_max_speed_ = nh_.advertise<std_msgs::Float32>("/adeye/limit_max_speed", 1, true);
+        pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
-        pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/updateGlobalPlanner", 1, true);
+        pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnssCallback, this);
-        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmapCallback, this);
+        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
-        sub_current_velocity_ = nh.subscribe("/current_velocity_", 1, &SafetySupervisor::currentVelocityCallback, this);
+        sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
 
 

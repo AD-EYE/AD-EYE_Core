@@ -656,7 +656,7 @@ public:
 
 
         // Initialize node and publishers
-        pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, true);
+        pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
         pub_footprint_ego = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
         sub_Position = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
