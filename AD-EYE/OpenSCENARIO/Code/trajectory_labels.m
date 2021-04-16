@@ -1,4 +1,4 @@
-function   trajectory_labels(Velocity_variable,models,name_simulink);
+function   trajectory_labels(Velocity_variable,models,name_simulink)
 ERROR = 1;
 
 for i = 1:length(Velocity_variable(:,1))
