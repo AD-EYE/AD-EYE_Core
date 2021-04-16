@@ -54,7 +54,7 @@
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/twist_gate"/>
+          args="/pure_pursuit /twist_filter /twist_gate /sender /controlSwitch"/>
 
 
     <node pkg="ss_trajplanner"
