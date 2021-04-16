@@ -60,8 +60,8 @@ private:
     float y_egoOld;
     geometry_msgs::Quaternion q_ego;
     //Dimensions
-    float length_ego;
-    float width_ego;
+    float length_ego = 4.6;
+    float width_ego = 2.2;
     //float height_ego; //Height is not critical for now
     float length_other;
     float width_other;
@@ -651,8 +651,16 @@ public:
     {
         nh.getParam("use_pex_file", use_pex_file_);
         nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
-        nh.getParam("car_length", length_ego);
-        nh.getParam("car_width", width_ego);
+        if (nh.hasParam("car_length"))
+            nh.getParam("car_length", length_ego);
+        else
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << length_ego );
+
+        if(nh.hasParam("car_width"))
+            nh.getParam("car_width", width_ego);
+        else
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << width_ego );
+
 
 
         // Initialize node and publishers
