@@ -77,13 +77,21 @@ class controlSwitch
 
         /*!
         * \brief Tells SSMP node that the current trajectory will be followed
-        * \details First checks if the switch is for Autoware or SSMP control,
-        * then publishes the right controls command.
         */
         void lockSSMP() const {
             rcv_common_msgs::SSMP_control SSMPcontrol;
             SSMPcontrol.header.stamp = ros::Time::now();
             SSMPcontrol.SSMP_control = 2;
+            pub_SSMP_control_.publish(SSMPcontrol);
+        }
+
+        /*!
+        * \brief Tells SSMP node that the current trajectory will not be followed anymore
+        */
+        void unlockSSMP() const {
+            rcv_common_msgs::SSMP_control SSMPcontrol;
+            SSMPcontrol.header.stamp = ros::Time::now();
+            SSMPcontrol.SSMP_control = 1;
             pub_SSMP_control_.publish(SSMPcontrol);
         }
 
@@ -121,6 +129,7 @@ class controlSwitch
 
                 switch (switch_command_) {
                     case AUTOWARE:
+                        unlockSSMP();
                         if(new_command_message_){
                             if(ssmp_trajectory_locked) {
                                 ROS_INFO("Switched back to the nominal channel");
