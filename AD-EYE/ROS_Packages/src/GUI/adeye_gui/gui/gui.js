@@ -82,11 +82,23 @@ let time = "";
 function clock() 
 {
     let today = new Date();
-    time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    let seconds = today.getSeconds();
+    hours = checkTime(hours);
+    minutes = checkTime(minutes);
+    seconds = checkTime(seconds);
+    time = hours + ":" + minutes + ":" + seconds;
+    document.getElementById("real_time").innerHTML = " " + time;
+    setInterval(clock, 1000);
+
 }
-
-setInterval(clock, 1000);
-
+function checkTime(time) {
+    if (time < 10) {
+      time = "0" + time;
+    }
+    return time;
+  }
 
 
 //-------------------linear velocity----------------
@@ -385,7 +397,7 @@ setInterval(clock, 1000);
             } 
 
             document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
-            if(message.objects[i].user_defined_info[1] == "lidar")
+            if(message.objects[i].user_defined_info[1] == "camera_2")
             {
                 s = object.join("");
                 document.getElementById("track").innerHTML = s;
@@ -547,7 +559,6 @@ setInterval(clock, 1000);
 
 
 //-------------fault injection----------------------
-
     function create_forms()
     {
         // forms for lidar
@@ -555,6 +566,10 @@ setInterval(clock, 1000);
 
         let lidar2_form = document.getElementById("lidar2_form");
         lidar2_form.innerHTML = lidar1_form.innerHTML;
+        /* for(i = 0; i< lidar2_form.length;i++)
+        {
+            document.getElementById("form_display").innerHTML = lidar2_form[0].id;
+        } */
         lidar2_form[0].id = "lidar2_state";
         
         let lidar3_form = document.getElementById("lidar3_form")
@@ -581,8 +596,8 @@ setInterval(clock, 1000);
     {
         formsCollection = document.getElementsByTagName("form");
         button_div = document.getElementsByClassName("button_div");
-        let parent_div = button.parentNode;
-        for(let i = 0; i < formsCollection.length; i++)
+/*         let parent_div = button.parentNode;
+ */        for(let i = 0; i < formsCollection.length; i++)
         {
             if(button.name == formsCollection[i].name)
             {
@@ -593,25 +608,20 @@ setInterval(clock, 1000);
                     button.style.color = "black";
                     formsCollection[i].firstElementChild.innerHTML = button_div[i].innerHTML;
 /*                     document.getElementById("include_button_div").innerHTML = document.getElementById("button_div").innerHTML;
- */                    button_div[i].innerHTML = "";
-/*                     formsCollection[i].append(parent_div);
- */                    formsCollection[i].style.display = "block";
+ */                 button_div[i].innerHTML = " ";
+/*                     formsCollection[i].append(parent_div);*/                 
+                    formsCollection[i].style.display = "block";
                 }
                 else
                 {
                     button.value = "off";
                     button.style.backgroundColor = "gray";
                     button.style.color = "white";
-
-/*                     button_div =  document.getElementById("button_div");
-                    button_div.append(formsCollection[i].firstElementChild);
- */                    //document.getElementsByClassName("button_div").innerHTML = document.getElementsByClassName("include_button_div").innerHTML;
                     button_div[i].innerHTML = formsCollection[i].firstElementChild.innerHTML;
 
-
-                    //document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
                     formsCollection[i].style.display = "none";
-
+/*                     button_div[i].lastElementChild.value = selected_value;
+ */
                 }              
             }
         }      
@@ -627,6 +637,7 @@ setInterval(clock, 1000);
     let camera2_array = new Array();
     let tl_camera_array = new Array();
     
+    // function to collect the parameter values from the form and put them in an array
     function form_values(form,array,state,input)
     {
         // values are collected from form and kept in an array
@@ -645,12 +656,15 @@ setInterval(clock, 1000);
         selected_value = state.options[state.selectedIndex].text;
         input.value = selected_value;
 
+
+
     }
 
     // function to collect the values of lidar parameters from the form and put them in an array
     function fault_injection_parameter_values(button)
     {
         var form = button.parentNode.parentNode.id;
+
         switch(form)
         {
             case "gnss_form":
@@ -931,7 +945,7 @@ setInterval(clock, 1000);
  //---------------camera displays----------------------
 
 
- //--------------Time Displays------------------
+ //--------------simulation and real time displays------------------
     // listen to the topic /clock
     let clock_topic = new ROSLIB.Topic({
         ros : ros,
@@ -944,11 +958,9 @@ setInterval(clock, 1000);
     clock_topic.subscribe(function(message)
     {
         document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+":"+message.clock.nsecs;
-        document.getElementById("real_time").innerHTML = " " + time;
 
     });
-
- //--------------Time Displays------------------
+ //--------------simulation and real time displays------------------
 
  
  
@@ -1079,9 +1091,11 @@ setInterval(clock, 1000);
     // function to display the data of selected rostopic in the teaxarea of generic card
     function display_topic_data()
     {
+        let selected_topic = " ";
+        let selected_topic_value = " ";
         let select = document.getElementById("select_topic");
-        let selected_topic = select.options[select.selectedIndex].text;
-        let selected_topic_value = select.options[select.selectedIndex].value;
+        selected_topic = select.options[select.selectedIndex].text;
+        selected_topic_value = select.options[select.selectedIndex].value;
 
         topicsClient.callService(request, function(result) 
         {
@@ -1104,8 +1118,6 @@ setInterval(clock, 1000);
                         document.getElementById("topic_data_textbox").value = topic_val ;
 
                     });
-
-
                 }  
             }
         });

@@ -23,7 +23,7 @@
     </style>
   </head>
 
-  <body onload="create_forms();"> 
+  <body onload="create_forms();clock();"> 
       
     <!-- header of the page -->
     <header class="header">
@@ -138,19 +138,19 @@
             <!----gnss---->
             <div id="gnss_div" >
               <div class="button_div" style="display:inline-flex; width: 100%;">
-                <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>&nbsp;&nbsp;
+                <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
                 <input id="gnss_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="gnss_form" name="gnss" style="display:none;">
-                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
                 <div id="form_content"> 
                   <label>State</label>
-                  <select id="gnss_state">
+                  <select id="gnss_state" title="Which disturbance model will be used: Gaussian is along x, y and z.">
                     <option value="0" >Off</option>
                     <option value="1">Gaussian Noise</option>
                   </select>
                   <label>noise_variance</label>
-                  <input type="text" value="1.0" ></input>
+                  <input type="number" value="1" min="0" title="Variance of the Gaussian along x, y and z (only active if state is Gaussian)"></input>
                   <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
                 </div> 
 
@@ -162,130 +162,151 @@
             <!----lidar---->
             <div id="lidar1_div" >
               <div class="button_div" style="display:inline-flex; width: 100%;">
-                <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>&nbsp;&nbsp;
+                <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>
                 <input id="lidar1_input" class="state" type="text"  value="" placeholder="State" disabled></input>
               </div>
               <form id="lidar1_form" name="lidar1" style="display:none">
-                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
                 <div id="form_content"> 
                 <label>State</label>
-                <select id="lidar1_state">
+                <select id="lidar1_state" title="Which disturbance model will be used: Random is Gaussian along the range and the polar angle, Rain Models follows specific equations.">
                   <option value="0" >Off</option>
                   <option value="1">Random</option>
                   <option value="2">Rain</option>
                 </select>
                 <label>random/range_variance</label>
-                <input type="text" value="0.0001"></input>
+                <input type="number" value="0.0001" min="0" title="Variance of Gaussian noise on the range field (only active if state is Random)"></input>
                 <label>random/theta_variance</label>
-                <input type="text" value="0.0001"></input>
+                <input type="number" value="0.0001" min="0" title="Variance of Gaussian noise on the polar angle field (only active if state is Random)"></input>
                 <label>rain/rain_intensity</label>
-                <input type="text" value="7.5"></input>
+                <input type="number" value="7.5" min="0" title="Rain intensity in mm/h (only active if state is Rain model)"></input>
                 <label>rain/a</label>
-                <input type="text" value="0.01"></input>
+                <input type="number" value="0.01"title="a (only active if state is Rain model)"></input>
                 <label>rain/b</label>
-                <input type="text" value="0.6"></input>
+                <input type="number" value="0.6" title="b (only active if state is Rain model)"></input>
                 <label>rain/reflectivity</label>
-                <input type="text" min="0" max="0" value="0.9"></input>
+                <input type="number" value="0.9"  min="0" max="1" title="Objects reflectivity (only active if state is Rain model)"></input>
                 <label>rain/max_range</label>
-                <input type="text" value="100"></input>
+                <input type="number"  value="100" min="0" title="Maximum range of the Lidar sensor in nominal conditions (only active if state is Rain model)"></input>
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
                 </div>
               </form>
             </div>
              
             <div id="lidar2_div">
-              <div  style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
                 <input id="lidar2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
-              <form id="lidar2_form" name="lidar2" style="display:none"></form>
+              <form id="lidar2_form" name="lidar2" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
             </div>
             
             <div id="lidar3_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
                 <input id="lidar3_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
-              <form id="lidar3_form" name="lidar3" style="display:none"></form>
+              <form id="lidar3_form" name="lidar3" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
             </div>
             
             <div id="lidar4_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
                 <input id="lidar4_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
-              <form id="lidar4_form" name="lidar4" style="display:none"></form>
+              <form id="lidar4_form" name="lidar4" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
             </div>
             
             <!----lidar---->
 
             <!----radar---->
             <div id="radar_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
                 <input id="radar_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
               <form id="radar_form" name="radar" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content">
                 <label>State</label>
-                <select id="radar_state">
+                <select id="radar_state" title="Which disturbance model will be used: Gaussian is along the three spherical coordinates">
                   <option value="0" >Off</option>
                   <option value="1">Gaussian Noise</option>
                 </select>
                 <label>range_variance</label>
-                <input type="text" value="1"></input>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the range field (only active if state is Gaussian)"></input>
                 <label>theta_variance</label>
-                <input type="text" value="1"></input>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the polar angle (only active if state is Gaussian)"></input>
                 <label>phi_variance</label>
-                <input type="text" value="1"></input>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the azimuth angle (only active if state is Gaussian)"></input>
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+              </div>
               </form>
             </div>
             <!----radar---->
 
             <!----camera---->
             <div id="camera_1_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
                 <input id="camera1_input" class="state" type="text" value="" placeholder="State" disabled></input> 
               </div>
               <form id="camera1_form" name="camera1" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content">
                 <label>State</label>
-                <select id="camera1_state">
+                <select id="camera1_state" title="Which disturbance model will be used: Colored patch replaces all pixels in a specified rectangle by the specified color">
                   <option value="0" >Off</option>
                   <option value="1">Colored Patch</option>
                 </select>
                 <label>patch/start_x</label>
-                <input type="text" value="200"></input>
+                <input type="number" value="200" title="Start of the rectangle along x (only active if state is Colored Patch)"></input>
                 <label>path/start_y</label>
-                <input type="text" value="100"></input>
+                <input type="number" value="100" title="Start of the rectangle along y (only active if state is Colored Patch)"></input>
                 <label>patch/size_x</label>
-                <input type="text" value="100"></input>
+                <input type="number" value="100" title="Size of the rectangle along x, currently inactive (only active if state is Colored Patch)"></input>
                 <label>patch/size_y</label>
-                <input type="text" value="150"></input>
+                <input type="number" value="150" title="Size of the rectangle along y, currently inactive (only active if state is Colored Patch)"></input>
                 <label>patch/R</label>
-                <input type="text" value="0"></input>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Red channel (only active if state is Colored Patch)"></input>
                 <label>patch/G</label>
-                <input type="text" value="0"></input>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Green channel (only active if state is Colored Patch)"></input>
                 <label>patch/B</label>
-                <input type="text" value="0"></input>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Blue channel (only active if state is Colored Patch)"></input>
                 <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+              </div>
               </form>
             </div>
             
             <div id="camera_2_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
                 <input id="camera2_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
-              <form id="camera2_form" name="camera2" style="display:none"></form>
+              <form id="camera2_form" name="camera2" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content"></div>
+              </form>
             </div>
             
             <div id="tl_camera_div">
-              <div style="display:inline-flex; width: 100%;">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
                 <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
                 <input id="tl_camera_input" class="state" type="text" value="" placeholder="State" disabled></input>
               </div>
-              <form id="tl_camera_form" name="tl_camera" style="display:none"></form>
+              <form id="tl_camera_form" name="tl_camera" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content"></div>
+              </form>
             </div>
              <!----camera---->
              <label style="display: inline;">Latest values </label>
@@ -301,7 +322,7 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Image Display</h2>
              <canvas id="image_canvas" ></canvas>
-               <p>X:<span id="x-co-ordinate"></span></p>
+              <p>X:<span id="x-co-ordinate"></span></p>
               <p>Y:<span id="y-co-ordinate"></span></p>
              
  		      </div>
@@ -331,7 +352,7 @@
         </div>
         <!-- card for camera -->
 
-         <!-- card for clock -->
+         <!-- card for simulation and real time displays---------->
 
         <div class="col-md-3 col-sm-12">
           <div draggable="true" class="box">
@@ -341,7 +362,7 @@
             <p>Real Time:<span id="real_time"></span></p>
 					</div>
         </div>
-         <!-- card for clock -->
+         <!-- card for simulation and real time displays---------->
 
         
         <button id="generic_button" onclick="createGenericCard()">+</button>

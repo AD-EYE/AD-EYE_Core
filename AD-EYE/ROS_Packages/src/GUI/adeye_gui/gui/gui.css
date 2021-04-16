@@ -180,9 +180,15 @@ select
 {
   background-color: whitesmoke; 
   color:black;
-  width: 90px;
-  padding: 5px;
+  /* padding: 5px;
   border: 8px;
+  border-radius: 10px;
+  width : 30%; */
+  width: 30%;
+  padding: 5px;
+  margin: 5px;
+  border: 2px;
+  border-radius: 10px;
 }
 
 /* properties for the input box in th form for fault injection card  */
@@ -220,3 +226,4 @@ label
   border: 8px;
   border-radius: 15px;
 }
+
