@@ -23,7 +23,7 @@
     </style>
   </head>
 
-  <body onload="create_forms();clock();"> 
+  <body onload="create_forms();clock();responsive();"> 
       
     <!-- header of the page -->
     <header class="header">
@@ -37,9 +37,10 @@
       <div id="row_div" class="row">
 
         <!-- card for linear velocity -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
+            <div id="test2"></div>
             <div class="gauge_velocity">
               <div class="gauge_velocity_body">
                 <div class="gauge_velocity_fill"></div>
@@ -50,7 +51,7 @@
         </div>
 
         <!-- card for linear acceleration -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box"> 
             <h2 class="text-center">Linear Acceleration</h2>
             <div class="gauge_acceleration">

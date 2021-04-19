@@ -100,6 +100,28 @@ function checkTime(time) {
     return time;
   }
 
+  function responsive()
+  {
+
+    let col = document.getElementsByClassName("colum");
+    for (let i = 0; i < col.length; i++)
+    {
+        col[i].className = "col-md-3 col-sm-12";  
+    }
+ 
+ 
+      /* col = document.getElementById("colum");
+      if (col.classList) {
+        col.classList.add("col-md-3 col-sm-12");
+      } else {
+        name = "col-md-3 col-sm-12";
+        arr = col.className.split(" ");
+        if (arr.indexOf(name) == -1) {
+          col.className += " " + name;
+        }
+      }    */
+     }
+
 
 //-------------------linear velocity----------------
     // listen to the topic /vehicle_cmd
@@ -478,7 +500,6 @@ function checkTime(time) {
         let position = new Array();
         position = checkPosition(data_array);
         colorBox(position);
-        document.getElementById("features_array").value = time + "\n " + feature_listener.name + ": " + data_array;
 
         
 
@@ -554,6 +575,8 @@ function checkTime(time) {
             }
         }
         featureToggleOff.publish(featureOff);
+        document.getElementById("features_array").value = time + "\n " + featureToggleOff.name + ": " + featureOff.data;
+
     }  
 //-------------------- feature Change---------------
 
@@ -618,7 +641,6 @@ function checkTime(time) {
                     button.style.backgroundColor = "gray";
                     button.style.color = "white";
                     button_div[i].innerHTML = formsCollection[i].firstElementChild.innerHTML;
-
                     formsCollection[i].style.display = "none";
 /*                     button_div[i].lastElementChild.value = selected_value;
  */
@@ -641,20 +663,28 @@ function checkTime(time) {
     function form_values(form,array,state,input)
     {
         // values are collected from form and kept in an array
-        for (let i=2;i<form.length-1;i++)
+        for (let i = 2; i < form.length-1; i++)
         {
             array[i-2] = form[i].value;
         }
 
         // coverting the string array to float array as we need float data to publish
-        for (let i=0;i<array.length;i++)
+        for (let i=0; i < array.length; i++)
         {
             array[i] = parseFloat(array[i]);
         }
 
         // To display the selected value of dropdown in the textbox beside the button
-        selected_value = state.options[state.selectedIndex].text;
-        input.value = selected_value;
+        /* selected_value = state.options[state.selectedIndex].text;
+        input.value = selected_value; */
+        /* button_div = document.getElementsByClassName("button_div");
+        for (let i = 0; i < button_div.length; i++)
+        {
+            button_div[i].lastElementChild.value = selected_value;
+
+
+        } */
+
 
 
 
@@ -669,6 +699,9 @@ function checkTime(time) {
         {
             case "gnss_form":
                 form_values(gnss_form,gnss_array,gnss_state,gnss_input);
+                 // To display the selected value of dropdown in the textbox beside the button
+        selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+        gnss_input.value = selected_value;
                 // publishing the data from the form to gnss fault injection topic 
                 publish_fault_injection(0,gnss_array);
                 break;
