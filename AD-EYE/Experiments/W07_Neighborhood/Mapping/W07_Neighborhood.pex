@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="109.75" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.1.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="91B66E47DBBE29EFA6817285842DFF66F89F30AEB6A1DE1950207F3DC060FB3F" UniqueExperimentIdentifier="2838fa30-b3d8-4778-bca1-728cc156bdb0" UniqueIdCounter="9238" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="109.75" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="5806801D252D1F2AD20B2F35FE22C17B32B8D02EE445E8E6543D7A79A769C047" UniqueExperimentIdentifier="2838fa30-b3d8-4778-bca1-728cc156bdb0" UniqueIdCounter="9464" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Dutch Church." id="DutchChurch_1" UniqueId="3119" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="DutchChurch" AnimatedActor="false" CompilationSheetPicture="Church_HighPoly.png" HashCode="c456ae2c187d90a5895639c7917575ff" ModelFile="Buildings\Church\Church.osgb" GenericModelSourceFile="Buildings\Church\Church.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="26.703933715820313" Y="19.858810424804688" Z="0" />
@@ -2992,7 +2992,7 @@
       </DriverModel>
       <Physics Drag="0.360000014305115" Mass="2220" MaxAcceleration="0.300000011920929" MaxDeceleration="1" ReferenceArea="2.826251745224" RollFriction="0.00999999977648258" />
       <Sensors>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="3349" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="3349" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
@@ -3005,7 +3005,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9231" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9460" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3017,7 +3017,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="3350" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="3350" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
@@ -3030,7 +3030,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9232" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9461" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3042,7 +3042,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="3351" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="3351" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
@@ -3055,7 +3055,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9233" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9462" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3067,7 +3067,7 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="3352" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" CurrentEffect="default" NearClippingDistance="0.1" FarClippingDistance="100" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="3352" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
@@ -3080,7 +3080,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="9234" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="9463" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6153,6 +6153,10 @@
       <Longitude Degrees="0" Minutes="0" Seconds="0" Heading="E" />
       <Latitude Degrees="0" Minutes="0" Seconds="0" Heading="N" />
     </GpsLocation>
+    <UseProjStringCRS>false</UseProjStringCRS>
+    <ProjString />
+    <ProjXOffset>0</ProjXOffset>
+    <ProjYOffset>0</ProjYOffset>
   </GlobalPlacement>
   <InfraStructure Description="" id="Infrastructure" UniqueId="4">
     <RoadSegments>
@@ -9872,11 +9876,11 @@
         <Spline StartPointX="5.991405682215289" StartPointY="73.535982048316328" StartPointZ="0" StartControlPointX="5.8308560676957546" StartControlPointY="80.927429308035471" StartControlPointZ="0" EndControlPointX="4.72517174950924" EndControlPointY="89.639263602701121" EndControlPointZ="0" EndPointX="-1.809018732919454" EndPointY="94.243036527908785" EndPointZ="0" />
         <Spline StartPointX="-1.809018732919454" StartPointY="94.243036527908785" StartPointZ="0" StartControlPointX="-7.1653702775435724" StartControlPointY="98.016943377632131" StartControlPointZ="0" EndControlPointX="-14.202802365505432" EndControlPointY="98.364788769450328" EndControlPointZ="0" EndPointX="-20.527948122710718" EndPointY="98.55310627166611" EndPointZ="0" />
         <Spline StartPointX="-20.527948122710718" StartPointY="98.55310627166611" StartPointZ="0" StartControlPointX="-21.757732144338615" StartControlPointY="98.589720424779344" StartControlPointZ="0" EndControlPointX="-22.995114937038668" EndControlPointY="98.588693080090323" EndControlPointZ="0" EndPointX="-24.225455908814283" EndPointY="98.5834465164773" EndPointZ="0" />
-        <Spline StartPointX="-24.225467759197976" StartPointY="98.583452794092508" StartPointZ="0" StartControlPointX="-37.89201016751106" StartControlPointY="98.525174328398734" StartControlPointZ="0" EndControlPointX="-51.55855257582337" EndControlPointY="98.466895862704959" EndControlPointZ="0" EndPointX="-65.225094984136589" EndPointY="98.408617397011184" EndPointZ="0" />
+        <Spline StartPointX="-24.225467759197976" StartPointY="98.583452794092508" StartPointZ="0" StartControlPointX="-37.892006834207734" StartControlPointY="98.525174342613" StartControlPointZ="0" EndControlPointX="-51.558545909217713" EndControlPointY="98.466895891133476" EndControlPointZ="0" EndPointX="-65.2250849842275" EndPointY="98.408617439653966" EndPointZ="0" />
         <Spline StartPointX="-65.2250849842275" StartPointY="98.408617439653966" StartPointZ="0" StartControlPointX="-70.414386198021475" StartControlPointY="98.386488615571963" StartControlPointZ="0" EndControlPointX="-74.776491149992509" EndControlPointY="102.71154874398866" EndControlPointZ="0" EndPointX="-74.798619974074512" EndPointY="107.90084995778267" EndPointZ="0" />
         <Spline StartPointX="-74.79861962907006" StartPointY="107.90086953096502" StartPointZ="0" StartControlPointX="-74.856179507391857" StartControlPointY="121.39890021412488" StartControlPointZ="0" EndControlPointX="-74.619058983409332" EndControlPointY="134.89828512755713" EndControlPointZ="0" EndPointX="-74.683462733038468" EndPointY="148.39633604703874" EndPointZ="0" />
         <Spline StartPointX="-74.683462519767076" StartPointY="148.39633878072033" StartPointZ="0" StartControlPointX="-74.704890102457426" StartControlPointY="152.88723572230103" StartControlPointZ="0" EndControlPointX="-70.9638164501752" EndControlPointY="156.66418037339676" EndControlPointZ="0" EndPointX="-66.472919508594543" EndPointY="156.6856079560871" EndPointZ="0" />
-        <Spline StartPointX="-66.472909460995552" StartPointY="156.68559800391375" StartPointZ="0" StartControlPointX="-39.806546331234571" StartControlPointY="156.81283220867218" StartControlPointZ="0" EndControlPointX="-13.140183201474088" EndControlPointY="156.94006641343054" EndControlPointZ="0" EndPointX="13.52617992828597" EndPointY="157.06730061818897" EndPointZ="0" />
+        <Spline StartPointX="-66.472909460995552" StartPointY="156.68559800391375" StartPointZ="0" StartControlPointX="-39.806542997940511" StartControlPointY="156.81283222457645" StartControlPointZ="0" EndControlPointX="-13.140176534883924" EndControlPointY="156.9400664452391" EndControlPointZ="0" EndPointX="13.526189928172144" EndPointY="157.0673006659018" EndPointZ="0" />
         <Spline StartPointX="13.526189928172144" StartPointY="157.06730066590177" StartPointZ="0" StartControlPointX="28.894431512548397" StartControlPointY="157.14062772542647" StartControlPointZ="0" EndControlPointX="44.263336038116215" EndControlPointY="156.76215925763549" EndControlPointZ="0" EndPointX="59.631139807618041" EndPointY="156.75714018258793" EndPointZ="0" />
         <Spline StartPointX="59.631134650792646" StartPointY="156.75712685945234" StartPointZ="0" StartControlPointX="63.715095074354707" StartControlPointY="156.75579305117597" StartControlPointZ="0" EndControlPointX="67.7990554979168" EndControlPointY="156.75445924289963" EndControlPointZ="0" EndPointX="71.883015921478858" EndPointY="156.75312543462326" EndPointZ="0" />
         <Spline StartPointX="71.883015921478858" StartPointY="156.75312543462326" StartPointZ="0" StartControlPointX="73.482893828268" StartControlPointY="156.75246318909021" StartControlPointZ="0" EndControlPointX="75.103408194052051" EndControlPointY="156.30094755177038" EndControlPointZ="0" EndPointX="75.638221090195316" EndPointY="154.62126269907463" EndPointZ="0" />
@@ -9901,7 +9905,7 @@
         <Spline StartPointX="193.40637520483261" StartPointY="-73.769987953773068" StartPointZ="0" StartControlPointX="197.16151731945405" StartControlPointY="-69.3151194743884" StartControlPointZ="0" EndControlPointX="198.80255008635567" EndControlPointY="-63.323075429516678" EndControlPointZ="0" EndPointX="199.79804483898073" EndPointY="-57.695151254621436" EndPointZ="0" />
         <Spline StartPointX="199.79804483898073" StartPointY="-57.695151254621436" StartPointZ="0" StartControlPointX="201.71951728458961" StartControlPointY="-46.832310240621368" StartControlPointZ="0" EndControlPointX="201.38420836412482" EndControlPointY="-35.675638228044484" EndControlPointZ="0" EndPointX="201.33487602783759" EndPointY="-24.691674619946824" EndPointZ="0" />
         <Spline StartPointX="201.33487602783759" StartPointY="-24.691674619946824" StartPointZ="0" StartControlPointX="201.3312847973182" StartControlPointY="-23.89207848682512" StartControlPointZ="0" EndControlPointX="201.32410155061271" EndControlPointY="-23.092406291910905" EndControlPointZ="0" EndPointX="201.32410196361738" EndPointY="-22.292803246501762" EndPointZ="0" />
-        <Spline StartPointX="201.32403196360707" StartPointY="-22.292823246465602" StartPointZ="0" StartControlPointX="201.32403712872826" StartControlPointY="-12.292823246466865" StartControlPointZ="0" EndControlPointX="201.3240422938494" EndControlPointY="-2.2928232464682381" EndControlPointZ="0" EndPointX="201.3240474589706" EndPointY="7.7071767535303941" EndPointZ="0" />
+        <Spline StartPointX="201.32403196360707" StartPointY="-22.292823246465602" StartPointZ="0" StartControlPointX="201.32403712872653" StartControlPointY="-12.292826579800206" StartControlPointZ="0" EndControlPointX="201.32404229384596" EndControlPointY="-2.2928299131349039" EndControlPointZ="0" EndPointX="201.32404745896542" EndPointY="7.7071667535303945" EndPointZ="0" />
         <Spline StartPointX="201.32404745896542" StartPointY="7.7071667535303945" StartPointZ="0" StartControlPointX="201.32405262686166" StartControlPointY="17.712539421046813" StartControlPointZ="0" EndControlPointX="201.61328034374051" EndControlPointY="27.717147008325924" EndControlPointZ="0" EndPointX="201.50991128294928" EndPointY="37.723645880925631" EndPointZ="0" />
         <Spline StartPointX="201.50989296283589" StartPointY="37.723636657542947" StartPointZ="0" StartControlPointX="201.46749661506058" StartControlPointY="41.827756429632913" StartControlPointZ="0" EndControlPointX="201.4251002672853" EndControlPointY="45.931876201722943" EndControlPointZ="0" EndPointX="201.38270391951" EndPointY="50.035995973812874" EndPointZ="0" />
         <Spline StartPointX="201.38270391951" StartPointY="50.035995973812874" StartPointZ="0" StartControlPointX="201.34335391237477" StartControlPointY="53.845218956215632" StartControlPointZ="0" EndControlPointX="201.32056411485894" EndControlPointY="57.653982887943613" EndControlPointZ="0" EndPointX="201.32032938810161" EndPointY="61.463421061986288" EndPointZ="0" />
@@ -10094,7 +10098,8 @@
   <ArticulatedActors />
   <PhysicsEnvironment AirDensity="1.28" Gravitation="9.81" AirTemperature="293.15" AtmPressure="101.325" AirHumidityPercentage="10" />
   <UsedPreScanBuilds>
-    <Build Version="2020.1.0 " BuildNumber="17352" BuildId="4cea107b6332" Architecture="64" BuildNumberCore="19171" BuildIdCore="3eeb40689c88" BuildNumberData="3412" BuildIdData="3eeb40689c88" BuildNumberExt="456" BuildIdExt="3eeb40689c88" />
+    <Build Version="2020.1.0 " BuildNumber="17352" BuildId="4cea107b6332" Architecture="64" BuildNumberData="3412" BuildIdData="3eeb40689c88" BuildNumberExt="456" BuildIdExt="3eeb40689c88" />
+    <Build Version="2020.4.0 " BuildNumber="40697" BuildId="b1da90a39168" Architecture="64" BuildNumberData="" BuildIdData="" BuildNumberExt="" BuildIdExt="" />
   </UsedPreScanBuilds>
   <Resources>
     <ExperimentResource Description="GeneralLight" FileName="LightMap\GeneralLight.png" ID="1" ResourceType="LightMap" />
@@ -11727,7 +11732,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot2164" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="45">
           <StartState Distance="0" Situation="Reached" Speed="8.00" Time="0" />
-          <EndState Distance="1074.536472276046022" Situation="Reached" Speed="15" Time="93.43795411096052365217391304" />
+          <EndState Distance="0" Situation="Reached" Speed="0" Time="0" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="8.00" Time="0" />
@@ -11738,7 +11743,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot2393" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="49">
           <StartState Distance="0" Situation="Reached" Speed="8.00" Time="0" />
-          <EndState Distance="1262.597893131150509" Situation="Reached" Speed="15" Time="109.79112114183917469565217391" />
+          <EndState Distance="1262.597883131150509" Situation="Reached" Speed="15" Time="109.79112027227395730434782609" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="8.00" Time="0" />
