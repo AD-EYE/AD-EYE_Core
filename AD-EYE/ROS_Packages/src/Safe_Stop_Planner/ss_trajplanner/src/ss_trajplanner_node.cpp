@@ -51,6 +51,7 @@ public:
 
   // callback which control what the safety planner needs to be doing
   void SSMP_control_callback(rcv_common_msgs::SSMP_control::ConstPtr const & msg ){
+      ROS_WARN("Received SSMP control msg");
     SSMP_control = msg->SSMP_control;
   }
 
@@ -78,14 +79,8 @@ public:
     SSMP_control_sub_  = nh.subscribe<rcv_common_msgs::SSMP_control>("/SSMP_control",1,&SafeStopTrajectoryPlanner::SSMP_control_callback,this);
 
     // basically puts the safety planner on hold until both prescan as well as the gridmap are completely loaded, without this, problems will arise
-    while(ros::ok() && counter < 20){
-      ros::spinOnce();
-      if(SSMP_control == 1){
-        counter++;
-      }
-      loop_rate.sleep();
-    }
-    counter = 1;
+     ros::Duration(2).sleep();
+
 
     // loads in the occupancy map
     col_checker = planner_utils::get_collision_checker_from_topic("SSMP_base_link", cm_base, 5, "raw_data");
@@ -127,6 +122,7 @@ public:
 
         // the set of trajectories only needs to be checked as long as the safety planner is not activated
         if(SSMP_control == 1){
+          counter = 1;
           for(size_t i=0; i<trajSubSet.size(); i++){
             traj = trajSubSet.at(i);
 
@@ -207,7 +203,7 @@ public:
             }
           }
 
-          // to clear old markers we will publish ivisible markers with same id
+          // to clear old markers we will publish invisible markers with same id
           for(size_t i=endposes_vis_msg.markers.size(); i<=traj_set_handler.get_max_trajsubset_size(); i++){
               visualization_msgs::Marker marker;
               marker.header.frame_id = "SSMP_base_link";
@@ -248,9 +244,11 @@ public:
           cpp_utils::add_scalar_to_vector(traj_out.t,-dt);
           counter++;
           // if counter over traj size, traj is done, goto finish leads to somewhere outside this loop, effectively killing this node
-          if(counter >= traj_out.t.size()){
+          if(counter >= traj_out.t.size()-1){
             ROS_INFO("Real endposition: (%f, %f)", x_ego, y_ego);
-            goto finish;
+//            goto finish;
+            ROS_WARN("Resetting SSMP");
+            SSMP_control = 1;
           }
         }
         traj_out_last = traj_out;
@@ -333,6 +331,10 @@ public:
     } catch (const std::out_of_range& oor) {
       std::cerr << "Out of Range error: " << oor.what() << '\n';
     }
+    catch (const std::exception& e) { // reference to the base of a polymorphic object
+        std::cout << e.what(); // information from length_error printed
+    }
+    ros::Duration(5).sleep(); // to have time to read the exception message
   }
 
 private:
