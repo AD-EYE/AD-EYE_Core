@@ -51,8 +51,13 @@ public:
 
   // callback which control what the safety planner needs to be doing
   void SSMP_control_callback(rcv_common_msgs::SSMP_control::ConstPtr const & msg ){
-      ROS_WARN("Received SSMP control msg");
-    SSMP_control = msg->SSMP_control;
+      if(msg->SSMP_control == 2 && traj_out.t.size() == 0) {
+          ROS_WARN("SSMP Trajectory is empty so the SSMP control message will be ignored");
+      }
+      else {
+          ROS_WARN("Received SSMP control msg");
+          SSMP_control = msg->SSMP_control;
+      }
   }
 
   // constructor
@@ -122,7 +127,7 @@ public:
 
         // the set of trajectories only needs to be checked as long as the safety planner is not activated
         if(SSMP_control == 1){
-          counter = 1;
+          counter = 0; //To reset the waypoint index after switch back to Nominal Channel
           for(size_t i=0; i<trajSubSet.size(); i++){
             traj = trajSubSet.at(i);
 
@@ -331,8 +336,8 @@ public:
     } catch (const std::out_of_range& oor) {
       std::cerr << "Out of Range error: " << oor.what() << '\n';
     }
-    catch (const std::exception& e) { // reference to the base of a polymorphic object
-        std::cout << e.what(); // information from length_error printed
+    catch (const std::exception& e) {
+        std::cout << e.what();
     }
     ros::Duration(5).sleep(); // to have time to read the exception message
   }
@@ -366,7 +371,7 @@ private:
   float x_ego;
   float y_ego;
   float yaw_ego;
-  int SSMP_control = 0;
+  int SSMP_control = 1;
 };
 
 
