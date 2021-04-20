@@ -614,6 +614,17 @@ function checkTime(time) {
         tl_camera_form.innerHTML = camera1_form.innerHTML;
         tl_camera_form[0].id = "tl_camera_state";
     }
+
+    let gnss_array = new Array();
+    let lidar1_array = new Array();
+    let lidar2_array = new Array(); 
+    let lidar3_array = new Array(); 
+    let lidar4_array = new Array(); 
+    let radar_array = new Array();
+    let camera1_array = new Array();
+    let camera2_array = new Array();
+    let tl_camera_array = new Array();
+
         
     function faultInjection_OnClick(button)
     {
@@ -630,8 +641,8 @@ function checkTime(time) {
                     button.style.backgroundColor = "white";
                     button.style.color = "black";
                     formsCollection[i].firstElementChild.innerHTML = button_div[i].innerHTML;
-/*                     document.getElementById("include_button_div").innerHTML = document.getElementById("button_div").innerHTML;
- */                 button_div[i].innerHTML = " ";
+/*                    document.getElementById("form_display").innerHTML = formsCollection[i].firstElementChild.className ;
+ */                    button_div[i].innerHTML = " ";
 /*                     formsCollection[i].append(parent_div);*/                 
                     formsCollection[i].style.display = "block";
                 }
@@ -641,23 +652,20 @@ function checkTime(time) {
                     button.style.backgroundColor = "gray";
                     button.style.color = "white";
                     button_div[i].innerHTML = formsCollection[i].firstElementChild.innerHTML;
+                    //document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
+
                     formsCollection[i].style.display = "none";
-/*                     button_div[i].lastElementChild.value = selected_value;
- */
-                }              
+                    button.nextElementSibling.value = selected_value;
+                    //document.getElementById("form_display").innerHTML = button.parentNode.parentNode.id;
+                    button_div.lastElementChild.value = button.nextElementSibling.value;
+ 
+                }   
+                
+        
             }
         }      
     }
 
-    let gnss_array = new Array();
-    let lidar1_array = new Array();
-    let lidar2_array = new Array(); 
-    let lidar3_array = new Array(); 
-    let lidar4_array = new Array(); 
-    let radar_array = new Array();
-    let camera1_array = new Array();
-    let camera2_array = new Array();
-    let tl_camera_array = new Array();
     
     // function to collect the parameter values from the form and put them in an array
     function form_values(form,array,state,input)
@@ -675,18 +683,18 @@ function checkTime(time) {
         }
 
         // To display the selected value of dropdown in the textbox beside the button
-        /* selected_value = state.options[state.selectedIndex].text;
-        input.value = selected_value; */
+        selected_value = state.options[state.selectedIndex].text;
+        input.value = selected_value; 
+
+        //return selected_value;
+
         /* button_div = document.getElementsByClassName("button_div");
         for (let i = 0; i < button_div.length; i++)
         {
             button_div[i].lastElementChild.value = selected_value;
 
 
-        } */
-
-
-
+        }  */
 
     }
 
@@ -694,20 +702,21 @@ function checkTime(time) {
     function fault_injection_parameter_values(button)
     {
         var form = button.parentNode.parentNode.id;
-
         switch(form)
         {
             case "gnss_form":
                 form_values(gnss_form,gnss_array,gnss_state,gnss_input);
-                 // To display the selected value of dropdown in the textbox beside the button
-        selected_value = gnss_state.options[gnss_state.selectedIndex].text;
-        gnss_input.value = selected_value;
+                /* text_value = gnss_form[1].value;
+
+                publish_to_textbox(0,gnss_state,gnss_input,text_value); */
                 // publishing the data from the form to gnss fault injection topic 
                 publish_fault_injection(0,gnss_array);
                 break;
 
             case "lidar1_form":
                 form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
+                /* publish_to_textbox(1,lidar1_state,lidar1_input); */
+
                 // publishing the data from the form to gnss fault injection topic 
                 publish_fault_injection(1,lidar1_array);
                 break;
@@ -753,8 +762,16 @@ function checkTime(time) {
                 // publishing the data from the form to gnss fault injection topic 
                 publish_fault_injection(8,tl_camera_array);
                 break;
-        }  
+        } 
 
+    }
+
+    function publish_to_textbox(i,state,input,value)
+    {
+        selected_value = state.options[state.selectedIndex].text;
+        input.value = selected_value;
+        /* button_div = document.getElementsByClassName("button_div");
+        button_div[i].lastElementChild.value = value; */
     }
      
     // Function to publish the fault injection parameter values specified by the user to corresponding rostopic
@@ -937,8 +954,8 @@ function checkTime(time) {
         }
         posX = posX - imgPos[0];
         posY = posY - imgPos[1];
-        document.getElementById("y-co-ordinate").innerHTML = posY;
         document.getElementById("x-co-ordinate").innerHTML = posX;
+        document.getElementById("y-co-ordinate").innerHTML = posY;
 
     
         let canvas = document.getElementById("image_canvas");
@@ -954,6 +971,27 @@ function checkTime(time) {
         // finding the pixels coordinates that correspond to original image 
         posX = scale_factor * posX;
         posY = scale_factor * posY; 
+
+        // Fixing out of bounds pixel coordinates.
+        if(posX < 0)
+        {
+            posX = 0;
+        }
+
+        if(posY < 0)
+        {
+            posY = 0;
+        }
+
+        if(posX > original_width) 
+        {
+            posX = original_width;
+        }
+        
+        if(posY > original_height)
+        {
+            posY = original_height;
+        }
  
         let coordinate_array = new Array();
         coordinate_array[0] = parseInt(posX) ;
