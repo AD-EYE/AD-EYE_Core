@@ -119,7 +119,13 @@ class controlSwitch
         }
 
 
-        /*!
+    void autowareLocalReplan() const {
+        std_msgs::Bool bool_msg;
+        bool_msg.data = true;
+        sub_adeye_local_planner_replan_.publish(bool_msg);
+    }
+
+/*!
         * \brief The main function of the Node. Contains the main loop
         * \details First checks if the switch is for Autoware or SSMP control,
         * then publishes the right controls command.
@@ -133,15 +139,12 @@ class controlSwitch
                 switch (switch_command_) {
                     case AUTOWARE:
                         unlockSSMP();
+                        if(ssmp_trajectory_locked) {
+                            ROS_INFO("Switched back to the nominal channel");
+                            autowareLocalReplan();
+                        }
+                        ssmp_trajectory_locked = false;
                         if(new_command_message_){
-                            if(ssmp_trajectory_locked) {
-                                ROS_INFO("Switched back to the nominal channel");
-                                ssmp_trajectory_locked = false;
-                                std_msgs::Bool bool_msg;
-                                bool_msg.data = true;
-                                sub_adeye_local_planner_replan_.publish(bool_msg);
-
-                            }
                             out_twist_command_.header.stamp = ros::Time::now();
                             out_twist_command_.twist.linear.x = autoware_twist_lin_x_;
                             out_twist_command_.twist.angular.z = autoware_twist_ang_z_;
@@ -149,18 +152,17 @@ class controlSwitch
                         break;
 
                     case SSMP:
-                        // when switched, first a signal needs to be send to the safety planner that its current trajectory will be activated
                         if(!ssmp_trajectory_locked){
                             ROS_INFO("Switched to safety channel!");
-                            out_twist_command_.header.stamp = ros::Time::now();
-                            lockSSMP();
-                            ssmp_trajectory_locked = true;
                         }
+                        lockSSMP();
+                        ssmp_trajectory_locked = true;
                         if(new_command_message_){
                             out_twist_command_.header.stamp = ros::Time::now();
                             out_twist_command_.twist.linear.x = SSMP_twist_lin_x_;
                             out_twist_command_.twist.angular.z = SSMP_twist_ang_z_;
                         }
+                        break;
                 }
 
                 new_command_message_ = false;
