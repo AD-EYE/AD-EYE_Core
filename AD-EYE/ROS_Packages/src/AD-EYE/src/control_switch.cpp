@@ -5,6 +5,7 @@
 #include <rcv_common_msgs/SSMP_control.h>
 #include <cpp_utils/pose_datatypes.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Bool.h>
 
 #define AUTOWARE 0
 #define SSMP 1
@@ -22,6 +23,7 @@ class controlSwitch
         ros::NodeHandle &nh_;
         ros::Publisher pub_SSMP_control_;
         ros::Publisher pub_out_command_;
+        ros::Publisher sub_adeye_local_planner_replan_;
         ros::Subscriber sub_safe_stop_trajectory_;
         ros::Subscriber sub_autoware_command_;
         ros::Subscriber sub_switch_control_;
@@ -107,6 +109,7 @@ class controlSwitch
             // Initialize node and publishers
             pub_SSMP_control_ = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
             pub_out_command_ = nh_.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
+            sub_adeye_local_planner_replan_ = nh_.advertise<std_msgs::Bool>("/adeye/local_planner_replan", 1, true);
             sub_safe_stop_trajectory_ = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::safeStopTrajectoryCallback, this);
             sub_autoware_command_ = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autowareCommandCallback, this);
             sub_switch_control_ = nh_.subscribe<std_msgs::Int32>("/switch_command", 1, &controlSwitch::switchCommandCallback, this);
@@ -134,6 +137,10 @@ class controlSwitch
                             if(ssmp_trajectory_locked) {
                                 ROS_INFO("Switched back to the nominal channel");
                                 ssmp_trajectory_locked = false;
+                                std_msgs::Bool bool_msg;
+                                bool_msg.data = true;
+                                sub_adeye_local_planner_replan_.publish(bool_msg);
+
                             }
                             out_twist_command_.header.stamp = ros::Time::now();
                             out_twist_command_.twist.linear.x = autoware_twist_lin_x_;
