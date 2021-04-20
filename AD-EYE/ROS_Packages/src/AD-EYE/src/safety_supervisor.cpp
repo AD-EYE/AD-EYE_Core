@@ -45,7 +45,7 @@ private:
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
-    const int FREE_AUTOWARE = 0;
+    const int NO_BEHAVIOR_OVERWRITE = -1;
     enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
     const float pi = 3.141592654;
@@ -79,11 +79,8 @@ private:
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
-    bool are_critical_nodes_alive_;
-    bool is_object_in_critical_area_;
-    bool car_off_road_;
 
-    struct Curvature {
+    struct CurvatureExtremum {
         double max;
         double min;
     };
@@ -93,7 +90,7 @@ private:
      * \brief currentVelocity Callback : Updates the knowledge about the car speed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void currentVelocity_callback(const geometry_msgs::TwistStamped::ConstPtr& msg)
+    void currentVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)
     {
         current_velocity_ = msg->twist.linear.x;
     }
@@ -103,7 +100,7 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Updates gnss information of the vehicle position.
      */
-    void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+    void gnssCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     {
         geometry_msgs::PoseStamped gnss = *msg;
         pose_ = gnss.pose;
@@ -115,7 +112,7 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Updates the gridmap information.
      */
-    void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
+    void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
         gridmap_flag_ = true;
@@ -126,7 +123,7 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Updates the autoware trajectory information.
      */
-    void autowareTrajectory_callback(const autoware_msgs::Lane::ConstPtr& msg)
+    void autowareTrajectoryCallback(const autoware_msgs::Lane::ConstPtr& msg)
     {
         autowareTrajectory_ = *msg;
         autoware_trajectory_flag_ = false;
@@ -136,7 +133,7 @@ private:
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void autowareGlobalPlan_callback(const autoware_msgs::LaneArrayConstPtr& msg)
+    void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
       if(msg->lanes.size() > 0)
       {
@@ -156,7 +153,7 @@ private:
      * \brief Switch request Callback : Called when the manager makes a request to change control channel.
      * \param msg A smart pointer to the message from the topic.
      */
-    void switchRequest_callback(const std_msgs::Int32& msg)
+    void switchRequestCallback(const std_msgs::Int32& msg)
     {
         was_switch_requested_ = true;
         switch_request_value_ = msg;
@@ -257,9 +254,9 @@ private:
      * \brief Get curvature : Called at every iteration of the main loop
      * \return The minimum and maximum curvature of the global plan
      */
-    Curvature getCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    CurvatureExtremum getCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        Curvature curvature;
+        CurvatureExtremum curvature;
         curvature.max = 0;
         curvature.min = 0;
         if(trajectory.size()>2){
@@ -310,7 +307,7 @@ private:
      * \Checks if there is a dynamic object in the critical area
      * \return Boolean indicating the presence of an obstacle in the critical area
      */
-    bool checkDynamicObjects()
+    bool isObjectInCriticalArea()
     {
         const float x = pose_.position.x;    //Center is currently in the front of the car
         const float y = pose_.position.y;
@@ -356,7 +353,7 @@ private:
      * \brief Check active nodes : Called at every iteration of the main loop
      * \Checks if all the necessary nodes are alive
      */
-    bool checkActiveNodes()
+    bool areCriticalNodesAlive()
     {
         ros::V_string nodes_alive;
         ros::master::getNodes(nodes_alive);
@@ -373,7 +370,7 @@ private:
      * \brief Check car off road : Called at every interation of the main loop
      * \return Boolean indicating if the center of the car is off the road
      */
-    bool checkCarOffRoad()
+    bool isCarOffRoad()
     {
       float current_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(pose_.position.x, pose_.position.y));
       //ROS_INFO("Lane ID : %f", current_lane_id);
@@ -453,7 +450,7 @@ private:
      */
     void performChecks()
     {
-        varoverwrite_behavior_ = FREE_AUTOWARE;
+        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE;
 
         // Check the distance to the center line of the lane
         distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
@@ -462,25 +459,22 @@ private:
         distance_to_road_edge_ = getDistanceToRoadEdge();
 
         // Check the curvature of the global plan
-        Curvature curvature = getCurvature(autoware_global_path_.at(0));
+        CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
          // Check that all the necessary nodes are active
-         are_critical_nodes_alive_ = checkActiveNodes();
-         if (!are_critical_nodes_alive_ ){
+         if (!areCriticalNodesAlive() ){
              var_switch_ = UNSAFE;
              return;
          }
 
          // Check that the center of the car on the road
-         car_off_road_ = checkCarOffRoad();
-         if (car_off_road_){
+         if (isCarOffRoad()){
              var_switch_ = UNSAFE;
              return;
          }
 
          //Is there a dynamic object in the critical area
-        is_object_in_critical_area_ = checkDynamicObjects();
-         if (is_object_in_critical_area_){
+         if (isObjectInCriticalArea()){
              var_switch_ = UNSAFE;
              return;
          }
@@ -496,20 +490,20 @@ public:
     SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
     {
         // Initialize the node, publishers and subscribers
-        pub_switch_ = nh_.advertise<std_msgs::Int32>("/switchCommand", 1, true);
-        pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwriteBehavior", 1, true);
-        pub_limit_max_speed_ = nh_.advertise<std_msgs::Float32>("/adeye/limitMaxSpeed", 1, true);
-        pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwriteTrajectoryEval", 1, true);
+        pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
+        pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwrite_behavior", 1, true);
+        pub_limit_max_speed_ = nh_.advertise<std_msgs::Float32>("/adeye/limit_max_speed", 1, true);
+        pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
-        pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/updateGlobalPlanner", 1, true);
+        pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
 
-        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnss_callback, this);
-        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &SafetySupervisor::gridmap_callback, this);
-        sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectory_callback, this);
-        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 	1,		&SafetySupervisor::autowareGlobalPlan_callback, 	this);
-        sub_current_velocity_ = nh.subscribe("/current_velocity_", 	1,		&SafetySupervisor::currentVelocity_callback, 	this);
-        sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequest_callback, this);
+        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnssCallback, this);
+        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
+        sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
+        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
+        sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
+        sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
 
 
         // Initialize the list of nodes to check

@@ -277,7 +277,7 @@ class Manager:
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
         self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
-        rospy.Subscriber("/switchCommand", Int32, self.switchCallback)  # to check if safety channel is still alive
+        rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
 

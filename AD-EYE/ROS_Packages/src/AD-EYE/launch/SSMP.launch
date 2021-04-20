@@ -42,8 +42,7 @@
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
         <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
-        <param name="filePex"
-               value="$(arg Pex_Folder)$(arg world_name).pex"/>
+        <param name="filePex" value="$(arg Pex_Folder)$(arg world_name).pex"/>
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"
@@ -61,7 +60,8 @@
           type="ss_trajplanner_node"
           name="ss_trajplanner_node"
           output="screen"
-          launch-prefix="xterm -e">
+          launch-prefix="xterm -e"
+          >
         <param name="trajectory_set_filename"
                value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
         <param name="costmap_base_topic" value="/costmap_base"/>
