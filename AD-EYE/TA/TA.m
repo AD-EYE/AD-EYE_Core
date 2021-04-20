@@ -1,12 +1,16 @@
 function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
 
+
+    ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
+    cleanup = onCleanup(@()(delete(ta_progress_bar)));
+    
     switch nargin
       case 1 % Only the TAOrder was passed, run all the experiments.
           firstcolumn = 1;
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = width(TAOrder);
           clear_files = 0;
-      case 2 % the TAorder and one index were passed, rin only this one.
+      case 2 % the TAorder and one index were passed, run only this one.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = firstcolumn;
           clear_files = 0;
@@ -49,7 +53,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
         runs(c).EgoName = TAOrder{'EgoName',c}{1};
         runs(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
         runs(c).SimulinkConfig = [ta_path,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
-    %     Run(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
+  %     runs(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
         runs(c).TagsConfig = TAOrder{'TagsConfig',c}{1}; %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
     end
 
@@ -63,6 +67,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
     failed_experiments = [];
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
+        waitbar((run_index-firstcolumn+1) / (length(runs)-firstcolumn+1), ta_progress_bar,['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
         [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
