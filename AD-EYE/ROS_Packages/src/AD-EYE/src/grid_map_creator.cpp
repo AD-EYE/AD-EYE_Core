@@ -79,12 +79,11 @@ private:
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
     //Map
-    GridMap map;
+    GridMap map_;
     float map_resolution_;
-    const float occmap_width;
-    const float occmap_height;
-    const float car_offset;
-    const float submap_dimensions;
+    const float occmap_width_;
+    const float occmap_height_;
+    const float submap_dimensions_;
     //Ros utils
     ros::Rate rate_;
     float frequency_;
@@ -117,29 +116,29 @@ private:
             }
         }
         //Add some margins for when the car drives close to the boundaries
-        lowest_x -= submap_dimensions * 1.5;
-        lowest_y -= submap_dimensions * 1.5;
-        highest_x += submap_dimensions * 1.5;
-        highest_y += submap_dimensions * 1.5;
+        lowest_x -= submap_dimensions_ * 1.5;
+        lowest_y -= submap_dimensions_ * 1.5;
+        highest_x += submap_dimensions_ * 1.5;
+        highest_y += submap_dimensions_ * 1.5;
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
-        map = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
-        map.setFrameId("SSMP_map");
+        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
+        map_.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
-        map.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
-        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map.getLength().x(), map.getLength().y(), map.getSize()(0), map.getSize()(1));
+        map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
+        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(), map_.getSize()(0), map_.getSize()(1));
 
 
         // All cells in all layers must first be initialized to 0
-        for (GridMapIterator it(map); !it.isPastEnd(); ++it) {
-            map.at("DrivableAreas", *it) = 0;
-            map.at("StaticObjects", *it) = 0;
-            map.at("DynamicObjects", *it) = 0;
-            map.at("Lanes", *it) = 0;
-            map.at("SafeAreas", *it) = 0;
-            map.at("EgoVehicle", *it) = 0;
+        for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+            map_.at("DrivableAreas", *it) = 0;
+            map_.at("StaticObjects", *it) = 0;
+            map_.at("DynamicObjects", *it) = 0;
+            map_.at("Lanes", *it) = 0;
+            map_.at("SafeAreas", *it) = 0;
+            map_.at("EgoVehicle", *it) = 0;
         }
     }
     /*!
@@ -170,8 +169,8 @@ private:
         // building objects are always considered to be rectangles, and as such, a rectangle is created and the PolygonIterator is used. The number 0.01745 is a conversion from degrees to radians
         for(int i = 0; i < (int)pexObjects.buildingObjects.size(); i++){
             grid_map::Polygon polygon = rectangle_creator(pexObjects.buildingObjects.at(i).posX, pexObjects.buildingObjects.at(i).posY, pexObjects.buildingObjects.at(i).sizeX, pexObjects.buildingObjects.at(i).sizeY, 0.01745*pexObjects.buildingObjects.at(i).yaw);
-            for (grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator) {
-                map.at("StaticObjects", *iterator) = pexObjects.buildingObjects.at(i).sizeZ;
+            for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator) {
+                map_.at("StaticObjects", *iterator) = pexObjects.buildingObjects.at(i).sizeZ;
             }
         }
 
@@ -179,8 +178,8 @@ private:
         for(int i = 0; i < (int)pexObjects.trafficlightObjects.size(); i++){
             Position center(pexObjects.trafficlightObjects.at(i).posX, pexObjects.trafficlightObjects.at(i).posY);
             float radius = map_resolution_;
-            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                map.at("StaticObjects", *iterator) = pexObjects.trafficlightObjects.at(i).sizeZ;
+            for (grid_map::CircleIterator iterator(map_, center, radius); !iterator.isPastEnd(); ++iterator) {
+                map_.at("StaticObjects", *iterator) = pexObjects.trafficlightObjects.at(i).sizeZ;
             }
         }
 
@@ -194,24 +193,24 @@ private:
             else{
                 radius = 0.5*pexObjects.natureObjects.at(i).sizeY;
             }
-            for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
-                map.at("StaticObjects", *iterator) = pexObjects.natureObjects.at(i).sizeZ;
+            for (grid_map::CircleIterator iterator(map_, center, radius); !iterator.isPastEnd(); ++iterator) {
+                map_.at("StaticObjects", *iterator) = pexObjects.natureObjects.at(i).sizeZ;
             }
         }
 
         // Safe Area objects are always considered to be rectangles
         for(int i = 0; i < (int)pexObjects.safeAreaObjects.size(); i++){
             grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
-            for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
-                map.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
+            for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
+                map_.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
             }
         }
 
         // Static Car objects are always considered to be rectangles
 		for(int i = 0; i < (int)pexObjects.staticCarsObjects.size(); i++){
             grid_map::Polygon polygon = rectangle_creator(pexObjects.staticCarsObjects.at(i).posX, pexObjects.staticCarsObjects.at(i).posY, pexObjects.staticCarsObjects.at(i).sizeX, pexObjects.staticCarsObjects.at(i).sizeY, 0.01745*pexObjects.staticCarsObjects.at(i).yaw);
-            for(grid_map::PolygonIterator it(map, polygon) ; !it.isPastEnd() ; ++it) {
-                map.at("StaticObjects", *it) = pexObjects.staticCarsObjects.at(i).sizeZ;
+            for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
+                map_.at("StaticObjects", *it) = pexObjects.staticCarsObjects.at(i).sizeZ;
                 //ROS_INFO_STREAM("staticCarsObjects : " << pexObjects.staticCarsObjects.at(i).ID);
             }
         }
@@ -224,7 +223,7 @@ private:
     {
         //Map Road with the data from the vector map
         grid_map::Polygon polygon;
-        polygon.setFrameId(map.getFrameId());
+        polygon.setFrameId(map_.getFrameId());
         Position point1;
         Position point2;
         float dx;
@@ -249,14 +248,14 @@ private:
             polygon.addVertex(Position(point1.x() - dx, point1.y() - dy));
             polygon.addVertex(Position(point2.x() - dx, point2.y() - dy));
             laneID = vector_map.lanes_id_.at(i);
-            for(grid_map::PolygonIterator iterator(map, polygon) ; !iterator.isPastEnd() ; ++iterator) {
-                map.at("DrivableAreas", *iterator) = 1;
-                map.at("Lanes", *iterator) = laneID;
+            for(grid_map::PolygonIterator iterator(map_, polygon) ; !iterator.isPastEnd() ; ++iterator) {
+                map_.at("DrivableAreas", *iterator) = 1;
+                map_.at("Lanes", *iterator) = laneID;
             }
             //Add a half-circle at the end to help filling when road turns
-            for(grid_map::CircleIterator iterator(map, point2, lanewidth) ; !iterator.isPastEnd() ; ++iterator) {
-                map.at("DrivableAreas", *iterator) = 1;
-                map.at("Lanes", *iterator) = laneID;
+            for(grid_map::CircleIterator iterator(map_, point2, lanewidth) ; !iterator.isPastEnd() ; ++iterator) {
+                map_.at("DrivableAreas", *iterator) = 1;
+                map_.at("Lanes", *iterator) = laneID;
             }
         }
     }
@@ -275,10 +274,10 @@ private:
                 x_other = other_actors_old_.poses.at(i).position.x;
                 y_other = other_actors_old_.poses.at(i).position.y;
                 yaw_other = cpp_utils::extract_yaw(other_actors_old_.poses.at(i).orientation);
-                if(x_other - x_ego_old_ < submap_dimensions && x_other - x_ego_old_ > -submap_dimensions && y_other - y_ego_old_ < submap_dimensions && y_other - y_ego_old_ > -submap_dimensions){
+                if(x_other - x_ego_old_ < submap_dimensions_ && x_other - x_ego_old_ > -submap_dimensions_ && y_other - y_ego_old_ < submap_dimensions_ && y_other - y_ego_old_ > -submap_dimensions_){
                     grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
-                    for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
-                        map.at("DynamicObjects", *iterator) = 0;
+                    for(grid_map::PolygonIterator iterator(map_, otherCarOld); !iterator.isPastEnd(); ++iterator){
+                        map_.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
@@ -286,10 +285,10 @@ private:
             x_other = other_actors_.poses.at(i).position.x;
             y_other = other_actors_.poses.at(i).position.y;
             yaw_other = cpp_utils::extract_yaw(other_actors_.poses.at(i).orientation);
-            if(x_other - x_ego_ < submap_dimensions && x_other - x_ego_ > -submap_dimensions && y_other - y_ego_ < submap_dimensions && y_other - y_ego_ > -submap_dimensions){
+            if(x_other - x_ego_ < submap_dimensions_ && x_other - x_ego_ > -submap_dimensions_ && y_other - y_ego_ < submap_dimensions_ && y_other - y_ego_ > -submap_dimensions_){
                 grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
-                for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
-                    map.at("DynamicObjects", *iterator) = heigth_other_;
+                for(grid_map::PolygonIterator iterator(map_, otherCar); !iterator.isPastEnd(); ++iterator){
+                    map_.at("DynamicObjects", *iterator) = heigth_other_;
                 }
             }
         }
@@ -316,8 +315,8 @@ private:
                             polygon.addVertex(Position(pt.x, pt.y));
                             if(!first_point)
                             {
-                                for (grid_map::LineIterator iterator(map, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map.at("StaticObjects", *iterator) = 0;
+                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                    map_.at("StaticObjects", *iterator) = 0;
                                 }
                             }
                             first_point = false;
@@ -325,8 +324,8 @@ private:
                             
                         }
                     }
-                    for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
-                        map.at("DynamicObjects", *iterator) = 0;
+                    for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
+                        map_.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
@@ -345,8 +344,8 @@ private:
                             polygon.addVertex(Position(pt.x, pt.y));
                             if(!first_point)
                             {
-                                for (grid_map::LineIterator iterator(map, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map.at("StaticObjects", *iterator) = heigth_other_;
+                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                    map_.at("StaticObjects", *iterator) = heigth_other_;
                                 }
                             }
                             first_point = false;
@@ -354,8 +353,8 @@ private:
                             
                         }
                 }
-                for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
-                    map.at("DynamicObjects", *iterator) = heigth_other_;
+                for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
+                    map_.at("DynamicObjects", *iterator) = heigth_other_;
                 }
             }
             detected_objects_old_ = detected_objects_;
@@ -379,8 +378,8 @@ private:
         if(x_ego_center != last_x_ego_center_ || x_ego_center != last_y_ego__center_)
         {
             grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego__center_, length_ego_, width_ego_, last_yaw_ego_);
-            for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
-                map.at("EgoVehicle", *iterator) = 0;
+            for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
+                map_.at("EgoVehicle", *iterator) = 0;
             }
         }
         if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
@@ -392,8 +391,8 @@ private:
                 first_position_callback_ = false;
             }
             grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
-            for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
-                map.at("EgoVehicle", *iterator) = heigth_other_;
+            for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
+                map_.at("EgoVehicle", *iterator) = heigth_other_;
             }
             last_x_ego_center_ = x_ego_center;
             last_y_ego__center_ = y_ego_center;
@@ -581,7 +580,7 @@ private:
             while(std::getline(is, value_str, ',')) {
                 value = std::atoi(value_str.c_str());
                 if(i >= occGrid.data.size()) {
-                    ROS_FATAL("Index bigger than occGrid size...");
+                    ROS_FATAL("Index bigger than occ_grid_ size...");
                     exit(EXIT_FAILURE);
                 }
                 occGrid.data[i] = value;
@@ -593,12 +592,12 @@ private:
         ROS_INFO("Creating occupancyMap");
         grid_map::GridMap newMap;
         if(!grid_map::GridMapRosConverter::fromOccupancyGrid(occGrid, "StaticObjects", newMap)) {
-            ROS_FATAL("GridMap from occGrid didn't worked...");
+            ROS_FATAL("GridMap from occ_grid_ didn't worked...");
             exit(EXIT_FAILURE);
         }
 
         ROS_INFO("Filling the Grid_Map");
-        if(!map.addDataFrom(newMap, false, true, false, {"StaticObjects"})) {
+        if(!map_.addDataFrom(newMap, false, true, false, {"StaticObjects"})) {
             ROS_FATAL("GridMap data addition didn't worked");
             exit(EXIT_FAILURE);
         }
@@ -640,13 +639,11 @@ public:
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
     GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
-                                                                                                                               occmap_width(area_width),                               // The width in meter...
-        occmap_height(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-        car_offset(area_height_front - occmap_height/2),        // relative distance between the center of the grid map and the center of the car (logitudinal axis...
-                                                                // ... positive towards the front of the car
+                                                                                                                               occmap_width_(area_width),                               // The width in meter...
+        occmap_height_(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
 
-        submap_dimensions(sqrt(std::pow(occmap_width, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
-                               std::pow(occmap_height, 2)))
+        submap_dimensions_(sqrt(std::pow(occmap_width_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                               std::pow(occmap_height_, 2)))
     {
         nh.getParam("use_pex_file", use_pex_file_);
         nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
@@ -761,8 +758,8 @@ public:
             
 
             // publish
-            map.setTimestamp(ros::Time::now().toNSec());
-            GridMapRosConverter::toMessage(map, message);
+            map_.setTimestamp(ros::Time::now().toNSec());
+            GridMapRosConverter::toMessage(map_, message);
             pub_grid_map_.publish(message);
 
             footprint_ego_.header.stamp = ros::Time::now();

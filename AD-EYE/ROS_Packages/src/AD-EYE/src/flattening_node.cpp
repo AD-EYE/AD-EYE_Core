@@ -32,10 +32,10 @@ class OccMapCreator
 private:
     // publishers and subscribers
     ros::NodeHandle& nh_;
-    ros::Publisher pubOccGrid;
-    ros::Publisher puboccGrid;
-    ros::Subscriber subGridMap;
-    ros::Subscriber subPosition_ego;
+    ros::Publisher pub_occ_grid_;
+    ros::Publisher pubocc_grid_;
+    ros::Subscriber sub_grid_map_;
+    ros::Subscriber sub_position_ego_;
 
     //Car informations
     float x_ego_ = 0;
@@ -43,11 +43,11 @@ private:
     float yaw_ego_ = 0;
 
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
-    const float dangerous_height = 0.20;
-    nav_msgs::OccupancyGrid occGrid;
-    const float occmap_width;
-    const float occmap_height;
-    float submap_dimensions;
+    const float DANGEROUS_HEIGHT_ = 0.20;
+    nav_msgs::OccupancyGrid occ_grid_;
+    const float occmap_width_;
+    const float occmap_height_;
+    float submap_dimensions_;
     GridMap grid_map_;
     float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
@@ -56,9 +56,9 @@ private:
 
     void extractsSubmap(const GridMap &full_grid_map) {
         bool is_submap_extracted;
-        submap_dimensions = sqrt(std::pow(occmap_width, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
-                                      std::pow(occmap_height, 2));
-        const Length subMap_size(submap_dimensions, submap_dimensions);
+        submap_dimensions_ = sqrt(std::pow(occmap_width_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                                      std::pow(occmap_height_, 2));
+        const Length subMap_size(submap_dimensions_, submap_dimensions_);
         Position subMap_center;
         subMap_center.x() = x_ego_ + car_offset_ * cos(yaw_ego_);
         subMap_center.y() = y_ego_ + car_offset_ * sin(yaw_ego_);
@@ -84,18 +84,18 @@ private:
 
         extractsSubmap(full_grid_map);
 
-        occGrid.header.frame_id = grid_map_.getFrameId();
-        occGrid.header.stamp.fromNSec(grid_map_.getTimestamp());
-        occGrid.info.map_load_time = occGrid.header.stamp;
-        occGrid.info.resolution = grid_map_.getResolution();
-        occGrid.info.width = grid_map_.getSize().x();
-        occGrid.info.height = grid_map_.getSize().y();
-        // The occGrid origin is on its corner
+        occ_grid_.header.frame_id = grid_map_.getFrameId();
+        occ_grid_.header.stamp.fromNSec(grid_map_.getTimestamp());
+        occ_grid_.info.map_load_time = occ_grid_.header.stamp;
+        occ_grid_.info.resolution = grid_map_.getResolution();
+        occ_grid_.info.width = grid_map_.getSize().x();
+        occ_grid_.info.height = grid_map_.getSize().y();
+        // The occ_grid_ origin is on its corner
         Position origin = grid_map_.getPosition() - grid_map_.getLength().matrix() / 2;
-        occGrid.info.origin.position.x = origin.x();
-        occGrid.info.origin.position.y = origin.y();
-        std::size_t nCells = occGrid.info.width * occGrid.info.height;
-        occGrid.data.resize(nCells);
+        occ_grid_.info.origin.position.x = origin.x();
+        occ_grid_.info.origin.position.y = origin.y();
+        std::size_t nCells = occ_grid_.info.width * occ_grid_.info.height;
+        occ_grid_.data.resize(nCells);
 
         flateningProcess();
     }
@@ -123,7 +123,7 @@ private:
      * will be hidden (filled with the RED value).
      */
     void flateningProcess() {
-        size_t nCells = occGrid.data.size();
+        size_t nCells = occ_grid_.data.size();
         size_t index;
         float occValue;
         float staticObjectValue;
@@ -133,13 +133,13 @@ private:
         Position pos;
 
         grid_map::Polygon area;
-        float alpha = yaw_ego_ + std::atan(occmap_width / occmap_height); // Angle between the horizontal and the diagonal of the area
+        float alpha = yaw_ego_ + std::atan(occmap_width_ / occmap_height_); // Angle between the horizontal and the diagonal of the area
         Position point1 = grid_map_.getPosition();
-        point1.x() += cos(alpha) * submap_dimensions/2;
-        point1.y() += sin(alpha) * submap_dimensions/2;
-        Position point2 = {point1.x() + occmap_width * sin(yaw_ego_), point1.y() - occmap_width * cos(yaw_ego_)};
-        Position point3 = {point2.x() - occmap_height * cos(yaw_ego_), point2.y() - occmap_height * sin(yaw_ego_)};
-        Position point4 = {point3.x() - occmap_width * sin(yaw_ego_), point3.y() + occmap_width * cos(yaw_ego_)};
+        point1.x() += cos(alpha) * submap_dimensions_ / 2;
+        point1.y() += sin(alpha) * submap_dimensions_ / 2;
+        Position point2 = {point1.x() + occmap_width_ * sin(yaw_ego_), point1.y() - occmap_width_ * cos(yaw_ego_)};
+        Position point3 = {point2.x() - occmap_height_ * cos(yaw_ego_), point2.y() - occmap_height_ * sin(yaw_ego_)};
+        Position point4 = {point3.x() - occmap_width_ * sin(yaw_ego_), point3.y() + occmap_width_ * cos(yaw_ego_)};
         area.addVertex(point1);
         area.addVertex(point2);
         area.addVertex(point3);
@@ -165,7 +165,7 @@ private:
             }
 
             index = it.getLinearIndex();
-            occGrid.data[nCells - index - 1] = occValue;
+            occ_grid_.data[nCells - index - 1] = occValue;
         }
     }
 
@@ -194,10 +194,10 @@ private:
         if(laneValue == 1) {
             occValue = YELLOW;
         }
-        if(staticObjectValue > dangerous_height) {
+        if(staticObjectValue > DANGEROUS_HEIGHT_) {
             occValue = RED;
         }
-        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite everything
+        if(dynamicObjectValue > DANGEROUS_HEIGHT_) { // Dynamic objects overwrite everything
             occValue = RED;
         }
         return occValue;
@@ -215,23 +215,23 @@ public:
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
     OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
-                                                                                                                              occmap_width(area_width),                               // The width in meter...
-        occmap_height(area_height_front + area_height_back),     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-        car_offset_(area_height_front - occmap_height/2)
+                                                                                                                              occmap_width_(area_width),                               // The width in meter...
+        occmap_height_(area_height_front + area_height_back), // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset_(area_height_front - occmap_height_ / 2) // relative distance between the center of the grid map and the center of the car (longitudinal axis positive towards the front of the car
     {
         // Initialize node and publishers
-        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
-        subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
-        subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgoCallback, this);
+        pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
+        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
+        sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgoCallback, this);
 
         rate_ = ros::Rate(frequency_);
 
         //Constants values
-        occGrid.info.origin.position.z = 0;
-        occGrid.info.origin.orientation.x = 0.0;
-        occGrid.info.origin.orientation.y = 0.0;
-        occGrid.info.origin.orientation.z = 0.0;
-        occGrid.info.origin.orientation.w = 1.0;
+        occ_grid_.info.origin.position.z = 0;
+        occ_grid_.info.origin.orientation.x = 0.0;
+        occ_grid_.info.origin.orientation.y = 0.0;
+        occ_grid_.info.origin.orientation.z = 0.0;
+        occ_grid_.info.origin.orientation.w = 1.0;
     }
 
 
@@ -248,7 +248,7 @@ public:
             rostime = ros::Time::now().toSec();
 
             ros::spinOnce();
-            pubOccGrid.publish(occGrid);
+            pub_occ_grid_.publish(occ_grid_);
 
             //Time control
             rostime = ros::Time::now().toSec() - rostime;
