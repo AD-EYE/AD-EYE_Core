@@ -1084,7 +1084,7 @@ function checkTime(time) {
         let dropdown = document.createElement("select");
         dropdown.id = "select_topic";
         dropdown.onclick = getTopics;
-       // dropdown.onselectionchange = display_topic_data;
+        dropdown.onchange = display_topic_data;
 
         // appending label and dropdown to p element
         p.appendChild(label1);
@@ -1104,7 +1104,7 @@ function checkTime(time) {
         textarea.rows = "9";
         textarea.columns = "250";
         textarea.name = "topic_data";
-        textarea.value = "";
+        textarea.disabled = "true";
 
         // appending label and textarea to p element
         p1.appendChild(label2);
@@ -1161,75 +1161,8 @@ function checkTime(time) {
         }
         isClicked = true;
 
-        selected_topic = select.options[select.selectedIndex].text;
-        selected_topic_value = select.options[select.selectedIndex].value;
-        let topic_val = " ";
-        document.getElementById("topic_data_textbox").value = " ";
-
-        for(var i = 0; i < topic_types.length; i++)
-        {
-            if(i == selected_topic_value)
-            { 
-                // Subscribing to a Topic
-                listener = new ROSLIB.Topic({
-                    ros : ros,
-                    name : selected_topic,
-                    messageType : topic_types[i]
-                });
-
-                listener.subscribe(function(message){
-                    topic_val = JSON.stringify(message);
-                document.getElementById("x5").innerHTML = selected_topic_value;
-                document.getElementById("topic_data_textbox").value = topic_val;
-                });
-
-            }
-        }
+        
     }
-
-        /* let selected_topic = null;
-        let selected_topic_value = null;
-        //let selected = document.getElementById("select_topic");
-        selected_topic = select.options[select.selectedIndex].text;
-        selected_topic_value = select.options[select.selectedIndex].value;
-
-
-        topicsClient.callService(request, function(result) 
-        {
-            topic_types = result.types;
-            let topic_val;
-            let listener;
-            //document.getElementById("topic_data_textbox").value = "testing" ;
-            for(var i = 0; i < topic_types.length; i++)
-            {
-                if(i == selected_topic_value)
-                { 
-                    // Subscribing to a Topic
-                    listener = new ROSLIB.Topic({
-                        ros : ros,
-                        name : selected_topic,
-                        messageType : topic_types[i]
-                    });
-
-                    
-
-
-                }  
-                listener.subscribe(function(message) {
-                    topic_val = JSON.stringify(message);
-                //return topic_val;
-                document.getElementById("x5").innerHTML = topic_val;
-                document.getElementById("topic_data_textbox").value = topic_val;
-
-
-
-
-                });
-
-            }
-
-        }); */
-
     // function to display the data of selected rostopic in the teaxarea of generic card
     function display_topic_data()
     {
@@ -1246,10 +1179,6 @@ function checkTime(time) {
             {
                 if(i == selected_topic_value)
                 { 
-                    let topic_val;
-                    document.getElementById("topic_data_textbox").value = " " ;
-
-
                     // Subscribing to a Topic
                     let listener = new ROSLIB.Topic({
                         ros : ros,
@@ -1259,11 +1188,8 @@ function checkTime(time) {
 
                     listener.subscribe(function(message) {
                         topic_val = JSON.stringify(message);
-                        document.getElementById("x5").innerHTML = topic_val;
                         document.getElementById("topic_data_textbox").value = topic_val ;
-
-
-
+                        listener.unsubscribe();
                     });
 
                 }  
@@ -1272,91 +1198,5 @@ function checkTime(time) {
     }
 //-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
 
- /* 
-
- 
-        
-
-         scale_factor_width = canvas4.width/message.width;
-         scale_factor_height = 3*scale_factor_width;
-
-
-        let canvas4 = document.getElementById( "image_canvas" );
-        const ctx = canvas4.getContext( "2d" ); 
-        //document.getElementById("x5").innerHTML = array;
-
-// first, create a new ImageData to contain our pixels
-var imgData = ctx.createImageData(4, 2); // width x height
-var data = imgData.data;
-
-// copy img byte-per-byte into our ImageData
-for (var i = 0; i < array.length; i++) {
-    
-    imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-    imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-    imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-    imgData.data[ 4 * j + 3 ] = 255;
-}
-
-// now we can draw our imagedata onto the canvas
-ctx.putImageData(imgData, 0, 0);
-         */
 
         
-
-        
-/*         canvas4.style.width = "100%";
-        canvas4.style.height = "auto";
-/*  */ 
-
-/*  var hRatio = canvas4.width / message.width    ;
-var vRatio = canvas4.height / message.height  ;
-var ratio  = Math.min ( hRatio, vRatio );
-
-let imgData = context.createImageData(message.width ,message.height);
- 
-         for(let j = 0; j < array.length; j++)
-         {
-             imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
-             imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
-             imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
-             imgData.data[ 4 * j + 3 ] = 255;
-         }
-
-context.drawImage(imgData, 0,0,0,0,message.width*ratio, message.height*ratio); */
-         
-        // context.drawImage(array,0,0,message.width,message.height,0,0,canvas4.width,canvas4.height);
-
-
-         /* var scale = Math.min(ctx.canvas4.width / message.width, ctx.canvas.height / canvas.height); // get the min scale to fit
-         var x = (ctx.canvas4.width - (message.width * scale) ) / 2; // centre x
-         var y = (ctx.canvas4.height - (message.height * scale) ) / 2; // centre y
-         ctx.drawImage(array, x, y, message.width * scale, message.height * scale);
- */
-
-    //  /* /* /* ----------Way 2----- */
-    //  original_aspect_ratio = original_width / original_height;
-
-    //  canvas_aspect_ratio = canvas4.width / canvas4.height;
-
-    //  if(original_aspect_ratio < canvas_aspect_ratio)
-    //  {
-    //      new_width = original_width * canvas4.height/original_height;
-    //      new_height = canvas4.height;
-    //  }
-    //  else
-    //  {
-    //      new_width = canvas4.width;
-    //      new_height = original_height * canvas4.width/original_width;
-    //  }
-     
-    //  /* ----------Way 3----- */
-    //  //var scale = Math.min(canvas4.width / original_width, canvas4.height / original_height);
-    //  var scale = canvas4.width / canvas4.height;
-
-    //  new_w = original_width * scale;
-    //  new_h = original_height * scale;
- 
- 
-
-   
