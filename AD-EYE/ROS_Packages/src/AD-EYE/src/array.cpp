@@ -36,7 +36,7 @@ private:
     //Variables
     float rostime_;
     float frequency_ = 20; // this value should be alligned with the frequency value used in the GridMapCreator_node
-    double x=0.0, y=0.0, z=0.0, W=0.0, X=0.0, Y=0.0,Z=0.0;
+    double x=249.0, y=136.0, z=0.0, W=0.707, X=0.0, Y=0.0,Z=0.707;
     
     
     void goalcoordinatescallback(const std_msgs::Int16MultiArray::ConstPtr& msg)
@@ -70,11 +70,11 @@ public:
         goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/goal_pixels", 1,	&GridMapExtractor::goalcoordinatescallback, 	this);
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
-        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/goal_position", 1, true);
+        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
 
         
         // Set the goal position //
-        poseStamped.header.Seq = 1;
+        poseStamped.header.seq = 1;
         poseStamped.header.frame_id = "world";
         poseStamped.pose.position.x = x;
         poseStamped.pose.position.y = y;
