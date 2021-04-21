@@ -1084,7 +1084,7 @@ function checkTime(time) {
         let dropdown = document.createElement("select");
         dropdown.id = "select_topic";
         dropdown.onclick = getTopics;
-        dropdown.onchange = display_topic_data;
+       // dropdown.onselectionchange = display_topic_data;
 
         // appending label and dropdown to p element
         p.appendChild(label1);
@@ -1104,7 +1104,7 @@ function checkTime(time) {
         textarea.rows = "9";
         textarea.columns = "250";
         textarea.name = "topic_data";
-        textarea.value = " ";
+        textarea.value = "";
 
         // appending label and textarea to p element
         p1.appendChild(label2);
@@ -1146,6 +1146,8 @@ function checkTime(time) {
             topicsClient.callService(request, function(result) 
             {
                 topics_list = result.topics;
+                topic_types = result.types;
+
                 for(var i = 0; i < topics_list.length; i++)
                 {
                     let topic_name = topics_list[i];
@@ -1158,7 +1160,75 @@ function checkTime(time) {
             });
         }
         isClicked = true;
+
+        selected_topic = select.options[select.selectedIndex].text;
+        selected_topic_value = select.options[select.selectedIndex].value;
+        let topic_val = " ";
+        document.getElementById("topic_data_textbox").value = " ";
+
+        for(var i = 0; i < topic_types.length; i++)
+        {
+            if(i == selected_topic_value)
+            { 
+                // Subscribing to a Topic
+                listener = new ROSLIB.Topic({
+                    ros : ros,
+                    name : selected_topic,
+                    messageType : topic_types[i]
+                });
+
+                listener.subscribe(function(message){
+                    topic_val = JSON.stringify(message);
+                document.getElementById("x5").innerHTML = selected_topic_value;
+                document.getElementById("topic_data_textbox").value = topic_val;
+                });
+
+            }
+        }
     }
+
+        /* let selected_topic = null;
+        let selected_topic_value = null;
+        //let selected = document.getElementById("select_topic");
+        selected_topic = select.options[select.selectedIndex].text;
+        selected_topic_value = select.options[select.selectedIndex].value;
+
+
+        topicsClient.callService(request, function(result) 
+        {
+            topic_types = result.types;
+            let topic_val;
+            let listener;
+            //document.getElementById("topic_data_textbox").value = "testing" ;
+            for(var i = 0; i < topic_types.length; i++)
+            {
+                if(i == selected_topic_value)
+                { 
+                    // Subscribing to a Topic
+                    listener = new ROSLIB.Topic({
+                        ros : ros,
+                        name : selected_topic,
+                        messageType : topic_types[i]
+                    });
+
+                    
+
+
+                }  
+                listener.subscribe(function(message) {
+                    topic_val = JSON.stringify(message);
+                //return topic_val;
+                document.getElementById("x5").innerHTML = topic_val;
+                document.getElementById("topic_data_textbox").value = topic_val;
+
+
+
+
+                });
+
+            }
+
+        }); */
 
     // function to display the data of selected rostopic in the teaxarea of generic card
     function display_topic_data()
@@ -1171,13 +1241,15 @@ function checkTime(time) {
 
         topicsClient.callService(request, function(result) 
         {
-            let topic_val;
-
             topic_types = result.types;
             for(var i = 0; i < topic_types.length; i++)
             {
                 if(i == selected_topic_value)
                 { 
+                    let topic_val;
+                    document.getElementById("topic_data_textbox").value = " " ;
+
+
                     // Subscribing to a Topic
                     let listener = new ROSLIB.Topic({
                         ros : ros,
@@ -1187,11 +1259,12 @@ function checkTime(time) {
 
                     listener.subscribe(function(message) {
                         topic_val = JSON.stringify(message);
-                        document.getElementById("x5").innerHTML = selected_topic;
+                        document.getElementById("x5").innerHTML = topic_val;
+                        document.getElementById("topic_data_textbox").value = topic_val ;
+
 
 
                     });
-                    document.getElementById("topic_data_textbox").value = topic_val ;
 
                 }  
             }
