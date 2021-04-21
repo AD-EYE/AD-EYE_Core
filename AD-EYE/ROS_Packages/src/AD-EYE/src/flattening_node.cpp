@@ -38,9 +38,9 @@ private:
     ros::Subscriber subPosition_ego;
 
     //Car informations
-    float x_ego = 0;
-    float y_ego = 0;
-    float yaw_ego = 0;
+    float x_ego_ = 0;
+    float y_ego_ = 0;
+    float yaw_ego_ = 0;
 
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
     const float dangerous_height = 0.20;
@@ -48,14 +48,28 @@ private:
     const float occmap_width;
     const float occmap_height;
     float submap_dimensions;
-    float submap_dimensions_x;
-    float submap_dimensions_y;
     GridMap grid_map_;
     float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
+    float car_offset_;
 
 
-    /*!
+    void extractsSubmap(const GridMap &full_grid_map) {
+        bool is_submap_extracted;
+        submap_dimensions = sqrt(std::pow(occmap_width, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                                      std::pow(occmap_height, 2));
+        const Length subMap_size(submap_dimensions, submap_dimensions);
+        Position subMap_center;
+        subMap_center.x() = x_ego_ + car_offset_ * cos(yaw_ego_);
+        subMap_center.y() = y_ego_ + car_offset_ * sin(yaw_ego_);
+
+        grid_map_.setTimestamp(full_grid_map.getTimestamp());
+        grid_map_ = full_grid_map.getSubmap(subMap_center, subMap_size, is_submap_extracted);
+        if(!is_submap_extracted)
+            ROS_ERROR("GridMapCreator : Error when creating the submap in flattening");
+    }
+
+/*!
      * \brief GridMap Callback : Called when the grid map information has changed.
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the GridMap information given by the GridMapCreator, then
@@ -63,8 +77,12 @@ private:
      */
     void gridMapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
+        GridMap full_grid_map;
         // convert received message back to gridmap
-        GridMapRosConverter::fromMessage(*msg, grid_map_);
+        GridMapRosConverter::fromMessage(*msg, full_grid_map);
+
+
+        extractsSubmap(full_grid_map);
 
         occGrid.header.frame_id = grid_map_.getFrameId();
         occGrid.header.stamp.fromNSec(grid_map_.getTimestamp());
@@ -72,7 +90,6 @@ private:
         occGrid.info.resolution = grid_map_.getResolution();
         occGrid.info.width = grid_map_.getSize().x();
         occGrid.info.height = grid_map_.getSize().y();
-        submap_dimensions = grid_map_.getLength().x();    // Also, length of the diagonal of the area
         // The occGrid origin is on its corner
         Position origin = grid_map_.getPosition() - grid_map_.getLength().matrix() / 2;
         occGrid.info.origin.position.x = origin.x();
@@ -89,9 +106,9 @@ private:
      * \details Stores the position information as read from simulink of the controlled car
      */
     void positionEgoCallback(const nav_msgs::Odometry::ConstPtr& msg) {
-        x_ego = msg->pose.pose.position.x;
-        y_ego = msg->pose.pose.position.y;
-        yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+        x_ego_ = msg->pose.pose.position.x;
+        y_ego_ = msg->pose.pose.position.y;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
     }
 
 
@@ -116,13 +133,13 @@ private:
         Position pos;
 
         grid_map::Polygon area;
-        float alpha = yaw_ego + std::atan(occmap_width / occmap_height); // Angle between the horizontal and the diagonal of the area
+        float alpha = yaw_ego_ + std::atan(occmap_width / occmap_height); // Angle between the horizontal and the diagonal of the area
         Position point1 = grid_map_.getPosition();
         point1.x() += cos(alpha) * submap_dimensions/2;
         point1.y() += sin(alpha) * submap_dimensions/2;
-        Position point2 = {point1.x() + occmap_width * sin(yaw_ego), point1.y() - occmap_width * cos(yaw_ego)};
-        Position point3 = {point2.x() - occmap_height * cos(yaw_ego), point2.y() - occmap_height * sin(yaw_ego)};
-        Position point4 = {point3.x() - occmap_width * sin(yaw_ego), point3.y() + occmap_width * cos(yaw_ego)};
+        Position point2 = {point1.x() + occmap_width * sin(yaw_ego_), point1.y() - occmap_width * cos(yaw_ego_)};
+        Position point3 = {point2.x() - occmap_height * cos(yaw_ego_), point2.y() - occmap_height * sin(yaw_ego_)};
+        Position point4 = {point3.x() - occmap_width * sin(yaw_ego_), point3.y() + occmap_width * cos(yaw_ego_)};
         area.addVertex(point1);
         area.addVertex(point2);
         area.addVertex(point3);
@@ -199,10 +216,11 @@ public:
      */
     OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
                                                                                                                               occmap_width(area_width),                               // The width in meter...
-        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        occmap_height(area_height_front + area_height_back),     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset_(area_height_front - occmap_height/2)
     {
         // Initialize node and publishers
-        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
+        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
         subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
         subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgoCallback, this);
 

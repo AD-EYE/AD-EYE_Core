@@ -242,8 +242,8 @@ private:
             angle = atan2(point2.y()-point1.y(), point2.x()-point1.x()); //Calculate the angle
             angle += HALF_PI;
             lanewidth = vector_map.dtlanes_leftwidth_.at(vector_map.lanes_did_.at(i) - 1);
-            dx = lanewidth*cos(angle);
-            dy = lanewidth*sin(angle);
+            dx = lanewidth * cos(angle);
+            dy = lanewidth * sin(angle);
             polygon.addVertex(Position(point2.x() + dx, point2.y() + dy)); //Draw the rectangle around
             polygon.addVertex(Position(point1.x() + dx, point1.y() + dy));
             polygon.addVertex(Position(point1.x() - dx, point1.y() - dy));
@@ -271,7 +271,7 @@ private:
             float y_other;
             float yaw_other;
             //remove old location of other actors by looking at the position of the previous iteration
-            if(dynamic_objects_ground_truth_initialized_ == true){
+            if(dynamic_objects_ground_truth_initialized_){
                 x_other = other_actors_old_.poses.at(i).position.x;
                 y_other = other_actors_old_.poses.at(i).position.y;
                 yaw_other = cpp_utils::extract_yaw(other_actors_old_.poses.at(i).orientation);
@@ -301,7 +301,7 @@ private:
     {
         size_t N_actors = detected_objects_.polygons.size();
         for(int i = 0; i < (int)N_actors; i++){
-            if(dynamic_objects_initialized_ == true){
+            if(dynamic_objects_initialized_){
                 for(auto poly: detected_objects_old_.polygons)
                 {
                     bool first_point = true;
@@ -383,9 +383,9 @@ private:
                 map.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(first_position_callback_ == true || (first_position_callback_ == false && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
+        if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
         {
-            if(first_position_callback_ == true)
+            if(first_position_callback_)
             {
                 last_x_ego_center_ = x_ego_center;
                 last_x_ego_center_ = y_ego_center;
@@ -512,7 +512,7 @@ private:
      * the GridMap newly created inside the world GridMap.
      * \todo Sanity checks ! (resolution, size, etc...)
      */
-    void readFile(std::string filePath){
+    void readFile(const std::string& filePath){
         ROS_INFO("Opening file");
         std::ifstream mapStream(filePath);
         if(!mapStream.is_open()) {
@@ -616,8 +616,8 @@ private:
      * \details This function is especially used to creates car footprint.
      */
     grid_map::Polygon rectangle_creator(float x, float y, float length, float width, float angle) {
-        length = 0.5*length;
-        width = 0.5*width;
+        length = 0.5 * length;
+        width = 0.5 * width;
         grid_map::Polygon polygon;
         polygon.setFrameId("SSMP_map");
         polygon.addVertex(Position(x + length * cos(angle) - width * sin(angle), y + width * cos(angle) + length * sin(angle)));
@@ -705,7 +705,7 @@ public:
         footprint_ego_.polygon.points.emplace_back(point);
 
         // Wait until preScan has been started (connection_established_ = true), otherwise problems will happen
-        while(nh.ok() && connection_established_ == false){
+        while(nh.ok() && !connection_established_){
             ros::spinOnce();
             rate_.sleep();
         }
@@ -725,10 +725,6 @@ public:
      */
     void run() {
 
-        Position subMap_center;
-        const Length subMap_size(submap_dimensions, submap_dimensions);
-        bool subsucces;
-        GridMap subMap;
 
         grid_map_msgs::GridMap message;
 
@@ -741,8 +737,8 @@ public:
 
             if(use_ground_truth_dynamic_objects_)
             {
-                // Dynamic map updates, information of which is delivered by prescan
-                if(dynamic_objects_ground_truth_active_ == true){
+                // Dynamic map updates, information of which is delivered by Prescan
+                if(dynamic_objects_ground_truth_active_){
                     dynamicActorsUpdateGroundTruth();
 
                     x_ego_old_ = x_ego_;
@@ -764,31 +760,19 @@ public:
             
             
 
-            // publish stuff
-            // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
-            subMap_center.x() = x_ego_ + car_offset * cos(yaw_ego_);
-            subMap_center.y() = y_ego_ + car_offset * sin(yaw_ego_);
+            // publish
             map.setTimestamp(ros::Time::now().toNSec());
-            subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
-//            GridMapRosConverter::toMessage(map, message);
-//            pub_grid_map_.publish(message);
-            if(subsucces){
-                GridMapRosConverter::toMessage(subMap, message);
-                pub_grid_map_.publish(message);
+            GridMapRosConverter::toMessage(map, message);
+            pub_grid_map_.publish(message);
 
-                footprint_ego_.header.stamp = ros::Time::now();
-                pub_footprint_ego_.publish(footprint_ego_);
+            footprint_ego_.header.stamp = ros::Time::now();
+            pub_footprint_ego_.publish(footprint_ego_);
 
-                rostime = ros::Time::now().toSec() - rostime;
-                if(rostime > 1 / frequency_){
-                    ROS_WARN("GridMapCreator : frequency is not met!");
-                }
-            }
-            else{
-                ROS_ERROR("GridMapCreator : Error when creating the submap");
+            rostime = ros::Time::now().toSec() - rostime;
+            if(rostime > 1 / frequency_){
+                ROS_WARN("GridMapCreator : frequency is not met!");
             }
 
-            
             rate_.sleep();
         }
     }
@@ -799,7 +783,7 @@ public:
  * \brief Print a help message on how to use the node.
  * \details Specify arguments needed
  */
-void usage(std::string binName) {
+void usage(const std::string& binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
                      " <area_width> <area_height_front> <area_height_back>");
 }
