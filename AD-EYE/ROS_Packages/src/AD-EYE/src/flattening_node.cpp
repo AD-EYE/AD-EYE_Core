@@ -32,51 +32,70 @@ class OccMapCreator
 private:
     // publishers and subscribers
     ros::NodeHandle& nh_;
-    ros::Publisher pubOccGrid;
-    ros::Publisher puboccGrid;
-    ros::Subscriber subGridMap;
-    ros::Subscriber subPosition_ego;
+    ros::Publisher pub_occ_grid_;
+    ros::Publisher pubocc_grid_;
+    ros::Subscriber sub_grid_map_;
+    ros::Subscriber sub_position_ego_;
 
     //Car informations
-    float x_ego = 0;
-    float y_ego = 0;
-    float yaw_ego = 0;
+    float x_ego_ = 0;
+    float y_ego_ = 0;
+    float yaw_ego_ = 0;
 
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
-    const float dangerous_height = 0.20;
-    nav_msgs::OccupancyGrid occGrid;
-    const float occmap_width;
-    const float occmap_height;
-    float submap_dimensions;
-    GridMap gridMap;
-    float frequency = 20; // this value should be alligned with the frequency value used in the GridMapCreator_node
-    ros::Rate rate;
+    const float DANGEROUS_HEIGHT_ = 0.20;
+    nav_msgs::OccupancyGrid occ_grid_;
+    const float occmap_width_;
+    const float occmap_height_;
+    float submap_dimensions_;
+    GridMap grid_map_;
+    float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
+    ros::Rate rate_;
+    float car_offset_;
 
 
-    /*!
+    void extractsSubmap(const GridMap &full_grid_map) {
+        bool is_submap_extracted;
+        submap_dimensions_ = sqrt(std::pow(occmap_width_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                                      std::pow(occmap_height_, 2));
+        const Length subMap_size(submap_dimensions_, submap_dimensions_);
+        Position subMap_center;
+        subMap_center.x() = x_ego_ + car_offset_ * cos(yaw_ego_);
+        subMap_center.y() = y_ego_ + car_offset_ * sin(yaw_ego_);
+
+        grid_map_.setTimestamp(full_grid_map.getTimestamp());
+        grid_map_ = full_grid_map.getSubmap(subMap_center, subMap_size, is_submap_extracted);
+        if(!is_submap_extracted)
+            ROS_ERROR("GridMapCreator : Error when creating the submap in flattening");
+    }
+
+/*!
      * \brief GridMap Callback : Called when the grid map information has changed.
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the GridMap information given by the GridMapCreator, then
      * call the flateningProcess.
      */
-    void gridMap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
+    void gridMapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
+        GridMap full_grid_map;
         // convert received message back to gridmap
-        GridMapRosConverter::fromMessage(*msg, gridMap);
+        GridMapRosConverter::fromMessage(*msg, full_grid_map);
 
-        occGrid.header.frame_id = gridMap.getFrameId();
-        occGrid.header.stamp.fromNSec(gridMap.getTimestamp());
-        occGrid.info.map_load_time = occGrid.header.stamp;
-        occGrid.info.resolution = gridMap.getResolution();
-        occGrid.info.width = gridMap.getSize().x();
-        occGrid.info.height = gridMap.getSize().y();
-        submap_dimensions = gridMap.getLength().x();    // Also, length of the diagonal of the area
-        // The occGrid origin is on its corner
-        Position origin = gridMap.getPosition() - gridMap.getLength().matrix() / 2;
-        occGrid.info.origin.position.x = origin.x();
-        occGrid.info.origin.position.y = origin.y();
-        std::size_t nCells = occGrid.info.width * occGrid.info.height;
-        occGrid.data.resize(nCells);
+
+        extractsSubmap(full_grid_map);
+
+        occ_grid_.header.frame_id = grid_map_.getFrameId();
+        occ_grid_.header.stamp.fromNSec(grid_map_.getTimestamp());
+        occ_grid_.info.map_load_time = occ_grid_.header.stamp;
+        occ_grid_.info.resolution = grid_map_.getResolution();
+        occ_grid_.info.width = grid_map_.getSize().x();
+        occ_grid_.info.height = grid_map_.getSize().y();
+        // The occ_grid_ origin is on its corner
+        Position origin = grid_map_.getPosition() - grid_map_.getLength().matrix() / 2;
+        occ_grid_.info.origin.position.x = origin.x();
+        occ_grid_.info.origin.position.y = origin.y();
+        std::size_t nCells = occ_grid_.info.width * occ_grid_.info.height;
+        occ_grid_.data.resize(nCells);
 
         flateningProcess();
     }
@@ -86,10 +105,10 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the position information as read from simulink of the controlled car
      */
-    void positionEgo_callback(const nav_msgs::Odometry::ConstPtr& msg) {
-        x_ego = msg->pose.pose.position.x;
-        y_ego = msg->pose.pose.position.y;
-        yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+    void positionEgoCallback(const nav_msgs::Odometry::ConstPtr& msg) {
+        x_ego_ = msg->pose.pose.position.x;
+        y_ego_ = msg->pose.pose.position.y;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
     }
 
 
@@ -104,7 +123,7 @@ private:
      * will be hidden (filled with the RED value).
      */
     void flateningProcess() {
-        size_t nCells = occGrid.data.size();
+        size_t nCells = occ_grid_.data.size();
         size_t index;
         float occValue;
         float staticObjectValue;
@@ -114,30 +133,30 @@ private:
         Position pos;
 
         grid_map::Polygon area;
-        float alpha = yaw_ego + std::atan(occmap_width / occmap_height); // Angle between the horizontal and the diagonal of the area
-        Position point1 = gridMap.getPosition();
-        point1.x() += cos(alpha) * submap_dimensions/2;
-        point1.y() += sin(alpha) * submap_dimensions/2;
-        Position point2 = {point1.x() + occmap_width * sin(yaw_ego), point1.y() - occmap_width * cos(yaw_ego)};
-        Position point3 = {point2.x() - occmap_height * cos(yaw_ego), point2.y() - occmap_height * sin(yaw_ego)};
-        Position point4 = {point3.x() - occmap_width * sin(yaw_ego), point3.y() + occmap_width * cos(yaw_ego)};
+        float alpha = yaw_ego_ + std::atan(occmap_width_ / occmap_height_); // Angle between the horizontal and the diagonal of the area
+        Position point1 = grid_map_.getPosition();
+        point1.x() += cos(alpha) * submap_dimensions_ / 2;
+        point1.y() += sin(alpha) * submap_dimensions_ / 2;
+        Position point2 = {point1.x() + occmap_width_ * sin(yaw_ego_), point1.y() - occmap_width_ * cos(yaw_ego_)};
+        Position point3 = {point2.x() - occmap_height_ * cos(yaw_ego_), point2.y() - occmap_height_ * sin(yaw_ego_)};
+        Position point4 = {point3.x() - occmap_width_ * sin(yaw_ego_), point3.y() + occmap_width_ * cos(yaw_ego_)};
         area.addVertex(point1);
         area.addVertex(point2);
         area.addVertex(point3);
         area.addVertex(point4);
 
-        for(GridMapIterator it(gridMap) ; !it.isPastEnd() ; ++it) {
-            if(!gridMap.getPosition(*it, pos)) {
-                ROS_ERROR("Flattening : Error when retrieving position of a gridMap cell");
+        for(GridMapIterator it(grid_map_) ; !it.isPastEnd() ; ++it) {
+            if(!grid_map_.getPosition(*it, pos)) {
+                ROS_ERROR("Flattening : Error when retrieving position of a grid_map_ cell");
                 continue;
             }
 
             //Getting values
             if(area.isInside(pos)) { //If we are inside the area
-                staticObjectValue = gridMap.atPosition("StaticObjects", pos);
-                dynamicObjectValue = gridMap.atPosition("DynamicObjects", pos);
-                laneValue = gridMap.atPosition("DrivableAreas", pos);
-                safeAreaValue = gridMap.atPosition("SafeAreas", pos);
+                staticObjectValue = grid_map_.atPosition("StaticObjects", pos);
+                dynamicObjectValue = grid_map_.atPosition("DynamicObjects", pos);
+                laneValue = grid_map_.atPosition("DrivableAreas", pos);
+                safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
 
                 //Calculation the occupancy value
                 occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue);
@@ -146,7 +165,7 @@ private:
             }
 
             index = it.getLinearIndex();
-            occGrid.data[nCells - index - 1] = occValue;
+            occ_grid_.data[nCells - index - 1] = occValue;
         }
     }
 
@@ -175,10 +194,10 @@ private:
         if(laneValue == 1) {
             occValue = YELLOW;
         }
-        if(staticObjectValue > dangerous_height) {
+        if(staticObjectValue > DANGEROUS_HEIGHT_) {
             occValue = RED;
         }
-        if(dynamicObjectValue > dangerous_height) { // Dynamic objects overwrite everything
+        if(dynamicObjectValue > DANGEROUS_HEIGHT_) { // Dynamic objects overwrite everything
             occValue = RED;
         }
         return occValue;
@@ -195,23 +214,24 @@ public:
      * \details Initializes the node and its components such as publishers and subscribers.
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
-        occmap_width(area_width),                               // The width in meter...
-        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
+                                                                                                                              occmap_width_(area_width),                               // The width in meter...
+        occmap_height_(area_height_front + area_height_back), // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset_(area_height_front - occmap_height_ / 2) // relative distance between the center of the grid map and the center of the car (longitudinal axis positive towards the front of the car
     {
         // Initialize node and publishers
-        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
-        subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMap_callback, this);
-        subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgo_callback, this);
+        pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
+        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
+        sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgoCallback, this);
 
-        rate = ros::Rate(frequency);
+        rate_ = ros::Rate(frequency_);
 
         //Constants values
-        occGrid.info.origin.position.z = 0;
-        occGrid.info.origin.orientation.x = 0.0;
-        occGrid.info.origin.orientation.y = 0.0;
-        occGrid.info.origin.orientation.z = 0.0;
-        occGrid.info.origin.orientation.w = 1.0;
+        occ_grid_.info.origin.position.z = 0;
+        occ_grid_.info.origin.orientation.x = 0.0;
+        occ_grid_.info.origin.orientation.y = 0.0;
+        occ_grid_.info.origin.orientation.z = 0.0;
+        occ_grid_.info.origin.orientation.w = 1.0;
     }
 
 
@@ -228,15 +248,15 @@ public:
             rostime = ros::Time::now().toSec();
 
             ros::spinOnce();
-            pubOccGrid.publish(occGrid);
+            pub_occ_grid_.publish(occ_grid_);
 
             //Time control
             rostime = ros::Time::now().toSec() - rostime;
-            if(rostime > 1/frequency){
+            if(rostime > 1 / frequency_){
                 ROS_WARN("Flatening Node : Frequency is not met!");
             }
 
-            rate.sleep();
+            rate_.sleep();
         }
     }
 

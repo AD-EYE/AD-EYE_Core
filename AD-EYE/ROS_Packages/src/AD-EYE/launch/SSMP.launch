@@ -65,7 +65,7 @@
         <param name="trajectory_set_filename"
                value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
         <param name="costmap_base_topic" value="/costmap_base"/>
-        <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
+        <remap from="/costmap_base/costmap" to="/safety_planner_occmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
