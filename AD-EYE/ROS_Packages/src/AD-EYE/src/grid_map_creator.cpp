@@ -36,40 +36,40 @@ class GridMapCreator
 private:
     // publishers and subscribers
     ros::NodeHandle &nh_;
-    ros::Publisher pub_GridMap;
-    ros::Publisher pub_footprint_ego;
-    ros::Publisher pub_SSMP_control;
-    ros::Subscriber sub_Position;
+    ros::Publisher pub_grid_map_;
+    ros::Publisher pub_footprint_ego_;
+    ros::Publisher pub_SSMP_control_;
+    ros::Subscriber sub_position_;
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
 
     // variables
     //Position
-    float x_ego;
-    float y_ego;
-    float yaw_ego;
+    float x_ego_;
+    float y_ego_;
+    float yaw_ego_;
 
     // for the ego footprint layer
-    float last_x_ego_center;
-    float last_y_ego__center;
-    float last_yaw_ego;
-    bool first_position_callback = true;
+    float last_x_ego_center_;
+    float last_y_ego__center_;
+    float last_yaw_ego_;
+    bool first_position_callback_ = true;
 
     
-    float x_egoOld;
-    float y_egoOld;
-    geometry_msgs::Quaternion q_ego;
+    float x_ego_old_;
+    float y_ego_old_;
+    geometry_msgs::Quaternion q_ego_;
     //Dimensions
-    float length_ego = 4.6;
-    float width_ego = 2.2;
+    float length_ego_ = 4.6;
+    float width_ego_ = 2.2;
     //float height_ego; //Height is not critical for now
-    float length_other;
-    float width_other;
-    float heigth_other;
+    float length_other_;
+    float width_other_;
+    float heigth_other_;
     //Environments
-    geometry_msgs::PoseArray otherActors;
-    geometry_msgs::PoseArray otherActorsOld;
-    geometry_msgs::PolygonStamped footprint_ego;
+    geometry_msgs::PoseArray other_actors_;
+    geometry_msgs::PoseArray other_actors_old_;
+    geometry_msgs::PolygonStamped footprint_ego_;
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
     //Parameters
@@ -80,40 +80,40 @@ private:
     bool dynamic_objects_initialized_ = false;
     //Map
     GridMap map;
-    float mapResolution;
+    float map_resolution_;
     const float occmap_width;
     const float occmap_height;
     const float car_offset;
     const float submap_dimensions;
     //Ros utils
-    ros::Rate rate;
-    float frequency;
+    ros::Rate rate_;
+    float frequency_;
     bool use_pex_file_ = false;
     bool use_ground_truth_dynamic_objects_ = false;
 
     /*!
      * \brief Creates an empty gridmap with all the layers.
-     * \param veclane The loaded vector map
+     * \param vector_map The loaded vector map
      */
-    void createEmptyGridMap(VectorMap veclane)
+    void createEmptyGridMap(VectorMap vector_map)
     {
-        // Determine the boundaries of the map based on the maximum and minimum values for x and y as saved in the vectormap
-        float lowest_x = veclane.points_x_.at(veclane.nodes_pid_.at(0)-1);
-        float highest_x = veclane.points_x_.at(veclane.nodes_pid_.at(0)-1);
-        float lowest_y = veclane.points_y_.at(veclane.nodes_pid_.at(0)-1);
-        float highest_y = veclane.points_y_.at(veclane.nodes_pid_.at(0)-1);
-        for(int i = 1; i < (int)veclane.nodes_pid_.size(); i++){
-            if(veclane.points_x_.at(veclane.nodes_pid_.at(i)-1) < lowest_x){
-                lowest_x = veclane.points_x_.at(veclane.nodes_pid_.at(i)-1);
+        // Determine the boundaries of the map based on the maximum and minimum values for x and y as saved in the Vector Map
+        float lowest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(0) - 1);
+        float highest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(0) - 1);
+        float lowest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(0) - 1);
+        float highest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(0) - 1);
+        for(int i = 1; i < (int)vector_map.nodes_pid_.size(); i++){
+            if(vector_map.points_x_.at(vector_map.nodes_pid_.at(i) - 1) < lowest_x){
+                lowest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(i) - 1);
             }
-            if(veclane.points_x_.at(veclane.nodes_pid_.at(i)-1) > highest_x){
-                highest_x = veclane.points_x_.at(veclane.nodes_pid_.at(i)-1);
+            if(vector_map.points_x_.at(vector_map.nodes_pid_.at(i) - 1) > highest_x){
+                highest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(i) - 1);
             }
-            if(veclane.points_y_.at(veclane.nodes_pid_.at(i)-1) < lowest_y){
-                lowest_y = veclane.points_y_.at(veclane.nodes_pid_.at(i)-1);
+            if(vector_map.points_y_.at(vector_map.nodes_pid_.at(i) - 1) < lowest_y){
+                lowest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(i) - 1);
             }
-            if(veclane.points_y_.at(veclane.nodes_pid_.at(i)-1) > highest_y){
-                highest_y = veclane.points_y_.at(veclane.nodes_pid_.at(i)-1);
+            if(vector_map.points_y_.at(vector_map.nodes_pid_.at(i) - 1) > highest_y){
+                highest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(i) - 1);
             }
         }
         //Add some margins for when the car drives close to the boundaries
@@ -128,7 +128,7 @@ private:
         map.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
-        map.setGeometry(Length(maplength_x, maplength_y), mapResolution, Position(lowest_x+0.5*maplength_x, lowest_y+0.5*maplength_y));
+        map.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
         ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map.getLength().x(), map.getLength().y(), map.getSize()(0), map.getSize()(1));
 
 
@@ -156,9 +156,9 @@ private:
         //if(pexObjects.ULElementFound) { // If a User Library Element is present
             // A .csv file containing its footprint as an occupancy map should be present
             ROS_INFO("User Library Element found in Prescan Experiment !");
-            std::string file = checkFile(mapResolution, filePex);
+            std::string file = checkFile(map_resolution_, filePex);
             if(file.empty()) {
-                ROS_ERROR_STREAM("No .csv files describing the UserLibrary Element has been found for resolution " << mapResolution);
+                ROS_ERROR_STREAM("No .csv files describing the UserLibrary Element has been found for resolution " << map_resolution_);
             } else {
                 ROS_INFO_STREAM("staticObjects map found : " << file);
                 readFile(file);
@@ -178,7 +178,7 @@ private:
         // Traffic lights are created by filling in just one or two cells, as traffic lights are usually very small
         for(int i = 0; i < (int)pexObjects.trafficlightObjects.size(); i++){
             Position center(pexObjects.trafficlightObjects.at(i).posX, pexObjects.trafficlightObjects.at(i).posY);
-            float radius = mapResolution;
+            float radius = map_resolution_;
             for (grid_map::CircleIterator iterator(map, center, radius); !iterator.isPastEnd(); ++iterator) {
                 map.at("StaticObjects", *iterator) = pexObjects.trafficlightObjects.at(i).sizeZ;
             }
@@ -218,9 +218,9 @@ private:
     }
     /*!
      * \brief Adds zones from the vector map.
-     * \param veclane The loaded vector map
+     * \param vector_map The loaded vector map
      */
-    void addVectorMapObjects(VectorMap veclane)
+    void addVectorMapObjects(VectorMap vector_map)
     {
         //Map Road with the data from the vector map
         grid_map::Polygon polygon;
@@ -232,23 +232,23 @@ private:
         float angle;
         float lanewidth;
         float laneID;
-        for(int i = 0 ; i < static_cast<int>(veclane.lanes_startpoint_.size()) ; i++) { //For every lane
+        for(int i = 0 ; i < static_cast<int>(vector_map.lanes_startpoint_.size()) ; i++) { //For every lane
             if(!nh_.ok()) { break; }
             polygon.removeVertices();
-            point1.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanes_startpoint_.at(i) - 1 ) - 1); //Get the first
-            point1.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanes_startpoint_.at(i) - 1 ) - 1);
-            point2.x() = veclane.points_x_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1); // and the second point
-            point2.y() = veclane.points_y_.at(veclane.nodes_pid_.at(veclane.lanes_endpoint_.at(i) - 1 ) - 1);
+            point1.x() = vector_map.points_x_.at(vector_map.nodes_pid_.at(vector_map.lanes_startpoint_.at(i) - 1 ) - 1); //Get the first
+            point1.y() = vector_map.points_y_.at(vector_map.nodes_pid_.at(vector_map.lanes_startpoint_.at(i) - 1 ) - 1);
+            point2.x() = vector_map.points_x_.at(vector_map.nodes_pid_.at(vector_map.lanes_endpoint_.at(i) - 1 ) - 1); // and the second point
+            point2.y() = vector_map.points_y_.at(vector_map.nodes_pid_.at(vector_map.lanes_endpoint_.at(i) - 1 ) - 1);
             angle = atan2(point2.y()-point1.y(), point2.x()-point1.x()); //Calculate the angle
             angle += HALF_PI;
-            lanewidth = veclane.dtlanes_leftwidth_.at(veclane.lanes_did_.at(i)-1);
+            lanewidth = vector_map.dtlanes_leftwidth_.at(vector_map.lanes_did_.at(i) - 1);
             dx = lanewidth*cos(angle);
             dy = lanewidth*sin(angle);
             polygon.addVertex(Position(point2.x() + dx, point2.y() + dy)); //Draw the rectangle around
             polygon.addVertex(Position(point1.x() + dx, point1.y() + dy));
             polygon.addVertex(Position(point1.x() - dx, point1.y() - dy));
             polygon.addVertex(Position(point2.x() - dx, point2.y() - dy));
-            laneID = veclane.lanes_id_.at(i);
+            laneID = vector_map.lanes_id_.at(i);
             for(grid_map::PolygonIterator iterator(map, polygon) ; !iterator.isPastEnd() ; ++iterator) {
                 map.at("DrivableAreas", *iterator) = 1;
                 map.at("Lanes", *iterator) = laneID;
@@ -265,31 +265,31 @@ private:
      */
     void dynamicActorsUpdateGroundTruth()
     {
-        size_t N_actors = otherActors.poses.size();
+        size_t N_actors = other_actors_.poses.size();
         for(int i = 0; i < (int)N_actors; i++){
             float x_other;
             float y_other;
             float yaw_other;
             //remove old location of other actors by looking at the position of the previous iteration
             if(dynamic_objects_ground_truth_initialized_ == true){
-                x_other = otherActorsOld.poses.at(i).position.x;
-                y_other = otherActorsOld.poses.at(i).position.y;
-                yaw_other = cpp_utils::extract_yaw(otherActorsOld.poses.at(i).orientation);
-                if(x_other-x_egoOld < submap_dimensions && x_other-x_egoOld > -submap_dimensions && y_other-y_egoOld < submap_dimensions && y_other-y_egoOld > -submap_dimensions){
-                    grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
+                x_other = other_actors_old_.poses.at(i).position.x;
+                y_other = other_actors_old_.poses.at(i).position.y;
+                yaw_other = cpp_utils::extract_yaw(other_actors_old_.poses.at(i).orientation);
+                if(x_other - x_ego_old_ < submap_dimensions && x_other - x_ego_old_ > -submap_dimensions && y_other - y_ego_old_ < submap_dimensions && y_other - y_ego_old_ > -submap_dimensions){
+                    grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
                     for(grid_map::PolygonIterator iterator(map, otherCarOld); !iterator.isPastEnd(); ++iterator){
                         map.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
-            //add new location of other actors by looking at the new position as send by prescan
-            x_other = otherActors.poses.at(i).position.x;
-            y_other = otherActors.poses.at(i).position.y;
-            yaw_other = cpp_utils::extract_yaw(otherActors.poses.at(i).orientation);
-            if(x_other-x_ego < submap_dimensions && x_other-x_ego > -submap_dimensions && y_other-y_ego < submap_dimensions && y_other-y_ego > -submap_dimensions){
-                grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other, width_other, yaw_other);
+            //add new location of other actors by looking at the new position as sent by Prescan
+            x_other = other_actors_.poses.at(i).position.x;
+            y_other = other_actors_.poses.at(i).position.y;
+            yaw_other = cpp_utils::extract_yaw(other_actors_.poses.at(i).orientation);
+            if(x_other - x_ego_ < submap_dimensions && x_other - x_ego_ > -submap_dimensions && y_other - y_ego_ < submap_dimensions && y_other - y_ego_ > -submap_dimensions){
+                grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
                 for(grid_map::PolygonIterator iterator(map, otherCar); !iterator.isPastEnd(); ++iterator){
-                    map.at("DynamicObjects", *iterator) = heigth_other;
+                    map.at("DynamicObjects", *iterator) = heigth_other_;
                 }
             }
         }
@@ -304,8 +304,7 @@ private:
             if(dynamic_objects_initialized_ == true){
                 for(auto poly: detected_objects_old_.polygons)
                 {
-
-                bool first_point = true;
+                    bool first_point = true;
                     float z = poly.polygon.points.front().z;
                     Position previous_point;
                     grid_map::Polygon polygon;
@@ -347,7 +346,7 @@ private:
                             if(!first_point)
                             {
                                 for (grid_map::LineIterator iterator(map, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map.at("StaticObjects", *iterator) = heigth_other;
+                                    map.at("StaticObjects", *iterator) = heigth_other_;
                                 }
                             }
                             first_point = false;
@@ -356,7 +355,7 @@ private:
                         }
                 }
                 for(grid_map::PolygonIterator iterator(map, polygon); !iterator.isPastEnd(); ++iterator){
-                    map.at("DynamicObjects", *iterator) = heigth_other;
+                    map.at("DynamicObjects", *iterator) = heigth_other_;
                 }
             }
             detected_objects_old_ = detected_objects_;
@@ -369,36 +368,36 @@ private:
      * \details Stores the position information as read from simulink of the controlled car
      */
     void positionCallback(const nav_msgs::Odometry::ConstPtr& msg){
-        x_ego = msg->pose.pose.position.x;
-        y_ego = msg->pose.pose.position.y;
-        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego) * 0.3 * length_ego; // center of the car's rectangular footprint
-        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego) * 0.3 * length_ego; // center of the car's rectangular footprint
-        q_ego = msg->pose.pose.orientation;
-        yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+        x_ego_ = msg->pose.pose.position.x;
+        y_ego_ = msg->pose.pose.position.y;
+        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
+        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
+        q_ego_ = msg->pose.pose.orientation;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
         connection_established_ = true;
         //Creating footprint for Ego vehicle
-        if(x_ego_center != last_x_ego_center || x_ego_center !=last_y_ego__center)
+        if(x_ego_center != last_x_ego_center_ || x_ego_center != last_y_ego__center_)
         {
-            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center, last_y_ego__center, length_ego, width_ego, last_yaw_ego);
+            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego__center_, length_ego_, width_ego_, last_yaw_ego_);
             for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
                 map.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(first_position_callback == true || (first_position_callback == false && (x_ego_center != last_x_ego_center || y_ego_center != last_y_ego__center || yaw_ego != last_yaw_ego)))
+        if(first_position_callback_ == true || (first_position_callback_ == false && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
         {
-            if(first_position_callback == true)
+            if(first_position_callback_ == true)
             {
-                last_x_ego_center = x_ego_center;
-                last_x_ego_center = y_ego_center;
-                first_position_callback = false;        
+                last_x_ego_center_ = x_ego_center;
+                last_x_ego_center_ = y_ego_center;
+                first_position_callback_ = false;
             }
-            grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego, width_ego, yaw_ego);
+            grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
             for(grid_map::PolygonIterator iterator(map, egoCar); !iterator.isPastEnd(); ++iterator){
-                map.at("EgoVehicle", *iterator) = heigth_other;
+                map.at("EgoVehicle", *iterator) = heigth_other_;
             }
-            last_x_ego_center = x_ego_center;
-            last_y_ego__center = y_ego_center;
-            last_yaw_ego = yaw_ego;
+            last_x_ego_center_ = x_ego_center;
+            last_y_ego__center_ = y_ego_center;
+            last_yaw_ego_ = yaw_ego_;
         }
     }
 
@@ -408,7 +407,7 @@ private:
      * \details Stores the array of poses as read out from simulink of all the non controlled actors.
      */
     void dynamicObjectsGroundTruthCallback(const geometry_msgs::PoseArray::ConstPtr& msg) {
-        otherActors = *msg;
+        other_actors_ = *msg;
         dynamic_objects_ground_truth_active_ = true;
     }
 
@@ -453,7 +452,7 @@ private:
     /*!
      * \brief This method checks if a .csv file is provided for the given resolution
      * \param resolution The resolution the file should match
-     * \param pexFileLocation The location of the .pexFile
+     * \param pex_file_location The location of the .pexFile
      * \return The filePath of the right file (empty if not found)
      * \details In the case a UserLibrary Element is found on the map, this
      * function will be called in order to check if a .csv file describing the
@@ -462,12 +461,12 @@ private:
      * Then, it uses the pex file location to go to the right folder (which is hardcoded as
      * <ExperimentFolder>/staticObjects)
      */
-    std::string checkFile(float resolution, std::string pexFileLocation) {
+    std::string checkFile(float resolution, std::string pex_file_location) {
         // Finds the right folder from the pex file location
         //   Ignores the .pex file and goes 1 folder back
-        std::size_t pos = pexFileLocation.find_last_of("/");
-        pos = pexFileLocation.find_last_of("/", pos-1);
-        std::string folder = pexFileLocation.substr(0, pos);
+        std::size_t pos = pex_file_location.find_last_of("/");
+        pos = pex_file_location.find_last_of("/", pos - 1);
+        std::string folder = pex_file_location.substr(0, pos);
         //   Going 1 folder back
         folder.append("/staticObjects/");
 
@@ -608,23 +607,23 @@ private:
 
     /*!
      * \brief This function creates a rectangle in a gridmap.
-     * \param X X coordinate of the center location in the gridmap.
-     * \param Y Y coordinate of the center location in the gridmap.
+     * \param x x coordinate of the center location in the gridmap.
+     * \param y y coordinate of the center location in the gridmap.
      * \param length Length of the rectangle.
      * \param width Width of the rectangle.
      * \param angle The amount of tilt.
      * \return A rectangle created corresponding to the given parameters
      * \details This function is especially used to creates car footprint.
      */
-    grid_map::Polygon rectangle_creator(float X, float Y, float length, float width, float angle) {
+    grid_map::Polygon rectangle_creator(float x, float y, float length, float width, float angle) {
         length = 0.5*length;
         width = 0.5*width;
         grid_map::Polygon polygon;
         polygon.setFrameId("SSMP_map");
-        polygon.addVertex(Position(X+length*cos(angle)-width*sin(angle), Y+width*cos(angle)+length*sin(angle)));
-        polygon.addVertex(Position(X+length*cos(angle)+width*sin(angle), Y-width*cos(angle)+length*sin(angle)));
-        polygon.addVertex(Position(X-length*cos(angle)+width*sin(angle), Y-width*cos(angle)-length*sin(angle)));
-        polygon.addVertex(Position(X-length*cos(angle)-width*sin(angle), Y+width*cos(angle)-length*sin(angle)));
+        polygon.addVertex(Position(x + length * cos(angle) - width * sin(angle), y + width * cos(angle) + length * sin(angle)));
+        polygon.addVertex(Position(x + length * cos(angle) + width * sin(angle), y - width * cos(angle) + length * sin(angle)));
+        polygon.addVertex(Position(x - length * cos(angle) + width * sin(angle), y - width * cos(angle) - length * sin(angle)));
+        polygon.addVertex(Position(x - length * cos(angle) - width * sin(angle), y + width * cos(angle) - length * sin(angle)));
         return polygon;
     }
 
@@ -640,8 +639,8 @@ public:
      * \details Initializes the node and its components such as publishers and subscribers.
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
-    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
-        occmap_width(area_width),                               // The width in meter...
+    GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
+                                                                                                                               occmap_width(area_width),                               // The width in meter...
         occmap_height(area_height_front + area_height_back),    // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
         car_offset(area_height_front - occmap_height/2),        // relative distance between the center of the grid map and the center of the car (logitudinal axis...
                                                                 // ... positive towards the front of the car
@@ -652,70 +651,70 @@ public:
         nh.getParam("use_pex_file", use_pex_file_);
         nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
         if (nh.hasParam("car_length"))
-            nh.getParam("car_length", length_ego);
+            nh.getParam("car_length", length_ego_);
         else
-            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << length_ego );
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << length_ego_ );
 
         if(nh.hasParam("car_width"))
-            nh.getParam("car_width", width_ego);
+            nh.getParam("car_width", width_ego_);
         else
-            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << width_ego );
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << width_ego_ );
 
 
 
         // Initialize node and publishers
-        pub_GridMap = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-        pub_footprint_ego = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
-        pub_SSMP_control = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
-        sub_Position = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
+        pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
+        pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
+        pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
+        sub_position_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
         if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
-        mapResolution = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
-        frequency = 20;                       // 20 Hz is the minimum desired rate to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
-        rate = ros::Rate(frequency);
+        map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
+        frequency_ = 20;                       // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
+        rate_ = ros::Rate(frequency_);
 
         //height_ego = 2; //Height is not critical for now
-        length_other = length_ego;
-        width_other = width_ego;
-        heigth_other = 2;
+        length_other_ = length_ego_;
+        width_other_ = width_ego_;
+        heigth_other_ = 2;
 
-        x_egoOld = 0;
-        y_egoOld = 0;
+        x_ego_old_ = 0;
+        y_ego_old_ = 0;
 
         //Initialize the grid map with static entities provided by the vector map and the pex file.
         initializeGridMap();
 
         // Create footprint for car
-        footprint_ego.header.frame_id = "SSMP_base_link";
+        footprint_ego_.header.frame_id = "SSMP_base_link";
         geometry_msgs::Point32 point;
-        point.x = -0.2*length_ego;
-        point.y = -0.5*width_ego;
-        footprint_ego.polygon.points.emplace_back(point);
-        point.x = 0.8*length_ego;
-        point.y = -0.5*width_ego;
-        footprint_ego.polygon.points.emplace_back(point);
-        point.x = 0.8*length_ego;
-        point.y = 0.5*width_ego;
-        footprint_ego.polygon.points.emplace_back(point);
-        point.x = -0.2*length_ego;
-        point.y = 0.5*width_ego;
-        footprint_ego.polygon.points.emplace_back(point);
+        point.x = -0.2 * length_ego_;
+        point.y = -0.5 * width_ego_;
+        footprint_ego_.polygon.points.emplace_back(point);
+        point.x = 0.8 * length_ego_;
+        point.y = -0.5 * width_ego_;
+        footprint_ego_.polygon.points.emplace_back(point);
+        point.x = 0.8 * length_ego_;
+        point.y = 0.5 * width_ego_;
+        footprint_ego_.polygon.points.emplace_back(point);
+        point.x = -0.2 * length_ego_;
+        point.y = 0.5 * width_ego_;
+        footprint_ego_.polygon.points.emplace_back(point);
 
         // Wait until preScan has been started (connection_established_ = true), otherwise problems will happen
         while(nh.ok() && connection_established_ == false){
             ros::spinOnce();
-            rate.sleep();
+            rate_.sleep();
         }
 
         // Send signal to the safetyplanner that the map has been created, and the safety planner can now start up
         rcv_common_msgs::SSMP_control SSMPcontrol;
         SSMPcontrol.header.stamp = ros::Time::now();
         SSMPcontrol.SSMP_control = 1;
-        pub_SSMP_control.publish(SSMPcontrol);
+        pub_SSMP_control_.publish(SSMPcontrol);
 
     }
 
@@ -745,10 +744,10 @@ public:
                 // Dynamic map updates, information of which is delivered by prescan
                 if(dynamic_objects_ground_truth_active_ == true){
                     dynamicActorsUpdateGroundTruth();
-                    
-                    x_egoOld = x_ego;
-                    y_egoOld = y_ego;
-                    otherActorsOld = otherActors;
+
+                    x_ego_old_ = x_ego_;
+                    y_ego_old_ = y_ego_;
+                    other_actors_old_ = other_actors_;
                     dynamic_objects_ground_truth_initialized_ = true;
                     dynamic_objects_ground_truth_active_ = false;
                 }
@@ -767,19 +766,21 @@ public:
 
             // publish stuff
             // a submap of the gridmap is created based on the location and the orientation of the controlled ego actor, this submap will be send to the flattening node
-            subMap_center.x() = x_ego + car_offset*cos(yaw_ego);
-            subMap_center.y() = y_ego + car_offset*sin(yaw_ego);
+            subMap_center.x() = x_ego_ + car_offset * cos(yaw_ego_);
+            subMap_center.y() = y_ego_ + car_offset * sin(yaw_ego_);
             map.setTimestamp(ros::Time::now().toNSec());
             subMap = map.getSubmap(subMap_center, subMap_size, subsucces);
+//            GridMapRosConverter::toMessage(map, message);
+//            pub_grid_map_.publish(message);
             if(subsucces){
                 GridMapRosConverter::toMessage(subMap, message);
-                pub_GridMap.publish(message);
+                pub_grid_map_.publish(message);
 
-                footprint_ego.header.stamp = ros::Time::now();
-                pub_footprint_ego.publish(footprint_ego);
+                footprint_ego_.header.stamp = ros::Time::now();
+                pub_footprint_ego_.publish(footprint_ego_);
 
                 rostime = ros::Time::now().toSec() - rostime;
-                if(rostime > 1/frequency){
+                if(rostime > 1 / frequency_){
                     ROS_WARN("GridMapCreator : frequency is not met!");
                 }
             }
@@ -788,7 +789,7 @@ public:
             }
 
             
-            rate.sleep();
+            rate_.sleep();
         }
     }
 
