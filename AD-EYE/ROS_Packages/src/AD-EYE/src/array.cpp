@@ -36,12 +36,19 @@ private:
     //Variables
     float rostime_;
     float frequency_ = 20; // this value should be alligned with the frequency value used in the GridMapCreator_node
+
+    // Real World Coordinates
     double x=249.0, y=136.0, z=0.0, W=0.707, X=0.0, Y=0.0,Z=0.707;
+
+    // Pixes Coordinates
+    double xpix_, ypix_;
     
     
-    void goalcoordinatescallback(const std_msgs::Int16MultiArray::ConstPtr& msg)
+    void goalPixlesCoordinatesCallback(const std_msgs::Int16MultiArray::ConstPtr& msg)
     {
          ROS_INFO("I heard: [%d],[%d]", msg->data.at(0),msg->data.at(1));
+         xpix_ = msg->data.at(0);
+         ypix_ = msg->data.at(1);
     }
     
     void mapExtractorCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
@@ -54,6 +61,17 @@ private:
         bool create_image_ = GridMapRosConverter::toImage(grid_map_, "Lanes", sensor_msgs::image_encodings::RGB8, image_);
 
         ROS_INFO("Sucessfully create an image : %s", create_image_?"true":"false");
+
+        // Get Resolution and Origin
+        double res = grid_map_.getResolution();
+        Position origin = grid_map_.getPosition() ;
+
+        ROS_INFO("Resolution %f %f %f", res, origin.x(), origin.y());
+
+
+        // Convert Pixes Coordinates to Real World Coordinates
+        double x1  = origin.x() + xpix_ * res ; 
+        double y1  = origin.y() + ypix_ * res ; 
     }
 
     
@@ -67,7 +85,7 @@ public:
     GridMapExtractor(ros::NodeHandle &nh) : nh_(nh), rate_(1)
     {
         // Initialize node, publishers and subscribers
-        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/goal_pixels", 1,	&GridMapExtractor::goalcoordinatescallback, 	this);
+        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/goal_pixels", 1,	&GridMapExtractor::goalPixlesCoordinatesCallback, 	this);
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
         goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
