@@ -1104,6 +1104,7 @@ function checkTime(time) {
         textarea.rows = "9";
         textarea.columns = "250";
         textarea.name = "topic_data";
+        textarea.value = " ";
 
         // appending label and textarea to p element
         p1.appendChild(label2);
@@ -1162,15 +1163,15 @@ function checkTime(time) {
     // function to display the data of selected rostopic in the teaxarea of generic card
     function display_topic_data()
     {
-        let selected_topic = " ";
-        let selected_topic_value = " ";
-        let select = document.getElementById("select_topic");
-        selected_topic = select.options[select.selectedIndex].text;
-        selected_topic_value = select.options[select.selectedIndex].value;
+        let selected_topic = null;
+        let selected_topic_value = null;
+        let selected = document.getElementById("select_topic");
+        selected_topic = selected.options[selected.selectedIndex].text;
+        selected_topic_value = selected.options[selected.selectedIndex].value;
 
         topicsClient.callService(request, function(result) 
         {
-            let topic_val = 0;
+            let topic_val;
 
             topic_types = result.types;
             for(var i = 0; i < topic_types.length; i++)
@@ -1186,9 +1187,12 @@ function checkTime(time) {
 
                     listener.subscribe(function(message) {
                         topic_val = JSON.stringify(message);
-                        document.getElementById("topic_data_textbox").value = topic_val ;
+                        document.getElementById("x5").innerHTML = selected_topic;
+
 
                     });
+                    document.getElementById("topic_data_textbox").value = topic_val ;
+
                 }  
             }
         });
