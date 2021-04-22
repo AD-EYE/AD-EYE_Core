@@ -1,68 +1,67 @@
 document.addEventListener('DOMContentLoaded', (event) => 
 {
-
-    var dragSrcEl = null;
+    var dragSourceEl = null;
 
     function handleDragStart(e) 
     {
-      this.style.opacity = '0.4';
-      dragSrcEl = this;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/html', this.innerHTML);
+        this.style.opacity = '0.4';
+        dragSourceEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
     }
 
     function handleDragOver(e) 
     {
-      if (e.preventDefault) 
-      {
-        e.preventDefault();
-      }
-      e.dataTransfer.dropEffect = 'move';
-      return false;
+        if (e.preventDefault) 
+        {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
     }
 
     function handleDragEnter(e) 
     {
-      this.classList.add('over');
+        this.classList.add('over');
     }
 
     function handleDragLeave(e) 
     {
-     this.classList.remove('over');
+        this.classList.remove('over');
     }
 
     function handleDrop(e) 
     {
-      if (e.stopPropagation) 
-      {
-        e.stopPropagation(); // stops the browser from redirecting.
-      }
-      if (dragSrcEl != this) 
-      {
-       dragSrcEl.innerHTML = this.innerHTML;
-       this.innerHTML = e.dataTransfer.getData('text/html');
-      }
-      return false;
+        if (e.stopPropagation) 
+        {
+            e.stopPropagation(); // stops the browser from redirecting.
+        }
+        if (dragSourceEl != this) 
+        {
+            dragSourceEl.innerHTML = this.innerHTML;
+            this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+        return false;
     }
 
     function handleDragEnd(e) 
     {
-      this.style.opacity = '1'; 
-      items.forEach(function (item) 
-      {
-        item.classList.remove('over');
-      });
+        this.style.opacity = '1'; 
+        items.forEach(function (item) 
+        {
+            item.classList.remove('over');
+        });
     }
 
     let items = document.querySelectorAll('.container .box');
     items.forEach(function(item)
     {
-    item.addEventListener('dragstart', handleDragStart, false);
-    item.addEventListener('dragenter', handleDragEnter, false);
-    item.addEventListener('dragover', handleDragOver, false);
-    item.addEventListener('dragleave', handleDragLeave, false);
-    item.addEventListener('drop', handleDrop, false);
-    item.addEventListener('dragend', handleDragEnd, false);
+        item.addEventListener('dragstart', handleDragStart, false);
+        item.addEventListener('dragenter', handleDragEnter, false);
+        item.addEventListener('dragover', handleDragOver, false);
+        item.addEventListener('dragleave', handleDragLeave, false);
+        item.addEventListener('drop', handleDrop, false);
+        item.addEventListener('dragend', handleDragEnd, false);
     });
 });
 
@@ -77,255 +76,347 @@ document.addEventListener('DOMContentLoaded', (event) =>
     ros.on('close', function() { document.getElementById("status").innerHTML = "Closed"; });
 //------------------Connection with the bridge-------------------
 
-
-//-------------------camera display ----------------
-
-//listen to the topic
-   var image_topic = new ROSLIB.Topic({
-        ros : ros,
-        name : '/camera_1/image_raw',
-        messageType : 'sensor_msgs/Image'
-     });
-
-    //subscribing to the topic
-    image_topic.subscribe(function(message)
-    {   
-        
-    /*---------------------------------------*/
-        /* var canvas=document.getElementById("canvas");
-        const ctx = canvas.getContext("2d"); */
-        document.getElementById("canvas").innerHTML="Heloo";
-        /* ctx.drawImage(message, 0, 0, width, height);
-        var imageData = ctx.getImageData(0, 0, width, height);
-        //console.log(imageData);
-        
-        var updatedImageData = rgb_To_Image(imageData);
-        ctx.putImageData(updatedImageData, 0, 0);
-        document.write(updatedImageData);
-        function rgb_To_Image(imageData) {
-            var data = imageData.data;
-            var inData = message.data;
-            for(i=0;i<data.length;i+=4){
-                data[i]=inData[i];
-                data[i+1]=inData[i+1];
-                data[i+2]=inData[i+2];
-            }
-            return data;
-        
-        }
-        // window.addEventLis */
-    
-
-    /*---------------------------------------*/
-        /* var c = document.getElementById("canvas"); 
-        var ctx = c.getContext("2d");
-        var r,g,b; 
- 
-        for(var i=0; i< Message.length; i++){ 
-	    for(var j=0; j< Message[0].length; j++){ 
-		r = Message[i]; 
-		g = Message[i+1];	 
-		b = Message[i+2];		 
-		ctx.fillStyle = "rgba("+r+","+g+","+b+", 1)";  
-		ctx.fillRect( j, i, 1, 1 ); 
-    } 
-    }--------------------------------------------------*/
-       
-
-}); 
-    /*---------------------------------------*/
-        /* var can = document.createElement("canvas");
-        can.width = Message.width;
-        can.height = Message.height; 
-        var ctx = can.getcontext("2d");
-
-        var imgData = ctx.createImageData(0, 0, Message.width, Message.height);
-        var data = imgData.data;
-        var inData = Message.data;
-
-        var i = 0, j, y = 0, x;
-        while (y < Message.height) {
-            j = y * Message.step;
-            for (x = 0; x < Message.width; x ++) {
-                if (!Message.is_bigendian) {
-                    data[i]     = inData[j];     // red
-                    data[i + 1] = inData[j + 1]; // green
-                    data[i + 2] = inData[j + 2]; // blue
-                } else {
-                    data[i + 2] = inData[j];     // blue
-                    data[i + 1] = inData[j + 1]; // green
-                    data[i]     = inData[j + 2]; // red
-                }
-                data[i + 3] = 255;  // alpha
-                i += 4;
-                j += 3;
-            }
-            y++;
-        }
-
-            ctx.putImageData(imgData, 0, 0);
-
-            document.body.appendChild(can); */
-
-
-
-
-//-------------------camera display ----------------
-
-
+let green = "#699b2c";
 
 //-------------------linear velocity----------------
-    //listen to the topic
-    var vel_listener = new ROSLIB.Topic({
+    // listen to the topic /vehicle_cmd
+    let velocity_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
      });
 
-    //subscribing to the topic
-    vel_listener.subscribe(function(message)
+    //subscribing to the topic /vehicle_cmd
+    velocity_listener.subscribe(function(message)
     {
-        var val = message.ctrl_cmd.linear_velocity;
-        const gaugeElement = document.querySelector(".gauge");
-        val = val / 10; //shifting one decimal
-                            
+        let value = message.ctrl_cmd.linear_velocity;
+        let max_gauge_speed = 10;
+        const gauge_element = document.querySelector(".gauge_velocity");
+        
+        //shifting value by one decimal
+        value = value / max_gauge_speed;
+
+        // passing the value received from the topic /vehicle_cmd to the function to display the velocity of the car
+        setGaugeValue(gauge_element,value);
+
         //function to set values of the gauge
-        function setGaugeValue(gauge, value) 
+        function setGaugeValue(gauge_velocity,value) 
         {
-        //safety check for the values within the range
+            //safety check to ensure that the values are within the range
             if (value < 0 || value > 1) 
             {
               return;
             }
-            //making the turn over the gauge body
-            gauge.querySelector(".gauge_fill").style.transform = `rotate(${value / 3}turn)`;
-            value = (value * 180) / 5;// to convert the value to km/hr from m/s
-            //printing the velocity value
-            gauge.querySelector(".gauge_cover").textContent = `${Math.round(value )} km/h`;
-        }
 
-        // passing the value to the function
-        setGaugeValue(gaugeElement, val);
+            //making the turn over the gauge body
+            gauge_velocity.querySelector(".gauge_velocity_fill").style.transform = `rotate(${value/3}turn)`;
+
+            // to convert the value to km/hr from m/s
+            value = (value * 180) / 5; 
+
+            //printing the velocity value
+            gauge_velocity.querySelector(".gauge_velocity_cover").textContent = `${Math.round(value)} km/h`;
+        }
     });
 //-------------------linear velocity----------------
 
 
 
 //-------------------linear acceleration----------------
-    //listen to the topic
-    var acc_listener = new ROSLIB.Topic({
+    //listen to the topic /vehicle_cmd
+    let acceleration_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/vehicle_cmd',
         messageType : 'autoware_msgs/VehicleCmd'
     });
 
-    //subscribing to the topic
-    acc_listener.subscribe(function(message)
+    //subscribing to the topic /vehicle_cmd
+    acceleration_listener.subscribe(function(message)
     {
-        var val_a = message.ctrl_cmd.linear_acceleration;
-        const gaugeElement_a = document.querySelector(".gauge_a");
-        val_a = val_a / 10; //shifting one decimal
+        let value = message.ctrl_cmd.linear_acceleration;
+        const gauge_element = document.querySelector(".gauge_acceleration");
+
+        // passing the value received from the topic /vehicle_cmd to the function to display the acceleration of the car
+        setGaugeValue(gauge_element, value);
 
         //function to set values of the gauge
-        function setGaugeValue_a(gauge_a, value_a) 
+        function setGaugeValue(gauge_acceleration, value) 
         {
-        //safety check for the values within the range
-            if (value_a < 0 || value_a > 1) 
+            //safety check to ensure that values are within the range
+            if (value < 0 || value > 1) 
             {
               return;
             }
-            //making the turn over the gauge body
-            gauge_a.querySelector(".gauge_a_fill").style.transform = `rotate(${value_a / 4}turn)`;
-            //printing the acceleration value
-            gauge_a.querySelector(".gauge_a_cover").textContent = `${Math.round(value_a*10 )} m/s²`;
-        }
 
-        // passing the value to the function
-        setGaugeValue_a(gaugeElement_a, val_a);
+            //making the turn over the gauge body
+            gauge_acceleration.querySelector(".gauge_acceleration_fill").style.transform = `rotate( ${ value / 4 }turn )`;
+
+            //printing the acceleration value
+            gauge_acceleration.querySelector(".gauge_acceleration_cover").textContent = `${ Math.round( value * 10 ) } m/s²`;
+        }
     });
 //-------------------linear acceleration----------------
 
 
 
-//-------------------safety Vs autoware ----------------
-    //listen to the topic
-    var data_listener = new ROSLIB.Topic({
+//-------------------Nominal Vs Safety Channel----------------
+    //listen to the topic /switchCommand
+    let data_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/switchCommand',
         messageType : 'std_msgs/Int32'
     });
 
-    //subscribing to the topic
+    //subscribing to the topic /switchCommand
     data_listener.subscribe(function(message) 
     {
-        var val_data = message.data;
-        var num =val_data;
-        // array for two leds
-        var strColorPairs = Array({'position' : 0, 'color' : 'green'},{'position' : 1, 'color' : 'red'});
-        var position = checkPosition(num);
+        let channel_id = message.data;
 
-        colorBox(position);
+        // array for postion:color pairs
+        let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
+        let position = assignPosition(channel_id);
+        assignColor(position);
 
-        //function to change the color of leds and reseting it to gray when not in use
-        function colorBox(position)
+        //function to change the color of buttons and reseting it to gray when not in use
+        function assignColor(position)
         {
-            var divList = document.getElementsByClassName('btn');
-            var i, n = divList.length;
-            curContent = divList[position].id;
-            for (i=0; i<n; i++)
+            let buttonList = document.getElementsByClassName('channel');
+            let numOfButtons = buttonList.length;
+            let buttonId = buttonList[position].id;
+            for (let i = 0; i < numOfButtons; i++)
             {
-              for (j=0; j<strColorPairs.length; j++)
+                for (let j = 0; j < positionColorPairs.length; j++)
                 {
-                    if (strColorPairs[j].position == curContent)
+                    if (positionColorPairs[j].position == buttonId)
                     {
-                     divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                        buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
                     }
-                    else {divList[i].style.backgroundColor  = 'gray'}
+                    else 
+                    {
+                        buttonList[i].style.backgroundColor  = 'gray';
+                    }
                 }
             }
         }
 
-        //function to assign the position in the array base on the data value recived
-        function checkPosition(num)
+        //function to assign the position in the array based on the data value received
+        function assignPosition(channel_id)
         {
-            var position;
-            if((num==0))
+            let position;
+            if((channel_id == 0))
             {
-                position=0;
+                position = 0;
             }
-            else if((num==1))
+            else if((channel_id == 1))
             {
-                position=1;
+                position = 1;
             }
             return position;
+            
         }
     });
-//-------------------safety Vs autoware ----------------
+    
+    // function to switch the channel on button click from nominal to safety and vice-versa 
+    function toggleState_OnClick(channel)
+    {
+        if(channel.value == "off")
+        {
+            let dataToggleOn = new ROSLIB.Topic({
+                ros : ros,
+                name : '/switchCommand',
+                messageType : 'std_msgs/Int32'
+            });
+
+            let dataOn = new ROSLIB.Message({
+                data : 1
+            });
+            
+            dataToggleOn.publish(dataOn);
+        }
+        else
+        {
+            let dataToggleOff = new ROSLIB.Topic({
+                ros : ros,
+                name : '/switchCommand',
+                messageType : 'std_msgs/Int32'
+            });
+
+            let dataOff = new ROSLIB.Message({
+                data : 0
+            });
+
+            dataToggleOff.publish(dataOff);
+        }
+    }
+//-------------------Nominal Vs Safety Channel ----------------
+
+
+
+//-------------------Manager State----------------
+    //listen to the topic /manager/state
+    let manager_listener = new ROSLIB.Topic({
+        ros : ros,
+        name : '/manager/state',
+        messageType : 'std_msgs/Int8'
+    });
+
+    //subscribing to the topic /manager/state
+    manager_listener.subscribe(function(message) 
+    {
+        let data = message.data;
+        if(data === 0)
+        {
+            document.getElementById("state").innerHTML = "Initializing";
+        }
+        else if(data === 1)
+        {
+            document.getElementById("state").innerHTML = "Enabled";
+        }
+        else if(data === 2)
+        {
+            document.getElementById("state").innerHTML = "Engaged";
+        }
+        else if(data === 3)
+        {
+            document.getElementById("state").innerHTML = "Fault";
+        }
+        else
+        {
+            document.getElementById("state").innerHTML = "Unknown";
+        }
+
+    });
+
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStateinitial_OnClick(initial)
+    {
+        let initialChecksTopic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/initial_checks',
+            messageType :'std_msgs/Bool'
+        });
+        
+        if(initial.value == "off") 
+        {
+            initial.value = "on";
+            let initialOn = new ROSLIB.Message({
+                data : true
+            });
+
+            let stringData = (initialOn.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("initial").innerHTML = data;
+            initialChecksTopic.publish(initialOn);
+        }
+        else
+        {
+            initial.value = "off";
+            let initialOff = new ROSLIB.Message({
+                data : false
+            });
+
+            let stringData = (initialOff.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("initial").innerHTML = data;
+            initialChecksTopic.publish(initialOff);
+        }
+    }
+    
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStateactivation_OnClick(activation)
+    {
+        let activationRequestTopic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/activation_request',
+            messageType : 'std_msgs/Bool'
+        });
+
+        if(activation.value == "off") 
+        {
+            activation.value = "on";
+            let activationOn = new ROSLIB.Message({
+                data : true
+            });
+
+            let stringData = (activationOn.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("activation").innerHTML = data;
+            activationRequestTopic.publish(activationOn);
+        } 
+        else
+        {
+            activation.value = "off";
+            let activationOff = new ROSLIB.Message({
+                data : false
+            });
+
+            let stringData = (activationOff.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("activation").innerHTML = data;
+            activationRequestTopic.publish(activationOff);
+        }
+    }
+
+    // function to toggle the state on and off by clicking on the buttons.
+    function toggleStatefault_OnClick(fault)
+    {
+        let faultTopic = new ROSLIB.Topic({
+            ros : ros,
+            name : '/fault',
+            messageType : 'std_msgs/Bool'
+        });
+
+        if(fault.value == "off") 
+        {
+            fault.value = "on";
+            let faultOn = new ROSLIB.Message({
+                data : true
+            });
+
+            let stringData = (faultOn.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("fault").innerHTML = data;
+            faultTopic.publish(faultOn);
+        } 
+        else
+        {
+            fault.value = "off";
+            let faultOff = new ROSLIB.Message({
+                data : false
+            });
+
+            let stringData = (faultOff.data).toString();
+            let data = stringData.toUpperCase();
+            document.getElementById("fault").innerHTML = data;
+            faultTopic.publish(faultOff);
+        }
+        
+    }
+//--------------------Manager State--------------
 
 
 
 //-------------------tracked object ----------------
-    //listen to the topic
-    var track_listener = new ROSLIB.Topic({
+    //listen to the topic /tracked_objects 
+    let track_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/tracked_objects',
         messageType : 'autoware_msgs/DetectedObjectArray'
     });
 
-    //subscribing to the topic
+    //subscribing to the topic /tracked_objects
     track_listener.subscribe(function(message) 
     {
-
         let object=[];
-        var k=0;
-        for (var i = 0; i < message.objects.length; i++) 
+        let k=0;
+        for (let i = 0; i < message.objects.length; i++) 
         {
-            for (var j = 0; j < message.objects[i].label.length; j++) 
+            for (let j = 0; j < message.objects[i].label.length; j++) 
             {
                 object[k]=message.objects[i].label[j];
                 k++;
             }
-            s = object.join("")
+            s = object.join("");
             document.getElementById("track").innerHTML = s;
             x = message.objects[0].pose.position.x;
             document.getElementById("x").innerHTML = x;
@@ -335,1307 +426,669 @@ document.addEventListener('DOMContentLoaded', (event) =>
             document.getElementById("z").innerHTML = z;
             object.splice(0, object.length);
         }
-
     });
 //-------------------tracked object ----------------
 
 
 
-//---------------------behaviour state--------------
-    //listen to the topic
-    var beh_listener = new ROSLIB.Topic({
+//---------------------behavior state--------------
+    //listen to the topic /behavior_state
+    var behavior_state_listener = new ROSLIB.Topic({
         ros : ros,
         name : '/behavior_state',
         messageType : 'visualization_msgs/MarkerArray'
     });
 
-    //subscribing to the topic
-    beh_listener.subscribe(function(message) 
+    //subscribing to the topic /behavior_state
+    behavior_state_listener.subscribe(function(message) 
     {
-        let marker=[];
-        var k=0;
-        for (var i = 0; i < message.markers.length; i++) 
+        let marker = [];
+        var k = 0;
+        for (let i = 0; i < message.markers.length; i++) 
         {
-            for (var j = 0; j < message.markers[i].text.length; j++) 
+            for (let j = 0; j < message.markers[i].text.length; j++) 
             {
-                marker[k]=message.markers[i].text[j];
+                marker[k] = message.markers[i].text[j];
                 k++;
             }
-            t = marker.join("")
-            document.getElementById("beh").innerHTML = t;
+            t = marker.join("");
+            document.getElementById("behavior").innerHTML = t;
             marker.splice(0, marker.length);
         }
     });
-//--------------------behaviour state---------------
+//--------------------behavior state---------------
 
 
 
-//--------------------Toggle state---------------
-    function toggleState(item)
-    {
-        if(item.className == "on") 
-        {
-            item.className="off";
-            var dataToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/switchCommand',
-                messageType : 'std_msgs/Int32'
-            });
-
-            var dataOn = new ROSLIB.Message({
-                data : 1
-            });
-            
-            dataToggleOn.publish(dataOn);
-        } 
-        else 
-        {
-            item.className="on";
-            var dataToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/switchCommand',
-                messageType : 'std_msgs/Int32'
-            });
-
-            var dataOff = new ROSLIB.Message({
-                data : 0
-            });
-
-            dataToggleOff.publish(dataOff);
-        }
-    }
-//--------------------Toggle state---------------
-
-
-
-//-------------------- State Change---------------
-    function toggleStateinitial(ini)
-    {
-        if(ini.className == "on") 
-        {
-            ini.className="off";
-            var initialToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/initial_checks',
-                messageType :'std_msgs/Bool'
-            });
-
-            var initialOn = new ROSLIB.Message({
-                data : true
-            });
-
-            initialToggleOn.publish(initialOn);
-        }
-        else 
-        {
-            ini.className="on";
-            var initialToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/initial_checks',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var initialOff = new ROSLIB.Message({
-                data : false
-            });
-
-            initialToggleOff.publish(initialOff);
-        }
-    }
-
-    function toggleStateactivation(act)
-    {
-        if(act.className == "on") 
-        {
-            act.className="off";
-            var activationToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/activation_request',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var activationOn = new ROSLIB.Message({
-                data : true
-            });
-
-            activationToggleOn.publish(activationOn);
-        } 
-        else 
-        {
-            act.className="on";
-            var activationToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/activation_request',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var activationOff = new ROSLIB.Message({
-                data : false
-            });
-
-            activationToggleOff.publish(activationOff);
-        }
-    }
-
-    function toggleStatefault(flt)
-    {
-        if(flt.className == "on") 
-        {
-            flt.className="off";
-            var faultToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var faultOn = new ROSLIB.Message({
-                data : true
-            });
-
-            faultToggleOn.publish(faultOn);
-        } 
-        else
-        {
-            flt.className="on";
-            var faultToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/fault',
-                messageType : 'std_msgs/Bool'
-            });
-
-            var faultOff = new ROSLIB.Message({
-                data : false
-            });
-
-            faultToggleOff.publish(faultOff);
-        }
-    }
-//-------------------- state Change---------------
-
-
-
-//-------------------Manager State----------------
-    //listen to the topic
-    var manager_listener = new ROSLIB.Topic({
+//-----------------feature state-----------------
+    //listen to the topic manager/features
+    let feature_listener = new ROSLIB.Topic({
         ros : ros,
-        name : '/manager/state',
-        messageType : 'std_msgs/Int32'
+        name : 'manager/features',
+        messageType : 'std_msgs/Int32MultiArray'
     });
 
-    //subscribing to the topic
-    manager_listener.subscribe(function(message) 
+    let data_array;
+
+    //subscribing to the topic manager/features
+    feature_listener.subscribe(function(message) 
     {
-        var num = message.data;
-        if((num==0))
-        {
-            var initial = "Initiaizing";
-            document.getElementById("state").innerHTML = Initial;
-        }
-        else if((num==1))
-        {
-            var enabled = "Enabled";
-            document.getElementById("state").innerHTML = Enabled;
-        }
-        else if((num==2))
-        {
-            var engaged = "Engaged";
-            document.getElementById("state").innerHTML = Engaged;
-        }
-        else if((num==3))
-        {
-            var fault = "Fault";
-            document.getElementById("state").innerHTML = Fault;
-        }
+        data_array = message.data;
 
-    });
-//--------------------Manager State--------------
+        // array for position:color pairs
+        let strColorPairs = Array(
+        {'position' : 0, 'color' : green},
+        {'position' : 1, 'color' : green},
+        {'position' : 2, 'color' : green},
+        {'position' : 3, 'color' : green},
+        {'position' : 4, 'color' : green},
+        {'position' : 5, 'color' : green},
+        {'position' : 6, 'color' : green},
+        {'position' : 7, 'color' : green},
+        {'position' : 8, 'color' : green},
+        {'position' : 9, 'color' : green},
+        {'position' : 10, 'color' : green},
+        {'position' : 11, 'color' : green});
+        
+        // array to get postions with the data value 1
+        let position = new Array();
+        position = checkPosition(data_array);
+        colorBox(position);
+        
 
-
-
-//-------------------- Feature Change---------------
-    function toggleStaterec(rec)
-    {
-        if(rec.className == "on") 
+        //function to change the color of button and reseting it to gray when not in use
+        function colorBox(position)
         {
-            rec.className="off";
-            var recToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var recOn = new ROSLIB.Message({
-                INITIALIZING_STATE : 
+            let divList = document.getElementsByClassName('features');
+            let i, n = divList.length;
+                
+            for (p=0; p<position.length; p++)
+            {
+                curContent = divList[position[p]].id;
+                for (i=0; i<n; i++)
                 {
-                    RECORDING : 1
-                },
-                ENABLED_STATE : 
-                {
-                    RECORDING : 1
-                },
-                ENGAGED_STATE : 
-                {
-                    RECORDING : 1
-                },
-                FAULT_STATE : 
-                {
-                    RECORDING : 1
+                    for (j=0; j<strColorPairs.length; j++)
+                    {
+                        if (strColorPairs[j].position !== curContent)
+                        {
+                            divList[curContent].style.backgroundColor  = strColorPairs[j].color;
+                        }
+                        else 
+                        {
+                            divList[i].style.backgroundColor  = 'gray';
+                        }
+                    }
                 }
-            });
-
-            recToggleOn.publish(recOn);
-        } 
-        else 
-        {
-            rec.className="on";
-            var recToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var recOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RECORDING : 0
-            },
-            ENABLED_STATE : 
-            {
-                RECORDING : 0
-            },
-                ENGAGED_STATE : 
-            {
-                RECORDING : 0
-            },
-                FAULT_STATE : 
-            {
-                RECORDING : 0
             }
+        }
+
+        //function to check the positions of the features to be enabled based on the data array value received from the topic manager/features
+        function checkPosition(data_array)
+        {
+            let dataon = [];
+            for (let i = 0; i < data_array.length; i++)
+            {
+                if (data_array[i] === 1)
+                {
+                    dataon.push(i);
+                }
+            }
+            return dataon;
+        }
+    });
+//-----------------feature state-----------------
+
+
+
+//-------------------- feature Change---------------
+    // function to toggle fetaures on and off on button click.
+    function toggleFeatureState_OnClick(feature)
+    {
+        let features = document.getElementsByClassName("features");
+        let featureToggleOff = new ROSLIB.Topic({
+            ros : ros,
+            name : '/Features_state',
+            messageType : 'std_msgs/Int32MultiArray'
+        });
+        let featureOff = new ROSLIB.Message({
+            data : data_array 
+        });
+        for(let i = 0; i < features.length; i++)
+        {
+            if(feature.id == i)
+            {
+                if(featureOff.data[i] == 1)
+                {
+                    featureOff.data[i] = 0; 
+                }
+                else
+                {
+                    featureOff.data[i] = 1; 
+                }
+            }
+        }
+        featureToggleOff.publish(featureOff);
+    }  
+//-------------------- feature Change---------------
+
+
+//-------------fault injection----------------------
+
+function create_forms()
+{
+    // forms for lidar
+    let lidar1_form = document.getElementById("lidar1_form");
+
+    let lidar2_form = document.getElementById("lidar2_form");
+    lidar2_form.innerHTML = lidar1_form.innerHTML;
+    lidar2_form[0].id = "lidar2_state";
+    
+    let lidar3_form = document.getElementById("lidar3_form")
+    lidar3_form.innerHTML = lidar1_form.innerHTML;
+    lidar3_form[0].id = "lidar3_state";
+
+    let lidar4_form = document.getElementById("lidar4_form");
+    lidar4_form.innerHTML = lidar1_form.innerHTML;
+    lidar4_form[0].id = "lidar4_state";
+
+    // forms for camera
+    let camera1_form = document.getElementById("camera1_form");
+
+    let camera2_form = document.getElementById("camera2_form");
+    camera2_form.innerHTML = camera1_form.innerHTML;
+    camera2_form[0].id = "camera2_state";
+
+    let tl_camera_form = document.getElementById("tl_camera_form");
+    tl_camera_form.innerHTML = camera1_form.innerHTML;
+    tl_camera_form[0].id = "tl_camera_state";
+}
+    
+function faultInjection_OnClick(button)
+{
+    formsCollection = document.getElementsByTagName("form");
+    let parent_div = button.parentNode;
+    for(let i = 0; i < formsCollection.length; i++)
+    {
+        if(button.name == formsCollection[i].name)
+        {
+            if(button.value == "off")
+            {
+                button.value = "on";
+                button.style.backgroundColor = green;
+                formsCollection[i].append(parent_div);
+                //formsCollection[i].append(parent_second_element);
+                formsCollection[i].style.display = "block";
+
+            }
+            else
+            {
+                button.value = "off";
+                button.style.backgroundColor = "gray";
+                document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
+                formsCollection[i].style.display = "none";
+
+            }
+            
+        }
+    }      
+}
+
+    let gnss_array = new Array();
+    let lidar1_array = new Array();
+    let lidar2_array = new Array(); 
+    let lidar3_array = new Array(); 
+    let lidar4_array = new Array(); 
+    let radar_array = new Array();
+    let camera1_array = new Array();
+    let camera2_array = new Array();
+    let tl_camera_array = new Array();
+    
+
+    // function to collect the values of lidar parameters from the form and put them in an array
+    function fault_injection_parameter_values(button)
+    {
+        var form = button.parentNode.id;
+        switch(form)
+        {
+            case "gnss_form":
+                    // values are collected from form and kept in an array
+                    for (let i=0;i<gnss_form.length-3;i++)
+                    {
+                        gnss_array[i] = gnss_form[i].value;
+                    }
+
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i=0;i<gnss_array.length;i++)
+                    {
+                        gnss_array[i] = parseFloat(gnss_array[i]);
+                    }
+
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+                    gnss_input.value = selected_value;
+                    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(0,gnss_array);
+                    break;
+
+                case "lidar1_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < lidar1_form.length-3; i++)
+                    {
+                        lidar1_array[i] = lidar1_form[i].value;
+                    }
+
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < lidar1_array.length; i++)
+                    {
+                        lidar1_array[i] = parseFloat(lidar1_array[i]);
+                    }
+
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = lidar1_state.options[lidar1_state.selectedIndex].text;
+                    lidar1_input.value = selected_value;
+
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(1,lidar1_array);
+                    break;
+
+                case "lidar2_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < lidar2_form.length-3; i++)
+                    {
+                        lidar2_array[i] = lidar2_form[i].value;
+                    }
+
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < lidar2_array.length; i++)
+                    {
+                        lidar2_array[i] = parseFloat(lidar2_array[i]);
+                    }
+
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = lidar2_state.options[lidar2_state.selectedIndex].text;
+                    lidar2_input.value = selected_value;
+
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(2,lidar2_array);
+                    break;
+
+                case "lidar3_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < lidar3_form.length-3; i++)
+                    {
+                        lidar3_array[i] = lidar3_form[i].value;
+                    }
+
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < lidar3_array.length; i++)
+                    {
+                        lidar3_array[i] = parseFloat(lidar3_array[i]);
+                    }
+
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = lidar3_state.options[lidar3_state.selectedIndex].text;
+                    lidar3_input.value = selected_value;
+
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(3,lidar3_array);
+                    break;
+
+                case "lidar4_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < lidar4_form.length-3; i++)
+                    {
+                        lidar4_array[i] = lidar4_form[i].value;
+                    }
+    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < lidar4_array.length; i++)
+                    {
+                        lidar4_array[i] = parseFloat(lidar4_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = lidar4_state.options[lidar4_state.selectedIndex].text;
+                    lidar4_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(4,lidar4_array);
+                    break;
+
+                case "radar_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < radar_form.length-3; i++)
+                    {
+                        radar_array[i] = radar_form[i].value;
+                    }
+    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < radar_array.length; i++)
+                    {
+                        radar_array[i] = parseFloat(radar_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = radar_state.options[radar_state.selectedIndex].text;
+                    radar_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(5,radar_array);
+                    break;
+
+                case "camera1_form":
+                    
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < camera1_form.length-3; i++)
+                    {
+                        camera1_array[i] = camera1_form[i].value;
+                    }
+                    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < camera1_array.length; i++)
+                    {
+                        camera1_array[i] = parseFloat(camera1_array[i]);
+                    }
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = camera1_state.options[camera1_state.selectedIndex].text;
+                    camera1_input.value = selected_value;
+                    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(6,camera1_array);
+                    break;
+
+                case "camera2_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < camera2_form.length-3; i++)
+                    {
+                        camera2_array[i] = camera2_form[i].value;
+                    }
+    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < camera2_array.length; i++)
+                    {
+                        camera2_array[i] = parseFloat(camera2_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = camera2_state.options[camera2_state.selectedIndex].text;
+                    camera2_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(7,camera2_array);
+                    break;
+
+                case "tl_camera_form":
+                    // values are collected from form and kept in an array
+                    for (let i = 0; i < tl_camera_form.length-3; i++)
+                    {
+                        tl_camera_array[i] = tl_camera_form[i].value;
+                    }
+    
+                    // coverting the string array to float array as we need float data to publish
+                    for (let i = 0; i < tl_camera_array.length; i++)
+                    {
+                        tl_camera_array[i] = parseFloat(tl_camera_array[i]);
+                    }
+    
+                    // To display the selected value of dropdown in the textbox beside the button
+                    selected_value = tl_camera_state.options[tl_camera_state.selectedIndex].text;
+                    tl_camera_input.value = selected_value;
+    
+                    // publishing the data from the form to gnss fault injection topic 
+                    publish_fault_injection(8,tl_camera_array);
+                    break;
+                }  
+
+    }
+     
+    // Function to publish the fault injection parameter values from user to specific rostopic
+    function publish_fault_injection(i,array)
+    {
+        let lidar_topics_array = new Array("/fault_injection/gnss","/fault_injection/lidar1","/fault_injection/lidar2","/fault_injection/lidar3","/fault_injection/lidar4","/fault_injection/radar","/fault_injection/camera1","/fault_injection/camera2","/fault_injection/tl_camera");
+        
+        let fault_injection_topic = new ROSLIB.Topic({
+            ros : ros,
+            name : lidar_topics_array[i],
+            messageType : 'std_msgs/Float64MultiArray'
             });
                     
-            recToggleOff.publish(recOff);
-        }
+        let fault_injection_msg = new ROSLIB.Message({
+            data : array
+            });
+    
+        fault_injection_topic.publish(fault_injection_msg);
     }
-                
-    function toggleStatemap(map)
-    {
-        if(map.className == "on") 
-        {
-            map.className="off";
-            var mapToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-                      
-            var mapOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MAP : 1
-            },
-            ENABLED_STATE : 
-            {
-                MAP : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MAP : 1
-            },
-            FAULT_STATE : 
-            {
-                MAP : 1
-            }
-            });
-
-            mapToggleOn.publish(mapOn);
-        } 
-        else 
-        {
-            map.className="on";
-            var mapToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mapOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MAP : 0
-            },
-            ENABLED_STATE : 
-            {
-                MAP : 0
-            },
-            ENGAGED_STATE : 
-            {
-                MAP : 0
-            },
-            FAULT_STATE : 
-            {
-                MAP : 0
-            }
-            });
-
-            mapToggleOff.publish(mapOff);
-        }
-    }
-
-    function toggleStatesen(sen)
-    {
-        if(sen.className == "on") 
-        {
-            sen.className="off";
-            var senToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var senOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SENSING : 1
-            },
-            ENABLED_STATE : 
-            {
-                SENSING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SENSING : 1
-            },
-            FAULT_STATE : 
-            {
-                SENSING : 1
-            }
-            });
-
-            senToggleOn.publish(senOn);
-        } 
-        else 
-        {
-            sen.className="on";
-            var senToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var senOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SENSING : 0
-            },
-            ENABLED_STATE : 
-            {
-                SENSING : 0
-            },
-            ENGAGED_STATE : 
-            {
-                SENSING : 0
-            },
-            FAULT_STATE : 
-            {
-                SENSING : 0
-            }
-            });
-
-            senToggleOff.publish(senOff);
-        }
-    }
-
-    function toggleStateloc(loc)
-    {
-        if(loc.className == "on") 
-        {
-            loc.className="off";
-            var locToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var locOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-                {
-                    LOCALIZATION : 1
-                },
-            ENABLED_STATE : 
-                {
-                    LOCALIZATION: 1
-                },
-            ENGAGED_STATE : 
-                {
-                    LOCALIZATION : 1
-                },
-            FAULT_STATE : 
-                {
-                    LOCALIZATION : 1
-                }
-            });
-
-            locToggleOn.publish(locOn);
-        } 
-        else
-        {
-            loc.className="on";
-            var locToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var locOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            ENABLED_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            ENGAGED_STATE : 
-                {
-                    LOCALIZATION : 0
-                },
-            FAULT_STATE : 
-                {
-                    LOCALIZATION : 0
-                }
-            });
-                
-            locToggleOff.publish(locOff);
-        }
-    }
-
-    function toggleStatefloc(floc)
-    {
-        if(floc.className == "on") 
-        {
-            floc.className="off";
-            var flocToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var flocOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            },
-                ENABLED_STATE : 
-            {
-                FAKE_LOCALIZATION: 1
-            },
-            ENGAGED_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            },
-                FAULT_STATE : 
-            {
-                FAKE_LOCALIZATION : 1
-            }
-            });
-
-            flocToggleOn.publish(flocOn);
-        } 
-        else
-        {
-            floc.className="on";
-            var flocToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var flocOff = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                FAKE_LOCALIZATION: 0
-            },
-            ENABLED_STATE : 
-            {
-                FAKE_LOCALIZATION : 0
-            },
-            ENGAGED_STATE : 
-            {
-                FAKE_LOCALIZATION : 0
-            },
-            FAULT_STATE : 
-            {
-                FAKE_LOCALIZATION: 0
-            }
-            });
-
-            flocToggleOff.publish(flocOff);
-        }
-    }
-
-    function toggleStatedet(det)
-    {
-        if(det.className == "on") 
-        {
-            det.className="off";
-            var detToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var detOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                DETECTION : 1
-            },
-            ENABLED_STATE : 
-            {
-                DETECTION : 1
-            },
-            ENGAGED_STATE : 
-            {
-                DETECTION : 1
-            },
-            FAULT_STATE : 
-            {
-                DETECTION : 1
-            }
-            });
-
-            detToggleOn.publish(detOn);
-        }
-        else 
-        {
-            det.className="on";
-            var detToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var detOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                DETECTION : 0
-            },
-            ENABLED_STATE : 
-            {
-                DETECTION : 0
-            },
-            ENGAGED_STATE : 
-            {
-                DETECTION : 0
-            },
-            FAULT_STATE : 
-            {
-                DETECTION : 0
-            }
-            });
-
-            detToggleOff.publish(detOff);
-        }
-    }
-
-    function toggleStatemip(mission)
-    {
-        if(mission.className == "on") 
-        {
-            mission.className="off";
-            var mipToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mipOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            ENABLED_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MISSION_PLANNING : 1
-            },
-            FAULT_STATE : 
-            {
-                MISSION_PLANNING : 1
-            }
-            });
-
-            mipToggleOn.publish(mipOn);
-        }
-        else 
-        {
-            mission.className="on";
-            var mipToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mipOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            ENABLED_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            ENGAGED_STATE : 
-            {
-                MISSION_PLANNING : 0
-            },
-            FAULT_STATE : 
-            {
-                MISSION_PLANNING : 0
-            }
-            });
-
-            mipToggleOff.publish(mipOff);
-        }
-    }
-
-    function toggleStatemop(motion)
-    {
-        if(motion.className == "on") 
-        {
-            motion.className="off";
-            var mopToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mopOn = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                MOTION_PLANNING : 1
-            },
-            ENABLED_STATE : 
-            {
-                MOTION_PLANNING : 1
-            },
-            ENGAGED_STATE : 
-            {
-                MOTION_PLANNING : 1
-            },
-            FAULT_STATE : 
-            {
-                MOTION_PLANNING : 1
-            }
-            });
-
-            mopToggleOn.publish(mopOn);
-        } 
-        else
-        {
-            motion.className="on";
-            var mopToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var mopOff = new ROSLIB.Message({
-            INITIALIZING_STATE :
-            {
-                MOTION_PLANNING : 0
-            },
-            ENABLED_STATE : 
-            {
-                MOTION_PLANNING: 0
-            },
-            ENGAGED_STATE : 
-            {
-                MOTION_PLANNING : 0
-            },
-            FAULT_STATE : 
-            {
-                MOTION_PLANNING : 0
-            }
-            });
-
-            mopToggleOff.publish(mopOff);
-        }
-    }
-
-    function toggleStateswit(swit)
-    {
-        if(swit.className == "on") 
-        {
-            swit.className="off";
-            var switToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var switOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SWITCH : 1
-            },
-            ENABLED_STATE : 
-            {
-                SWITCH : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SWITCH : 1
-            },
-            FAULT_STATE : 
-            {
-                SWITCH : 1
-            }
-            });
-
-            switToggleOn.publish(switOn);
-        } 
-        else
-        {
-            swit.className="on";
-            var switToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var switOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SWITCH : 0
-            },
-            ENABLED_STATE : 
-            {
-                SWITCH : 0
-            },
-            ENGAGED_STATE : 
-            {
-                SWITCH : 0
-            },
-            FAULT_STATE : 
-            {
-                SWITCH : 0
-            }
-            });
-
-            switToggleOff.publish(switOff);
-        }
-    }
-
-    function toggleStatessmp(ssmp)
-    {
-        if(ssmp.className == "on") 
-        {
-            ssmp.className="off";
-            var ssmpToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var ssmpOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SSMP : 1
-            },
-            ENABLED_STATE : 
-            {
-                SSMP : 1
-            },
-            ENGAGED_STATE : 
-            {
-                SSMP : 1
-            },
-            FAULT_STATE : 
-            {
-                SSMP : 1
-            }
-            });
-        
-            ssmpToggleOn.publish(ssmpOn);
-        } 
-        else 
-        {
-            ssmp.className="on";
-            var ssmpToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var ssmpOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                SSMP : 0
-            },
-            ENABLED_STATE : 
-            {
-                SSMP: 0
-            },
-            ENGAGED_STATE : 
-            {
-                SSMP : 0
-            },
-            FAULT_STATE : 
-            {
-                SSMP : 0
-            }
-            });
-
-            ssmpToggleOff.publish(ssmpOff);
-        }
-    }
-
-    function toggleStaterviz(rviz)
-    {
-        if(rviz.className == "on") 
-        {
-            rviz.className="off";
-            var rvizToggleOn = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var rvizOn = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RVIZ : 1
-            },
-            ENABLED_STATE : 
-            {
-                RVIZ : 1
-            },
-            ENGAGED_STATE : 
-            {
-                RVIZ : 1
-            },
-            FAULT_STATE : 
-            {
-                RECORDING : 1
-            }
-            });
-
-            rvizToggleOn.publish(rvizOn);
-        } 
-        else 
-        {
-            rviz.className="on";
-            var rvizToggleOff = new ROSLIB.Topic({
-                ros : ros,
-                name : '/feature_state',
-                messageType : 'std_msgs/Int32MultiArray'
-            });
-
-            var rvizOff = new ROSLIB.Message({
-            INITIALIZING_STATE : 
-            {
-                RVIZ : 0
-            },
-            ENABLED_STATE : 
-            {
-                RVIZ : 0
-            },
-            ENGAGED_STATE : 
-            {
-                RVIZ : 0
-            },
-            FAULT_STATE : 
-            {
-                RVIZ : 0
-            }
-            });
-
-            rvizToggleOff.publish(rvizOff);
-        }
-    }
-//-------------------- Feature Change---------------
-
-
-
-//-----------------feature state-----------------
-                var feature_listener = new ROSLIB.Topic({
-                  ros : ros,
-                  name : '/feature_state',
-                  messageType : 'std_msgs/Int32MultiArray'
-                });
-
-                feature_listener.subscribe(function(message) {
-
-                    var position;
-
-                    i_r=message.INITIALIZING_STATE.RECORDING;
-                    i_m=message.INITIALIZING_STATE.MAP;
-                    i_s=message.INITIALIZING_STATE.SENSING;
-                    i_l=message.INITIALIZING_STATE.LOCALIZATION;
-                    i_f=message.INITIALIZING_STATE.FAKE_LOCALIZATION;
-                    i_d=message.INITIALIZING_STATE.DETECTION;
-                    i_mip=message.INITIALIZING_STATE.MISSION_PLANNING;
-                    i_mop=message.INITIALIZING_STATE.MOTION_PLANNING;
-                    i_sw=message.INITIALIZING_STATE.SWITCH;
-                    i_ss=message.INITIALIZING_STATE.SSMP;
-                    i_rv=message.INITIALIZING_STATE.RVIZ;
-
-                    enab_r=message.ENABLED_STATE.RECORDING;
-                    enab_m=message.ENABLED_STATE.MAP;
-                    enab_s=message.ENABLED_STATE.SENSING;
-                    enab_l=message.ENABLED_STATE.LOCALIZATION;
-                    enab_f=message.ENABLED_STATE.FAKE_LOCALIZATION;
-                    enab_d=message.ENABLED_STATE.DETECTION;
-                    enab_mip=message.ENABLED_STATE.MISSION_PLANNING;
-                    enab_mop=message.ENABLED_STATE.MOTION_PLANNING;
-                    enab_sw=message.ENABLED_STATE.SWITCH;
-                    enab_ss=message.ENABLED_STATE.SSMP;
-                    enab_rv=message.ENABLED_STATE.RVIZ;
-
-                    eng_r=message.ENGAGED_STATE.RECORDING;
-                    eng_m=message.ENGAGED_STATE.MAP;
-                    eng_s=message.ENGAGED_STATE.SENSING;
-                    eng_l=message.ENGAGED_STATE.LOCALIZATION;
-                    eng_f=message.ENGAGED_STATE.FAKE_LOCALIZATION;
-                    eng_d=message.ENGAGED_STATE.DETECTION;
-                    eng_mip=message.ENGAGED_STATE.MISSION_PLANNING;
-                    eng_mop=message.ENGAGED_STATE.MOTION_PLANNING;
-                    eng_sw=message.ENGAGED_STATE.SWITCH;
-                    eng_ss=message.ENGAGED_STATE.SSMP;
-                    eng_rv=message.ENGAGED_STATE.RVIZ;
-
-
-                    f_r=message.FAULT_STATE.RECORDING;
-                    f_m=message.FAULT_STATE.MAP;
-                    f_s=message.FAULT_STATE.SENSING;
-                    f_l=message.FAULT_STATE.LOCALIZATION;
-                    f_f=message.FAULT_STATE.FAKE_LOCALIZATION;
-                    f_d=message.FAULT_STATE.DETECTION;
-                    f_mip=message.FAULT_STATE.MISSION_PLANNING;
-                    f_mop=message.FAULT_STATE.MOTION_PLANNING;
-                    f_sw=message.FAULT_STATE.SWITCH;
-                    f_ss=message.FAULT_STATE.SSMP;
-                    f_rv=message.FAULT_STATE.RVIZ;
-
-                    if((i_r==1)||(enab_r==1)||(eng_r)||(f_r==1))
-                    {
-                        position=0;
-                    }
-                    if((i_m==1)||(enab_m==1)||(eng_m==1)(f_m==1))
-                    {
-                        position=1;
-                    }
-                    if((i_s==1)||(enab_s==1)||(eng_s==1)(f_s==1))
-                    {
-                        position=2;
-                    }
-                    if((i_l==1)||(enab_l==1)||(eng_l==1)(f_l==1))
-                    {
-                        position=3;
-                    }
-                    if((i_f==1)||(enab_f==1)||(eng_f==1)(f_f==1))
-                    {
-                        position=4;
-                    }
-                    if((i_d==1)||(enab_d==1)||(eng_d==1)(f_d==1))
-                    {
-                        position=5;
-                    }
-                    if((i_mip==1)||(enab_mip==1)||(eng_mip==1)(f_mip==1))
-                    {
-                        position=6;
-                    }
-                    if((i_mop==1)||(enab_mop==1)||(eng_mop==1)(f_mop==1))
-                    {
-                        position=7;
-                    }
-                    if((i_sw==1)||(enab_sw==1)||(eng_sw==1)(f_sw==1))
-                    {
-                        position=8;
-                    }
-                    if((i_ss==1)||(enab_ss==1)||(eng_ss==1)(f_ss==1))
-                    {
-                        position=9;
-                    }
-                    if((i_rv==1)||(enab_rv==1)||(eng_rv==1)(f_rv==1))
-                    {
-                        position=10;
-                    }
-
-
-                  // array for 11 ledsx
-                    var strColorPairs = Array(
-                                                {'position' : 0, 'color' : 'green'},
-                                                {'position' : 1, 'color' : 'green'},
-                                                {'position' : 2, 'color' : 'green'},
-                                                {'position' : 3, 'color' : 'green'},
-                                                {'position' : 4, 'color' : 'green'},
-                                                {'position' : 5, 'color' : 'green'},
-                                                {'position' : 6, 'color' : 'green'},
-                                                {'position' : 7, 'color' : 'green'},
-                                                {'position' : 8, 'color' : 'green'},
-                                                {'position' : 9, 'color' : 'green'},
-                                                {'position' :10, 'color' : 'green'}
-                                            );
-
-
-                    colorBox(position);
-                    //function to change the color of leds and reseting it to gray when not in use
-                     function colorBox(position)
-                        {
-                            var divList = document.getElementsByClassName('ratingBox');
-                            var i, n = divList.length;
-                            curContent = divList[position].id;
-                            for (i=0; i<n; i++)
-                            {
-
-                                for (j=0; j<strColorPairs.length; j++)
-                                {
-                                    if (strColorPairs[j].position == curContent){
-                                        divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                                        }
-                                    else {divList[i].style.backgroundColor  = 'gray'}
-                                }
-                            }
-                        }
-
-
-                });
-
-
-//-----------------feature state-----------------
-
-//-------------fault injection---------------
-
-              function faultinjectiongnss(gnss){
-                 if(gnss.className == "on") {
-                     gnss.className="off";
-                    var togglegnssOn = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/GNSS',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var gnssOn = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglegnssOn.publish(gnssOn);
-                 } else {
-                    gnss.className="on";
-                    var togglegnssOff = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/GNSS',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var gnssOff = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglegnssOff.publish(gnssOff);
-                 }
-              }
-
-              function faultinjectionlidar1(lidar1){
-                 if(lidar1.className == "on") {
-                     lidar1.className="off";
-                    var togglelidar1On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar1',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar1On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar1On.publish(lidar1On);
-                 } else {
-                    lidar1.className="on";
-                    var togglelidar1Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar1',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar1Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar1Off.publish(lidar1Off);
-                 }
-              }
-
-              function faultinjectionlidar2(lidar2){
-                 if(lidar2.className == "on") {
-                     lidar2.className="off";
-                    var togglelidar2On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar2',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar2On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar2On.publish(lidar2On);
-                 } else {
-                    lidar2.className="on";
-                    var togglelidar2Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar2',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar2Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar2Off.publish(lidar2Off);
-                 }
-              }
-
-              function faultinjectionlidar3(lidar3){
-                 if(lidar3.className == "on") {
-                     lidar3.className="off";
-                    var togglelidar3On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar3',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar3On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar3On.publish(lidar3On);
-                 } else {
-                    lidar3.className="on";
-                    var togglelidar3Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar3',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar3Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar3Off.publish(lidar3Off);
-                 }
-              }
-
-              function faultinjectionlidar4(lidar4){
-                 if(lidar4.className == "on") {
-                     lidar4.className="off";
-                    var togglelidar4On = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar4',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar4On = new ROSLIB.Message({
-                       data : 1
-                     });
-                  togglelidar4On.publish(lidar4On);
-                 } else {
-                    lidar4.className="on";
-                    var togglelidar4Off = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/lidar4',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var lidar4Off = new ROSLIB.Message({
-                       data : 0
-                     });
-                  togglelidar4Off.publish(lidar4Off);
-                 }
-              }
-
-              function faultinjectionradar(radar){
-                 if(radar.className == "on") {
-                     radar.className="off";
-                    var toggleradarOn = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/radar',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var radarOn = new ROSLIB.Message({
-                       data : 1
-                     });
-                  toggleradarOn.publish(radarOn);
-                 } else {
-                    radar.className="on";
-                    var toggleradarOff = new ROSLIB.Topic({
-                       ros : ros,
-                       name : '/fault_injection/radar',
-                       messageType : 'std_msgs/Int32'
-                     });
-
-                    var radarOff = new ROSLIB.Message({
-                       data : 0
-                     });
-                  toggleradarOff.publish(radarOff);
-                 }
-              }
-
+    
 //-------------fault injection----------------
 
 
 
-//-------------------camera display ----------------
-    //listen to the topic
-    /* var image_topic = new ROSLIB.Topic({
+//-------------------camera 1 display ----------------
+
+    //listen to the topic camera_1/image_raw
+    let camera1_topic = new ROSLIB.Topic({
         ros : ros,
         name : '/camera_1/image_raw',
         messageType : 'sensor_msgs/Image'
-     });
+    });
 
-    //subscribing to the topic
-    image_topic.subscribe(function(message)
-    { 
-        
-        
-          var canvas = document.getElementById('myCanvas');
-          var ctx = canvas.getContext('2d');
-          var image = new Image();
-          image.onload = function()
-          {
-            drawImage(image);
-            //ctx.drawImage(image, 0, 0);
-            
-          }
-          image.src = `data:image/png;base64,${message.data}`;
-        
-        function drawImage(image)
+    //subscribing to the topic camera_1/image_raw
+    camera1_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
         {
-            canvas.width = image.width;
-            canvas.height = image.height;
-            ctx.drawImage(image, 0, 0);
+            array[i] = msg.charCodeAt(i);
         }
+        
+        let canvas1 = document.getElementById( "camera1_canvas" );
+        const context = canvas1.getContext( "2d" ); 
+
+        let imgData = context.createImageData(960,720);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+        
+       var image = document.getElementById("camera1_canvas");
+       image.style.width = "100%";
+       image.style.height = "auto";
+       context.putImageData(imgData,0,0,0,0,canvas1.width,canvas1.height);
+    
+    }); 
+//-------------------camera 1 display ----------------
+
+
+
+//-------------------camera 2 display ----------------
+
+    //listen to the topic camera_2/image_raw
+    let camera2_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/camera_2/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
+
+    //subscribing to the topic camera_1/image_raw
+    camera2_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+
+        let canvas2 = document.getElementById( "camera2_canvas" );
+        const context = canvas2.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas2.width,canvas2.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+
+        let image = document.getElementById("camera2_canvas");
+        image.style.width = "100%";
+        image.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas2.width,canvas2.height);
+}); 
+//-------------------camera 2 display --------------
+
+
+//-------------------TL camera  display ----------------
+
+    //listen to the topic /tl/image_raw
+    let tl_camera_topic = new ROSLIB.Topic({
+        ros : ros,
+        name : '/tl/image_raw',
+        messageType : 'sensor_msgs/Image'
+    });
+
+    //subscribing to the topic /tl/image_raw
+    tl_camera_topic.subscribe(function(message)
+    {  
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+
+        let canvas3 = document.getElementById( "tl_camera_canvas" );
+        const context = canvas3.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas3.width,canvas3.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+
+        let image = document.getElementById("tl_camera_canvas");
+        image.style.width = "100%";
+        image.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas3.width,canvas3.height);
+}); 
+//------------------- TL camera  display --------------
+
+
+//---------------------List of Topics-----------------------
+var isClicked = false;
+
+function getTopics() 
+{
+    let select = document.getElementById("select_topic");
+
+    var topicsClient = new ROSLIB.Service({
+        ros : ros,
+        name : '/rosapi/topics',
+        serviceType : 'rosapi/Topics'
+        });
+    
+    let request = new ROSLIB.ServiceRequest();
+
+    if(isClicked === false)
+    {
+        topicsClient.callService(request, function(result) 
+        {
+            topics_list = result.topics;
+            for(var i = 0; i < topics_list.length; i++)
+            {
+                let topic_name = topics_list[i];
+                let option = document.createElement("option");
+                option.value = i;
+                option.text = topic_name;
+                select.append(option);
+                  
+            }
+        });
+    }
+    isClicked = true;
+
+    let selected_topic = select.options[select.selectedIndex].text;
+    let selected_topic_value = select.options[select.selectedIndex].value;
+
+    topicsClient.callService(request, function(result) 
+    {
+        topic_types = result.types;
+        for(let i = 0; i < topic_types.length; i++)
+        { 
+            if(i == selected_topic_value)
+            {
+                // Subscribing to a Topic
+                var listener = new ROSLIB.Topic({
+                    ros : ros,
+                    name : selected_topic,
+                    messageType : topic_types[i]
+                });
+    
+                listener.subscribe(function(message) {
+                    var data = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = data;
+                    listener.unsubscribe();
+                }); 
+
+                /* ROSLIB.Ros.prototype.callOnConnection = function(message) {
+                    var that = this;
+                    var messageJson = JSON.stringify(message);
+                    document.getElementById("topic_data_textbox").value = messageJson;
+
+                } */
+            }
+        }   
+    });
+}
+
+/* ROSLIB.Ros.prototype.callOnConnection = function(message) {
+    var that = this;
+    var messageJson = JSON.stringify(message);
+  
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+      that.once('connection', function() {
+        that.socket.send(messageJson);
+      });
+    } else {
+      that.socket.send(messageJson);
+    }
+  }; */
+ 
+//---------------------List of Topics-----------------------
+
+//----------------generic card----------------
+
+function createGenericCard()
+{
+    let generic = document.createElement("div");
+    generic.className = "col-md-4 col-sm-12";
+
+    let row_div = document.getElementById("row_div");
+    let generic_child_div = document.createElement("div");
+
+    generic_child_div.classList.add("box");
+    generic_child_div.draggable = "true";
+
+    let h2 = document.createElement("h2");
+    h2.class ="text_center";
+
+    let text = document.createTextNode("Generic Card");
+    h2.appendChild(text);
+    generic_child_div.appendChild(h2);
+    generic.appendChild(generic_child_div);
+
+    row_div.appendChild(generic);
+}
+//----------------generic card----------------
+       
+
          
-        window.addEventListener('load',onload ); */
-        
-        /* console.log('Received message on ' + image_topic.name + ': ' + message.data);
-        document.getElementById("my_image").src = "data:image/jpg;base64," + message.data; */
-    /* });
-        /* function colorpix()
-        {
-            var canvasElement = document.getElementById("canvas");
-            var context = canvasElement.getContext("2d"); 
-            context.fillStyle = "yellow";
-            context.fillRect(20, 20, 128, 128);
-            context.fillStyle = "red";
-            context.fillRect(150, 20, 128, 128);
-            context.fillStyle = "green";
-            context.fillRect(20, 150, 128, 128);
-            context.fillStyle = "blue"; 
-            context.fillRect(150, 150, 128, 128);
-        }
-          */
-        /* var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.moveTo(0, 0);
-ctx.lineTo(200, 100);
-ctx.stroke(); */
-//-------------------camera display ---------------- 
-        

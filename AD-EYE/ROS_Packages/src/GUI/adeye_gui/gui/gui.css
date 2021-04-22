@@ -4,7 +4,7 @@ body
   height:100%;
 }
 
-.box 
+.box
 {
   border: 3px solid #666;
   background-color:#48575e;
@@ -12,11 +12,32 @@ body
   padding: 10px;
   cursor: move;
   height: auto;
-  width: 350px;
+  width: auto;
   margin:5px;
   color: rgb(255, 253, 253);
   font-weight: bold;
 }
+
+.float-button {
+  position: fixed;
+  background-color: #699b2c;
+  right: -77px;
+  top: 270px;
+  transition: all 0.2s ease-in 0s;
+  z-index: 9999;
+  cursor: pointer;
+
+ /*  width: 60px;
+  height:60px;
+  border-radius: 100%;
+  border:none;
+  font-size: xx-large; */ 
+/*   float: left;
+ */  }
+
+  .float-button:hover {
+    right: -1px;
+    }
 
 .card
 {
@@ -31,7 +52,13 @@ body
   font-weight: bold;
 }
 
-.gauge,.gauge_a
+.canvas
+{
+  height: auto;
+  width: 200px;
+}
+
+.gauge_velocity,.gauge_acceleration
 {
   width: 100%;
   font-family: "Roboto", sans-serif;
@@ -39,7 +66,7 @@ body
   color: #004033;
 }
 
-.gauge_body,.gauge_a_body
+.gauge_velocity_body,.gauge_acceleration_body
 {
   width: 100%;
   height: 0;
@@ -51,7 +78,7 @@ body
   overflow: hidden;
 }
 
-.gauge_fill,.gauge_a_fill 
+.gauge_velocity_fill,.gauge_acceleration_fill 
 {
   position: absolute;
   top: 100%;
@@ -64,7 +91,7 @@ body
   transition: transform 0.2s ease-out;
 }
 
-.gauge_cover,.gauge_a_cover
+.gauge_velocity_cover,.gauge_acceleration_cover
 {
   width: 75%;
   height: 150%;
@@ -82,16 +109,15 @@ body
   box-sizing: border-box;
 }
 
-.ratingBox
+/* .ratingBox
  {
   margin: 0 auto;
   width: 24px;
   height: 24px;
   background-color: #F00;
   border-radius: 50%;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; */
 }
-
+ */
 button
 {
   border-radius: 15px;
@@ -99,14 +125,111 @@ button
   margin: 5px;
   height:50px;
   width:300px;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; */
 }
 
-.btn
+#generic_button
 {
+  background-color:#699b2c;
+  width: 60px;
+  height:60px;
+  border-radius: 100%;
+  border:none;
+  font-size: xx-large; 
+  float: left;
+} 
+
+.textarea
+{
+  vertical-align: middle;
+}
+
+.manager,.fault_injection
+{
+  background: gray;
   color:white;
   border-radius: 15px;
+  width:200px;
+  border:none;
+} 
+
+.channel,.features
+{
+  background: gray;
+  color:white;
+  border-radius: 15px;
+  border:none;
 }
+
+select
+{
+  background-color: #699b2c; 
+  color:white;
+  width: 90px;
+  padding: 5px;
+  border: 8px;
+}
+
+form
+{
+  background-color: gray;
+  border-radius: 15px;
+  border: 2px;
+  padding: 10px;
+  margin : 5px;
+}
+
+input,#drop_down
+{
+  width: 30%;
+  padding: 5px;
+  margin: 5px;
+  border: 2px;
+  border-radius: 10px;
+
+}
+
+.state
+{
+  height: 48px;
+  border: 2px;
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+label
+{
+  width:63%;
+}
+
+#select_topic
+{
+  background-color: #699b2c; 
+  color:white;
+  width: 200px;
+  padding: 5px;
+  border: 8px;
+}
+
+#topic_data
+{
+  width:auto;
+}
+
+#topic_data_textbox
+{
+  width: 200px;
+}
+
+
+
+
+
+
+
+
+
+
 
 /* ----------------------------------------------------------------------------------------------------------- */
 
