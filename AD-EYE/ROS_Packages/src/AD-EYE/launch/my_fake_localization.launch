@@ -37,9 +37,11 @@
     />
     <include file="$(find points_downsampler)/launch/points_downsample.launch"/>
 
-    <!-- GPS to base_link: This substitutes the ndt_matching -->
-    <node pkg="tf" type="static_transform_publisher" name="gps_to_base_link"
-          args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 gps base_link 10"/>
+    
+    <!-- Fake Localizer, publishes the transform from map to base link base on gnss data -->
+    <node type="fake_localizer.py"
+          pkg="adeye"
+          name="fake_localizer"/>
 
     <!-- Pose Connect -->
     <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>
