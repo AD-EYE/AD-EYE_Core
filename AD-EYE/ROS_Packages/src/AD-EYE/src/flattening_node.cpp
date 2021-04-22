@@ -52,35 +52,6 @@ private:
     float frequency = 20; // this value should be alligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate;
 
-public:
-
-    /*!
-     * \brief Constructor
-     * \param nh A reference to the ros::NodeHandle initialized in the main function.
-     * \param area_width The width in meter of the ssmp occupancy area
-     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
-     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
-     * \details Initializes the node and its components such as publishers and subscribers.
-     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
-     */
-    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
-        occmap_width(area_width),                               // The width in meter...
-        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-    {
-        // Initialize node and publishers
-        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
-        subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
-        subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgo_callback, this);
-
-        rate = ros::Rate(frequency);
-
-        //Constants values
-        occGrid.info.origin.position.z = 0;
-        occGrid.info.origin.orientation.x = 0.0;
-        occGrid.info.origin.orientation.y = 0.0;
-        occGrid.info.origin.orientation.z = 0.0;
-        occGrid.info.origin.orientation.w = 1.0;
-    }
 
     /*!
      * \brief GridMap Callback : Called when the grid map information has changed.
@@ -121,31 +92,6 @@ public:
         yaw_ego = cpp_utils::extract_yaw(msg->pose.pose.orientation);
     }
 
-
-    /*!
-     * \brief The main function of the Node. Contains the main loop
-     * \details Basically extract information from gridMap and then
-     * publish data extracted from it.
-     * Also, checks if the required frequency is met.
-     */
-    void run() {
-        float rostime;
-
-        while (nh_.ok()) {
-            rostime = ros::Time::now().toSec();
-
-            ros::spinOnce();
-            pubOccGrid.publish(occGrid);
-
-            //Time control
-            rostime = ros::Time::now().toSec() - rostime;
-            if(rostime > 1/frequency){
-                ROS_WARN("Flatening Node : Frequency is not met!");
-            }
-
-            rate.sleep();
-        }
-    }
 
     /*!
      * \brief The information from the GridMap are translated into an occupancy grid
@@ -237,6 +183,63 @@ public:
         }
         return occValue;
     }
+
+public:
+
+    /*!
+     * \brief Constructor
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param area_width The width in meter of the ssmp occupancy area
+     * \param area_height_front The distance in meter in front of the base_link point that remains in the ssmp occmap area
+     * \param area_height_back The distance in meter behind the base_link point that remains in the ssmp occmap area
+     * \details Initializes the node and its components such as publishers and subscribers.
+     * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
+     */
+    OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate(1),
+        occmap_width(area_width),                               // The width in meter...
+        occmap_height(area_height_front + area_height_back)     // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+    {
+        // Initialize node and publishers
+        pubOccGrid = nh_.advertise<nav_msgs::OccupancyGrid>("/SafetyPlannerOccmap", 1);
+        subGridMap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &OccMapCreator::gridMap_callback, this);
+        subPosition_ego = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgo_callback, this);
+
+        rate = ros::Rate(frequency);
+
+        //Constants values
+        occGrid.info.origin.position.z = 0;
+        occGrid.info.origin.orientation.x = 0.0;
+        occGrid.info.origin.orientation.y = 0.0;
+        occGrid.info.origin.orientation.z = 0.0;
+        occGrid.info.origin.orientation.w = 1.0;
+    }
+
+
+    /*!
+     * \brief The main function of the Node. Contains the main loop
+     * \details Basically extract information from gridMap and then
+     * publish data extracted from it.
+     * Also, checks if the required frequency is met.
+     */
+    void run() {
+        float rostime;
+
+        while (nh_.ok()) {
+            rostime = ros::Time::now().toSec();
+
+            ros::spinOnce();
+            pubOccGrid.publish(occGrid);
+
+            //Time control
+            rostime = ros::Time::now().toSec() - rostime;
+            if(rostime > 1/frequency){
+                ROS_WARN("Flatening Node : Frequency is not met!");
+            }
+
+            rate.sleep();
+        }
+    }
+
 };
 
 void usage(std::string binName) {

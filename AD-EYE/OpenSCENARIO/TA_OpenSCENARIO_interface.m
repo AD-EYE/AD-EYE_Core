@@ -1,24 +1,56 @@
-adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
+ta_openscenario_progress_bar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
+% cleanup = onCleanup( @()(delete(ta_openscenario_progress_bar)));
+
 
 %% Parameter onfigurations
 
 global EgoNameArray
-global ExpNameArray
 global PrescanExpNameArray
 global AutowareConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
-FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
-PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
+adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
+
+%% Experiment A
+ScenarioExpNameArray = ["Experiment_A"];
+FolderExpNameArray = ["Experiment_A"];
+PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
+SimulinkConfigArray = ["SimulinkConfig.xlsx"];
+
+%% Experiment B Map 1
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W01_Base_Map"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+
+%% Experiment B Map 2
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W03_Forest"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap2goal1.xlsx", "SimulinkConfigExpBmap2goal2.xlsx", "SimulinkConfigExpBmap2goal3.xlsx"];
+
+%% Experiment B Map 3
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W07_Neighborhood"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap3goal1.xlsx", "SimulinkConfigExpBmap3goal2.xlsx", "SimulinkConfigExpBmap3goal3.xlsx"];
+
+
+
+
 TagsConfigArray = [""];
 SSHConfig = "Configurations/SSHConfig.csv";
 
+
+
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
-convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)))
+waitbar(.13,ta_openscenario_progress_bar,'Extract TA specific configurations from xosc scenarios');
+convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1)));
 cd(adeye_base + "OpenSCENARIO\Code")
 Struct_OpenSCENARIO = xml2struct([convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',ScenarioExpNameArray(1))), '.xosc']);
 %Struct_OpenSCENARIO = xml2struct(['..\OpenSCENARIO_experiments\KTH_pedestrian_autowareRain', '.xosc']);
@@ -28,10 +60,10 @@ cd(adeye_base + "TA\Configurations")
 addpath(adeye_base+"OpenSCENARIO\Code")
 
 for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
-    if('Ego' == convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))))
+    if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))) == "Ego")
         speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value"));
         %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
-        if(length(strfind(speed_ego, '{')) > 0)
+        if(contains(speed_ego, '{'))
             findOpen = strfind(speed_ego, ',');
                 start_val = extractBetween(speed_ego, 2, findOpen(1)-1);
                 step = extractBetween(speed_ego, findOpen(1)+1, findOpen(2)-1);
@@ -61,7 +93,7 @@ end
 
 if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
     reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
-    if(length(strfind(reflectivity, '{')) > 0)
+    if(contains(reflectivity, '{'))
         findOpen = strfind(reflectivity, ',');
             start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
             step = extractBetween(reflectivity, findOpen(1)+1, findOpen(2)-1);
@@ -73,8 +105,8 @@ end
 
 
 
-%%  Create openscenario files
-
+%%  Create OpenSCENARIO files
+waitbar(.23,ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
 cd(adeye_base + "OpenSCENARIO\Code")
 
 name_ego = EgoNameArray(1);
@@ -84,11 +116,13 @@ name_prescan_experiment = PrescanExpNameArray(1);
 listOfNames = OpenScenarioMod(convertStringsToChars(ScenarioExpNameArray(1)));
 
 for i = 1:length(listOfNames)
+    waitbar(.23+(i-1)*0.5/length(listOfNames),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
     listOfNames(i)
     API_main(name_ego,name_prescan_experiment,listOfNames(i))
 end
 
-%% Configure OpenScenario experiments
+%% Configure OpenSCENARIO experiments
+waitbar(.73,ta_openscenario_progress_bar,'Configuring OpenSCENARIO experiments');
 
 ScenarioExpNameArray = listOfNames;
 PrescanExpName = PrescanExpNameArray(1);
@@ -104,13 +138,18 @@ duplicatePrescanExp(length(listOfNames));
 
 
 %% Create Experiments and run
+waitbar(.83,ta_openscenario_progress_bar,'Generating TAOrder file');
 
 cd(adeye_base + "TA")
 TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
 
-rosshutdown
 
-TA('Configurations/TAOrder.xlsx', 1, 2000)
+
+
+waitbar(.93,ta_openscenario_progress_bar,'Starting TA');
+rosshutdown
+close(ta_openscenario_progress_bar)
+% TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 %TA('Configurations/TAOrder.xlsx', 1, 500)
 

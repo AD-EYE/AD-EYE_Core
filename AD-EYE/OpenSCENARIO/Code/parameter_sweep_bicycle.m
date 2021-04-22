@@ -10,7 +10,7 @@ for j =array %second for loop
             for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
                 %Check if j is a car in .pex file
                 if ( convertCharsToStrings(Struct_pex.Experiment.Actors.Actor{1, j}.Attributes.id    ) == convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Attributes.object))
-                    z = j
+                    z = j;
                     %{
             %changing name
             models.worldmodel.object{j, 1}= prescan.experiment.setFieldValue(...

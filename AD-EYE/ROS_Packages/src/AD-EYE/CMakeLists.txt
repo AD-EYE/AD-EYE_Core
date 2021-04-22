@@ -20,7 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
   op_planner
   op_ros_helpers
   tf2_ros
-  sensor_msgs
 )
 
 
@@ -40,7 +39,6 @@ catkin_package(
     op_planner
     op_ros_helpers
     tf2_ros
-    sensor_msgs
   DEPENDS
 )
 
@@ -57,9 +55,9 @@ include_directories(
 )
 
 
-#add_library(${PROJECT_NAME}
-#   include/vectormaploader.h
-#)
+add_library(
+  vectorMap src/vectormap.cpp
+)
 
 add_executable(
   GridMapCreator
@@ -116,14 +114,10 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
-add_executable(
-  imageSubscriber
-  src/image_subscriber.cpp
-)
-
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
+  vectorMap
 )
 
 target_link_libraries(
@@ -176,6 +170,7 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+<<<<<<< HEAD
 target_link_libraries(
   imageSubscriber
   ${catkin_LIBRARIES}
@@ -184,6 +179,8 @@ target_link_libraries(
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
+=======
+>>>>>>> 1d76a8aa66f43ddf2f15adb81ee476242bef33ea
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -225,9 +222,6 @@ add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_dependencies(imageSubscriber
-  ${catkin_EXPORTED_TARGETS}
-)
 
 # Mark executables and/or libraries for installation
 install(
