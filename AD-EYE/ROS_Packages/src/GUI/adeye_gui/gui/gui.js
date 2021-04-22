@@ -891,7 +891,7 @@ function checkTime(time) {
     //listen to the topic camera_1/image_raw
     let camera_topic = new ROSLIB.Topic({
         ros : ros,
-        name : '/camera_1/image_raw',
+        name : '/lane_layer_image',
         messageType : 'sensor_msgs/Image'
     });
 
@@ -954,8 +954,6 @@ function checkTime(time) {
         }
         posX = posX - imgPos[0];
         posY = posY - imgPos[1];
-        document.getElementById("x-co-ordinate").innerHTML = posX;
-        document.getElementById("y-co-ordinate").innerHTML = posY;
 
     
         let canvas = document.getElementById("image_canvas");
@@ -997,7 +995,9 @@ function checkTime(time) {
         coordinate_array[0] = parseInt(posX) ;
         coordinate_array[1] = parseInt(posY) ;
 
-            
+        document.getElementById("x-co-ordinate").innerHTML = coordinate_array[0];
+        document.getElementById("y-co-ordinate").innerHTML = coordinate_array[1];
+
         // publishing the coordinate values to rostopic /gui/goal_pixels
         let goal_pixel_topic = new ROSLIB.Topic({
             ros : ros,
