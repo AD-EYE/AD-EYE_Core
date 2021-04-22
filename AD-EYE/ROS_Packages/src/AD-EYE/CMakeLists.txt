@@ -114,6 +114,15 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
+add_executable(
+  trajectoryVisualizer
+  src/trajectory_visualizer.cpp
+)
+
+add_executable(
+  gridMapExtractor
+  src/gridmap_extractor.cpp
+)
 
 target_link_libraries(
   GridMapCreator
@@ -171,6 +180,15 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  trajectoryVisualizer
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  gridMapExtractor
+  ${catkin_LIBRARIES}
+)
 
 
 =======
@@ -217,6 +235,10 @@ add_dependencies(lidarRadarFuse
 )
 
 add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(gridMapExtractor
   ${catkin_EXPORTED_TARGETS}
 )
 

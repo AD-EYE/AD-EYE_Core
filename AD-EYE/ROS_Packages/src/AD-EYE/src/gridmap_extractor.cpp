@@ -125,7 +125,7 @@ public:
     {
         //ros::SubscriberStatusCallback connect_cb    = boost::bind(&GridMapExtractor::goalPixlesCoordinatesCallback, this);
         // Initialize node, publishers and subscribers
-        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
+        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
         goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/goal_pixels_coordinates", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
         goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/real_map_goal_coordinates", 1, true);
