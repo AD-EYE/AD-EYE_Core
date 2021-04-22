@@ -17,7 +17,7 @@ class goal
         self.Oy = Oy
         self.Ow = Ow
         
-#Setting the parameters and variables
+        #Setting the parameters and variables
         self.Pz = 0.0
         self.Oz = 0.0
         self.seq = 1
@@ -39,7 +39,7 @@ class loopgoal
         Goallist.append( goal(223.0, 226.0, 0.0, 1.0, 0.0) )
         Goallist.append( goal(84.0, 170.0, 1.0, 0.0, 0.0) )    
     
-#Funtion to calculate the distance between the car and the goal 
+    #Funtion to calculate the distance between the car and the goal 
     def getDistance(self, egoPose, goalPose):
         distance = ( (goalPose.x-egoPose.x)**2 + (goalPose.y-egoPose.y)**2 ) ** 0.5
         return (distance)
@@ -47,7 +47,7 @@ class loopgoal
     def gnssPosecallback(self,egoPose):
         goal = PoseStamped()
        
-# Publish the next goal after checking the conditions.
+        # Publish the next goal after checking the conditions.
         if self.getDistance(egoPose.pose.position, goalPose.pose.postion) <= 20:
             if (goal.pose.position.x == 257.0 and goal.pose.positon.y ==170):
                 goal.pose.position.x = Goallist[1].Px
@@ -97,7 +97,10 @@ class loopgoal
        
 if __name__=="__main__":
     rospy.init_node('loop_sender')
-#Set the initial position of the goal
+    #Set the initial position of the goal
+    goal_publisher = rospy.Publisher("move_base_simple/goal", PoseStamped, queue_size=5)
+    
+    goal = PoseStamped()
     goal.pose.position.x = Goallist[0].Px
     goal.pose.position.y = Goallist[0].Py
     goal.pose.position.z = Goallist[0].Pz
@@ -110,7 +113,9 @@ if __name__=="__main__":
     goal.header.seq = Goallist[0].seq
     goal.header.stamp = Goallist[0].stamp
     goal.header.frame_id = Goallist[0].frame_id
+    goal_publisher.publish(goal)
+    
 
-loopgoal()
-rospy.spin()
+    loopgoal()
+    rospy.spin()
 
