@@ -115,8 +115,8 @@ add_executable(
 )
 
 add_executable(
-  array
-  src/array.cpp
+  gridMapExtractor
+  src/gridmap_extractor.cpp
 )
 
 add_executable(
@@ -181,7 +181,7 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  array
+  gridMapExtractor
   ${catkin_LIBRARIES}
 )
 
@@ -232,7 +232,7 @@ add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_dependencies(array
+add_dependencies(gridMapExtractor
   ${catkin_EXPORTED_TARGETS}
 )
 
