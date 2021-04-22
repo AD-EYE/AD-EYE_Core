@@ -589,10 +589,6 @@ function checkTime(time) {
 
         let lidar2_form = document.getElementById("lidar2_form");
         lidar2_form.innerHTML = lidar1_form.innerHTML;
-        /* for(i = 0; i< lidar2_form.length;i++)
-        {
-            document.getElementById("form_display").innerHTML = lidar2_form[0].id;
-        } */
         lidar2_form[0].id = "lidar2_state";
         
         let lidar3_form = document.getElementById("lidar3_form")
@@ -641,9 +637,7 @@ function checkTime(time) {
                     button.style.backgroundColor = "white";
                     button.style.color = "black";
                     formsCollection[i].firstElementChild.innerHTML = button_div[i].innerHTML;
-/*                    document.getElementById("form_display").innerHTML = formsCollection[i].firstElementChild.className ;
- */                    button_div[i].innerHTML = " ";
-/*                     formsCollection[i].append(parent_div);*/                 
+                    button_div[i].style.display = "none";
                     formsCollection[i].style.display = "block";
                 }
                 else
@@ -651,14 +645,13 @@ function checkTime(time) {
                     button.value = "off";
                     button.style.backgroundColor = "gray";
                     button.style.color = "white";
+                    button_div[i].style.display = "inline-flex";
                     button_div[i].innerHTML = formsCollection[i].firstElementChild.innerHTML;
-                    //document.getElementById(button.parentNode.parentNode.parentNode.id).append(formsCollection[i].lastElementChild);
-
                     formsCollection[i].style.display = "none";
-                    button.nextElementSibling.value = selected_value;
+/*                     button.nextElementSibling.value = selected_value;
                     //document.getElementById("form_display").innerHTML = button.parentNode.parentNode.id;
                     button_div.lastElementChild.value = button.nextElementSibling.value;
- 
+ */ 
                 }   
                 
         
@@ -681,20 +674,10 @@ function checkTime(time) {
         {
             array[i] = parseFloat(array[i]);
         }
-
-        // To display the selected value of dropdown in the textbox beside the button
         selected_value = state.options[state.selectedIndex].text;
-        input.value = selected_value; 
+        //input.value = selected_value;
+        return selected_value;
 
-        //return selected_value;
-
-        /* button_div = document.getElementsByClassName("button_div");
-        for (let i = 0; i < button_div.length; i++)
-        {
-            button_div[i].lastElementChild.value = selected_value;
-
-
-        }  */
 
     }
 
@@ -705,16 +688,25 @@ function checkTime(time) {
         switch(form)
         {
             case "gnss_form":
-                form_values(gnss_form,gnss_array,gnss_state,gnss_input);
-                /* text_value = gnss_form[1].value;
+                let value = form_values(gnss_form,gnss_array,gnss_state,gnss_input);
+                gnss_form[1].value = selected_value;
 
-                publish_to_textbox(0,gnss_state,gnss_input,text_value); */
+
+                //gnss_form[1].value = gnss_array[0];
+                        // To display the selected value of dropdown in the textbox beside the button
+        /* selected_value = gnss_state.options[gnss_state.selectedIndex].text;
+        document.getElementById("form_display").innerHTML = selected_value;
+
+        gnss_form[1].value = selected_value;  */
+
+
                 // publishing the data from the form to gnss fault injection topic 
                 publish_fault_injection(0,gnss_array);
                 break;
 
             case "lidar1_form":
-                form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
+                value = form_values(lidar1_form,lidar1_array,lidar1_state,lidar1_input);
+                lidar1_form[1].value = value;
                 /* publish_to_textbox(1,lidar1_state,lidar1_input); */
 
                 // publishing the data from the form to gnss fault injection topic 
@@ -1041,83 +1033,73 @@ function checkTime(time) {
 
     function createGenericCard()
     {
-        // two divs should be created one holds the generic card and the other holds the + button
+        // div holds newly created generic card
+        let generic_div = document.createElement("div");
 
-        // div1 holds newly created generic card
-        let div1 = document.createElement("div");
-        div1.id = "div1";
-        div1.className = "col-md-4 col-sm-12";
-
-        // div2 will hold the + button
-        let div2 = document.createElement("div");
-        div2.id = "div2";
-
-        // appending both the created divs to main row_div
-
+        // appending created div to main row_div
         let row_div = document.getElementById("row_div");
-        row_div.appendChild(div1);
-        row_div.appendChild(div2);
+        row_div.appendChild(generic_div);
         
         if(button_clicked === false)
         {
+            let generic_child_div = document.createElement("div");
+            generic_child_div.className = "box";
+            generic_child_div.draggable = "true";
 
-        let generic_child_div = document.createElement("div");
-        generic_child_div.classList.add("box");
-        generic_child_div.draggable = "true";
+            // h2 element creation and asigning text to it
+            let h2 = document.createElement("h2");
+            h2.style.textAlign = "center";
+            let text = document.createTextNode("ROS Topics List");
+            h2.appendChild(text);
+            generic_child_div.appendChild(h2);
 
-        // h2 element creation and asigning text to it
-        let h2 = document.createElement("h2");
-        h2.style.textAlign = "center";
-        let text = document.createTextNode("ROS Topics List");
-        h2.appendChild(text);
-        generic_child_div.appendChild(h2);
+            // creation of p element
+            let p = document.createElement("p");
 
-        // creation of p element
-        let p = document.createElement("p");
+            // creation of label element
+            let topic_label = document.createElement("label");
+            topic_label.id = "topic_label";
+            let topic_label_text = document.createTextNode("Topic");
+            topic_label.appendChild(topic_label_text);
 
-        // creation of label element
-        let label1 = document.createElement("label");
-        let label1_text = document.createTextNode("Topic");
-        label1.appendChild(label1_text);
+            // creation of dropdown to hold list of rostopics 
+            let dropdown = document.createElement("select");
+            dropdown.id = "select_topic";
+            dropdown.onclick = getTopics;
+            dropdown.onchange = display_topic_data;
 
-        // creation of dropdown to hold list of rostopics 
-        let dropdown = document.createElement("select");
-        dropdown.id = "select_topic";
-        dropdown.onclick = getTopics;
-        dropdown.onchange = display_topic_data;
+            // appending label and dropdown to p element
+            p.appendChild(topic_label);
+            p.appendChild(dropdown);
 
-        // appending label and dropdown to p element
-        p.appendChild(label1);
-        p.appendChild(dropdown);
+            // creation of another p element
+            let p1 = document.createElement("p");
+            p1.id = "p1";
 
-        // creation of another p element
-        let p1 = document.createElement("p");
+            // creation of label element
+            let topic_data = document.createElement("label");
+            topic_data.id = "topic_data";
+            let topic_data_text = document.createTextNode("Topic_Data");
+            topic_data.appendChild(topic_data_text);
 
-        // creation of label element
-        let label2 = document.createElement("label");
-        let label2_text = document.createTextNode("Topic_Data");
-        label2.appendChild(label2_text);
+            // creation of textarea to hold the data of selected rostopic
+            let textarea = document.createElement("textarea");
+            textarea.id = "topic_data_textbox";
+            textarea.rows = "4";
+            textarea.columns = "auto";
+            textarea.name = "topic_data";
+            textarea.disabled = "true";
 
-        // creation of textarea to hold the data of selected rostopic
-        let textarea = document.createElement("textarea");
-        textarea.id = "topic_data_textbox";
-        textarea.rows = "9";
-        textarea.columns = "250";
-        textarea.name = "topic_data";
-        textarea.disabled = "true";
+            // appending label and textarea to p element
+            p1.appendChild(topic_data);
+            p1.appendChild(textarea);
 
-        // appending label and textarea to p element
-        p1.appendChild(label2);
-        p1.appendChild(textarea);
-
-        // appending both p elements to div tag and appending that div to div1 created to hold generic card
-        generic_child_div.appendChild(p);
-        generic_child_div.appendChild(p1);
-        div1.appendChild(generic_child_div);
-
-        //appending the button element to div2
-        let generic_button = document.getElementById("generic_button");
-        div2.appendChild(generic_button);
+            // appending both p elements to div tag and appending that div to div1 created to hold generic card
+            generic_child_div.appendChild(p);
+            generic_child_div.appendChild(p1);
+            generic_div.appendChild(generic_child_div);
+            document.getElementById("generic-div").style.display ="block";
+            document.getElementById("generic-div").append(generic_div);
         }
         
         button_clicked = true;
@@ -1136,6 +1118,8 @@ function checkTime(time) {
         });
 
     let request = new ROSLIB.ServiceRequest();
+    let listener;
+
 
     // function to get the list of rostopics 
     function getTopics() 
@@ -1166,8 +1150,6 @@ function checkTime(time) {
     // function to display the data of selected rostopic in the teaxarea of generic card
     function display_topic_data()
     {
-        let selected_topic = null;
-        let selected_topic_value = null;
         let selected = document.getElementById("select_topic");
         selected_topic = selected.options[selected.selectedIndex].text;
         selected_topic_value = selected.options[selected.selectedIndex].value;
@@ -1180,7 +1162,7 @@ function checkTime(time) {
                 if(i == selected_topic_value)
                 { 
                     // Subscribing to a Topic
-                    let listener = new ROSLIB.Topic({
+                    listener = new ROSLIB.Topic({
                         ros : ros,
                         name : selected_topic,
                         messageType : topic_types[i]
@@ -1189,12 +1171,11 @@ function checkTime(time) {
                     listener.subscribe(function(message) {
                         topic_val = JSON.stringify(message);
                         document.getElementById("topic_data_textbox").value = topic_val ;
-                        listener.unsubscribe();
                     });
-
-                }  
+                } 
             }
         });
+        listener.unsubscribe();
     }
 //-----displaying the list of topics in the dropdown  & data of selected rostopic in textarea of generic card-------------
 

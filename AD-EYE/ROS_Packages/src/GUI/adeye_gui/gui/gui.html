@@ -134,8 +134,7 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
             <div id="form_display"></div>
-<!--             <div style="width:100%">
- -->
+
             <!----gnss---->
             <div id="gnss_div" >
               <div class="button_div" style="display:inline-flex; width: 100%;">
@@ -154,8 +153,6 @@
                   <input type="number" value="1" min="0" title="Variance of the Gaussian along x, y and z (only active if state is Gaussian)"></input>
                   <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
                 </div> 
-
-               
               </form>
             </div>
             <!----gnss---->
@@ -365,7 +362,7 @@
         </div>
          <!-- card for simulation and real time displays---------->
 
-        
+        <div id="generic-div" class="col-md-3 col-sm-12" style="display: none;"></div>
         <button id="generic_button" onclick="createGenericCard()">+</button>
       </div>
     </div>

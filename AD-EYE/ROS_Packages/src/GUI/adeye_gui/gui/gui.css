@@ -16,9 +16,7 @@ body
   color: rgb(255, 253, 253);
   font-weight: bold;
   width: 100%;
-  
 }
-
 
 /* properties for the header  */
 .header
@@ -212,20 +210,36 @@ label
 {
   background-color: #699b2c; 
   color:white;
-  width: 95%;
   padding: 5px;
   border: 8px;
   border-style: none;
   border-radius: 15px;
+  margin: 5px;
+  width: 75%;
+ 
 }
 
 /* properties for the textarea tag in ros topics list card */
 #topic_data_textbox
 {
-  width: 95%;
   border: 8px;
   border-radius: 15px;
   background-color: white;
   color: black;
+  margin: 5px;
+  width: 75%;
+}
+
+/* properties for labels in the generic card */
+#topic_label, #topic_data
+{
+  width: 20%;
+  margin: 5px;
+}
+
+/* properties for assigning the label to center of the text area in generic card */
+#p1 *
+{
+  vertical-align: middle;
 }
 
