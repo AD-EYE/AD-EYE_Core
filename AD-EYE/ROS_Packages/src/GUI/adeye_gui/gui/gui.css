@@ -4,6 +4,7 @@ body
   height:100%;
 }
 
+/* properties for the card displays */
 .box
 {
   border: 3px solid #666;
@@ -11,37 +12,17 @@ body
   border-radius: .5em;
   padding: 10px;
   cursor: move;
-  height: auto;
-  width: auto;
   margin:5px;
   color: rgb(255, 253, 253);
   font-weight: bold;
+  width: 100%;
+  
 }
 
-.float-button {
-  position: fixed;
-  background-color: #699b2c;
-  right: -77px;
-  top: 270px;
-  transition: all 0.2s ease-in 0s;
-  z-index: 9999;
-  cursor: pointer;
 
- /*  width: 60px;
-  height:60px;
-  border-radius: 100%;
-  border:none;
-  font-size: xx-large; */ 
-/*   float: left;
- */  }
-
-  .float-button:hover {
-    right: -1px;
-    }
-
-.card
+/* properties for the header  */
+.header
 {
-  
   background-color:#EBEBEB;
   border-width: 10px;
   border-radius: 3px;
@@ -52,12 +33,7 @@ body
   font-weight: bold;
 }
 
-.canvas
-{
-  height: auto;
-  width: 200px;
-}
-
+/* properties for the velocity and acceleration card  */
 .gauge_velocity,.gauge_acceleration
 {
   width: 100%;
@@ -109,24 +85,16 @@ body
   box-sizing: border-box;
 }
 
-/* .ratingBox
- {
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-}
- */
+/* properties for the buttons */
 button
 {
   border-radius: 15px;
   color:white;
   margin: 5px;
-  height:50px;
-  width:300px;
+  height: 50px;
 }
 
+/* properties for the + button  */
 #generic_button
 {
   background-color:#699b2c;
@@ -138,37 +106,66 @@ button
   float: left;
 } 
 
-.textarea
-{
-  vertical-align: middle;
-}
-
-.manager,.fault_injection
+/* properties for the manager state & fault injection cards */
+.manager
 {
   background: gray;
   color:white;
   border-radius: 15px;
-  width:200px;
   border:none;
+  width: 100%;
 } 
 
-.channel,.features
+/* properties for text box displaying the latest information in each card*/
+#latest_state, #features_array, #fault_injection_values
+{
+  width: 100%;
+  background-color: white;
+  height: 50px;
+}
+
+/* properties for the fault injection card  */
+.fault_injection
 {
   background: gray;
   color:white;
   border-radius: 15px;
-  border:none;
+  width: 70%;
+  border: none;
 }
-
-select
+ 
+/* properties for the control channel & features card  */
+.channel
 {
-  background-color: #699b2c; 
+  background: gray;
   color:white;
-  width: 90px;
-  padding: 5px;
-  border: 8px;
+  border-radius: 15px;
+  border: none;
+  width: 50%;
 }
 
+.features
+{
+  background: gray;
+  color:white;
+  border-radius: 15px;
+  border: none;
+  width :100%;
+}
+
+/* properties for input in the fault injection card */
+.state
+{
+  height: 50px;
+  width: 30%;
+  border: 2px;
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 5px;
+  background-color: white;
+}
+
+/* properties for the form of fault injection  */
 form
 {
   background-color: gray;
@@ -178,132 +175,57 @@ form
   margin : 5px;
 }
 
-input,#drop_down
+/* properties for the select tag in the form for fault injection */
+select
+{
+  background-color: whitesmoke; 
+  color:black;
+  /* padding: 5px;
+  border: 8px;
+  border-radius: 10px;
+  width : 30%; */
+  width: 30%;
+  padding: 5px;
+  margin: 5px;
+  border: 2px;
+  border-radius: 10px;
+}
+
+/* properties for the input box in th form for fault injection card  */
+input
 {
   width: 30%;
   padding: 5px;
   margin: 5px;
   border: 2px;
   border-radius: 10px;
-
 }
 
-.state
-{
-  height: 48px;
-  border: 2px;
-  border-radius: 10px;
-  padding: 5px;
-  margin-top: 5px;
-}
-
+/* properties for the label in the form for fault injection  */
 label
 {
   width:63%;
 }
 
+/* properties for the select tag in ros topics list card */
 #select_topic
 {
   background-color: #699b2c; 
   color:white;
-  width: 200px;
+  width: 95%;
   padding: 5px;
   border: 8px;
+  border-style: none;
+  border-radius: 15px;
 }
 
-#topic_data
-{
-  width:auto;
-}
-
+/* properties for the textarea tag in ros topics list card */
 #topic_data_textbox
 {
-  width: 200px;
+  width: 95%;
+  border: 8px;
+  border-radius: 15px;
+  background-color: white;
+  color: black;
 }
 
-
-
-
-
-
-
-
-
-
-
-/* ----------------------------------------------------------------------------------------------------------- */
-
- /* .bcontainer
-{
-  display: grid | inline-grid; 
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px; 
-  
-} */
-
-/* .box.over 
-{
-  border: 3px dotted #666;
-} */
-
-/* .gauge_a 
-{
-  width: 100%;
-  max-width: 250px;
-  font-family: "Roboto", sans-serif;
-  font-size: 32px;
-  color: #004033;
-}
-
-.gauge_a__body 
-{
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  background: #b4c0be;
-  position: relative;
-  border-top-left-radius: 100% 200%;
-  border-top-right-radius: 100% 200%;
-  overflow: hidden;
-}
-
-.gauge_a__fill 
-{
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: inherit;
-  height: 100%;
-  background: #009578;
-  transform-origin: center top;
-  transform: rotate(0.25turn);
-  transition: transform 0.2s ease-out;
-}
-
-.gauge_a__cover 
-{
-  width: 75%;
-  height: 150%;
-  background: #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 25%;
-  box-sizing: border-box;
-}*/
-/* .ratingBoxs
-{
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
-}
- */
