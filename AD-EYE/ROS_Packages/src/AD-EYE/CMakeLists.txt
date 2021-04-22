@@ -178,7 +178,7 @@ target_link_libraries(
 
 target_link_libraries(
   imageSubscriber
-  ${catkin LIBRARIES}
+  ${catkin_LIBRARIES}
 )
 
 #add_dependencies(${PROJECT_NAME}
