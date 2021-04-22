@@ -889,9 +889,9 @@ function checkTime(time) {
     //--- displaying the image from ros topic---
     
     //listen to the topic camera_1/image_raw
-    let camera_topic = new ROSLIB.Topic({
+    let goal_topic = new ROSLIB.Topic({
         ros : ros,
-        name : '/lane_layer_image',
+        name : 'lane_layer_image',
         messageType : 'sensor_msgs/Image'
     });
 
@@ -900,7 +900,7 @@ function checkTime(time) {
     let original_height;
 
     //subscribing to the topic camera_1/image_raw
-    camera_topic.subscribe(function(message)
+    goal_topic.subscribe(function(message)
     { 
         // original image coordinates
         original_width = message.width;
