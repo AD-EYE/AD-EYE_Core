@@ -191,13 +191,6 @@ target_link_libraries(
 )
 
 
-=======
-  trajectoryVisualizer
-  ${catkin_LIBRARIES}
-)
-
->>>>>>> intern_dev
-
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
 )
