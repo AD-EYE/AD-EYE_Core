@@ -22,12 +22,14 @@
     </group>
 
 
+    <node ns="safety_channel"
+        type="fake_localizer.py"
+        pkg="adeye"
+        name="SSMP_ground_truth_localizer"
+        args="SSMP_ground_truth_localizer SSMP_map SSMP_base_link"/>
 
-    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="base_link_to_SSMP_base_link"
-        args="0 0 0 0 0 0 /base_link SSMP_base_link 10"/>
-
-    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="map_to_SSMP_map"
-        args="0 0 0 0 0 0 /map SSMP_map 10"/>
+    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="world_to_SSMP_map"
+        args="0 0 0 0 0 0 /world SSMP_map 10"/>
 
 
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
@@ -54,7 +56,6 @@
           output="screen"
           launch-prefix="xterm -e"
           args="/pure_pursuit /twist_filter /twist_gate /sender /controlSwitch"/>
-
 
     <node pkg="ss_trajplanner"
           type="ss_trajplanner_node"
