@@ -114,6 +114,16 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
+add_executable(
+  gridMapExtractor
+  src/gridmap_extractor.cpp
+)
+
+add_executable(
+  multiarray
+  src/multiarray.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -170,6 +180,17 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  gridMapExtractor
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  multiarray
+  ${catkin_LIBRARIES}
+)
+
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -208,6 +229,14 @@ add_dependencies(lidarRadarFuse
 )
 
 add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(gridMapExtractor
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(multiarray
   ${catkin_EXPORTED_TARGETS}
 )
 
