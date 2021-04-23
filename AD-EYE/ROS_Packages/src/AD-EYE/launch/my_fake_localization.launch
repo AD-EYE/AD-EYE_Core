@@ -40,9 +40,9 @@
     
     <!-- Fake Localizer, publishes the transform from map to base link base on gnss data -->
     <node type="fake_localizer.py"
-          pkg="adeye"
-          name="ground_truth_localizer"
-          args="ground_truth_localizer /map /base_link"/>
+        pkg="adeye"
+        name="ground_truth_localizer"
+        args="ground_truth_localizer /map /base_link"/>
 
     <!-- Pose Connect -->
     <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>
