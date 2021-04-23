@@ -7,6 +7,8 @@
 #include <sensor_msgs/Image.h>
 #include <image_transport/image_transport.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <nav_msgs/Odometry.h>
+#include <cpp_utils/pose_datatypes.h>
 
 using namespace grid_map;
 
@@ -24,8 +26,15 @@ private:
     ros::Subscriber goal_pixels_;
     ros::Publisher pub_extract_image_;
     ros::Publisher goal_position_;
+    ros::Subscriber sub_position_ego_;
 
     ros::Rate rate_;
+    
+
+    //Car informations
+    float x_ego_ = 0;
+    float y_ego_ = 0;
+    float yaw_ego_ = 0;
 
     // Grid Map
     GridMap grid_map_;
@@ -65,13 +74,13 @@ private:
         GridMapRosConverter::fromMessage(*msg, grid_map_);
 
         // Creates an image message from a grid map layer
-        bool create_image_ = GridMapRosConverter::toImage(grid_map_, "Lanes", sensor_msgs::image_encodings::RGB8, image_);
+        bool create_image = GridMapRosConverter::toImage(grid_map_, "Lanes", sensor_msgs::image_encodings::RGB8, image_);
 
         ROS_INFO("Sucessfully create an image : %s", create_image_ ? "true" : "false");
 
         // Get Resolution and Origin
         resolution_ = grid_map_.getResolution();
-        origin_ = grid_map_.getPosition();
+        origin_ = grid_map_.getLength() ;
 
         ROS_INFO("Resolution %f , X-Grid Position %f and Y-Grid Position %f", resolution_, origin_.x(), origin_.y());
 
@@ -115,6 +124,15 @@ private:
 
     }
 
+    void positionEgoCallback(const nav_msgs::Odometry::ConstPtr& msg) 
+    {
+        x_ego_ = msg->pose.pose.position.x;
+        y_ego_ = msg->pose.pose.position.y;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+
+        ROS_INFO("x = %f and y = %f",x_ego_,y_ego_);
+    }
+
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
@@ -127,8 +145,9 @@ public:
         // Initialize node, publishers and subscribers
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
-        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/goal_pixels_coordinates", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
-        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/real_map_goal_coordinates", 1, true);
+        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("//gui/goal_pixels", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
+        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/real_map_goal_coordinates", 1, true); //move_base_simple/goal
+        sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapExtractor::positionEgoCallback, this);
 
         frequency_ = 20;
         rate_ = ros::Rate(frequency_);
