@@ -49,6 +49,7 @@
             </div>
           </div>
         </div>
+        <!-- card for linear velocity -->
 
         <!-- card for linear acceleration -->
         <div class="colum">
@@ -62,9 +63,10 @@
             </div>
           </div>
         </div>
+        <!-- card for linear acceleration -->
 
         <!-- card for control channel  -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div style="display:inline-flex; width:100%"> 
@@ -73,9 +75,10 @@
             </div> 
           </div>
         </div>
+        <!-- card for control channel  -->
 
         <!-- card for manager state -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
@@ -83,15 +86,16 @@
             <button type="button" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button>
             <button type="button" class="manager" onclick="toggleStatedeactivation_OnClick(this)">Deactivation</button> 
             <button type="button" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button>
-            <label>Latest State Transition</label>
+            <label>Last state transition request</label>
             <input type="text" id="latest_state" value="" disabled>
           </div>
         </div>
+        <!-- card for manager state -->
 
         <!-- card for tracked objects -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
-            <h2 class="text-center">Tracked Objects</h2>
+            <h2 class="text-center">Tracked Object Camera 1</h2>
             <p><span id="test"></span></p>
             <p>Tracked object: <span id="track"></span></p>
             <p>X: <span id="x"></span></p>
@@ -99,17 +103,19 @@
             <p>Z: <span id="z"></span></p>
           </div>
         </div>
+        <!-- card for tracked objects -->
 
         <!-- card for behaviour state -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Behavior State</h2>
             <p>State: <span id="behavior"></span></p>
           </div>
         </div>
+        <!-- card for behaviour state -->
 
         <!-- card for features -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
             <button id="0" type="button" value="off" class="features " onclick="toggleFeatureState_OnClick(this)">Recording</button>
@@ -124,16 +130,16 @@
             <button id="9" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">SSMP</button>
             <button id="10" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Rviz</button>
             <button id="11" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Experiment Recording</button>
-            <label>Latest features array </label>
+            <label>Last features enabling request</label>
             <input type="text" id="features_array" value="" disabled>
           </div>
         </div>
+        <!-- card for features -->
 
         <!-- card for fault injection -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
-            <div id="form_display"></div>
 
             <!----gnss---->
             <div id="gnss_div" >
@@ -307,42 +313,41 @@
               </form>
             </div>
              <!----camera---->
-             <label style="display: inline;">Latest values </label>
-             <input type="textarea" id="fault_injection_values" value="" disabled>
-<!--             </div>
- -->            
+             <label style="display: inline;">Last fault injection request </label>
+             <textarea id="fault_injection_values" value="" disabled></textarea>
 				  </div>
         </div>
         <!-- card for fault injection -->
 
         <!-- card for goal setting-->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
-            <h2 class="text-center">Image Display</h2>
-             <canvas id="image_canvas" ></canvas>
-              <p>X:<span id="x-co-ordinate"></span></p>
-              <p>Y:<span id="y-co-ordinate"></span></p>
-             
+            <h2 class="text-center">Goal Selection</h2>
+            <canvas id="image_canvas" ></canvas>
+            <label style="display: inline;">Last goal coordinates </label>
+            <input type="text" id="goal_pixel_coordinates" value="" disabled>
+            <p>X:<span id="x-co-ordinate"></span></p>
+            <p>Y:<span id="y-co-ordinate"></span></p>
  		      </div>
         </div>
         <!-- card for goal setting-->
 
         <!-- card for camera -->
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera 1</h2>
-             <canvas id="camera1_canvas"></canvas>
+            <canvas id="camera1_canvas"></canvas>
 					</div>
         </div>
 
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Camera 2</h2>
              <canvas id="camera2_canvas" ></canvas>
 					</div>
         </div>
 
-        <div class="col-md-3 col-sm-12">
+        <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">TL Camera</h2>
              <canvas id="tl_camera_canvas" ></canvas>
@@ -351,22 +356,19 @@
         <!-- card for camera -->
 
          <!-- card for simulation and real time displays---------->
-
-        <div class="col-md-3 col-sm-12">
+       <div class="colum">
           <div draggable="true" class="box">
             <h2 class="text-center">Time Display</h2>
-            <div id="x5"></div>
             <p>Simulation Time:<span id="simulation_time"></span></p>
             <p>Real Time:<span id="real_time"></span></p>
 					</div>
         </div>
          <!-- card for simulation and real time displays---------->
 
-        <div id="generic-div" class="col-md-3 col-sm-12" style="display: none;"></div>
+        <div id="generic-div" class="colum" style="display: none;"></div>
         <button id="generic_button" onclick="createGenericCard()">+</button>
       </div>
     </div>
-     
 	  </main>
 
     <!-- footer -->

@@ -83,28 +83,27 @@ body
   box-sizing: border-box;
 }
 
-/* properties for the buttons */
-button
+/* properties for the control channel card  */
+.channel
 {
-  border-radius: 15px;
+  background: gray;
   color:white;
-  margin: 5px;
-  height: 50px;
+  border-radius: 15px;
+  border: none;
+  width: 50%;
 }
 
-/* properties for the + button  */
-#generic_button
+/* properties for features card  */
+.features
 {
-  background-color:#699b2c;
-  width: 60px;
-  height:60px;
-  border-radius: 100%;
-  border:none;
-  font-size: xx-large; 
-  float: left;
-} 
+  background: gray;
+  color:white;
+  border-radius: 15px;
+  border: none;
+  width :100%;
+}
 
-/* properties for the manager state & fault injection cards */
+/* properties for the manager state */
 .manager
 {
   background: gray;
@@ -112,14 +111,6 @@ button
   border-radius: 15px;
   border:none;
   width: 100%;
-} 
-
-/* properties for text box displaying the latest information in each card*/
-#latest_state, #features_array, #fault_injection_values
-{
-  width: 100%;
-  background-color: white;
-  height: 50px;
 }
 
 /* properties for the fault injection card  */
@@ -132,25 +123,6 @@ button
   border: none;
 }
  
-/* properties for the control channel & features card  */
-.channel
-{
-  background: gray;
-  color:white;
-  border-radius: 15px;
-  border: none;
-  width: 50%;
-}
-
-.features
-{
-  background: gray;
-  color:white;
-  border-radius: 15px;
-  border: none;
-  width :100%;
-}
-
 /* properties for input in the fault injection card */
 .state
 {
@@ -178,10 +150,6 @@ select
 {
   background-color: whitesmoke; 
   color:black;
-  /* padding: 5px;
-  border: 8px;
-  border-radius: 10px;
-  width : 30%; */
   width: 30%;
   padding: 5px;
   margin: 5px;
@@ -205,18 +173,49 @@ label
   width:63%;
 }
 
+/* properties for the buttons */
+button
+{
+  border-radius: 15px;
+  color:white;
+  margin: 5px;
+  height: 50px;
+}
+
+/* properties for the + button  */
+#generic_button
+{
+  background-color:#699b2c;
+  width: 60px;
+  height:60px;
+  border-radius: 100%;
+  border:none;
+  font-size: xx-large; 
+  float: left;
+} 
+
+/* properties for text box displaying the latest information in each card*/
+#latest_state, #features_array, #fault_injection_values, #goal_pixel_coordinates
+{
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  color: black;
+  border: none;
+  border-radius: 15px;
+}
+
 /* properties for the select tag in ros topics list card */
 #select_topic
 {
   background-color: #699b2c; 
   color:white;
   padding: 5px;
-  border: 8px;
+  border: none;
   border-style: none;
   border-radius: 15px;
   margin: 5px;
   width: 75%;
- 
 }
 
 /* properties for the textarea tag in ros topics list card */
@@ -230,14 +229,14 @@ label
   width: 75%;
 }
 
-/* properties for labels in the generic card */
+/* properties for labels in the ros topics list card */
 #topic_label, #topic_data
 {
   width: 20%;
   margin: 5px;
 }
 
-/* properties for assigning the label to center of the text area in generic card */
+/* properties for assigning the label to center of the text area in ros topics list card */
 #p1 *
 {
   vertical-align: middle;
