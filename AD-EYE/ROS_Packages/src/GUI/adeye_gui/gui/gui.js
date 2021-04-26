@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         //listen to the topic camera_1/image_raw
         let goal_topic = new ROSLIB.Topic({
             ros : ros,
-            name : '/camera_2/image_raw',
+            name : ' lane_layer_image',
             messageType : 'sensor_msgs/Image'
         });
 
