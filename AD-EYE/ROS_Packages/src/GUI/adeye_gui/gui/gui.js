@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
 
     function responsive()
     {
-        let col = document.querySelectorAll(".colum");
+        let col = document.querySelectorAll(".column");
 
         for (let i = 0; i < col.length; i++)
         {
