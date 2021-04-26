@@ -7,8 +7,8 @@
 #include <sensor_msgs/Image.h>
 #include <image_transport/image_transport.h>
 #include <geometry_msgs/PoseStamped.h>
-#include <nav_msgs/Odometry.h>
-#include <cpp_utils/pose_datatypes.h>
+#include <cmath>
+
 
 using namespace grid_map;
 
@@ -26,16 +26,10 @@ private:
     ros::Subscriber goal_pixels_;
     ros::Publisher pub_extract_image_;
     ros::Publisher goal_position_;
-    ros::Subscriber sub_position_ego_;
 
+    // ROS Rate
     ros::Rate rate_;
     
-
-    //Car informations
-    float x_ego_ = 0;
-    float y_ego_ = 0;
-    float yaw_ego_ = 0;
-
     // Grid Map
     GridMap grid_map_;
     double resolution_;
@@ -88,7 +82,7 @@ private:
         position_ = grid_map_.getPosition();
 
         ROS_INFO("Resolution %f, X-Grid Length %f and Y-Grid Length %f", resolution_, length_.x(), length_.y());
-        ROS_INFO("X Position %f and Y Position %f", position_.x(), position_.y());
+        //ROS_INFO("X Position %f and Y Position %f", position_.x(), position_.y());
         
     }
     
@@ -104,21 +98,23 @@ private:
         x_pixels_coordinate_ = msg->data.at(1);
         y_pixels_coordinate_ = msg->data.at(0);
 
-        // Take pixels coordinates and convert to gridmap coordinates and then change the gridmap origin according to Real World Map
+        // Take pixels coordinates and convert to gridmap coordinates and then change the gridmap origin side same as to Real World Map
         x_gridmap_coordinate_ = length_.x() - (x_pixels_coordinate_ * resolution_);
         y_gridmap_coordinate_ = length_.y() - (y_pixels_coordinate_ * resolution_);
 
         // Convert Pixels Coordinates to Real World Map Goal Coordinates
-        double offset_x = -119.058220;
-        double offset_y = -64.728058;
+        double offset_x = position_.x() - (0.5*length_.x());
+        double offset_y = position_.y() - (0.5*length_.y());
         x_world_coordinate_ = offset_x + x_gridmap_coordinate_;
         y_world_coordinate_ = offset_y + y_gridmap_coordinate_;
 
         
-        // Position Coordinatesß
+        // Position Coordinates
         pose_stamped_.header.frame_id = "world";
-        pose_stamped_.pose.position.x = x_world_coordinate_;
-        pose_stamped_.pose.position.y = y_world_coordinate_;
+        pose_stamped_.pose.position.x = round(x_world_coordinate_);
+        pose_stamped_.pose.position.y = round(y_world_coordinate_);
+        //pose_stamped_.pose.position.x = round(249.00);
+        //pose_stamped_.pose.position.y = round(136.00);
         pose_stamped_.pose.position.z = z_world_coordinate_;
         
         // Orientation Coordinates
@@ -135,14 +131,6 @@ private:
 
     }
 
-    void positionEgoCallback(const nav_msgs::Odometry::ConstPtr& msg) 
-    {
-        x_ego_ = msg->pose.pose.position.x;
-        y_ego_ = msg->pose.pose.position.y;
-        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
-
-        ROS_INFO("x = %f and y = %f",x_ego_,y_ego_);
-    }
 
     /*!
      * \brief Constructor
@@ -157,8 +145,7 @@ public:
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
         goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
-        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/real_map_goal_coordinates", 1, true); //move_base_simple/goal
-        sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapExtractor::positionEgoCallback, this);
+        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true); //move_base_simple/goal  // real_map_goal_coordinates
 
         frequency_ = 20;
         rate_ = ros::Rate(frequency_);
