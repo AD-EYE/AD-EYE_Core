@@ -39,7 +39,8 @@ private:
     // Grid Map
     GridMap grid_map_;
     double resolution_;
-    Position origin_;
+    Position length_;
+    Position position_;
 
     // ROS Image
     sensor_msgs::Image image_;
@@ -60,6 +61,9 @@ private:
     // Pixels Coordinates //
     double x_pixels_coordinate_, y_pixels_coordinate_;
 
+    //GridMap Coordinates //
+    double x_gridmap_coordinate_, y_gridmap_coordinate_;
+
     
     /*!
      * \brief GridMap Extractor Callback : Called when the grid map information has received.
@@ -76,14 +80,15 @@ private:
         // Creates an image message from a grid map layer
         bool create_image = GridMapRosConverter::toImage(grid_map_, "Lanes", sensor_msgs::image_encodings::RGB8, image_);
 
-        ROS_INFO("Sucessfully create an image : %s", create_image_ ? "true" : "false");
+        ROS_INFO("Sucessfully create an image : %s", create_image ? "true" : "false");
 
         // Get Resolution and Origin
         resolution_ = grid_map_.getResolution();
-        origin_ = grid_map_.getLength() ;
+        length_ = grid_map_.getLength();
+        position_ = grid_map_.getPosition();
 
-        ROS_INFO("Resolution %f , X-Grid Position %f and Y-Grid Position %f", resolution_, origin_.x(), origin_.y());
-
+        ROS_INFO("Resolution %f, X-Grid Length %f and Y-Grid Length %f", resolution_, length_.x(), length_.y());
+        ROS_INFO("X Position %f and Y Position %f", position_.x(), position_.y());
         
     }
     
@@ -95,16 +100,22 @@ private:
      */
     void goalPixlesCoordinatesCallback(const std_msgs::Int16MultiArray::ConstPtr &msg)
     {
-        ROS_INFO("I heard Pixles Coordinates: [%d],[%d]", msg->data.at(0), msg->data.at(1));
-        x_pixels_coordinate_ = msg->data.at(0);
-        y_pixels_coordinate_ = msg->data.at(1);
+        ROS_INFO("I heard Pixels Coordinates: [%d],[%d]", msg->data.at(0), msg->data.at(1));
+        x_pixels_coordinate_ = msg->data.at(1);
+        y_pixels_coordinate_ = msg->data.at(0);
 
-        // Convert Pixes Coordinates to Real World Map Goal Coordinates
-        x_world_coordinate_ = origin_.x() + x_pixels_coordinate_ * resolution_;
-        y_world_coordinate_ = origin_.y() + y_pixels_coordinate_ * resolution_;
+        // Take pixels coordinates and convert to gridmap coordinates and then change the gridmap origin according to Real World Map
+        x_gridmap_coordinate_ = length_.x() - (x_pixels_coordinate_ * resolution_);
+        y_gridmap_coordinate_ = length_.y() - (y_pixels_coordinate_ * resolution_);
+
+        // Convert Pixels Coordinates to Real World Map Goal Coordinates
+        double offset_x = -119.058220;
+        double offset_y = -64.728058;
+        x_world_coordinate_ = offset_x + x_gridmap_coordinate_;
+        y_world_coordinate_ = offset_y + y_gridmap_coordinate_;
 
         
-        // Position Coordinates
+        // Position Coordinatesß
         pose_stamped_.header.frame_id = "world";
         pose_stamped_.pose.position.x = x_world_coordinate_;
         pose_stamped_.pose.position.y = y_world_coordinate_;
@@ -145,7 +156,7 @@ public:
         // Initialize node, publishers and subscribers
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
-        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("//gui/goal_pixels", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
+        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
         goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/real_map_goal_coordinates", 1, true); //move_base_simple/goal
         sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapExtractor::positionEgoCallback, this);
 
