@@ -68,7 +68,7 @@ public:
         subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnss_callback, this);
         subVelocity = nh_.subscribe<geometry_msgs::TwistStamped>("/current_velocity", 10, &CollisionDetector::velocity_callback, this);
 
-        subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/SafetyPlannerGridmap", 1, &CollisionDetector::gridmap_callback, this);
+        subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &CollisionDetector::gridmap_callback, this);
 
         // Initialize the flags
         gnss_flag = 0;
