@@ -1,5 +1,5 @@
-#include "ros/ros.h"
-#include "std_msgs/Int16MultiArray.h"
+#include <ros/ros.h>
+#include <std_msgs/Int16MultiArray.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 #include <grid_map_ros/GridMapRosConverter.hpp>
@@ -17,7 +17,7 @@ using namespace grid_map;
      * Convert it into Image
      * Publish Real World Map goal coordiantes from Image through Pixels coordinates
      */
-class GridMapExtractor
+class GoalMapNode
 {
 
 private:
@@ -25,7 +25,7 @@ private:
     ros::Subscriber map_extractor_;
     ros::Subscriber goal_pixels_;
     ros::Publisher pub_extract_image_;
-    ros::Publisher goal_position_;
+    ros::Publisher pub_goal_position_;
 
     // ROS Rate
     ros::Rate rate_;
@@ -65,7 +65,7 @@ private:
      * \details Convert "Lanes" layer from the GridMap information given by the GridMapCreator, to
      * ROS Sensor Image and also calculate Resolution and Origin.
      */
-    void mapExtractorCallback(const grid_map_msgs::GridMap::ConstPtr &msg)
+    void gridMapExtractorCallback(const grid_map_msgs::GridMap::ConstPtr &msg)
     {
 
         // Convert received message back to gridMap
@@ -82,7 +82,6 @@ private:
         position_ = grid_map_.getPosition();
 
         ROS_INFO("Resolution %f, X-Grid Length %f and Y-Grid Length %f", resolution_, length_.x(), length_.y());
-        //ROS_INFO("X Position %f and Y Position %f", position_.x(), position_.y());
         
     }
     
@@ -113,8 +112,6 @@ private:
         pose_stamped_.header.frame_id = "world";
         pose_stamped_.pose.position.x = round(x_world_coordinate_);
         pose_stamped_.pose.position.y = round(y_world_coordinate_);
-        //pose_stamped_.pose.position.x = round(249.00);
-        //pose_stamped_.pose.position.y = round(136.00);
         pose_stamped_.pose.position.z = z_world_coordinate_;
         
         // Orientation Coordinates
@@ -127,7 +124,7 @@ private:
                  pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
         // Publish the Real World Map Goal Coordinates         
-        goal_position_.publish(pose_stamped_);
+        pub_goal_position_.publish(pose_stamped_);
 
     }
 
@@ -138,14 +135,13 @@ private:
      * \details Initialize the node and its components such as publishers and subscribers.
      */
 public:
-    GridMapExtractor(ros::NodeHandle &nh) : nh_(nh), rate_(1)
+    GoalMapNode(ros::NodeHandle &nh) : nh_(nh), rate_(1)
     {
-        //ros::SubscriberStatusCallback connect_cb    = boost::bind(&GridMapExtractor::goalPixlesCoordinatesCallback, this);
         // Initialize node, publishers and subscribers
-        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GridMapExtractor::mapExtractorCallback, this);
+        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GoalMapNode::gridMapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
-        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GridMapExtractor::goalPixlesCoordinatesCallback, this);
-        goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true); //move_base_simple/goal  // real_map_goal_coordinates
+        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GoalMapNode::goalPixlesCoordinatesCallback, this);
+        pub_goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
 
         frequency_ = 20;
         rate_ = ros::Rate(frequency_);
@@ -173,8 +169,8 @@ public:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "GridMapExtractor");
+    ros::init(argc, argv, "GoalMapNode");
     ros::NodeHandle nh;
-    GridMapExtractor exc(nh);
+    GoalMapNode exc(nh);
     return 0;
 }
