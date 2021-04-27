@@ -202,8 +202,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
     data_listener.subscribe(function(message) 
     {
         let channel_id = message.data;
-        document.getElementById("test1").innerHTML = channel_id;
-
         // array for postion:color pairs
         let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
         let position = assignPosition(channel_id);
@@ -976,7 +974,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic /vehicle_cmd
     clock_topic.subscribe(function(message)
     {
-        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+":"+message.clock.nsecs;
+        let str = message.clock.nsecs.toString(); //convert number to string
+        let result = str.substring(0,2)  // cut first two characters
+        result = parseInt(result); // convert it to a number
+        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+"."+result+ " s";
     });
  //--------------simulation and real time displays----------------
  
