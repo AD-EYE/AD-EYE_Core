@@ -2,7 +2,7 @@
 <launch>
 
     <!-- Set localization method: -->
-    <arg name="topic_pose_stamped" default="/gnss_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
+    <arg name="topic_pose_stamped" default="/ground_truth_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
 
     <!-- Set args defining tf_transform: base_link to velodyne-->
     <arg name="tf_x" default="/adeye/fake_localization/BaseLink_to_velodyne/tf_x"/>
