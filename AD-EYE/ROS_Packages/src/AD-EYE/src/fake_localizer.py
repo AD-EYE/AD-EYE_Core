@@ -10,15 +10,15 @@ from geometry_msgs.msg import PoseStamped
 class FakeLocalizer:
 
     def __init__(self, map_frame, base_link_frame):
-        self.gnss_sub = rospy.Subscriber('/gnss_pose_simulink', Pose, self.gnssCallback)
+        self.gnss_sub = rospy.Subscriber('/ground_truth_pose', PoseStamped, self.gnssCallback)
         self.br = tf.TransformBroadcaster()
         self.map_frame = map_frame
         self.base_link_frame = base_link_frame
 
     def gnssCallback(self, data):
         print("sending one transform")
-        self.br.sendTransform((data.position.x, data.position.y, data.position.z),
-                         (data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w),
+        self.br.sendTransform((data.pose.position.x, data.pose.position.y, data.pose.position.z),
+                         (data.pose.orientation.x, data.pose.orientation.y, data.pose.orientation.z, data.pose.orientation.w),
                          rospy.Time.now(),
                          self.base_link_frame,
                          self.map_frame)
