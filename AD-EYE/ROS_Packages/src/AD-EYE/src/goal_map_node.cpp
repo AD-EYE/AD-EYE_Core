@@ -12,10 +12,10 @@
 
 using namespace grid_map;
 
-/*!
-     * Initiate GridMapExtractor class which extracs "Lane" Layer from Grid Map
-     * Convert it into Image
-     * Publish Real World Map goal coordiantes from Image through Pixels coordinates
+    /*!
+     * Initiate GoalMapNode class which extracs "Lane" Layer from Grid Map
+     * Convert it into ROS Image
+     * Publish Real World Map goal coordiantes from ROS Image through Pixels coordinates
      */
 class GoalMapNode
 {
