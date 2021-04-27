@@ -5,9 +5,6 @@
     <!-- world_to_map -->
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>
 
-    <!-- map_to_mobility -->
-    <node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10"/>
-
     <!-- Point Cloud Map -->
     <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
     $(arg PointCloud_Files_Folder)">

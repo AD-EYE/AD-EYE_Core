@@ -1,5 +1,9 @@
 <!-- -->
 <launch>
+    <!-- base_link to GPS -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_gps"
+        args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link gps 10"/>
+    
     <!-- point_cloud_receiver -->
     <node pkg="adeye" type="point_cloud_receiver.py" name="point_cloud_receiver"/>
 
