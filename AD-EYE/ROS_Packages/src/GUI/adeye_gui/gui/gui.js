@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
     data_listener.subscribe(function(message) 
     {
         let channel_id = message.data;
+        document.getElementById("test1").innerHTML = channel_id;
 
         // array for postion:color pairs
         let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
@@ -275,6 +276,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
             });
             dataToggleOff.publish(dataOff);
         }
+        document.getElementById("control_channel").value = time + " "+channel.name;
+
     }
 //-------------------Nominal Vs Safety Channel ----------------
 
@@ -340,7 +343,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             data : true
         });
         activationRequestTopic.publish(activationOn);
-        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOn.data;;
+        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOn.data;
     }
 
     // function to toggle the state on and off by clicking on the buttons.
