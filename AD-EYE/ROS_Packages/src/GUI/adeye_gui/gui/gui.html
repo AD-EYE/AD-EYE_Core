@@ -1,239 +1,384 @@
 <!DOCTYPE html>
 <html>
-<head>
-
+  <head>
     <title>AD-EYE</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-    	 crossorigin="anonymous">
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="gui.css">
-        <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-        <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-        <script type="text/javascript" src="gui.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gui.css">
+    <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="gui.js"></script>
+    <!-- define on/off styles -->
+    <style type="text/css">
+      .on  
+      { background:#699b2c;
+        border:none; 
+      }
+      .off 
+      { 
+        background: gray;
+        border:none;
+      }
+    </style>
+  </head>
 
-         <!-- define on/off styles -->
-         <style type="text/css">
-          .on  { background:red; }
-          .off { background:green; }
-         </style>
+  <body onload="create_forms();clock();responsive();"> 
+      
+    <!-- header of the page -->
+    <header class="header">
+        <h1>AD-EYE User Interface</h1>
+        <p style="font-style: italic;">Connection status: <span id="status"></span></p>
+    </header>
 
-</head>
+    <!-- main content -->
+    <main>
+      <div class="container-fluid">
+      <div id="row_div" class="row">
 
-
-<body class="d-flex flex-column h-100">
-	<!-- header of the page -->
-	<header class="header">
-		<div class="container">
-			<div class="jumbotron text-center">
-				<h1>AD-EYE Graphical Interface</h1>
-				<p>Connection status: <span id="status"></span></p>
-			</div>
-		</div>
-	</header>
-
-	<!-- main content -->
-	<main>
-		<div class="container">
-			<div class="row">
-                <!-- card for linear velocity -->
-                <div class="col-md-4 col-sm-12">
-          <div class="card">
-                <div class="bcontainer">
-                  <div draggable="true" class="box">
-                            <h2 class="text-center">Linear Velocity</h2>
-                            <div class="gauge">
-                                <div class="gauge__body">
-                                    <div class="gauge__fill"></div>
-                                    <div class="gauge__cover"></div>
-                                </div>
-                            </div>
-                    </div>
-                  </div>
-                </div>
+        <!-- card for linear velocity -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Linear Velocity</h2>
+            <div id="test2"></div>
+            <div class="gauge_velocity">
+              <div class="gauge_velocity_body">
+                <div class="gauge_velocity_fill"></div>
+                <div class="gauge_velocity_cover"></div>
               </div>
-                <!-- card for linear acceleration -->
-                <div class="col-md-4 col-sm-12">
-          <div class="card">
-          <div class="bcontainer">
-            <div draggable="true" class="box">
-							<h2 class="text-center">Linear Acceleration</h2>
-                            <div class="gauge_a">
-                                <div class="gauge_a__body">
-                                    <div class="gauge_a__fill"></div>
-                                    <div class="gauge_a__cover"></div>
-                                </div>
-                            </div>
+            </div>
+          </div>
+        </div>
+        <!-- card for linear velocity -->
+
+        <!-- card for linear acceleration -->
+        <div class="column">
+          <div draggable="true" class="box"> 
+            <h2 class="text-center">Linear Acceleration</h2>
+            <div class="gauge_acceleration">
+              <div class="gauge_acceleration_body">
+                <div class="gauge_acceleration_fill"></div>
+                <div class="gauge_acceleration_cover"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- card for linear acceleration -->
+
+        <!-- card for control channel  -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Control Channel</h2>
+            <div style="display:inline-flex; width:100%"> 
+              <button  id="00" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Nominal</button>
+              <button id="01" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Safety</button>
+            </div> 
+          </div>
+        </div>
+        <!-- card for control channel  -->
+
+        <!-- card for manager state -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Manager State</h2>
+            <p>Current State : <span id="state"></span></p>
+            <button type="button" class="manager" onclick="toggleStateinitial_OnClick(this)">Initial Checks</button>
+            <button type="button" class="manager" onclick="toggleStateactivation_OnClick(this)">Activation Request</button>
+            <button type="button" class="manager" onclick="toggleStatedeactivation_OnClick(this)">Deactivation</button> 
+            <button type="button" class="manager" onclick="toggleStatefault_OnClick(this)">Fault</button>
+            <label>Last state transition request</label>
+            <input type="text" id="latest_state" value="" disabled>
+          </div>
+        </div>
+        <!-- card for manager state -->
+
+        <!-- card for tracked objects -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Tracked Object Camera 1</h2>
+            <p><span id="test"></span></p>
+            <p>Tracked object: <span id="track"></span></p>
+            <p>X: <span id="x"></span></p>
+            <p>Y: <span id="y"></span></p>
+            <p>Z: <span id="z"></span></p>
+          </div>
+        </div>
+        <!-- card for tracked objects -->
+
+        <!-- card for behaviour state -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Behavior State</h2>
+            <p>State: <span id="behavior"></span></p>
+          </div>
+        </div>
+        <!-- card for behaviour state -->
+
+        <!-- card for features -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Features</h2>
+            <button id="0" type="button" value="off" class="features " onclick="toggleFeatureState_OnClick(this)">Recording</button>
+            <button id="1" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)"> Map</button>
+            <button id="2" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Sensing</button>
+            <button id="3" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Localization</button>
+            <button id="4" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Fake Localization</button>
+            <button id="5" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Detection</button>
+            <button id="6" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Misson Planning</button>
+            <button id="7" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Motion Planning</button>
+            <button id="8" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Switch</button>
+            <button id="9" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">SSMP</button>
+            <button id="10" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Rviz</button>
+            <button id="11" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Experiment Recording</button>
+            <label>Last features enabling request</label>
+            <input type="text" id="features_array" value="" disabled>
+          </div>
+        </div>
+        <!-- card for features -->
+
+        <!-- card for fault injection -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Fault Injection</h2>
+
+            <!----gnss---->
+            <div id="gnss_div" >
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="gnss" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">GNSS</button>
+                <input id="gnss_input" class="state" type="text" value="" placeholder="State" disabled></input> 
+              </div>
+              <form id="gnss_form" name="gnss" style="display:none;">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> 
+                  <label>State</label>
+                  <select id="gnss_state" title="Which disturbance model will be used: Gaussian is along x, y and z.">
+                    <option value="0" >Off</option>
+                    <option value="1">Gaussian Noise</option>
+                  </select>
+                  <label>noise_variance</label>
+                  <input type="number" value="1" min="0" title="Variance of the Gaussian along x, y and z (only active if state is Gaussian)"></input>
+                  <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                </div> 
+              </form>
+            </div>
+            <!----gnss---->
+
+            <!----lidar---->
+            <div id="lidar1_div" >
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="lidar1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 1</button>
+                <input id="lidar1_input" class="state" type="text"  value="" placeholder="State" disabled></input>
+              </div>
+              <form id="lidar1_form" name="lidar1" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> 
+                <label>State</label>
+                <select id="lidar1_state" title="Which disturbance model will be used: Random is Gaussian along the range and the polar angle, Rain Models follows specific equations.">
+                  <option value="0" >Off</option>
+                  <option value="1">Random</option>
+                  <option value="2">Rain</option>
+                </select>
+                <label>random/range_variance</label>
+                <input type="number" value="0.0001" min="0" title="Variance of Gaussian noise on the range field (only active if state is Random)"></input>
+                <label>random/theta_variance</label>
+                <input type="number" value="0.0001" min="0" title="Variance of Gaussian noise on the polar angle field (only active if state is Random)"></input>
+                <label>rain/rain_intensity</label>
+                <input type="number" value="7.5" min="0" title="Rain intensity in mm/h (only active if state is Rain model)"></input>
+                <label>rain/a</label>
+                <input type="number" value="0.01"title="a (only active if state is Rain model)"></input>
+                <label>rain/b</label>
+                <input type="number" value="0.6" title="b (only active if state is Rain model)"></input>
+                <label>rain/reflectivity</label>
+                <input type="number" value="0.9"  min="0" max="1" title="Objects reflectivity (only active if state is Rain model)"></input>
+                <label>rain/max_range</label>
+                <input type="number"  value="100" min="0" title="Maximum range of the Lidar sensor in nominal conditions (only active if state is Rain model)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+                </div>
+              </form>
+            </div>
+             
+            <div id="lidar2_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="lidar2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 2</button>&nbsp;&nbsp;
+                <input id="lidar2_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="lidar2_form" name="lidar2" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
+            </div>
+            
+            <div id="lidar3_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="lidar3" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 3</button>&nbsp;&nbsp;
+                <input id="lidar3_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="lidar3_form" name="lidar3" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
+            </div>
+            
+            <div id="lidar4_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="lidar4" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Lidar 4</button>&nbsp;&nbsp;
+                <input id="lidar4_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="lidar4_form" name="lidar4" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content"> </div>
+              </form>
+            </div>
+            
+            <!----lidar---->
+
+            <!----radar---->
+            <div id="radar_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="radar" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Radar</button>&nbsp;&nbsp;
+                <input id="radar_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="radar_form" name="radar" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;
+                <div id="form_content">
+                <label>State</label>
+                <select id="radar_state" title="Which disturbance model will be used: Gaussian is along the three spherical coordinates">
+                  <option value="0" >Off</option>
+                  <option value="1">Gaussian Noise</option>
+                </select>
+                <label>range_variance</label>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the range field (only active if state is Gaussian)"></input>
+                <label>theta_variance</label>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the polar angle (only active if state is Gaussian)"></input>
+                <label>phi_variance</label>
+                <input type="number" value="1" min="0" title="Variance of the Gaussian along the azimuth angle (only active if state is Gaussian)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+              </div>
+              </form>
+            </div>
+            <!----radar---->
+
+            <!----camera---->
+            <div id="camera_1_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="camera1" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 1</button>&nbsp;&nbsp;
+                <input id="camera1_input" class="state" type="text" value="" placeholder="State" disabled></input> 
+              </div>
+              <form id="camera1_form" name="camera1" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content">
+                <label>State</label>
+                <select id="camera1_state" title="Which disturbance model will be used: Colored patch replaces all pixels in a specified rectangle by the specified color">
+                  <option value="0" >Off</option>
+                  <option value="1">Colored Patch</option>
+                </select>
+                <label>patch/start_x</label>
+                <input type="number" value="200" title="Start of the rectangle along x (only active if state is Colored Patch)"></input>
+                <label>path/start_y</label>
+                <input type="number" value="100" title="Start of the rectangle along y (only active if state is Colored Patch)"></input>
+                <label>patch/size_x</label>
+                <input type="number" value="100" title="Size of the rectangle along x, currently inactive (only active if state is Colored Patch)"></input>
+                <label>patch/size_y</label>
+                <input type="number" value="150" title="Size of the rectangle along y, currently inactive (only active if state is Colored Patch)"></input>
+                <label>patch/R</label>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Red channel (only active if state is Colored Patch)"></input>
+                <label>patch/G</label>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Green channel (only active if state is Colored Patch)"></input>
+                <label>patch/B</label>
+                <input type="number" value="0" max="255" title="Color of the rectangle, Blue channel (only active if state is Colored Patch)"></input>
+                <input type="button" value="send" onclick="fault_injection_parameter_values(this)"></input>
+              </div>
+              </form>
+            </div>
+            
+            <div id="camera_2_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="camera2" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">Camera 2</button>&nbsp;&nbsp;
+                <input id="camera2_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="camera2_form" name="camera2" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content"></div>
+              </form>
+            </div>
+            
+            <div id="tl_camera_div">
+              <div class="button_div" style="display:inline-flex; width: 100%;">
+                <button name="tl_camera" type="button" value="off" class="fault_injection" onclick="faultInjection_OnClick(this)">TL Camera</button>&nbsp;&nbsp;
+                <input id="tl_camera_input" class="state" type="text" value="" placeholder="State" disabled></input>
+              </div>
+              <form id="tl_camera_form" name="tl_camera" style="display:none">
+                <div class="include_button_div" style="display:inline-flex; width: 100%;"></div>&nbsp;&nbsp;
+                <div id="form_content"></div>
+              </form>
+            </div>
+             <!----camera---->
+             <label>Last fault injection request </label>
+             <textarea id="fault_injection_values" value="" disabled></textarea>
+				  </div>
+        </div>
+        <!-- card for fault injection -->
+
+        <!-- card for goal setting-->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Goal Selection</h2>
+            <canvas id="image_canvas" ></canvas>
+            <label>Last goal coordinates </label>
+            <input type="text" id="goal_pixel_coordinates" value="" disabled>
+ 		      </div>
+        </div>
+        <!-- card for goal setting-->
+
+        <!-- card for camera -->
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera 1</h2>
+            <canvas id="camera1_canvas"></canvas>
 					</div>
-				</div>
+        </div>
+
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera 2</h2>
+             <canvas id="camera2_canvas" ></canvas>
+					</div>
+        </div>
+
+        <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">TL Camera</h2>
+             <canvas id="tl_camera_canvas" ></canvas>
+					</div>
+        </div>
+        <!-- card for camera -->
+
+         <!-- card for simulation and real time displays---------->
+       <div class="column">
+          <div draggable="true" class="box">
+            <h2 class="text-center">Time Display</h2>
+            <p>Simulation Time:<span id="simulation_time"></span></p>
+            <p>Real Time:<span id="real_time"></span></p>
+					</div>
+        </div>
+         <!-- card for simulation and real time displays---------->
+
+        <div id="generic-div" class="column" style="display: none;"></div>
+        <button id="generic_button" onclick="createGenericCard()">+</button>
       </div>
     </div>
-                <!-- card for state -->
-                <div class="col-md-4 col-sm-12">
-          <div class="card">
-                <div class="bcontainer">
-                  <div draggable="true" class="box">
-							<h2 class="text-center">Autoware Vs Safety</h2>
-                            <div id="0" class="ratingBox">
-                            </div>
-                            <p>Autoware</p>
-                            <div id="1" class="ratingBox">
-                            </div>
-                            <p>Safety Channel</p>
-                            <h2 class="text-center">Toggle State</h2>
-                            <button type="button" class="off"
-                             onclick="toggleState(this)">A Vs S</button>
-						</div>
-				</div>
-      </div>
-  </div>
-        <!-- card for Manager  state -->
-                <div class="col-md-4 col-sm-12">
-					<div class="card">
-            <div class="bcontainer">
-              <div draggable="true" class="box">
-                							<h2 class="text-center">Manager State</h2>
-                            <p>State : <span id="state"></span></p>
-                            <button type="button" class="off"
-                             onclick="toggleStateinitial(this)">Initial</button>
-                             <button type="button"  class="off"
-                              onclick="toggleStateactivation(this)">Activation</button>
-                             <button type="button" class="off"
-                              onclick="toggleStatefault(this)">Fault</button>
-						</div>
-					</div>
-				</div>
-      </div>
+	  </main>
 
-                <!-- card for tracked objects -->
-                <div class="col-md-4 col-sm-12">
-					<div class="card">
-            <div class="bcontainer">
-              <div draggable="true" class="box">
-                							<h2 class="text-center">Tracked Objects</h2>
-                            <p>Tracked object: <span id="track"></span></p>
-                            <p>X: <span id="x"></span></p>
-                            <p>Y: <span id="y"></span></p>
-                            <p>Z: <span id="z"></span></p>
-						</div>
-					</div>
-				</div>
-      </div>
+    <!-- footer -->
+	  <footer class="footer mt-auto bg-dark text-light">
+			<h5 style="text-align: center;">AD-EYE <a href="https://www.adeye.se/">(adeye.se)</a> Platform for Automated Driving Systems</h5>
+    </footer>
 
-                <!-- card for behaviour state -->
-                <div class="col-md-4 col-sm-12">
-					<div class="card">
-            <div class="bcontainer">
-              <div draggable="true" class="box">
-                							<h2 class="text-center">Behavior State</h2>
-                            <p>State: <span id="beh"></span></p>
-						</div>
-					</div>
-				</div>
-      </div>
+    <script>
+      var image_canvas = document.getElementById("image_canvas");
+      image_canvas.onmousedown = getCoordinates;
+    </script>
 
-          <!-- card for Feature state -->
-                <div class="col-md-4 col-sm-12">
-                    <div class="card">
-                      <div class="bcontainer">
-                        <div draggable="true" class="box">
-                            <h2 class="text-center">Feature State</h2>
-                            <div id="0" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStaterec(this)">RECORDING</button>
-                            <div id="1" class="ratingBoxs">
-                            </div>
-                            <button type="button"  class="off" style="height:50px;width:300px"
-                             onclick="toggleStatemap(this)">MAP</button>
-                            <div id="2" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStatesen(this)">SENSING</button>
-                            <div id="3" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStateloc(this)">LOCALIZATION</button>
-                            <div id="4" class="ratingBoxs">
-                            </div>
-                            <button type="button"  class="off" style="height:50px;width:300px"
-                             onclick="toggleStatefloc(this)">FAKE_LOCALIZATION</button>
-                            <div id="5" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStatedet(this)">DETECTION</button>
-                            <div id="6" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStatemip(this)">MISSION_PLANNING</button>
-                            <div id="7" class="ratingBoxs">
-                            </div>
-                            <button type="button"  class="off" style="height:50px;width:300px"
-                             onclick="toggleStatemop(this)">MOTION_PLANNING</button>
-                            <div id="8" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStateswit(this)">SWITCH</button>
-                            <div id="9" class="ratingBoxs">
-                            </div>
-                            <button type="button" class="off" style="height:50px;width:300px"
-                             onclick="toggleStatessmp(this)">SSMP</button>
-                            <div id="10" class="ratingBoxs">
-                            </div>
-                            <button type="button"  class="off" style="height:50px;width:300px"
-                             onclick="toggleStaterviz(this)">RVIZ</button>
-                        </div>
-                    </div>
-                </div>
-              </div>
-
-                  <!-- card for Fault Injection -->
-                <div class="col-md-4 col-sm-12">
-					             <div class="card">
-                         <div class="bcontainer">
-                           <div draggable="true" class="box">
-                                        <h2 class="text-center">Fault Injection</h2>
-                                        <button type="button" class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectiongnss(this)">GNSS</button>
-                                        <button type="button" class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectionlidar1(this)">LIDAR 1</button>
-                                        <button type="button"  class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectionlidar2(this)">LIDAR 2</button>
-                                        <button type="button" class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectionlidar3(this)">LIDAR 3</button>
-                                        <button type="button" class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectionlidar4(this)">LIDAR 4</button>
-                                        <button type="button"  class="off" style="height:50px;width:300px"
-                                         onclick="faultinjectionradar(this)">RADAR</button>
-						                   </div>
-					             </div>
-				        </div>
-              </div>
-
-                  <!-- card for camera -->
-                <div class="col-md-4 col-sm-12">
-					             <div class="card">
-                         <div class="bcontainer">
-                           <div draggable="true" class="box">
-                              <h2 class="text-center">Camera Stream_tl</h2>
-                                        <a href="http://localhost:8080/stream?topic=/tl/image_raw">
-						                   </div>
-					             </div>
-				        </div>
-              </div>
-
-
-            </div>
-	</main>
-
-	<!-- footer -->
-	<footer class="footer mt-auto bg-dark text-light">
-		<div class="container">
-			<h5>page ends here! But work inprogress</h5>
-		</div>
-	</footer>
-</body>
-
-
+  </body>
 </html>
 
