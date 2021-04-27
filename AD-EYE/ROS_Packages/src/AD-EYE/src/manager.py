@@ -280,6 +280,8 @@ class Manager:
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
+        self.switch_request_pub = rospy.Publisher('/safety_channel/switch_request', Int32MultiArray, queue_size=1)  # for GUI
+        
 
     ## Main loop
     def run(self):
