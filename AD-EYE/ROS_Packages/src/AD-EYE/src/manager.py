@@ -293,7 +293,7 @@ class Manager:
         self.checkManagerState()  # check state of the state machine and updates current features accordingly
         if self.current_features != self.previous_features:  # checks if the list of active features has changed
             self.startAndStopFeatures()
-        self.state_pub.publish(self.manager_state_machine.getState().value)  # publish the state machine state (for GUI)
+        self.state_pub.publish(self.manager_state_machine.getState())  # publish the state machine state (for GUI)
         self.publishActiveFeatures()  # publish the current active features (for GUI)
 
     ## Callback listening to the features requests (features that we want to activate/deactivate)
