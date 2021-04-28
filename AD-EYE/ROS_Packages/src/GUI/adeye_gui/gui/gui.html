@@ -105,14 +105,17 @@
         </div>
         <!-- card for tracked objects -->
 
-        <!-- card for behaviour state -->
+
+        <!-- card for goal setting-->
         <div class="column">
           <div draggable="true" class="box">
-            <h2 class="text-center">Behavior State</h2>
-            <p>State: <span id="behavior"></span></p>
-          </div>
+            <h2 class="text-center">Goal Selection</h2>
+            <canvas id="image_canvas" ></canvas>
+            <label>Last goal coordinates </label>
+            <input type="text" id="goal_pixel_coordinates" value="" disabled>
+ 		      </div>
         </div>
-        <!-- card for behaviour state -->
+        <!-- card for goal setting-->
 
         <!-- card for features -->
         <div class="column">
@@ -319,39 +322,15 @@
         </div>
         <!-- card for fault injection -->
 
-        <!-- card for goal setting-->
+        
+        <!-- card for behaviour state -->
         <div class="column">
           <div draggable="true" class="box">
-            <h2 class="text-center">Goal Selection</h2>
-            <canvas id="image_canvas" ></canvas>
-            <label>Last goal coordinates </label>
-            <input type="text" id="goal_pixel_coordinates" value="" disabled>
- 		      </div>
+            <h2 class="text-center">Behavior State</h2>
+            <p>State: <span id="behavior"></span></p>
+          </div>
         </div>
-        <!-- card for goal setting-->
-
-        <!-- card for camera -->
-        <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Camera 1</h2>
-            <canvas id="camera1_canvas"></canvas>
-					</div>
-        </div>
-
-        <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Camera 2</h2>
-             <canvas id="camera2_canvas" ></canvas>
-					</div>
-        </div>
-
-        <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">TL Camera</h2>
-             <canvas id="tl_camera_canvas" ></canvas>
-					</div>
-        </div>
-        <!-- card for camera -->
+        <!-- card for behaviour state -->
 
          <!-- card for simulation and real time displays---------->
        <div class="column">
