@@ -10,6 +10,8 @@ Panels:
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
+        - /Autoware1/Perception1/Detected_objects1
+        - /Autoware1/Perception1/Detected_objects1/Namespaces1
         - /Autoware1/Planning1
         - /Autoware1/Planning1/Global Planning1/Global Path1
       Splitter Ratio: 0.695804
@@ -226,12 +228,10 @@ Visualization Manager:
               Marker Topic: /objects_markers
               Name: Detected_objects
               Namespaces:
-                //arrow_markers: true
-                //box_markers: true
+                //box_markers: false
                 //centroid_markers: true
                 //hull_markers: true
                 //label_markers: true
-                //model_markers: true
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -329,11 +329,8 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Deteced objects Lidar: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
@@ -350,7 +347,16 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Cahnnel:
-                      "": true
+                      Grid map: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
@@ -385,11 +391,8 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Deteced objects Lidar: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
@@ -406,7 +409,16 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Cahnnel:
-                      "": true
+                      Grid map: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
@@ -470,11 +482,8 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          Clustered Points: true
-                          Deteced objects Lidar: true
-                          Raw Lidar Points: true
+                          "": true
                           Value: true
-                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
@@ -492,7 +501,16 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Cahnnel:
-                      "": true
+                      Grid map: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
@@ -549,7 +567,7 @@ Visualization Manager:
                   Max Color: 255; 255; 255
                   Max Intensity: 1
                   Min Color: 0; 0; 0
-                  Min Intensity: 0.0348973833
+                  Min Intensity: 0.0921390578
                   Name: Voxel Filtered Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -706,9 +724,7 @@ Visualization Manager:
           Marker Topic: /tlr_result
           Name: Traffic Lights
           Namespaces:
-            tlr_result_green: true
-            tlr_result_red: true
-            tlr_result_yellow: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
