@@ -454,49 +454,31 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic manager/features
     feature_listener.subscribe(function(message) 
     {
+        let divList_1 = document.getElementsByClassName('features');
+
+        for(i=0;i<divList_1.length;i++)
+        {
+            divList_1[i].style.backgroundColor  = "gray";
+        }
+
         data_array = message.data;
 
-        // array for position:color pairs
-        let strColorPairs = Array(
-        {'position' : 0, 'color' : green},
-        {'position' : 1, 'color' : green},
-        {'position' : 2, 'color' : green},
-        {'position' : 3, 'color' : green},
-        {'position' : 4, 'color' : green},
-        {'position' : 5, 'color' : green},
-        {'position' : 6, 'color' : green},
-        {'position' : 7, 'color' : green},
-        {'position' : 8, 'color' : green},
-        {'position' : 9, 'color' : green},
-        {'position' : 10, 'color' : green},
-        {'position' : 11, 'color' : green});
-        
-        // array to get postions with the data value 1
+        // array to store the postions with the data value 1
         let position = new Array();
         position = checkPosition(data_array);
         colorBox(position);
 
-        //function to change the color of button and reseting it to gray when not in use
+        //function to change change the color of button to green when they are on
         function colorBox(position)
         {
             let divList = document.getElementsByClassName('features');
-            let i, n = divList.length;
-                
-            for (p = 0; p < position.length; p++)
+            for (i = 0; i < divList.length; i++)
             {
-                curContent = divList[position[p]].id;
-                for (i = 0; i < n; i++)
+                for (j = 0; j < position.length; j++)
                 {
-                    for (j = 0; j < strColorPairs.length; j++)
+                    if(position[j] == divList[i].id)
                     {
-                        if (strColorPairs[j].position !== curContent)
-                        {
-                            divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                        }
-                        else 
-                        {
-                            divList[i].style.backgroundColor  = 'gray';
-                        }
+                        divList[i].style.backgroundColor  = green;
                     }
                 }
             }
@@ -539,12 +521,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 if(featureOff.data[i] == 1)
                 {
                     featureOff.data[i] = 0;
-                    feature.style.backgroundColor = "gray";
                 }
                 else
                 {
                     featureOff.data[i] = 1;
-                    feature.style.backgroundColor = green;
                 }
             }
         }
