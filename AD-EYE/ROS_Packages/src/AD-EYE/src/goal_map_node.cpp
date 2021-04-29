@@ -158,6 +158,8 @@ public:
         while (nh_.ok())
         {
             ros::spinOnce();
+            // Publish the image after receiving the grid map data
+            // Then publish the image only after changing the grid map position
             if ( i != position_.x() && created_image_)
             {
                 pub_extract_image_.publish(image_);
