@@ -483,12 +483,12 @@ document.addEventListener('DOMContentLoaded', (event) =>
             let divList = document.getElementsByClassName('features');
             let i, n = divList.length;
                 
-            for (p=0; p<position.length; p++)
+            for (p = 0; p < position.length; p++)
             {
                 curContent = divList[position[p]].id;
-                for (i=0; i<n; i++)
+                for (i = 0; i < n; i++)
                 {
-                    for (j=0; j<strColorPairs.length; j++)
+                    for (j = 0; j < strColorPairs.length; j++)
                     {
                         if (strColorPairs[j].position !== curContent)
                         {
@@ -539,11 +539,13 @@ document.addEventListener('DOMContentLoaded', (event) =>
             {
                 if(featureOff.data[i] == 1)
                 {
-                    featureOff.data[i] = 0; 
+                    featureOff.data[i] = 0;
+                    feature.style.backgroundColor = "gray";
                 }
                 else
                 {
-                    featureOff.data[i] = 1; 
+                    featureOff.data[i] = 1;
+                    feature.style.backgroundColor = green;
                 }
             }
         }
