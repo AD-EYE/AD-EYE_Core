@@ -397,8 +397,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 object[k] = message.objects[i].label[j];
                 k++;
             } 
-            document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
-            if(message.objects[i].user_defined_info[1] == "camera_2")
+            if(message.objects[i].user_defined_info == "camera_1")
             {
                 s = object.join("");
                 document.getElementById("track").innerHTML = s;
