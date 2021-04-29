@@ -1,116 +1,94 @@
-#!usr/bin/env python
-
-import roslib
+#! /usr/bin/env python
 import rospy
+import roslib
 import math
-import tf 
+import tf
+import time
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import Int32
 
-#Make a list of the three goal positions
-class goal
+class loopgoal ():
 
-    def __init__(self,Px, Py, Ox, Oy, Ow ):
-        self.Px = Px
-        self.Py = Py
-        self.Ox = Ox
-        self.Oy = Oy
-        self.Ow = Ow
+    def __init__(self,goalList):
         
-#Setting the parameters and variables
-        self.Pz = 0.0
-        self.Oz = 0.0
-        self.seq = 1
-        self.stamp = rospy.Time.now()
-        self.frame_id = "Map"
+        self.goal_List = goalList
+        self.current_goal_Index = -1
+        self.goalID = 0
+         #self.publishGoalFromIndex(0)
+        #time.sleep(10) 
 
-class loopgoal
-    #create list
-    Goallist=[]
-
-    def __init__(self):
-    #Set the Publisher and Subscriber
-
-        self.postion_sub = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssPosecallback)
-        self.goal_pub = rospy.Publisher('move_base_simple/goal', PoseStamped, queue_size=1)
-
-    #appending instances to list
-        Goallist.append( goal(257.0, 170.0, 0.0, 0.0, 1.0) )
-        Goallist.append( goal(223.0, 226.0, 0.0, 1.0, 0.0) )
-        Goallist.append( goal(84.0, 170.0, 1.0, 0.0, 0.0) )    
+        #Set thePublishers Subscribers 
+        self.goal_pub = rospy.Publisher('move_base_simple/goal', PoseStamped, queue_size=1)        
+        self.position_sub = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssPoseCallback)
+        self.planner_pub = rospy.Publisher('/adeye/update_local_planner', Int32, queue_size=1)
+        self.goalPose_sub = rospy.Subscriber('move_base_simple/goal', PoseStamped, self.goalPoseCallback)
     
-#Funtion to calculate the distance between the car and the goal 
-    def getDistance(self, egoPose, goalPose):
-        distance = ( (goalPose.x-egoPose.x)**2 + (goalPose.y-egoPose.y)**2 ) ** 0.5
-        return (distance)
+    #Function for publishing the goals    
+    def publishGoalFromIndex(self,index): 
+        print("Publish New Goal")
+        self.goal_pub.publish(self.goal_List[index])        
+        self.current_goal_Index = index
 
-    def gnssPosecallback(self,egoPose):
-        goal = PoseStamped()
-       
-# Publish the next goal after checking the conditions.
-        if self.getDistance(egoPose.pose.position, goalPose.pose.postion) <= 20:
-            if (goal.pose.position.x == 257.0 and goal.pose.positon.y ==170):
-                goal.pose.position.x = Goallist[1].Px
-                goal.pose.position.y = Goallist[1].Py
-                goal.pose.position.z = Goallist[1].Pz
+    def goalPoseCallback(self,goalPose):
+        print(goalPose.pose.position)
+        if(goalPose.pose.position.x == self.goal_List[self.current_goal_Index].pose.position.x):
+               print("New Goal Set")
+               self.goalID = 1
+    
+    #Calculates the distance between egopose and goalpose
+    def getDistance(self, egoPose, x2, y2):
+        distance = ( (x2-egoPose.x)**2 + (y2-egoPose.y)**2 ) ** 0.5
+        print("Distance to goal is ")
+        print(distance)
+        return(distance)
+        
+    def gnssPoseCallback(self,egoPose):
 
-                goal.pose.orientation.x = Goallist[1].Ox
-                goal.pose.orientation.y = Goallist[1].Oy
-                goal.pose.orientation.z = Goallist[1].Oz
-                goal.pose.orientation.w = Goallist[1].Ow
-                
-                goal.header.seq = Goallist[1].seq
-                goal.header.stamp = Goallist[1].stamp
-                goal.header.frame_id = Goallist[1].frame_id
-                self.goal_pub.publish(goal)
+        #set initial goal
+        if(self.goalID == 0):
+            self.publishGoalFromIndex(0)
 
-            elif (goal.pose.position.x == 223.0 and goal.pose.positon.y ==226):
-                goal.pose.position.x = Goallist[2].Px
-                goal.pose.position.y = Goallist[2].Py
-                goal.pose.position.z = Goallist[2].Py
-                goal.pose.orientation.x = Goallist[2].Ox
-                goal.pose.orientation.y = Goallist[2].Oy
-                goal.pose.orientation.z = Goallist[2].Oz
-                goal.pose.orientation.w = Goallist[2].Ow
+        self.reset_local_planner_msg = Int32()
+        self.reset_local_planner_msg.data = 1
 
-                goal.header.seq = Goallist[2].seq
-                goal.header.stamp = Goallist[2].stamp
-                goal.header.frame_id = Goallist[2].frame_id
-                self.goal_pub.publish(goal)
+        x = self.goal_List[self.current_goal_Index].pose.position.x
+        y = self.goal_List[self.current_goal_Index].pose.position.y        
+    
+        if(self.getDistance(egoPose.pose.position, x, y) <= 30 ):
+            index_Counter = 0
+            if( self.current_goal_Index < len(self.goal_List) ):
+                index_Counter = self.current_goal_Index + 1
 
-            elif (goal.pose.position.x == 84.0 and goal.pose.positon.y ==170):
-                goal.pose.position.x = Goallist[0].Px
-                goal.pose.position.y = Goallist[0].Py
-                goal.pose.position.z = Goallist[0].Pz
-                goal.pose.orientation.x = Goallist[0].Ox
-                goal.pose.orientation.y = Goallist[0].Oy
-                goal.pose.orientation.z = Goallist[0].Oz
-                goal.pose.orientation.w = Goallist[0].Ow
+            print(index_Counter)
+            
+            self.publishGoalFromIndex(index_Counter)
+            time.sleep(8)
+            self.planner_pub.publish(self.reset_local_planner_msg)
 
-                goal.header.seq = Goallist[0].seq
-                goal.header.stamp = Goallist[0].stamp
-                goal.header.frame_id = Goallist[0].frame_id
-                self.goal_pub.publish(goal)
-        else:
-            print ("The distance between the car and the goal point is",self.getDistance(egoPose.pose.position, goalPose.pose.positon))
+#Setting the goalpoints
+def createGoal(Px, Py, Qx, Qy, Qw):
+    goal = PoseStamped()
+    goal.pose.position.x = Px
+    goal.pose.position.y = Py
+    goal.pose.position.z = 0.0 
+    goal.pose.orientation.x = Qx
+    goal.pose.orientation.y = Qy
+    goal.pose.orientation.z = 0.0 
+    goal.pose.orientation.w = Qw
 
-       
+    goal.header.seq = 1 
+    goal.header.stamp = rospy.Time.now() 
+    goal.header.frame_id = "map" 
+    return goal
+
 if __name__=="__main__":
+    print("the car loop")
     rospy.init_node('loop_sender')
-#Set the initial position of the goal
-    goal.pose.position.x = Goallist[0].Px
-    goal.pose.position.y = Goallist[0].Py
-    goal.pose.position.z = Goallist[0].Pz
-
-    goal.pose.orientation.x = Goallist[0].Ox
-    goal.pose.orientation.y = Goallist[0].Oy
-    goal.pose.orientation.z = Goallist[0].Oz
-    goal.pose.orientation.w = Goallist[0].Ow
-
-    goal.header.seq = Goallist[0].seq
-    goal.header.stamp = Goallist[0].stamp
-    goal.header.frame_id = Goallist[0].frame_id
-
-loopgoal()
-rospy.spin()
-
+    goal_List = []
+    goal_List.append( createGoal(257.0, 170.0, 0.0, 0.0, 1.0) )
+    goal_List.append( createGoal(223.0, 226.0, 0.0, 1.0, 0.0) )
+    goal_List.append( createGoal(84.0, 170.0, 1.0, 0.0, 0.0) )
+    
+    loopgoal(goal_List)
+    rospy.spin()
