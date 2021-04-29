@@ -6,7 +6,6 @@
 #include <grid_map_ros/GridMapRosConverter.hpp>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/Image.h>
-#include <image_transport/image_transport.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <cmath>
@@ -120,28 +119,33 @@ public:
                 if (sequence >=1)
                 {
                     double distance = pow(pow(sequence_goal_vector_x_[0]- x_ego_,2) + pow(sequence_goal_vector_y_[0] - y_ego_,2),0.5);
-                    //ROS_INFO("Distance: %lf", distance);
+                    ROS_INFO("Distance: %lf", distance);
 
-                    ROS_INFO("The next goal-x is %lf",sequence_goal_vector_x_[0]);
-                    // Position Coordinates
-                    pose_stamped_.header.frame_id = "world2";
-                    pose_stamped_.pose.position.x = round(sequence_goal_vector_x_[0]);
-                    pose_stamped_.pose.position.y = 0.0;
-                    pose_stamped_.pose.position.z = 0.0;
-                
-                    // Orientation Coordinates
-                    pose_stamped_.pose.orientation.x = 0;
-                    pose_stamped_.pose.orientation.y = 0;
-                    pose_stamped_.pose.orientation.z = 0;
-                    pose_stamped_.pose.orientation.w = 0;
+                    if (distance <= 150)
+                    {
+                        ROS_INFO("The next goal-x is %lf",sequence_goal_vector_x_[0]);
+                        // Position Coordinates
+                        pose_stamped_.header.frame_id = "world2";
+                        pose_stamped_.pose.position.x = round(sequence_goal_vector_x_[0]);
+                        pose_stamped_.pose.position.y = round(sequence_goal_vector_y_[0]);
+                        pose_stamped_.pose.position.z = 0.0;
+                    
+                        // Orientation Coordinates
+                        pose_stamped_.pose.orientation.x = 0;
+                        pose_stamped_.pose.orientation.y = 0;
+                        pose_stamped_.pose.orientation.z = 0.707;
+                        pose_stamped_.pose.orientation.w = 0.707;
 
-                    ROS_INFO("poseStamped orientation: %lf, %lf, %lf",
-                        pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
+                        ROS_INFO("poseStamped orientation: %lf, %lf, %lf",
+                            pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
-                    // Publish the Real World Map Goal Coordinates         
-                    pub_goal_.publish(pose_stamped_);
-                    sequence_goal_vector_x_.erase (sequence_goal_vector_x_.begin());
-                    sequence_goal_vector_y_.erase (sequence_goal_vector_y_.begin());
+                        // Publish the Real World Map Goal Coordinates         
+                        pub_goal_.publish(pose_stamped_);
+                        sequence_goal_vector_x_.erase (sequence_goal_vector_x_.begin());
+                        sequence_goal_vector_y_.erase (sequence_goal_vector_y_.begin());
+                    }
+
+                    
                 }else if (sequence == 0)
                 {
                     ROS_INFO("The first goal-x is %lf",sequence_goal_vector_x_[0]);
@@ -169,16 +173,6 @@ public:
 
             rate_.sleep();
         }
-
-        
-        
-
-
-        
-        
- 
-
-
     }
 };
 
