@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //listen to the topic /switchCommand
     let data_listener = new ROSLIB.Topic({
         ros : ros,
-        name : '/switchCommand',
+        name : '/switch_command',
         messageType : 'std_msgs/Int32'
     });
 
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         {
             let dataToggleOn = new ROSLIB.Topic({
                 ros : ros,
-                name : '/switchCommand',
+                name : '/safety_channel/switch_request',
                 messageType : 'std_msgs/Int32'
             });
 
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 object[k] = message.objects[i].label[j];
                 k++;
             } 
-            document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
+            // document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
             if(message.objects[i].user_defined_info[1] == "camera_2")
             {
                 s = object.join("");
@@ -757,6 +757,34 @@ document.addEventListener('DOMContentLoaded', (event) =>
     }
 //-------------fault injection----------------
 
+
+//---------------camera displays----------------------
+    // function that takes the raw int8 data from ros topic and paints raw data as image on canvas 
+    function subscribe_to_topic(message,canvas)
+    {
+        let msg = atob(message.data);
+        let array = new Uint8Array(new ArrayBuffer(msg.length));
+        for (let i = 0; i < msg.length; i++) 
+        {
+            array[i] = msg.charCodeAt(i);
+        }
+
+        canvas.width = message.width;
+        canvas.height = message.height;
+        const context = canvas.getContext( "2d" ); 
+
+        let imgData = context.createImageData(canvas.width,canvas.height);
+        for(let j = 0; j < array.length; j++)
+        {
+            imgData.data[ 4 * j + 0 ] = array[ 3 * j + 0 ];
+            imgData.data[ 4 * j + 1 ] = array[ 3 * j + 1 ];
+            imgData.data[ 4 * j + 2 ] = array[ 3 * j + 2 ];
+            imgData.data[ 4 * j + 3 ] = 255;
+        }
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
+        context.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
+    }
 
 
 //----------------goal setting--------------------------
