@@ -203,15 +203,16 @@ document.addEventListener('DOMContentLoaded', (event) =>
     {
         let channel_id = message.data;
         // array for postion:color pairs
-        let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
+       let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
         let position = assignPosition(channel_id);
-        assignColor(position);
+        assignColor(position); 
 
         //function to change the color of buttons and reseting it to gray when not in use
         function assignColor(position)
         {
             let buttonList = document.getElementsByClassName('channel');
             let numOfButtons = buttonList.length;
+
             let buttonId = buttonList[position].id;
             for (let i = 0; i < numOfButtons; i++)
             {
@@ -225,14 +226,14 @@ document.addEventListener('DOMContentLoaded', (event) =>
                     {
                         buttonList[i].style.backgroundColor  = 'gray';
                     }
-                }
+                }  
             }
         }
 
         //function to assign the position in the array based on the data value received
         function assignPosition(channel_id)
         {
-            let position = 0;
+            let position;
             if((channel_id == 0))
             {
                 position = 0;
@@ -251,6 +252,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
     {
         if(channel.value == "off")
         {
+            channel.value = "on"
             let dataToggleOn = new ROSLIB.Topic({
                 ros : ros,
                 name : '/switchCommand',
@@ -261,9 +263,12 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 data : 1
             });
             dataToggleOn.publish(dataOn);
+            channel.style.backgroundColor = green;
+
         }
         else
         {
+            channel.value = "off";
             let dataToggleOff = new ROSLIB.Topic({
                 ros : ros,
                 name : '/switchCommand',
@@ -273,6 +278,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 data : 0
             });
             dataToggleOff.publish(dataOff);
+            channel.style.backgroundColor = "gray";
+
         }
         document.getElementById("control_channel").value = time + " "+channel.name;
 
@@ -454,11 +461,11 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic manager/features
     feature_listener.subscribe(function(message) 
     {
-        let divList_1 = document.getElementsByClassName('features');
+        let btn_list = document.getElementsByClassName('features');
 
-        for(i=0;i<divList_1.length;i++)
+        for(i = 0; i < btn_list.length; i++)
         {
-            divList_1[i].style.backgroundColor  = "gray";
+            btn_list[i].style.backgroundColor  = "gray";
         }
 
         data_array = message.data;
@@ -814,7 +821,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         { 
             let tl_camera_canvas = document.getElementById( "tl_camera_canvas" );
             subscribe_to_topic(message,tl_camera_canvas); 
-    }); 
+        }); 
     //------------------- TL camera  display --------------
 //---------------camera displays----------------------
 
@@ -825,7 +832,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         //listen to the topic camera_1/image_raw
         let goal_topic = new ROSLIB.Topic({
             ros : ros,
-            name : 'lane_layer_image',
+            name : '/lane_layer_image',
             messageType : 'sensor_msgs/Image'
         });
 
@@ -926,8 +933,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         coordinate_array[0] = parseInt(posX) ;
         coordinate_array[1] = parseInt(posY) ;
         document.getElementById("goal_pixel_coordinates").value = " " + time + " X:" + coordinate_array[0] + " Y:" + coordinate_array[1] ;
-        document.getElementById("x-co-ordinate").innerHTML = coordinate_array[0];
-        document.getElementById("y-co-ordinate").innerHTML = coordinate_array[1];
 
         // publishing the coordinate values to rostopic /gui/goal_pixels
         let goal_pixel_topic = new ROSLIB.Topic({
