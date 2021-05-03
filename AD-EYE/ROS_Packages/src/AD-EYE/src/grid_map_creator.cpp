@@ -304,31 +304,27 @@ private:
                 for(auto poly: detected_objects_old_.polygons)
                 {
                     bool first_point = true;
-                    float z = poly.polygon.points.front().z;
                     Position previous_point;
                     grid_map::Polygon polygon;
                     polygon.setFrameId("SSMP_map");
                     for(auto pt: poly.polygon.points)
                     {
-                        if(pt.z == z)
+                        polygon.addVertex(Position(pt.x, pt.y));
+                        if(!first_point)
                         {
-                            polygon.addVertex(Position(pt.x, pt.y));
-                            if(!first_point)
-                            {
-                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map_.at("StaticObjects", *iterator) = 0;
-                                }
+                            for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                map_.at("StaticObjects", *iterator) = 0;
                             }
-                            first_point = false;
-                            previous_point = Position(pt.x, pt.y);
-                            
                         }
+                        first_point = false;
+                        previous_point = Position(pt.x, pt.y);
                     }
                     for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
                         map_.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
+
 
             for(auto poly: detected_objects_.polygons)
             {
@@ -339,19 +335,15 @@ private:
                 polygon.setFrameId("SSMP_map");
                 for(auto pt: poly.polygon.points)
                 {
-                    if(pt.z == z)
-                        {
-                            polygon.addVertex(Position(pt.x, pt.y));
-                            if(!first_point)
-                            {
-                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map_.at("StaticObjects", *iterator) = heigth_other_;
-                                }
-                            }
-                            first_point = false;
-                            previous_point = Position(pt.x, pt.y);
-                            
+                    polygon.addVertex(Position(pt.x, pt.y));
+                    if(!first_point)
+                    {
+                        for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                            map_.at("StaticObjects", *iterator) = heigth_other_;
                         }
+                    }
+                    first_point = false;
+                    previous_point = Position(pt.x, pt.y);
                 }
                 for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
                     map_.at("DynamicObjects", *iterator) = heigth_other_;
