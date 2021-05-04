@@ -89,8 +89,8 @@ private:
         sequence_ = msg -> header.seq;
 
         // Store the goal position coordinates into the vector
-        sequence_goal_vector_x_.push_back(x_world_coordinate_);
-        sequence_goal_vector_y_.push_back(y_world_coordinate_);
+        sequence_goal_vector_x_.push_back(x_world_position_coordinate_);
+        sequence_goal_vector_y_.push_back(y_world_position_coordinate_);
         sequence_goal_number_.push_back(sequence_);
 
         // Print the goal positions vector
