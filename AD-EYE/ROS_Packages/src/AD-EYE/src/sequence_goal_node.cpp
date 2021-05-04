@@ -10,7 +10,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <std_msgs/Int32.h>
-#include <deque>
+#include <queue>
 #include <cmath>
 
 
@@ -50,8 +50,8 @@ private:
     double x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_;
 
     // Goal vector
-    std::pair<double, double> goal_coordinates_xy_;
-    std::deque <std::pair <double, double> > goal_coordinates_xy;
+    //std::pair<double, double> goal_coordinates_xy_;
+    std::queue <std::pair <double, double> > goal_coordinates_xy_;
     std::vector <double> sequence_goal_vector_x_;
     std::vector <double> sequence_goal_vector_y_;
     std::vector <double> sequence_goal_number_;
@@ -92,8 +92,6 @@ private:
         z_world_orientation_coordinate_ = msg -> pose.orientation.z;
         w_world_orientation_coordinate_ = msg -> pose.orientation.w;
 
-        sequence_ = msg -> header.seq;
-
         if (!has_received_goal_) {
             ROS_INFO("The first goal-x = %lf, y = %lf",x_world_position_coordinate_, y_world_position_coordinate_);
                     
@@ -112,20 +110,32 @@ private:
             ROS_INFO("The real world map position goal coordinates:- x = %lf, y = %lf, z = %lf",
                 pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
-            // Publish the real world map goal coordinates         
+            // Publish and store the first real world map goal coordinates  
+            goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));       
             pub_goal_.publish(pose_stamped_);
             has_received_goal_ = true;
             
         }
 
-        // Store the goal position coordinates into the vector
-       
-        goal_coordinates_xy.push_back(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
-
-
+        // Store the goal position coordinates in the queue
+        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > 10 )
+        {
+            goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
+        }
+        
         // Print the goal positions vector
-        ROS_INFO("The Goal Vector-x is %lf", goal_coordinates_xy.front().first);
-        ROS_INFO("The Goal Vector-y is %lf", goal_coordinates_xy.front().second);   
+        ROS_INFO("The Goal Vector-x is %lf", goal_coordinates_xy_.front().first);
+        ROS_INFO("The Goal Vector-y is %lf", goal_coordinates_xy_.front().second);   
+    }
+    
+    /*!
+     * \brief Calculate the distance between two x and y points
+     * \param x_1, x_2, y_1 and y_2 are points of the real world map
+     */
+    double destinationDistance(double x_one, double x_two, double y_one, double y_two)
+    {
+        double distance = pow(pow(x_one - x_two,2) + pow(y_one - y_two,2),0.5);
+        return distance;
     }
     
 public:
@@ -153,18 +163,19 @@ public:
 
             if (has_received_goal_)
             {
-                double distance = pow(pow(goal_coordinates_xy.front().first- x_ego_,2) + pow(goal_coordinates_xy.front().second - y_ego_,2),0.5);
+                double distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
+                //double distance = pow(pow(goal_coordinates_xy_.front().first- x_ego_,2) + pow(goal_coordinates_xy_.front().second - y_ego_,2),0.5);
                 ROS_INFO("Destination distance: %lf", distance);
             
                 if (distance <= 30)
                 {
-                    goal_coordinates_xy.pop_front();
-                    ROS_INFO("The next goal-x = %lf, y = %lf",goal_coordinates_xy.front().first, goal_coordinates_xy.front().second);
+                    goal_coordinates_xy_.pop();
+                    ROS_INFO("The next goal-x = %lf, y = %lf",goal_coordinates_xy_.front().first, goal_coordinates_xy_.front().second);
                         
                     // Position coordinates
                     pose_stamped_.header.frame_id = "world";
-                    pose_stamped_.pose.position.x = goal_coordinates_xy.front().first;
-                    pose_stamped_.pose.position.y = goal_coordinates_xy.front().second;
+                    pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
+                    pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
                     pose_stamped_.pose.position.z = z_world_position_coordinate_;
                 
                     // Orientation coordinates
@@ -182,12 +193,6 @@ public:
                     // Update the local planner for the next goal
                     local_planner_.data = 1;
                     update_local_planner_.publish(local_planner_);
-
-                    // Erase the previous goal coordinates
-                    //goal_coordinates_xy.pop_front();
-                    //sequence_goal_vector_x_.erase (sequence_goal_vector_x_.begin());
-                    //sequence_goal_vector_y_.erase (sequence_goal_vector_y_.begin());
-                    //sequence_goal_number_.erase(sequence_goal_number_.begin());
 
                 }
             }
