@@ -4,6 +4,11 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Int32.h>
 #include <queue>
+#include <vector>
+#include <visualization_msgs/MarkerArray.h>
+#include <visualization_msgs/Marker.h>
+#include<typeinfo>
+
 
 
 
@@ -20,6 +25,7 @@ private:
     ros::Subscriber sub_position_;
     ros::Publisher pub_goal_;
     ros::Publisher update_local_planner_;
+    ros::Subscriber autoware_state_;
 
     // ROS rate
     ros::Rate rate_;
@@ -45,13 +51,21 @@ private:
     std::queue <std::pair <double, double> > goal_coordinates_xy_;
 
     // Bool value for the first goal
-    bool has_received_goal_ = false;
+    bool received_next_goal_ = false;
 
     // Local planner value
     std_msgs::Int32 local_planner_;
     
+    // Autoware and vehicle state status
+    std::vector<visualization_msgs::Marker> autoware_behaviour_state_;
+    std::string vehicle_state_status_;
+
+    // Thresold destination value
+    double threshold_destination_distance_ = 30.00;
+
+    
     /*!
-     * \brief Position Callback : Continuously called to see the vehicle position on the map.
+     * \brief Position Callback : Continuously called when the vehicle position information has changed.
      * \param msg The message contains the vehicle position coordinates.
      * \details Stores the vehicle position coordinates information.
      */
@@ -79,7 +93,7 @@ private:
         z_world_orientation_coordinate_ = msg -> pose.orientation.z;
         w_world_orientation_coordinate_ = msg -> pose.orientation.w;
 
-        if (!has_received_goal_) {
+        if (!received_next_goal_) {
                     
             // Position coordinates
             pose_stamped_.header.frame_id = "world";
@@ -101,7 +115,7 @@ private:
             pub_goal_.publish(pose_stamped_);
 
             // Bool value reset to true for sending upcoming goals in the main run loop.
-            has_received_goal_ = true;
+            received_next_goal_ = true;
             
         }
 
@@ -113,6 +127,17 @@ private:
         
         // Print the new goal positions
         ROS_INFO("The new goal has been received:- x = %lf and y = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second);   
+    }
+    
+    /*!
+     * \brief Store Autoware State Callback : Continuously called when the autoware behaviour state information has changed.
+     * \param msg The message contains the autoware state status.
+     * \details Stores the vehicle state status.
+     */
+    void autowareStateCallback(const visualization_msgs::MarkerArray::ConstPtr &msg)
+    { 
+        autoware_behaviour_state_ = msg -> markers;
+        vehicle_state_status_ = autoware_behaviour_state_[0].text;
     }
     
     /*!
@@ -136,6 +161,7 @@ public:
         // Initialize node, publishers and subscribers
         goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/goal", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
+        autoware_state_ = nh.subscribe<visualization_msgs::MarkerArray>("/behavior_state", 1, &SequenceGoalNode::autowareStateCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
     }   
@@ -147,38 +173,40 @@ public:
         {
             ros::spinOnce();
 
-            if (has_received_goal_)
+            if (received_next_goal_)
             {
                 // Calculate the destination distance
-                double distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
+                double destination_distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
                 ROS_INFO("Destination distance: %lf", distance);
                 
-                if (distance <= 30)
+                if (destination_distance <= threshold_destination_distance_)
                 {
-                    goal_coordinates_xy_.pop();
+                    if (vehicle_state_status_ == "(0)End")
+                    {
+                        goal_coordinates_xy_.pop();
                         
-                    // Position coordinates
-                    pose_stamped_.header.frame_id = "world";
-                    pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
-                    pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
-                    pose_stamped_.pose.position.z = z_world_position_coordinate_;
-                
-                    // Orientation coordinates
-                    pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
-                    pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
-                    pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
-                    pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
+                        // Position coordinates
+                        pose_stamped_.header.frame_id = "world";
+                        pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
+                        pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
+                        pose_stamped_.pose.position.z = z_world_position_coordinate_;
+                    
+                        // Orientation coordinates
+                        pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
+                        pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
+                        pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
+                        pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
 
-                    ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
-                        pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
+                        ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
+                            pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
-                    // Publish the real world map goal coordinates         
-                    pub_goal_.publish(pose_stamped_);
-
-                    // Update the local planner for the next goal
-                    local_planner_.data = 1;
-                    update_local_planner_.publish(local_planner_);
-
+                        // Publish the real world map goal coordinates         
+                        pub_goal_.publish(pose_stamped_);
+                        
+                        // Update the local planner for the next goal
+                        local_planner_.data = 1;
+                        update_local_planner_.publish(local_planner_);
+                    }  
                 }
             }
             rate_.sleep();
