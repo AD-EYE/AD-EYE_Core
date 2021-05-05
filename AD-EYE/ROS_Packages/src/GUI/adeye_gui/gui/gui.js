@@ -928,7 +928,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         let str = message.clock.nsecs.toString(); //convert number to string
         let result = str.substring(0,2)  // cut first two characters
         time_result = parseInt(result); // convert it to a number
-        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+"."+message.clock.nsecs+ " s";
+        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+"."+time_result+ " s";
     });
  //--------------simulation and real time displays----------------
  
