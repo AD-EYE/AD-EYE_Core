@@ -1,24 +1,16 @@
 
 #include <ros/ros.h>
-#include <vector>
 #include <std_msgs/Int16MultiArray.h>
-#include <grid_map_ros/grid_map_ros.hpp>
-#include <grid_map_msgs/GridMap.h>
-#include <grid_map_ros/GridMapRosConverter.hpp>
-#include <sensor_msgs/image_encodings.h>
-#include <sensor_msgs/Image.h>
 #include <geometry_msgs/PoseStamped.h>
-#include <nav_msgs/Odometry.h>
 #include <std_msgs/Int32.h>
 #include <queue>
-#include <cmath>
 
 
 
 /*!
 * Initiate SequenceGoalNode class which stores all goals from the adeye goals, goal_map_node
-* Store them into the vector
-* Publish the real world map goal coordiantes one by one to autoware when the vehicle is viccinity of the goal position
+* Store them as queue
+* Publish the real world map goal coordinates one by one to auto-ware when the vehicle is in the vicinity of the goal position.
 */
 class SequenceGoalNode
 {
@@ -49,22 +41,18 @@ private:
     // Orientation coordinates
     double x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_;
 
-    // Goal vector
-    //std::pair<double, double> goal_coordinates_xy_;
+    // Goal queue
     std::queue <std::pair <double, double> > goal_coordinates_xy_;
-    std::vector <double> sequence_goal_vector_x_;
-    std::vector <double> sequence_goal_vector_y_;
-    std::vector <double> sequence_goal_number_;
 
-    // Bool
+    // Bool value for the first goal
     bool has_received_goal_ = false;
 
-    // Local planner
+    // Local planner value
     std_msgs::Int32 local_planner_;
     
     /*!
-     * \brief Position Callback : Continously called to watch the vehicle position in the map.
-     * \param msg Message contain the vehicle position coordinates.
+     * \brief Position Callback : Continuously called to see the vehicle position on the map.
+     * \param msg The message contains the vehicle position coordinates.
      * \details Stores the vehicle position coordinates information.
      */
     void positionCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
@@ -72,17 +60,16 @@ private:
         // Received the vehicle position coordinates
         x_ego_ = msg -> pose.position.x;
         y_ego_ = msg -> pose.position.y;
-
     }
 
     /*!
      * \brief Store Goal Coordinates Callback : Called when the goal coordinates are received from the goal_map_node.
-     * \param msg Message contain the goal position coordinates.
-     * \details Stores the goal coordinates information in the vector.
+     * \param msg The message contains the goal position coordinates.
+     * \details Stores the goal coordinates information as queue.
      */
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
-        // Received goal position coordinates and sequence number
+        // Received goal position coordinates
         x_world_position_coordinate_ = msg -> pose.position.x;
         y_world_position_coordinate_ = msg -> pose.position.y;
         z_world_position_coordinate_ = msg -> pose.position.z;
@@ -93,7 +80,6 @@ private:
         w_world_orientation_coordinate_ = msg -> pose.orientation.w;
 
         if (!has_received_goal_) {
-            ROS_INFO("The first goal-x = %lf, y = %lf",x_world_position_coordinate_, y_world_position_coordinate_);
                     
             // Position coordinates
             pose_stamped_.header.frame_id = "world";
@@ -107,25 +93,26 @@ private:
             pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
             pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
 
-            ROS_INFO("The real world map position goal coordinates:- x = %lf, y = %lf, z = %lf",
+            ROS_INFO("The first goal position coordinates:- x = %lf, y = %lf, z = %lf",
                 pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
-            // Publish and store the first real world map goal coordinates  
+            // Publish and store the first real-world map goal coordinates  
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));       
             pub_goal_.publish(pose_stamped_);
+
+            // Bool value reset to true for sending upcoming goals in the main run loop.
             has_received_goal_ = true;
             
         }
 
-        // Store the goal position coordinates in the queue
+        // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
         if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > 10 )
         {
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
         }
         
-        // Print the goal positions vector
-        ROS_INFO("The Goal Vector-x is %lf", goal_coordinates_xy_.front().first);
-        ROS_INFO("The Goal Vector-y is %lf", goal_coordinates_xy_.front().second);   
+        // Print the new goal positions
+        ROS_INFO("The new goal has been received:- x = %lf and y = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second);   
     }
     
     /*!
@@ -134,7 +121,7 @@ private:
      */
     double destinationDistance(double x_one, double x_two, double y_one, double y_two)
     {
-        double distance = pow(pow(x_one - x_two,2) + pow(y_one - y_two,2),0.5);
+        double distance = pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
         return distance;
     }
     
@@ -151,26 +138,24 @@ public:
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
-
     }   
 
     void run() 
     {
-        // Publish the goals coordinates
+        // Publish the coordinates of the next goal once the car is reached near as 30 m to the goal.
         while (nh_.ok())
         {
             ros::spinOnce();
 
             if (has_received_goal_)
             {
+                // Calculate the destination distance
                 double distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
-                //double distance = pow(pow(goal_coordinates_xy_.front().first- x_ego_,2) + pow(goal_coordinates_xy_.front().second - y_ego_,2),0.5);
                 ROS_INFO("Destination distance: %lf", distance);
-            
+                
                 if (distance <= 30)
                 {
                     goal_coordinates_xy_.pop();
-                    ROS_INFO("The next goal-x = %lf, y = %lf",goal_coordinates_xy_.front().first, goal_coordinates_xy_.front().second);
                         
                     // Position coordinates
                     pose_stamped_.header.frame_id = "world";
@@ -184,7 +169,7 @@ public:
                     pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
                     pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
 
-                    ROS_INFO("The real world map position goal coordinates:- x = %lf, y = %lf, z = %lf",
+                    ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
                         pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
 
                     // Publish the real world map goal coordinates         
