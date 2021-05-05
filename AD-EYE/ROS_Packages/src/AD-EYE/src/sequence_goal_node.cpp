@@ -7,7 +7,6 @@
 #include <vector>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
-#include<typeinfo>
 
 
 
