@@ -119,6 +119,16 @@ add_executable(
   src/trajectory_visualizer.cpp
 )
 
+add_executable(
+  goalMapNode
+  src/goal_map_node.cpp
+)
+
+add_executable(
+  sequenceGoalNode
+  src/sequence_goal_node.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -180,6 +190,16 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  goalMapNode
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  sequenceGoalNode
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -218,6 +238,14 @@ add_dependencies(lidarRadarFuse
 )
 
 add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(goalMapNode
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(sequenceGoalNode
   ${catkin_EXPORTED_TARGETS}
 )
 
