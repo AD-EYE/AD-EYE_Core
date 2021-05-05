@@ -158,7 +158,7 @@ public:
     SequenceGoalNode(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
         // Initialize node, publishers and subscribers
-        goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/goal", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
+        goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
         autoware_state_ = nh.subscribe<visualization_msgs::MarkerArray>("/behavior_state", 1, &SequenceGoalNode::autowareStateCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
@@ -176,7 +176,7 @@ public:
             {
                 // Calculate the destination distance
                 double destination_distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
-                ROS_INFO("Destination distance: %lf", distance);
+                ROS_INFO("Destination distance: %lf", destination_distance);
                 
                 if (destination_distance <= threshold_destination_distance_)
                 {
