@@ -280,6 +280,8 @@ class Manager:
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
+        self.switch_request_pub = rospy.Publisher('/safety_channel/switch_request', Int32, queue_size=1)  # for GUI
+        
 
     ## Main loop
     def run(self):
@@ -293,7 +295,7 @@ class Manager:
         self.checkManagerState()  # check state of the state machine and updates current features accordingly
         if self.current_features != self.previous_features:  # checks if the list of active features has changed
             self.startAndStopFeatures()
-        self.state_pub.publish(self.manager_state_machine.getState())  # publish the state machine state (for GUI)
+        self.state_pub.publish(self.manager_state_machine.getState().value)  # publish the state machine state (for GUI)
         self.publishActiveFeatures()  # publish the current active features (for GUI)
 
     ## Callback listening to the features requests (features that we want to activate/deactivate)

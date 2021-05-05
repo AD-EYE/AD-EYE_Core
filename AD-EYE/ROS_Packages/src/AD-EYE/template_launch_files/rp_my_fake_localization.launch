@@ -2,7 +2,7 @@
 <launch>
 
     <!-- Set localization method: -->
-    <arg name="topic_pose_stamped" default="/gnss_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
+    <arg name="topic_pose_stamped" default="/ground_truth_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
 
     <!-- Set args defining tf_transform: base_link to velodyne-->
     <arg name="tf_x" default="/adeye/fake_localization/BaseLink_to_velodyne/tf_x"/>
@@ -37,9 +37,11 @@
     />
     <include file="$(find points_downsampler)/launch/points_downsample.launch"/>
 
-    <!-- GPS to base_link: This substitutes the ndt_matching -->
-    <node pkg="tf" type="static_transform_publisher" name="gps_to_base_link"
-          args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 gps base_link 10"/>
+    <!-- Fake Localizer, publishes the transform from map to base link base on gnss data -->
+    <node type="fake_localizer.py"
+        pkg="adeye"
+        name="ground_truth_localizer"
+        args="ground_truth_localizer /map /base_link"/>
 
     <!-- Pose Connect -->
     <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>
