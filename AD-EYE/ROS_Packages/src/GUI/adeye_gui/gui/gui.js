@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //listen to the topic /switchCommand
     let data_listener = new ROSLIB.Topic({
         ros : ros,
-        name : '/switchCommand',
+        name : '/switch_command',
         messageType : 'std_msgs/Int32'
     });
 
@@ -202,48 +202,17 @@ document.addEventListener('DOMContentLoaded', (event) =>
     data_listener.subscribe(function(message) 
     {
         let channel_id = message.data;
-        // array for postion:color pairs
-       let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
-        let position = assignPosition(channel_id);
-        assignColor(position); 
-
-        //function to change the color of buttons and reseting it to gray when not in use
-        function assignColor(position)
+        let buttonList = document.getElementsByClassName('channel');
+        for (let i = 0; i < buttonList.length; i++)
         {
-            let buttonList = document.getElementsByClassName('channel');
-            let numOfButtons = buttonList.length;
-
-            let buttonId = buttonList[position].id;
-            for (let i = 0; i < numOfButtons; i++)
+            if(i == channel_id)
             {
-                for (let j = 0; j < positionColorPairs.length; j++)
-                {
-                    if (positionColorPairs[j].position == buttonId)
-                    {
-                        buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
-                    }
-                    else 
-                    {
-                        buttonList[i].style.backgroundColor  = 'gray';
-                    }
-                }  
+                buttonList[i].style.backgroundColor = green;
             }
-        }
-
-        //function to assign the position in the array based on the data value received
-        function assignPosition(channel_id)
-        {
-            let position;
-            if((channel_id == 0))
+            else
             {
-                position = 0;
+                buttonList[i].style.backgroundColor = "gray";
             }
-            else if((channel_id == 1))
-            {
-                position = 1;
-            }
-            return position;
-            
         }
     });
     
@@ -255,7 +224,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             channel.value = "on"
             let dataToggleOn = new ROSLIB.Topic({
                 ros : ros,
-                name : '/switchCommand',
+                name : '/safety_channel/switch_request',
                 messageType : 'std_msgs/Int32'
             });
 
@@ -263,23 +232,19 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 data : 1
             });
             dataToggleOn.publish(dataOn);
-            channel.style.backgroundColor = green;
-
         }
         else
         {
             channel.value = "off";
             let dataToggleOff = new ROSLIB.Topic({
                 ros : ros,
-                name : '/switchCommand',
+                name : '/safety_channel/switch_request',
                 messageType : 'std_msgs/Int32'
             });
             let dataOff = new ROSLIB.Message({
                 data : 0
             });
             dataToggleOff.publish(dataOff);
-            channel.style.backgroundColor = "gray";
-
         }
         document.getElementById("control_channel").value = time + " "+channel.name;
 
@@ -962,8 +927,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
     {
         let str = message.clock.nsecs.toString(); //convert number to string
         let result = str.substring(0,2)  // cut first two characters
-        result = parseInt(result); // convert it to a number
-        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+"."+result+ " s";
+        time_result = parseInt(result); // convert it to a number
+        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+"."+message.clock.nsecs+ " s";
     });
  //--------------simulation and real time displays----------------
  
