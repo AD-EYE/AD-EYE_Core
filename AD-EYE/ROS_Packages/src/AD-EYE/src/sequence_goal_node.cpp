@@ -60,7 +60,7 @@ private:
     std::string vehicle_state_status_;
 
     // Thresold destination value
-    double threshold_destination_distance_ = 30.00;
+    int threshold_destination_distance_ = 30;
 
     
     /*!
