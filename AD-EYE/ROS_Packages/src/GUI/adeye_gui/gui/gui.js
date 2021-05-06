@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //listen to the topic /switchCommand
     let data_listener = new ROSLIB.Topic({
         ros : ros,
-        name : '/switchCommand',
+        name : '/switch_command',
         messageType : 'std_msgs/Int32'
     });
 
@@ -202,48 +202,17 @@ document.addEventListener('DOMContentLoaded', (event) =>
     data_listener.subscribe(function(message) 
     {
         let channel_id = message.data;
-
-        // array for postion:color pairs
-        let positionColorPairs = Array({'position' : 00, 'color' : green},{'position' : 01, 'color' : green});
-        let position = assignPosition(channel_id);
-        assignColor(position);
-
-        //function to change the color of buttons and reseting it to gray when not in use
-        function assignColor(position)
+        let buttonList = document.getElementsByClassName('channel');
+        for (let i = 0; i < buttonList.length; i++)
         {
-            let buttonList = document.getElementsByClassName('channel');
-            let numOfButtons = buttonList.length;
-            let buttonId = buttonList[position].id;
-            for (let i = 0; i < numOfButtons; i++)
+            if(i == channel_id)
             {
-                for (let j = 0; j < positionColorPairs.length; j++)
-                {
-                    if (positionColorPairs[j].position == buttonId)
-                    {
-                        buttonList[buttonId].style.backgroundColor = positionColorPairs[j].color;
-                    }
-                    else 
-                    {
-                        buttonList[i].style.backgroundColor  = 'gray';
-                    }
-                }
+                buttonList[i].style.backgroundColor = green;
             }
-        }
-
-        //function to assign the position in the array based on the data value received
-        function assignPosition(channel_id)
-        {
-            let position = 0;
-            if((channel_id == 0))
+            else
             {
-                position = 0;
+                buttonList[i].style.backgroundColor = "gray";
             }
-            else if((channel_id == 1))
-            {
-                position = 1;
-            }
-            return position;
-            
         }
     });
     
@@ -252,9 +221,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
     {
         if(channel.value == "off")
         {
+            channel.value = "on"
             let dataToggleOn = new ROSLIB.Topic({
                 ros : ros,
-                name : '/switchCommand',
+                name : '/safety_channel/switch_request',
                 messageType : 'std_msgs/Int32'
             });
 
@@ -265,9 +235,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
         }
         else
         {
+            channel.value = "off";
             let dataToggleOff = new ROSLIB.Topic({
                 ros : ros,
-                name : '/switchCommand',
+                name : '/safety_channel/switch_request',
                 messageType : 'std_msgs/Int32'
             });
             let dataOff = new ROSLIB.Message({
@@ -275,6 +246,8 @@ document.addEventListener('DOMContentLoaded', (event) =>
             });
             dataToggleOff.publish(dataOff);
         }
+        document.getElementById("control_channel").value = time + " "+channel.name;
+
     }
 //-------------------Nominal Vs Safety Channel ----------------
 
@@ -340,7 +313,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
             data : true
         });
         activationRequestTopic.publish(activationOn);
-        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOn.data;;
+        document.getElementById("latest_state").value = time + " " + activationRequestTopic.name + ": " + activationOn.data;
     }
 
     // function to toggle the state on and off by clicking on the buttons.
@@ -396,8 +369,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
                 object[k] = message.objects[i].label[j];
                 k++;
             } 
-            document.getElementById("test").innerHTML = message.objects[i].user_defined_info;
-            if(message.objects[i].user_defined_info[1] == "camera_2")
+            if(message.objects[i].user_defined_info == "camera_1")
             {
                 s = object.join("");
                 document.getElementById("track").innerHTML = s;
@@ -454,49 +426,31 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic manager/features
     feature_listener.subscribe(function(message) 
     {
+        let btn_list = document.getElementsByClassName('features');
+
+        for(i = 0; i < btn_list.length; i++)
+        {
+            btn_list[i].style.backgroundColor  = "gray";
+        }
+
         data_array = message.data;
 
-        // array for position:color pairs
-        let strColorPairs = Array(
-        {'position' : 0, 'color' : green},
-        {'position' : 1, 'color' : green},
-        {'position' : 2, 'color' : green},
-        {'position' : 3, 'color' : green},
-        {'position' : 4, 'color' : green},
-        {'position' : 5, 'color' : green},
-        {'position' : 6, 'color' : green},
-        {'position' : 7, 'color' : green},
-        {'position' : 8, 'color' : green},
-        {'position' : 9, 'color' : green},
-        {'position' : 10, 'color' : green},
-        {'position' : 11, 'color' : green});
-        
-        // array to get postions with the data value 1
+        // array to store the postions with the data value 1
         let position = new Array();
         position = checkPosition(data_array);
         colorBox(position);
 
-        //function to change the color of button and reseting it to gray when not in use
+        //function to change change the color of button to green when they are on
         function colorBox(position)
         {
             let divList = document.getElementsByClassName('features');
-            let i, n = divList.length;
-                
-            for (p=0; p<position.length; p++)
+            for (i = 0; i < divList.length; i++)
             {
-                curContent = divList[position[p]].id;
-                for (i=0; i<n; i++)
+                for (j = 0; j < position.length; j++)
                 {
-                    for (j=0; j<strColorPairs.length; j++)
+                    if(position[j] == divList[i].id)
                     {
-                        if (strColorPairs[j].position !== curContent)
-                        {
-                            divList[curContent].style.backgroundColor  = strColorPairs[j].color;
-                        }
-                        else 
-                        {
-                            divList[i].style.backgroundColor  = 'gray';
-                        }
+                        divList[i].style.backgroundColor  = green;
                     }
                 }
             }
@@ -538,11 +492,11 @@ document.addEventListener('DOMContentLoaded', (event) =>
             {
                 if(featureOff.data[i] == 1)
                 {
-                    featureOff.data[i] = 0; 
+                    featureOff.data[i] = 0;
                 }
                 else
                 {
-                    featureOff.data[i] = 1; 
+                    featureOff.data[i] = 1;
                 }
             }
         }
@@ -832,7 +786,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         { 
             let tl_camera_canvas = document.getElementById( "tl_camera_canvas" );
             subscribe_to_topic(message,tl_camera_canvas); 
-    }); 
+        }); 
     //------------------- TL camera  display --------------
 //---------------camera displays----------------------
 
@@ -843,7 +797,7 @@ document.addEventListener('DOMContentLoaded', (event) =>
         //listen to the topic camera_1/image_raw
         let goal_topic = new ROSLIB.Topic({
             ros : ros,
-            name : ' lane_layer_image',
+            name : '/lane_layer_image',
             messageType : 'sensor_msgs/Image'
         });
 
@@ -944,8 +898,6 @@ document.addEventListener('DOMContentLoaded', (event) =>
         coordinate_array[0] = parseInt(posX) ;
         coordinate_array[1] = parseInt(posY) ;
         document.getElementById("goal_pixel_coordinates").value = " " + time + " X:" + coordinate_array[0] + " Y:" + coordinate_array[1] ;
-        document.getElementById("x-co-ordinate").innerHTML = coordinate_array[0];
-        document.getElementById("y-co-ordinate").innerHTML = coordinate_array[1];
 
         // publishing the coordinate values to rostopic /gui/goal_pixels
         let goal_pixel_topic = new ROSLIB.Topic({
@@ -973,7 +925,10 @@ document.addEventListener('DOMContentLoaded', (event) =>
     //subscribing to the topic /vehicle_cmd
     clock_topic.subscribe(function(message)
     {
-        document.getElementById("simulation_time").innerHTML =" " +message.clock.secs+":"+message.clock.nsecs;
+        let str = message.clock.nsecs.toString(); //convert number to string
+        let result = str.substring(0,2)  // cut first two characters
+        result_time = parseInt(result); // convert it to a number
+        document.getElementById("simulation_time").innerHTML =" " + message.clock.secs + "." + result_time + " s";
     });
  //--------------simulation and real time displays----------------
  
