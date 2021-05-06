@@ -40,7 +40,6 @@
         <div class="column">
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
-            <div id="test2"></div>
             <div class="gauge_velocity">
               <div class="gauge_velocity_body">
                 <div class="gauge_velocity_fill"></div>
@@ -70,9 +69,11 @@
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div style="display:inline-flex; width:100%"> 
-              <button  id="00" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Nominal</button>
-              <button id="01" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Safety</button>
-            </div> 
+              <button name="Nominal channel" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Nominal</button>
+              <button name="Safety channel" type="button" value="off" class="channel" onclick="toggleState_OnClick(this)">Safety</button>
+            </div>
+            <label>Last control channel request</label>
+            <input type="text" id="control_channel" value="" disabled> 
           </div>
         </div>
         <!-- card for control channel  -->
@@ -96,7 +97,6 @@
         <div class="column">
           <div draggable="true" class="box">
             <h2 class="text-center">Tracked Object Camera 1</h2>
-            <p><span id="test"></span></p>
             <p>Tracked object: <span id="track"></span></p>
             <p>X: <span id="x"></span></p>
             <p>Y: <span id="y"></span></p>
@@ -118,13 +118,14 @@
         <div class="column">
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
+            <div id="a"></div>
             <button id="0" type="button" value="off" class="features " onclick="toggleFeatureState_OnClick(this)">Recording</button>
             <button id="1" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)"> Map</button>
             <button id="2" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Sensing</button>
             <button id="3" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Localization</button>
             <button id="4" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Fake Localization</button>
             <button id="5" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Detection</button>
-            <button id="6" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Misson Planning</button>
+            <button id="6" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Mission Planning</button>
             <button id="7" type="button" value="off" class="features" onclick="toggleFeatureState_OnClick(this)">Motion Planning</button>
             <button id="8" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">Switch</button>
             <button id="9" type="button" value="off" class="features"  onclick="toggleFeatureState_OnClick(this)">SSMP</button>
