@@ -9,6 +9,7 @@
 #include <visualization_msgs/Marker.h>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
+#include <std_msgs/Bool.h>
 
 
 
@@ -28,6 +29,7 @@ private:
     ros::Subscriber autoware_global_plan_;
     ros::Publisher pub_goal_;
     ros::Publisher update_local_planner_;
+    ros::Publisher pub_clear_goal_list_bool_;
     
 
     // ROS rate
@@ -54,11 +56,17 @@ private:
     bool received_next_goal_ = false;
     bool hasPlannerAndGoalBeenReset_ = false;
     bool updateGlobalPlanner_ = false;
+
+    // Local planner value
+    std_msgs::Int32 local_planner_;
     
     // Autoware and vehicle state status
     std::vector<visualization_msgs::Marker> autoware_behaviour_state_;
     std::string vehicle_state_status_;
-    
+
+    // Boolean for clearing the goal list in autoware op_global_planner
+    std_msgs::Bool clear_goal_list_;
+
     /*!
      * \brief Position Callback : Continuously called when the vehicle position information has changed.
      * \param msg The message contains the vehicle position coordinates.
@@ -141,14 +149,14 @@ private:
      */
     void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
-      if (updateGlobalPlanner_)
-      {
-          // Update the local planner for the next goal
+        if (updateGlobalPlanner_)
+        {
+            // Update the local planner for the next goal
             local_planner_.data = 1;
             update_local_planner_.publish(local_planner_);
             updateGlobalPlanner_ = false;
             ROS_INFO("Updates Local Planner!");
-      }
+        }
     }
 
     /*!
@@ -176,6 +184,7 @@ public:
         autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
+        pub_clear_goal_list_bool_= nh.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
     }   
 
     void run() 
@@ -216,6 +225,10 @@ public:
 
                         // Publish the real world map goal coordinates         
                         pub_goal_.publish(pose_stamped_);
+
+                        // Publish true value to clear the goal list in autoware
+                        clear_goal_list_.data = true;
+                        pub_clear_goal_list_bool_.publish(clear_goal_list_);
                         
                         // Update the global planner boolean
                         updateGlobalPlanner_ = true;
