@@ -7,6 +7,8 @@
 #include <vector>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
+#include <autoware_msgs/Lane.h>
+#include <autoware_msgs/LaneArray.h>
 
 
 
@@ -25,6 +27,7 @@ private:
     ros::Publisher pub_goal_;
     ros::Publisher update_local_planner_;
     ros::Subscriber autoware_state_;
+    ros::Subscriber autoware_global_plan_;
 
     // ROS rate
     ros::Rate rate_;
@@ -51,6 +54,7 @@ private:
 
     // Bool value for the first goal
     bool received_next_goal_ = false;
+    bool hasPlannerBeenReset = false;
 
     // Local planner value
     std_msgs::Int32 local_planner_;
@@ -61,6 +65,8 @@ private:
 
     // Thresold destination value
     int threshold_destination_distance_ = 30;
+    int size_autoware_;
+    double lane_at_;
 
     
     /*!
@@ -140,6 +146,20 @@ private:
     }
     
     /*!
+     * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
+     * \param msg A smart pointer to the message from the topic.
+     */
+    void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
+    {
+      size_autoware_ = msg->id;
+      //lane_at_ = msg->lanes.at(0);
+      /* for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
+		{
+			std::cout << msg->lanes.at(i) << "/n";
+		} */
+    }
+
+    /*!
      * \brief Calculate the distance between two x and y points
      * \param x_1, x_2, y_1 and y_2 are points of the real world map
      */
@@ -161,6 +181,7 @@ public:
         goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
         autoware_state_ = nh.subscribe<visualization_msgs::MarkerArray>("/behavior_state", 1, &SequenceGoalNode::autowareStateCallback, this);
+        autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
     }   
@@ -171,40 +192,53 @@ public:
         while (nh_.ok())
         {
             ros::spinOnce();
+            //ROS_INFO("Global plan %i", size_autoware_);
 
             if (received_next_goal_)
             {
                 // Calculate the destination distance
                 double destination_distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
                 ROS_INFO("Destination distance: %lf", destination_distance);
-                
+                //std::cout << autoware_behaviour_state_[0].type << "\n";
+
                 if (destination_distance <= threshold_destination_distance_)
                 {
                     if (vehicle_state_status_ == "(0)End")
                     {
-                        goal_coordinates_xy_.pop();
+                        if (!hasPlannerBeenReset)
+                        {
+                            goal_coordinates_xy_.pop();
                         
-                        // Position coordinates
-                        pose_stamped_.header.frame_id = "world";
-                        pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
-                        pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
-                        pose_stamped_.pose.position.z = z_world_position_coordinate_;
-                    
-                        // Orientation coordinates
-                        pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
-
-                        ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
-                            pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
-
-                        // Publish the real world map goal coordinates         
-                        pub_goal_.publish(pose_stamped_);
+                            // Position coordinates
+                            pose_stamped_.header.frame_id = "world";
+                            pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
+                            pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
+                            pose_stamped_.pose.position.z = z_world_position_coordinate_;
                         
-                        // Update the local planner for the next goal
-                        local_planner_.data = 1;
-                        update_local_planner_.publish(local_planner_);
+                            // Orientation coordinates
+                            pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
+                            pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
+                            pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
+                            pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
+
+                            ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
+                                pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
+
+                            // Publish the real world map goal coordinates         
+                            pub_goal_.publish(pose_stamped_);
+                            
+                            // Update the local planner for the next goal
+                            local_planner_.data = 1;
+                            update_local_planner_.publish(local_planner_);
+
+                            hasPlannerBeenReset = true;
+                        }
+
+                        if (vehicle_state_status_ == "(0)Forward")
+                        {
+                            hasPlannerBeenReset = false;
+                        }
+                        
                     }  
                 }
             }
