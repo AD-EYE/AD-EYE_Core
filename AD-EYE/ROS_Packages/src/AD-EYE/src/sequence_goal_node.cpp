@@ -205,6 +205,10 @@ public:
                 {
                     if (!hasPlannerAndGoalBeenReset_)
                     { 
+                        // Publish true value to clear the goal list in autoware
+                        clear_goal_list_.data = true;
+                        pub_clear_goal_list_bool_.publish(clear_goal_list_);
+
                         // Remove the first goal
                         goal_coordinates_xy_.pop();
                     
@@ -226,23 +230,19 @@ public:
                         // Publish the real world map goal coordinates         
                         pub_goal_.publish(pose_stamped_);
 
-                        // Publish true value to clear the goal list in autoware
-                        clear_goal_list_.data = true;
-                        pub_clear_goal_list_bool_.publish(clear_goal_list_);
-                        
                         // Update the global planner boolean
                         updateGlobalPlanner_ = true;
                         
                         // Update the planner and goal boolean for end state
                         hasPlannerAndGoalBeenReset_ = true;
                     }
-                    
-                    // The planner and goal boolean is set to false after publishing the goal and planner
-                    if (vehicle_state_status_ == "(0)Forward")
-                    {
-                        hasPlannerAndGoalBeenReset_ = false;
-                    }
-                }  
+                }
+
+                // The planner and goal boolean is set to false after publishing the goal and planner
+                if (vehicle_state_status_ == "(0)Forward")
+                {
+                    hasPlannerAndGoalBeenReset_ = false;
+                }
             }
             rate_.sleep();
         }
