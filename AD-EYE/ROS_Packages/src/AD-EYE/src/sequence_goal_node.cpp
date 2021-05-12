@@ -1,4 +1,3 @@
-
 #include <ros/ros.h>
 #include <std_msgs/Int16MultiArray.h>
 #include <geometry_msgs/PoseStamped.h>
@@ -61,8 +60,10 @@ private:
     std_msgs::Int32 local_planner_;
     
     // Autoware and vehicle state status
-    std::vector<visualization_msgs::Marker> autoware_behaviour_state_;
-    std::string vehicle_state_status_;
+    double vehicle_state_status_;
+
+    // Distance tolerance for duplicate goals
+    double distance_tolerance_ = 10; // [m]
 
     // Boolean for clearing the goal list in autoware op_global_planner
     std_msgs::Bool clear_goal_list_;
@@ -123,7 +124,7 @@ private:
         }
 
         // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
-        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > 10 )
+        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > distance_tolerance_)
         {
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
         }
@@ -133,14 +134,14 @@ private:
     }
     
     /*!
-     * \brief Store Autoware State Callback : Continuously called when the autoware behaviour state information has changed.
-     * \param msg The message contains the autoware state status.
+     * \brief Behavior State Callback : Continuously called to show the vehicle behaviour state information.
+     * \param msg The message contains the vehicle state status.
      * \details Stores the vehicle state status.
      */
-    void autowareStateCallback(const visualization_msgs::MarkerArray::ConstPtr &msg)
+    void behaviorStateCallback(const geometry_msgs::TwistStamped::ConstPtr &msg)
     { 
-        autoware_behaviour_state_ = msg -> markers;
-        vehicle_state_status_ = autoware_behaviour_state_[0].text;
+        // Vehicle State (2.0 = Forward stare and 13.0 = End state)
+        vehicle_state_status_ =  msg -> twist.angular.y;
     }
     
     /*!
@@ -180,7 +181,7 @@ public:
         // Initialize node, publishers and subscribers
         goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
-        autoware_state_ = nh.subscribe<visualization_msgs::MarkerArray>("/behavior_state", 1, &SequenceGoalNode::autowareStateCallback, this);
+        autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &SequenceGoalNode::autowareStateCallback, this);
         autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
@@ -201,7 +202,7 @@ public:
                 ROS_INFO("Destination distance: %lf", destination_distance);
                 
                 // Publish the next goal when the car enters in end state
-                if (vehicle_state_status_ == "(0)End")
+                if (vehicle_state_status_ == 13.0)
                 {
                     if (!hasPlannerAndGoalBeenReset_)
                     { 
@@ -239,7 +240,7 @@ public:
                 }
 
                 // The planner and goal boolean is set to false after publishing the goal and planner
-                if (vehicle_state_status_ == "(0)Forward")
+                if (vehicle_state_status_ == 2.0)
                 {
                     hasPlannerAndGoalBeenReset_ = false;
                 }
