@@ -181,7 +181,7 @@ public:
         // Initialize node, publishers and subscribers
         goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
-        autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &SequenceGoalNode::autowareStateCallback, this);
+        autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &SequenceGoalNode::behaviorStateCallback, this);
         autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
