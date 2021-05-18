@@ -17,8 +17,7 @@ class pedestrianPose ():
         pedestrianpose = PoseStamped()
         pose_tolerance = Int32()
         pose_tolerance.data = 20
-        print (egopose.pose.position.x)
-        print (pose_tolerance)
+       
         
         pedestrianpose.pose.position.x = egopose.pose.position.x + pose_tolerance.data
         pedestrianpose.pose.position.y = egopose.pose.position.y + pose_tolerance.data
@@ -35,7 +34,7 @@ class pedestrianPose ():
         pedestrianpose.header.frame_id = "map"
         
         rate = rospy.Rate(1)
-        #while not rospy.is_shutdown():
+        
         self.goal_pub.publish(pedestrianpose)
         rospy.loginfo(pedestrianpose)
         rate.sleep()
