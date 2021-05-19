@@ -21,6 +21,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
 
+#include <list>
+
 using namespace grid_map;
 
 /*!
@@ -489,13 +491,15 @@ private:
 
     }
 
-    void definePolygonArea()
+    void definePolygonArea(std::vector<double> polygon_coordinates_)
     {
         // Add new layer called PolygonArea
         gridmap_.add("PolygonArea", 0.0);
 
         double center_x = 0.00;
         double center_y = 0.00;
+
+        ROS_INFO("The demo value is %lf", polygon_coordinates_[0]);
 
         double height_polygon = 100.00;
         double width_polygon = 100.00;
@@ -586,7 +590,13 @@ public:
             {
                 performChecks();
                 publish();
-                definePolygonArea();
+
+                std::vector<double> polygon_coordinates;
+                if (nh_.getParam("/polygon_coordinates_", polygon_coordinates))
+                {
+                    definePolygonArea(polygon_coordinates);
+                }
+                
             }
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
