@@ -513,6 +513,13 @@ private:
             !iterator.isPastEnd(); ++iterator) {
             gridmap_.at("PolygonArea", *iterator) = 5.0;
         }
+
+        // Check if the vehicle is in the area or not
+        float polygon_area_lane_id = gridmap_.atPosition("PolygonArea", grid_map::Position(pose_.position.x, pose_.position.y));
+
+        if (polygon_area_lane_id == 0)
+        {ROS_WARN("The vehicle is not in the area");}
+        else { ROS_INFO("The vehicle is in the area");}
         
         // Convert GridMap to OccupancyGrid
         nav_msgs::OccupancyGrid occupancyGridResult;
