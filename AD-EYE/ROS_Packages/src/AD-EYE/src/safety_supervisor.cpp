@@ -17,6 +17,11 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
+#include <grid_map_ros/GridMapRosConverter.hpp>
+#include <nav_msgs/OccupancyGrid.h>
+#include <nav_msgs/Odometry.h>
+
+using namespace grid_map;
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -35,6 +40,7 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
+    ros::Publisher pub_polygon_area_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -72,6 +78,7 @@ private:
 
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+    grid_map::GridMap gridmap_polygon_area_;
     autoware_msgs::Lane autowareTrajectory_;
     ros::V_string nodes_to_check_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
@@ -115,6 +122,7 @@ private:
     void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
+        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_polygon_area_);
         gridmap_flag_ = true;
     }
 
@@ -481,6 +489,37 @@ private:
 
     }
 
+    void definePolygonArea()
+    {
+        // Add new layer called PolygonArea
+        gridmap_.add("PolygonArea", 0.0);
+
+        double center_x = 0.00;
+        double center_y = 0.00;
+
+        double height_polygon = 100.00;
+        double width_polygon = 100.00;
+        
+        // Define Polygon area through global coordinates
+        grid_map::Polygon polygon;
+        polygon.addVertex(Position(center_x - height_polygon,  center_y + height_polygon));
+        polygon.addVertex(Position(center_x + height_polygon,  center_y + height_polygon));
+        polygon.addVertex(Position(center_x + height_polygon,  center_y - height_polygon));
+        polygon.addVertex(Position(center_x - height_polygon,  center_y - height_polygon));
+        polygon.addVertex(Position(center_x - height_polygon,  center_y + height_polygon));
+
+        // Polygon Interator
+        for (grid_map::PolygonIterator iterator(gridmap_, polygon);
+            !iterator.isPastEnd(); ++iterator) {
+            gridmap_.at("PolygonArea", *iterator) = 5.0;
+        }
+        
+        // Convert GridMap to OccupancyGrid
+        nav_msgs::OccupancyGrid occupancyGridResult;
+        GridMapRosConverter::toOccupancyGrid(gridmap_, "PolygonArea", 1.0, 10.0, occupancyGridResult);
+        pub_polygon_area_.publish(occupancyGridResult);
+    }
+
 public:
     /*!
      * \brief Constructor
@@ -497,6 +536,8 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
+        pub_polygon_area_ = nh_.advertise<nav_msgs::OccupancyGrid>("/grid_iterator_", 1, true);
+        //grid_map_iterator_ = nh.advertise<grid_map_msgs::GridMap>("/grid_iterator_", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
@@ -538,6 +579,7 @@ public:
             {
                 performChecks();
                 publish();
+                definePolygonArea();
             }
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
