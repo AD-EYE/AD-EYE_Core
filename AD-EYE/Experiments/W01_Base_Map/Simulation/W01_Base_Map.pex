@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="1EA2FF7FDF68A4F01C6E91AF660F3806C74CFAB7D64A9204063A06CBDB506828" UniqueExperimentIdentifier="8fe2a74f-f1d4-4bb0-b0b5-3be627768b22" UniqueIdCounter="28397" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map" UniqueId="0" Authors="Adeye" TotalSimulationTime="66.28" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="FF5C22395DB17C19C3FB5EE0AFD69195A04AE4FD59590F24B38EDB6858E9FB80" UniqueExperimentIdentifier="e10e64f8-b45c-497f-a86d-033bd5690311" UniqueIdCounter="28619" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="147.44516754150391" Y="221.89231872558594" Z="0.52999997138977051" />
@@ -419,7 +419,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28385" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28606" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2874,7 +2874,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28386" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28607" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2899,7 +2899,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28387" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28608" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2924,7 +2924,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28388" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28609" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2949,7 +2949,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28389" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28610" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2987,7 +2987,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28382" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28611" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3022,7 +3022,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28390" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28612" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3084,7 +3084,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28391" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28613" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -11875,8 +11875,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -12034,6 +12050,767 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A male model with a large backpack (animated)" id="Male_wLargeBackpack_1" UniqueId="28601" SensorDetectability="Detectable" NumericalID="109" ObjectTypeID="4" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Male_wLargeBackpack" AnimatedActor="true" CompilationSheetPicture="Male_wLargeBackpack.png" HashCode="6f019451e42e74902a1dfd7498a02865" ModelFile="Humans\Male_wLargeBackpack\Male_wLargeBackpack.osgb" GenericModelSourceFile="Humans\Male_wLargeBackpack\Male_wLargeBackpack.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="36.131523132324219" Y="158.99057006835938" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.63999998569488525" Y="0.50999999046325684" Z="0" />
+      <Size X="0.5899999737739563" Y="0.51999998092651367" Z="1.7699999809265137" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Upper body" RegionName="Upper body" TargetColor="FFCE7E44">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Lower Body" RegionName="Lower Body" TargetColor="006C8599">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Shoes" RegionName="Shoes" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Bag" RegionName="Bag" TargetColor="FFAA3838">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Upper Body" RegionName="Upper Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Lower Body" RegionName="Lower Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Shoes" RegionName="Shoes" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Bag" RegionName="Bag" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Upper body" ChannelIndex="0" IntensityMultiplier="1.08" RegionMapNode="" />
+        <RecolorRegion Name="Lower Body" ChannelIndex="1" IntensityMultiplier="1.25" RegionMapNode="" />
+        <RecolorRegion Name="Shoes" ChannelIndex="2" IntensityMultiplier="1.47" RegionMapNode="" />
+        <RecolorRegion Name="Bag" ChannelIndex="3" IntensityMultiplier="1.12" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions>
+        <MaterialRegion Name="Upper Body" ChannelIndex="0" RegionMapNode="" />
+        <MaterialRegion Name="Lower Body" ChannelIndex="1" RegionMapNode="" />
+        <MaterialRegion Name="Shoes" ChannelIndex="2" RegionMapNode="" />
+        <MaterialRegion Name="Bag" ChannelIndex="3" RegionMapNode="" />
+      </MaterialRegions>
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds>
+        <item>
+          <key>
+            <string>EyesMiddle_Pivot</string>
+          </key>
+          <value>
+            <int>28614</int>
+          </value>
+        </item>
+      </AttachmentPointIds>
+      <AttachmentPoints>
+        <item>
+          <key>
+            <string>EyesMiddle</string>
+          </key>
+          <value>
+            <AttachmentPointLocation>
+              <NodeId>EyesMiddle_Pivot</NodeId>
+              <Position X="0.16796185076236725" Y="-0.0024313356261700392" Z="1.6245779991149902" />
+            </AttachmentPointLocation>
+          </value>
+        </item>
+      </AttachmentPoints>
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation>
+        <item>
+          <key>
+            <string>standing</string>
+          </key>
+          <value>
+            <int>0</int>
+          </value>
+        </item>
+        <item>
+          <key>
+            <string>walking</string>
+          </key>
+          <value>
+            <int>1</int>
+          </value>
+        </item>
+      </Animation>
+      <LightElements />
+      <JointAxis />
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="Male with backpack (animated)" id="Male_wBackpack_1" UniqueId="28602" SensorDetectability="Detectable" NumericalID="115" ObjectTypeID="4" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Male_wBackpack" AnimatedActor="true" CompilationSheetPicture="MaleBackpack.png" HashCode="4989abe8b0654fc75f34bfe941ecf3b1" ModelFile="Humans\MaleBackpack\MaleBackpack.osgb" GenericModelSourceFile="Humans\MaleBackpack\Male_wBackpack.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="37.763847351074219" Y="157.72097778320313" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.62000000476837158" Y="0.550000011920929" Z="0" />
+      <Size X="0.52999997138977051" Y="0.800000011920929" Z="1.7400000095367432" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Upper Body" RegionName="Upper Body" TargetColor="00EBEBEB">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Lower Body" RegionName="Lower Body" TargetColor="006C8599">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Shoes" RegionName="Shoes" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Upper Body" RegionName="Upper Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Lower Body" RegionName="Lower Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Shoes" RegionName="Shoes" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Upper Body" ChannelIndex="0" IntensityMultiplier="1.08" RegionMapNode="" />
+        <RecolorRegion Name="Lower Body" ChannelIndex="1" IntensityMultiplier="1.25" RegionMapNode="" />
+        <RecolorRegion Name="Shoes" ChannelIndex="2" IntensityMultiplier="1.47" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions>
+        <MaterialRegion Name="Upper Body" ChannelIndex="0" RegionMapNode="" />
+        <MaterialRegion Name="Lower Body" ChannelIndex="1" RegionMapNode="" />
+        <MaterialRegion Name="Shoes" ChannelIndex="2" RegionMapNode="" />
+      </MaterialRegions>
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds>
+        <item>
+          <key>
+            <string>EyesMiddle_Pivot</string>
+          </key>
+          <value>
+            <int>28615</int>
+          </value>
+        </item>
+      </AttachmentPointIds>
+      <AttachmentPoints>
+        <item>
+          <key>
+            <string>EyesMiddle</string>
+          </key>
+          <value>
+            <AttachmentPointLocation>
+              <NodeId>EyesMiddle_Pivot</NodeId>
+              <Position X="0.15538908541202545" Y="0.046878732740879059" Z="1.6112357378005981" />
+            </AttachmentPointLocation>
+          </value>
+        </item>
+      </AttachmentPoints>
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation>
+        <item>
+          <key>
+            <string>standing</string>
+          </key>
+          <value>
+            <int>0</int>
+          </value>
+        </item>
+        <item>
+          <key>
+            <string>walking</string>
+          </key>
+          <value>
+            <int>1</int>
+          </value>
+        </item>
+      </Animation>
+      <LightElements />
+      <JointAxis />
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A male model with a large shopping bag (animated)" id="Male_ShoppingBag_1" UniqueId="28603" SensorDetectability="Detectable" NumericalID="116" ObjectTypeID="4" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Male_ShoppingBag" AnimatedActor="true" CompilationSheetPicture="Male_ShoppingBag.png" HashCode="4b53be81be5f7e7c45a47de211a4e883" ModelFile="Humans\Male_ShoppingBag\Male_ShoppingBag.osgb" GenericModelSourceFile="Humans\Male_ShoppingBag\Male_ShoppingBag.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="38.307956695556641" Y="152.46127319335938" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.37999999523162842" Y="0.50999999046325684" Z="0" />
+      <Size X="0.44999998807907104" Y="0.67000001668930054" Z="1.7699999809265137" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Upper Body" RegionName="Upper Body" TargetColor="FF709295">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Lower Body" RegionName="Lower Body" TargetColor="FFD4C9AD">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Shoes" RegionName="Shoes" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Bag" RegionName="Bag" TargetColor="FFEFECD6">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Upper Body" RegionName="Upper Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Lower Body" RegionName="Lower Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Shoes" RegionName="Shoes" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Bag" RegionName="Bag" TargetMaterial="1">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Upper Body" ChannelIndex="0" IntensityMultiplier="1.25" RegionMapNode="" />
+        <RecolorRegion Name="Lower Body" ChannelIndex="1" IntensityMultiplier="1.24" RegionMapNode="" />
+        <RecolorRegion Name="Shoes" ChannelIndex="2" IntensityMultiplier="1.61" RegionMapNode="" />
+        <RecolorRegion Name="Bag" ChannelIndex="3" IntensityMultiplier="1.71" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions>
+        <MaterialRegion Name="Upper Body" ChannelIndex="0" RegionMapNode="" />
+        <MaterialRegion Name="Lower Body" ChannelIndex="1" RegionMapNode="" />
+        <MaterialRegion Name="Shoes" ChannelIndex="2" RegionMapNode="" />
+        <MaterialRegion Name="Bag" ChannelIndex="3" RegionMapNode="" />
+      </MaterialRegions>
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds>
+        <item>
+          <key>
+            <string>EyesMiddle_Pivot</string>
+          </key>
+          <value>
+            <int>28616</int>
+          </value>
+        </item>
+      </AttachmentPointIds>
+      <AttachmentPoints>
+        <item>
+          <key>
+            <string>EyesMiddle</string>
+          </key>
+          <value>
+            <AttachmentPointLocation>
+              <NodeId>EyesMiddle_Pivot</NodeId>
+              <Position X="0.11139383912086487" Y="0.0092501472681760788" Z="1.6242561340332031" />
+            </AttachmentPointLocation>
+          </value>
+        </item>
+      </AttachmentPoints>
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation>
+        <item>
+          <key>
+            <string>standing</string>
+          </key>
+          <value>
+            <int>0</int>
+          </value>
+        </item>
+        <item>
+          <key>
+            <string>walking</string>
+          </key>
+          <value>
+            <int>1</int>
+          </value>
+        </item>
+      </Animation>
+      <LightElements />
+      <JointAxis />
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A male model with a large shoulder suitcase (animated)" id="Male_LargeShoulderSuitcase_1" UniqueId="28604" SensorDetectability="Detectable" NumericalID="117" ObjectTypeID="4" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Male_LargeShoulderSuitcase" AnimatedActor="true" CompilationSheetPicture="Male_LargeShoulderSuitcase.png" HashCode="55ce2ddf27d79dd209e54d76723bb4a0" ModelFile="Humans\Male_LargeShoulderSuitcase\Male_LargeShoulderSuitcase.osgb" GenericModelSourceFile="Humans\Male_LargeShoulderSuitcase\Male_LargeShoulderSuitcase.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="34.771247863769531" Y="145.47854614257813" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.49000000953674316" Y="0.54000002145767212" Z="0" />
+      <Size X="0.46000000834465027" Y="0.67000001668930054" Z="1.7599999904632568" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Upper body" RegionName="Upper body" TargetColor="00EBEBEB">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Lower Body" RegionName="Lower Body" TargetColor="006C8599">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Shoes" RegionName="Shoes" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Bag" RegionName="Bag" TargetColor="FF212121">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Upper Body" RegionName="Upper Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Lower Body" RegionName="Lower Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Shoes" RegionName="Shoes" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Bag" RegionName="Bag" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Upper body" ChannelIndex="0" IntensityMultiplier="1.08" RegionMapNode="" />
+        <RecolorRegion Name="Lower Body" ChannelIndex="1" IntensityMultiplier="1.25" RegionMapNode="" />
+        <RecolorRegion Name="Shoes" ChannelIndex="2" IntensityMultiplier="1.47" RegionMapNode="" />
+        <RecolorRegion Name="Bag" ChannelIndex="3" IntensityMultiplier="9.37" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions>
+        <MaterialRegion Name="Upper Body" ChannelIndex="0" RegionMapNode="" />
+        <MaterialRegion Name="Lower Body" ChannelIndex="1" RegionMapNode="" />
+        <MaterialRegion Name="Shoes" ChannelIndex="2" RegionMapNode="" />
+        <MaterialRegion Name="Bag" ChannelIndex="3" RegionMapNode="" />
+      </MaterialRegions>
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds>
+        <item>
+          <key>
+            <string>EyesMiddle_Pivot</string>
+          </key>
+          <value>
+            <int>28617</int>
+          </value>
+        </item>
+      </AttachmentPointIds>
+      <AttachmentPoints>
+        <item>
+          <key>
+            <string>EyesMiddle</string>
+          </key>
+          <value>
+            <AttachmentPointLocation>
+              <NodeId>EyesMiddle_Pivot</NodeId>
+              <Position X="0.12422163039445877" Y="-0.045260000973939896" Z="1.6339986324310303" />
+            </AttachmentPointLocation>
+          </value>
+        </item>
+      </AttachmentPoints>
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation>
+        <item>
+          <key>
+            <string>standing</string>
+          </key>
+          <value>
+            <int>0</int>
+          </value>
+        </item>
+        <item>
+          <key>
+            <string>walking</string>
+          </key>
+          <value>
+            <int>1</int>
+          </value>
+        </item>
+      </Animation>
+      <LightElements />
+      <JointAxis />
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A male model with long coat (animated)" id="Male_wLongCoat_1" UniqueId="28605" SensorDetectability="Detectable" NumericalID="118" ObjectTypeID="4" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Male_wLongCoat" AnimatedActor="true" CompilationSheetPicture="Male_wLongCoat.png" HashCode="361d79c83e3106abbb87b62747c5330c" ModelFile="Humans\Male_wLongCoat\Male_wLongCoat.osgb" GenericModelSourceFile="Humans\Male_wLongCoat\Male_wLongCoat.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="38.1265869140625" Y="140.94430541992188" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.31999999284744263" Y="0.47999998927116394" Z="0" />
+      <Size X="0.62999999523162842" Y="0.70999997854232788" Z="1.7300000190734863" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Upper Body" RegionName="Upper Body" TargetColor="00565656">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Coat" RegionName="Coat" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Lower Body" RegionName="Lower Body" TargetColor="006C8599">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_Shoes" RegionName="Shoes" TargetColor="003D3D3D">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Upper Body" RegionName="Upper Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Coat" RegionName="Coat" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Lower Body" RegionName="Lower Body" TargetMaterial="3">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Shoes" RegionName="Shoes" TargetMaterial="2">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Upper Body" ChannelIndex="1" IntensityMultiplier="1.35" RegionMapNode="" />
+        <RecolorRegion Name="Coat" ChannelIndex="3" IntensityMultiplier="1.11" RegionMapNode="" />
+        <RecolorRegion Name="Lower Body" ChannelIndex="0" IntensityMultiplier="1.2" RegionMapNode="" />
+        <RecolorRegion Name="Shoes" ChannelIndex="2" IntensityMultiplier="1.11" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions>
+        <MaterialRegion Name="Upper Body" ChannelIndex="1" RegionMapNode="" />
+        <MaterialRegion Name="Coat" ChannelIndex="3" RegionMapNode="" />
+        <MaterialRegion Name="Lower Body" ChannelIndex="0" RegionMapNode="" />
+        <MaterialRegion Name="Shoes" ChannelIndex="2" RegionMapNode="" />
+      </MaterialRegions>
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds>
+        <item>
+          <key>
+            <string>EyesMiddle_Pivot</string>
+          </key>
+          <value>
+            <int>28618</int>
+          </value>
+        </item>
+      </AttachmentPointIds>
+      <AttachmentPoints>
+        <item>
+          <key>
+            <string>EyesMiddle</string>
+          </key>
+          <value>
+            <AttachmentPointLocation>
+              <NodeId>EyesMiddle_Pivot</NodeId>
+              <Position X="0.11519976705312729" Y="0.01592208631336689" Z="1.6005533933639526" />
+            </AttachmentPointLocation>
+          </value>
+        </item>
+      </AttachmentPoints>
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation>
+        <item>
+          <key>
+            <string>standing</string>
+          </key>
+          <value>
+            <int>0</int>
+          </value>
+        </item>
+        <item>
+          <key>
+            <string>walking</string>
+          </key>
+          <value>
+            <int>1</int>
+          </value>
+        </item>
+      </Animation>
+      <LightElements />
+      <JointAxis />
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
       <WheelDefinitions />
@@ -12046,7 +12823,7 @@
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
       <Underlay xsi:type="Concrete" Description="SAFE256" id="Concrete_1" UniqueId="7639" PreventDragging="true" SensorDetectability="Invisible" NumericalID="28" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="139.1419955651856" Y="143.34202363874809" Z="0" />
+        <Location X="139.1419955651856" Y="143.34202363733661" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="30" Y="30" Z="0.01" />
@@ -12058,8 +12835,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="4.4997617264398393" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="4.666829433876126" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="4.49976172643984" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.6668294338303253" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -15639,6 +16416,11 @@
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_RegularAni_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="18853" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Female_Regular_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28384" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Man_Asian_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28394" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wLargeBackpack_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28601" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wBackpack_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28602" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_ShoppingBag_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28603" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_LargeShoulderSuitcase_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28604" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wLongCoat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28605" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="CalibrationElement" HasSeparateColors="false" Color="FFFFFF00" PredefinedEnumType="CalibrationElement">
@@ -16580,6 +17362,21 @@
     </ObjectColorID>
     <ObjectColorID Color="FF9F7F00">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Man_Asian_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28394" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00FF9F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wLargeBackpack_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28601" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF7F009F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wBackpack_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28602" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF007F9F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_ShoppingBag_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28603" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF9FBF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_LargeShoulderSuitcase_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28604" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFBF009F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_wLongCoat_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="28605" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="154">
