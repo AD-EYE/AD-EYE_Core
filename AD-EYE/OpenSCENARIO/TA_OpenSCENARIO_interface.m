@@ -144,7 +144,12 @@ cd(adeye_base + "TA")
 TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareConfigArray, SimulinkConfigArray, TagsConfigArray, SSHConfig)
 
 
-TA('Configurations/TAOrder.xlsx', 0, 2000, 1)
+
+
+waitbar(.93,ta_openscenario_progress_bar,'Starting TA');
+rosshutdown
+close(ta_openscenario_progress_bar)
+% TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 %TA('Configurations/TAOrder.xlsx', 1, 500)
 
