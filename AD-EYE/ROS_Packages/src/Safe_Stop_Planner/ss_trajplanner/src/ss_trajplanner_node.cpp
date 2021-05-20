@@ -51,7 +51,13 @@ public:
 
   // callback which control what the safety planner needs to be doing
   void SSMP_control_callback(rcv_common_msgs::SSMP_control::ConstPtr const & msg ){
-    SSMP_control = msg->SSMP_control;
+      if(msg->SSMP_control == 2 && traj_out.t.size() == 0) {
+          ROS_WARN("SSMP Trajectory is empty so the SSMP control message will be ignored");
+      }
+      else {
+          ROS_WARN("Received SSMP control msg");
+          SSMP_control = msg->SSMP_control;
+      }
   }
 
   // constructor
@@ -78,14 +84,8 @@ public:
     SSMP_control_sub_  = nh.subscribe<rcv_common_msgs::SSMP_control>("/SSMP_control",1,&SafeStopTrajectoryPlanner::SSMP_control_callback,this);
 
     // basically puts the safety planner on hold until both prescan as well as the gridmap are completely loaded, without this, problems will arise
-    while(ros::ok() && counter < 20){
-      ros::spinOnce();
-      if(SSMP_control == 1){
-        counter++;
-      }
-      loop_rate.sleep();
-    }
-    counter = 1;
+     ros::Duration(2).sleep();
+
 
     // loads in the occupancy map
     col_checker = planner_utils::get_collision_checker_from_topic("SSMP_base_link", cm_base, 5, "raw_data");
@@ -127,6 +127,7 @@ public:
 
         // the set of trajectories only needs to be checked as long as the safety planner is not activated
         if(SSMP_control == 1){
+          counter = 0; //To reset the waypoint index after switch back to Nominal Channel
           for(size_t i=0; i<trajSubSet.size(); i++){
             traj = trajSubSet.at(i);
 
@@ -207,7 +208,7 @@ public:
             }
           }
 
-          // to clear old markers we will publish ivisible markers with same id
+          // to clear old markers we will publish invisible markers with same id
           for(size_t i=endposes_vis_msg.markers.size(); i<=traj_set_handler.get_max_trajsubset_size(); i++){
               visualization_msgs::Marker marker;
               marker.header.frame_id = "SSMP_base_link";
@@ -248,9 +249,11 @@ public:
           cpp_utils::add_scalar_to_vector(traj_out.t,-dt);
           counter++;
           // if counter over traj size, traj is done, goto finish leads to somewhere outside this loop, effectively killing this node
-          if(counter >= traj_out.t.size()){
+          if(counter >= traj_out.t.size()-1){
             ROS_INFO("Real endposition: (%f, %f)", x_ego, y_ego);
-            goto finish;
+//            goto finish;
+            ROS_WARN("Resetting SSMP");
+            SSMP_control = 1;
           }
         }
         traj_out_last = traj_out;
@@ -314,8 +317,11 @@ public:
 
         // publish msgs
         traj_pub_.publish(traj_msg);
-        traj_vis_pub_.publish(traj_vis_msg);
-        endposes_vis_pub_.publish(endposes_vis_msg);
+        if(SSMP_control == 1)
+        {
+            traj_vis_pub_.publish(traj_vis_msg);
+            endposes_vis_pub_.publish(endposes_vis_msg);
+        }
         entire_traj_pub_.publish(entire_traj_msg);
         if(green_trajs+yellow_trajs+red_trajs != 0){
           amount_trajs_pub_.publish(trajcategory);
@@ -330,6 +336,10 @@ public:
     } catch (const std::out_of_range& oor) {
       std::cerr << "Out of Range error: " << oor.what() << '\n';
     }
+    catch (const std::exception& e) {
+        std::cout << e.what();
+    }
+    ros::Duration(5).sleep(); // to have time to read the exception message
   }
 
 private:
@@ -361,7 +371,7 @@ private:
   float x_ego;
   float y_ego;
   float yaw_ego;
-  int SSMP_control = 0;
+  int SSMP_control = 1;
 };
 
 

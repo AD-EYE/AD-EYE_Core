@@ -62,6 +62,7 @@
 */Experiments/**/*.log
 */Experiments/**/*.references
 */Experiments/**/*.tunable
+*/Experiments/**/viewer_assignment.bin
 
 #The Results folder
 */Experiments/**/Results
@@ -85,9 +86,10 @@ autoware.ai/autoware.ai.repos
 autoware.ai/*.workspace
 autoware.ai/*.workspace.user
 
-#Visual Studio Code folders
+#Visual Studio Code / Jetbrains generated folders
 **/.vscode
-
+**/.idea
+**/cmake-build-debug
 
 # Unzipped folders, zipped version added to LFS
 Prescan_models/KTH_3D_overhaul/

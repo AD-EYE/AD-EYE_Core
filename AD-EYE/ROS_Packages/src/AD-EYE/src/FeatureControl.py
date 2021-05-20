@@ -18,14 +18,16 @@ class FeatureControl:
         self.sleep_time_on_stop = sleep_time_on_stop
 
     def start(self):
-        self.uuid = rlutil.get_or_generate_uuid(None, False)
-        configure_logging(self.uuid)
-        self.Launch = parent.ROSLaunchParent(self.uuid, [self.filepath])
-        self.Launch.start()
-        rospy.loginfo("%s: Started feature - %s", rospy.get_name(), self.FeatureName)
-        time.sleep(self.sleep_time_on_start)
+        if self.filepath != "":
+            self.uuid = rlutil.get_or_generate_uuid(None, False)
+            configure_logging(self.uuid)
+            self.Launch = parent.ROSLaunchParent(self.uuid, [self.filepath])
+            self.Launch.start()
+            rospy.loginfo("%s: Started feature - %s", rospy.get_name(), self.FeatureName)
+            time.sleep(self.sleep_time_on_start)
 
     def stop(self):
-        self.Launch.shutdown()
-        rospy.loginfo("%s: Stopped feature - %s", rospy.get_name(), self.FeatureName)
-        time.sleep(self.sleep_time_on_stop)
+        if self.filepath != "":
+            self.Launch.shutdown()
+            rospy.loginfo("%s: Stopped feature - %s", rospy.get_name(), self.FeatureName)
+            time.sleep(self.sleep_time_on_stop)
