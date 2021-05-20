@@ -19,7 +19,7 @@ class loopgoal ():
                
         #Set thePublishers Subscribers 
         self.position_sub = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssPoseCallback)
-        self.goal_pub = rospy.Publisher('/goal', PoseStamped, queue_size=1)  
+        self.goal_pub = rospy.Publisher('/adeye/goals', PoseStamped, queue_size=1)  
           
     #Function for publishing new goals 
     def publishNewGoal(self,index): 
