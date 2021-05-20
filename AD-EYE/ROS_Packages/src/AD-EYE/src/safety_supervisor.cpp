@@ -89,6 +89,9 @@ private:
     double distance_to_lane_;
     double distance_to_road_edge_;
 
+    // Polygon coordinates
+    std::vector<double> ODD_coordinates_ = {220.00, 225.00, 320.00, 225.00, 320.00, 170.00, 220.00,170.00};
+
     struct CurvatureExtremum {
         double max;
         double min;
@@ -491,43 +494,40 @@ private:
 
     }
 
-    void definePolygonArea(std::vector<double> polygon_coordinates_)
+    void defineOperationalDesignDomain(std::vector<double> odd_coordinates_)
     {
-        // Add new layer called PolygonArea
-        gridmap_.add("PolygonArea", 0.0);
+        // Add new layer called ODD (Operational design domain)
+        gridmap_.add("ODD", 0.0);
 
-        double center_x = 0.00;
-        double center_y = 0.00;
+        //ROS_INFO("The demo value is %lf", odd_coordinates_[0]);
 
-        ROS_INFO("The demo value is %lf", polygon_coordinates_[0]);
-
-        double height_polygon = 100.00;
-        double width_polygon = 100.00;
-        
-        // Define Polygon area through global coordinates
         grid_map::Polygon polygon;
-        polygon.addVertex(Position(center_x - height_polygon,  center_y + height_polygon));
-        polygon.addVertex(Position(center_x + height_polygon,  center_y + height_polygon));
-        polygon.addVertex(Position(center_x + height_polygon,  center_y - height_polygon));
-        polygon.addVertex(Position(center_x - height_polygon,  center_y - height_polygon));
-        polygon.addVertex(Position(center_x - height_polygon,  center_y + height_polygon));
+        
+        // Define ODD Polygon area through coordinates
+        for (int i = 0; i < odd_coordinates_.size() ; i+=2)
+        {
+            polygon.addVertex(Position(odd_coordinates_[i],  odd_coordinates_[i+1]));
+        }
+
+        // Add again the starting coordinates for polygon
+        polygon.addVertex(Position(odd_coordinates_[0],  odd_coordinates_[1]));
 
         // Polygon Interator
-        for (grid_map::PolygonIterator iterator(gridmap_, polygon);
+        for (grid_map::PolygonIterator iterator(gridmap_, demopoly);
             !iterator.isPastEnd(); ++iterator) {
-            gridmap_.at("PolygonArea", *iterator) = 5.0;
+            gridmap_.at("ODD", *iterator) = 5.0;
         }
 
         // Check if the vehicle is in the area or not
-        float polygon_area_lane_id = gridmap_.atPosition("PolygonArea", grid_map::Position(pose_.position.x, pose_.position.y));
+        float ODD_area_lane_id = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
 
-        if (polygon_area_lane_id == 0)
+        if (ODD_area_lane_id == 0)
         {ROS_WARN("The vehicle is not in the area");}
         else { ROS_INFO("The vehicle is in the area");}
         
         // Convert GridMap to OccupancyGrid
         nav_msgs::OccupancyGrid occupancyGridResult;
-        GridMapRosConverter::toOccupancyGrid(gridmap_, "PolygonArea", 1.0, 10.0, occupancyGridResult);
+        GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
         pub_polygon_area_.publish(occupancyGridResult);
     }
 
@@ -591,11 +591,11 @@ public:
                 performChecks();
                 publish();
 
-                std::vector<double> polygon_coordinates;
-                if (nh_.getParam("/polygon_coordinates_", polygon_coordinates))
-                {
-                    definePolygonArea(polygon_coordinates);
-                }
+                
+                if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
+                {defineOperationalDesignDomain(ODD_coordinates_);}
+                else
+                {defineOperationalDesignDomain(ODD_coordinates_);}
                 
             }
             rate.sleep();
