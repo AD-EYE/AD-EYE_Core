@@ -89,7 +89,7 @@ private:
     double distance_to_lane_;
     double distance_to_road_edge_;
 
-    // Polygon coordinates
+    // ODD Polygon coordinates
     std::vector<double> ODD_coordinates_ = {220.00, 225.00, 320.00, 225.00, 320.00, 170.00, 220.00,170.00};
 
     struct CurvatureExtremum {
@@ -493,32 +493,35 @@ private:
          }
 
     }
-
+    
+    /*!
+     * \brief The function where the operational design domain polygon has been created.
+     * \details Check the vehicle is in the ODD area or not.
+     */
     void defineOperationalDesignDomain(std::vector<double> odd_coordinates_)
     {
         // Add new layer called ODD (Operational design domain)
         gridmap_.add("ODD", 0.0);
-
-        //ROS_INFO("The demo value is %lf", odd_coordinates_[0]);
-
+        
+        // Initiate the grid map ODD polygon
         grid_map::Polygon polygon;
         
-        // Define ODD Polygon area through coordinates
+        // Define ODD Polygon area through coordinates from ROS parameter server
         for (int i = 0; i < odd_coordinates_.size() ; i+=2)
         {
             polygon.addVertex(Position(odd_coordinates_[i],  odd_coordinates_[i+1]));
         }
 
-        // Add again the starting coordinates for polygon
+        // Add again the first coordinates from the vector to close down the polygon area
         polygon.addVertex(Position(odd_coordinates_[0],  odd_coordinates_[1]));
 
         // Polygon Interator
-        for (grid_map::PolygonIterator iterator(gridmap_, demopoly);
+        for (grid_map::PolygonIterator iterator(gridmap_, polygon);
             !iterator.isPastEnd(); ++iterator) {
             gridmap_.at("ODD", *iterator) = 5.0;
         }
 
-        // Check if the vehicle is in the area or not
+        // Extract the lane id and check the condition if the vehicle is in the polygon area or not
         float ODD_area_lane_id = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
 
         if (ODD_area_lane_id == 0)
@@ -548,7 +551,6 @@ public:
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
         pub_polygon_area_ = nh_.advertise<nav_msgs::OccupancyGrid>("/grid_iterator_", 1, true);
-        //grid_map_iterator_ = nh.advertise<grid_map_msgs::GridMap>("/grid_iterator_", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
@@ -590,7 +592,6 @@ public:
             {
                 performChecks();
                 publish();
-
                 
                 if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
                 {defineOperationalDesignDomain(ODD_coordinates_);}
