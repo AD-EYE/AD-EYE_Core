@@ -111,8 +111,8 @@ private:
             pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
             pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
 
-            ROS_INFO("The first goal position coordinates:- x = %lf, y = %lf, z = %lf",
-                pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
+            ROS_INFO("The first goal has been received and published. Position:- x = %lf, y = %lf, z = %lf  and Orientation:- X = %lf,  Y = %lf,  Z = %lf,  W = %lf",
+                pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z, pose_stamped_.pose.orientation.x, pose_stamped_.pose.orientation.y, pose_stamped_.pose.orientation.z, pose_stamped_.pose.orientation.w );
 
             // Publish and store the first real-world map goal coordinates  
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));       
@@ -127,10 +127,12 @@ private:
         if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > distance_tolerance_)
         {
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
+            
+            // Print the new goal positions
+            ROS_INFO("The new goal has been received. Position:- x = %lf, y = %lf, z = %lf and Orientation:- X = %lf,  Y = %lf,  Z = %lf,  W = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second, z_world_position_coordinate_, x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_);   
         }
         
-        // Print the new goal positions
-        ROS_INFO("The new goal has been received:- x = %lf and y = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second);   
+        
     }
     
     /*!
@@ -225,8 +227,7 @@ public:
                         pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
                         pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
 
-                        ROS_INFO("The next goal coordinates:- x = %lf, y = %lf, z = %lf",
-                            pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z);
+                        ROS_INFO("The next goal coordinates has been sent to autoware. Position:- x = %lf, y = %lf, z = %lf and Orientation:- X = %lf, Y = %lf, Z = %lf, W = %lf", pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z, pose_stamped_.pose.orientation.x, pose_stamped_.pose.orientation.y, pose_stamped_.pose.orientation.z, pose_stamped_.pose.orientation.w);
 
                         // Publish the real world map goal coordinates         
                         pub_goal_.publish(pose_stamped_);
