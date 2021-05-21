@@ -519,9 +519,9 @@ private:
         }
 
         // Extract the lane id and check the condition if the vehicle is in the polygon area or not
-        float ODD_area_lane_id = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
+        float lane_id = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
 
-        if (ODD_area_lane_id == 0)
+        if (lane_id == 0)
         {ROS_WARN("The vehicle is not in the area");}
         else { ROS_INFO("The vehicle is in the area");}
 
