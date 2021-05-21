@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>utils</name>
+  <name>adeye_utils</name>
   <version>0.0.0</version>
-  <description>The utils package</description>
+  <description>The AD-EYE_utils package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -50,7 +50,8 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
-  <depend>autoware_msgs</depend>
+  <depend>tf</depend>
+  <depend>op_ros_helpers</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
