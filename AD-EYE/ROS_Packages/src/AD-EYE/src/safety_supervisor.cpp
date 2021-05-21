@@ -21,9 +21,6 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
 
-#include <list>
-
-using namespace grid_map;
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -42,7 +39,7 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
-    ros::Publisher pub_polygon_area_;
+    ros::Publisher pub_operational_design_domain_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -498,7 +495,7 @@ private:
      * \brief The function where the operational design domain polygon has been created.
      * \details Check the vehicle is in the ODD area or not.
      */
-    void defineOperationalDesignDomain(std::vector<double> odd_coordinates_)
+    void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
     {
         // Add new layer called ODD (Operational design domain)
         gridmap_.add("ODD", 0.0);
@@ -507,13 +504,13 @@ private:
         grid_map::Polygon polygon;
         
         // Define ODD Polygon area through coordinates from ROS parameter server
-        for (int i = 0; i < odd_coordinates_.size() ; i+=2)
+        for (int i = 0; i < polygon_coordinates.size() ; i+=2)
         {
-            polygon.addVertex(Position(odd_coordinates_[i],  odd_coordinates_[i+1]));
+            polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
         }
 
         // Add again the first coordinates from the vector to close down the polygon area
-        polygon.addVertex(Position(odd_coordinates_[0],  odd_coordinates_[1]));
+        polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
 
         // Polygon Interator
         for (grid_map::PolygonIterator iterator(gridmap_, polygon);
@@ -527,11 +524,11 @@ private:
         if (ODD_area_lane_id == 0)
         {ROS_WARN("The vehicle is not in the area");}
         else { ROS_INFO("The vehicle is in the area");}
-        
+
         // Convert GridMap to OccupancyGrid
         nav_msgs::OccupancyGrid occupancyGridResult;
-        GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
-        pub_polygon_area_.publish(occupancyGridResult);
+        grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
+        pub_operational_design_domain_.publish(occupancyGridResult);
     }
 
 public:
@@ -550,7 +547,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
-        pub_polygon_area_ = nh_.advertise<nav_msgs::OccupancyGrid>("/grid_iterator_", 1, true);
+        pub_operational_design_domain_ = nh_.advertise<nav_msgs::OccupancyGrid>("/adeye/operational_design_domain", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
