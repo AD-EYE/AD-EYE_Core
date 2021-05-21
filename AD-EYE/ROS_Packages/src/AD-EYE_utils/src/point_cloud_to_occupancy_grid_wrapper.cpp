@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include <point_cloud_to_occupancy_grid.h>
+#include <adeye_utils/point_cloud_to_occupancy_grid.h>
 
 
 int main(int argc, char **argv)

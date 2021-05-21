@@ -2,7 +2,7 @@
 #include <std_msgs/Bool.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <experiment_recording.h>
-#include <point_cloud_to_occupancy_grid.h>
+#include "adeye_utils/point_cloud_to_occupancy_grid.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
