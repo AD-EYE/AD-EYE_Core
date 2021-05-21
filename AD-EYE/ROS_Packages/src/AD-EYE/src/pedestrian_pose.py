@@ -29,7 +29,7 @@ class PedestrianPosesPublisher():
 
     def publishPoses(self):
         counter = 0
-        while not rospy.is_shutdown() and counter < 10:
+        while not rospy.is_shutdown() and counter < 30:
             self.pose_increment_value = 5 * counter
             self.pedestrian_pose_array = PoseArray()
 
@@ -38,11 +38,11 @@ class PedestrianPosesPublisher():
             self.pedestrian_pose_array.header.frame_id = "map"
 
             self.addPosesToArray(55.0, 176.0, self.pose_increment_value, self.pedestrian_pose_array) 
-            self.addPosesToArray(100.0, 181.0, self.pose_increment_value, self.pedestrian_pose_array) 
-            self.addPosesToArray(105.0, 186.0, self.pose_increment_value, self.pedestrian_pose_array)
-            self.addPosesToArray(110.0, 191.0, self.pose_increment_value, self.pedestrian_pose_array)
-            self.addPosesToArray(115.0, 196.0, self.pose_increment_value, self.pedestrian_pose_array)
-            self.addPosesToArray(120.0, 201.0, self.pose_increment_value, self.pedestrian_pose_array)
+            self.addPosesToArray(60.0, 181.0, self.pose_increment_value, self.pedestrian_pose_array) 
+            self.addPosesToArray(70.0, 186.0, self.pose_increment_value, self.pedestrian_pose_array)
+            self.addPosesToArray(75.0, 191.0, self.pose_increment_value, self.pedestrian_pose_array)
+            self.addPosesToArray(80.0, 196.0, self.pose_increment_value, self.pedestrian_pose_array)
+            self.addPosesToArray(85.0, 201.0, self.pose_increment_value, self.pedestrian_pose_array)
             
             rate = rospy.Rate(1)
             self.pedestrian_pose_array_pub.publish(self.pedestrian_pose_array)
