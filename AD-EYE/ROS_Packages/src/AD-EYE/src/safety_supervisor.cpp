@@ -77,7 +77,6 @@ private:
 
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
-    grid_map::GridMap gridmap_polygon_area_;
     autoware_msgs::Lane autowareTrajectory_;
     ros::V_string nodes_to_check_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
@@ -87,7 +86,7 @@ private:
     double distance_to_road_edge_;
 
     // ODD Polygon coordinates
-    std::vector<double> ODD_coordinates_ = {220.00, 225.00, 320.00, 225.00, 320.00, 170.00, 220.00,170.00};
+    std::vector<double> ODD_coordinates_;
 
     struct CurvatureExtremum {
         double max;
@@ -124,7 +123,9 @@ private:
     void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
-        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_polygon_area_);
+
+        // Operational design domain default polygon coordinates
+        ODD_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
@@ -489,46 +490,84 @@ private:
              return;
          }
 
+         // Check that the vehicle is in OOD polygon area
+         if (isVehicleOffPolygon()){
+             var_switch_ = UNSAFE;
+             return;
+         }
+
+    }
+    
+    /*!
+     * \brief Check if the polygon coordinates are completed
+     * \return Boolean indicating if the polygon coordinates are completed
+     */
+    bool isPolygonValid(std::vector<double> polygon_coordinates)
+    {
+        if (polygon_coordinates.size() % 2 != 0)
+        {
+            ROS_WARN_THROTTLE(1, "Polygon coordinates are not completed");
+            return false;
+            
+        }
+        return true;
+    }
+    
+    /*!
+     * \brief Check if the vehicle is inside the ODD polygon area
+     * \return Boolean indicating if the vehicle is off the polygon area
+     */
+    bool isVehicleOffPolygon()
+    {
+        // Extract the polygon area and send true if the vehicle is not in the polygon area
+        float polygon_area_data = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
+
+        if (polygon_area_data == 0)
+        {
+            ROS_WARN("The vehicle is not in the area");
+            return true;
+        }
+        
+        ROS_INFO("The vehicle is in the area");
+        return false;
     }
     
     /*!
      * \brief The function where the operational design domain polygon has been created.
-     * \details Check the vehicle is in the ODD area or not.
+     * \details Polygon iterator creates the polygon according to given coordinates.
      */
     void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
     {
         // Add new layer called ODD (Operational design domain)
         gridmap_.add("ODD", 0.0);
-        
-        // Initiate the grid map ODD polygon
-        grid_map::Polygon polygon;
-        
-        // Define ODD Polygon area through coordinates from ROS parameter server
-        for (int i = 0; i < polygon_coordinates.size() ; i+=2)
-        {
-            polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
+
+        if (isPolygonValid(polygon_coordinates))
+        {       
+            // Initiate the grid map ODD polygon
+            grid_map::Polygon polygon;
+            
+            // Define ODD Polygon area through coordinates from ROS parameter server
+            for (int i = 0; i < polygon_coordinates.size() ; i+=2)
+            {
+                polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
+            }
+
+            // Add again the first coordinates from the vector to close down the polygon area
+            polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
+
+            // Polygon Interator
+            for (grid_map::PolygonIterator iterator(gridmap_, polygon);
+                !iterator.isPastEnd(); ++iterator) {
+                gridmap_.at("ODD", *iterator) = 5.0;
+            }
+
+            isVehicleOffPolygon();
+            
+            // Convert GridMap to OccupancyGrid
+            nav_msgs::OccupancyGrid occupancyGridResult;
+            grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
+            pub_operational_design_domain_.publish(occupancyGridResult);
         }
-
-        // Add again the first coordinates from the vector to close down the polygon area
-        polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
-
-        // Polygon Interator
-        for (grid_map::PolygonIterator iterator(gridmap_, polygon);
-            !iterator.isPastEnd(); ++iterator) {
-            gridmap_.at("ODD", *iterator) = 5.0;
-        }
-
-        // Extract the lane id and check the condition if the vehicle is in the polygon area or not
-        float lane_id = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
-
-        if (lane_id == 0)
-        {ROS_WARN("The vehicle is not in the area");}
-        else { ROS_INFO("The vehicle is in the area");}
-
-        // Convert GridMap to OccupancyGrid
-        nav_msgs::OccupancyGrid occupancyGridResult;
-        grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
-        pub_operational_design_domain_.publish(occupancyGridResult);
     }
 
 public:
@@ -587,14 +626,18 @@ public:
             ros::spinOnce();
             if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
             {
+                if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
+                {
+                    defineOperationalDesignDomain(ODD_coordinates_);
+                }
+                else
+                {
+                    defineOperationalDesignDomain(ODD_coordinates_);
+                }
+
                 performChecks();
                 publish();
-                
-                if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
-                {defineOperationalDesignDomain(ODD_coordinates_);}
-                else
-                {defineOperationalDesignDomain(ODD_coordinates_);}
-                
+                 
             }
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
