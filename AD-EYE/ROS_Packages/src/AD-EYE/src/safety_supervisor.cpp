@@ -17,8 +17,6 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
-#include <grid_map_ros/GridMapRosConverter.hpp>
-
 
 
 /*!
