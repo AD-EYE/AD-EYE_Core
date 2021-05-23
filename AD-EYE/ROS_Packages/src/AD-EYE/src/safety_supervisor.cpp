@@ -18,8 +18,7 @@
 #include "op_ros_helpers/op_ROSHelpers.h"
 
 #include <grid_map_ros/GridMapRosConverter.hpp>
-#include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Odometry.h>
+
 
 
 /*!
@@ -39,7 +38,6 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
-    ros::Publisher pub_operational_design_domain_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -124,7 +122,7 @@ private:
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
-        // Operational design domain default polygon coordinates
+        // Operational design domain default polygon coordinates are same as full grid map
         ODD_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
@@ -499,23 +497,22 @@ private:
     }
     
     /*!
-     * \brief Check if the polygon coordinates are completed
-     * \return Boolean indicating if the polygon coordinates are completed
+     * \brief Check if the vector of polygon coordinates is valid.
+     * \return Boolean indicating true if the polygon coordinates are exactly into pairs.
      */
     bool isPolygonValid(std::vector<double> polygon_coordinates)
     {
         if (polygon_coordinates.size() % 2 != 0)
         {
-            ROS_WARN_THROTTLE(1, "Polygon coordinates are not completed");
+            ROS_WARN_THROTTLE(1, "Polygon coordinates are not completed, and not into pairs");
             return false;
-            
         }
         return true;
     }
     
     /*!
-     * \brief Check if the vehicle is inside the ODD polygon area
-     * \return Boolean indicating if the vehicle is off the polygon area
+     * \brief Check if the vehicle is inside the ODD polygon area.
+     * \return Boolean indicating true if the vehicle is off the polygon area.
      */
     bool isVehicleOffPolygon()
     {
@@ -524,11 +521,8 @@ private:
 
         if (polygon_area_data == 0)
         {
-            ROS_WARN("The vehicle is not in the area");
             return true;
         }
-        
-        ROS_INFO("The vehicle is in the area");
         return false;
     }
     
@@ -560,13 +554,6 @@ private:
                 !iterator.isPastEnd(); ++iterator) {
                 gridmap_.at("ODD", *iterator) = 5.0;
             }
-
-            isVehicleOffPolygon();
-            
-            // Convert GridMap to OccupancyGrid
-            nav_msgs::OccupancyGrid occupancyGridResult;
-            grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "ODD", 1.0, 10.0, occupancyGridResult);
-            pub_operational_design_domain_.publish(occupancyGridResult);
         }
     }
 
@@ -586,7 +573,6 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
-        pub_operational_design_domain_ = nh_.advertise<nav_msgs::OccupancyGrid>("/adeye/operational_design_domain", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
