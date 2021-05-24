@@ -43,12 +43,12 @@ private:
     ros::Subscriber sub_switch_request_;
 
     // constants
-    const bool SAFE = false;
-    const bool UNSAFE = true;
+    const bool SAFE_ = false;
+    const bool UNSAFE_ = true;
     const int NO_BEHAVIOR_OVERWRITE = -1;
-    enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
+    enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
-    const float pi = 3.141592654;
+    const float pi_ = 3.141592654;
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -68,7 +68,7 @@ private:
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
     bool autoware_trajectory_flag_ = false;
-    bool autoware_global_path_flag = false;
+    bool autoware_global_path_flag_ = false;
 
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
@@ -139,7 +139,7 @@ private:
       {
           std::vector<PlannerHNS::WayPoint> m_temp_path;
           autoware_global_path_.clear();
-          autoware_global_path_flag = true;
+          autoware_global_path_flag_ = true;
           for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
           {
               PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
@@ -441,14 +441,18 @@ private:
         //pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
-
+    
+    void triggerVarSwitch()
+    {
+        var_switch_ = UNSAFE_;
+    }
 
     /*!
      * \brief The function where the checks are called
      * \details The situation is evaluated and the state of the vehicle is
      * declared safe or unsafe.
      */
-    void performChecks()
+    void performSafetyTests()
     {
         varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE;
 
@@ -462,20 +466,20 @@ private:
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
          // Check that all the necessary nodes are active
-         if (!areCriticalNodesAlive() ){
-             var_switch_ = UNSAFE;
+         if (!areCriticalNodesAlive()){
+             triggerVarSwitch();
              return;
          }
 
          // Check that the center of the car on the road
          if (isCarOffRoad()){
-             var_switch_ = UNSAFE;
+             triggerVarSwitch();
              return;
          }
 
          //Is there a dynamic object in the critical area
          if (isObjectInCriticalArea()){
-             var_switch_ = UNSAFE;
+             triggerVarSwitch();
              return;
          }
 
@@ -487,7 +491,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
+    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE_)
     {
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
@@ -512,7 +516,23 @@ public:
         }
 
     }
-
+    
+    /*!
+     * \brief The initialization loop waits until all flags have been received.
+     * \details Checks for gnss, gridmap and autoware global path flags.
+     */
+    void waitForInitialization()
+    {
+        ros::Rate rate(20);
+        while(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1)
+        {
+            ros::spinOnce();
+            performSafetyTests();
+            publish();
+            rate.sleep();
+        }
+    }
+    
     /*!
      * \brief The main loop of the Node
      * \details Checks for topics updates, then evaluate
@@ -534,11 +554,6 @@ public:
                 }
             }
             ros::spinOnce();
-            if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
-            {
-                performChecks();
-                publish();
-            }
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
         }
@@ -552,5 +567,6 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     SafetySupervisor safetySupervisor(nh, argc, argv);
     safetySupervisor.run();
+    safetySupervisor.waitForInitialization();
     return 0;
 }
