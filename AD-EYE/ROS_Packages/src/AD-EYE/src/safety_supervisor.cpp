@@ -82,7 +82,7 @@ private:
     double distance_to_road_edge_;
 
     // ODD Polygon coordinates
-    std::vector<double> ODD_coordinates_;
+    std::vector<double> ODD_coordinates_, ODD_gridmap_coordinates;
 
     struct CurvatureExtremum {
         double max;
@@ -121,7 +121,7 @@ private:
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
         // Operational design domain default polygon coordinates are same as full grid map
-        ODD_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
+        ODD_gridmap_coordinates = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
@@ -486,8 +486,8 @@ private:
              return;
          }
 
-         // Check that the vehicle is in OOD polygon area
-         if (isVehicleOffPolygon()){
+         // Check that the vehicle is in operational design domain polygon area
+         if (isVehicleOffOperationalDesignDomain()){
              var_switch_ = UNSAFE;
              return;
          }
@@ -495,8 +495,8 @@ private:
     }
     
     /*!
-     * \brief Check if the vector of polygon coordinates is valid.
-     * \return Boolean indicating true if the polygon coordinates are exactly into pairs.
+     * \brief Check if the vector of operational design domain polygon coordinates is valid.
+     * \return Boolean indicating true if the operational design domain polygon coordinates are exactly into pairs.
      */
     bool isPolygonValid(std::vector<double> polygon_coordinates)
     {
@@ -509,10 +509,10 @@ private:
     }
     
     /*!
-     * \brief Check if the vehicle is inside the ODD polygon area.
-     * \return Boolean indicating true if the vehicle is off the polygon area.
+     * \brief Check if the vehicle is inside the operational design domain polygon area.
+     * \return Boolean indicating true if the vehicle is off the operational design domain polygon area.
      */
-    bool isVehicleOffPolygon()
+    bool isVehicleOffOperationalDesignDomain()
     {
         // Extract the polygon area and send true if the vehicle is not in the polygon area
         float polygon_area_data = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
@@ -610,13 +610,14 @@ public:
             ros::spinOnce();
             if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
             {
+                // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates fro ODD
                 if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
                 {
                     defineOperationalDesignDomain(ODD_coordinates_);
                 }
                 else
                 {
-                    defineOperationalDesignDomain(ODD_coordinates_);
+                    defineOperationalDesignDomain(ODD_gridmap_coordinates);
                 }
 
                 performChecks();
