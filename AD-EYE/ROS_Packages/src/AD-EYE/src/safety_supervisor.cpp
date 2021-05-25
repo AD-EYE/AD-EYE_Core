@@ -84,8 +84,14 @@ private:
     // The pass result vector of safety test.
     std::vector<bool> safety_test_pass_ = std::vector<bool>(num_safety_tests_);
 
-    // Initiate counter for safety test
+    // Initiate counter for safety test pass
     std::vector<int> counter_pass_test_ = std::vector<int>(num_safety_tests_,0);
+
+    // Initiate counter for safety test fail
+    std::vector<int> counter_fail_test_ = std::vector<int>(num_safety_tests_,0);
+
+    // Initialize counter
+    bool initialize_counter_ = false;
    
     // result of the check functions
     double distance_to_lane_;
@@ -464,18 +470,34 @@ private:
 
         for (int i = 0; i < safety_test_pass_vector.size(); i++)
         {
-            if (safety_test_pass_vector[i] == true)
+            if (safety_test_pass_vector[i] == false && !initialize_counter_)
             {
-                if(counter_pass_test_[i] < threshold_pass_test[i])
+                initialize_counter_ = true;
+            }
+            else
+            {
+                ROS_INFO("All tests are sucessfully passed"); 
+            }
+
+            if (initialize_counter_)
+            {
+                if(counter_pass_test_[i] <= threshold_pass_test[i] && safety_test_pass_vector[i] == true)
                 {
                     counter_pass_test_[i]++;
+                    if (counter_pass_test_[i] > threshold_pass_test[i])
+                    {
+                        ROS_INFO("Trigger Switch");
+                        initialize_counter_ = false;
+
+                        // Reset the safety counter
+                        counter_pass_test_[i] = 0;
+                    }
                 }
-                else
+                else if (safety_test_pass_vector[i] == false)
                 {
-                    // Reset the safety counter
-                    counter_pass_test_[i] = 0;
+                    ROS_INFO("Trigger Switch");
                 }
-            }
+            } 
         }
 
         std::cout << "The first test counter:- " << counter_pass_test_[0] << '\n';
@@ -580,8 +602,6 @@ public:
         ros::Rate rate(20);
         while(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1)
         {
-            performSafetyTests();
-            publish();
             ros::spinOnce();
             rate.sleep();
         }
@@ -607,6 +627,10 @@ public:
                     car_size_set_ = true;
                 }
             }
+
+            performSafetyTests();
+            publish();
+
             ros::spinOnce();
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
