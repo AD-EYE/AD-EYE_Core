@@ -43,8 +43,8 @@ private:
     ros::Subscriber sub_switch_request_;
 
     // constants
-    const bool SAFE_ = false;
-    const bool UNSAFE_ = true;
+    const bool SAFE = false;
+    const bool UNSAFE = true;
     const int NO_BEHAVIOR_OVERWRITE = -1;
     enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
@@ -441,10 +441,27 @@ private:
         //pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
+
+    void takeDecisionBasedOnTestResult(std::vector<bool> test_result_vector)
+    {
+        int counter = 0;
+        for (int i = 0; i <= test_result_vector.size(), i++)
+        {
+            if (test_result_vector[i] == true)
+            {
+                counter++;
+            }
+        }
+
+        if (counter > 0)
+        {
+            triggerVarSwitch();
+        }
+    }
     
     void triggerVarSwitch()
     {
-        var_switch_ = UNSAFE_;
+        var_switch_ = UNSAFE;
     }
 
     /*!
@@ -464,24 +481,44 @@ private:
 
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
+        
+        // Enum for the safety test
+        enum test{critical_nodes = 0, car_off_road = 1, object_in_critical_area = 2};
 
+        // The result vector of safety test. It has false default.
+        std::vector<bool> test_result(3);
+        
+        // Check that all necessary nodes are active and store in the vector
+        test_result[critical_nodes] = !areCriticalNodesAlive();
+
+
+
+
+
+
+
+
+        
          // Check that all the necessary nodes are active
          if (!areCriticalNodesAlive()){
-             triggerVarSwitch();
+             test_result[0] = true;
              return;
          }
 
          // Check that the center of the car on the road
          if (isCarOffRoad()){
-             triggerVarSwitch();
+             test_result[1] = true;
              return;
          }
 
          //Is there a dynamic object in the critical area
          if (isObjectInCriticalArea()){
-             triggerVarSwitch();
+             test_result[2] = true;
              return;
          }
+
+        // Send test_result to the decision maker function
+         takeDecisionBasedOnTestResult(test_result);
 
     }
 
@@ -491,7 +528,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE_)
+    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
     {
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
