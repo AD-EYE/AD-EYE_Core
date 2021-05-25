@@ -17,6 +17,8 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
+#include <vector>
+
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -75,10 +77,22 @@ private:
     autoware_msgs::Lane autowareTrajectory_;
     ros::V_string nodes_to_check_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
+    
+    // Safety tests
+    int num_safety_tests_ = 3;
+    
+    // The pass result vector of safety test.
+    std::vector<bool> safety_test_pass_ = std::vector<bool>(num_safety_tests_);
 
+    // Initiate counter for safety test
+    std::vector<int> counter_pass_test_ = std::vector<int>(num_safety_tests_,0);
+   
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
+
+    // Boolean for safety tests
+    bool resetCounter = true;
 
     struct CurvatureExtremum {
         double max;
@@ -442,24 +456,33 @@ private:
 
     }
 
-    void takeDecisionBasedOnTestResult(std::vector<bool> test_result_vector)
+    void takeDecisionBasedOnTestResult(std::vector<bool> safety_test_pass_vector)
     {
-        int counter = 0;
-        for (int i = 0; i <= test_result_vector.size(), i++)
+        // Set threshold value for pass test
+        int threshold_pass = 4;
+        std::vector<int> threshold_pass_test(safety_test_pass_vector.size(),threshold_pass);
+
+        for (int i = 0; i < safety_test_pass_vector.size(); i++)
         {
-            if (test_result_vector[i] == true)
+            if (safety_test_pass_vector[i] == true)
             {
-                counter++;
+                if(counter_pass_test_[i] < threshold_pass_test[i])
+                {
+                    counter_pass_test_[i]++;
+                }
+                else
+                {
+                    // Reset the safety counter
+                    counter_pass_test_[i] = 0;
+                }
             }
         }
 
-        if (counter > 0)
-        {
-            triggerVarSwitch();
-        }
+        std::cout << "The first test counter:- " << counter_pass_test_[0] << '\n';
+        std::cout << "The second test counter:- " << counter_pass_test_[1] << '\n';
     }
     
-    void triggerVarSwitch()
+    void triggerSwitch()
     {
         var_switch_ = UNSAFE;
     }
@@ -482,24 +505,22 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
         
-        // Enum for the safety test
+        // The number of the safety test
         enum test{critical_nodes = 0, car_off_road = 1, object_in_critical_area = 2};
 
-        // The result vector of safety test. It has false default.
-        std::vector<bool> test_result(3);
-        
         // Check that all necessary nodes are active and store in the vector
-        test_result[critical_nodes] = !areCriticalNodesAlive();
-
-
-
-
-
-
-
-
+        safety_test_pass_[critical_nodes] = areCriticalNodesAlive();
         
-         // Check that all the necessary nodes are active
+        //Check that the center of the car on the road
+        safety_test_pass_[car_off_road] = !isCarOffRoad();
+        
+        //Is there a dynamic object in the critical area
+        safety_test_pass_[object_in_critical_area] = !isObjectInCriticalArea();
+
+        // Send test_result to the decision maker function
+        takeDecisionBasedOnTestResult(safety_test_pass_);
+        
+         /* // Check that all the necessary nodes are active
          if (!areCriticalNodesAlive()){
              test_result[0] = true;
              return;
@@ -515,11 +536,7 @@ private:
          if (isObjectInCriticalArea()){
              test_result[2] = true;
              return;
-         }
-
-        // Send test_result to the decision maker function
-         takeDecisionBasedOnTestResult(test_result);
-
+         } */
     }
 
 public:
@@ -563,9 +580,9 @@ public:
         ros::Rate rate(20);
         while(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1)
         {
-            ros::spinOnce();
             performSafetyTests();
             publish();
+            ros::spinOnce();
             rate.sleep();
         }
     }
@@ -603,7 +620,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
     SafetySupervisor safetySupervisor(nh, argc, argv);
-    safetySupervisor.run();
     safetySupervisor.waitForInitialization();
+    safetySupervisor.run();
     return 0;
 }
