@@ -19,6 +19,9 @@
 #define YELLOW 50
 #define RED 99
 
+#define OBSTRUCTED_VALUE 100
+#define OBSTRUCTED_THRESHOLD 90
+
 class SafeStopTrajectoryPlanner
 {
 public:
@@ -119,7 +122,7 @@ public:
 
         // loop through subset
         visualization_msgs::MarkerArray endposes_vis_msg;
-        double min_cost = 100;
+        double min_cost = DBL_MAX;
         int index_of_mincost_traj;
         int green_trajs = 0;
         int yellow_trajs = 0;
@@ -145,7 +148,7 @@ public:
 
               // do collision check
               val = (int)round(col_checker->max_val_for_footprint(pose_st));
-              if (val == RED){
+              if (val >= OBSTRUCTED_THRESHOLD){
                 val_endpose = val;
                 break; // no reason to continue checking if one pose collides
               }
@@ -165,19 +168,22 @@ public:
                 marker.scale.y = 1.5;
                 marker.scale.z = 0.1;
                 marker.color.a = 0.5;
-                if(val_endpose == YELLOW){           // yellow - in lane
-                  marker.color.r = 0.8;
-                  marker.color.g = 0.8;
-                  marker.color.b = 0.0;
-                } else if(val_endpose == GREEN){    // green - safe area
-                  marker.color.r = 0.0;
-                  marker.color.g = 0.8;
-                  marker.color.b = 0.0;
-                } else if(val_endpose == RED) {     // red - unsafe area
-                  marker.color.r = 0.8;
-                  marker.color.g = 0.0;
-                  marker.color.b = 0.0;
-                }
+                marker.color.r = (float) val_endpose / 100.0f;
+                marker.color.g = 0.5;
+                marker.color.b = 0.0;
+                // if(val_endpose == YELLOW){           // yellow - in lane
+                //   marker.color.r = 0.8;
+                //   marker.color.g = 0.8;
+                //   marker.color.b = 0.0;
+                // } else if(val_endpose == GREEN){    // green - safe area
+                //   marker.color.r = 0.0;
+                //   marker.color.g = 0.8;
+                //   marker.color.b = 0.0;
+                // } else if(val_endpose == RED) {     // red - unsafe area
+                //   marker.color.r = 0.8;
+                //   marker.color.g = 0.0;
+                //   marker.color.b = 0.0;
+                // }
 
                 marker.pose.position.x = traj.X.at(j);
                 marker.pose.position.y = traj.Y.at(j);
@@ -188,17 +194,19 @@ public:
             }
 
             // evaluate S(O(x(t)))
-            int endpose_cost = 0;
-            if(val_endpose == YELLOW){           // yellow - in lane
-              endpose_cost = 2;
-              yellow_trajs++;
-            } else if(val_endpose == GREEN){    // green - safe area
-              endpose_cost = 1;
-              green_trajs++;
-            } else if(val_endpose == RED) {     // red - unsafe area
-              endpose_cost = 3;
-              red_trajs++;
-            }
+            // int endpose_cost = (float) val_endpose / 255.0 * 3.0;
+            int endpose_cost = val_endpose;
+            // int endpose_cost = 0;
+            // if(val_endpose == YELLOW){           // yellow - in lane
+            //   endpose_cost = 2;
+            //   yellow_trajs++;
+            // } else if(val_endpose == GREEN){    // green - safe area
+            //   endpose_cost = 1;
+            //   green_trajs++;
+            // } else if(val_endpose == RED) {     // red - unsafe area
+            //   endpose_cost = 3;
+            //   red_trajs++;
+            // }
 
             // evaluate cost function
             double cost = traj.timeUntilStopped/traj.t.back() + endpose_cost;
@@ -214,7 +222,7 @@ public:
               marker.header.frame_id = "SSMP_base_link";
               marker.header.stamp = ros::Time();
               marker.id = i;
-              marker.type = visualization_msgs::Marker::SPHERE;
+              marker.type = visualization_msgs::Marker::DELETE;
               marker.pose.position.x = 1;
               marker.pose.position.y = 1;
               marker.pose.position.z = 1;
@@ -323,9 +331,10 @@ public:
             endposes_vis_pub_.publish(endposes_vis_msg);
         }
         entire_traj_pub_.publish(entire_traj_msg);
-        if(green_trajs+yellow_trajs+red_trajs != 0){
-          amount_trajs_pub_.publish(trajcategory);
-        }
+        // if(green_trajs+yellow_trajs+red_trajs != 0){
+        //   amount_trajs_pub_.publish(trajcategory);
+        // }
+        amount_trajs_pub_.publish(trajcategory);
 
         loop_rate.sleep();
       }
