@@ -52,6 +52,9 @@ private:
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
     const float pi_ = 3.141592654;
 
+    // The number of the safety test
+    enum SAFETY_TESTS{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2};
+
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
 
@@ -98,7 +101,7 @@ private:
     double distance_to_road_edge_;
 
     // Boolean for safety tests
-    bool resetCounter = true;
+    bool resetCounter_ = true;
 
     struct CurvatureExtremum {
         double max;
@@ -188,14 +191,14 @@ private:
     {
 
         PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
-        std::vector<int> twoClosestIndex = getClosestIndex(trajectory, p0);
-        int closestIndex = twoClosestIndex.at(0);
-        int secondClosestIndex = twoClosestIndex.at(1);
-        PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
-        PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
+        std::vector<int> two_closest_index = getClosestIndex(trajectory, p0);
+        int closest_index = two_closest_index.at(0);
+        int second_closest_index = two_closest_index.at(1);
+        PlannerHNS::WayPoint p1 = trajectory.at(closest_index);
+        PlannerHNS::WayPoint p2 = trajectory.at(second_closest_index);
         // the distance is the distance from the car's position to the line formed by the two points fron the path
         double distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
-        std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
+        std::cout << "Closest index = " << closest_index << ". Second closest index: " << second_closest_index << ". Distance = " << distance << '\n';
         return distance;
     }
 
@@ -205,31 +208,31 @@ private:
      */
     std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
-        int closestIndex = 0;
-        int secondClosestIndex = 0;
-        double d_closestIndex = DBL_MAX;
-        double d_secondClosestIndex = DBL_MAX;
+        int closest_index = 0;
+        int second_closest_index = 0;
+        double d_closest_index = DBL_MAX;
+        double d_second_closest_index = DBL_MAX;
         if(trajectory.size()>1){
             for(int i=0; i<trajectory.size(); i++){
                 double d = pow(trajectory[i].pos.x - p.pos.x, 2) + pow(trajectory[i].pos.y - p.pos.y, 2);
-                if(d < d_secondClosestIndex){
-                    if(d < d_closestIndex){
-                        secondClosestIndex = closestIndex;
-                        d_secondClosestIndex = d_closestIndex;
-                        closestIndex = i;
-                        d_closestIndex = d;
+                if(d < d_second_closest_index){
+                    if(d < d_closest_index){
+                        second_closest_index = closest_index;
+                        d_second_closest_index = d_closest_index;
+                        closest_index = i;
+                        d_closest_index = d;
                     }
                     else{
-                        secondClosestIndex = i;
-                        d_secondClosestIndex = d;
+                        second_closest_index = i;
+                        d_second_closest_index = d;
                     }
                 }
             }
         }
-        std::vector<int> twoClosestIndex;
-        twoClosestIndex.push_back(closestIndex);
-        twoClosestIndex.push_back(secondClosestIndex);
-        return twoClosestIndex;
+        std::vector<int> two_closest_index;
+        two_closest_index.push_back(closest_index);
+        two_closest_index.push_back(second_closest_index);
+        return two_closest_index;
     }
 
     /*!
@@ -302,13 +305,13 @@ private:
     double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         double curvature = 0;
-        double crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
-        if (crossProduct != 0) { //If the points are not collinear
-            double areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
+        double cross_product = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
+        if (cross_product != 0) { //If the points are not collinear
+            double area_triangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
             double dist12 = getDistance(P1, P2);
             double dist13 = getDistance(P1, P3);
             double dist23 = getDistance(P2, P3);
-            curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
+            curvature = 4 * area_triangle / (dist12 * dist13 * dist23);
         }
         return curvature;
     }
@@ -467,26 +470,28 @@ private:
         // Set threshold value for pass test
         int threshold_pass = 4;
         std::vector<int> threshold_pass_test(safety_test_pass_vector.size(),threshold_pass);
-
+        
+        // For loop for each test result
         for (int i = 0; i < safety_test_pass_vector.size(); i++)
         {
+            // if the test is failed and counter is not started yet then start the counter
             if (safety_test_pass_vector[i] == false && !initialize_counter_)
             {
+                // Start the counter
                 initialize_counter_ = true;
             }
-            else
+            else if(initialize_counter_) // if the counter is already started
             {
-                ROS_INFO("All tests are sucessfully passed"); 
-            }
-
-            if (initialize_counter_)
-            {
-                if(counter_pass_test_[i] <= threshold_pass_test[i] && safety_test_pass_vector[i] == true)
+                // If the counter is less then the threshold value
+                if(counter_pass_test_[i] <= threshold_pass_test[i])
                 {
+                    // Add the one more count
                     counter_pass_test_[i]++;
+                    
+                    // If the counter reached the threshold value and then switch to nominal channel, otherwise trigger the safety switch
                     if (counter_pass_test_[i] > threshold_pass_test[i])
                     {
-                        ROS_INFO("Trigger Switch");
+                        ROS_INFO("Switch to nominal channel");
                         initialize_counter_ = false;
 
                         // Reset the safety counter
@@ -497,6 +502,10 @@ private:
                 {
                     ROS_INFO("Trigger Switch");
                 }
+            }
+            else
+            {
+                ROS_INFO("All tests are sucessfully passed"); 
             } 
         }
 
@@ -504,9 +513,14 @@ private:
         std::cout << "The second test counter:- " << counter_pass_test_[1] << '\n';
     }
     
-    void triggerSwitch()
+    void triggerSwitchSwitch()
     {
         var_switch_ = UNSAFE;
+    }
+
+    void switchNominalChannel()
+    {
+        var_switch_ = SAFE;
     }
 
     /*!
@@ -526,18 +540,15 @@ private:
 
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
-        
-        // The number of the safety test
-        enum test{critical_nodes = 0, car_off_road = 1, object_in_critical_area = 2};
 
         // Check that all necessary nodes are active and store in the vector
-        safety_test_pass_[critical_nodes] = areCriticalNodesAlive();
+        safety_test_pass_[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
         
         //Check that the center of the car on the road
-        safety_test_pass_[car_off_road] = !isCarOffRoad();
+        safety_test_pass_[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
         
         //Is there a dynamic object in the critical area
-        safety_test_pass_[object_in_critical_area] = !isObjectInCriticalArea();
+        safety_test_pass_[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
 
         // Send test_result to the decision maker function
         takeDecisionBasedOnTestResult(safety_test_pass_);
@@ -600,7 +611,7 @@ public:
     void waitForInitialization()
     {
         ros::Rate rate(20);
-        while(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1)
+        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
         {
             ros::spinOnce();
             rate.sleep();
