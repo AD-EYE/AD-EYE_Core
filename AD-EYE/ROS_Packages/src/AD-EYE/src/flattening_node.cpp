@@ -10,10 +10,12 @@
 
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
+#include <geometry_msgs/PoseStamped.h>
 
 #include <tf/transform_broadcaster.h>
 
 #include <cpp_utils/pose_datatypes.h>
+
 
 using namespace grid_map;
 
@@ -21,6 +23,11 @@ using namespace grid_map;
 #define GREEN 30
 #define YELLOW 50
 #define RED 99
+#define LANE_VALUE 25
+#define OBSTRUCTED_VALUE 100
+#define CROSSING_ROAD_MALUS 50
+
+#define PI 3.14159265
 
 /*!
  * \brief This class is used to extract data from the GridMap given by the GridMapCreator
@@ -52,6 +59,8 @@ private:
     float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
     float car_offset_;
+
+    float width_ego_ = 2.2;
 
 
     void extractsSubmap(const GridMap &full_grid_map) {
@@ -105,10 +114,10 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the position information as read from simulink of the controlled car
      */
-    void positionEgoCallback(const nav_msgs::Odometry::ConstPtr& msg) {
-        x_ego_ = msg->pose.pose.position.x;
-        y_ego_ = msg->pose.pose.position.y;
-        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+    void positionEgoCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
+        x_ego_ = msg->pose.position.x;
+        y_ego_ = msg->pose.position.y;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.orientation);
     }
 
 
@@ -158,14 +167,22 @@ private:
                 laneValue = grid_map_.atPosition("DrivableAreas", pos);
                 safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
 
+                float angleToPosition = 0; // angle between the the heading of the ego placed on the left side of the footprint and the vector from the ego position to the grid map cell position
+                angleToPosition = atan2(pos[1] - (y_ego_ + cos(yaw_ego_) * width_ego_ / 2), pos[0] - (x_ego_ - sin(yaw_ego_) * width_ego_ / 2)) - yaw_ego_;
+                if(angleToPosition > PI)
+                    angleToPosition -= 2 *PI;
+                else if(angleToPosition < -PI)
+                    angleToPosition += 2 *PI;
+
                 //Calculation the occupancy value
-                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue);
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue, angleToPosition);
             } else { //Hide if not inside the area
                 occValue = RED;
             }
 
             index = it.getLinearIndex();
             occ_grid_.data[nCells - index - 1] = occValue;
+
         }
     }
 
@@ -176,9 +193,15 @@ private:
      * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
      * \return The occupancy value calculated
      */
-    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue) {
-        float occValue = GREEN;
+    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue, float angleToPosition) {
+        float occValue = 0;
 
+        if(laneValue == 1) {
+            occValue = LANE_VALUE;
+        }
+
+        if(angleToPosition>0) // applying a malus for positions that are on the left side of the ego vehicle
+            occValue += CROSSING_ROAD_MALUS;
         
         if(safeAreaValue > 0) {
             if (safeAreaValue <= 64) {
@@ -191,15 +214,11 @@ private:
                 occValue = WHITE;
             }
         }
-        if(laneValue == 1) {
-            occValue = YELLOW;
+        
+        if(staticObjectValue > DANGEROUS_HEIGHT_ || dynamicObjectValue > DANGEROUS_HEIGHT_) {
+            occValue = OBSTRUCTED_VALUE;
         }
-        if(staticObjectValue > DANGEROUS_HEIGHT_) {
-            occValue = RED;
-        }
-        if(dynamicObjectValue > DANGEROUS_HEIGHT_) { // Dynamic objects overwrite everything
-            occValue = RED;
-        }
+
         return occValue;
     }
 
@@ -222,7 +241,7 @@ public:
         // Initialize node and publishers
         pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
         sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
-        sub_position_ego_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &OccMapCreator::positionEgoCallback, this);
+        sub_position_ego_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &OccMapCreator::positionEgoCallback, this);
 
         rate_ = ros::Rate(frequency_);
 
@@ -232,6 +251,11 @@ public:
         occ_grid_.info.origin.orientation.y = 0.0;
         occ_grid_.info.origin.orientation.z = 0.0;
         occ_grid_.info.origin.orientation.w = 1.0;
+
+        if(nh.hasParam("car_width"))
+            nh.getParam("car_width", width_ego_);
+        else
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << width_ego_ );
     }
 
 
