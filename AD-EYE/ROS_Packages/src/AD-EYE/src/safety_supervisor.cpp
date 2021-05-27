@@ -82,7 +82,8 @@ private:
     double distance_to_road_edge_;
 
     // ODD Polygon coordinates
-    std::vector<double> ODD_coordinates_, ODD_gridmap_coordinates;
+    // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
+    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates;
 
     struct CurvatureExtremum {
         double max;
@@ -121,7 +122,7 @@ private:
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
         // Operational design domain default polygon coordinates are same as full grid map
-        ODD_gridmap_coordinates = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
+        ODD_default_gridmap_coordinates = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
@@ -519,9 +520,14 @@ private:
 
         if (polygon_area_data == 0)
         {
+            ROS_WARN_THROTTLE(1, "The Vehicle is off the operational design domain polygon");
             return true;
         }
-        return false;
+        else
+        {
+            std::cout << "The vehicle is inside the operational design domain polygon" << '\n';
+            return false;
+        }
     }
     
     /*!
@@ -617,7 +623,7 @@ public:
                 }
                 else
                 {
-                    defineOperationalDesignDomain(ODD_gridmap_coordinates);
+                    defineOperationalDesignDomain(ODD_default_gridmap_coordinates);
                 }
 
                 performChecks();
