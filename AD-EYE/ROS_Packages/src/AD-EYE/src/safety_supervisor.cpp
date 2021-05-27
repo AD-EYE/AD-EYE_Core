@@ -469,48 +469,36 @@ private:
     {
         // Set threshold value for pass test
         int threshold_pass = 4;
+        int theshold_fail = -4;
         std::vector<int> threshold_pass_test(safety_test_pass_vector.size(),threshold_pass);
+        std::vector<int> threshold_fail_test(safety_test_pass_vector.size(),theshold_fail);
+
+        // Increment value for pass and fail
+        int test_pass_increment  = 1;
+        int test_fail_decrement = 1;
         
         // For loop for each test result
         for (int i = 0; i < safety_test_pass_vector.size(); i++)
         {
-            // if the test is failed and counter is not started yet then start the counter
-            if (safety_test_pass_vector[i] == false && !initialize_counter_)
+            // if the test is successfully passed
+            if (safety_test_pass_vector[i] = true)
             {
-                // Start the counter
-                initialize_counter_ = true;
+                if (counter_pass_test_[i] < threshold_pass_test[i])
+                {
+                    // Increment counter
+                    counter_pass_test_[i] += test_pass_increment;
+                }
             }
-            else if(initialize_counter_) // if the counter is already started
+            else if(safety_test_pass_vector[i] = false) // if the test is failed
             {
                 // If the counter is less then the threshold value
-                if(counter_pass_test_[i] <= threshold_pass_test[i])
+                if(counter_pass_test_[i] > threshold_fail_test[i])
                 {
-                    // Add the one more count
-                    counter_pass_test_[i]++;
-                    
-                    // If the counter reached the threshold value and then switch to nominal channel, otherwise trigger the safety switch
-                    if (counter_pass_test_[i] > threshold_pass_test[i])
-                    {
-                        ROS_INFO("Switch to nominal channel");
-                        initialize_counter_ = false;
-
-                        // Reset the safety counter
-                        counter_pass_test_[i] = 0;
-                    }
+                    // Decrement counter
+                    counter_pass_test_[i] -= test_pass_increment;    
                 }
-                else if (safety_test_pass_vector[i] == false)
-                {
-                    ROS_INFO("Trigger Switch");
-                }
-            }
-            else
-            {
-                ROS_INFO("All tests are sucessfully passed"); 
             } 
         }
-
-        std::cout << "The first test counter:- " << counter_pass_test_[0] << '\n';
-        std::cout << "The second test counter:- " << counter_pass_test_[1] << '\n';
     }
     
     void triggerSwitchSwitch()
