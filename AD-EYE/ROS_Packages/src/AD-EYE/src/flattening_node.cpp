@@ -16,8 +16,6 @@
 
 #include <cpp_utils/pose_datatypes.h>
 
-#include <chrono>
-using namespace std::chrono;
 
 using namespace grid_map;
 
@@ -61,6 +59,8 @@ private:
     float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
     float car_offset_;
+
+    float width_ego_ = 2.2;
 
 
     void extractsSubmap(const GridMap &full_grid_map) {
@@ -132,7 +132,6 @@ private:
      * will be hidden (filled with the RED value).
      */
     void flateningProcess() {
-        auto start = high_resolution_clock::now();
         size_t nCells = occ_grid_.data.size();
         size_t index;
         float occValue;
@@ -170,15 +169,15 @@ private:
                 laneValue = grid_map_.atPosition("DrivableAreas", pos);
                 safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
 
-                float angle = 0;
-                angle = atan2(pos[1]-y_ego_,pos[0]-x_ego_) - yaw_ego_;
-                if(angle > PI)
-                    angle -= 2 *PI;
-                else if(angle < -PI)
-                    angle += 2 *PI;
+                float angleToPosition = 0; // angle between the the heading of the ego placed on the left side of the footprint and the vector from the ego position to the grid map cell position
+                angleToPosition = atan2(pos[1] - (y_ego_ + cos(yaw_ego_) * width_ego_ / 2), pos[0] - (x_ego_ - sin(yaw_ego_) * width_ego_ / 2)) - yaw_ego_;
+                if(angleToPosition > PI)
+                    angleToPosition -= 2 *PI;
+                else if(angleToPosition < -PI)
+                    angleToPosition += 2 *PI;
 
                 //Calculation the occupancy value
-                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue, angle);
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue, angleToPosition);
             } else { //Hide if not inside the area
                 occValue = RED;
             }
@@ -187,9 +186,6 @@ private:
             occ_grid_.data[nCells - index - 1] = occValue;
 
         }
-        auto stop = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(stop - start);
-        std::cout << duration.count() << std::endl;
     }
 
     /*!
@@ -199,27 +195,26 @@ private:
      * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
      * \return The occupancy value calculated
      */
-    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue, float angle) {
+    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue, float angleToPosition) {
         float occValue = 0;
         // occValue = OBSTRUCTED_VALUE - (100 * safeAreaValue / 255);
         if(laneValue == 1) {
             occValue = LANE_VALUE;
         }
-        if(angle>0) // applying a malus for positions that are on the left side of the ego vehicle
+        if(angleToPosition>0) // applying a malus for positions that are on the left side of the ego vehicle
             occValue += CROSSING_ROAD_MALUS;
         
-        // if(safeAreaValue > 0) {
-        //     // if (safeAreaValue <= 64) {
-        //     //     occValue = RED;
-        //     // } else if (safeAreaValue <= 128) {
-        //     //     occValue = YELLOW;
-        //     // } else if (safeAreaValue <= 192){
-        //     //     occValue = GREEN;
-        //     // } else {
-        //     //     occValue = WHITE;
-        //     // }
-
-        // }
+        if(safeAreaValue > 0) {
+            if (safeAreaValue <= 64) {
+                occValue = RED;
+            } else if (safeAreaValue <= 128) {
+                occValue = YELLOW;
+            } else if (safeAreaValue <= 192){
+                occValue = GREEN;
+            } else {
+                occValue = WHITE;
+            }
+        }
         
         if(staticObjectValue > DANGEROUS_HEIGHT_ || dynamicObjectValue > DANGEROUS_HEIGHT_) {
             occValue = OBSTRUCTED_VALUE;
@@ -258,6 +253,11 @@ public:
         occ_grid_.info.origin.orientation.y = 0.0;
         occ_grid_.info.origin.orientation.z = 0.0;
         occ_grid_.info.origin.orientation.w = 1.0;
+
+        if(nh.hasParam("car_width"))
+            nh.getParam("car_width", width_ego_);
+        else
+            ROS_WARN_STREAM( "Could not get parameter car_length will use default value of " << width_ego_ );
     }
 
 
