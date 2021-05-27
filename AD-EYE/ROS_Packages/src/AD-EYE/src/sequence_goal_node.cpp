@@ -51,10 +51,13 @@ private:
     // Goal queue
     std::queue <std::pair <double, double> > goal_coordinates_xy_;
 
-    // Bool value for the first goal, global planner and end state
+    // Boolean value for the first goal, global planner and end state
     bool received_next_goal_ = false;
-    bool hasPlannerAndGoalBeenReset_ = false;
-    bool updateGlobalPlanner_ = false;
+    bool has_global_planner_and_goal_been_reset_ = false;
+    bool update_global_planner_ = false;
+    
+    // Boolean for setting up new goal for autoware after receving from `adeye/goal` topic
+    bool set_next_goal_ = false;
 
     // Local planner value
     std_msgs::Int32 local_planner_;
@@ -130,6 +133,9 @@ private:
             
             // Print the new goal positions
             ROS_INFO("The new goal has been received. Position:- x = %lf, y = %lf, z = %lf and Orientation:- X = %lf,  Y = %lf,  Z = %lf,  W = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second, z_world_position_coordinate_, x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_);   
+
+            // Recevied next goal and setting up for the autoware
+            set_next_goal_ = true;
         }
         
         
@@ -152,12 +158,12 @@ private:
      */
     void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
-        if (updateGlobalPlanner_)
+        if (update_global_planner_)
         {
             // Update the local planner for the next goal
             local_planner_.data = 1;
             update_local_planner_.publish(local_planner_);
-            updateGlobalPlanner_ = false;
+            update_global_planner_ = false;
             ROS_INFO("Updates Local Planner!");
         }
     }
@@ -196,7 +202,8 @@ public:
         while (nh_.ok())
         {
             ros::spinOnce();
-
+            
+            // Condition for next goal after publishing the first goal
             if (received_next_goal_)
             {
                 // Calculate the destination distance
@@ -206,7 +213,8 @@ public:
                 // Publish the next goal when the car enters in end state
                 if (vehicle_state_status_ == 13.0)
                 {
-                    if (!hasPlannerAndGoalBeenReset_)
+                    // Condition for removing the previous goal and setting up the next goal
+                    if (!has_global_planner_and_goal_been_reset_ && set_next_goal_)
                     { 
                         // Publish true value to clear the goal list in autoware
                         clear_goal_list_.data = true;
@@ -233,17 +241,20 @@ public:
                         pub_goal_.publish(pose_stamped_);
 
                         // Update the global planner boolean
-                        updateGlobalPlanner_ = true;
+                        update_global_planner_ = true;
                         
                         // Update the planner and goal boolean for end state
-                        hasPlannerAndGoalBeenReset_ = true;
+                        has_global_planner_and_goal_been_reset_ = true;
+                        
+                        // Update the boolean to set up the next goal for autoware
+                        set_next_goal_ = false;
                     }
                 }
 
                 // The planner and goal boolean is set to false after publishing the goal and planner
                 if (vehicle_state_status_ == 2.0)
                 {
-                    hasPlannerAndGoalBeenReset_ = false;
+                    has_global_planner_and_goal_been_reset_ = false;
                 }
             }
             rate_.sleep();
