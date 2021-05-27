@@ -162,8 +162,6 @@ private:
 
             //Getting values
             if(area.isInside(pos)) { //If we are inside the area
-                // std::cout << "ego_pos: " << x_ego_ << " , " << y_ego_ << " yaw" << yaw_ego_ << std::endl;
-                // std::cout << "pos: " << pos << std::endl;
                 staticObjectValue = grid_map_.atPosition("StaticObjects", pos);
                 dynamicObjectValue = grid_map_.atPosition("DynamicObjects", pos);
                 laneValue = grid_map_.atPosition("DrivableAreas", pos);
@@ -197,10 +195,11 @@ private:
      */
     float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue, float angleToPosition) {
         float occValue = 0;
-        // occValue = OBSTRUCTED_VALUE - (100 * safeAreaValue / 255);
+
         if(laneValue == 1) {
             occValue = LANE_VALUE;
         }
+
         if(angleToPosition>0) // applying a malus for positions that are on the left side of the ego vehicle
             occValue += CROSSING_ROAD_MALUS;
         
@@ -220,7 +219,6 @@ private:
             occValue = OBSTRUCTED_VALUE;
         }
 
-        
         return occValue;
     }
 

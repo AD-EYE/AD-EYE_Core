@@ -318,10 +318,9 @@ public:
             endposes_vis_pub_.publish(endposes_vis_msg);
         }
         entire_traj_pub_.publish(entire_traj_msg);
-        // if(green_trajs+yellow_trajs+red_trajs != 0){
-        //   amount_trajs_pub_.publish(trajcategory);
-        // }
-        amount_trajs_pub_.publish(trajcategory);
+        if(green_trajs+yellow_trajs+red_trajs != 0){
+          amount_trajs_pub_.publish(trajcategory);
+        }
 
         loop_rate.sleep();
       }
