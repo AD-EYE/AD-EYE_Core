@@ -83,9 +83,6 @@ private:
     
     // Safety tests
     int num_safety_tests_ = 3;
-    
-    // The pass result vector of safety test.
-    std::vector<bool> safety_test_result_ = std::vector<bool>(num_safety_tests_);
 
     // Initiate counter for safety test pass
     std::vector<int> counter_ = std::vector<int>(num_safety_tests_,0);
@@ -93,12 +90,12 @@ private:
     // Set threshold value for pass and fail test
     int threshold_pass_ = 4;
     int theshold_fail_ = -4;
-    std::vector<int> threshold_pass_test_(safety_test_result_.size(),threshold_pass_);
-    std::vector<int> threshold_fail_test_(safety_test_result_.size(),theshold_fail_);
+    std::vector<int> threshold_pass_test_ = {4, 4, 4};
+    std::vector<int> threshold_fail_test_ = {-4, -4, -4};
 
     // Increment value for pass and fail test
-    std::vector<int> test_pass_increment = {1, 1, 1};
-    std::vector<int> test_fail_decrement = {1, 1, 1};
+    std::vector<int> test_pass_increment_ = {1, 1, 1};
+    std::vector<int> test_fail_decrement_ = {1, 1, 1};
    
     // result of the check functions
     double distance_to_lane_;
@@ -469,62 +466,67 @@ private:
 
     }
 
-    void checkInstantaneousResults()
+    std::vector<bool> checkInstantaneousResults()
     {
+        // The pass result vector of safety test.
+        std::vector<bool> test_result(num_safety_tests_);
+
         // Check that all necessary nodes are active and store in the vector
-        safety_test_result_[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        test_result[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
         
         //Check that the center of the car on the road
-        safety_test_result_[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
+        test_result[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
         
         //Is there a dynamic object in the critical area
-        safety_test_result_[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
+        test_result[CHECK_DYNAMIC_OJECT] = false; //!isObjectInCriticalArea();
 
-        return safety_test_result_;
+        return test_result;
     }
 
-    void updateCounter(std::vector test_result_vector)
+    int updateCounter(bool test_result_vector, int threshold_pass_test, int threshold_fail_test, int increment, int decrement, int counter)
     {
         // if the test is successfully passed
         if (test_result_vector)
         {
             // Check if the counter has not reached the threshold value
-            if (counter_ < threshold_pass_test_)
+            if (counter < threshold_pass_test)
             {
                 // Increment counter
-                counter_ += test_pass_increment;
+                counter += increment;
             }
             
         }
-        else if(!test_result_vector[i]) // if the test is failed
+        else if(!test_result_vector) // if the test is failed
         {
             // // Check if the counter has not reached the threshold value
-            if(counter_ > threshold_fail_test_)
+            if(counter > threshold_fail_test)
             {
                 // Decrement counter
-                counter_ -= test_pass_increment;    
+                counter -= decrement;    
             }
         } 
-        return counter_;
+        return counter;
     }
 
     void takeDecisionBasedOnTestResult()
     {
         // Extract Instantaneours safety test result
-        std::vector test_result = checkInstantaneousResults();
+        std::vector<bool> test_result = checkInstantaneousResults();
         
         // For loop for each test result
         for (int i = 0; i < test_result.size(); i++)
         {
-            std::vector counter_values = updateCounter(test_result[i]);
-            if (counter_values[i] == threshold_pass_test_[i])
+            counter_[i] = updateCounter(test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], test_pass_increment_[i], test_fail_decrement_[i], counter_[i] );
+
+            if (counter_[i] == threshold_pass_test_[i])
             {
                 switchNominalChannel();
+                std::cout << "Switch to SAFE mode for test:- " << i+1 << " and Counter number is " << counter_[i] << '\n';
             }
-            else if (counter_values[i] == threshold_fail_test_[i])
+            else if (counter_[i] == threshold_fail_test_[i])
             {
                 triggerSafetySwitch();
-                std::cout << "Switch to UNSAFE mode" << '\n';
+                std::cout << "Switch to UNSAFE mode for test:- " << i+1 << " and Counter number is " << counter_[i] << '\n';
             }
             
             //std::cout << "The counter value:- " << counter_[i] << '\n';
@@ -576,11 +578,11 @@ private:
          if (isCarOffRoad()){
              test_result[1] = true;
              return;
-         }
+         } */
 
-         //Is there a dynamic object in the critical area
+         /* // Is there a dynamic object in the critical area
          if (isObjectInCriticalArea()){
-             test_result[2] = true;
+             var_switch_ = UNSAFE;
              return;
          } */
     }
