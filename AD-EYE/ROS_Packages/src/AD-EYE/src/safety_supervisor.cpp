@@ -85,16 +85,20 @@ private:
     int num_safety_tests_ = 3;
     
     // The pass result vector of safety test.
-    std::vector<bool> safety_test_pass_ = std::vector<bool>(num_safety_tests_);
+    std::vector<bool> safety_test_result_ = std::vector<bool>(num_safety_tests_);
 
     // Initiate counter for safety test pass
-    std::vector<int> counter_pass_test_ = std::vector<int>(num_safety_tests_,0);
+    std::vector<int> counter_ = std::vector<int>(num_safety_tests_,0);
 
-    // Initiate counter for safety test fail
-    std::vector<int> counter_fail_test_ = std::vector<int>(num_safety_tests_,0);
+    // Set threshold value for pass and fail test
+    int threshold_pass_ = 4;
+    int theshold_fail_ = -4;
+    std::vector<int> threshold_pass_test_(safety_test_result_.size(),threshold_pass_);
+    std::vector<int> threshold_fail_test_(safety_test_result_.size(),theshold_fail_);
 
-    // Initialize counter
-    bool initialize_counter_ = false;
+    // Increment value for pass and fail test
+    std::vector<int> test_pass_increment = {1, 1, 1};
+    std::vector<int> test_fail_decrement = {1, 1, 1};
    
     // result of the check functions
     double distance_to_lane_;
@@ -465,50 +469,79 @@ private:
 
     }
 
-    void takeDecisionBasedOnTestResult(std::vector<bool> safety_test_pass_vector)
+    void checkInstantaneousResults()
     {
-        // Set threshold value for pass test
-        int threshold_pass = 4;
-        int theshold_fail = -4;
-        std::vector<int> threshold_pass_test(safety_test_pass_vector.size(),threshold_pass);
-        std::vector<int> threshold_fail_test(safety_test_pass_vector.size(),theshold_fail);
+        // Check that all necessary nodes are active and store in the vector
+        safety_test_result_[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        
+        //Check that the center of the car on the road
+        safety_test_result_[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
+        
+        //Is there a dynamic object in the critical area
+        safety_test_result_[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
 
-        // Increment value for pass and fail
-        int test_pass_increment  = 1;
-        int test_fail_decrement = 1;
+        return safety_test_result_;
+    }
+
+    void updateCounter(std::vector test_result_vector)
+    {
+        // if the test is successfully passed
+        if (test_result_vector)
+        {
+            // Check if the counter has not reached the threshold value
+            if (counter_ < threshold_pass_test_)
+            {
+                // Increment counter
+                counter_ += test_pass_increment;
+            }
+            
+        }
+        else if(!test_result_vector[i]) // if the test is failed
+        {
+            // // Check if the counter has not reached the threshold value
+            if(counter_ > threshold_fail_test_)
+            {
+                // Decrement counter
+                counter_ -= test_pass_increment;    
+            }
+        } 
+        return counter_;
+    }
+
+    void takeDecisionBasedOnTestResult()
+    {
+        // Extract Instantaneours safety test result
+        std::vector test_result = checkInstantaneousResults();
         
         // For loop for each test result
-        for (int i = 0; i < safety_test_pass_vector.size(); i++)
+        for (int i = 0; i < test_result.size(); i++)
         {
-            // if the test is successfully passed
-            if (safety_test_pass_vector[i] = true)
+            std::vector counter_values = updateCounter(test_result[i]);
+            if (counter_values[i] == threshold_pass_test_[i])
             {
-                if (counter_pass_test_[i] < threshold_pass_test[i])
-                {
-                    // Increment counter
-                    counter_pass_test_[i] += test_pass_increment;
-                }
+                switchNominalChannel();
             }
-            else if(safety_test_pass_vector[i] = false) // if the test is failed
+            else if (counter_values[i] == threshold_fail_test_[i])
             {
-                // If the counter is less then the threshold value
-                if(counter_pass_test_[i] > threshold_fail_test[i])
-                {
-                    // Decrement counter
-                    counter_pass_test_[i] -= test_pass_increment;    
-                }
-            } 
+                triggerSafetySwitch();
+                std::cout << "Switch to UNSAFE mode" << '\n';
+            }
+            
+            //std::cout << "The counter value:- " << counter_[i] << '\n';
         }
     }
     
-    void triggerSwitchSwitch()
+    void triggerSafetySwitch()
     {
         var_switch_ = UNSAFE;
+        return;
     }
 
     void switchNominalChannel()
     {
         var_switch_ = SAFE;
+        std::cout << "Switch to SAFE mode" << '\n';
+        return;
     }
 
     /*!
@@ -529,17 +562,9 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
-        // Check that all necessary nodes are active and store in the vector
-        safety_test_pass_[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
-        
-        //Check that the center of the car on the road
-        safety_test_pass_[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
-        
-        //Is there a dynamic object in the critical area
-        safety_test_pass_[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
 
         // Send test_result to the decision maker function
-        takeDecisionBasedOnTestResult(safety_test_pass_);
+        takeDecisionBasedOnTestResult();
         
          /* // Check that all the necessary nodes are active
          if (!areCriticalNodesAlive()){
