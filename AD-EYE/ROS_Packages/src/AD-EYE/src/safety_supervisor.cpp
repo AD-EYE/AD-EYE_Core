@@ -17,8 +17,6 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
-#include <vector>
-
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -96,6 +94,13 @@ private:
     // Increment value for pass and fail test
     std::vector<int> test_pass_increment_ = {1, 1, 1};
     std::vector<int> test_fail_decrement_ = {1, 1, 1};
+
+    // Constant Pass and Fail
+    const bool PASS = true;
+    const bool FAIL = false;
+
+    // Non-Instantaneous result vector
+    std::vector<bool> non_instantaneous_result_ = std::vector<bool>(num_safety_tests_, PASS);
    
     // result of the check functions
     double distance_to_lane_;
@@ -465,84 +470,131 @@ private:
         //pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
-
+    
+    /*!
+     * \brief Check instantaneous result : Called at every iteration of the main loop
+     * \Checks if all tests are true or false return instantaneous test result
+     */
     std::vector<bool> checkInstantaneousResults()
     {
         // The pass result vector of safety test.
-        std::vector<bool> test_result(num_safety_tests_);
+        std::vector<bool> instantaneous_test_result(num_safety_tests_);
 
         // Check that all necessary nodes are active and store in the vector
-        test_result[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        instantaneous_test_result[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
         
         //Check that the center of the car on the road
-        test_result[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
+        instantaneous_test_result[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
         
         //Is there a dynamic object in the critical area
-        test_result[CHECK_DYNAMIC_OJECT] = false; //!isObjectInCriticalArea();
-
-        return test_result;
+        instantaneous_test_result[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
+   
+        return instantaneous_test_result;
     }
-
-    int updateCounter(bool test_result_vector, int threshold_pass_test, int threshold_fail_test, int increment, int decrement, int counter)
+    
+    /*!
+     * \brief Update counter value : Called at every iteration of the main loop
+     * \Updates the counter value based instantaneous test results
+     */
+    int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
     {
+        // If loop for updating the counter values until it reaches to threshold value.
         // if the test is successfully passed
-        if (test_result_vector)
+        if (test_result)
         {
             // Check if the counter has not reached the threshold value
-            if (counter < threshold_pass_test)
+            if (counter_value < threshold_pass_test)
             {
                 // Increment counter
-                counter += increment;
+                counter_value += increment_value;
             }
             
         }
-        else if(!test_result_vector) // if the test is failed
+        else if(!test_result) // if the test is failed
         {
             // // Check if the counter has not reached the threshold value
-            if(counter > threshold_fail_test)
+            if(counter_value > threshold_fail_test)
             {
                 // Decrement counter
-                counter -= decrement;    
+                counter_value -= decrement_value;    
             }
         } 
-        return counter;
+        return counter_value;
     }
-
-    void takeDecisionBasedOnTestResult()
+    
+    /*!
+     * \brief Check non-instantaneous result : Called at every iteration of the main loop
+     * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
+     */
+    std::vector<bool> checkNonInstantaneousResults()
     {
-        // Extract Instantaneours safety test result
-        std::vector<bool> test_result = checkInstantaneousResults();
+        // Extract Instantaneous safety test result
+        std::vector<bool> instantaneous_test_result = checkInstantaneousResults();
         
         // For loop for each test result
-        for (int i = 0; i < test_result.size(); i++)
+        for (int i = 0; i < num_safety_tests_; i++)
         {
-            counter_[i] = updateCounter(test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], test_pass_increment_[i], test_fail_decrement_[i], counter_[i] );
-
+            // Update the counter value based on instantaneous test results
+            counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], test_pass_increment_[i], test_fail_decrement_[i], counter_[i] );
+            
+            // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
             if (counter_[i] == threshold_pass_test_[i])
             {
-                switchNominalChannel();
-                std::cout << "Switch to SAFE mode for test:- " << i+1 << " and Counter number is " << counter_[i] << '\n';
+                non_instantaneous_result_[i] = PASS;
+                std::cout << "Counter number is " << counter_[i] << '\n';
             }
-            else if (counter_[i] == threshold_fail_test_[i])
+            else if (counter_[i] == threshold_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
+            {
+                non_instantaneous_result_[i] = FAIL;
+                std::cout << "Counter number is " << counter_[i] << '\n';
+            }
+        }
+        return non_instantaneous_result_;
+    }
+
+    /*!
+     * \brief Take final decision based on non-instantaneous results : Called at every iteration of the main loop
+     * \Checks if all tests are pass or fail and trigger the safety switch or nominal channel
+     */
+    void takeDecisionBasedOnTestResult()
+    {
+        // Non-instantaneous test result vector
+        non_instantaneous_result_ = checkNonInstantaneousResults();
+        
+        // For loop for each test result
+        for (int j = 0; j < num_safety_tests_; j++)
+        {
+            // if the non-instantaneous test result is PASS then switch to nominal channel
+            if (non_instantaneous_result_[j] == PASS)
+            {
+                switchNominalChannel();
+                std::cout << "The test " << j+1 <<  "is PASS" << '\n';
+            }
+            else if (non_instantaneous_result_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
             {
                 triggerSafetySwitch();
-                std::cout << "Switch to UNSAFE mode for test:- " << i+1 << " and Counter number is " << counter_[i] << '\n';
+                std::cout <<  "The test " << j+1 << "is FAIL" << '\n';
             }
-            
-            //std::cout << "The counter value:- " << counter_[i] << '\n';
         }
     }
     
+    /*!
+     * \brief Trigger the safety switch
+     * \Activates if the test is failed
+     */ 
     void triggerSafetySwitch()
     {
         var_switch_ = UNSAFE;
         return;
     }
-
+    
+    /*!
+     * \brief Switch to nominal channel
+     * \Activates if the test is passed
+     */
     void switchNominalChannel()
     {
         var_switch_ = SAFE;
-        std::cout << "Switch to SAFE mode" << '\n';
         return;
     }
 
