@@ -125,7 +125,7 @@ add_executable(
 )
 
 add_executable(
-  sequenceGoalNode
+  goalSequencer
   src/sequence_goal_node.cpp
 )
 
@@ -196,7 +196,7 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  sequenceGoalNode
+  goalSequencer
   ${catkin_LIBRARIES}
 )
 
@@ -245,7 +245,7 @@ add_dependencies(goalMapNode
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_dependencies(sequenceGoalNode
+add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
