@@ -498,6 +498,7 @@ private:
     /*!
      * \brief Check if the vector of operational design domain polygon coordinates is valid.
      * \return Boolean indicating true if the operational design domain polygon coordinates are exactly into pairs.
+     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
      */
     bool isPolygonValid(std::vector<double> polygon_coordinates)
     {
@@ -520,7 +521,7 @@ private:
 
         if (odd_value_at_ego_position == 0)
         {
-            ROS_WARN_THROTTLE(1, "The Vehicle is outside the operational design domain polygon");
+            ROS_WARN("The Vehicle is outside the operational design domain polygon");
             return true;
         }
         else
@@ -533,7 +534,7 @@ private:
     /*!
      * \brief The function where the operational design domain polygon has been created.
      * \details Polygon iterator creates the polygon according to given coordinates.
-     * \param The function takes one input parameter:- polygon_coordinates
+     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
      */
     void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
     {
