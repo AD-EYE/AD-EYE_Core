@@ -66,7 +66,11 @@ private:
     double vehicle_state_status_;
 
     // Distance tolerance for duplicate goals
-    double distance_tolerance_ = 10; // [m]
+    double DISTANCE_TOLERANCE = 10; // [m]
+
+    // Vehicle State behaviour
+    double END_STATE = 13.0;
+    double FORWARD_STATE = 2.0;
 
     // Boolean for clearing the goal list in autoware op_global_planner
     std_msgs::Bool clear_goal_list_;
@@ -127,7 +131,7 @@ private:
         }
 
         // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
-        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > distance_tolerance_)
+        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > DISTANCE_TOLERANCE)
         {
             goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
             
@@ -198,7 +202,7 @@ public:
 
     void run() 
     {
-        // Publish the coordinates of the next goal once the car is reached near as 30 m to the goal.
+        // Publish the coordinates of the next goal once the car enters in the end state.
         while (nh_.ok())
         {
             ros::spinOnce();
@@ -210,8 +214,8 @@ public:
                 double destination_distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
                 ROS_INFO("Destination distance: %lf", destination_distance);
                 
-                // Publish the next goal when the car enters in end state
-                if (vehicle_state_status_ == 13.0)
+                // Publish the next goal when the car enters in end state (end state = 13.0)
+                if (vehicle_state_status_ == END_STATE)
                 {
                     // Condition for removing the previous goal and setting up the next goal
                     if (!has_global_planner_and_goal_been_reset_ && set_next_goal_)
@@ -251,8 +255,8 @@ public:
                     }
                 }
 
-                // The planner and goal boolean is set to false after publishing the goal and planner
-                if (vehicle_state_status_ == 2.0)
+                // The planner and goal boolean is set to false after publishing the goal and planner (forward state = 2.0)
+                if (vehicle_state_status_ == FORWARD_STATE) 
                 {
                     has_global_planner_and_goal_been_reset_ = false;
                 }
