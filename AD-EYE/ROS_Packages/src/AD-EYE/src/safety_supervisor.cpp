@@ -132,26 +132,68 @@ private:
     {
         autowareTrajectory_ = *msg;
         autoware_trajectory_flag_ = false;
-        //x_way_ = msg -> waypoints.at(0).pose.pose.position.x;
+        
+        // The ego vehicle coordinates
+        const float x = pose_.position.x;    //Center is currently in the front of the car
+        const float y = pose_.position.y;
+        const float yaw = cpp_utils::extract_yaw(pose_.orientation);
+        
+        // Critical area length
+        critical_area_length_ = car_length_  + current_velocity_;
+
         if (msg -> waypoints.size() > 0 )
         {
             std::cout << "Critical Area Demo" << '\n';
 
             critical_area_demo_.removeVertices();
             
-            for (int i = 0; i  <= 10; i++)
+            int counter = 0;
+            for (int ii = 0; ii < msg -> waypoints.size(); ii++)
             {
-                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - 3, msg ->waypoints.at(i).pose.pose.position.y));
+                double threshold = std::abs (msg -> waypoints.at(ii).pose.pose.position.x - msg -> waypoints.at(0).pose.pose.position.x);
+                double threshold_2 = std::abs (msg -> waypoints.at(ii).pose.pose.position.y- msg -> waypoints.at(0).pose.pose.position.y);
+                if (std::max(threshold,threshold_2) >= critical_area_length_ )
+                {
+                    counter = ii;
+                    std::cout << counter << '\n';
+                    std::cout << threshold  << "and" << threshold_2 << '\n';
+                    break;
+                }  
             }
-            /* const grid_map::Position point1(msg ->waypoints.at(0).pose.pose.position.x, msg ->waypoints.at(0).pose.pose.position.y);
-            const grid_map::Position point2(msg ->waypoints.at(1).pose.pose.position.x, msg -> waypoints.at(1).pose.pose.position.y);
-            const grid_map::Position point3(msg ->waypoints.at(2).pose.pose.position.x, msg -> waypoints.at(2).pose.pose.position.y);
-            const grid_map::Position point4(msg ->waypoints.at(3).pose.pose.position.x, msg -> waypoints.at(3).pose.pose.position.y); */
+            
+            //std::cout << threshold << '\n';
 
-            /* critical_area_demo_.addVertex(point1);
-            critical_area_demo_.addVertex(point2);
-            critical_area_demo_.addVertex(point3);
-            critical_area_demo_.addVertex(point4); */
+            for (int i = 0; i <= counter; i++)
+            {
+                if (i < counter)
+                {
+                    critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
+                                                                 msg ->waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2));
+                }
+                else if(i == counter)
+                {
+                    critical_area_demo_.addVertex(grid_map::Position((msg ->waypoints.at(0).pose.pose.position.x - sin(yaw) * critical_area_width_/2) + cos(yaw) * critical_area_length_, 
+                                                                (msg ->waypoints.at(0).pose.pose.position.y + cos(yaw) * critical_area_width_/2) + sin(yaw) * critical_area_length_));
+                }
+                
+            }
+
+            for (int j = counter; j >= 0; j--)
+            {
+                if (j == counter)
+                {
+                    critical_area_demo_.addVertex(grid_map::Position((msg ->waypoints.at(0).pose.pose.position.x + sin(yaw) * critical_area_width_/2) + cos(yaw) * critical_area_length_, 
+                                                                 (msg ->waypoints.at(0).pose.pose.position.y - cos(yaw) * critical_area_width_/2) + sin(yaw) * critical_area_length_));
+                }
+                else
+                {
+                    critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
+                                                                 msg ->waypoints.at(j).pose.pose.position.y - cos(yaw) * critical_area_width_/2));
+                }
+                
+            }
+
+
 
             visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
             std_msgs::ColorRGBA color_demo;
