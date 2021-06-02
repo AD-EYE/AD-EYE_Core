@@ -2,7 +2,6 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Int32.h>
 #include <queue>
-#include <vector>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
 #include <std_msgs/Bool.h>
@@ -19,10 +18,10 @@ class SequenceGoalNode
 {
 private:
     ros::NodeHandle &nh_;
-    ros::Subscriber goal_coordinates_;
+    ros::Subscriber sub_goal_coordinates_;
     ros::Subscriber sub_position_;
-    ros::Subscriber autoware_state_;
-    ros::Subscriber autoware_global_plan_;
+    ros::Subscriber sub_autoware_state_;
+    ros::Subscriber sub_autoware_global_plan_;
     ros::Publisher pub_goal_;
     ros::Publisher pub_update_local_planner_;
     ros::Publisher pub_clear_goal_list_bool_;
@@ -46,15 +45,14 @@ private:
     double x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_;
 
     // Goal queue
-    std::queue <std::pair <double, double> > goal_coordinates_xy_;
+    std::queue <geometry_msgs::PoseStamped::ConstPtr > goal_coordinates_;
 
-    // Boolean value for the first goal, global planner and end state
-    bool received_next_goal_ = false;
+    // Boolean value for the global planner, end state and the goals
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
-    
-    // Boolean for setting up new goal for autoware after receving from `adeye/goal` topic
-    bool should_set_next_goal_ = false;
+    bool received_first_goal_ = false;
+    bool store_first_goal = true;
+    bool received_next_goal = false;
     
     // Autoware behavior state status
     double autoware_behavior_state_;
@@ -95,45 +93,32 @@ private:
         z_world_orientation_coordinate_ = msg -> pose.orientation.z;
         w_world_orientation_coordinate_ = msg -> pose.orientation.w;
 
-        if (!received_next_goal_) {
-                    
-            // Position coordinates
-            pose_stamped_.header.frame_id = "world";
-            pose_stamped_.pose.position.x = x_world_position_coordinate_;
-            pose_stamped_.pose.position.y = y_world_position_coordinate_;
-            pose_stamped_.pose.position.z = z_world_position_coordinate_;
-        
-            // Orientation coordinates
-            pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
-            pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
-            pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
-            pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
+        if (store_first_goal) 
+        {
+            // Store the first real-world map goal coordinates  
+            goal_coordinates_.push(msg);       
 
-            // Publish and store the first real-world map goal coordinates  
-            goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));       
-            pub_goal_.publish(pose_stamped_);
-
-            ROS_INFO("The first goal has been received and published. Position:- x = %lf, y = %lf, z = %lf  and Orientation:- X = %lf,  Y = %lf,  Z = %lf,  W = %lf",
-                pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z, pose_stamped_.pose.orientation.x, pose_stamped_.pose.orientation.y, pose_stamped_.pose.orientation.z, pose_stamped_.pose.orientation.w );
-
-            // Bool value reset to true for sending upcoming goals in the main run loop.
-            received_next_goal_ = true;
+            ROS_INFO("The first goal has been received. Position:- x = %lf, y = %lf",
+                goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y);
             
+            // Boolean for receiving the first goal
+            received_first_goal_ = true;
+
+            // The first goal hase been received and stored in the queue.
+            store_first_goal = false;
         }
 
         // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
-        if (destinationDistance(goal_coordinates_xy_.back().first, x_world_position_coordinate_, goal_coordinates_xy_.back().second, y_world_position_coordinate_) > DISTANCE_TOLERANCE)
+        if (destinationDistance(goal_coordinates_.back()-> pose.position.x, x_world_position_coordinate_, goal_coordinates_.back()-> pose.position.y, y_world_position_coordinate_) > DISTANCE_TOLERANCE)
         {
-            goal_coordinates_xy_.push(std::make_pair (x_world_position_coordinate_, y_world_position_coordinate_));
-            
-            // Print the new goal positions
-            ROS_INFO("The new goal has been received. Position:- x = %lf, y = %lf, z = %lf and Orientation:- X = %lf,  Y = %lf,  Z = %lf,  W = %lf", goal_coordinates_xy_.back().first, goal_coordinates_xy_.back().second, z_world_position_coordinate_, x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_);   
+            goal_coordinates_.push(msg);
 
-            // Recevied next goal and setting up for the autoware
-            should_set_next_goal_ = true;
-        }
-        
-        
+            // Print the new goal positions
+            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf",goal_coordinates_.back()-> pose.position.x, goal_coordinates_.back()-> pose.position.y );   
+
+            // Boolean for receiving the next goal
+            received_next_goal = true;
+        }    
     }
     
     /*!
@@ -185,10 +170,10 @@ public:
     SequenceGoalNode(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
         // Initialize node, publishers and subscribers
-        goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
+        sub_goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SequenceGoalNode::storeGoalCoordinatesCallback, this);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SequenceGoalNode::positionCallback, this);
-        autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &SequenceGoalNode::behaviorStateCallback, this);
-        autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
+        sub_autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &SequenceGoalNode::behaviorStateCallback, this);
+        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SequenceGoalNode::autowareGlobalPlanCallback, this);
         pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         pub_update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
         pub_clear_goal_list_bool_= nh.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
@@ -201,18 +186,30 @@ public:
         {
             ros::spinOnce();
             
+            // Condition for the first goal
+            if (received_first_goal_) 
+            {      
+                // Publish the first goal 
+                pub_goal_.publish(goal_coordinates_.front());
+                
+                ROS_INFO("The first goal has been sent to autoware. Position:- x = %lf, y = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y);
+
+                // Bool value reset to true for sending upcoming goals in the main run loop.
+                received_first_goal_ = false;
+            }
+            
             // Condition for next goal after publishing the first goal
-            if (received_next_goal_)
+            if (received_next_goal)
             {
                 // Calculate the destination distance
-                double destination_distance = destinationDistance(goal_coordinates_xy_.front().first, x_ego_, goal_coordinates_xy_.front().second, y_ego_);
-                ROS_INFO("Destination distance: %lf", destination_distance);
+                //double destination_distance = destinationDistance(goal_coordinates_.front().first, x_ego_, goal_coordinates_.front().second, y_ego_);
+                //ROS_INFO("Destination distance: %lf", destination_distance);
                 
                 // Publish the next goal when the car enters in end state (end state = 13.0)
                 if (autoware_behavior_state_ == END_STATE)
                 {
                     // Condition for removing the previous goal and setting up the next goal
-                    if (!has_global_planner_and_goal_been_reset_ && should_set_next_goal_)
+                    if (!has_global_planner_and_goal_been_reset_ && received_next_goal)
                     { 
                         // Boolean for clearing the goal list in autoware op_global_planner
                         std_msgs::Bool clear_goal_list;
@@ -222,33 +219,18 @@ public:
                         pub_clear_goal_list_bool_.publish(clear_goal_list);
 
                         // Remove the first goal
-                        goal_coordinates_xy_.pop();
+                        goal_coordinates_.pop();
                     
-                        // Position coordinates
-                        pose_stamped_.header.frame_id = "world";
-                        pose_stamped_.pose.position.x = goal_coordinates_xy_.front().first;
-                        pose_stamped_.pose.position.y = goal_coordinates_xy_.front().second;
-                        pose_stamped_.pose.position.z = z_world_position_coordinate_;
-                    
-                        // Orientation coordinates
-                        pose_stamped_.pose.orientation.x = x_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.y = y_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.z = z_world_orientation_coordinate_;
-                        pose_stamped_.pose.orientation.w = w_world_orientation_coordinate_;
-
                         // Publish the real world map goal coordinates         
-                        pub_goal_.publish(pose_stamped_);
+                        pub_goal_.publish(goal_coordinates_.front());
 
-                        ROS_INFO("The next goal coordinates has been sent to autoware. Position:- x = %lf, y = %lf, z = %lf and Orientation:- X = %lf, Y = %lf, Z = %lf, W = %lf", pose_stamped_.pose.position.x, pose_stamped_.pose.position.y, pose_stamped_.pose.position.z, pose_stamped_.pose.orientation.x, pose_stamped_.pose.orientation.y, pose_stamped_.pose.orientation.z, pose_stamped_.pose.orientation.w);
+                        ROS_INFO("The next goal has been sent to autoware. Position:- x = %lf, y = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y);
 
                         // Update the global planner boolean
                         should_update_global_planner_ = true;
                         
                         // Update the planner and goal boolean for end state
                         has_global_planner_and_goal_been_reset_ = true;
-                        
-                        // Update the boolean to set up the next goal for autoware
-                        should_set_next_goal_ = false;
                     }
                 }
 
