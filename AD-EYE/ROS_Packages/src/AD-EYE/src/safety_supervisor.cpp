@@ -35,6 +35,7 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
+    ros::Publisher pub_critical_area_demo_;  //Used for demo critical area visualization
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -60,6 +61,7 @@ private:
     float critical_area_length_ = car_length_; //Size of the critical Area
     float critical_area_width_ = car_width_ * 1.2;
     grid_map::Polygon critical_area_;
+    grid_map::Polygon critical_area_demo_;
 
     geometry_msgs::Pose pose_;
     float current_velocity_ = 0;
@@ -79,6 +81,9 @@ private:
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
+
+    // Local planner way points
+    float x_way_ = 0.0;
 
     struct CurvatureExtremum {
         double max;
@@ -127,6 +132,36 @@ private:
     {
         autowareTrajectory_ = *msg;
         autoware_trajectory_flag_ = false;
+        //x_way_ = msg -> waypoints.at(0).pose.pose.position.x;
+        if (msg -> waypoints.size() > 0 )
+        {
+            std::cout << "Critical Area Demo" << '\n';
+
+            critical_area_demo_.removeVertices();
+            
+            for (int i = 0; i  <= 10; i++)
+            {
+                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - 3, msg ->waypoints.at(i).pose.pose.position.y));
+            }
+            /* const grid_map::Position point1(msg ->waypoints.at(0).pose.pose.position.x, msg ->waypoints.at(0).pose.pose.position.y);
+            const grid_map::Position point2(msg ->waypoints.at(1).pose.pose.position.x, msg -> waypoints.at(1).pose.pose.position.y);
+            const grid_map::Position point3(msg ->waypoints.at(2).pose.pose.position.x, msg -> waypoints.at(2).pose.pose.position.y);
+            const grid_map::Position point4(msg ->waypoints.at(3).pose.pose.position.x, msg -> waypoints.at(3).pose.pose.position.y); */
+
+            /* critical_area_demo_.addVertex(point1);
+            critical_area_demo_.addVertex(point2);
+            critical_area_demo_.addVertex(point3);
+            critical_area_demo_.addVertex(point4); */
+
+            visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
+            std_msgs::ColorRGBA color_demo;
+            color_demo.r = 1.0;
+            color_demo.a = 1.0;
+            grid_map::PolygonRosConverter::toLineMarker(critical_area_demo_, color_demo, 0.2, 0.5, criticalAreaMarkerDemo);
+            criticalAreaMarkerDemo.header.frame_id = gridmap_.getFrameId();
+            criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
+            pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
+        }  
     }
 
     /*!
@@ -497,6 +532,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
+        pub_critical_area_demo_ =  nh_.advertise<visualization_msgs::Marker>("/critical_area_demo", 1, true); 
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
