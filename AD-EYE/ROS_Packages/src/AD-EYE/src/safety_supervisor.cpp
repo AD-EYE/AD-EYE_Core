@@ -83,7 +83,7 @@ private:
 
     // ODD Polygon coordinates
     // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
-    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates;
+    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates_;
 
     struct CurvatureExtremum {
         double max;
@@ -122,7 +122,7 @@ private:
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
         // Operational design domain default polygon coordinates are same as full grid map
-        ODD_default_gridmap_coordinates = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
+        ODD_default_gridmap_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
@@ -617,13 +617,13 @@ public:
             if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
             {
                 // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates fro ODD
-                if (nh_.getParam("/operational_design_domain_", ODD_coordinates_))
+                if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
                 {
                     defineOperationalDesignDomain(ODD_coordinates_);
                 }
                 else
                 {
-                    defineOperationalDesignDomain(ODD_default_gridmap_coordinates);
+                    defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
                 }
 
                 performChecks();
