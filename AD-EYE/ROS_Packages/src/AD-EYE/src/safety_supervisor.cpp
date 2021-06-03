@@ -17,6 +17,10 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
+#include <grid_map_ros/GridMapRosConverter.hpp>
+#include <nav_msgs/OccupancyGrid.h>
+#include <nav_msgs/Odometry.h>
+
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -42,7 +46,7 @@ private:
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
-
+    ros::Publisher pub_polygon_area_;
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
@@ -141,59 +145,44 @@ private:
         // Critical area length
         critical_area_length_ = car_length_  + current_velocity_;
 
+        // Add new layer called PolygonArea
+        //gridmap_.add("Demo", 0.0);
+        
+        // Condition for checking number of waypoints
         if (msg -> waypoints.size() > 0 )
         {
             std::cout << "Critical Area Demo" << '\n';
-
+            
+            // Remove critical area vertices
             critical_area_demo_.removeVertices();
             
-            int counter = 0;
-            for (int ii = 0; ii < msg -> waypoints.size(); ii++)
+            // Initiate the index value for getting the critical area length
+            int index = 0;
+
+            // For loop for extracting index value according to the crtical area length
+            for (int k = 0; k < msg -> waypoints.size(); k++)
             {
-                double threshold = std::abs (msg -> waypoints.at(ii).pose.pose.position.x - msg -> waypoints.at(0).pose.pose.position.x);
-                double threshold_2 = std::abs (msg -> waypoints.at(ii).pose.pose.position.y- msg -> waypoints.at(0).pose.pose.position.y);
-                if (std::max(threshold,threshold_2) >= critical_area_length_ )
+                double threshold_length_x = std::abs (msg -> waypoints.at(k).pose.pose.position.x - msg -> waypoints.at(0).pose.pose.position.x);
+                double threshold_length_y = std::abs (msg -> waypoints.at(k).pose.pose.position.y- msg -> waypoints.at(0).pose.pose.position.y);
+                if (std::max(threshold_length_x,threshold_length_y) >= critical_area_length_ )
                 {
-                    counter = ii;
-                    std::cout << counter << '\n';
-                    std::cout << threshold  << "and" << threshold_2 << '\n';
+                    index = k;
                     break;
                 }  
             }
             
-            //std::cout << threshold << '\n';
-
-            for (int i = 0; i <= counter; i++)
+            // Creating the critical area polygon
+            for (int i = 0; i <= index; i++)
             {
-                if (i < counter)
-                {
-                    critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
-                                                                 msg ->waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2));
-                }
-                else if(i == counter)
-                {
-                    critical_area_demo_.addVertex(grid_map::Position((msg ->waypoints.at(0).pose.pose.position.x - sin(yaw) * critical_area_width_/2) + cos(yaw) * critical_area_length_, 
-                                                                (msg ->waypoints.at(0).pose.pose.position.y + cos(yaw) * critical_area_width_/2) + sin(yaw) * critical_area_length_));
-                }
-                
+                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
+                                                                 msg ->waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
             }
 
-            for (int j = counter; j >= 0; j--)
+            for (int j = index; j >= 0; j--)
             {
-                if (j == counter)
-                {
-                    critical_area_demo_.addVertex(grid_map::Position((msg ->waypoints.at(0).pose.pose.position.x + sin(yaw) * critical_area_width_/2) + cos(yaw) * critical_area_length_, 
-                                                                 (msg ->waypoints.at(0).pose.pose.position.y - cos(yaw) * critical_area_width_/2) + sin(yaw) * critical_area_length_));
-                }
-                else
-                {
-                    critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
-                                                                 msg ->waypoints.at(j).pose.pose.position.y - cos(yaw) * critical_area_width_/2));
-                }
-                
+                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
+                                                                 msg ->waypoints.at(j).pose.pose.position.y - cos(yaw) * critical_area_width_/2));     
             }
-
-
 
             visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
             std_msgs::ColorRGBA color_demo;
@@ -203,7 +192,22 @@ private:
             criticalAreaMarkerDemo.header.frame_id = gridmap_.getFrameId();
             criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
             pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
-        }  
+
+            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt)
+            {
+                //gridmap_.at("Demo", *areaIt) = 5.0;
+                if(gridmap_.at("Demo", *areaIt) > 0) { //If there is something inside the area
+                    ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
+                    //return true;
+                }
+            }
+
+            /* // Convert GridMap to OccupancyGrid
+            nav_msgs::OccupancyGrid occupancyGridResult;
+            grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "Demo", 1.0, 10.0, occupancyGridResult);
+            pub_polygon_area_.publish(occupancyGridResult);  */
+
+        } 
     }
 
     /*!
@@ -552,7 +556,7 @@ private:
 
          //Is there a dynamic object in the critical area
          if (isObjectInCriticalArea()){
-             var_switch_ = UNSAFE;
+             //var_switch_ = UNSAFE;
              return;
          }
 
@@ -575,7 +579,7 @@ public:
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
         pub_critical_area_demo_ =  nh_.advertise<visualization_msgs::Marker>("/critical_area_demo", 1, true); 
-
+        //pub_polygon_area_ = nh_.advertise<nav_msgs::OccupancyGrid>("/critical_demo_", 1, true);
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
