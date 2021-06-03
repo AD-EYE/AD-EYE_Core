@@ -7,8 +7,6 @@
 #include <std_msgs/Bool.h>
 
 
-
-
 /*!
 * Initiate SequenceGoalNode class which stores all goals from the adeye goals, goal_map_node
 * Store them as queue
@@ -26,23 +24,12 @@ private:
     ros::Publisher pub_update_local_planner_;
     ros::Publisher pub_clear_goal_list_bool_;
     
-
     // ROS rate
     ros::Rate rate_;
-
-    // Goal position variable
-    geometry_msgs::PoseStamped pose_stamped_;
 
     //Vehicle position
     float x_ego_;
     float y_ego_;
-
-    // Real world coordinates
-    // Positon coordinates
-    double x_world_position_coordinate_ = 0.0, y_world_position_coordinate_ = 0.0, z_world_position_coordinate_ ;
-
-    // Orientation coordinates
-    double x_world_orientation_coordinate_, y_world_orientation_coordinate_, z_world_orientation_coordinate_, w_world_orientation_coordinate_;
 
     // Goal queue
     std::queue <geometry_msgs::PoseStamped::ConstPtr > goal_coordinates_;
@@ -61,8 +48,8 @@ private:
     double DISTANCE_TOLERANCE = 10; // [m]
 
     // Vehicle State behaviour
-    double END_STATE = 13.0;
-    double FORWARD_STATE = 2.0;
+    const double END_STATE = 13.0;
+    const double FORWARD_STATE = 2.0;
 
     /*!
      * \brief Position Callback : Continuously called when the vehicle position information has changed.
@@ -83,16 +70,7 @@ private:
      */
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
-        // Received goal position coordinates
-        x_world_position_coordinate_ = msg -> pose.position.x;
-        y_world_position_coordinate_ = msg -> pose.position.y;
-        z_world_position_coordinate_ = msg -> pose.position.z;
-
-        x_world_orientation_coordinate_ = msg -> pose.orientation.x;
-        y_world_orientation_coordinate_ = msg -> pose.orientation.y;
-        z_world_orientation_coordinate_ = msg -> pose.orientation.z;
-        w_world_orientation_coordinate_ = msg -> pose.orientation.w;
-
+        // Store the first goal
         if (store_first_goal_) 
         {
             // Store the first real-world map goal coordinates  
@@ -108,8 +86,8 @@ private:
             store_first_goal_ = false;
         }
 
-        // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
-        if (destinationDistance(goal_coordinates_.back()-> pose.position.x, x_world_position_coordinate_, goal_coordinates_.back()-> pose.position.y, y_world_position_coordinate_) > DISTANCE_TOLERANCE)
+        // Store the upcoming goal positions in the queue if the goal is not near as 10 m to the previous goal
+        if (getDistance(goal_coordinates_.back()-> pose.position.x, msg -> pose.position.x, goal_coordinates_.back()-> pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE)
         {
             goal_coordinates_.push(msg);
 
@@ -152,14 +130,13 @@ private:
     }
 
     /*!
-     * \brief Calculate the distance between two x and y points
-     * \param x_1, x_2, y_1 and y_2 are points of the real world map
-     */
-    double destinationDistance(double x_one, double x_two, double y_one, double y_two)
-    {
-        double distance = pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
-        return distance;
-    }
+      * \brief Calculate the distance between two x and y points
+      * \param x_1, x_2, y_1 and y_2 are points of the real world map
+      */
+     double getDistance(double x_one, double x_two, double y_one, double y_two)
+     {
+         return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
+     }
     
 public:
     /*!
@@ -198,13 +175,9 @@ public:
                 received_first_goal_ = false;
             }
             
-            // Condition for next goal after publishing the first goal
+            // Condition for next (upcoming) goals
             if (received_next_goal_)
-            {
-                // Calculate the destination distance
-                //double destination_distance = destinationDistance(goal_coordinates_.front().first, x_ego_, goal_coordinates_.front().second, y_ego_);
-                //ROS_INFO("Destination distance: %lf", destination_distance);
-                
+            { 
                 // Publish the next goal when the car enters in end state (end state = 13.0)
                 if (autoware_behavior_state_ == END_STATE)
                 {
@@ -218,7 +191,7 @@ public:
                         clear_goal_list.data = true;
                         pub_clear_goal_list_bool_.publish(clear_goal_list);
 
-                        // Remove the first goal
+                        // Remove the previous goal
                         goal_coordinates_.pop();
                     
                         // Publish the real world map goal coordinates         
