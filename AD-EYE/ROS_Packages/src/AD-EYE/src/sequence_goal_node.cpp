@@ -51,8 +51,8 @@ private:
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
     bool received_first_goal_ = false;
-    bool store_first_goal = true;
-    bool received_next_goal = false;
+    bool store_first_goal_ = true;
+    bool received_next_goal_ = false;
     
     // Autoware behavior state status
     double autoware_behavior_state_;
@@ -93,7 +93,7 @@ private:
         z_world_orientation_coordinate_ = msg -> pose.orientation.z;
         w_world_orientation_coordinate_ = msg -> pose.orientation.w;
 
-        if (store_first_goal) 
+        if (store_first_goal_) 
         {
             // Store the first real-world map goal coordinates  
             goal_coordinates_.push(msg);       
@@ -105,7 +105,7 @@ private:
             received_first_goal_ = true;
 
             // The first goal hase been received and stored in the queue.
-            store_first_goal = false;
+            store_first_goal_ = false;
         }
 
         // Store the goal position coordinates in the queue if the goal is not near as 10 m to the previous goal
@@ -117,7 +117,7 @@ private:
             ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf",goal_coordinates_.back()-> pose.position.x, goal_coordinates_.back()-> pose.position.y );   
 
             // Boolean for receiving the next goal
-            received_next_goal = true;
+            received_next_goal_ = true;
         }    
     }
     
@@ -199,7 +199,7 @@ public:
             }
             
             // Condition for next goal after publishing the first goal
-            if (received_next_goal)
+            if (received_next_goal_)
             {
                 // Calculate the destination distance
                 //double destination_distance = destinationDistance(goal_coordinates_.front().first, x_ego_, goal_coordinates_.front().second, y_ego_);
@@ -209,7 +209,7 @@ public:
                 if (autoware_behavior_state_ == END_STATE)
                 {
                     // Condition for removing the previous goal and setting up the next goal
-                    if (!has_global_planner_and_goal_been_reset_ && received_next_goal)
+                    if (!has_global_planner_and_goal_been_reset_ && received_next_goal_)
                     { 
                         // Boolean for clearing the goal list in autoware op_global_planner
                         std_msgs::Bool clear_goal_list;
