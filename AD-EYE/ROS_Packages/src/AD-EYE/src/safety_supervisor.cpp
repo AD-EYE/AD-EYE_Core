@@ -615,27 +615,8 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
-
         // Send test_result to the decision maker function
         takeDecisionBasedOnTestResult();
-        
-         /* // Check that all the necessary nodes are active
-         if (!areCriticalNodesAlive()){
-             test_result[0] = true;
-             return;
-         }
-
-         // Check that the center of the car on the road
-         if (isCarOffRoad()){
-             test_result[1] = true;
-             return;
-         } */
-
-         /* // Is there a dynamic object in the critical area
-         if (isObjectInCriticalArea()){
-             var_switch_ = UNSAFE;
-             return;
-         } */
     }
 
 public:
