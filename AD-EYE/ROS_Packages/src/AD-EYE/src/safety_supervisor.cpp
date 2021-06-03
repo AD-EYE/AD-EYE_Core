@@ -82,24 +82,22 @@ private:
     // Safety tests
     int num_safety_tests_ = 3;
 
-    // Initiate counter for safety test pass
+    // Initiate the counter for safety tests
     std::vector<int> counter_ = std::vector<int>(num_safety_tests_,0);
 
-    // Set threshold value for pass and fail test
-    int threshold_pass_ = 4;
-    int theshold_fail_ = -4;
+    // Set the threshold value for each pass and fail test
     std::vector<int> threshold_pass_test_ = {4, 4, 4};
     std::vector<int> threshold_fail_test_ = {-4, -4, -4};
 
-    // Increment value for pass and fail test
-    std::vector<int> test_pass_increment_ = {1, 1, 1};
-    std::vector<int> test_fail_decrement_ = {1, 1, 1};
+    // Set the increment and decrement value for each pass and fail test
+    std::vector<int> increment_pass_test_ = {1, 1, 1};
+    std::vector<int> decrement_fail_test_ = {1, 1, 1};
 
-    // Constant Pass and Fail
+    // Constant Pass and Fail boolean
     const bool PASS = true;
     const bool FAIL = false;
 
-    // Non-Instantaneous result vector
+    // Initiate Non-Instantaneous result vector
     std::vector<bool> non_instantaneous_result_ = std::vector<bool>(num_safety_tests_, PASS);
    
     // result of the check functions
@@ -495,6 +493,7 @@ private:
     /*!
      * \brief Update counter value : Called at every iteration of the main loop
      * \Updates the counter value based instantaneous test results
+     * \param test_result, threshold_pass_test, threshold_fail_test, increment_value, decrement_value, counter_value, takes these parameter to update the counter
      */
     int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
     {
@@ -535,7 +534,7 @@ private:
         for (int i = 0; i < num_safety_tests_; i++)
         {
             // Update the counter value based on instantaneous test results
-            counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], test_pass_increment_[i], test_fail_decrement_[i], counter_[i] );
+            counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], increment_pass_test_[i], decrement_fail_test_[i], counter_[i] );
             
             // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
             if (counter_[i] == threshold_pass_test_[i])
