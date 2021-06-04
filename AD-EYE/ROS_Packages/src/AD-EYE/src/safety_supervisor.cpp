@@ -140,7 +140,7 @@ private:
         // The ego vehicle coordinates
         const float x = pose_.position.x;    //Center is currently in the front of the car
         const float y = pose_.position.y;
-        const float yaw = cpp_utils::extract_yaw(pose_.orientation);
+        //const float yaw = cpp_utils::extract_yaw(pose_.orientation);
         
         // Critical area length
         critical_area_length_ = car_length_  + current_velocity_;
@@ -174,14 +174,16 @@ private:
             // Creating the critical area polygon
             for (int i = 0; i <= index; i++)
             {
+                float yaw = cpp_utils::extract_yaw(msg ->waypoints.at(i).pose.pose.orientation);
                 critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
                                                                  msg ->waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
             }
 
             for (int j = index; j >= 0; j--)
             {
+                float yaw = cpp_utils::extract_yaw(msg ->waypoints.at(j).pose.pose.orientation);
                 critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
-                                                                 msg ->waypoints.at(j).pose.pose.position.y - cos(yaw) * critical_area_width_/2));     
+                                                                 msg ->waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
             }
 
             visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
@@ -193,14 +195,14 @@ private:
             criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
             pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
 
-            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt)
+            /* for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt)
             {
                 //gridmap_.at("Demo", *areaIt) = 5.0;
                 if(gridmap_.at("Demo", *areaIt) > 0) { //If there is something inside the area
                     ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
                     //return true;
                 }
-            }
+            } */
 
             /* // Convert GridMap to OccupancyGrid
             nav_msgs::OccupancyGrid occupancyGridResult;
