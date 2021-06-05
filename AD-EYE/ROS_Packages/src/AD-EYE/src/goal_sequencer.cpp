@@ -27,7 +27,7 @@ private:
     // ROS rate
     ros::Rate rate_;
 
-    //Vehicle position
+    // Vehicle position
     float x_ego_;
     float y_ego_;
 
@@ -38,7 +38,6 @@ private:
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
     bool received_first_goal_ = false;
-    bool store_first_goal_ = true;
     bool received_next_goal_ = false;
     
     // Autoware behavior state status
@@ -70,7 +69,7 @@ private:
      */
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
-        // Store the first goal
+        // Store the first goal if the goal queue is empty
         if (goal_coordinates_.empty()) 
         {
             // Store the first real-world map goal coordinates  
