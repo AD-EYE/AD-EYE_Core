@@ -126,7 +126,7 @@ add_executable(
 
 add_executable(
   goalSequencer
-  src/sequence_goal_node.cpp
+  src/goal_sequencer.cpp
 )
 
 target_link_libraries(
