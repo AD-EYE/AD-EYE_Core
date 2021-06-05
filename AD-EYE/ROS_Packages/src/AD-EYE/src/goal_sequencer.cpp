@@ -44,10 +44,10 @@ private:
     double autoware_behavior_state_;
 
     // Distance tolerance for duplicate goals
-    const double DISTANCE_TOLERANCE = 10; // [m]
+    const double DISTANCE_TOLERANCE_ = 10; // [m]
 
     // Vehicle State behaviour
-    const double END_STATE = 13.0;
+    const double END_STATE_ = 13.0;
     const double FORWARD_STATE_ = 2.0;
 
     /*!
@@ -83,7 +83,7 @@ private:
         }
 
         // Store the upcoming goal positions in the queue if the goal is not near as 10 m to the previous goal
-        if (getDistance(goal_coordinates_.back()-> pose.position.x, msg -> pose.position.x, goal_coordinates_.back()-> pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE)
+        if (getDistance(goal_coordinates_.back()-> pose.position.x, msg -> pose.position.x, goal_coordinates_.back()-> pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
         {
             goal_coordinates_.push(msg);
 
@@ -175,7 +175,7 @@ public:
             if (received_next_goal_)
             { 
                 // Publish the next goal when the car enters in end state (end state = 13.0)
-                if (autoware_behavior_state_ == END_STATE)
+                if (autoware_behavior_state_ == END_STATE_)
                 {
                     // Condition for removing the previous goal and setting up the next goal
                     if (!has_global_planner_and_goal_been_reset_ && received_next_goal_)
