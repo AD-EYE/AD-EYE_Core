@@ -45,7 +45,7 @@ private:
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
-    const int NO_BEHAVIOR_OVERWRITE = -1;
+    const int NO_BEHAVIOR_OVERWRITE_ = -1;
     enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
     const float pi_ = 3.141592654;
@@ -82,14 +82,14 @@ private:
     // Safety tests
     int num_safety_tests_ = 3;
 
-    // Initiate the counter for safety tests
-    std::vector<int> counter_ = std::vector<int>(num_safety_tests_,0);
+    // Initiate the safety counter for tests
+    std::vector<int> safety_test_counter_ = std::vector<int>(num_safety_tests_,0);
 
-    // Set the threshold value for each pass and fail test
+    // Set the default threshold value for each pass and fail safety test
     std::vector<int> threshold_pass_test_ = {4, 4, 4};
     std::vector<int> threshold_fail_test_ = {-4, -4, -4};
 
-    // Set the increment and decrement value for each pass and fail test
+    // Set the default increment and decrement value for each pass and fail safety test
     std::vector<int> increment_pass_test_ = {1, 1, 1};
     std::vector<int> decrement_fail_test_ = {1, 1, 1};
 
@@ -501,21 +501,27 @@ private:
         // if the test is successfully passed
         if (test_result)
         {
-            // Check if the counter has not reached the threshold value
-            if (counter_value < threshold_pass_test)
+            // Increment counter
+            counter_value += increment_value;
+
+            // Check if the counter reaches the threshold value then counter value will be same as threshold value
+            if (counter_value > threshold_pass_test)
             {
                 // Increment counter
-                counter_value += increment_value;
+                counter_value = threshold_pass_test;
             }
             
         }
         else if(!test_result) // if the test is failed
         {
-            // // Check if the counter has not reached the threshold value
-            if(counter_value > threshold_fail_test)
+            // Decrement counter
+            counter_value -= decrement_value;  
+
+            // Check if the counter reaches the threshold value then counter value will be same as threshold value
+            if(counter_value < threshold_fail_test)
             {
                 // Decrement counter
-                counter_value -= decrement_value;    
+                counter_value = threshold_fail_test;    
             }
         } 
         return counter_value;
@@ -534,18 +540,20 @@ private:
         for (int i = 0; i < num_safety_tests_; i++)
         {
             // Update the counter value based on instantaneous test results
-            counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], increment_pass_test_[i], decrement_fail_test_[i], counter_[i] );
+            safety_test_counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], increment_pass_test_[i], decrement_fail_test_[i], safety_test_counter_[i] );
             
             // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
-            if (counter_[i] == threshold_pass_test_[i])
+            if (safety_test_counter_[i] == threshold_pass_test_[i])
             {
                 non_instantaneous_result_[i] = PASS;
-                std::cout << "Counter number is " << counter_[i] << '\n';
+
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counter_[i]);
             }
-            else if (counter_[i] == threshold_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
+            else if (safety_test_counter_[i] == threshold_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
             {
                 non_instantaneous_result_[i] = FAIL;
-                std::cout << "Counter number is " << counter_[i] << '\n';
+
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counter_[i]);
             }
         }
         return non_instantaneous_result_;
@@ -557,6 +565,14 @@ private:
      */
     void takeDecisionBasedOnTestResult()
     {
+        // Define threshold values vector from ROS parameter server
+        ros::param::get("/threshold_vector_pass_test", threshold_pass_test_);
+        ros::param::get("/threshold_vector_fail_test", threshold_fail_test_);
+        
+        // Define increment/decrement values vectors from ROS parameter server
+        ros::param::get("/increment_vector_pass_test_", increment_pass_test_);
+        ros::param::get("/decrement_vector_fail_test_", decrement_fail_test_);
+
         // Non-instantaneous test result vector
         non_instantaneous_result_ = checkNonInstantaneousResults();
         
@@ -567,19 +583,19 @@ private:
             if (non_instantaneous_result_[j] == PASS)
             {
                 switchNominalChannel();
-                std::cout << "The test " << j+1 <<  "is PASS" << '\n';
+                ROS_DEBUG_STREAM("The test " << j+1 <<  " is PASS");
             }
             else if (non_instantaneous_result_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
             {
                 triggerSafetySwitch();
-                std::cout <<  "The test " << j+1 << "is FAIL" << '\n';
+                ROS_WARN_STREAM("The test " << j+1 <<  " is FAIL");
             }
         }
     }
     
     /*!
      * \brief Trigger the safety switch
-     * \Activates if the test is failed
+     * \Activates if the non-instantaneous test is failed
      */ 
     void triggerSafetySwitch()
     {
@@ -589,7 +605,7 @@ private:
     
     /*!
      * \brief Switch to nominal channel
-     * \Activates if the test is passed
+     * \Activates if the non-instantaneous test is passed
      */
     void switchNominalChannel()
     {
@@ -604,7 +620,7 @@ private:
      */
     void performSafetyTests()
     {
-        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE;
+        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE_;
 
         // Check the distance to the center line of the lane
         distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
@@ -642,7 +658,9 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
         sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
-
+        
+        // Initialization loop
+        waitForInitialization();
 
         // Initialize the list of nodes to check
         for(int i = 1; i<argc; i++){
@@ -702,7 +720,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
     SafetySupervisor safetySupervisor(nh, argc, argv);
-    safetySupervisor.waitForInitialization();
     safetySupervisor.run();
     return 0;
 }
