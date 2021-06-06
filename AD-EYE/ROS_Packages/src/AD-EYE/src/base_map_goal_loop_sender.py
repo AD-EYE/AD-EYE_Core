@@ -18,19 +18,20 @@ class BaseMapGoalLooper ():
         self.DISTANCE_TOLERANCE_ = 50     #in meters 
         self.loop_counter_ = 1       # Counter to count the number of loops the car has completed
         self.goal_counter_ = 1       #Counter to count the number of goals published
+        self.print_flag_ = 1         #Flag used for printing the total goals published once after each goal is being published and also the loop number once after the car completes one loop around
 
-        print("Total Goals Published: ",self.goal_counter_, "; Current Loop Number: ",self.loop_counter_)
+        #print("Total Goals Published: ",self.goal_counter_, "; Current Loop Number: ",self.loop_counter_)
         #Set thePublishers Subscribers 
         self.position_sub_ = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssPoseCallback)
         self.goal_pub_ = rospy.Publisher('/adeye/goals', PoseStamped, queue_size=1)  
           
     #Function for publishing new goals 
-    def publishNewGoal(self,index):
-        if(self.current_goal_index_ != index):
-            print("Total Goals Published: ",self.goal_counter_, "; Current Loop Number: ",self.loop_counter_)
+    def publishNewGoal(self,index):        
         self.goal_pub_.publish(self.goal_list_[index])        
         self.current_goal_index_ = index
-        
+        if(self.print_flag_ == 1):
+            print("Total Goals Published: ",self.goal_counter_, "; Current Loop Number: ",self.loop_counter_)
+            self.print_flag_ = 0
 
     #Function for calculating the euclidean distance between egopose and goalpose
     def getDistance(self, ego_pose, x2, y2):
@@ -41,18 +42,18 @@ class BaseMapGoalLooper ():
     def gnssPoseCallback(self,ego_pose):
 
         x = self.goal_list_[self.current_goal_index_].pose.position.x
-        y = self.goal_list_[self.current_goal_index_].pose.position.y        
-        index_counter = 0                       #Initiate the Index counter
-                     
+        y = self.goal_list_[self.current_goal_index_].pose.position.y                            
                   
         if(self.getDistance(ego_pose.pose.position, x, y) <= self.DISTANCE_TOLERANCE_): 
             
             if( self.current_goal_index_ < (len(self.goal_list_) - 1) ):
-                index_counter = self.current_goal_index_ + 1
-                self.goal_counter_ = self.goal_counter_+ 1
-                self.publishNewGoal(index_counter)
+                self.publishNewGoal(self.current_goal_index_ + 1)        
             else:
+                self.publishNewGoal(0)
                 self.loop_counter_ = self.loop_counter_+ 1
+
+            self.goal_counter_ = self.goal_counter_+ 1        
+            self.print_flag_ = 1
 
         else:
             self.publishNewGoal(self.current_goal_index_)
