@@ -77,7 +77,7 @@ def createGoal(Px, Py, Qx, Qy, Qw):
 
 if __name__=="__main__":
     
-    rospy.init_node('loop_sender') #Initialising the node.
+    rospy.init_node('base_map_goal_loop_sender') #Initialising the node.
 
     #Creating a list for storing the goal points.
     goal_list = []
