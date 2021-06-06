@@ -135,81 +135,7 @@ private:
     void autowareTrajectoryCallback(const autoware_msgs::Lane::ConstPtr& msg)
     {
         autowareTrajectory_ = *msg;
-        autoware_trajectory_flag_ = false;
-        
-        // The ego vehicle coordinates
-        const float x = pose_.position.x;    //Center is currently in the front of the car
-        const float y = pose_.position.y;
-        //const float yaw = cpp_utils::extract_yaw(pose_.orientation);
-        
-        // Critical area length
-        critical_area_length_ = car_length_  + current_velocity_;
-
-        // Add new layer called PolygonArea
-        //gridmap_.add("Demo", 0.0);
-        
-        // Condition for checking number of waypoints
-        if (msg -> waypoints.size() > 0 )
-        {
-            std::cout << "Critical Area Demo" << '\n';
-            
-            // Remove critical area vertices
-            critical_area_demo_.removeVertices();
-            
-            // Initiate the index value for getting the critical area length
-            int index = 0;
-
-            // For loop for extracting index value according to the crtical area length
-            for (int k = 0; k < msg -> waypoints.size(); k++)
-            {
-                double threshold_length_x = std::abs (msg -> waypoints.at(k).pose.pose.position.x - msg -> waypoints.at(0).pose.pose.position.x);
-                double threshold_length_y = std::abs (msg -> waypoints.at(k).pose.pose.position.y- msg -> waypoints.at(0).pose.pose.position.y);
-                if (std::max(threshold_length_x,threshold_length_y) >= critical_area_length_ )
-                {
-                    index = k;
-                    break;
-                }  
-            }
-            
-            // Creating the critical area polygon
-            for (int i = 0; i <= index; i++)
-            {
-                float yaw = cpp_utils::extract_yaw(msg ->waypoints.at(i).pose.pose.orientation);
-                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
-                                                                 msg ->waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
-            }
-
-            for (int j = index; j >= 0; j--)
-            {
-                float yaw = cpp_utils::extract_yaw(msg ->waypoints.at(j).pose.pose.orientation);
-                critical_area_demo_.addVertex(grid_map::Position(msg ->waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
-                                                                 msg ->waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
-            }
-
-            visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
-            std_msgs::ColorRGBA color_demo;
-            color_demo.r = 1.0;
-            color_demo.a = 1.0;
-            grid_map::PolygonRosConverter::toLineMarker(critical_area_demo_, color_demo, 0.2, 0.5, criticalAreaMarkerDemo);
-            criticalAreaMarkerDemo.header.frame_id = gridmap_.getFrameId();
-            criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
-            pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
-
-            /* for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt)
-            {
-                //gridmap_.at("Demo", *areaIt) = 5.0;
-                if(gridmap_.at("Demo", *areaIt) > 0) { //If there is something inside the area
-                    ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
-                    //return true;
-                }
-            } */
-
-            /* // Convert GridMap to OccupancyGrid
-            nav_msgs::OccupancyGrid occupancyGridResult;
-            grid_map::GridMapRosConverter::toOccupancyGrid(gridmap_, "Demo", 1.0, 10.0, occupancyGridResult);
-            pub_polygon_area_.publish(occupancyGridResult);  */
-
-        } 
+        autoware_trajectory_flag_ = true;
     }
 
     /*!
@@ -385,6 +311,12 @@ private:
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
     }
 
+
+    double getLength(double x_one, double x_two, double y_one, double y_two)
+    {
+        return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
+    }
+
     /*!
      * \brief Check dynamic objects : Called at every iteration of the main loop
      * \Checks if there is a dynamic object in the critical area
@@ -397,8 +329,65 @@ private:
         const float yaw = cpp_utils::extract_yaw(pose_.orientation);
         const grid_map::Position center(x + car_length_ * cos(yaw)/2, y + car_length_ * sin(yaw)/2);
         critical_area_length_ = car_length_  + current_velocity_;
+        
+        // Condition for creating a critical are through autoware trajectory flag
+        if (autoware_trajectory_flag_)
+        {   
+            // Remove critical area vertices
+            critical_area_demo_.removeVertices();
+            
+            // Initiate the index value for getting the critical area length
+            int index = 0;
 
-        critical_area_.removeVertices();
+            // For loop for finding an index value from autoware trajectory to set the crtical area length for polygon
+            for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
+            {
+                // Calculate the euclidean length from autoware trajectory
+                double length_from_autoware_trajectory = getLength(autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(0).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.y, autowareTrajectory_.waypoints.at(0).pose.pose.position.y);
+                
+                // If the length from autoware trajectory is higher than critical area length, store the index value
+                if (length_from_autoware_trajectory >= critical_area_length_ )
+                {
+                    index = k;
+                    break;
+                }  
+            }
+            
+            // Creating the critical area polygon
+            for (int i = 0; i <= index; i++)
+            {
+                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(i).pose.pose.orientation);
+                critical_area_demo_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
+                                                                 autowareTrajectory_.waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
+            }
+
+            for (int j = index; j >= 0; j--)
+            {
+                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(j).pose.pose.orientation);
+                critical_area_demo_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
+                                                                 autowareTrajectory_.waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
+            }
+
+            visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
+            std_msgs::ColorRGBA color_demo;
+            color_demo.r = 1.0;
+            color_demo.a = 1.0;
+            grid_map::PolygonRosConverter::toLineMarker(critical_area_demo_, color_demo, 0.2, 0.5, criticalAreaMarkerDemo);
+            criticalAreaMarkerDemo.header.frame_id = gridmap_.getFrameId();
+            criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
+            pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
+
+            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt) 
+            {
+                if(gridmap_.at("DynamicObjects", *areaIt) > 0) 
+                { //If there is something inside the area
+                    ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
+                    return true;
+                }
+            }
+        }
+
+        /* critical_area_.removeVertices();
         
         const grid_map::Position point1(x - sin(yaw) * critical_area_width_/2,
                                         y + cos(yaw) * critical_area_width_/2);
@@ -420,14 +409,7 @@ private:
         grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
         criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
         criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
-        pub_critical_area_.publish(criticalAreaMarker);
-
-        for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) {
-            if(gridmap_.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
-                ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
-                return true;
-            }
-        }
+        pub_critical_area_.publish(criticalAreaMarker); */
 
         return false;
     }
