@@ -18,6 +18,7 @@
 #include "op_ros_helpers/op_ROSHelpers.h"
 
 
+
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
  * \details Its goal is to trigger the switch that decides if the vehicle
@@ -82,6 +83,10 @@ private:
 
     // Local planner way points
     float x_way_ = 0.0;
+    
+    // ODD Polygon coordinates
+    // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
+    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates_;
 
     struct CurvatureExtremum {
         double max;
@@ -118,6 +123,9 @@ private:
     void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
+
+        // Operational design domain default polygon coordinates are same as full grid map
+        ODD_default_gridmap_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
@@ -520,6 +528,85 @@ private:
              return;
          }
 
+         // Check that the vehicle is in operational design domain polygon area
+         if (isVehicleOffOperationalDesignDomain()){
+             var_switch_ = UNSAFE;
+             return;
+         }
+
+    }
+    
+    /*!
+     * \brief Check if the vector of operational design domain polygon coordinates is valid.
+     * \return Boolean indicating true if the operational design domain polygon coordinates are exactly into pairs.
+     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
+     */
+    bool isPolygonValid(std::vector<double> polygon_coordinates)
+    {
+        if (polygon_coordinates.size() % 2 != 0)
+        {
+            ROS_WARN("Invalid polygon, the list defining the polygon contains an odd number of values");
+            return false;
+        }
+        return true;
+    }
+    
+    /*!
+     * \brief Check if the vehicle is inside the operational design domain polygon area.
+     * \return Boolean indicating true if the vehicle is off the operational design domain polygon area.
+     */
+    bool isVehicleOffOperationalDesignDomain()
+    {
+        // Extract the polygon area and send true if the vehicle is not in the polygon area
+        float odd_value_at_ego_position = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
+
+        if (odd_value_at_ego_position == 0)
+        {
+            ROS_WARN("The Vehicle is outside the operational design domain polygon");
+            return true;
+        }
+        else
+        {
+            std::cout << "The vehicle is inside the operational design domain polygon" << '\n';
+            return false;
+        }
+    }
+    
+    /*!
+     * \brief The function where the operational design domain polygon has been created.
+     * \details Polygon iterator creates the polygon according to given coordinates.
+     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
+     */
+    void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
+    {
+        // The operational design domain values
+        const double ODD_LAYER_IN_VALUE = 5.0;
+        const double ODD_LAYER_OUT_VALUE = 0.0;
+
+
+        // Add new layer called ODD (Operational design domain)
+        gridmap_.add("ODD", ODD_LAYER_OUT_VALUE);
+
+        if (isPolygonValid(polygon_coordinates))
+        {       
+            // Initiate the grid map ODD polygon
+            grid_map::Polygon polygon;
+            
+            // Define ODD Polygon area through coordinates from ROS parameter server
+            for (int i = 0; i < polygon_coordinates.size() ; i+=2)
+            {
+                polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
+            }
+
+            // Add again the first coordinates from the vector to close down the polygon area
+            polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
+
+            // Polygon Interator
+            for (grid_map::PolygonIterator iterator(gridmap_, polygon);
+                !iterator.isPastEnd(); ++iterator) {
+                gridmap_.at("ODD", *iterator) = ODD_LAYER_IN_VALUE;
+            }
+        }
     }
 
 public:
@@ -577,8 +664,19 @@ public:
             ros::spinOnce();
             if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
             {
+                // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates from ODD
+                if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
+                {
+                    defineOperationalDesignDomain(ODD_coordinates_);
+                }
+                else
+                {
+                    defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
+                }
+
                 performChecks();
                 publish();
+                 
             }
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);

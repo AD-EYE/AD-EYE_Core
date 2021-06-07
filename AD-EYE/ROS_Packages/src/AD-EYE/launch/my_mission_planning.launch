@@ -6,7 +6,7 @@
     <arg name="enableSmoothing" default="true"/> <!-- 1 or 0 -->
     <arg name="enableLaneChange" default="false"/> <!-- 1 or 0 -->
     <arg name="enableRvizInput" default="true"/> <!-- 1 or 0 -->
-    <arg name="enableReplan" default="false"/> <!-- 1 or 0 -->
+    <arg name="enableReplan" default="true"/> <!-- 1 or 0 -->
     <arg name="velocitySource"
          default="1"/> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
     <arg name="mapSource" default="0"/> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
@@ -28,5 +28,6 @@
         <!--arg name="adeyeGoalMarkerSize" value="$(arg adeyeGoalMarkerSize)"/-->
     </include>
 
+    <node pkg="adeye" type="goalSequencer" name="goalSequencer" output="screen"/>
 
 </launch>
