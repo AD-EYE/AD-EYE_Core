@@ -331,23 +331,28 @@ private:
         critical_area_length_ = car_length_  + current_velocity_;
         
         // Condition for creating a critical are through autoware trajectory flag
-        if (autoware_trajectory_flag_)
+        if (autowareTrajectory_.waypoints.size() > 0)
         {   
             // Remove critical area vertices
             critical_area_demo_.removeVertices();
             
-            // Initiate the index value for getting the critical area length
+            // Initiate the index value and length for getting the critical area length
             int index = 0;
+            double length = 0;
 
             // For loop for finding an index value from autoware trajectory to set the crtical area length for polygon
             for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
             {
-                // Calculate the euclidean length from autoware trajectory
-                double length_from_autoware_trajectory = getLength(autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(0).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.y, autowareTrajectory_.waypoints.at(0).pose.pose.position.y);
-                
+                // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
+                double distance_between_two_waypoints = getLength(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
+                 
+                // Add the distance between two waypoints into the length
+                length += distance_between_two_waypoints;
+
                 // If the length from autoware trajectory is higher than critical area length, store the index value
-                if (length_from_autoware_trajectory >= critical_area_length_ )
+                if (length >= critical_area_length_ )
                 {
+                    // Store the index value and break the loop
                     index = k;
                     break;
                 }  
