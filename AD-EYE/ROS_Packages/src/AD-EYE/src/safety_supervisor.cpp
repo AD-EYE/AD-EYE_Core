@@ -17,10 +17,6 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
-#include <grid_map_ros/GridMapRosConverter.hpp>
-#include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Odometry.h>
-
 
 /*!
  * \brief The Safety Supervisor supervise the automated driving.
@@ -65,7 +61,6 @@ private:
     float critical_area_length_ = car_length_; //Size of the critical Area
     float critical_area_width_ = car_width_ * 1.2;
     grid_map::Polygon critical_area_;
-    grid_map::Polygon critical_area_demo_;
 
     geometry_msgs::Pose pose_;
     float current_velocity_ = 0;
@@ -334,7 +329,7 @@ private:
         if (autowareTrajectory_.waypoints.size() > 0)
         {   
             // Remove critical area vertices
-            critical_area_demo_.removeVertices();
+            critical_area_.removeVertices();
             
             // Initiate the index value and length for getting the critical area length
             int index = 0;
@@ -358,31 +353,31 @@ private:
                 }  
             }
             
-            // Creating the critical area polygon
+            // Creating the critical area polygon through two for loops
             for (int i = 0; i <= index; i++)
             {
                 float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(i).pose.pose.orientation);
-                critical_area_demo_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
+                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
                                                                  autowareTrajectory_.waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
             }
 
             for (int j = index; j >= 0; j--)
             {
                 float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(j).pose.pose.orientation);
-                critical_area_demo_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
+                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
                                                                  autowareTrajectory_.waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
             }
 
-            visualization_msgs::Marker criticalAreaMarkerDemo;  //Used for demo critical area visualization
+            visualization_msgs::Marker criticalAreaMarker;  //Used for demo critical area visualization
             std_msgs::ColorRGBA color_demo;
             color_demo.r = 1.0;
             color_demo.a = 1.0;
-            grid_map::PolygonRosConverter::toLineMarker(critical_area_demo_, color_demo, 0.2, 0.5, criticalAreaMarkerDemo);
-            criticalAreaMarkerDemo.header.frame_id = gridmap_.getFrameId();
-            criticalAreaMarkerDemo.header.stamp.fromNSec(gridmap_.getTimestamp());
-            pub_critical_area_demo_.publish(criticalAreaMarkerDemo);
+            grid_map::PolygonRosConverter::toLineMarker(critical_area_, color_demo, 0.2, 0.5, criticalAreaMarker);
+            criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
+            criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
+            pub_critical_area_.publish(criticalAreaMarker);
 
-            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_demo_) ; !areaIt.isPastEnd() ; ++areaIt) 
+            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) 
             {
                 if(gridmap_.at("DynamicObjects", *areaIt) > 0) 
                 { //If there is something inside the area
@@ -391,31 +386,6 @@ private:
                 }
             }
         }
-
-        /* critical_area_.removeVertices();
-        
-        const grid_map::Position point1(x - sin(yaw) * critical_area_width_/2,
-                                        y + cos(yaw) * critical_area_width_/2);
-        const grid_map::Position point2(x + sin(yaw) * critical_area_width_/2,
-                                        y - cos(yaw) * critical_area_width_/2);
-        const grid_map::Position point3(point2.x() + cos(yaw) * critical_area_length_, point2.y() + sin(yaw) * critical_area_length_);
-        const grid_map::Position point4(point1.x() + cos(yaw) * critical_area_length_, point1.y() + sin(yaw) * critical_area_length_);
-
-
-        critical_area_.addVertex(point1);
-        critical_area_.addVertex(point2);
-        critical_area_.addVertex(point3);
-        critical_area_.addVertex(point4);
-
-        visualization_msgs::Marker criticalAreaMarker;  //Used for critical area visualization
-        std_msgs::ColorRGBA color;
-        color.r = 1.0;
-        color.a = 1.0;
-        grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
-        criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
-        criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
-        pub_critical_area_.publish(criticalAreaMarker); */
-
         return false;
     }
 
@@ -545,7 +515,7 @@ private:
 
          //Is there a dynamic object in the critical area
          if (isObjectInCriticalArea()){
-             //var_switch_ = UNSAFE;
+             var_switch_ = UNSAFE;
              return;
          }
 
