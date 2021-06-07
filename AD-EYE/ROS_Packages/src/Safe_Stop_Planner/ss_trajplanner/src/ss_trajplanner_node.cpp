@@ -19,6 +19,9 @@
 #define YELLOW 50
 #define RED 99
 
+#define OBSTRUCTED_VALUE 100
+#define OBSTRUCTED_THRESHOLD 90
+
 class SafeStopTrajectoryPlanner
 {
 public:
@@ -107,6 +110,7 @@ public:
 
     // while running
     try{
+      visualization_msgs::MarkerArray endposes_vis_msg;
       while (ros::ok())
       {
         ros::spinOnce();
@@ -118,8 +122,7 @@ public:
         std::vector<TrajectorySetHandler::trajectory> trajSubSet = trajSet.at(index_of_subset);
 
         // loop through subset
-        visualization_msgs::MarkerArray endposes_vis_msg;
-        double min_cost = 100;
+        double min_cost = DBL_MAX;
         int index_of_mincost_traj;
         int green_trajs = 0;
         int yellow_trajs = 0;
@@ -127,6 +130,7 @@ public:
 
         // the set of trajectories only needs to be checked as long as the safety planner is not activated
         if(SSMP_control == 1){
+          endposes_vis_msg.markers.clear(); // clears out the last set of endopses markers
           counter = 0; //To reset the waypoint index after switch back to Nominal Channel
           for(size_t i=0; i<trajSubSet.size(); i++){
             traj = trajSubSet.at(i);
@@ -145,7 +149,7 @@ public:
 
               // do collision check
               val = (int)round(col_checker->max_val_for_footprint(pose_st));
-              if (val == RED){
+              if (val >= OBSTRUCTED_THRESHOLD){
                 val_endpose = val;
                 break; // no reason to continue checking if one pose collides
               }
@@ -156,52 +160,43 @@ public:
                 val_endpose = val;
 
 
-                visualization_msgs::Marker marker;
-                marker.header.frame_id = "SSMP_base_link";
-                marker.header.stamp = ros::Time::now();
-                marker.id = endposes_vis_msg.markers.size();
-                marker.type = visualization_msgs::Marker::CUBE;
-                marker.scale.x = 2.00; // todo: grab from footprint
-                marker.scale.y = 1.5;
-                marker.scale.z = 0.1;
-                marker.color.a = 0.5;
-                if(val_endpose == YELLOW){           // yellow - in lane
-                  marker.color.r = 0.8;
-                  marker.color.g = 0.8;
-                  marker.color.b = 0.0;
-                } else if(val_endpose == GREEN){    // green - safe area
-                  marker.color.r = 0.0;
-                  marker.color.g = 0.8;
-                  marker.color.b = 0.0;
-                } else if(val_endpose == RED) {     // red - unsafe area
-                  marker.color.r = 0.8;
-                  marker.color.g = 0.0;
-                  marker.color.b = 0.0;
-                }
-
-                marker.pose.position.x = traj.X.at(j);
-                marker.pose.position.y = traj.Y.at(j);
-                marker.pose.position.z = 0.0;
-                marker.pose.orientation = tf::createQuaternionMsgFromYaw(traj.psi.at(j));
-                endposes_vis_msg.markers.push_back(marker);
+                visualization_msgs::Marker end_pose_marker;
+                end_pose_marker.header.frame_id = "SSMP_base_link";
+                end_pose_marker.header.stamp = ros::Time::now();
+                end_pose_marker.id = endposes_vis_msg.markers.size();
+                end_pose_marker.type = visualization_msgs::Marker::CUBE;
+                end_pose_marker.scale.x = 2.00; // todo: grab from footprint
+                end_pose_marker.scale.y = 1.5;
+                end_pose_marker.scale.z = 0.1;
+                end_pose_marker.color.a = 0.5;
+                end_pose_marker.color.r = (float) val_endpose / 100.0f;
+                end_pose_marker.color.g = 0.5;
+                end_pose_marker.color.b = 0.0;
+                end_pose_marker.pose.position.x = traj.X.at(j);
+                end_pose_marker.pose.position.y = traj.Y.at(j);
+                end_pose_marker.pose.position.z = 0.0;
+                end_pose_marker.pose.orientation = tf::createQuaternionMsgFromYaw(traj.psi.at(j));
+                endposes_vis_msg.markers.push_back(end_pose_marker);
               }
             }
 
             // evaluate S(O(x(t)))
-            int endpose_cost = 0;
-            if(val_endpose == YELLOW){           // yellow - in lane
-              endpose_cost = 2;
-              yellow_trajs++;
-            } else if(val_endpose == GREEN){    // green - safe area
-              endpose_cost = 1;
+            int endpose_cost = val_endpose;
+            // int endpose_cost = 0;
+            if(val_endpose <= GREEN){           // yellow - in lane
+              // endpose_cost = 2;
               green_trajs++;
-            } else if(val_endpose == RED) {     // red - unsafe area
-              endpose_cost = 3;
+            } else if(val_endpose <= YELLOW){    // green - safe area
+              // endpose_cost = 1;
+              yellow_trajs++;
+            } else {     // red - unsafe area
+              // endpose_cost = 3;
               red_trajs++;
             }
 
             // evaluate cost function
-            double cost = traj.timeUntilStopped/traj.t.back() + endpose_cost;
+            // double cost = traj.timeUntilStopped/traj.t.back() + endpose_cost;
+            double cost = endpose_cost;
             if(cost < min_cost){
               min_cost = cost;
               index_of_mincost_traj = i;
@@ -209,12 +204,12 @@ public:
           }
 
           // to clear old markers we will publish invisible markers with same id
-          for(size_t i=endposes_vis_msg.markers.size(); i<=traj_set_handler.get_max_trajsubset_size(); i++){
+          for(size_t i=endposes_vis_msg.markers.size(); i<1000; i++){
               visualization_msgs::Marker marker;
               marker.header.frame_id = "SSMP_base_link";
               marker.header.stamp = ros::Time();
               marker.id = i;
-              marker.type = visualization_msgs::Marker::SPHERE;
+              marker.type = visualization_msgs::Marker::DELETE;
               marker.pose.position.x = 1;
               marker.pose.position.y = 1;
               marker.pose.position.z = 1;
