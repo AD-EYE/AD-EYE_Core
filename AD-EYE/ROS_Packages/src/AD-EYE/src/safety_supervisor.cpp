@@ -324,7 +324,7 @@ private:
         const grid_map::Position center(x + car_length_ * cos(yaw)/2, y + car_length_ * sin(yaw)/2);
         critical_area_length_ = car_length_  + current_velocity_;
         
-        // Condition for creating a critical are through autoware trajectory flag
+        // Condition for creating a critical area through autoware trajectory waypoints
         if (autowareTrajectory_.waypoints.size() > 0)
         {   
             // Remove critical area vertices
@@ -334,7 +334,7 @@ private:
             int index = 0;
             double length = 0;
 
-            // For loop for finding an index value from autoware trajectory to set the crtical area length for polygon
+            // `For` loop for finding an index value from autoware trajectory to set the crtical area length
             for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
             {
                 // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
@@ -352,14 +352,16 @@ private:
                 }  
             }
             
-            // Creating the critical area polygon through two for loops
+            // Creating the critical area polygon through two `for` loops
+            // First `for` loop define the vertices for one side of the critical area
             for (int i = 0; i <= index; i++)
             {
                 float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(i).pose.pose.orientation);
                 critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
                                                                  autowareTrajectory_.waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
             }
-
+            
+            // Second `for` loop define the vertices for other side of the critical area
             for (int j = index; j >= 0; j--)
             {
                 float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(j).pose.pose.orientation);
