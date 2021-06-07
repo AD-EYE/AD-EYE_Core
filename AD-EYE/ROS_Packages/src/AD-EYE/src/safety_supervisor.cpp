@@ -83,22 +83,22 @@ private:
     int num_safety_tests_ = 3;
 
     // Initiate the safety counter for tests
-    std::vector<int> safety_test_counter_ = std::vector<int>(num_safety_tests_,0);
+    std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
 
     // Set the default threshold value for each pass and fail safety test
-    std::vector<int> threshold_pass_test_ = {4, 4, 4};
-    std::vector<int> threshold_fail_test_ = {-4, -4, -4};
+    std::vector<int> thresholds_pass_test_ = {4, 4, 4};
+    std::vector<int> thresholds_fail_test_ = {-4, -4, -4};
 
     // Set the default increment and decrement value for each pass and fail safety test
-    std::vector<int> increment_pass_test_ = {1, 1, 1};
-    std::vector<int> decrement_fail_test_ = {1, 1, 1};
+    std::vector<int> increments_pass_test_ = {1, 1, 1};
+    std::vector<int> decrements_fail_test_ = {1, 1, 1};
 
     // Constant Pass and Fail boolean
     const bool PASS = true;
     const bool FAIL = false;
 
     // Initiate Non-Instantaneous result vector
-    std::vector<bool> non_instantaneous_result_ = std::vector<bool>(num_safety_tests_, PASS);
+    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS);
    
     // result of the check functions
     double distance_to_lane_;
@@ -476,18 +476,18 @@ private:
     std::vector<bool> checkInstantaneousResults()
     {
         // The pass result vector of safety test.
-        std::vector<bool> instantaneous_test_result(num_safety_tests_);
+        std::vector<bool> instantaneous_test_results(num_safety_tests_);
 
         // Check that all necessary nodes are active and store in the vector
-        instantaneous_test_result[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
         
         //Check that the center of the car on the road
-        instantaneous_test_result[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
+        instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
         
         //Is there a dynamic object in the critical area
-        instantaneous_test_result[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
+        instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
    
-        return instantaneous_test_result;
+        return instantaneous_test_results;
     }
     
     /*!
@@ -534,29 +534,29 @@ private:
     std::vector<bool> checkNonInstantaneousResults()
     {
         // Extract Instantaneous safety test result
-        std::vector<bool> instantaneous_test_result = checkInstantaneousResults();
+        std::vector<bool> instantaneous_test_results = checkInstantaneousResults();
         
         // For loop for each test result
         for (int i = 0; i < num_safety_tests_; i++)
         {
             // Update the counter value based on instantaneous test results
-            safety_test_counter_[i] = updateCounter(instantaneous_test_result[i], threshold_pass_test_[i], threshold_fail_test_[i], increment_pass_test_[i], decrement_fail_test_[i], safety_test_counter_[i] );
+            safety_test_counters_[i] = updateCounter(instantaneous_test_results[i], thresholds_pass_test_[i], thresholds_fail_test_[i], increments_pass_test_[i], decrements_fail_test_[i], safety_test_counters_[i] );
             
             // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
-            if (safety_test_counter_[i] == threshold_pass_test_[i])
+            if (safety_test_counters_[i] == thresholds_pass_test_[i])
             {
-                non_instantaneous_result_[i] = PASS;
+                non_instantaneous_results_[i] = PASS;
 
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counter_[i]);
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
             }
-            else if (safety_test_counter_[i] == threshold_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
+            else if (safety_test_counters_[i] == thresholds_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
             {
-                non_instantaneous_result_[i] = FAIL;
+                non_instantaneous_results_[i] = FAIL;
 
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counter_[i]);
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
             }
         }
-        return non_instantaneous_result_;
+        return non_instantaneous_results_;
     }
 
     /*!
@@ -566,26 +566,26 @@ private:
     void takeDecisionBasedOnTestResult()
     {
         // Define threshold values vector from ROS parameter server
-        ros::param::get("/threshold_vector_pass_test", threshold_pass_test_);
-        ros::param::get("/threshold_vector_fail_test", threshold_fail_test_);
+        ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_);
+        ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_);
         
         // Define increment/decrement values vectors from ROS parameter server
-        ros::param::get("/increment_vector_pass_test_", increment_pass_test_);
-        ros::param::get("/decrement_vector_fail_test_", decrement_fail_test_);
+        ros::param::get("/increment_vector_pass_test_", increments_pass_test_);
+        ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_);
 
         // Non-instantaneous test result vector
-        non_instantaneous_result_ = checkNonInstantaneousResults();
+        non_instantaneous_results_ = checkNonInstantaneousResults();
         
         // For loop for each test result
         for (int j = 0; j < num_safety_tests_; j++)
         {
             // if the non-instantaneous test result is PASS then switch to nominal channel
-            if (non_instantaneous_result_[j] == PASS)
+            if (non_instantaneous_results_[j] == PASS)
             {
                 switchNominalChannel();
                 ROS_DEBUG_STREAM("The test " << j+1 <<  " is PASS");
             }
-            else if (non_instantaneous_result_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
+            else if (non_instantaneous_results_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
             {
                 triggerSafetySwitch();
                 ROS_WARN_STREAM("The test " << j+1 <<  " is FAIL");
