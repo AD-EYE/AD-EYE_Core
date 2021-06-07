@@ -35,14 +35,13 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
-    ros::Publisher pub_critical_area_demo_;  //Used for demo critical area visualization
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
-    ros::Publisher pub_polygon_area_;
+
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
@@ -537,8 +536,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
-        pub_critical_area_demo_ =  nh_.advertise<visualization_msgs::Marker>("/critical_area_demo", 1, true); 
-        //pub_polygon_area_ = nh_.advertise<nav_msgs::OccupancyGrid>("/critical_demo_", 1, true);
+        
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
