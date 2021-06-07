@@ -144,9 +144,8 @@ public:
         map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GoalMapNode::gridMapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
         goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GoalMapNode::goalPixelsCoordinatesCallback, this);
-        pub_goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
+        pub_goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/adeye/goals", 1, true);
     }
-
     /*!
      * \brief The main function of the Node. Contains the main loop.
      * \brief Basically, publish the ROS image and update it when grid map position is changed.
