@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W08_Small_Town" UniqueId="0" TotalSimulationTime="50.416666666666664" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="0FD935BC13D1163D99657958CF537AFAC8B536460E9BFB33AE6DD68045646AD4" UniqueExperimentIdentifier="5477fadd-6007-4c53-9ff5-63ce88496ac9" UniqueIdCounter="6636" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W08_Small_Town" UniqueId="0" TotalSimulationTime="50.416666666666664" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="A49CCA823EA072D4E544759243E21AF055EF6E6E90807BBAF12C99F58BD081A5" UniqueExperimentIdentifier="1dff691e-7be4-4f9c-98ae-6bd13584dcfe" UniqueIdCounter="6915" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="Turkish Hazel 20 years old" id="TurkishHazel20y_1" UniqueId="6375" SensorDetectability="Occluding" NumericalID="26" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TurkishHazel20y" AnimatedActor="false" CompilationSheetPicture="TurkishHazel20.png" HashCode="405f27d7bc3512189a8b39da50ca13fc" ModelFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="214.22950744628906" Y="153.82000732421875" Z="0" />
@@ -3308,11 +3308,11 @@
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="6525" SensorDetectability="Invisible" NumericalID="72" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="184" Y="74" Z="0" />
+      <Location X="155.01289367675781" Y="1.1699028015136719" Z="1" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
-      <CoGOffset X="0" Y="0" Z="0" />
+      <CoGOffset X="1" Y="0" Z="1" />
       <SensorInfo>
         <TISSensorInfo DefaultORMFile="DefaultORM.txt">
           <UserSpecifiedModels />
@@ -3701,7 +3701,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6627" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6908" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3726,7 +3726,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6628" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6909" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3751,7 +3751,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6629" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6910" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3776,7 +3776,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6630" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6911" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3814,7 +3814,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6631" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6912" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3849,7 +3849,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6632" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6913" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -3911,7 +3911,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="6633" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6914" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5178,7 +5178,7 @@
           <Size X="0" Y="0" Z="0" />
           <CoGOffset X="0" Y="0" Z="0" />
           <StartLocation X="221.67116484445711" Y="100.88512197446342" Z="0.43200001120567322" />
-          <StartOrientation Bank="0" Tilt="0" Heading="269.97031299897583" />
+          <StartOrientation Bank="0" Tilt="0" Heading="269.97031299897588" />
         </TrajectoryBase>
       </Trajectories>
       <Cameras />
@@ -5894,8 +5894,24 @@
       </Animation>
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -6018,8 +6034,548 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_1" UniqueId="6905" SensorDetectability="Detectable" NumericalID="75" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="216.35845947265625" Y="-2.9592494964599609" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="270" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_2" UniqueId="6906" SensorDetectability="Detectable" NumericalID="77" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="217.28855895996094" Y="10.580839157104492" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="180" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_3" UniqueId="6907" SensorDetectability="Detectable" NumericalID="78" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="231.13136291503906" Y="8.8866195678710938" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="90" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -6049,7 +6605,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Grass" Description="" id="Grass_2" UniqueId="6344" SensorDetectability="Occluding" NumericalID="23" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="296.16598510742193" Y="140.52871702993528" Z="0" />
+        <Location X="296.16598510742193" Y="140.52871702570081" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="100" Y="100" Z="0.0099999997764825821" />
@@ -6062,13 +6618,13 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="9.57781551753689" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="4.5752357614030439" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.5752357612656445" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Grass" Description="" id="Grass_3" UniqueId="6369" SensorDetectability="Occluding" NumericalID="24" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="283.77032470703125" Y="35.596061556844525" Z="0" />
+        <Location X="283.77032470703108" Y="35.596061449571842" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="125" Y="125" Z="0.0099999997764825821" />
@@ -6080,14 +6636,14 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="9.176947913647842" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="1.1589116961359147" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="9.1769479136478349" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="1.1589116927009155" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Grass" Description="" id="Grass_4" UniqueId="6370" SensorDetectability="Occluding" NumericalID="25" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="221.30917358398409" Y="77.482856705670969" Z="0" />
+        <Location X="221.30917358398398" Y="77.482856701436518" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="50" Y="50" Z="0.0099999997764825821" />
@@ -6099,14 +6655,14 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="7.1569948728116506" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="2.5226327009163625" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="7.1569948728116453" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="2.5226327007789626" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_1" UniqueId="6371" SensorDetectability="Occluding" NumericalID="22" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="108.58618927001939" Y="24.770137610306524" Z="0" />
+        <Location X="108.58618927001939" Y="24.770137541143878" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="100" Y="100" Z="0.0099999997764825821" />
@@ -6119,13 +6675,13 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="3.511606804687871" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="0.8064488301886894" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="0.80644882799029016" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_2" UniqueId="6372" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="171.39227294921858" Y="24.596408555767304" Z="0" />
+        <Location X="171.39227294921847" Y="24.596408458375006" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="100" Y="100" Z="0.0099999997764825821" />
@@ -6137,8 +6693,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="5.5427147410146107" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="0.80079268105113377" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="5.5427147410146063" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="0.80079267784513464" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -7618,7 +8174,7 @@
     <SensorHolders />
   </InfraStructure>
   <Paths>
-    <Path xsi:type="InheritedPath" Description="" id="InheritedPath_1" UniqueId="6619" PreventDragging="true" StartHeading="-90.029687001024115">
+    <Path xsi:type="InheritedPath" Description="" id="InheritedPath_1" UniqueId="6619" PreventDragging="true" StartHeading="269.97031299897588">
       <Location X="221.67116484445711" Y="100.88512197446342" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="269.97031299897588" />
       <Origin X="0.5" Y="0.5" Z="0" />
@@ -7798,38 +8354,38 @@
       </Segments>
       <LinePlacements />
       <PathShapes>
-        <Spline StartPointX="221.67116484445711" StartPointY="100.88512197446342" StartPointZ="0" StartControlPointX="221.66885455881126" StartControlPointY="96.426281385471029" StartControlPointZ="0" EndControlPointX="219.21845625818523" EndControlPointY="92.206667987434813" EndControlPointZ="0" EndPointX="215.34694114600615" EndPointY="89.994737728218951" EndPointZ="0" />
-        <Spline StartPointX="215.34694114600615" StartPointY="89.994737728218951" StartPointZ="0" StartControlPointX="208.83740833714043" StartControlPointY="86.275616731685062" StartControlPointZ="0" EndControlPointX="205.67867855829959" EndControlPointY="78.320880727777308" EndControlPointZ="0" EndPointX="207.86363775002516" EndPointY="71.14928176331685" EndPointZ="0" />
-        <Spline StartPointX="207.86363775002516" StartPointY="71.14928176331685" StartPointZ="0" StartControlPointX="210.04859694175067" StartControlPointY="63.977682798856577" StartControlPointZ="0" EndControlPointX="217.10613650253143" EndControlPointY="59.135520672736526" EndControlPointZ="0" EndPointX="224.58355792687311" EndPointY="59.677781882255182" EndPointZ="0" />
-        <Spline StartPointX="224.58355792687311" StartPointY="59.677781882255182" StartPointZ="0" StartControlPointX="229.92895116876724" StartControlPointY="60.065428804931813" StartControlPointZ="0" EndControlPointX="234.84581438091948" EndControlPointY="63.158597250708759" EndControlPointZ="0" EndPointX="237.5093384556817" EndPointY="67.809311018541678" EndPointZ="0" />
-        <Spline StartPointX="237.5093384556817" StartPointY="67.809311018541678" StartPointZ="0" StartControlPointX="239.72529363203952" StartControlPointY="71.678535856311257" StartControlPointZ="0" EndControlPointX="243.94745391516602" EndControlPointY="74.124561841904324" EndControlPointZ="0" EndPointX="248.40630498572773" EndPointY="74.122255461497133" EndPointZ="0" />
-        <Spline StartPointX="248.40630498572773" StartPointY="74.122255461497133" StartPointZ="0" StartControlPointX="258.406303648246" StartControlPointY="74.117083456593193" StartControlPointZ="0" EndControlPointX="268.4063023107642" EndControlPointY="74.111911451689252" EndControlPointZ="0" EndPointX="278.40630097328227" EndPointY="74.106739446785312" EndPointZ="0" />
-        <Spline StartPointX="278.40630097328227" StartPointY="74.106739446785312" StartPointZ="0" StartControlPointX="285.79924985842865" StartControlPointY="74.102915809485054" StartControlPointZ="0" EndControlPointX="293.18817368605113" EndControlPointY="73.963114565944863" EndControlPointZ="0" EndPointX="300.58170605922191" EndPointY="74.0118157767352" EndPointZ="0" />
-        <Spline StartPointX="300.58170605922191" StartPointY="74.0118157767352" StartPointZ="0" StartControlPointX="303.11192069398521" StartControlPointY="74.02848230499977" StartControlPointZ="0" EndControlPointX="305.64346688429015" EndControlPointY="74.022290085179463" EndControlPointZ="0" EndPointX="308.17341280390588" EndPointY="74.061822362460191" EndPointZ="0" />
-        <Spline StartPointX="308.17340170353759" StartPointY="74.061783881677286" StartPointZ="0" StartControlPointX="312.18388522347823" StartControlPointY="74.124450654635083" StartControlPointZ="0" EndControlPointX="316.19436874341881" EndControlPointY="74.187117427592867" EndControlPointZ="0" EndPointX="320.2048522633595" EndPointY="74.249784200550664" EndPointZ="0" />
-        <Spline StartPointX="320.2048522633595" StartPointY="74.249784200550664" StartPointZ="0" StartControlPointX="322.87639362139493" StartControlPointY="74.294014780593884" StartControlPointZ="0" EndControlPointX="325.84946097937797" EndControlPointY="74.896214058729186" EndControlPointZ="0" EndPointX="327.08745755855847" EndPointY="77.55916522735464" EndPointZ="0" />
-        <Spline StartPointX="327.08745755855847" StartPointY="77.55916522735464" StartPointZ="0" StartControlPointX="327.706589017485" StartControlPointY="78.890927261117668" StartControlPointZ="0" EndControlPointX="327.82850448064693" EndControlPointY="80.411982358907949" EndControlPointZ="0" EndPointX="327.80982116730183" EndPointY="81.8618321195204" EndPointZ="0" />
-        <Spline StartPointX="327.80982115897729" StartPointY="81.8618320858169" StartPointZ="0" StartControlPointX="327.750176629844" StartControlPointY="85.946692257682116" StartControlPointZ="0" EndControlPointX="327.69053210071081" EndControlPointY="90.031552429547276" EndControlPointZ="0" EndPointX="327.63088757157755" EndPointY="94.1164126014125" EndPointZ="0" />
-        <Spline StartPointX="327.63088757157755" StartPointY="94.1164126014125" StartPointZ="0" StartControlPointX="327.56159421291329" StartControlPointY="98.862089784145624" StartControlPointZ="0" EndControlPointX="324.99858378952752" EndControlPointY="103.28722684696361" EndControlPointZ="0" EndPointX="322.49841708674734" EndPointY="107.1607181589563" EndPointZ="0" />
-        <Spline StartPointX="322.49841708674734" StartPointY="107.1607181589563" StartPointZ="0" StartControlPointX="319.6681582968622" StartControlPointY="111.54561890222288" StartControlPointZ="0" EndControlPointX="316.1551673447899" EndControlPointY="115.51449241873706" EndControlPointZ="0" EndPointX="312.62322823744859" EndPointY="119.33912899013491" EndPointZ="0" />
-        <Spline StartPointX="312.62322823744859" StartPointY="119.33912899013491" StartPointZ="0" StartControlPointX="305.13642968528018" StartControlPointY="127.44637055774679" StartControlPointZ="0" EndControlPointX="296.68594897869815" EndControlPointY="134.60871416650434" EndControlPointZ="0" EndPointX="288.17660972734535" EndPointY="141.60445686328862" EndPointZ="0" />
-        <Spline StartPointX="288.17660972734535" StartPointY="141.60445686328862" StartPointZ="0" StartControlPointX="283.90718886719719" StartControlPointY="145.11445557407356" StartControlPointZ="0" EndControlPointX="279.4490125869267" EndControlPointY="148.41553546808112" EndControlPointZ="0" EndPointX="274.99369466291938" EndPointY="151.68352643677628" EndPointZ="0" />
-        <Spline StartPointX="274.99369466291938" StartPointY="151.68352643677628" StartPointZ="0" StartControlPointX="268.48370886500709" StartControlPointY="156.4586233337393" StartControlPointZ="0" EndControlPointX="261.73597595273094" EndControlPointY="161.05065234036402" EndControlPointZ="0" EndPointX="254.69572530383539" EndPointY="165.01141543094835" EndPointZ="0" />
-        <Spline StartPointX="254.69572530383539" StartPointY="165.01141543094835" StartPointZ="0" StartControlPointX="252.63593578253497" StartControlPointY="166.17022904671342" StartControlPointZ="0" EndControlPointX="250.54563476938924" EndControlPointY="167.295932627844" EndControlPointZ="0" EndPointX="248.374220278807" EndPointY="168.23326056365408" EndPointZ="0" />
-        <Spline StartPointX="248.37430728742825" StartPointY="168.23334138350248" StartPointZ="0" StartControlPointX="239.19317858638522" StartControlPointY="172.19653148427756" StartControlPointZ="0" EndControlPointX="230.012049885342" EndControlPointY="176.15972158505269" EndControlPointZ="0" EndPointX="220.83092118429883" EndPointY="180.12291168582783" EndPointZ="0" />
-        <Spline StartPointX="220.83091200317011" StartPointY="180.12291564901795" StartPointZ="0" StartControlPointX="215.3149316290893" StartControlPointY="182.50398223968051" StartControlPointZ="0" EndControlPointX="208.69384172227061" EndControlPointY="180.71080610020434" EndControlPointZ="0" EndPointX="205.13494089899461" EndPointY="175.87073300366109" EndPointZ="0" />
-        <Spline StartPointX="205.13494089899461" StartPointY="175.87073300366109" StartPointZ="0" StartControlPointX="203.49565616892698" StartControlPointY="173.64132052110955" StartControlPointZ="0" EndControlPointX="202.59429191806194" EndControlPointY="170.90578238411337" EndControlPointZ="0" EndPointX="202.5928602737709" EndPointY="168.13771830420725" EndPointZ="0" />
-        <Spline StartPointX="202.5928578294006" StartPointY="168.13774173150014" StartPointZ="0" StartControlPointX="202.58932911525287" StartControlPointY="161.31502260939371" StartControlPointZ="0" EndControlPointX="199.8526216841768" EndControlPointY="155.08288267745212" EndControlPointZ="0" EndPointX="196.47119933047881" EndPointY="149.29974938880156" EndPointZ="0" />
-        <Spline StartPointX="196.47119933047881" StartPointY="149.29974938880156" StartPointZ="0" StartControlPointX="193.6993687320149" StartControlPointY="144.55918044243901" StartControlPointZ="0" EndControlPointX="190.20370180647265" EndControlPointY="140.27719732761204" EndControlPointZ="0" EndPointX="187.47348189139583" EndPointY="135.51345173944745" EndPointZ="0" />
-        <Spline StartPointX="187.47348189139583" StartPointY="135.51345173944745" StartPointZ="0" StartControlPointX="185.77196663515818" StartControlPointY="132.5446118484422" StartControlPointZ="0" EndControlPointX="184.21226013983292" EndControlPointY="128.60817103982413" EndControlPointZ="0" EndPointX="186.48507348085292" EndPointY="125.50040687882982" EndPointZ="0" />
-        <Spline StartPointX="186.48507348085292" StartPointY="125.50040687882982" StartPointZ="0" StartControlPointX="186.70123701839464" StartControlPointY="125.20483254249459" StartControlPointZ="0" EndControlPointX="186.93714278049811" EndControlPointY="124.9247711215086" EndControlPointZ="0" EndPointX="187.196098309412" EndPointY="124.66554759009475" EndPointZ="0" />
-        <Spline StartPointX="187.19605193595748" StartPointY="124.66555915273334" StartPointZ="0" StartControlPointX="189.20815564612258" StartControlPointY="122.65137304322052" StartControlPointZ="0" EndControlPointX="191.98642554304215" EndControlPointY="122.31423730938057" EndControlPointZ="0" EndPointX="194.58193586380514" EndPointY="123.32584712487959" EndPointZ="0" />
-        <Spline StartPointX="194.58193586380514" StartPointY="123.32584712487959" StartPointZ="0" StartControlPointX="198.25292638484504" StartControlPointY="124.75662935447832" StartControlPointZ="0" EndControlPointX="201.24252054781579" EndControlPointY="127.72831090846267" EndControlPointZ="0" EndPointX="204.11299930077033" EndPointY="130.33038922653006" EndPointZ="0" />
-        <Spline StartPointX="204.11299930077033" StartPointY="130.33038922653006" StartPointZ="0" StartControlPointX="206.56861495144972" StartControlPointY="132.55639568470815" StartControlPointZ="0" EndControlPointX="209.03491624873348" EndControlPointY="135.0390664918348" EndControlPointZ="0" EndPointX="211.98391945250495" EndPointY="136.61066966497833" EndPointZ="0" />
-        <Spline StartPointX="211.98391945250495" StartPointY="136.61066966497833" StartPointZ="0" StartControlPointX="213.4047637155407" StartControlPointY="137.36787581160917" StartControlPointZ="0" EndControlPointX="215.1041354953702" EndControlPointY="137.88762122567624" EndControlPointZ="0" EndPointX="216.43030956486416" EndPointY="136.67416507477262" EndPointZ="0" />
-        <Spline StartPointX="216.43030956486416" StartPointY="136.67416507477262" StartPointZ="0" StartControlPointX="217.90446329273783" StartControlPointY="135.32530676905381" StartControlPointZ="0" EndControlPointX="218.6526983585687" EndControlPointY="133.06214019390654" EndControlPointZ="0" EndPointX="219.146341883793" EndPointY="131.1814462703403" EndPointZ="0" />
-        <Spline StartPointX="219.146341883793" StartPointY="131.1814462703403" StartPointZ="0" StartControlPointX="221.15483282862692" StartControlPointY="123.52945344055397" StartControlPointZ="0" EndControlPointX="221.42677234347559" EndControlPointY="115.45206060983895" EndControlPointZ="0" EndPointX="221.60585218636763" EndPointY="107.57988001335913" EndPointZ="0" />
-        <Spline StartPointX="221.60585218636763" StartPointY="107.57988001335913" StartPointZ="0" StartControlPointX="221.65659711528869" StartControlPointY="105.34918091082011" StartControlPointZ="0" EndControlPointX="221.67233817824228" EndControlPointY="103.11639951489187" EndControlPointZ="0" EndPointX="221.67118418109789" EndPointY="100.88516228392128" EndPointZ="0" />
+        <Spline StartPointX="221.67116484445711" StartPointY="100.88512197446342" StartPointZ="0" StartControlPointX="221.66885455881126" StartControlPointY="96.426281385471015" StartControlPointZ="0" EndControlPointX="219.21845625818523" EndControlPointY="92.206667987434813" EndControlPointZ="0" EndPointX="215.34694114600615" EndPointY="89.994737728218951" EndPointZ="0" />
+        <Spline StartPointX="215.34694114600615" StartPointY="89.994737728218951" StartPointZ="0" StartControlPointX="208.83740833714043" StartControlPointY="86.275616731685076" StartControlPointZ="0" EndControlPointX="205.67867855829959" EndControlPointY="78.320880727777308" EndControlPointZ="0" EndPointX="207.86363775002516" EndPointY="71.14928176331685" EndPointZ="0" />
+        <Spline StartPointX="207.86363775002516" StartPointY="71.14928176331685" StartPointZ="0" StartControlPointX="210.04859694175076" StartControlPointY="63.977682798856321" StartControlPointZ="0" EndControlPointX="217.10613650253137" EndControlPointY="59.135520672736867" EndControlPointZ="0" EndPointX="224.58355792687311" EndPointY="59.677781882255189" EndPointZ="0" />
+        <Spline StartPointX="224.58355792687311" StartPointY="59.677781882255189" StartPointZ="0" StartControlPointX="229.92895116876716" StartControlPointY="60.065428804931571" StartControlPointZ="0" EndControlPointX="234.84581438091953" EndControlPointY="63.158597250708887" EndControlPointZ="0" EndPointX="237.5093384556817" EndPointY="67.809311018541678" EndPointZ="0" />
+        <Spline StartPointX="237.5093384556817" StartPointY="67.809311018541678" StartPointZ="0" StartControlPointX="239.72529363203952" StartControlPointY="71.678535856311257" StartControlPointZ="0" EndControlPointX="243.947453915166" EndControlPointY="74.124561841904338" EndControlPointZ="0" EndPointX="248.40630498572773" EndPointY="74.122255461497147" EndPointZ="0" />
+        <Spline StartPointX="248.40630498572773" StartPointY="74.122255461497147" StartPointZ="0" StartControlPointX="258.40630364824597" StartControlPointY="74.1170834565932" StartControlPointZ="0" EndControlPointX="268.4063023107642" EndControlPointY="74.111911451689281" EndControlPointZ="0" EndPointX="278.40630097328227" EndPointY="74.10673944678534" EndPointZ="0" />
+        <Spline StartPointX="278.40630097328227" StartPointY="74.10673944678534" StartPointZ="0" StartControlPointX="285.79924985842865" StartControlPointY="74.102915809485083" StartControlPointZ="0" EndControlPointX="293.18817368605119" EndControlPointY="73.963114565944892" EndControlPointZ="0" EndPointX="300.58170605922191" EndPointY="74.011815776735233" EndPointZ="0" />
+        <Spline StartPointX="300.58170605922191" StartPointY="74.011815776735233" StartPointZ="0" StartControlPointX="303.11192069398521" StartControlPointY="74.0284823049998" StartControlPointZ="0" EndControlPointX="305.64346688429015" EndControlPointY="74.02229008517952" EndControlPointZ="0" EndPointX="308.17341280390588" EndPointY="74.061822362460234" EndPointZ="0" />
+        <Spline StartPointX="308.17340170353759" StartPointY="74.061783881677329" StartPointZ="0" StartControlPointX="312.18388522347823" StartControlPointY="74.124450654635112" StartControlPointZ="0" EndControlPointX="316.19436874341881" EndControlPointY="74.187117427592923" EndControlPointZ="0" EndPointX="320.2048522633595" EndPointY="74.2497842005507" EndPointZ="0" />
+        <Spline StartPointX="320.2048522633595" StartPointY="74.2497842005507" StartPointZ="0" StartControlPointX="322.87639362139493" StartControlPointY="74.294014780593926" StartControlPointZ="0" EndControlPointX="325.84946097937797" EndControlPointY="74.896214058729228" EndControlPointZ="0" EndPointX="327.08745755855847" EndPointY="77.559165227354683" EndPointZ="0" />
+        <Spline StartPointX="327.08745755855847" StartPointY="77.559165227354683" StartPointZ="0" StartControlPointX="327.706589017485" StartControlPointY="78.8909272611177" StartControlPointZ="0" EndControlPointX="327.82850448064693" EndControlPointY="80.411982358908" EndControlPointZ="0" EndPointX="327.80982116730183" EndPointY="81.861832119520457" EndPointZ="0" />
+        <Spline StartPointX="327.80982115897729" StartPointY="81.861832085816943" StartPointZ="0" StartControlPointX="327.75017662984408" StartControlPointY="85.946692257682159" StartControlPointZ="0" EndControlPointX="327.69053210071075" EndControlPointY="90.0315524295473" EndControlPointZ="0" EndPointX="327.63088757157755" EndPointY="94.116412601412549" EndPointZ="0" />
+        <Spline StartPointX="327.63088757157755" StartPointY="94.116412601412549" StartPointZ="0" StartControlPointX="327.56159421291329" StartControlPointY="98.862089784145709" StartControlPointZ="0" EndControlPointX="324.99858378952746" EndControlPointY="103.28722684696362" EndControlPointZ="0" EndPointX="322.49841708674728" EndPointY="107.16071815895634" EndPointZ="0" />
+        <Spline StartPointX="322.49841708674728" StartPointY="107.16071815895634" StartPointZ="0" StartControlPointX="319.66815829686215" StartControlPointY="111.54561890222293" StartControlPointZ="0" EndControlPointX="316.1551673447899" EndControlPointY="115.51449241873712" EndControlPointZ="0" EndPointX="312.62322823744859" EndPointY="119.33912899013495" EndPointZ="0" />
+        <Spline StartPointX="312.62322823744859" StartPointY="119.33912899013495" StartPointZ="0" StartControlPointX="305.13642968528018" StartControlPointY="127.44637055774683" StartControlPointZ="0" EndControlPointX="296.68594897869809" EndControlPointY="134.6087141665044" EndControlPointZ="0" EndPointX="288.17660972734529" EndPointY="141.60445686328865" EndPointZ="0" />
+        <Spline StartPointX="288.17660972734529" StartPointY="141.60445686328865" StartPointZ="0" StartControlPointX="283.90718886719714" StartControlPointY="145.11445557407359" StartControlPointZ="0" EndControlPointX="279.4490125869267" EndControlPointY="148.41553546808112" EndControlPointZ="0" EndPointX="274.99369466291938" EndPointY="151.68352643677628" EndPointZ="0" />
+        <Spline StartPointX="274.99369466291938" StartPointY="151.68352643677628" StartPointZ="0" StartControlPointX="268.48370886500703" StartControlPointY="156.45862333373935" StartControlPointZ="0" EndControlPointX="261.73597595273083" EndControlPointY="161.05065234036394" EndControlPointZ="0" EndPointX="254.69572530383533" EndPointY="165.01141543094838" EndPointZ="0" />
+        <Spline StartPointX="254.69572530383533" StartPointY="165.01141543094838" StartPointZ="0" StartControlPointX="252.63593578253494" StartControlPointY="166.17022904671347" StartControlPointZ="0" EndControlPointX="250.54563476938918" EndControlPointY="167.29593262784402" EndControlPointZ="0" EndPointX="248.374220278807" EndPointY="168.23326056365408" EndPointZ="0" />
+        <Spline StartPointX="248.37430728742822" StartPointY="168.23334138350251" StartPointZ="0" StartControlPointX="239.1931755260089" StartControlPointY="172.19653280534098" StartControlPointZ="0" EndControlPointX="230.01204376458944" EndControlPointY="176.15972422717945" EndControlPointZ="0" EndPointX="220.83091200317008" EndPointY="180.12291564901795" EndPointZ="0" />
+        <Spline StartPointX="220.83091200317008" StartPointY="180.12291564901795" StartPointZ="0" StartControlPointX="215.3149316290893" StartControlPointY="182.50398223968051" StartControlPointZ="0" EndControlPointX="208.69384172227058" EndControlPointY="180.71080610020431" EndControlPointZ="0" EndPointX="205.13494089899459" EndPointY="175.87073300366109" EndPointZ="0" />
+        <Spline StartPointX="205.13494089899459" StartPointY="175.87073300366109" StartPointZ="0" StartControlPointX="203.49565616892696" StartControlPointY="173.64132052110955" StartControlPointZ="0" EndControlPointX="202.59429191806191" EndControlPointY="170.90578238411337" EndControlPointZ="0" EndPointX="202.59286027377087" EndPointY="168.13771830420725" EndPointZ="0" />
+        <Spline StartPointX="202.5928578294006" StartPointY="168.13774173150014" StartPointZ="0" StartControlPointX="202.58932911525284" StartControlPointY="161.3150226093932" StartControlPointZ="0" EndControlPointX="199.85262168417626" EndControlPointY="155.08288267745283" EndControlPointZ="0" EndPointX="196.47119933047881" EndPointY="149.29974938880156" EndPointZ="0" />
+        <Spline StartPointX="196.47119933047881" StartPointY="149.29974938880156" StartPointZ="0" StartControlPointX="193.69936873201547" StartControlPointY="144.55918044243865" StartControlPointZ="0" EndControlPointX="190.20370180647268" EndControlPointY="140.27719732761207" EndControlPointZ="0" EndPointX="187.47348189139586" EndPointY="135.51345173944745" EndPointZ="0" />
+        <Spline StartPointX="187.47348189139586" StartPointY="135.51345173944745" StartPointZ="0" StartControlPointX="185.77196663515838" StartControlPointY="132.54461184844249" StartControlPointZ="0" EndControlPointX="184.21226013983264" EndControlPointY="128.60817103982379" EndControlPointZ="0" EndPointX="186.48507348085295" EndPointY="125.50040687882981" EndPointZ="0" />
+        <Spline StartPointX="186.48507348085295" StartPointY="125.50040687882981" StartPointZ="0" StartControlPointX="186.70123701839469" StartControlPointY="125.20483254249459" StartControlPointZ="0" EndControlPointX="186.93714278049811" EndControlPointY="124.92477112150863" EndControlPointZ="0" EndPointX="187.196098309412" EndPointY="124.66554759009475" EndPointZ="0" />
+        <Spline StartPointX="187.19605193595748" StartPointY="124.66555915273332" StartPointZ="0" StartControlPointX="189.20815564612266" StartControlPointY="122.65137304322039" StartControlPointZ="0" EndControlPointX="191.98642554304206" EndControlPointY="122.31423730938072" EndControlPointZ="0" EndPointX="194.58193586380514" EndPointY="123.32584712487957" EndPointZ="0" />
+        <Spline StartPointX="194.58193586380514" StartPointY="123.32584712487957" StartPointZ="0" StartControlPointX="198.25292638484521" StartControlPointY="124.75662935447811" StartControlPointZ="0" EndControlPointX="201.2425205478155" EndControlPointY="127.72831090846294" EndControlPointZ="0" EndPointX="204.1129993007703" EndPointY="130.33038922653006" EndPointZ="0" />
+        <Spline StartPointX="204.1129993007703" StartPointY="130.33038922653006" StartPointZ="0" StartControlPointX="206.56861495145" StartControlPointY="132.55639568470798" StartControlPointZ="0" EndControlPointX="209.03491624873334" EndControlPointY="135.03906649183472" EndControlPointZ="0" EndPointX="211.98391945250495" EndPointY="136.6106696649783" EndPointZ="0" />
+        <Spline StartPointX="211.98391945250495" StartPointY="136.6106696649783" StartPointZ="0" StartControlPointX="213.40476371554058" StartControlPointY="137.36787581160908" StartControlPointZ="0" EndControlPointX="215.10413549537031" EndControlPointY="137.88762122567638" EndControlPointZ="0" EndPointX="216.43030956486416" EndPointY="136.67416507477262" EndPointZ="0" />
+        <Spline StartPointX="216.43030956486416" StartPointY="136.67416507477262" StartPointZ="0" StartControlPointX="217.90446329273777" StartControlPointY="135.32530676905361" StartControlPointZ="0" EndControlPointX="218.65269835856867" EndControlPointY="133.06214019390669" EndControlPointZ="0" EndPointX="219.146341883793" EndPointY="131.1814462703403" EndPointZ="0" />
+        <Spline StartPointX="219.146341883793" StartPointY="131.1814462703403" StartPointZ="0" StartControlPointX="221.15483282862692" StartControlPointY="123.52945344055395" StartControlPointZ="0" EndControlPointX="221.42677234347559" EndControlPointY="115.45206060983895" EndControlPointZ="0" EndPointX="221.60585218636763" EndPointY="107.57988001335912" EndPointZ="0" />
+        <Spline StartPointX="221.60585218636763" StartPointY="107.57988001335912" StartPointZ="0" StartControlPointX="221.65659711528869" StartControlPointY="105.3491809108201" StartControlPointZ="0" EndControlPointX="221.67233817824228" EndControlPointY="103.11639951489185" EndControlPointZ="0" EndPointX="221.67118418109789" EndPointY="100.88516228392126" EndPointZ="0" />
       </PathShapes>
       <PathOrientations>
         <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
@@ -8325,7 +8881,11 @@
       <CategorizedObjects />
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" HasSeparateColors="false" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
-      <CategorizedObjects />
+      <CategorizedObjects>
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6905" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6906" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6907" />
+      </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" HasSeparateColors="false" Color="FF7F007F" PredefinedEnumType="AbstractObject">
       <CategorizedObjects />
@@ -8586,6 +9146,15 @@
     </ObjectColorID>
     <ObjectColorID Color="FF7F007F">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Male_LyingDown_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6626" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFBF00FF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6905" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFFF003F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6906" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF003FFF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="6907" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
@@ -9010,7 +9579,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot2468" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="13">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
-          <EndState Distance="469.184979455541460" Situation="Reached" Speed="15" Time="31.278998630369430666666666667" />
+          <EndState Distance="469.184989455541460" Situation="Reached" Speed="15" Time="31.278999297036097333333333333" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
