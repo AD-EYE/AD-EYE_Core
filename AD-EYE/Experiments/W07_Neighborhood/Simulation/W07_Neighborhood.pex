@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="60.1" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="1935809A6624F774FA5A7C3E7694DC736712B3B2924C967D4DA11981BD4E433A" UniqueExperimentIdentifier="4567c526-91c5-4e74-9b94-4222a467d4c9" UniqueIdCounter="12117" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W07_Neighborhood" UniqueId="0" Authors="Lucie Mosnier, mosnier@kth.se" TotalSimulationTime="60.1" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="Creation of a little neigborhood using trafic ligths, roundabouts and stop lines" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="6BF9B50A2B08F00BFF684594320D9426B0DCEC0FFE098987E24714DBD41F8351" UniqueExperimentIdentifier="7b12ffb0-579c-425d-a47d-779bd2e84e87" UniqueIdCounter="12414" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="Birch 20 years old" id="Birch20y_1" UniqueId="11161" SensorDetectability="Occluding" NumericalID="35" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch20y" AnimatedActor="false" CompilationSheetPicture="Birch20.png" HashCode="289762ab7d73bc00178feaa909be8ac3" ModelFile="Environment\NatureElements\Trees\Birch\Birch20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-53.023860931396484" Y="48.579143524169922" Z="0" />
@@ -5910,7 +5910,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12110" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12407" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5935,7 +5935,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12111" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12408" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5960,7 +5960,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12112" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12409" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -5985,7 +5985,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12113" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12410" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6023,7 +6023,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12114" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12411" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6058,7 +6058,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12115" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12412" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6120,7 +6120,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="12116" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="12413" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -9649,6 +9649,1266 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="0.10000000149011612" TrackWidthRear="0.10000000149011612" TyreRadius="0.30000001192092896" Wheelbase="1.3700000047683716" />
     </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_1" UniqueId="12262" SensorDetectability="Detectable" NumericalID="89" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-62.675094604492188" Y="89.156822204589844" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="298.967640542281" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_2" UniqueId="12263" SensorDetectability="Detectable" NumericalID="90" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-54.013843536376953" Y="95.11846923828125" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="29.744941612730308" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_3" UniqueId="12264" SensorDetectability="Detectable" NumericalID="91" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-68.468009948730469" Y="97.705596923828125" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="205.41937086697618" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_4" UniqueId="12265" SensorDetectability="Detectable" NumericalID="92" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-60.256690979003906" Y="103.89220428466797" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="118.88659451826263" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_5" UniqueId="12266" SensorDetectability="Detectable" NumericalID="93" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="42.741924285888672" Y="187.49420166015625" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="31.087504439509416" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_6" UniqueId="12267" SensorDetectability="Detectable" NumericalID="94" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="33.64154052734375" Y="197.82086181640625" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="122.79954233057011" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="KR Traffic Light Single" id="Overhang1Light_KR_7" UniqueId="12268" SensorDetectability="Detectable" NumericalID="95" ObjectTypeID="15" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Overhang1Light_KR" AnimatedActor="false" CompilationSheetPicture="Overhang1Light_KR.png" HashCode="ef190f88e27456ae56cdccea80b06dc9" ModelFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.osgb" GenericModelSourceFile="AnimatedElements\TrafficLight_KR\Overhang\Overhang1Light_KR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="30.027206420898438" Y="184.58978271484375" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="259.76519232669813" />
+      <Origin X="0.949999988079071" Y="0.62000000476837158" Z="0" />
+      <Size X="5.2399997711181641" Y="0.57999998331069946" Z="7.059999942779541" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="DefaultORM.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_0_Red" EnableActuator="false" ShowInAnimationList="false" ID="Light_PPXRRRKYRA" DisplayName="Red">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_0_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_0_Trans" ObjectID3D="Red" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_0_Rot" ObjectID3D="Red" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_0_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_0" ObjectID3D="Red" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_0_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_1_Orange" EnableActuator="false" ShowInAnimationList="false" ID="Light_SEDHVDSWBL" DisplayName="Orange">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_1_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_1_Trans" ObjectID3D="Orange" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_1_Rot" ObjectID3D="Orange" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_1_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_1" ObjectID3D="Orange" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_1_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_2_Arrow" EnableActuator="false" ShowInAnimationList="false" ID="Light_OOOTGZSSZR" DisplayName="Arrow">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_2_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_2_Trans" ObjectID3D="Arrow" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_2_Rot" ObjectID3D="Arrow" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_2_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_2" ObjectID3D="Arrow" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_2_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="LightActuator" ActuatorName="LightActuator_3_Green" EnableActuator="false" ShowInAnimationList="false" ID="Light_RBBGHKGVWC" DisplayName="Green">
+            <LightMeshPositions />
+            <VisuPortElements>
+              <VisuPortElement PortID="visu_DynLight_3_Int" ObjectID3D="" AttributeID="intensity" />
+              <VisuPortElement PortID="visu_DynLight_3_Trans" ObjectID3D="Green" AttributeID="translation" />
+              <VisuPortElement PortID="visu_DynLight_3_Rot" ObjectID3D="Green" AttributeID="lightrotation" />
+              <VisuPortElement PortID="visu_DynLight_3_Color" ObjectID3D="" AttributeID="lightcolors" />
+              <VisuPortElement PortID="visu_GenericLight_3" ObjectID3D="Green" AttributeID="colors" />
+              <VisuPortElement PortID="visu_DynLight_3_ICM" ObjectID3D="" AttributeID="projectedimage" />
+            </VisuPortElements>
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint body" RegionName="Paint body" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Paint casing" RegionName="Paint casing" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Glass" RegionName="Glass" TargetColor="FFFFFFFF">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions>
+        <RecolorRegion Name="Paint body" ChannelIndex="0" IntensityMultiplier="2.09" RegionMapNode="" />
+        <RecolorRegion Name="Paint casing" ChannelIndex="1" IntensityMultiplier="5.14" RegionMapNode="" />
+        <RecolorRegion Name="Glass" ChannelIndex="2" IntensityMultiplier="4.92" RegionMapNode="" />
+      </RecolorRegions>
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF0000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Red" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_0_Red" MeshName="Red" MeshColor="FF640000" PivotName="Red">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF0000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.78249979019165" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FFFF8000" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Orange" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_1_Orange" MeshName="Orange" MeshColor="FF643200" PivotName="Orange">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FFFF8000" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.4274997711181641" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Arrow" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_2_Arrow" MeshName="Arrow" MeshColor="FF006400" PivotName="Arrow">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-4.0725002288818359" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+        <LightElement xsi:type="GenericLightElement" AmbientRGBAColor="FF00FF00" BottomAngle="-55" ColorTemperature="2000" DefaultIntFallOffMap="GeneralLight.png" Intensity="10" IsActive="true" IsProjective="true" IsOn="false" LeftAngle="-55" LightID="0" LightPosition="GenericLight" MSCDIntensity="0.10000000000000000000" Name="Green" RightAngle="55" TopAngle="55" UsesMSCDIntensity="false" UsesRGBColorTemp="true" VisuActuatorName="LightActuator_3_Green" MeshName="Green" MeshColor="FF006400" PivotName="Green">
+          <Defaults LeftAngle="-55" RightAngle="55" TopAngle="55" BottomAngle="-55" UsesRGBColorTemp="true" ColorTemperature="4500" AmbientRGBAColor="FF00FF00" UsesMSCDIntensity="false" MSCDIntensity="12" Intensity="10" />
+          <Location X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <ReferenceLocation X="-3.7174999713897705" Y="-0.12749999761581421" Z="5" />
+          <Origin X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="270" />
+          <ReferenceOrientation Bank="0" Tilt="0" Heading="270" />
+        </LightElement>
+      </LightElements>
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
   </Actors>
   <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="W07_Neighborhood" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
@@ -12840,7 +14100,15 @@
       <CategorizedObjects />
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AnimatedTrafficSign" HasSeparateColors="false" Color="FF7F7F00" PredefinedEnumType="AnimatedTrafficSign">
-      <CategorizedObjects />
+      <CategorizedObjects>
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12262" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12263" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12264" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12265" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12266" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12267" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12268" />
+      </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="AbstractObject" HasSeparateColors="false" Color="FF7F007F" PredefinedEnumType="AbstractObject">
       <CategorizedObjects />
@@ -13140,6 +14408,27 @@
     </ObjectColorID>
     <ObjectColorID Color="FF00DFBF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Sports_Bike_wDriver_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="11655" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFBFDF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12262" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFDF00BF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12263" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00BFDF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12264" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFDF3F00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12265" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF3F00DF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12266" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00DF3F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12267" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF3FDF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Overhang1Light_KR_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="12268" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
