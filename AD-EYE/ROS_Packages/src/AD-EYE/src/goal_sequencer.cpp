@@ -32,7 +32,7 @@ private:
     float y_ego_;
 
     // Goal queue
-    std::queue <geometry_msgs::PoseStamped::ConstPtr > goal_coordinates_;
+    std::queue <geometry_msgs::PoseStamped> goal_coordinates_;
 
     // Boolean value for the global planner, end state and the goals
     bool has_global_planner_and_goal_been_reset_ = false;
@@ -69,26 +69,26 @@ private:
      */
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
-        // Store the first goal if the goal queue is empty
-        if (goal_coordinates_.empty()) 
+        // Store the first goal if the goal queue is empty and boolean for upcoming goal is false
+        if (goal_coordinates_.empty() && !received_next_goal_) 
         {
             // Store the first real-world map goal coordinates  
-            goal_coordinates_.push(msg);       
+            goal_coordinates_.push(*msg);       
 
             ROS_INFO("The first goal has been received. Position:- x = %lf, y = %lf, z = %lf",
-                goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
             
             // Boolean for receiving the first goal
             received_first_goal_ = true;
         }
 
         // Store the upcoming goal positions in the queue if the goal is not near as 10 m to the previous goal
-        if (getDistance(goal_coordinates_.back()-> pose.position.x, msg -> pose.position.x, goal_coordinates_.back()-> pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
+        if (getDistance(goal_coordinates_.back().pose.position.x, msg -> pose.position.x, goal_coordinates_.back().pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
         {
-            goal_coordinates_.push(msg);
+            goal_coordinates_.push(*msg);
 
             // Print the new goal positions
-            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",goal_coordinates_.back()-> pose.position.x, goal_coordinates_.back()-> pose.position.y, goal_coordinates_.back() -> pose.position.z );   
+            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",goal_coordinates_.back().pose.position.x, goal_coordinates_.back().pose.position.y, goal_coordinates_.back().pose.position.z );   
 
             // Boolean for receiving the next goal
             received_next_goal_ = true;
@@ -165,7 +165,7 @@ public:
                 // Publish the first goal 
                 pub_goal_.publish(goal_coordinates_.front());
                 
-                ROS_INFO("The first goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                ROS_INFO("The first goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
                 // Bool value reset to true for sending upcoming goals in the main run loop.
                 received_first_goal_ = false;
@@ -193,7 +193,7 @@ public:
                         // Publish the real world map goal coordinates         
                         pub_goal_.publish(goal_coordinates_.front());
 
-                        ROS_INFO("The next goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                        ROS_INFO("The next goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
                         // Update the global planner boolean
                         should_update_global_planner_ = true;
