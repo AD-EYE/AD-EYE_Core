@@ -46,10 +46,13 @@ private:
     // constants
     const bool SAFE = false;
     const bool UNSAFE = true;
-    const int NO_BEHAVIOR_OVERWRITE = -1;
-    enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
+    const int NO_BEHAVIOR_OVERWRITE_ = -1;
+    enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
-    const float pi = 3.141592654;
+    const float PI_ = 3.141592654;
+
+    // The number of the safety test
+    enum SAFETY_TESTS{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -69,17 +72,41 @@ private:
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
     bool autoware_trajectory_flag_ = false;
-    bool autoware_global_path_flag = false;
+    bool autoware_global_path_flag_ = false;
 
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory_;
     ros::V_string nodes_to_check_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
+    
+    // Safety tests
+    int num_safety_tests_ = 4;
 
+    // Initiate the safety counter for tests
+    std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
+
+    // Set the default threshold value for each pass and fail safety test
+    std::vector<int> thresholds_pass_test_ = {4, 4, 4, 4};
+    std::vector<int> thresholds_fail_test_ = {-4, -4, -4, -4};
+
+    // Set the default increment and decrement value for each pass and fail safety test
+    std::vector<int> increments_pass_test_ = {1, 1, 1, 1};
+    std::vector<int> decrements_fail_test_ = {1, 1, 1, 1};
+
+    // Constant Pass and Fail boolean
+    const bool PASS = true;
+    const bool FAIL = false;
+
+    // Initiate Non-Instantaneous result vector
+    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS);
+   
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
+
+    // Boolean for safety tests
+    bool resetCounter_ = true;
 
     // ODD Polygon coordinates
     // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
@@ -147,7 +174,7 @@ private:
       {
           std::vector<PlannerHNS::WayPoint> m_temp_path;
           autoware_global_path_.clear();
-          autoware_global_path_flag = true;
+          autoware_global_path_flag_ = true;
           for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
           {
               PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
@@ -176,14 +203,14 @@ private:
     {
 
         PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
-        std::vector<int> twoClosestIndex = getClosestIndex(trajectory, p0);
-        int closestIndex = twoClosestIndex.at(0);
-        int secondClosestIndex = twoClosestIndex.at(1);
-        PlannerHNS::WayPoint p1 = trajectory.at(closestIndex);
-        PlannerHNS::WayPoint p2 = trajectory.at(secondClosestIndex);
+        std::vector<int> two_closest_index = getClosestIndex(trajectory, p0);
+        int closest_index = two_closest_index.at(0);
+        int second_closest_index = two_closest_index.at(1);
+        PlannerHNS::WayPoint p1 = trajectory.at(closest_index);
+        PlannerHNS::WayPoint p2 = trajectory.at(second_closest_index);
         // the distance is the distance from the car's position to the line formed by the two points fron the path
         double distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
-        std::cout << "Closest index = " << closestIndex << ". Second closest index: " << secondClosestIndex << ". Distance = " << distance << '\n';
+        std::cout << "Closest index = " << closest_index << ". Second closest index: " << second_closest_index << ". Distance = " << distance << '\n';
         return distance;
     }
 
@@ -193,31 +220,31 @@ private:
      */
     std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
-        int closestIndex = 0;
-        int secondClosestIndex = 0;
-        double d_closestIndex = DBL_MAX;
-        double d_secondClosestIndex = DBL_MAX;
+        int closest_index = 0;
+        int second_closest_index = 0;
+        double d_closest_index = DBL_MAX;
+        double d_second_closest_index = DBL_MAX;
         if(trajectory.size()>1){
             for(int i=0; i<trajectory.size(); i++){
                 double d = pow(trajectory[i].pos.x - p.pos.x, 2) + pow(trajectory[i].pos.y - p.pos.y, 2);
-                if(d < d_secondClosestIndex){
-                    if(d < d_closestIndex){
-                        secondClosestIndex = closestIndex;
-                        d_secondClosestIndex = d_closestIndex;
-                        closestIndex = i;
-                        d_closestIndex = d;
+                if(d < d_second_closest_index){
+                    if(d < d_closest_index){
+                        second_closest_index = closest_index;
+                        d_second_closest_index = d_closest_index;
+                        closest_index = i;
+                        d_closest_index = d;
                     }
                     else{
-                        secondClosestIndex = i;
-                        d_secondClosestIndex = d;
+                        second_closest_index = i;
+                        d_second_closest_index = d;
                     }
                 }
             }
         }
-        std::vector<int> twoClosestIndex;
-        twoClosestIndex.push_back(closestIndex);
-        twoClosestIndex.push_back(secondClosestIndex);
-        return twoClosestIndex;
+        std::vector<int> two_closest_index;
+        two_closest_index.push_back(closest_index);
+        two_closest_index.push_back(second_closest_index);
+        return two_closest_index;
     }
 
     /*!
@@ -290,13 +317,13 @@ private:
     double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         double curvature = 0;
-        double crossProduct = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
-        if (crossProduct != 0) { //If the points are not collinear
-            double areaTriangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
+        double cross_product = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
+        if (cross_product != 0) { //If the points are not collinear
+            double area_triangle = (P1.pos.x * (P2.pos.y - P3.pos.y) + P2.pos.x * (P3.pos.y - P1.pos.y) + P3.pos.x * (P1.pos.y - P2.pos.y)) / 2;
             double dist12 = getDistance(P1, P2);
             double dist13 = getDistance(P1, P3);
             double dist23 = getDistance(P2, P3);
-            curvature = 4 * areaTriangle / (dist12 * dist13 * dist23);
+            curvature = 4 * area_triangle / (dist12 * dist13 * dist23);
         }
         return curvature;
     }
@@ -449,16 +476,162 @@ private:
         //pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
+    
+    /*!
+     * \brief Check instantaneous result : Called at every iteration of the main loop
+     * \Checks if all tests are true or false return instantaneous test result
+     */
+    std::vector<bool> checkInstantaneousResults()
+    {
+        // The pass result vector of safety test.
+        std::vector<bool> instantaneous_test_results(num_safety_tests_);
 
+        // Check that all necessary nodes are active and store in the vector
+        instantaneous_test_results[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        
+        //Check that the center of the car on the road
+        instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
+        
+        //Is there a dynamic object in the critical area
+        instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
+        
+        // Check that the vehicle is in operational design domain polygon area
+        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain(); 
+
+        return instantaneous_test_results;
+    }
+    
+    /*!
+     * \brief Update counter value : Called at every iteration of the main loop
+     * \Updates the counter value based instantaneous test results
+     * \param test_result, threshold_pass_test, threshold_fail_test, increment_value, decrement_value, counter_value, takes these parameter to update the counter
+     */
+    int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
+    {
+        // If loop for updating the counter values until it reaches to threshold value.
+        // if the test is successfully passed
+        if (test_result)
+        {
+            // Increment counter
+            counter_value += increment_value;
+
+            // Check if the counter reaches the threshold value then counter value will be same as threshold value
+            if (counter_value > threshold_pass_test)
+            {
+                // Increment counter
+                counter_value = threshold_pass_test;
+            }
+            
+        }
+        else if(!test_result) // if the test is failed
+        {
+            // Decrement counter
+            counter_value -= decrement_value;  
+
+            // Check if the counter reaches the threshold value then counter value will be same as threshold value
+            if(counter_value < threshold_fail_test)
+            {
+                // Decrement counter
+                counter_value = threshold_fail_test;    
+            }
+        } 
+        return counter_value;
+    }
+    
+    /*!
+     * \brief Check non-instantaneous result : Called at every iteration of the main loop
+     * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
+     */
+    std::vector<bool> checkNonInstantaneousResults()
+    {
+        // Extract Instantaneous safety test result
+        std::vector<bool> instantaneous_test_results = checkInstantaneousResults();
+        
+        // For loop for each test result
+        for (int i = 0; i < num_safety_tests_; i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_test_counters_[i] = updateCounter(instantaneous_test_results[i], thresholds_pass_test_[i], thresholds_fail_test_[i], increments_pass_test_[i], decrements_fail_test_[i], safety_test_counters_[i] );
+            
+            // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
+            if (safety_test_counters_[i] == thresholds_pass_test_[i])
+            {
+                non_instantaneous_results_[i] = PASS;
+
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
+            }
+            else if (safety_test_counters_[i] == thresholds_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
+            {
+                non_instantaneous_results_[i] = FAIL;
+
+                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
+            }
+        }
+        return non_instantaneous_results_;
+    }
+
+    /*!
+     * \brief Take final decision based on non-instantaneous results : Called at every iteration of the main loop
+     * \Checks if all tests are pass or fail and trigger the safety switch or nominal channel
+     */
+    void takeDecisionBasedOnTestResult()
+    {
+        // Define threshold values vector from ROS parameter server
+        ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_);
+        ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_);
+        
+        // Define increment/decrement values vectors from ROS parameter server
+        ros::param::get("/increment_vector_pass_test_", increments_pass_test_);
+        ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_);
+
+        // Non-instantaneous test result vector
+        non_instantaneous_results_ = checkNonInstantaneousResults();
+        
+        // For loop for each test result
+        for (int j = 0; j < num_safety_tests_; j++)
+        {
+            // if the non-instantaneous test result is PASS then switch to nominal channel
+            if (non_instantaneous_results_[j] == PASS)
+            {
+                switchNominalChannel();
+                ROS_DEBUG_STREAM("The test " << j+1 <<  " is PASS");
+            }
+            else if (non_instantaneous_results_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
+            {
+                triggerSafetySwitch();
+                ROS_WARN_STREAM("The test " << j+1 <<  " is FAIL");
+            }
+        }
+    }
+    
+    /*!
+     * \brief Trigger the safety switch
+     * \Activates if the non-instantaneous test is failed
+     */ 
+    void triggerSafetySwitch()
+    {
+        var_switch_ = UNSAFE;
+        return;
+    }
+    
+    /*!
+     * \brief Switch to nominal channel
+     * \Activates if the non-instantaneous test is passed
+     */
+    void switchNominalChannel()
+    {
+        var_switch_ = SAFE;
+        return;
+    }
 
     /*!
      * \brief The function where the checks are called
      * \details The situation is evaluated and the state of the vehicle is
      * declared safe or unsafe.
      */
-    void performChecks()
+    void performSafetyTests()
     {
-        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE;
+        varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE_;
 
         // Check the distance to the center line of the lane
         distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
@@ -469,30 +642,8 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
-         // Check that all the necessary nodes are active
-         if (!areCriticalNodesAlive() ){
-             var_switch_ = UNSAFE;
-             return;
-         }
-
-         // Check that the center of the car on the road
-         if (isCarOffRoad()){
-             var_switch_ = UNSAFE;
-             return;
-         }
-
-         //Is there a dynamic object in the critical area
-         if (isObjectInCriticalArea()){
-             var_switch_ = UNSAFE;
-             return;
-         }
-
-         // Check that the vehicle is in operational design domain polygon area
-         if (isVehicleOffOperationalDesignDomain()){
-             var_switch_ = UNSAFE;
-             return;
-         }
-
+        // Send test_result to the decision maker function
+        takeDecisionBasedOnTestResult();
     }
     
     /*!
@@ -526,7 +677,7 @@ private:
         }
         else
         {
-            std::cout << "The vehicle is inside the operational design domain polygon" << '\n';
+            ROS_INFO("The vehicle is inside the operational design domain polygon");
             return false;
         }
     }
@@ -591,7 +742,9 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
         sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
-
+        
+        // Initialization loop
+        waitForInitialization();
 
         // Initialize the list of nodes to check
         for(int i = 1; i<argc; i++){
@@ -599,7 +752,21 @@ public:
         }
 
     }
-
+    
+    /*!
+     * \brief The initialization loop waits until all flags have been received.
+     * \details Checks for gnss, gridmap and autoware global path flags.
+     */
+    void waitForInitialization()
+    {
+        ros::Rate rate(20);
+        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
+        {
+            ros::spinOnce();
+            rate.sleep();
+        }
+    }
+    
     /*!
      * \brief The main loop of the Node
      * \details Checks for topics updates, then evaluate
@@ -620,23 +787,22 @@ public:
                     car_size_set_ = true;
                 }
             }
-            ros::spinOnce();
-            if(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag == 1)
-            {
-                // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates from ODD
-                if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
-                {
-                    defineOperationalDesignDomain(ODD_coordinates_);
-                }
-                else
-                {
-                    defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
-                }
 
-                performChecks();
-                publish();
-                 
+            ros::spinOnce();
+            
+            // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates from ODD
+            if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
+            {
+                defineOperationalDesignDomain(ODD_coordinates_);
             }
+            else
+            {
+                defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
+            }
+
+            performSafetyTests();
+            publish();
+                 
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
         }
