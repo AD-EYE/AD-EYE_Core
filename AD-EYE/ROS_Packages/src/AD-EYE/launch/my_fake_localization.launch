@@ -37,7 +37,7 @@
     />
     <include file="$(find points_downsampler)/launch/points_downsample.launch"/>
 
-    
+
     <!-- Fake Localizer, publishes the transform from map to base link base on gnss data -->
     <node type="fake_localizer.py"
         pkg="adeye"
