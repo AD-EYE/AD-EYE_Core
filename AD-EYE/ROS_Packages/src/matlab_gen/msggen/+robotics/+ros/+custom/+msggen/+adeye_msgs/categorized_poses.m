@@ -12,7 +12,7 @@ classdef categorized_poses < robotics.ros.Message
     end
     
     properties (Constant, Hidden)
-        MD5Checksum = '72ef1fd7d3914f0065f17848efdd6deb' % The MD5 Checksum of the message definition
+        MD5Checksum = '48191d44253f84ab78879ef888b206c3' % The MD5 Checksum of the message definition
     end
     
     properties (Access = protected)

@@ -7,6 +7,7 @@ classdef CustomMsgConsts
     
     properties (Constant)
         adeye_msgs_categorized_pose = 'adeye_msgs/categorized_pose'
+        
         adeye_msgs_categorized_poses = 'adeye_msgs/categorized_poses'
     end
     
@@ -19,7 +20,9 @@ classdef CustomMsgConsts
             if isempty(msgList)
                 msgList = cell(2, 1);
                 msgList{1} = 'adeye_msgs/categorized_pose';
+                
                 msgList{2} = 'adeye_msgs/categorized_poses';
+                
             end
             
             messageList = msgList;
