@@ -5,8 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
-        - /Safety Cahnnel1
-        - /Safety Cahnnel1/Grid map1
+        - /Safety Channel1
+        - /Safety Channel1/Grid map1
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
@@ -32,7 +32,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Points Map
+    SyncSource: ""
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -95,7 +95,7 @@ Visualization Manager:
               Marker Topic: /safe_stop_endposes_vis
               Name: safe_stop_endposes_vis
               Namespaces:
-                "": true
+                {}
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -103,7 +103,7 @@ Visualization Manager:
               Marker Topic: /safe_stop_traj_vis
               Name: safe_stop_traj_vis
               Namespaces:
-                "": true
+                {}
               Queue Size: 100
               Value: true
           Enabled: true
@@ -170,11 +170,11 @@ Visualization Manager:
           Marker Topic: /critical_area
           Name: Safety Supervisor critical area
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
-      Name: Safety Cahnnel
+      Name: Safety Channel
     - Class: rviz/Group
       Displays:
         - Class: rviz/Group
@@ -214,7 +214,7 @@ Visualization Manager:
               Marker Topic: /vector_map_center_lines_rviz
               Name: Vector Map CenterLines
               Namespaces:
-                road_network_vector_map: true
+                {}
               Queue Size: 100
               Value: true
           Enabled: true
@@ -226,12 +226,7 @@ Visualization Manager:
               Marker Topic: /objects_markers
               Name: Detected_objects
               Namespaces:
-                //arrow_markers: true
-                //box_markers: true
-                //centroid_markers: true
-                //hull_markers: true
-                //label_markers: true
-                //model_markers: true
+                {}
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -341,8 +336,18 @@ Visualization Manager:
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -397,8 +402,18 @@ Visualization Manager:
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -483,8 +498,18 @@ Visualization Manager:
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -613,7 +638,7 @@ Visualization Manager:
                   Marker Topic: /local_trajectories_eval_rviz
                   Name: "OP Eval Rollouts "
                   Namespaces:
-                    local_lane_array_marker_colored: true
+                    {}
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -621,7 +646,7 @@ Visualization Manager:
                   Marker Topic: /dynamic_collision_points_rviz
                   Name: Collision Points
                   Namespaces:
-                    collision_points_rviz: true
+                    {}
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -641,7 +666,7 @@ Visualization Manager:
                   Marker Topic: /next_target_mark
                   Name: Next Waypoint Mark
                   Namespaces:
-                    next_target_marker: true
+                    {}
                   Queue Size: 100
                   Value: true
                 - Class: rviz/Marker
@@ -649,7 +674,7 @@ Visualization Manager:
                   Marker Topic: /trajectory_circle_mark
                   Name: PP Trajectory Mark
                   Namespaces:
-                    trajectory_circle_marker: true
+                    {}
                   Queue Size: 100
                   Value: true
               Enabled: true
@@ -661,9 +686,7 @@ Visualization Manager:
                   Marker Topic: /global_waypoints_rviz
                   Name: Global Path
                   Namespaces:
-                    global_lane_array_marker: true
-                    global_lane_waypoint_orientation_marker: true
-                    global_velocity_lane_1: true
+                    {}
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -671,7 +694,7 @@ Visualization Manager:
                   Marker Topic: /op_destinations_rviz
                   Name: Goals
                   Namespaces:
-                    HMI_Destinations: true
+                    {}
                   Queue Size: 100
                   Value: true
               Enabled: true
@@ -706,9 +729,7 @@ Visualization Manager:
           Marker Topic: /tlr_result
           Name: Traffic Lights
           Namespaces:
-            tlr_result_green: true
-            tlr_result_red: true
-            tlr_result_yellow: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -716,7 +737,7 @@ Visualization Manager:
           Marker Topic: /safety_border
           Name: Car Footprint
           Namespaces:
-            global_lane_array_marker: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -724,7 +745,7 @@ Visualization Manager:
           Marker Topic: /behavior_state
           Name: Behavior State
           Namespaces:
-            beh_state: true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
