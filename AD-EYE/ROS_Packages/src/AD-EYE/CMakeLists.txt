@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   op_planner
   op_ros_helpers
   tf2_ros
+  adeye_utils
 )
 
 
@@ -39,6 +40,7 @@ catkin_package(
     op_planner
     op_ros_helpers
     tf2_ros
+    adeye_utils
   DEPENDS
 )
 
@@ -58,6 +60,13 @@ include_directories(
 add_library(
   vectorMap src/vectormap.cpp
 )
+
+add_library(
+  experimentRecording src/experiment_recording.cpp
+)
+# add_library(
+#   pointCloudToOccupancyGridLib src/point_cloud_to_occupancy_grid.cpp
+# )
 
 add_executable(
   GridMapCreator
@@ -114,10 +123,6 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
-add_executable(
-  trajectoryVisualizer
-  src/trajectory_visualizer.cpp
-)
 
 add_executable(
   goalMapNode
@@ -185,10 +190,6 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(
-  trajectoryVisualizer
-  ${catkin_LIBRARIES}
-)
 
 target_link_libraries(
   goalMapNode
@@ -250,9 +251,31 @@ add_dependencies(goalSequencer
 )
 
 
+
+
+
+
+
+
+add_executable(
+  ExperimentC
+  src/experimentC.cpp
+  #src/point_cloud_to_occupancy_grid.cpp
+)
+target_link_libraries(
+  ExperimentC
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  experimentRecording
+)
+add_dependencies(
+  ExperimentC
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception trajectoryVisualizer
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
