@@ -313,8 +313,12 @@ private:
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
     }
 
-
-    double getLength(double x_one, double x_two, double y_one, double y_two)
+    /*!
+     * \brief Get distance : Called to calculate the distance between two points
+       \param x_one, x_two, y_one, y_two The inputs contains the waypoints coordinates .
+     * \return Distance between 2 points
+     */
+    double getDistance(double x_one, double x_two, double y_one, double y_two)
     {
         return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
     }
@@ -346,8 +350,8 @@ private:
             for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
             {
                 // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
-                double distance_between_two_waypoints = getLength(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
-                 
+                double distance_between_two_waypoints = getDistance(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
+                         
                 // Add the distance between two waypoints into the length
                 length += distance_between_two_waypoints;
 
@@ -378,10 +382,10 @@ private:
             }
 
             visualization_msgs::Marker criticalAreaMarker;  //Used for demo critical area visualization
-            std_msgs::ColorRGBA color_demo;
-            color_demo.r = 1.0;
-            color_demo.a = 1.0;
-            grid_map::PolygonRosConverter::toLineMarker(critical_area_, color_demo, 0.2, 0.5, criticalAreaMarker);
+            std_msgs::ColorRGBA color;
+            color.r = 1.0;
+            color.a = 1.0;
+            grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
             criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
             criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
             pub_critical_area_.publish(criticalAreaMarker);
