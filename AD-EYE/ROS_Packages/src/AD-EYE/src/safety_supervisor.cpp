@@ -493,7 +493,7 @@ private:
         instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
         
         // Check that the vehicle is in operational design domain polygon area
-        instantaneous_test_results[CHECK_CAR_OFF_ODD] = false; //!isVehicleOffOperationalDesignDomain(); 
+        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain(); 
 
         return instantaneous_test_results;
     }
@@ -595,8 +595,8 @@ private:
         }
         else // else switch to nominal channel
         {
-            switchNominalChannel();
             ROS_DEBUG_STREAM("All tests are PASS");
+            switchNominalChannel();
         }
     }
     
@@ -715,6 +715,20 @@ private:
         }
     }
 
+    /*!
+     * \brief The initialization loop waits until all flags have been received.
+     * \details Checks for gnss, gridmap and autoware global path flags.
+     */
+    void waitForInitialization()
+    {
+        ros::Rate rate(20);
+        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
+        {
+            ros::spinOnce();
+            rate.sleep();
+        }
+    }
+
 public:
     /*!
      * \brief Constructor
@@ -747,20 +761,6 @@ public:
             nodes_to_check_.push_back(argv[i]);
         }
 
-    }
-    
-    /*!
-     * \brief The initialization loop waits until all flags have been received.
-     * \details Checks for gnss, gridmap and autoware global path flags.
-     */
-    void waitForInitialization()
-    {
-        ros::Rate rate(20);
-        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
-        {
-            ros::spinOnce();
-            rate.sleep();
-        }
     }
     
     /*!
