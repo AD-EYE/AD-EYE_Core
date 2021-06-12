@@ -73,7 +73,6 @@ private:
     bool gridmap_flag_ = false;
     bool autoware_trajectory_flag_ = false;
     bool autoware_global_path_flag_ = false;
-
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory_;
@@ -93,7 +92,7 @@ private:
     // Set the default increment and decrement value for each pass and fail safety test
     std::vector<int> increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
     std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
-
+    
     // Constant Pass and Fail boolean
     const bool PASS_ = true;
     const bool FAIL_ = false;
@@ -505,8 +504,8 @@ private:
      */
     int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
     {
-        // If loop for updating the counter values until it reaches to threshold value.
-        // if the test is successfully passed
+        // If loop for updating the counter values until it reaches to threshold value
+        // If the test is successfully passed
         if (test_result)
         {
             // Increment counter
@@ -565,6 +564,34 @@ private:
             }
         }
     }
+    
+    /*!
+     * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
+     * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
+     */
+    void isThresholdsAndInAndDecrementsValid()
+    {
+        if (thresholds_pass_test_.size() != num_safety_tests_)
+        {
+            thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
+            ROS_WARN("The size is not correct for thresholds pass test vector, switch to default values");
+        }
+        else if (thresholds_fail_test_.size() != num_safety_tests_ )
+        {
+            thresholds_fail_test_ = std::vector<int>(num_safety_tests_,-4);
+            ROS_WARN("The size is not correct for thresholds fail test vector, switch to default values");
+        }
+        else if (increments_pass_test_.size() != num_safety_tests_)
+        {
+            increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
+            ROS_WARN("The size is not correct for increment pass test vector, switch to default values");
+        }
+        else if (decrements_fail_test_.size() != num_safety_tests_)
+        {
+            decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
+            ROS_WARN("The size is not correct for decrement pass test vector, switch to default values");
+        }
+    }
 
     /*!
      * \brief Take final decision based on non-instantaneous results : Called at every iteration of the main loop
@@ -572,13 +599,11 @@ private:
      */
     void takeDecisionBasedOnTestResult()
     {
-        // Define threshold values vector from ROS parameter server
-        ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_);
-        ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_);
-        
-        // Define increment/decrement values vectors from ROS parameter server
-        ros::param::get("/increment_vector_pass_test_", increments_pass_test_);
-        ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_);
+        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
+                || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
+        {
+            isThresholdsAndInAndDecrementsValid();
+        }
 
         // Initiate Non-instantaneous test result vector
         checkNonInstantaneousResults();
