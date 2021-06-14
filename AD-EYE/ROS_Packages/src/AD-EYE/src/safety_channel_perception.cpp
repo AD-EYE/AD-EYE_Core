@@ -21,7 +21,7 @@ class SafetyChannelPerception {
         /*!
         * \brief Cluster Callback : Called when the Euclidean clustering of the safety channel publishes.
         * \param msg A smart pointer to the message from the topic.
-        * \details Gets the Point cloud clusters and transform each point of their convex hull to the frame used for the GridMap
+        * \details Gets the Point Cloud clusters and transform each point of their convex hull footprints into the frame used for the GridMap
         * \todo Move the processing to another function
         */
         void ClusterCallback(const autoware_msgs::CloudClusterArray::ConstPtr& msg) {
@@ -31,26 +31,28 @@ class SafetyChannelPerception {
                 poly_array.header.frame_id = cluster.convex_hull.header.frame_id;
                 geometry_msgs::PolygonStamped poly_in_gridmap_frame;
                 poly_in_gridmap_frame.header.frame_id = polygon_frame_;
+                float z = cluster.convex_hull.polygon.points.front().z;
                 for(auto pt: cluster.convex_hull.polygon.points)
                 {
-                    geometry_msgs::PointStamped pt_stamped_sensor_frame, pt_stamped_gridmap_frame;
-                    pt_stamped_sensor_frame.header.frame_id = cluster.convex_hull.header.frame_id;
-                    pt_stamped_sensor_frame.point.x = pt.x;
-                    pt_stamped_sensor_frame.point.y = pt.y;
-                    pt_stamped_sensor_frame.point.z = pt.z;
-                    try
-                    {
-                        tf_listener_.transformPoint(polygon_frame_, pt_stamped_sensor_frame, pt_stamped_gridmap_frame);
+                    if(pt.z == z) { // to get only the footprint, autoware's cluster hulls are composed of two layers: the footprint and the same shape but above the cluster
+                        geometry_msgs::PointStamped pt_stamped_sensor_frame, pt_stamped_gridmap_frame;
+                        pt_stamped_sensor_frame.header.frame_id = cluster.convex_hull.header.frame_id;
+                        pt_stamped_sensor_frame.point.x = pt.x;
+                        pt_stamped_sensor_frame.point.y = pt.y;
+                        pt_stamped_sensor_frame.point.z = pt.z;
+                        try {
+                            tf_listener_.transformPoint(polygon_frame_, pt_stamped_sensor_frame,
+                                                        pt_stamped_gridmap_frame);
+                        }
+                        catch (tf::TransformException &ex) {
+                            ROS_ERROR("Received an exception trying to transform a point: %s", ex.what());
+                        }
+                        geometry_msgs::Point32 pt32__gridmap_frame;
+                        pt32__gridmap_frame.x = pt_stamped_gridmap_frame.point.x;
+                        pt32__gridmap_frame.y = pt_stamped_gridmap_frame.point.y;
+                        pt32__gridmap_frame.z = pt_stamped_gridmap_frame.point.z;
+                        poly_in_gridmap_frame.polygon.points.push_back(pt32__gridmap_frame);
                     }
-                    catch(tf::TransformException& ex)
-                    {
-                        ROS_ERROR("Received an exception trying to transform a point: %s", ex.what());
-                    }
-                    geometry_msgs::Point32 pt32__gridmap_frame;
-                    pt32__gridmap_frame.x = pt_stamped_gridmap_frame.point.x;
-                    pt32__gridmap_frame.y = pt_stamped_gridmap_frame.point.y;
-                    pt32__gridmap_frame.z = pt_stamped_gridmap_frame.point.z;
-                    poly_in_gridmap_frame.polygon.points.push_back(pt32__gridmap_frame);
                 }
                 poly_array.polygons.push_back(poly_in_gridmap_frame);
             }
