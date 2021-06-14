@@ -18,19 +18,26 @@ if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the f
     os.mkdir('/home/adeye/Experiment_Results/')
 file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
 
+
 MAX_DECCELERATION = -3 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
 ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
 CAR_FRONT_LENGTH = 3.75 # from the back wheels to the front of the chassis
 PEDESTRIAN_WIDTH = 0.3
 
-
+##Creates the ExperimentOutcomes enumeration
+#
+#Child class of the Enum class.
+#This enumeration has the 3 values PEDESTRIAN_OUT_OF_ROAD, CAR_PASSED_THROUGH_PEDESTRIAN, and CAR_STOPPED.
 class ExperimentOutcomes(Enum):
     PEDESTRIAN_OUT_OF_ROAD = 1
     CAR_PASSED_THROUGH_PEDESTRIAN = 2
     CAR_STOPPED = 3
 
-
+##A class to run an record the experiment A.
+#The ego vehicle starts far from the pedestrian and accelerates until the maximum speed defined in the parameter.
+#Once the ego vehicle is at a distance lesser or equal to the trigger distance the pedestrian moves from the side of the road to the center of the lane on which the ego vehicle drives.
+#We study the influence of rain on the lidar.
 class ExperimentARecorder:
     ego_speeds = []
     collision_speed = 'N/A'
@@ -48,7 +55,9 @@ class ExperimentARecorder:
 
     
 
-
+    ##The constructor
+    #
+    #@param self The object pointer
     def __init__(self):
         rospy.Subscriber("/gnss_pose", PoseStamped, self.egoPoseCallback)
         rospy.Subscriber("/current_velocity", TwistStamped, self.egoSpeedCallback)
@@ -61,7 +70,9 @@ class ExperimentARecorder:
         
             
 
-
+    ##A method to update the position of the ego vehicle from /gnss_pose.
+    #@param self The object pointer
+    #@param data A Posestamped message
     def egoPoseCallback(self, data):
         Px = data.pose.position.x
         Py = data.pose.position.y
@@ -69,12 +80,17 @@ class ExperimentARecorder:
         euler = tf.transformations.euler_from_quaternion(quaternion)
         self.ego_pose =  [Px, Py, euler[0]]
             
-
+    ##A method to update the pedestrian position from /simulink/pedestrian_pose.
+    #@param self The object pointer
+    #@param data Point message 
     def pedestrianPositionCallback(self, data):
         x = data.x
         y = data.y
         self.pedestrian_position = [x,y]
 
+    ##A method to update the speed of the ego vehicle from /current_velocity, and to start the experiment if it's not already done.
+    #@param self The object pointer
+    #@param data TwistStamped message 
     def egoSpeedCallback(self, data):
         current_ego_speed = data.twist.linear.x
         if current_ego_speed != 0 and not self.experiment_started:
@@ -88,6 +104,9 @@ class ExperimentARecorder:
             self.checkExperimentEnd()
         # self.vel_pub.publish(Point(current_ego_speed,current_ego_speed,current_ego_speed)) # for visualization in rqt_plot since /current_velocity had issues with the plotting
 
+    ##A method to count the number of detections by the lidar, and check if a pedestrian is detected.
+    #@param self The object pointer
+    #@param data DetectedObjectArray message 
     def lidarObjectCallback(self, data):
         for object in data.objects:
             try:
@@ -103,7 +122,8 @@ class ExperimentARecorder:
                 continue
             
 
-
+    ##A method that check if the experiment has ended and stores the correct experiment outcome.
+    #@param self The object pointer
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
         if self.experiment_started and self.ego_speeds[len(self.ego_speeds)-1]==0.0 and rospy.get_rostime().secs>12:
@@ -123,9 +143,9 @@ class ExperimentARecorder:
                 file.close()
 
 
-
+    ##A method to check for a collision between the ego vehicle and the pedestrian.
+    #@param self The object pointer
     def checkCollision(self):
-        # here we check for collision between the car and the pedestrian
         d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
         self.distances_ego_pedestrian.append(d)
         if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
@@ -143,8 +163,9 @@ class ExperimentARecorder:
             self.pedestrian_passed = True
 
 
-
-    # procedure that processes and stores the data
+    ##A method that processes and stores the data.
+    #@param self The object pointer
+    #@param experiment_outcome An ExperimentOutcomes object explaining how or what the experiment stoped
     def computeAndStoreData(self, experiment_outcome):
         if experiment_outcome == ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD:
             file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop)" + ", "
@@ -171,7 +192,11 @@ class ExperimentARecorder:
         self.stop_pub.publish(True) # stop_publisher
 
 
-
+    ##A method that write in the ExperimentA.csv file the experiment's results.
+    #@param self The object pointer
+    #@param Collision A string taking the value "Yes" or "No"
+    #@param StopDistance A float indicating the distance to the pedestrian when the car stopped
+    #@param estimated_stop_distance A float indicating the estimated distance to the pedestrian when the car stopped
     def writeData(self, Collision, StopDistance, estimated_stop_distance):
         file.write("Maximum speed reached, "+str(max(self.ego_speeds)))
         file.write(', ')
@@ -192,8 +217,8 @@ class ExperimentARecorder:
         file.close()
 
         
-
-    # writes the experiment parameters
+    ##A method that write in the ExperimentA.csv file the experiment's parameters.
+    #@param self The object pointer
     def writeParameters(self):
         max_velocity = 0
         if rospy.has_param("adeye/motion_planning/op_common_params/maxVelocity"):
@@ -209,7 +234,8 @@ class ExperimentARecorder:
         file.write("Set trigger distance, "+str(trigger_distance)+" , ")
 
 
-
+    ##A method to check if the experiment's results should be stored in a .bag file.
+    #@param self The object pointer
     def shouldRecordRosbag(self):
         max_velocity = 0
         if rospy.has_param("adeye/motion_planning/op_common_params/maxVelocity"):
@@ -225,7 +251,8 @@ class ExperimentARecorder:
             return False
 
 
-
+    ##A method to start storing the experiment results in a bag file.
+    #@param self The object pointer
     def startRosbag(self):
         if self.shouldRecordRosbag() and not self.rosbag_started:
             ROSBAG_PATH = "/Experiment_Results/run" + str(time.time()) + ".bag" # ~ is added as a prefix, name of the bag

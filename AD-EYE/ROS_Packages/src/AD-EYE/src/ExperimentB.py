@@ -22,10 +22,13 @@ while NumberFound == False :
         file = open('/home/adeye/Experiment_Results/ExperimentB/ExperimentB'+str(k)+'.csv','a')
         NumberFound=True
 
+##@var STOP_DISTANCE_SQUARRED
+#
+#We stop the experiment when closer than this value and not moving
+STOP_DISTANCE_SQUARRED = 900 
 
-STOP_DISTANCE_SQUARRED = 900 # we stop the experiment when closer than this value and not moving
-
-
+##A class to run an record the experiment B, to check the behavior of the vehicle when it's reaching its goal.
+#We study the influence of rain on the lidar on various terrains (semi-urban, forest, and urban area).
 class ExperimentBRecorder:
 
     start = False
@@ -39,7 +42,9 @@ class ExperimentBRecorder:
     goal_x = 0
     goal_y = 0
 
-
+    #The constructor
+    #
+    #@param self The object pointer
     def __init__(self):
         rospy.Subscriber("/ndt_stat", NDTStat, self.localizationStatCallback)
         rospy.Subscriber("/ndt_pose", PoseStamped, self.estimatedPoseCallback)
@@ -49,6 +54,9 @@ class ExperimentBRecorder:
         self.stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
 
 
+    ##A method to update the list of positions and orientations for groundTruth
+    #@param self The object pointer
+    #@param data A PoseStamped message from the /gnss_pose topic
     def groundTruthPoseCallback(self, data):
         Px = data.pose.position.x
         Py = data.pose.position.y
@@ -58,9 +66,11 @@ class ExperimentBRecorder:
         self.groud_truth_poses.append(L)
         self.new_ground_truth = True
         if (self.start == True) and (self.new_ground_truth==True) and (self.new_estimate == True) :
-            self.storeData(self.groud_truth_poses,self.esimated_poses,self.localization_stats)
+            self.storeData()
 
-
+    ##A method to update the list of estimated positions and orientations
+    #@param self The object pointer
+    #@param data A PoseStamped message from the /ndt_pose topic
     def estimatedPoseCallback(self, data):
         Px = data.pose.position.x
         Py = data.pose.position.y
@@ -70,9 +80,11 @@ class ExperimentBRecorder:
         self.esimated_poses.append(L)
         self.new_estimate = True
         if (self.start == True) and (self.new_ground_truth==True) and (self.new_estimate == True) :
-            self.storeData(self.groud_truth_poses,self.esimated_poses,self.localization_stats)
+            self.storeData()
 
-
+    ##A method to update the list localization_stats
+    #@param self The object pointer
+    #@param data A NDTStat message from the /ndt_stat topic
     def localizationStatCallback(self, data):
         itterations = data.iteration
         score = data.score
@@ -81,7 +93,9 @@ class ExperimentBRecorder:
         L = [itterations,T,score,exe_time]
         self.localization_stats.append(L)
 
-
+    ##A method to start or stop the experiment according to the speed and the distance to the goal
+    #@param self The object pointer
+    #@param data A TwistStamped message from the /current_velocity topic
     def egoSpeedCallback (self, data):
         Sp = data.twist.linear.x
         if self.start == False :
@@ -92,22 +106,30 @@ class ExperimentBRecorder:
                 self.start = False
                 self.stop_pub.publish(True) # stop_publisher
 
+    ##A method to get the goal's coordinates
+    #@param self The object pointer
+    #@param data A PoseStamped message from the /move_base_simple/goal topic
     def goalCallback(self, data):
         self.goal_x = data.pose.position.x
         self.goal_y = data.pose.position.y
 
 
+    ##A method to calculate the euclidean distance to the goal
+    #@param self The object pointer
     def distanceToGoal(self):
         x,y = self.groud_truth_poses[-1][0],self.groud_truth_poses[-1][1]
         return (x - self.goal_x) ** 2 + (y - self.goal_y) ** 2
 
 
-
+    ##A method to get the time
+    #@param self The object pointer
     def getTime(self):
         now = rospy.get_rostime()
         return now.secs + now.nsecs * 10**9
 
 
+    ##A method to write the experiment's parameters in the correct ExperimentB.csv file
+    #@param self The object pointer
     def writeParameter(self):
         if self.firstStore :
             self.firstStore = False
@@ -123,8 +145,10 @@ class ExperimentBRecorder:
             file.write("goal y ,"+str(self.goal_y)+" \n")
 
 
-
-    def storeData (self, groud_truth_poses,esimated_poses,I):
+    ##A method to write in the correct file the true and estimated position and orientation, 
+    ##the localization number of iterations, score, and execution time
+    #@param self The object pointer
+    def storeData (self):
         self.new_estimate = False # when this function is called, we "reset" the variables that indicates if new data is written or not
         self.new_ground_truth = False
 
