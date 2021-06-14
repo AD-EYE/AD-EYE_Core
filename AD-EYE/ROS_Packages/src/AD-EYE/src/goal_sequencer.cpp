@@ -109,7 +109,7 @@ private:
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
+    void autowareGlobalPlanCallback(const autoware_msgs::LaneArray::ConstPtr &msg)
     {
         // Local planner value
         std_msgs::Int32 local_planner;
@@ -142,13 +142,13 @@ public:
     GoalSequencer(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
         // Initialize node, publishers and subscribers
-        sub_goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &GoalSequencer::storeGoalCoordinatesCallback, this);
-        sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
-        sub_autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
-        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
-        pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
-        pub_update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
-        pub_clear_goal_list_bool_= nh.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
+        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &GoalSequencer::storeGoalCoordinatesCallback, this);
+        sub_position_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
+        sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
+        sub_autoware_global_plan_ = nh_.subscribe<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
+        pub_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
+        pub_update_local_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
+        pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
     }   
 
     void run() 
