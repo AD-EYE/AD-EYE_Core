@@ -569,27 +569,27 @@ private:
      * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    void areThresholdsAndIncrementsValid()
+    void areThresholdsAndIncrementsSizeValid()
     {
         if (thresholds_pass_test_.size() != num_safety_tests_)
         {
             thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
-            ROS_WARN("The size is not correct for thresholds pass test vector, switch to default values");
+            ROS_WARN("The threshold pass test vector size is not same as number of safety tests");
         }
         else if (thresholds_fail_test_.size() != num_safety_tests_ )
         {
             thresholds_fail_test_ = std::vector<int>(num_safety_tests_,-4);
-            ROS_WARN("The size is not correct for thresholds fail test vector, switch to default values");
+            ROS_WARN("The threshold fail test vector size is not same as number of safety tests");
         }
         else if (increments_pass_test_.size() != num_safety_tests_)
         {
             increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
-            ROS_WARN("The size is not correct for increment pass test vector, switch to default values");
-        }
+            ROS_WARN("The increment pass test vector size is not same as number of safety tests");
+        } 
         else if (decrements_fail_test_.size() != num_safety_tests_)
         {
             decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
-            ROS_WARN("The size is not correct for decrement pass test vector, switch to default values");
+            ROS_WARN("The decrement fail test vector size is not same as number of safety tests");
         }
     }
 
@@ -602,7 +602,7 @@ private:
         if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
                 || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
         {
-            areThresholdsAndIncrementsValid();
+            areThresholdsAndIncrementsSizeValid();
         }
 
         // Initiate Non-instantaneous test result vector
