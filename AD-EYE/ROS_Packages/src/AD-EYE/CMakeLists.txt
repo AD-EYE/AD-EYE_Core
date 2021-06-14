@@ -134,6 +134,11 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+add_executable(
+  rosbagRolling
+  src/rosbag_rolling.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -201,6 +206,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  rosbagRolling
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -250,7 +260,9 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
-
+add_dependencies(rosbagRolling
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 
