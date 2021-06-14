@@ -52,7 +52,7 @@ private:
     const float PI_ = 3.141592654;
 
     // The number of the safety test
-    enum SAFETY_TESTS{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3};
+    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -73,7 +73,6 @@ private:
     bool gridmap_flag_ = false;
     bool autoware_trajectory_flag_ = false;
     bool autoware_global_path_flag_ = false;
-
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory_;
@@ -87,29 +86,23 @@ private:
     std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
 
     // Set the default threshold value for each pass and fail safety test
-    std::vector<int> thresholds_pass_test_ = {4, 4, 4, 4};
-    std::vector<int> thresholds_fail_test_ = {-4, -4, -4, -4};
+    std::vector<int> thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
+    std::vector<int> thresholds_fail_test_ = std::vector<int>(num_safety_tests_,-4);
 
     // Set the default increment and decrement value for each pass and fail safety test
-    std::vector<int> increments_pass_test_ = {1, 1, 1, 1};
-    std::vector<int> decrements_fail_test_ = {1, 1, 1, 1};
-
+    std::vector<int> increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
+    std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
+    
     // Constant Pass and Fail boolean
-    const bool PASS = true;
-    const bool FAIL = false;
+    const bool PASS_ = true;
+    const bool FAIL_ = false;
 
     // Initiate Non-Instantaneous result vector
-    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS);
+    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS_);
    
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
-
-    // Local planner way points
-    float x_way_ = 0.0;
-    
-    // Boolean for safety tests
-    bool resetCounter_ = true;
 
     // ODD Polygon coordinates
     // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
@@ -553,13 +546,13 @@ private:
      */
     int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
     {
-        // If loop for updating the counter values until it reaches to threshold value.
-        // if the test is successfully passed
+        // If loop for updating the counter values until it reaches to threshold value
+        // If the test is successfully passed
         if (test_result)
         {
             // Increment counter
             counter_value += increment_value;
-
+    
             // Check if the counter reaches the threshold value then counter value will be same as threshold value
             if (counter_value > threshold_pass_test)
             {
@@ -571,7 +564,7 @@ private:
         else if(!test_result) // if the test is failed
         {
             // Decrement counter
-            counter_value -= decrement_value;  
+            counter_value += decrement_value;  
 
             // Check if the counter reaches the threshold value then counter value will be same as threshold value
             if(counter_value < threshold_fail_test)
@@ -587,7 +580,7 @@ private:
      * \brief Check non-instantaneous result : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    std::vector<bool> checkNonInstantaneousResults()
+    void checkNonInstantaneousResults()
     {
         // Extract Instantaneous safety test result
         std::vector<bool> instantaneous_test_results = checkInstantaneousResults();
@@ -601,18 +594,45 @@ private:
             // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
             if (safety_test_counters_[i] == thresholds_pass_test_[i])
             {
-                non_instantaneous_results_[i] = PASS;
+                non_instantaneous_results_[i] = PASS_;
 
                 ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
             }
             else if (safety_test_counters_[i] == thresholds_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
             {
-                non_instantaneous_results_[i] = FAIL;
+                non_instantaneous_results_[i] = FAIL_;
 
                 ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
             }
         }
-        return non_instantaneous_results_;
+    }
+    
+    /*!
+     * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
+     * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
+     */
+    void areThresholdsAndIncrementsSizeValid()
+    {
+        if (thresholds_pass_test_.size() != num_safety_tests_)
+        {
+            thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
+            ROS_WARN("The threshold pass test vector size is not same as number of safety tests");
+        }
+        else if (thresholds_fail_test_.size() != num_safety_tests_ )
+        {
+            thresholds_fail_test_ = std::vector<int>(num_safety_tests_,-4);
+            ROS_WARN("The threshold fail test vector size is not same as number of safety tests");
+        }
+        else if (increments_pass_test_.size() != num_safety_tests_)
+        {
+            increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
+            ROS_WARN("The increment pass test vector size is not same as number of safety tests");
+        } 
+        else if (decrements_fail_test_.size() != num_safety_tests_)
+        {
+            decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
+            ROS_WARN("The decrement fail test vector size is not same as number of safety tests");
+        }
     }
 
     /*!
@@ -621,31 +641,29 @@ private:
      */
     void takeDecisionBasedOnTestResult()
     {
-        // Define threshold values vector from ROS parameter server
-        ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_);
-        ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_);
-        
-        // Define increment/decrement values vectors from ROS parameter server
-        ros::param::get("/increment_vector_pass_test_", increments_pass_test_);
-        ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_);
-
-        // Non-instantaneous test result vector
-        non_instantaneous_results_ = checkNonInstantaneousResults();
-        
-        // For loop for each test result
-        for (int j = 0; j < num_safety_tests_; j++)
+        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
+                || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
         {
-            // if the non-instantaneous test result is PASS then switch to nominal channel
-            if (non_instantaneous_results_[j] == PASS)
-            {
-                switchNominalChannel();
-                ROS_DEBUG_STREAM("The test " << j+1 <<  " is PASS");
-            }
-            else if (non_instantaneous_results_[j] == FAIL) // If the non-instantaneous test result is FAIL then switch to nominal channel
-            {
-                triggerSafetySwitch();
-                ROS_WARN_STREAM("The test " << j+1 <<  " is FAIL");
-            }
+            areThresholdsAndIncrementsSizeValid();
+        }
+
+        // Initiate Non-instantaneous test result vector
+        checkNonInstantaneousResults();
+        
+        // Find if any non-instantaneous test result is FAIL
+        std::vector<bool>::iterator it;
+        it = std::find(non_instantaneous_results_.begin(), non_instantaneous_results_.end(), FAIL_);
+        
+        // if any non-instantaneous test result is FAIL then switch to safety channel
+        if (it != non_instantaneous_results_.end())
+        {
+            ROS_WARN_STREAM("The test " << (it - non_instantaneous_results_.begin())+1 <<  " is FAIL");
+            triggerSafetySwitch();
+        }
+        else // else switch to nominal channel
+        {
+            ROS_DEBUG_STREAM("All tests are PASS");
+            switchNominalChannel();
         }
     }
     
@@ -764,6 +782,20 @@ private:
         }
     }
 
+    /*!
+     * \brief The initialization loop waits until all flags have been received.
+     * \details Checks for gnss, gridmap and autoware global path flags.
+     */
+    void waitForInitialization()
+    {
+        ros::Rate rate(20);
+        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
+        {
+            ros::spinOnce();
+            rate.sleep();
+        }
+    }
+
 public:
     /*!
      * \brief Constructor
@@ -796,20 +828,6 @@ public:
             nodes_to_check_.push_back(argv[i]);
         }
 
-    }
-    
-    /*!
-     * \brief The initialization loop waits until all flags have been received.
-     * \details Checks for gnss, gridmap and autoware global path flags.
-     */
-    void waitForInitialization()
-    {
-        ros::Rate rate(20);
-        while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
-        {
-            ros::spinOnce();
-            rate.sleep();
-        }
     }
     
     /*!
