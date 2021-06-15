@@ -5,6 +5,11 @@
 
 #define RADAR_LIDAR_MAX_DISTANCE 1
 
+/*!
+ * \brief This node fuse the object detected by lidar and radar in one message
+ * \details At 20 hz, the node read the objects detected by lidar and radar, and publish it into one message.
+ * Every object have a personal id.
+ */
 class lidarRadarFuse
 {
 private:
@@ -23,19 +28,34 @@ private:
     bool lidar_msg_flag = false;
     bool radar_msg_flag = false;
 
-
+    /*!
+    * \brief Callback of the lidar topic
+    * \param msg The msg received by the topic
+    * \details Put the message received into a private variable
+    */
     void lidar_msg_callback(autoware_msgs::DetectedObjectArray msg)
     {
         lidar_msg = msg;
         lidar_msg_flag = true;
     }
 
+    /*!
+    * \brief Callback of the radar topic
+    * \param msg The msg received by the topic
+    * \details Put the message received into a private variable
+    */
     void radar_msg_callback(autoware_msgs::DetectedObjectArray msg)
     {
         radar_msg = msg;
         radar_msg_flag = true;
     }
 
+    /*!
+    * \brief Calculate the distance bewteen tow points
+    * \param P1 Firts point.
+    * \param P2 Second point.
+    * \result The distance between the two points given.
+    */
     double distance(geometry_msgs::Point P1, geometry_msgs::Point P2)
     {
         double x = P1.x - P2.x;
@@ -44,6 +64,12 @@ private:
         return sqrt(x*x + y*y + z*z);
     }
 
+    /*!
+    * \brief Fuse the objects detected by lidar and radar and publish it
+    * \details Give an personal id on each differente detected object and put it in a msg, then publish it. 
+    * If the distance between one lidar object and one radar object is lower than RADAR_LIDAR_MAX_DISTANCE, 
+    * it means that they have detected the same object.
+    */
     void publish()
     {
         bool objectAssigned;
@@ -51,7 +77,7 @@ private:
 
         // Here we indicate that all these objects have been detected by lidar and
         // we add the unique "id" that will be used when merging the output from the
-        // diferent range_vision_fusion nodes for the different cameras
+        // different range_vision_fusion nodes for the different cameras
         size_t i;
         for (i = 0; i < fused_msg.objects.size(); i++) {
             fused_msg.objects.at(i).user_defined_info.push_back(std::to_string(i));
@@ -86,6 +112,14 @@ private:
 
 
 public:
+    /*!
+     * \brief Constructor of the class
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param lidar_topic Name of the topic that connect the lidar node
+     * \param radar_topic Name of the topic that connect the radar node
+     * \param fused_topic Name of the topic where the output list will be published
+     * \details Initialize the node and its components such as publishers and subscribers. It call lidar_msg_callback and radar_msg_callback
+     */
     lidarRadarFuse(ros::NodeHandle &nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic) : nh_(nh)
     {
         // Initialize the publishers and subscribers
@@ -94,6 +128,10 @@ public:
         pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(fused_topic, 1, true);
     }
 
+    /*!
+     * \brief The main loop of the Node
+     * \details Set the rate at 20Hz.
+     */
     void run()
     {
       ros::Rate rate(20);
@@ -108,11 +146,18 @@ public:
     }
 };
 
+/*!
+* \brief Exception
+* \details Exception raise if names of topics weren't given
+*/
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
                      " <lidar_topic> <radar_topic> <fused_topic>");
 }
 
+/*!
+* \brief Main function
+*/
 int main(int argc, char** argv)
 {
     if (argc < 4) {

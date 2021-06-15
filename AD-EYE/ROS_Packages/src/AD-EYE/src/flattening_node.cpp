@@ -62,7 +62,11 @@ private:
 
     float width_ego_ = 2.2;
 
-
+    /*!
+     * \brief Generate a submap
+     * \param full_grid_map A GridMap that contain all the map
+     * \details Generate a square submap with the car at the center. The dimention of the map is given in the constructor
+     */
     void extractsSubmap(const GridMap &full_grid_map) {
         bool is_submap_extracted;
         submap_dimensions_ = sqrt(std::pow(occmap_width_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
@@ -78,7 +82,7 @@ private:
             ROS_ERROR("GridMapCreator : Error when creating the submap in flattening");
     }
 
-/*!
+    /*!
      * \brief GridMap Callback : Called when the grid map information has changed.
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the GridMap information given by the GridMapCreator, then
@@ -286,6 +290,10 @@ public:
 
 };
 
+/*!
+* \brief Exception
+* \details Exception raise if area parameters aren't given
+*/
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
                      " <area_width> <area_height_front> <area_height_back>");
