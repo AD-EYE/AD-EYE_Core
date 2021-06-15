@@ -791,7 +791,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  =    ../AD-EYE/ROS_Packages/src/AD-EYE/src \
-                            ../AD-EYE/ROS_Packages/src/AD-EYE/include
+                            ../AD-EYE/ROS_Packages/src/AD-EYE/include \
+                            ../AD-EYE/ROS_Packages/src/GUI/adeye_gui/gui \
 
 
 
@@ -830,6 +831,7 @@ FILE_PATTERNS          = *.c \
                          *.i++ \
                          *.inl \
                          *.idl \
+                         *.js \
                          *.ddl \
                          *.odl \
                          *.h \
