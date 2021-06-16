@@ -39,7 +39,7 @@ echo -e "\nInstalling system dependencies"
 sudo apt-get update
 sudo apt-get install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin gksu
 sudo apt-get install -y python3-pip python3-colcon-common-extensions python3-setuptools python3-vcstool
-sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni0 libopenni-sensor-pointclouds0 libopenni2-0 libopenni-sensor-pointclouds-dev libopenni2-dev libopenni-dev
+sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni0 libopenni-sensor-pointclouds0 libopenni2-0 libopenni-sensor-pointclouds-dev libopenni2-dev libopenni-dev libproj-dev
 pip3 install -U setuptools
 
 #Ros dependencies

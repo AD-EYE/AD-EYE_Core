@@ -36,8 +36,8 @@
       <div class="container-fluid">
       <div id="row_div" class="row">
 
-        <!-- card for linear velocity -->
         <div class="column">
+          <!-- card for linear velocity -->
           <div draggable="true" class="box">
             <h2 class="text-center">Linear Velocity</h2>
             <div class="gauge_velocity">
@@ -47,11 +47,9 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- card for linear velocity -->
+          <!-- card for linear velocity -->
 
-        <!-- card for linear acceleration -->
-        <div class="column">
+          <!-- card for linear acceleration -->
           <div draggable="true" class="box"> 
             <h2 class="text-center">Linear Acceleration</h2>
             <div class="gauge_acceleration">
@@ -61,11 +59,9 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- card for linear acceleration -->
+          <!-- card for linear acceleration -->
 
-        <!-- card for control channel  -->
-        <div class="column">
+          <!-- card for control channel  -->
           <div draggable="true" class="box">
             <h2 class="text-center">Control Channel</h2>
             <div style="display:inline-flex; width:100%"> 
@@ -75,11 +71,9 @@
             <label>Last control channel request</label>
             <input type="text" id="control_channel" value="" disabled> 
           </div>
-        </div>
-        <!-- card for control channel  -->
+          <!-- card for control channel  -->
 
-        <!-- card for manager state -->
-        <div class="column">
+          <!-- card for manager state -->
           <div draggable="true" class="box">
             <h2 class="text-center">Manager State</h2>
             <p>Current State : <span id="state"></span></p>
@@ -90,11 +84,11 @@
             <label>Last state transition request</label>
             <input type="text" id="latest_state" value="" disabled>
           </div>
+          <!-- card for manager state -->
         </div>
-        <!-- card for manager state -->
 
-        <!-- card for tracked objects -->
         <div class="column">
+          <!-- card for tracked objects -->
           <div draggable="true" class="box">
             <h2 class="text-center">Tracked Object Camera 1</h2>
             <p>Tracked object: <span id="track"></span></p>
@@ -102,20 +96,16 @@
             <p>Y: <span id="y"></span></p>
             <p>Z: <span id="z"></span></p>
           </div>
-        </div>
-        <!-- card for tracked objects -->
+          <!-- card for tracked objects -->
 
-        <!-- card for behaviour state -->
-        <div class="column">
+          <!-- card for behaviour state -->
           <div draggable="true" class="box">
             <h2 class="text-center">Behavior State</h2>
             <p>State: <span id="behavior"></span></p>
           </div>
-        </div>
-        <!-- card for behaviour state -->
+          <!-- card for behaviour state -->
 
-        <!-- card for features -->
-        <div class="column">
+          <!-- card for features -->
           <div draggable="true" class="box">
             <h2 class="text-center">Features</h2>
             <div id="a"></div>
@@ -137,8 +127,8 @@
         </div>
         <!-- card for features -->
 
-        <!-- card for fault injection -->
         <div class="column">
+          <!-- card for fault injection -->
           <div draggable="true" class="box">
             <h2 class="text-center">Fault Injection</h2>
 
@@ -317,55 +307,56 @@
              <label>Last fault injection request </label>
              <textarea id="fault_injection_values" value="" disabled></textarea>
 				  </div>
-        </div>
-        <!-- card for fault injection -->
+          <!-- card for fault injection -->
 
-        <!-- card for goal setting-->
-        <div class="column">
+          <!-- card for goal setting-->
           <div draggable="true" class="box">
             <h2 class="text-center">Goal Selection</h2>
             <canvas id="image_canvas" ></canvas>
             <label>Last goal coordinates </label>
             <input type="text" id="goal_pixel_coordinates" value="" disabled>
  		      </div>
-        </div>
-        <!-- card for goal setting-->
-
-        <!-- card for camera -->
-        <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Camera 1</h2>
-            <canvas id="camera1_canvas"></canvas>
-					</div>
+           <!-- card for goal setting-->
         </div>
 
         <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">Camera 2</h2>
-             <canvas id="camera2_canvas" ></canvas>
-					</div>
-        </div>
-
-        <div class="column">
-          <div draggable="true" class="box">
-            <h2 class="text-center">TL Camera</h2>
-             <canvas id="tl_camera_canvas" ></canvas>
-					</div>
-        </div>
-        <!-- card for camera -->
-
-         <!-- card for simulation and real time displays---------->
-       <div class="column">
+          <!-- card for simulation and real time displays---------->
           <div draggable="true" class="box">
             <h2 class="text-center">Time Display</h2>
             <p>Simulation Time:<span id="simulation_time"></span></p>
             <p>Real Time:<span id="real_time"></span></p>
 					</div>
-        </div>
-         <!-- card for simulation and real time displays---------->
+          <!-- card for simulation and real time displays---------->
+          
+          <!-- card for camera1 -->
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera 1</h2>
+            <canvas id="camera1_canvas"></canvas>
+					</div>
+          <!-- card for camera1 -->
+          
+          <!-- card for camera2 -->
+          <div draggable="true" class="box">
+            <h2 class="text-center">Camera 2</h2>
+            <canvas id="camera2_canvas" ></canvas>
+					</div>
+          <!-- card for camera2 -->
+          
+          <!-- card for camera_tl -->
+          <div draggable="true" class="box">
+            <h2 class="text-center">TL Camera</h2>
+            <canvas id="tl_camera_canvas" ></canvas>
+					</div>
+          <!-- card for camera_tl -->
 
-        <div id="generic-div" class="column" style="display: none;"></div>
-        <button id="generic_button" onclick="createGenericCard()">+</button>
+          <div id="generic-div" class="column" style="display: none;"></div>
+          <button id="generic_button" onclick="createGenericCard()">+</button>
+        </div>
+        <!-- card for camera -->
+
+         
+
+        
       </div>
     </div>
 	  </main>

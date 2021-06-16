@@ -304,31 +304,27 @@ private:
                 for(auto poly: detected_objects_old_.polygons)
                 {
                     bool first_point = true;
-                    float z = poly.polygon.points.front().z;
                     Position previous_point;
                     grid_map::Polygon polygon;
                     polygon.setFrameId("SSMP_map");
                     for(auto pt: poly.polygon.points)
                     {
-                        if(pt.z == z)
+                        polygon.addVertex(Position(pt.x, pt.y));
+                        if(!first_point)
                         {
-                            polygon.addVertex(Position(pt.x, pt.y));
-                            if(!first_point)
-                            {
-                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map_.at("StaticObjects", *iterator) = 0;
-                                }
+                            for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                                map_.at("StaticObjects", *iterator) = 0;
                             }
-                            first_point = false;
-                            previous_point = Position(pt.x, pt.y);
-                            
                         }
+                        first_point = false;
+                        previous_point = Position(pt.x, pt.y);
                     }
                     for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
                         map_.at("DynamicObjects", *iterator) = 0;
                     }
                 }
             }
+
 
             for(auto poly: detected_objects_.polygons)
             {
@@ -339,19 +335,15 @@ private:
                 polygon.setFrameId("SSMP_map");
                 for(auto pt: poly.polygon.points)
                 {
-                    if(pt.z == z)
-                        {
-                            polygon.addVertex(Position(pt.x, pt.y));
-                            if(!first_point)
-                            {
-                                for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                                    map_.at("StaticObjects", *iterator) = heigth_other_;
-                                }
-                            }
-                            first_point = false;
-                            previous_point = Position(pt.x, pt.y);
-                            
+                    polygon.addVertex(Position(pt.x, pt.y));
+                    if(!first_point)
+                    {
+                        for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
+                            map_.at("StaticObjects", *iterator) = heigth_other_;
                         }
+                    }
+                    first_point = false;
+                    previous_point = Position(pt.x, pt.y);
                 }
                 for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
                     map_.at("DynamicObjects", *iterator) = heigth_other_;
@@ -366,13 +358,13 @@ private:
      * \param msg A smart pointer to the message from the topic.
      * \details Stores the position information as read from simulink of the controlled car
      */
-    void positionCallback(const nav_msgs::Odometry::ConstPtr& msg){
-        x_ego_ = msg->pose.pose.position.x;
-        y_ego_ = msg->pose.pose.position.y;
-        float x_ego_center = msg->pose.pose.position.x + cos(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
-        float y_ego_center = msg->pose.pose.position.y + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
-        q_ego_ = msg->pose.pose.orientation;
-        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.pose.orientation);
+    void positionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg){
+        x_ego_ = msg->pose.position.x;
+        y_ego_ = msg->pose.position.y;
+        q_ego_ = msg->pose.orientation;
+        yaw_ego_ = cpp_utils::extract_yaw(msg->pose.orientation);
+        float x_ego_center = x_ego_ + cos(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
+        float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         connection_established_ = true;
         //Creating footprint for Ego vehicle
         if(x_ego_center != last_x_ego_center_ || x_ego_center != last_y_ego__center_)
@@ -663,7 +655,8 @@ public:
         pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
         pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
-        sub_position_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom", 100, &GridMapCreator::positionCallback, this);
+        sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &GridMapCreator::positionCallback, this);
+        
         if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else

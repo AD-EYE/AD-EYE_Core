@@ -1,0 +1,13 @@
+<!-- -->
+<launch>
+    <node pkg="adeye"
+          type="ExperimentC"
+          name="ExperimentC"
+          output="screen"/>
+
+    <node pkg="adeye"
+          type="pointCloudFrameChanger"
+          name="pointCloudFrameChanger"
+          output="screen"/>
+          
+</launch>
