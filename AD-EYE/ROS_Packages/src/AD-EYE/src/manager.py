@@ -136,7 +136,7 @@ class ManagerFeaturesHandler:
             self.features[key].path = adeye_package_path + launch_folder + self.features[key].path
 
         self.features["Experiment_specific_recording"].path = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE" \
-                                                              "/launch/ExperimentA.launch "
+                                                              "/launch/ExperimentC.launch"
         self.features["Recording"].path = ""
 
     ## Creates the FeaturesControl objects, must be called after the launch paths are constructed
@@ -159,7 +159,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     ENABLED_DEFAULT_FEATURES = [
         # "Recording",
@@ -173,7 +173,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
         # "Recording",
@@ -181,13 +181,13 @@ class Manager:
         "Sensing",
         # "Localization",
         "Fake_Localization",
-        "Detection",
-        "Mission_Planning",
-        "Motion_Planning",
+        # "Detection",
+        # "Mission_Planning",
+        # "Motion_Planning",
         "Switch",
-        "SSMP",
+        # "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
         # "Recording",
@@ -215,7 +215,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     ENABLED_ALLOWED_FEATURES = [
         # "Recording",
@@ -229,7 +229,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     ENGAGED_ALLOWED_FEATURES = [
         "Recording",
@@ -365,6 +365,7 @@ class Manager:
                 elif self.isFeatureJustDeactivated(feature_name):
                     self.stopRecording()
             else:  # "normal" features
+                print feature_name
                 try:  # to not kill the manager when a launch is malformed (in that case an exception is thrown)
                     if self.isFeatureJustActivated(feature_name):
                         self.manager_features_handler.features[feature_name].featureControl.start()
