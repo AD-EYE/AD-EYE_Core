@@ -54,8 +54,8 @@ void PointsToOccupancyGrid::pointsCallback(const sensor_msgs::PointCloud2::Const
 PointsToOccupancyGrid::PointsToOccupancyGrid(ros::NodeHandle nh, bool delayed_start)
 {
     nh.param<double>("map_resolution_", map_resolution_, 1.0);
-    nh.param<int>("map_width_", map_width_, 1000);
-    nh.param<int>("map_height_", map_height_, 1000);
+    nh.param<int>("map_width_", map_width_, 1000 / map_resolution_);
+    nh.param<int>("map_height_", map_height_, 1000 / map_resolution_);
     nh.param<double>("map_offset_x_", map_offset_x_, 130.0);
     nh.param<double>("map_offset_y_", map_offset_y_, 150.0);
     nh.param<double>("map_offset_z_", map_offset_z_, -2.0);
