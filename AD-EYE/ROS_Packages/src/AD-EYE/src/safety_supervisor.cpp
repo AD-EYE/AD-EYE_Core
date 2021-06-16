@@ -611,7 +611,7 @@ private:
      * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    void areThresholdsAndIncrementsSizeValid()
+    void checkSafetyChecksParameterValidity()
     {
         if (thresholds_pass_test_.size() != num_safety_tests_)
         {
@@ -644,7 +644,7 @@ private:
         if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
                 || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
         {
-            areThresholdsAndIncrementsSizeValid();
+            checkSafetyChecksParameterValidity();
         }
 
         // Initiate Non-instantaneous test result vector
