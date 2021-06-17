@@ -65,7 +65,7 @@ public:
     /*!
      * \brief Constructor of the class
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
-     * \param inputTopic1 Name of the firts topic we want to fuse
+     * \param inputTopic1 Name of the first topic we want to fuse
      * \param inputTopic2 Name of the second topic we want to fuse
      * \param outputTopic Name of the topic where the output message will be published
      * \details Initialize the node and its components such as publishers and subscribers. It call msg1_callback and msg2_callback

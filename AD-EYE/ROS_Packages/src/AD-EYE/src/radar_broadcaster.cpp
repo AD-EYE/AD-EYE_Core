@@ -51,7 +51,7 @@ private:
 
     /*!
     * \brief Generate the autoware_msgs::DetectedObject object and publish it
-    * \details For each point detected which contain no zero coordonate, set the parameters of object and push it back in the message to publish.
+    * \details For each point detected which contain no zero coordinate, set the parameters of object and push it back in the message to publish.
     */
     void publish()
     {

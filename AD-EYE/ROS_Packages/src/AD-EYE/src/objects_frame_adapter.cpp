@@ -10,7 +10,7 @@
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 
 /*!
-* \brief A node that calulate the position of an object in an other frame
+* \brief A node that calculate the position of an object in an other frame
 * \details Rate at 20Hz
 */
 class objectsFrameAdapter
@@ -31,8 +31,8 @@ private:
 
     /*!
     * \brief Calculate the new position of every objects in the message
-    * \param msg The message receive in the sucriber
-    * \details There is an execption : If it can't calculate the new position, it seends a ROS_WARN
+    * \param msg The message receive in the subscriber
+    * \details There is an exception : If it can't calculate the new position, it seends a ROS_WARN
     */
     void detectedObjects_callback(autoware_msgs::DetectedObjectArray msg)
     {
@@ -84,7 +84,7 @@ public:
     /*!
      * \brief Constructor of the class
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
-     * \param inputTopic1 Name of the topic where we will receive our objects
+     * \param inputTopic1 Name of the topic where our object will be receive.
      * \param outputTopic Name of the topic where the output message will be published
      * \param targetFrame The new frame
      * \details Initialize the node and its components such as publishers and subscribers.

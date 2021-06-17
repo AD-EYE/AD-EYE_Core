@@ -52,7 +52,7 @@ private:
 
     /*!
     * \brief Calculate the distance bewteen tow points
-    * \param P1 Firts point.
+    * \param P1 First point.
     * \param P2 Second point.
     * \result The distance between the two points given.
     */
