@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map_experimentC" UniqueId="0" Authors="Adeye" TotalSimulationTime="78.550000000000011" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="8D6130D292FEE4AD00F0F477893F176B13400B1271EAC83DB1BE257E37975B9C" UniqueExperimentIdentifier="e8141e8b-b6de-435e-85e0-09b20a76caa2" UniqueIdCounter="28579" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W01_Base_Map_experimentC" UniqueId="0" Authors="Adeye" TotalSimulationTime="78.550000000000011" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="BC832C1BE52FD92FBD28A7B31806BB4845CFE31E4BA45869B0F93B072C39C9A9" UniqueExperimentIdentifier="e8141e8b-b6de-435e-85e0-09b20a76caa2" UniqueIdCounter="28787" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of terraced building" id="TerracedHouses_1" UniqueId="124" SensorDetectability="Invisible" NumericalID="84" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TerracedHouses" AnimatedActor="false" CompilationSheetPicture="TerracedHouses_HighPoly.png" HashCode="01b0cf4ea299e102ec424d5d6cc0a8af" ModelFile="Buildings\TerracedHouses\TerracedHouses.osgb" GenericModelSourceFile="Buildings\TerracedHouses\TerracedHouses.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="151.75918262695313" Y="144.12117764501954" Z="0" />
@@ -6070,7 +6070,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="false" />
@@ -6079,7 +6079,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28575" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28783" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6095,7 +6095,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="false" />
@@ -6104,7 +6104,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28576" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28784" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6120,7 +6120,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="false" />
@@ -6129,7 +6129,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28577" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28785" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -6145,7 +6145,7 @@
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
-          <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
+          <Size X="16.300994873046875" Y="2.0703122615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
             <TestAutomationVariable VariableName="Location" VariableState="false" />
@@ -6154,7 +6154,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="28578" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="28786" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -7037,7 +7037,7 @@
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
       <Underlay xsi:type="Concrete" Description="SAFE256" id="Concrete_1" UniqueId="7639" PreventDragging="true" SensorDetectability="Invisible" NumericalID="28" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="139.14199556518557" Y="143.34202364298253" Z="0" />
+        <Location X="139.1419955651856" Y="143.34202364157105" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="30" Y="30" Z="0.01" />
@@ -7049,8 +7049,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="4.4997617264398384" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="4.6668294340135255" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="4.4997617264398393" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.6668294339677256" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
