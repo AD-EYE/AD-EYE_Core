@@ -17,7 +17,11 @@ class rosbags
 {
 private:
     ros::NodeHandle &nh_;
+    ros::Subscriber sub_goal_coordinates_;
     
+    // Goal queue
+    std::queue <geometry_msgs::PoseStamped::ConstPtr > goal_coordinates_;
+
     // ROS rate
     ros::Rate rate_;
 
@@ -31,6 +35,11 @@ private:
         rosbag::Recorder recorder(options);
         recorder.run();
     }
+
+    void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
+    {
+        goal_coordinates_.push(msg); 
+    }
     
 public:
     /*!
@@ -40,7 +49,23 @@ public:
      */
     rosbags(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
-        recording();
+        
+        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &rosbags::storeGoalCoordinatesCallback, this);
+        //recording();
+        system("rosrun rosbag_snapshot snapshot -d 30 /clock /aye/goals /move_base_simple/goal")
+    }
+
+    void run()
+    {
+        while (nh_.ok())
+        {
+            ros::spinOnce();
+            if(goal_coordinates_.size() > 2)
+            {
+                system("rosrun rosbag_snapshot snapshot -t");
+            }
+            rate_.sleep();
+        }
     }
 };
 
@@ -49,5 +74,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "rosbagsRolling");
     ros::NodeHandle nh;
     rosbags ros_rolling(nh);
+    ros_rolling.run();
     return 0;
 }
