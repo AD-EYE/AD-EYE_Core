@@ -366,8 +366,8 @@ private:
             int index = 0;
             double length = 0;
 
-            // `For` loop for finding an index value from autoware trajectory to set the crtical area length
-            for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
+            // `For` loop for finding an index value from autoware trajectory to set the critical area length
+            for (int k = 0; k < autowareTrajectory_.waypoints.size()-1; k++)
             {
                 // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
                 double distance_between_two_waypoints = getDistance(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
