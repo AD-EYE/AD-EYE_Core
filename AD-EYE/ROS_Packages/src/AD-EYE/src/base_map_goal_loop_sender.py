@@ -49,7 +49,7 @@ class BaseMapGoalLooper ():
 
     ##Callback method which checks whether the car is within a distance of the goal and if so calls the method to publish the next goal, listens to the topic /gnss_pose   
     #@param self The object pointer
-    #@param ego_pos A PoseStamped message reprsenting the position of the ego vehicle
+    #@param ego_pos A PoseStamped message representing the position of the ego vehicle
     def gnssPoseCallback(self,ego_pose):
 
         x = self.goal_list_[self.current_goal_index_].pose.position.x

@@ -28,7 +28,8 @@ while NumberFound == False :
 STOP_DISTANCE_SQUARRED = 900 
 
 ##A class to run an record the experiment B, to check the behavior of the vehicle when it's reaching its goal.
-#We study the influence of rain on the lidar on various terrains (semi-urban, forest, and urban area).
+#We study the influence of rain on the lidar on various terrains (semi-urban, forest, and urban area) by storing
+#in files the true position and the estimated position of the ego vehicle.
 class ExperimentBRecorder:
 
     start = False

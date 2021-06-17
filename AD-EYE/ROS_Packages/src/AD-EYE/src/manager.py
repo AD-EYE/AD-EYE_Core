@@ -175,6 +175,18 @@ class ManagerFeaturesHandler:
 
 
 ##Manager Class
+#
+#This class :
+#
+#Checks if safety channel is active, if not prints warning
+#
+#Checks state of the state machine and updates current features accordingly
+#
+#Checks if the list of active features has changed
+#
+#Publishes the state machine state (for GUI)
+#
+#Publishes the current active features (for GUI)
 class Manager:
     INITIALIZING_DEFAULT_FEATURES = [
         # "Recording",
@@ -315,6 +327,7 @@ class Manager:
         
 
     ##The main loop
+    #Runs with a rate of 10Hz
     #@param self The object pointer
     def run(self):
         rate = rospy.Rate(10.0)

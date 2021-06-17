@@ -35,9 +35,11 @@ class ExperimentOutcomes(Enum):
     CAR_STOPPED = 3
 
 ##A class to run an record the experiment A.
-#The ego vehicle starts far from the pedestrian and accelerates until the maximum speed defined in the parameter.
-#Once the ego vehicle is at a distance lesser or equal to the trigger distance the pedestrian moves from the side of the road to the center of the lane on which the ego vehicle drives.
-#We study the influence of rain on the lidar.
+#The ego vehicle starts far from the pedestrian and accelerates until it reaches the established maximum speed.
+#Once the ego vehicle is at a distance lesser or equal to the trigger distance from the pedestrian, 
+#he moves from the side of the road to the center of the lane on which the ego vehicle is driving.
+#We study in this experiment the influence of rain on the lidar by storing
+#in files the distance from the ego vehicle to the pedestrian when the experiment stops and the reason why.
 class ExperimentARecorder:
     ego_speeds = []
     collision_speed = 'N/A'
@@ -164,6 +166,7 @@ class ExperimentARecorder:
 
 
     ##A method that processes and stores the data.
+    #The experimment outcome and the distance between the ego vehicle and the pedestrian are stored in a file 
     #@param self The object pointer
     #@param experiment_outcome An ExperimentOutcomes object explaining how or what the experiment stoped
     def computeAndStoreData(self, experiment_outcome):
@@ -235,6 +238,8 @@ class ExperimentARecorder:
 
 
     ##A method to check if the experiment's results should be stored in a .bag file.
+    #This is done by checking that the maximum velocity, the rain intensity,
+    #the reflectivity, and the trigger distance match the ROSBAG parameters
     #@param self The object pointer
     def shouldRecordRosbag(self):
         max_velocity = 0

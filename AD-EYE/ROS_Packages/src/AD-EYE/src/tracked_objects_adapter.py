@@ -13,7 +13,7 @@ current_pose = PoseStamped()
 trans = list()
 rot = list()
 
-##A function to get the position and orientation of each object from from the detection/fusion_tools/objects topic
+##A function to get the position and orientation of each object from the detection/fusion_tools/objects topic
 #and convert them from the velodyne frame to the world frame and to publish it to the tracked_objects topic.
 #@param data A DetectedObjectArray message received from the detection/fusion_tools/objects topic
 def mycallback1(data):
