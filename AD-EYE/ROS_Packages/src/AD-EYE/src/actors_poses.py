@@ -25,8 +25,8 @@ class ActorsPosesPublisher():
         for i in range(0,number_of_actors):
             actors_pose = categorized_pose()
             actors_pose.category = actor_category
-            actors_pose.pose.position.x = Px - actor_initial_pose.position.x + pose_increment_value + 2
-            actors_pose.pose.position.y = Py - actor_initial_pose.position.y + pose_increment_value + 2
+            actors_pose.pose.position.x = Px - actor_initial_pose.position.x + pose_increment_value 
+            actors_pose.pose.position.y = Py - actor_initial_pose.position.y + pose_increment_value 
             actors_pose.pose.position.z = 0
             actors_pose.pose.orientation.x = 0
             actors_pose.pose.orientation.y = 0
@@ -37,23 +37,26 @@ class ActorsPosesPublisher():
             actors_pose.header.frame_id = "map"
 
             actors_pose_array.poses.append(actors_pose)
+            Px = Px + 2
+            Py = Py + 2
         return(actors_pose_array)
 
     def publishPoses(self):
         
         counter = 0
         while not rospy.is_shutdown() and counter < 50:
-            pose_increment_value = 5 * counter
-         
-            array_of_car_poses = self.getPoseArray(84,170,pose_increment_value, 20, 1)
-            array_of_pedestrian_poses = self.getPoseArray(55,176,pose_increment_value, 20, 2)
-            array_of_cycle_poses = self.getPoseArray(75,191,pose_increment_value, 10, 3)
-            array_of_motorcycle_poses = self.getPoseArray(90,205,pose_increment_value, 5, 4)
+            pose_increment_value = 3 * counter
+            
+            
+            array_of_pedestrian_poses = self.getPoseArray(54,168,pose_increment_value, 20,1 )
+            array_of_car_poses = self.getPoseArray(96,171,pose_increment_value, 20, 2 )
+            array_of_cycle_poses = self.getPoseArray(63,171,pose_increment_value, 10, 3 )
+            array_of_motorcycle_poses = self.getPoseArray(208,171,pose_increment_value, 5, 4 )
             
             actors_pose_array = categorized_poses()
 
             actors_pose_array.poses.extend(
-                array_of_car_poses.poses + array_of_pedestrian_poses.poses
+                 array_of_pedestrian_poses.poses + array_of_car_poses.poses 
                 + array_of_cycle_poses.poses + array_of_motorcycle_poses.poses)
           
             print(len(actors_pose_array.poses))
@@ -63,6 +66,7 @@ class ActorsPosesPublisher():
             self.actors_pose_array_pub_.publish(actors_pose_array)
             rate.sleep()
             counter = counter + 1
+            
 
 if __name__=="__main__":
     rospy.init_node('actors_poses')
