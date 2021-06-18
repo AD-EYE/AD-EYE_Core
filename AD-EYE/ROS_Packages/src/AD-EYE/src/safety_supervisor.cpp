@@ -366,8 +366,8 @@ private:
             int index = 0;
             double length = 0;
 
-            // `For` loop for finding an index value from autoware trajectory to set the crtical area length
-            for (int k = 0; k < autowareTrajectory_.waypoints.size(); k++)
+            // `For` loop for finding an index value from autoware trajectory to set the critical area length
+            for (int k = 0; k < autowareTrajectory_.waypoints.size()-1; k++)
             {
                 // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
                 double distance_between_two_waypoints = getDistance(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
@@ -611,7 +611,7 @@ private:
      * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    void areThresholdsAndIncrementsSizeValid()
+    void checkSafetyChecksParameterValidity()
     {
         if (thresholds_pass_test_.size() != num_safety_tests_)
         {
@@ -644,7 +644,7 @@ private:
         if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
                 || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
         {
-            areThresholdsAndIncrementsSizeValid();
+            checkSafetyChecksParameterValidity();
         }
 
         // Initiate Non-instantaneous test result vector
