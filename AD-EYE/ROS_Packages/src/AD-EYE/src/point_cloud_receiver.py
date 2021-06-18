@@ -6,7 +6,8 @@ from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import PointField
 import numpy as np
 
-
+##A function to turn the raws points from floats to strings and publish them to the /points_raw topic
+#@param data A Float32MultiArray message 
 def mycallback(data):
     msg = PointCloud2()
     msg.header.stamp = rospy.Time.now()
