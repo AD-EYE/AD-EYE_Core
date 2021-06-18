@@ -32,13 +32,12 @@ private:
     float y_ego_;
 
     // Goal queue
-    std::queue <geometry_msgs::PoseStamped::ConstPtr > goal_coordinates_;
+    std::queue <geometry_msgs::PoseStamped> goal_coordinates_;
 
     // Boolean value for the global planner, end state and the goals
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
     bool received_first_goal_ = false;
-    bool received_next_goal_ = false;
     
     // Autoware behavior state status
     double autoware_behavior_state_;
@@ -49,6 +48,9 @@ private:
     // Vehicle State behaviour
     const double END_STATE_ = 13.0;
     const double FORWARD_STATE_ = 2.0;
+    
+    // Minimum goals in the goal coordinates queue for publishing next (upcoming) goals
+    const int MINIMUM_GOALS_ = 2;
 
     /*!
      * \brief Position Callback : Continuously called when the vehicle position information has changed.
@@ -69,29 +71,26 @@ private:
      */
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
-        // Store the first goal if the goal queue is empty
+        // Store the first goal if the goal queue is empty and boolean for upcoming goal is false
         if (goal_coordinates_.empty()) 
         {
             // Store the first real-world map goal coordinates  
-            goal_coordinates_.push(msg);       
+            goal_coordinates_.push(*msg);       
 
             ROS_INFO("The first goal has been received. Position:- x = %lf, y = %lf, z = %lf",
-                goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
             
             // Boolean for receiving the first goal
             received_first_goal_ = true;
         }
 
         // Store the upcoming goal positions in the queue if the goal is not near as 10 m to the previous goal
-        if (getDistance(goal_coordinates_.back()-> pose.position.x, msg -> pose.position.x, goal_coordinates_.back()-> pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
+        if (getDistance(goal_coordinates_.back().pose.position.x, msg -> pose.position.x, goal_coordinates_.back().pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
         {
-            goal_coordinates_.push(msg);
+            goal_coordinates_.push(*msg);
 
             // Print the new goal positions
-            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",goal_coordinates_.back()-> pose.position.x, goal_coordinates_.back()-> pose.position.y, goal_coordinates_.back() -> pose.position.z );   
-
-            // Boolean for receiving the next goal
-            received_next_goal_ = true;
+            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",goal_coordinates_.back().pose.position.x, goal_coordinates_.back().pose.position.y, goal_coordinates_.back().pose.position.z );
         }    
     }
     
@@ -110,7 +109,7 @@ private:
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
+    void autowareGlobalPlanCallback(const autoware_msgs::LaneArray::ConstPtr &msg)
     {
         // Local planner value
         std_msgs::Int32 local_planner;
@@ -129,9 +128,9 @@ private:
       * \brief Calculate the distance between two x and y points
       * \param x_1, x_2, y_1 and y_2 are points of the real world map
       */
-     double getDistance(double x_one, double x_two, double y_one, double y_two)
+     double getDistance(const double x_one, const double x_two, const double y_one, const double y_two)
      {
-         return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
+         return sqrt((x_two - x_one) * (x_two - x_one) + (y_two - y_one) * (y_two - y_one));
      }
     
 public:
@@ -143,13 +142,13 @@ public:
     GoalSequencer(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
         // Initialize node, publishers and subscribers
-        sub_goal_coordinates_ = nh.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &GoalSequencer::storeGoalCoordinatesCallback, this);
-        sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
-        sub_autoware_state_ = nh.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
-        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
-        pub_goal_ = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
-        pub_update_local_planner_ = nh.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
-        pub_clear_goal_list_bool_= nh.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
+        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &GoalSequencer::storeGoalCoordinatesCallback, this);
+        sub_position_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
+        sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
+        sub_autoware_global_plan_ = nh_.subscribe<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
+        pub_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
+        pub_update_local_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
+        pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
     }   
 
     void run() 
@@ -165,49 +164,40 @@ public:
                 // Publish the first goal 
                 pub_goal_.publish(goal_coordinates_.front());
                 
-                ROS_INFO("The first goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                ROS_INFO("The first goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
                 // Bool value reset to true for sending upcoming goals in the main run loop.
                 received_first_goal_ = false;
             }
             
             // Condition for next (upcoming) goals
-            if (received_next_goal_)
-            { 
-                // Publish the next goal when the car enters in end state (end state = 13.0)
-                if (autoware_behavior_state_ == END_STATE_)
-                {
-                    // Condition for removing the previous goal and setting up the next goal
-                    if (!has_global_planner_and_goal_been_reset_ && received_next_goal_)
-                    { 
-                        // Boolean for clearing the goal list in autoware op_global_planner
-                        std_msgs::Bool clear_goal_list;
-                        
-                        // Publish true value to clear the goal list in autoware
-                        clear_goal_list.data = true;
-                        pub_clear_goal_list_bool_.publish(clear_goal_list);
+            // Publish the next goal when the car enters in end state (end state = 13.0) and condition for removing the previous goal and setting up the next goal 
+            if (autoware_behavior_state_ == END_STATE_ && !has_global_planner_and_goal_been_reset_ && goal_coordinates_.size() >= MINIMUM_GOALS_)
+            {
+                // Boolean for clearing the goal list in autoware op_global_planner
+                std_msgs::Bool clear_goal_list;
+                
+                // Publish true value to clear the goal list in autoware
+                clear_goal_list.data = true;
+                pub_clear_goal_list_bool_.publish(clear_goal_list);
 
-                        // Remove the previous goal
-                        goal_coordinates_.pop();
-                    
-                        // Publish the real world map goal coordinates         
-                        pub_goal_.publish(goal_coordinates_.front());
+                // Remove the previous goal
+                goal_coordinates_.pop();
+            
+                // Publish the real world map goal coordinates         
+                pub_goal_.publish(goal_coordinates_.front());
 
-                        ROS_INFO("The next goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front() -> pose.position.x, goal_coordinates_.front() -> pose.position.y, goal_coordinates_.front() -> pose.position.z);
+                ROS_INFO("The next goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
-                        // Update the global planner boolean
-                        should_update_global_planner_ = true;
-                        
-                        // Update the planner and goal boolean for end state
-                        has_global_planner_and_goal_been_reset_ = true;
-                    }
-                }
-
-                // The planner and goal boolean is set to false after publishing the goal and planner (forward state = 2.0)
-                if (autoware_behavior_state_ == FORWARD_STATE_) 
-                {
-                    has_global_planner_and_goal_been_reset_ = false;
-                }
+                // Update the global planner boolean
+                should_update_global_planner_ = true;
+                
+                // Update the planner and goal boolean for end state
+                has_global_planner_and_goal_been_reset_ = true;
+            }
+            else if (autoware_behavior_state_ == FORWARD_STATE_) // The planner and goal boolean is set to false after publishing the goal and planner (forward state = 2.0)
+            {
+                has_global_planner_and_goal_been_reset_ = false;
             }
             rate_.sleep();
         }
