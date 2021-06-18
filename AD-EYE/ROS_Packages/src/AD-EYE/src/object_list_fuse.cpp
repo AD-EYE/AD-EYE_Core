@@ -2,6 +2,10 @@
 
 #include <autoware_msgs/DetectedObjectArray.h>
 
+/*!
+ * \brief A node that fuse two list receive in two differants topics, and publish it.
+ * \details At 20Hz, publish a list including the message recieve on two differents topics.
+ */
 class objectListFuse
 {
 private:
@@ -21,18 +25,32 @@ private:
     bool msg2_flag = false;
 
 
+    /*!
+     * \brief Callback call in the constructeur
+     * \param msg Contain the list of detected objects 
+     * \details Identify the objects that have been send through inputTopic1
+     */
     void msg1_callback(autoware_msgs::DetectedObjectArray msg)
     {
         msg1 = msg;
         msg1_flag = true;
     }
 
+    /*!
+     * \brief Callback call in the constructeur
+     * \param msg Contain the list of detected object
+     * \details Identify the objects that have been send through inputTopic2
+     */
     void msg2_callback(autoware_msgs::DetectedObjectArray msg)
     {
         msg2 = msg;
         msg2_flag = true;
     }
 
+    /*!
+     * \brief Publish all the detected objects
+     * \details Publish, to outputTopic, the list of all the detected objects by inputTopic1 and inputTopic2.
+     */
     void publish()
     {
         msg3 = msg1;
@@ -44,6 +62,14 @@ private:
 
 
 public:
+    /*!
+     * \brief Constructor of the class
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param inputTopic1 Name of the first topic we want to fuse
+     * \param inputTopic2 Name of the second topic we want to fuse
+     * \param outputTopic Name of the topic where the output message will be published
+     * \details Initialize the node and its components such as publishers and subscribers. It call msg1_callback and msg2_callback
+     */
     objectListFuse(ros::NodeHandle &nh, std::string inputTopic1, std::string inputTopic2, std::string outputTopic) : nh_(nh)
     {
         // Initialize the publishers and subscribers
@@ -52,6 +78,10 @@ public:
         pub = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
     }
 
+    /*!
+     * \brief The main loop of the Node
+     * \details Set the rate at 20Hz.
+     */
     void run()
     {
       ros::Rate rate(20);
@@ -66,11 +96,19 @@ public:
     }
 };
 
+/*!
+* \brief Exception
+* \details Exception raise if names of topics weren't given
+*/
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
                      " <input_topic_1> <input_topic_2> <output_topic>");
 }
 
+/*!
+* \brief Main function
+* \details In the argument the command line, it needs inoutTopic1, then inputTopic2, then outputTopic
+*/
 int main(int argc, char** argv)
 {
     if (argc < 4) {
