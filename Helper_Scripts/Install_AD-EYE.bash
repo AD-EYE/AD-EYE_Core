@@ -3,22 +3,14 @@
 #Exit the script if one of the command fails
 set -e
 
-#default options
-WITH_CUDA="true"
-
-#Parsing command line options
-for arg in $@
-do
-    if [ $arg == '--with-cuda' ]; then
-        WITH_CUDA="true"
-    else
-        echo "Usage :"
-        echo " $0 [--with-cuda]"
-        echo ""
-        echo -e "\tUse 'with-cuda' long option if you want to install"
-        echo -e "\tAutoware with CUDA support"
-        exit 0
-    fi
+#Ask if the program should be installed with CUDA
+while true; do
+    read -p "Do you wish to install this program with CUDA? (y/n)" yn
+    case $yn in
+        [Yy]* ) WITH_CUDA="true"; break;;
+        [Nn]* ) WITH_CUDA="false"; break;;
+        * ) echo "Please answer 'y' or 'n'.";;
+    esac
 done
 
 #clone repo
@@ -37,7 +29,7 @@ cd autoware.ai
 #System dependencies
 echo -e "\nInstalling system dependencies"
 sudo apt-get update
-{
+{ #try
 echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 
@@ -45,7 +37,7 @@ sudo apt-get install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin g
 sudo apt-get install -y python3-pip python3-colcon-common-extensions python3-setuptools python3-vcstool
 sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni0 libopenni-sensor-pointclouds0 libopenni2-0 libopenni-sensor-pointclouds-dev libopenni2-dev libopenni-dev libproj-dev
 pip3 install -U setuptools
-} || {
+} || { #catch
     echo -e "\e[1;31m It seems that ros kinetic isn't install, follow this tutorial to install it : https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core/wiki/Install-ROS-Kinetic\e[0m"
 }
 
