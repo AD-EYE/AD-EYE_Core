@@ -28,9 +28,8 @@ VARIABLE_MAP = "WorldName"
 SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
 
 
-##A function to make or clean the #MODIFIED_LAUNCH_FILES_FULL_PATH directory,
-##and to fill it with all of the running .launch files and replacing the whole path names by the
-##values of the running nodes
+##Fills in the launch files templates from TEMPLATE_LAUNCH_FILES_FULL_PATH replacing the placeholder by the values on the ROS parameter server. 
+##The modified tamplates are saved in MODIFIED_LAUNCH_FILES_FULL_PATH
 def listener():
 
     if not os.path.exists(MODIFIED_LAUNCH_FILES_FULL_PATH):

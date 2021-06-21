@@ -13,7 +13,7 @@ class Sender:
     ##The constructor
     #
     #@param self The object pointer
-    #@param use_only_twist Boolean
+    #@param use_only_twist Boolean defining whether only twist is published or if steering, brake, acceleration and gear as well.
     def __init__(self, use_only_twist):
         self.use_only_twist = use_only_twist
         if not self.use_only_twist:
