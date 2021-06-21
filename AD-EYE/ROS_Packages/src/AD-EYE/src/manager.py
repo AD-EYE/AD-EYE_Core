@@ -327,7 +327,6 @@ class Manager:
         
 
     ##The main loop
-    #Runs with a rate of 10Hz
     #@param self The object pointer
     def run(self):
         rate = rospy.Rate(10.0)
@@ -336,7 +335,7 @@ class Manager:
             rate.sleep()
 
     ##Method runOnce
-    #
+    #Contains what should be done in one iteration of the main loop
     #@param self The object pointer
     def runOnce(self):
         self.checkSafetyChannel()  # checks if safety channel is active, if not prints warning
@@ -441,7 +440,7 @@ class Manager:
     def startRecording(self):
         subprocess.Popen(self.ROSBAG_COMMAND, shell=True, executable='/bin/bash')
 
-    ##a method that starts the scripts for stopping the rosbag recording
+    ##A method that starts the scripts for stopping the rosbag recording
     #@param self The object pointer
     def stopRecording(self):
         rospack = rospkg.RosPack()
