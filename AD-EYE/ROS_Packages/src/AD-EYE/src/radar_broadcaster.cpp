@@ -7,7 +7,7 @@
 
 /*!
 * \brief A node that convert a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publish it
-* \details Rate at 20Hz. The std_msgs::Float32MultiArray come from the /radarDetections topic.
+* \details The std_msgs::Float32MultiArray come from the /radarDetections topic.
 * The autoware_msgs::DetectedObject is publish on /detection/radar_tracker/objects topic
 */
 class radarBroadcaster
@@ -50,7 +50,7 @@ private:
     }
 
     /*!
-    * \brief Generate the autoware_msgs::DetectedObject object and publish it
+    * \brief Generate the autoware_msgs::DetectedObject object, populates it and publishes it
     * \details For each point detected which contain no zero coordinate, set the parameters of object and push it back in the message to publish.
     */
     void publish()
@@ -102,9 +102,9 @@ private:
 
 public:
     /*!
-    * \brief Constructor of the node.
+    * \brief Constructor
     * \param nh A reference to the ros::NodeHandle initialized in the main function.
-    * \details Subscribe the node to /radarDetections topic and advertise to /detection/radar_tracker/objects topic
+    * \details The node subscribes to /radarDetections topic and advertise to /detection/radar_tracker/objects topic
     */
     radarBroadcaster(ros::NodeHandle &nh) : nh_(nh)
     {
@@ -115,7 +115,6 @@ public:
 
     /*!
     * \brief The main function of the Node. Contains the main loop
-    * \details Rate at 20Hz
     */
     void run()
     {

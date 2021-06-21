@@ -11,7 +11,6 @@
 
 /*!
 * \brief A node that calculate the position of an object in an other frame
-* \details Rate at 20Hz
 */
 class objectsFrameAdapter
 {
@@ -98,7 +97,6 @@ public:
 
     /*!
      * \brief The main loop of the Node
-     * \details Set the rate at 20Hz.
      */
     void run()
     {

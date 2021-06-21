@@ -7,7 +7,7 @@
 
 /*!
  * \brief This node fuse the object detected by lidar and radar in one message
- * \details At 20 hz, the node read the objects detected by lidar and radar, and publish it into one message.
+ * \details The node read the objects detected by lidar and radar, and publish it into one message.
  * Every object have a personal id.
  */
 class lidarRadarFuse
@@ -130,7 +130,6 @@ public:
 
     /*!
      * \brief The main loop of the Node
-     * \details Set the rate at 20Hz.
      */
     void run()
     {

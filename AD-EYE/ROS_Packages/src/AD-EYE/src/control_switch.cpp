@@ -14,7 +14,7 @@
  * \brief This class is the switch that selects which channel control the car.
  * \details This switch can be triggered by the SafetySupervisor. Then, the switch
  * gives to the car the order either from Autoware or the safety channel, depending of
- * the switch state. Rate at 40Hz
+ * the switch state.
  */
 class controlSwitch
 {
