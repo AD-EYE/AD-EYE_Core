@@ -96,8 +96,7 @@ public:
 };
 
 /*!
-* \brief Exception
-* \details Exception raise if names of topics weren't given
+* \brief This functions prints how the node should be called.
 */
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
@@ -106,7 +105,7 @@ void usage(std::string binName) {
 
 /*!
 * \brief Main function
-* \details In the argument the command line, it needs inoutTopic1, then inputTopic2, then outputTopic
+* \details Requires the command line arguments inputTopic, outputTopic and target frame
 */
 int main(int argc, char** argv)
 {
