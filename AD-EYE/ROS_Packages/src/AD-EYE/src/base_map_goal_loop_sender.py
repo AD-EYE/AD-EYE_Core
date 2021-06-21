@@ -7,10 +7,13 @@ import time
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 
-#Initiate the class BaseMapGoalLooper which will publish the goals one by one and make the car loop around these goal points.
+##A class that will publish the goals one by one and make the car loop around these goal points.
 class BaseMapGoalLooper ():
 
-    #Constructor
+    ##The constructor
+    #
+    #@param self The object pointer
+    #@param goal_list An array of positions 
     def __init__(self,goal_list):
         
         self.goal_list_ = goal_list
@@ -25,7 +28,9 @@ class BaseMapGoalLooper ():
         self.position_sub_ = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssPoseCallback)
         self.goal_pub_ = rospy.Publisher('/adeye/goals', PoseStamped, queue_size=1)  
           
-    #Function for publishing new goals 
+    ##A method for publishing new goals.
+    #@param self The object pointer
+    #@param index The index (Integer) for the new goal in the list of goals
     def publishNewGoal(self,index):        
         self.goal_pub_.publish(self.goal_list_[index])        
         self.current_goal_index_ = index
@@ -33,12 +38,18 @@ class BaseMapGoalLooper ():
             print("Total Goals Published: ",self.goal_counter_, "; Current Loop Number: ",self.loop_counter_)
             self.print_flag_ = 0
 
-    #Function for calculating the euclidean distance between egopose and goalpose
+    ##A method for calculating the euclidean distance between egopose and goalpose.
+    #@param self The object pointer
+    #@param ego_pos the position of the ego vehicle
+    #@param x2 The first coordinate of the point to which we want to measure the distance from the ego vehicle
+    #@param y2 The second coordinate of the point to which we want to measure the distance from the ego vehicle
     def getDistance(self, ego_pose, x2, y2):
         distance = ( (x2 - ego_pose.x) ** 2 + (y2 - ego_pose.y) ** 2 ) ** 0.5
         return(distance)
 
-    #Callback function which checks whether the car is within a distance of the goal and if so calls the function to publish the next goal,listens to the topic /gnss_pose   
+    ##Callback method which checks whether the car is within a distance of the goal and if so calls the method to publish the next goal, listens to the topic /gnss_pose   
+    #@param self The object pointer
+    #@param ego_pos A PoseStamped message representing the position of the ego vehicle
     def gnssPoseCallback(self,ego_pose):
 
         x = self.goal_list_[self.current_goal_index_].pose.position.x
@@ -57,9 +68,13 @@ class BaseMapGoalLooper ():
 
         else:
             self.publishNewGoal(self.current_goal_index_)
-                
-                 
-#Setting the goal Position and Orientation coordinates
+                                 
+##A function to set the goal Position and Orientation coordinates
+#@param Px x position of the goal to create
+#@param Py y position of the goal to create
+#@param Qx x orientation with quaternions
+#@param Qy y orientation with quaternions
+#@param Qw w orientation with quaternions
 def createGoal(Px, Py, Qx, Qy, Qw):
     goal = PoseStamped()
     goal.pose.position.x = Px

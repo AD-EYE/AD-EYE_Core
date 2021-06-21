@@ -17,8 +17,7 @@ from FeatureControl import FeatureControl  # handles start and stop of features
 from collections import OrderedDict  # to have the features ordered
 
 
-## ManagerStateMachine only contains the state machine for the manager
-#
+## This class only contains the state machine for the manager.
 # The state machine has four states defined in the States enum. The class listens to the topic containing the
 # transition requests and performs the allowed transitions or prints an error message.
 class ManagerStateMachine:
@@ -31,22 +30,34 @@ class ManagerStateMachine:
 
     current_state = States.INITIALIZING_STATE  # this is the current state of the state machine
 
-    ## Constructor
+    ## The constructor
+    #
+    #@param self The object pointer
     def __init__(self):
         # Set up subscriber for registering state switch commands
         rospy.Subscriber("/initial_checks", Bool, self.initialChecksCallback)
         rospy.Subscriber("/activation_request", Bool, self.activationRequestCallback)
         rospy.Subscriber("/fault", Bool, self.faultCallback)
 
-    ## Returns the state the machine is currently in
+    ##Method getState
+    #
+    # Returns the state the machine is currently in
+    #@param self The object pointer
     def getState(self):
         return self.current_state
 
-    ## Help function for message display when invalid transition is requested
+    ##Method printRefusedRequest
+    #
+    # Help function for message display when invalid transition is requested
+    #@param self The object pointer
     def printRefusedRequest(self):
         rospy.loginfo("Request refused. Manager will stay in" + self.getState().name)
 
-    ## Callback to switch from initializing to enabled, listens to /initial_checks
+    ##Method initialChecksCallback
+    #
+    # Callback to switch from initializing to enabled, listens to /initial_checks
+    #@param self The object pointer
+    #@param msg A Boolean from the /initial_checks topic
     def initialChecksCallback(self, msg):
         if msg.data and self.current_state == self.States.INITIALIZING_STATE:
             rospy.loginfo("Entering Enabled state")
@@ -55,7 +66,11 @@ class ManagerStateMachine:
         else:
             self.printRefusedRequest()
 
-    ## Callback to switch from enabled to engaged or the other way, listens to /activation_request
+    ##Method activationRequestCallback
+    #
+    # Callback to switch from enabled to engaged or the other way, listens to /activation_request
+    #@param self The object pointer
+    #@param msg A Boolean from the /activation_request topic
     def activationRequestCallback(self, msg):
         if msg.data and self.current_state == self.States.ENABLED_STATE:
             rospy.loginfo("Entering Engaged state")
@@ -66,7 +81,11 @@ class ManagerStateMachine:
         else:
             self.printRefusedRequest()
 
-    ## Callback to switch to the fault state from any state, listens to /fault
+    ##Method faultCallback
+    #
+    # Callback to switch to the fault state from any state, listens to /fault
+    #@param self The object pointer
+    #@param msg A Boolean from the /fault topic
     def faultCallback(self, msg):
         if msg.data:
             rospy.loginfo("Entering Fault state")
@@ -74,15 +93,16 @@ class ManagerStateMachine:
         else:
             self.printRefusedRequest()
 
-
-## Feature wrapper for convenience of the ManagerFeaturesHandler class
+## Feature wrapper for convenience of the ManagerFeaturesHandler class.
 class Feature:
     name = ""
     path = ""
     start_delay = 0
     stop_delay = 0
 
-    ## Constructor
+    ## The constructor
+    #
+    # @param self The object pointer
     #  @param name Feature name
     #  @param path Path to feature launch file
     #  @param start_delay How long should we wait before starting the feature
@@ -93,12 +113,13 @@ class Feature:
         self.start_delay = start_delay
         self.stop_delay = stop_delay
 
-    ## Creates the FeatureControl object whcich will be used to start and stop the features
+    ##Method createFeatureControl
+    #
+    #A method that creates the FeatureControl object which will be used to start and stop the features
     def createFeatureControl(self):
         self.featureControl = FeatureControl(self.path, self.name, self.start_delay, self.stop_delay)
 
-
-## Class handling all the features as well as performing the launch files paths construction
+## A class handling all the features as well as performing the launch files paths construction
 class ManagerFeaturesHandler:
     features = OrderedDict()
     # Ordered dictionary object                 = Feature(Feature_name,                    launch_file_name,              start_delay, stop_delay)
@@ -115,12 +136,17 @@ class ManagerFeaturesHandler:
     features["Rviz"] = Feature("Rviz", "my_rviz.launch", 0, 0)
     features["Experiment_specific_recording"] = Feature("Experiment_specific_recording", "", 0, 0)
 
-    ## Constructor
+    ## The constructor
+    #
+    #@param self The object pointer
     def __init__(self):
         self.createLaunchPaths()
         self.createFeaturesControls()
 
-    ## Constructs the launch files paths from their names and whether we use Test Automation or not
+    ##Method createLaunchPaths
+    #
+    #Constructs the launch files paths from their names and whether we use Test Automation or not
+    #@param self The object pointer
     def createLaunchPaths(self):
         # Basic folder locations
         rospack = rospkg.RosPack()
@@ -139,13 +165,28 @@ class ManagerFeaturesHandler:
                                                               "/launch/ExperimentA.launch "
         self.features["Recording"].path = ""
 
-    ## Creates the FeaturesControl objects, must be called after the launch paths are constructed
+    ##Method createFeaturesControls
+    #
+    #A class that creates the FeaturesControl objects, must be called after the launch paths are constructed
+    #@param self The object pointer
     def createFeaturesControls(self):
         for key in self.features:
             self.features[key].createFeatureControl()
 
 
-## Manager class
+##Manager Class
+#
+#This class :
+#
+#Checks if safety channel is active, if not prints warning
+#
+#Checks state of the state machine and updates current features accordingly
+#
+#Checks if the list of active features has changed
+#
+#Publishes the state machine state (for GUI)
+#
+#Publishes the current active features (for GUI)
 class Manager:
     INITIALIZING_DEFAULT_FEATURES = [
         # "Recording",
@@ -271,7 +312,9 @@ class Manager:
     last_switch_time_initialized = False
     SWITCH_TIME_THRESHOLD = 3  # after this amount of time (sec) the manager will write an error message if nothing is received from the safety supervisor
 
-    ## Constructor
+    ##The constructor
+    #
+    #@param self The object pointer
     def __init__(self):
         self.manager_state_machine = ManagerStateMachine()
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
@@ -283,13 +326,18 @@ class Manager:
         self.switch_request_pub = rospy.Publisher('/safety_channel/switch_request', Int32, queue_size=1)  # for GUI
         
 
-    ## Main loop
+    ##The main loop
+    #Runs with a rate of 10Hz
+    #@param self The object pointer
     def run(self):
         rate = rospy.Rate(10.0)
         while not rospy.is_shutdown():
             self.runOnce()
             rate.sleep()
 
+    ##Method runOnce
+    #
+    #@param self The object pointer
     def runOnce(self):
         self.checkSafetyChannel()  # checks if safety channel is active, if not prints warning
         self.checkManagerState()  # check state of the state machine and updates current features accordingly
@@ -298,7 +346,9 @@ class Manager:
         self.state_pub.publish(self.manager_state_machine.getState().value)  # publish the state machine state (for GUI)
         self.publishActiveFeatures()  # publish the current active features (for GUI)
 
-    ## Callback listening to the features requests (features that we want to activate/deactivate)
+    ##Callback method listening to the features requests (features that we want to activate/deactivate)
+    #@param self The object pointer
+    #@param msg A Int32MultiArray message from the /Features_state topic
     def featuresRequestCallback(self, msg):
         message_features = []
         allowed_features = self.getAllowedFeatures()
@@ -308,18 +358,22 @@ class Manager:
                     message_features.append(self.manager_features_handler.features.keys()[i])
         self.current_features = message_features
 
-    ## Callback listening to switch messages, to make sure the safety channel is still active
+    ##Callback method listening to switch messages, to make sure the safety channel is still active
+    #@param self The object pointer
+    #@param msg An Int32 message from the /switch_command topic
     def switchCallback(self, msg):
         self.last_switch_time = rospy.Time.now()
         self.last_switch_time_initialized = True
 
-    ## Checks if the a message from the safety channel has been received recently, if not prints warning
+    ##A method to checks if the a message from the safety channel has been received recently, if not prints warning
+    #@param self The object pointer
     def checkSafetyChannel(self):
         if self.last_switch_time_initialized:
             if (rospy.Time.now() - self.last_switch_time).to_sec() > self.SWITCH_TIME_THRESHOLD:
                 rospy.logerr("No message from the safety channel")
 
-    ## Gets the list of allowed features based on the manager's state
+    ##A method that gets the list of allowed features based on the manager's state
+    #@param self The object pointer
     def getAllowedFeatures(self):
         state = self.manager_state_machine.getState()
         if state == self.manager_state_machine.States.INITIALIZING_STATE:
@@ -331,7 +385,8 @@ class Manager:
         elif state == self.manager_state_machine.States.FAULT_STATE:
             return self.FAULT_ALLOWED_FEATURES
 
-    ## Checks if the manager state has changed. If so, updates the current features list
+    ##A method that checks if the manager state has changed. If so, updates the current features list
+    #@param self The object pointer
     def checkManagerState(self):
         state = self.manager_state_machine.getState()
         if state != self.current_state:  # the state has changed since last iteration
@@ -348,15 +403,20 @@ class Manager:
                 self.switch_request_pub.publish(msg)  # when we enter fault state we first force the switch to safety channel
                 self.current_features = self.FAULT_DEFAULT_FEATURES
 
-    ## Checks if a feature is now in the list of features that should be active but was not in the previous iteration
+    ##A method that checks if a feature is now in the list of features that should be active but was not in the previous iteration
+    #@param self The object pointer
+    #@param feature_name A String
     def isFeatureJustActivated(self, feature_name):
         return feature_name in self.current_features and feature_name not in self.previous_features
 
-    ## Checks if a feature is not in the list of features that should be active but was in the previous iteration
+    ##A method that checks if a feature is not in the list of features that should be active but was in the previous iteration
+    #@param self The object pointer
+    #@param feature_name A String
     def isFeatureJustDeactivated(self, feature_name):
         return feature_name not in self.current_features and feature_name in self.previous_features
 
-    ## Starts the individual features based on the current feature list
+    ##A method that starts the individual features based on the current feature list
+    #@param self The object pointer
     def startAndStopFeatures(self):
         for feature_name in self.manager_features_handler.features:
             if feature_name == "Recording":  # recording needs special case as it is not a launch file like other features
@@ -376,11 +436,13 @@ class Manager:
                     rospy.logerr("Manager failed to start " + feature_name + ": " + str(exc))
         self.previous_features = self.current_features
 
-    ## Starts the rosbag recording process
+    ##A method that starts the rosbag recording process
+    #@param self The object pointer
     def startRecording(self):
         subprocess.Popen(self.ROSBAG_COMMAND, shell=True, executable='/bin/bash')
 
-    ## Starts the scripts for stopping the rosbag recording
+    ##a method that starts the scripts for stopping the rosbag recording
+    #@param self The object pointer
     def stopRecording(self):
         rospack = rospkg.RosPack()
         adeye_package_location = rospack.get_path('adeye') + "/"
@@ -388,7 +450,8 @@ class Manager:
             "xterm -hold -e bash " + adeye_package_location + "/sh/rosbag_stop ~/" + self.ROSBAG_PATH,
             shell=True, preexec_fn=os.setpgrp, executable='/bin/bash')
 
-    ## Publishes a list of integers (0 or 1) representing the active features (for GUI)
+    ##A method that publishes a list of integers (0 or 1) representing the active features (for GUI)
+    #@param self The object pointer
     def publishActiveFeatures(self):
         state_array = Int32MultiArray()
         for feature in self.manager_features_handler.features:

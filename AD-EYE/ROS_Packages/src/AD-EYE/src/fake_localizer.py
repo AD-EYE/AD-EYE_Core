@@ -6,15 +6,23 @@ import sys
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 
-
+##A class to link the map frame to the base_link frame
 class FakeLocalizer:
 
+    ##The constructor
+    #
+    #@param self the object pointer
+    #@param map_frame The map frame
+    #@param base_link_frame The base_link frame
     def __init__(self, map_frame, base_link_frame):
         self.gnss_sub = rospy.Subscriber('/ground_truth_pose', PoseStamped, self.gnssCallback)
         self.br = tf.TransformBroadcaster()
         self.map_frame = map_frame
         self.base_link_frame = base_link_frame
 
+    ##A method to send the data to the transform broadcaster.
+    #@param self the object pointer
+    #@param data A PoseStamped message
     def gnssCallback(self, data):
         print("sending one transform")
         self.br.sendTransform((data.pose.position.x, data.pose.position.y, data.pose.position.z),

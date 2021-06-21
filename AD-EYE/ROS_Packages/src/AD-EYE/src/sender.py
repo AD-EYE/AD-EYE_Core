@@ -7,8 +7,13 @@ from geometry_msgs.msg import TwistStamped
 from std_msgs.msg import UInt32
 import sys
 
+##A class to get the vehicle's commands from the vehicle_cmd topic and to send them to the corresponding topic
 class Sender:
 
+    ##The constructor
+    #
+    #@param self The object pointer
+    #@param use_only_twist Boolean
     def __init__(self, use_only_twist):
         self.use_only_twist = use_only_twist
         if not self.use_only_twist:
@@ -19,6 +24,9 @@ class Sender:
         self.twist_pub = rospy.Publisher('autowareTwist', TwistStamped, queue_size=1)  # autowareTwist - TwistS
         rospy.Subscriber("vehicle_cmd", VehicleCmd, self.autowareCmdCallback)
 
+    ##A method to publish each vehicle command to the corresponding topic from the vehicle_cmd topic
+    #@param self The object pointer
+    #@param data A VehicleCmd message 
     def autowareCmdCallback(self, data):
         steer = UInt32()
         brake = UInt32()
