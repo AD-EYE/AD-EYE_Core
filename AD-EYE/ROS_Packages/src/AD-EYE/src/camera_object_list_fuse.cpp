@@ -4,7 +4,7 @@
 
 /*!
  * \brief A node that list the objects detected by the camera 1 and 2, and publish it
- * \details At 20Hz, publish a list of all the objects detected by the camera 1 and the camera 2. 
+ * \details Publish a list of all the objects detected by the camera 1 and the camera 2. 
  * The purpuse is to fuse the objects detected by the two cameras in one message.
  */
 class cameraObjectListFuse
@@ -111,7 +111,6 @@ public:
 
     /*!
      * \brief The main loop of the Node
-     * \details Set the rate at 20Hz.
      */
     void run()
     {

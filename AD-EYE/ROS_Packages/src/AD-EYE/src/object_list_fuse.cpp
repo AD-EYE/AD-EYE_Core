@@ -4,7 +4,7 @@
 
 /*!
  * \brief A node that fuse two list receive in two differants topics, and publish it.
- * \details At 20Hz, publish a list including the message recieve on two differents topics.
+ * \details Publish a list including the message recieve on two differents topics.
  */
 class objectListFuse
 {
@@ -80,7 +80,6 @@ public:
 
     /*!
      * \brief The main loop of the Node
-     * \details Set the rate at 20Hz.
      */
     void run()
     {
