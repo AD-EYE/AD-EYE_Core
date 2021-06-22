@@ -6,9 +6,9 @@
 #include <geometry_msgs/Point32.h>
 
 /*!
-* \brief A node that convert a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publish it
+* \brief A node that converts a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publishes it
 * \details The std_msgs::Float32MultiArray come from the /radarDetections topic.
-* The autoware_msgs::DetectedObject is publish on /detection/radar_tracker/objects topic
+* The autoware_msgs::DetectedObject is published on /detection/radar_tracker/objects topic
 */
 class radarBroadcaster
 {
@@ -33,7 +33,7 @@ private:
 
     /*!
     * \brief Callback of the /radarDetections topic sucriber.
-    * \details Take position of every point on the message into a detection variable.
+    * \details Converts the float vector received into a vector of detection (struct with x, y and z)
     */
     void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
     {
