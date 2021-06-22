@@ -96,7 +96,7 @@ public:
 };
 
 /*!
-* \brief This functions prints how the node should be called.
+* \brief This function prints how the node should be called.
 */
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
@@ -105,7 +105,7 @@ void usage(std::string binName) {
 
 /*!
 * \brief Main function
-* \details Requires the command line arguments inputTopic, outputTopic and target frame
+* \details Requires the command line arguments input_topic_1, input_topic_2 and output_topic
 */
 int main(int argc, char** argv)
 {
