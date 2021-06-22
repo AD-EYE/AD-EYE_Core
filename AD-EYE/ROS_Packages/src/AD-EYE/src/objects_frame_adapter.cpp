@@ -9,6 +9,9 @@
 //#include <geometry_msgs/PolygonStamped.h>
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 
+/*!
+* \brief A node that calculate the position of an object in an other frame
+*/
 class objectsFrameAdapter
 {
 private:
@@ -25,7 +28,11 @@ private:
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener;
 
-
+    /*!
+    * \brief Calculate the new position of every objects in the message
+    * \param msg The message receive in the subscriber
+    * \details There is an exception : If it can't calculate the new position, it seends a ROS_WARN
+    */
     void detectedObjects_callback(autoware_msgs::DetectedObjectArray msg)
     {
         geometry_msgs::PoseStamped poseStampedIn;
@@ -73,6 +80,14 @@ private:
     }
 
 public:
+    /*!
+     * \brief Constructor of the class
+     * \param nh A reference to the ros::NodeHandle initialized in the main function.
+     * \param inputTopic1 Name of the topic where our object will be receive.
+     * \param outputTopic Name of the topic where the output message will be published
+     * \param targetFrame The new frame
+     * \details Initialize the node and its components such as publishers and subscribers.
+     */
     objectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic, std::string targetFrame) : nh_(nh), tfListener(tfBuffer)
     {
         target_frame = targetFrame;
@@ -80,6 +95,9 @@ public:
         pubObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
     }
 
+    /*!
+     * \brief The main loop of the Node
+     */
     void run()
     {
       ros::Rate rate(20);
@@ -90,12 +108,18 @@ public:
       }
     }
 };
-
+/*!
+* \brief This function prints how the node should be called.
+*/
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
                      " <input_topic> <output_topic> <target_frame>");
 }
 
+/*!
+* \brief Main function
+* \details Requires the command line arguments inputTopic, outputTopic and target frame
+*/
 int main(int argc, char** argv)
 {
     if (argc < 4) {

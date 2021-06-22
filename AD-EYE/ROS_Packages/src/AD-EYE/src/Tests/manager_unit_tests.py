@@ -13,21 +13,22 @@ from manager import ManagerStateMachine
 from manager import ManagerFeaturesHandler
 from manager import Manager
 
-
+##A function to start ROS.
 def startROS():
     ROSCORE_SLEEP_TIME = 1
     subprocess.Popen(['xterm', '-e', 'rosmaster', '--core'])
     rospy.sleep(ROSCORE_SLEEP_TIME)
 
-
+##A function to stop ROS.
 def stopROS():
     ROSCORE_SLEEP_TIME = 1
     subprocess.Popen(['rosnode', 'kill', '-a'])
     subprocess.Popen(['xterm', '-e', 'killall', 'rosmaster'])
     rospy.sleep(ROSCORE_SLEEP_TIME)
 
-
-## Helper function to get the given state machine in the Enabled state
+##Function getStateMachineToEnabled
+#
+# Helper function to get the given state machine in the Enabled state.
 # @param manager_state_machine State machine to be transitioned
 def getStateMachineToEnabled(manager_state_machine):
     test_msg = Bool(True)
@@ -37,8 +38,8 @@ def getStateMachineToEnabled(manager_state_machine):
                         'function')
 
 
-## Helper function to get the given state machine in the Engaged state
-# @param manager_state_machine State machine to be transitioned
+##Helper function to get the given state machine in the Engaged state.
+#@param manager_state_machine State machine to be transitioned
 def getStateMachineToEngaged(manager_state_machine):
     test_msg = Bool(True)
     manager_state_machine.initialChecksCallback(test_msg)
@@ -48,8 +49,8 @@ def getStateMachineToEngaged(manager_state_machine):
                         'function')
 
 
-## Helper function to get the given state machine in the Fault state
-# @param manager_state_machine State machine to be transitioned
+##Helper function to get the given state machine in the Fault state.
+#@param manager_state_machine State machine to be transitioned
 def getStateMachineToFault(manager_state_machine):
     test_msg = Bool(True)
     manager_state_machine.initialChecksCallback(test_msg)
@@ -60,47 +61,64 @@ def getStateMachineToFault(manager_state_machine):
                         'function')
 
 
-## Tests every transition possible in the state machine (4 states, 3 boolean transition topics so 24 tests)
+##A class to tests every transition possible in the state machine (4 states, 3 boolean transition topics so 24 tests)
 class ManagerStateMachineTester(unittest.TestCase):
 
-    # Test all transitions from initial state
+    #A method to test all transitions from initial state
+    #@param self the object pointer
     def test_initial_initial_checks_true(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(True)
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
+    ##Method test_initial_initial_checks_false
+    #
+    #@param self the object pointer
     def test_initial_initial_checks_false(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(False)
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.INITIALIZING_STATE)
 
+    ##Method test_initial_activation_request_true
+    #
+    #@param self the object pointer
     def test_initial_activation_request_true(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(True)
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.INITIALIZING_STATE)
 
+    ##Method test_initial_activation_request_false
+    #
+    #@param self the object pointer
     def test_initial_activation_request_false(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(False)
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.INITIALIZING_STATE)
 
+    ##Method test_initial_fault_true
+    #
+    #@param self the object pointer
     def test_initial_fault_true(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(True)
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_initial_fault_false
+    #
+    #@param self the object pointer
     def test_initial_fault_false(self):
         manager_state_machine = ManagerStateMachine()
         test_msg = Bool(False)
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.INITIALIZING_STATE)
 
-    # Test all transitions from enabled state
+    ##A method to test all transitions from enabled state
+    #@param self the object pointer
     def test_enabled_initial_checks_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -108,6 +126,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
+    ##Method test_enabled_initial_checks_false
+    #
+    #@param self the object pointer
     def test_enabled_initial_checks_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -115,6 +136,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
+    ##Method test_enabled_activation_request_true
+    #
+    #@param self the object pointer
     def test_enabled_activation_request_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -122,6 +146,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENGAGED_STATE)
 
+    ##Method test_enabled_activation_request_false
+    #
+    #@param self the object pointer
     def test_enabled_activation_request_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -129,6 +156,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
+    ##Method test_enabled_fault_true
+    #
+    #@param self the object pointer
     def test_enabled_fault_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -136,6 +166,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_enabled_fault_false
+    #
+    #@param self the object pointer
     def test_enabled_fault_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEnabled(manager_state_machine)
@@ -143,7 +176,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
-    # Test all transitions from engaged state
+
+    ##A method to test all transitions from engaged state
+    #@param self the object pointer
     def test_engaged_initial_checks_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -151,6 +186,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENGAGED_STATE)
 
+    ##Method test_engaged_initial_checks_false
+    #
+    #@param self the object pointer
     def test_engaged_initial_checks_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -158,6 +196,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENGAGED_STATE)
 
+    ##Method test_engaged_activation_request_true
+    #
+    #@param self the object pointer
     def test_engaged_activation_request_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -165,6 +206,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENGAGED_STATE)
 
+    ##Method test_engaged_activation_request_false
+    #
+    #@param self the object pointer
     def test_engaged_activation_request_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -172,6 +216,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENABLED_STATE)
 
+    ##Method test_engaged_fault_true
+    #
+    #@param self the object pointer
     def test_engaged_fault_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -179,6 +226,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_engaged_fault_false
+    #
+    #@param self the object pointer
     def test_engaged_fault_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToEngaged(manager_state_machine)
@@ -186,7 +236,8 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.ENGAGED_STATE)
 
-    # Test all transitions from fault state
+    ##A method to test all transitions from fault state
+    #@param self the object pointer
     def test_fault_initial_checks_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -194,6 +245,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_fault_initial_checks_false
+    #
+    #@param self the object pointer
     def test_fault_initial_checks_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -201,6 +255,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.initialChecksCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_fault_activation_request_true
+    #
+    #@param self the object pointer
     def test_fault_activation_request_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -208,6 +265,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_fault_activation_request_false
+    #
+    #@param self the object pointer
     def test_fault_activation_request_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -215,6 +275,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.activationRequestCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_fault_fault_true
+    #
+    #@param self the object pointer
     def test_fault_fault_true(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -222,6 +285,9 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
+    ##Method test_fault_fault_false
+    #
+    #@param self the object pointer
     def test_fault_fault_false(self):
         manager_state_machine = ManagerStateMachine()
         getStateMachineToFault(manager_state_machine)
@@ -229,11 +295,13 @@ class ManagerStateMachineTester(unittest.TestCase):
         manager_state_machine.faultCallback(test_msg)
         self.assertEqual(manager_state_machine.getState(), manager_state_machine.States.FAULT_STATE)
 
-
-## Tests for the feature starting and stopping, to be developed
+##A class to test for the feature starting and stopping, to be developed
+#A child class to the unittest.TestCase class. 
 class ManagerFeaturesHandlerTester(unittest.TestCase):
 
     @unittest.skip("demonstrating skipping")
+    ##A method to test the start of all of the features without test automation.
+    #@param self the object pointer
     def testStartAllFeaturesWithoutTA(self):
         startROS()
         rospy.set_param("test_automation", False)
@@ -250,6 +318,8 @@ class ManagerFeaturesHandlerTester(unittest.TestCase):
         self.assertGreater(number_of_nodes_running, len(manager_features_handler.features.keys()))
 
     @unittest.skip("demonstrating skipping")
+    ##A method to test the start of all of the features with test automation.
+    #@param self the object pointer
     def testStartAllFeaturesWithTA(self):
         startROS()
         rospy.set_param("test_automation", True)
@@ -266,10 +336,12 @@ class ManagerFeaturesHandlerTester(unittest.TestCase):
         self.assertGreater(number_of_nodes_running, len(manager_features_handler.features.keys()))
 
 
-## Tests of the manager class
+
+##A class to realise tests of the manager class, child class of the @unittest.TestCase class.
 class ManagerTester(unittest.TestCase):
 
-    ## Tests is the manager remains alive despite an invalid XML syntax in a feature launch file
+    ##A method to test if the manager remains alive despite an invalid XML syntax in a feature launch file.
+    #@param self the object pointer
     def testInvalidXML(self):
         with open("../../launch/my_map.launch", "r+") as f:
             old_content = f.read()  # back up the launch file

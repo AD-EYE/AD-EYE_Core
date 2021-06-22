@@ -5,6 +5,11 @@
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <geometry_msgs/Point32.h>
 
+/*!
+* \brief A node that converts a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publishes it
+* \details The std_msgs::Float32MultiArray come from the /radarDetections topic.
+* The autoware_msgs::DetectedObject is published on /detection/radar_tracker/objects topic
+*/
 class radarBroadcaster
 {
 private:
@@ -26,7 +31,10 @@ private:
     std::vector<detection> detections;
     bool radarDetection_flag = false;
 
-
+    /*!
+    * \brief Callback of the /radarDetections topic sucriber.
+    * \details Converts the float vector received into a vector of detection (struct with x, y and z)
+    */
     void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
     {
         std_msgs::Float32MultiArray radarMsg = *msg;
@@ -41,6 +49,10 @@ private:
         radarDetection_flag = true;
     }
 
+    /*!
+    * \brief Generate the autoware_msgs::DetectedObject object, populates it and publishes it
+    * \details For each point detected which contain no zero coordinate, set the parameters of object and push it back in the message to publish.
+    */
     void publish()
     {
         autoware_msgs::DetectedObject object;
@@ -89,13 +101,21 @@ private:
 
 
 public:
-    radarBroadcaster(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh)
+    /*!
+    * \brief Constructor
+    * \param nh A reference to the ros::NodeHandle initialized in the main function.
+    * \details The node subscribes to /radarDetections topic and advertise to /detection/radar_tracker/objects topic
+    */
+    radarBroadcaster(ros::NodeHandle &nh) : nh_(nh)
     {
         // Initialize the publishers and subscribers
         subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
         pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
     }
 
+    /*!
+    * \brief The main function of the Node. Contains the main loop
+    */
     void run()
     {
       ros::Rate rate(20);
@@ -116,7 +136,7 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "radar_broadcaster");
     ros::NodeHandle nh;
-    radarBroadcaster rB(nh, argc, argv);
+    radarBroadcaster rB(nh);
     rB.run();
     return 0;
 }

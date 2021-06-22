@@ -11,9 +11,9 @@
 #define SSMP 1
 
 /*!
- * \brief This class is the Switch that selects which channel control the car.
+ * \brief This class is the switch that selects which channel control the car.
  * \details This switch can be triggered by the SafetySupervisor. Then, the switch
- * gives to the car the order either from Autoware or the safety channel, depending
+ * gives to the car the order either from Autoware or the safety channel, depending of
  * the switch state.
  */
 class controlSwitch
@@ -102,7 +102,8 @@ class controlSwitch
         /*!
         * \brief Constructor
         * \param nh A reference to the ros::NodeHandle initialized in the main function.
-        * \details Initializes the node and its components such as publishers and subscribers.
+        * \details Subscribe to : /safe_stop_traj, /autowareTwist, /switch_command
+        * advertise to : /SSMP_control, /TwistS, /adeye/local_planner_replan
         */
         controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate_(40)
         {
@@ -118,61 +119,60 @@ class controlSwitch
             out_twist_command_.header.frame_id = "base_link";
         }
 
-
+    /*!
+    * \brief Ask autoware to replan
+    * \details If ssmp had check the plan, autoware need to replan it.
+    */
     void autowareLocalReplan() const {
         std_msgs::Bool bool_msg;
         bool_msg.data = true;
         sub_adeye_local_planner_replan_.publish(bool_msg);
     }
 
-/*!
-        * \brief The main function of the Node. Contains the main loop
-        * \details First checks if the switch is for Autoware or SSMP control,
-        * then publishes the right controls command.
-        */
-        void run() {
-            bool ssmp_trajectory_locked = false;
+    /*!
+    * \brief The main function of the Node. Contains the main loop
+    * \details First checks if the switch is for Autoware or SSMP control,
+    * then publishes the right controls command.
+    */
+    void run() {
+        bool ssmp_trajectory_locked = false;
 
-            while (nh_.ok()) {
-                ros::spinOnce();
+        while (nh_.ok()) {
+            ros::spinOnce();
 
-                switch (switch_command_) {
-                    case AUTOWARE:
-                        unlockSSMP();
-                        if(ssmp_trajectory_locked) {
-                            ROS_INFO("Switched back to the nominal channel");
-                            autowareLocalReplan();
-                        }
-                        ssmp_trajectory_locked = false;
-                        if(new_command_message_){
-                            out_twist_command_.header.stamp = ros::Time::now();
-                            out_twist_command_.twist.linear.x = autoware_twist_lin_x_;
-                            out_twist_command_.twist.angular.z = autoware_twist_ang_z_;
-                        }
-                        break;
+            switch (switch_command_) {
+                case AUTOWARE:
+                    unlockSSMP();
+                    if(ssmp_trajectory_locked) {
+                        ROS_INFO("Switched back to the nominal channel");
+                        autowareLocalReplan();
+                    }
+                    ssmp_trajectory_locked = false;
+                    if(new_command_message_){
+                        out_twist_command_.header.stamp = ros::Time::now();
+                        out_twist_command_.twist.linear.x = autoware_twist_lin_x_;
+                        out_twist_command_.twist.angular.z = autoware_twist_ang_z_;
+                    }
+                    break;
 
-                    case SSMP:
-                        if(!ssmp_trajectory_locked){
-                            ROS_INFO("Switched to safety channel!");
-                        }
-                        lockSSMP();
-                        ssmp_trajectory_locked = true;
-                        if(new_command_message_){
-                            out_twist_command_.header.stamp = ros::Time::now();
-                            out_twist_command_.twist.linear.x = SSMP_twist_lin_x_;
-                            out_twist_command_.twist.angular.z = SSMP_twist_ang_z_;
-                        }
-                        break;
-                }
-
-                new_command_message_ = false;
-                pub_out_command_.publish(out_twist_command_);
-                rate_.sleep();
+                case SSMP:
+                    if(!ssmp_trajectory_locked){
+                        ROS_INFO("Switched to safety channel!");
+                    }
+                    lockSSMP();
+                    ssmp_trajectory_locked = true;
+                    if(new_command_message_){
+                        out_twist_command_.header.stamp = ros::Time::now();
+                        out_twist_command_.twist.linear.x = SSMP_twist_lin_x_;
+                        out_twist_command_.twist.angular.z = SSMP_twist_ang_z_;
+                    }
+                    break;
             }
+            new_command_message_ = false;
+            pub_out_command_.publish(out_twist_command_);
+            rate_.sleep();
         }
-
-
-
+    }
 };
 
 int main(int argc, char** argv)
