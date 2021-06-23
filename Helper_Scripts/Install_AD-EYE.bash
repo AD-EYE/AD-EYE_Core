@@ -38,7 +38,7 @@ sudo apt-get install -y python3-pip python3-colcon-common-extensions python3-set
 sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni0 libopenni-sensor-pointclouds0 libopenni2-0 libopenni-sensor-pointclouds-dev libopenni2-dev libopenni-dev libproj-dev
 pip3 install -U setuptools
 } || { #catch
-    echo -e "\e[1;31m It seems that ros kinetic isn't install, follow this tutorial to install it : https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core/wiki/Install-ROS-Kinetic\e[0m"
+    echo -e "\e[1;31m It seems that ros kinetic isn't installed, follow this tutorial to install it : https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core/wiki/Install-ROS-Kinetic\e[0m"
 }
 
 #Ros dependencies
