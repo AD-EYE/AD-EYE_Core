@@ -148,7 +148,7 @@ public:
         sub_autoware_global_plan_ = nh_.subscribe<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
         pub_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         pub_update_local_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
-        pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_goal_list", 1, true);
+        pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_first_goal", 1, true);
     }   
 
     void run() 
