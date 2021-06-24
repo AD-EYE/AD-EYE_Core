@@ -6,6 +6,7 @@ set Name=""
 set Email=""
 
 @if %Name%=="" @echo Your name is empty, you have to edit your script
+@if %Email%=="" @echo Your email is empty, you have to edit your script
 
 @cd C:\Users\adeye\AD-EYE_Core
 git config --global user.name %Name%
