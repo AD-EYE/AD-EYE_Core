@@ -1,6 +1,6 @@
 # The git helper scripts
 
-To avoid identity theft on git when committing and pushing files, bash scripts have been created for the Ubuntu and Windows computers.
+To avoid identity theft on git when committing and pushing the files, bash scripts have been created for the Ubuntu and Windows computers.
 
 
 
@@ -10,7 +10,7 @@ To avoid identity theft on git when committing and pushing files, bash scripts h
  
 - Windows_clear_git_user_info.bat			: This script is used to reset the name and email of every repository of the AD-EYE project. It has to be setup to be launched automatically at every log in. See below for instructions on how to set it up.
 
-- [Firtsname]_[LastName]_Windows_set_git_user_info.bat	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and email are not filled, these will be set to an empty string and prevent you from commiting and pushing.
+- [Firtsname]_[LastName]_Windows_set_git_user_info.bat	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and email are not filled, these will be set to an empty string and prevent you from committing and pushing.
 
 
 
@@ -19,7 +19,7 @@ To avoid identity theft on git when committing and pushing files, bash scripts h
 
 - Ubuntu_clear_git_user_info.sh 			: This script is used to reset the name and email of every repository of the AD-EYE project. It has to be setup to be launched automatically at every log in. See below for instructions on how to set it up.
 
-- [Firtsname]_[LastName]_Ubuntu_set_git_user_info.sh 	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and email are not filled, these will be set to an empty string and prevent you from commiting and pushing.
+- [Firtsname]_[LastName]_Ubuntu_set_git_user_info.sh 	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and email are not filled, these will be set to an empty string and prevent you from committing and pushing.
 
 
 

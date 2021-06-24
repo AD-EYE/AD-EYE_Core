@@ -2,7 +2,7 @@
 
 :: ------ Instruction ------::
 
-:: It has to be launch every time we log on, log out: To set it up, follow this step:
+:: It has to be launched every time we log on, log out: To set it up, follow this step:
 :: Put this script at this location (a new folder might be created): C:\Users\adeye\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\adeye
 :: Follow this tutorial and the instructions below: https://winaero.com/run-app-or-script-at-logon-with-task-scheduler-in-windows-10/
 :: In step 4, the name of the task should be: git_reset_id_AD-EYE-Core
