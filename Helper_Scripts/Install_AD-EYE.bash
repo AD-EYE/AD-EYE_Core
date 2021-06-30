@@ -39,6 +39,7 @@ sudo apt-get install openni2-doc openni2-utils openni-doc openni-utils libopenni
 pip3 install -U setuptools
 } || { #catch
     echo -e "\e[1;31m It seems that ros kinetic isn't installed, follow this tutorial to install it : https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core/wiki/Install-ROS-Kinetic\e[0m"
+    exit
 }
 
 #Ros dependencies
