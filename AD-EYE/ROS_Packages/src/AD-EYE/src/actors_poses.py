@@ -10,20 +10,29 @@ from geometry_msgs.msg import PoseArray
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 
+## A class that will publish the poses to various types of actors
 # The class ActorsPosesPublisher publishes poses of 20 pedestrians,20 cars,10 cyclists and 5 motorcycles to the topic
 # actors_poses. The actors are initially placed far away from the world in the position (2000,2000,0)
  
 class ActorsPosesPublisher():
-    
+    ## The constructor
+    #@param self The object pointer
     def __init__(self):
 
-        self.INCREMENT_CONSTANT_= 2
+        self.INCREMENT_CONSTANT_= 2  # This variable is used for incrementing the poses by a constant value
 
+        #Set the publisher
         self.actors_pose_array_pub_= rospy.Publisher('/actors_poses', categorized_poses, queue_size=1)
+
         self.publishPoses()
 
-    # This function sets the initial pose of the actors and also the poses to which actors are to be moved.
-    
+    ##This function sets the initial pose of the actors and also the poses to which actors are to be moved.
+    #@param self The object pointer
+    #@param Px x position of the pose
+    #@param Py y position of the pose
+    #@param pose_increment_value Value by which the pose is incremented in each count 
+    #@param number_of_actors The total number of actors of each type/category
+    #@param actor_category The type of actor
     def getPoseArray(self,Px,Py,pose_increment_value,number_of_actors,actor_category) :
         actors_pose_array = categorized_poses() # Defining the array to which the poses are appended
         
@@ -61,6 +70,8 @@ class ActorsPosesPublisher():
             Py = Py + self.INCREMENT_CONSTANT_
         return(actors_pose_array)
 
+    ## The function which publishes the array of poses of all 55 actors in each count.
+    #@param self The object pointer 
     def publishPoses(self):
         
         COUNTER = 0 # Setting up a counter to increment the poses by a value so as to make the actors move 
@@ -80,12 +91,12 @@ class ActorsPosesPublisher():
                  array_of_pedestrian_poses.poses + array_of_car_poses.poses 
                 + array_of_cycle_poses.poses + array_of_motorcycle_poses.poses)
           
-            print(len(actors_pose_array.poses))
-            print(COUNTER)
+          
 
             rate = rospy.Rate(1)
             self.actors_pose_array_pub_.publish(actors_pose_array)
             rate.sleep()
+
             COUNTER = COUNTER + 1
             
 
