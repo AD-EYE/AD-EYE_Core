@@ -10,7 +10,7 @@ To avoid identity theft on git when committing and pushing the files, bash scrip
  
 - Windows_clear_git_user_info.bat			: This script is used to reset the name and mail of every repository of the AD-EYE project. It has to be setup to be launched automatically at every log in. See below for instructions on how to set it up.
 
-- [Firtsname]_[LastName]_Windows_set_git_user_info.bat	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and mail are not filled, these will be set to an empty string and prevent you from committing and pushing.
+- [Firtsname]_[LastName]_Windows_set_git_user_info.bat	: This script is used to add your name and mail to the git config. To do so, you need to edit the script to write your name and mail and you need to run the script (it should not run automatically). If the name and mail are not filled, these will be set to an empty string and prevent you from committing and pushing.
 
 
 
@@ -19,7 +19,7 @@ To avoid identity theft on git when committing and pushing the files, bash scrip
 
 - Ubuntu_clear_git_user_info.sh 			: This script is used to reset the name and mail of every repository of the AD-EYE project. It has to be setup to be launched automatically at every log in. See below for instructions on how to set it up.
 
-- [Firtsname]_[LastName]_Ubuntu_set_git_user_info.sh 	: This script is used to quickly change your git name. Your name must be edited in the file. This script has to be run manually, and you must not set it to run automatically. If the name and mail are not filled, these will be set to an empty string and prevent you from committing and pushing.
+- [Firtsname]_[LastName]_Ubuntu_set_git_user_info.sh 	: This script is used to add your name and mail to the git config. To do so, you need to edit the script to write your name and mail and you need to run the script (it should not run automatically). If the name and mail are not filled, these will be set to an empty string and prevent you from committing and pushing.
 
 
 
@@ -29,7 +29,7 @@ To avoid identity theft on git when committing and pushing the files, bash scrip
 
 ### Windows :
 
-1. Put the script in this location (a new folder might be created): C:\Users\adeye\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\adeye
+1. Put the script in this location (a new folder might be created): `C:\Users\adeye\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\adeye`
 2. Follow this tutorial and the instructions [here](https://winaero.com/run-app-or-script-at-logon-with-task-scheduler-in-windows-10/).
 3. In step 4, the name of the task should be: git_reset_id_AD-EYE-Core
 4. Don't follow the step 5
@@ -39,7 +39,7 @@ To avoid identity theft on git when committing and pushing the files, bash scrip
 
 ### Ubuntu :
 
-1. Put the file in the directory /etc/profile.d with administrative rights. This can be done in the terminal by using the keyword `sudo` before the move or copy command.
+1. Put the file in the directory `/etc/profile.d` with administrative rights. This can be done in the terminal by using the keyword `sudo` before the move or copy command.
 2. Make sure that the file is executable by running the command `sudo chmod u+x <path>/[name.sh]`
 
 ##### NOTE :
