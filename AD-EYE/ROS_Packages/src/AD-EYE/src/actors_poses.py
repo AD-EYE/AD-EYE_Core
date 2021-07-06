@@ -3,7 +3,9 @@ import rospy
 import roslib
 import tf
 import math
+import pyproj
 from std_msgs.msg import Int64
+from std_msgs.msg import String
 from adeye_msgs.msg import categorized_poses
 from adeye_msgs.msg import categorized_pose
 from geometry_msgs.msg import PoseArray
@@ -24,18 +26,104 @@ class ActorsPosesPublisher():
         #Set the publisher
         self.actors_pose_array_pub_= rospy.Publisher('/actors_poses', categorized_poses, queue_size=1)
 
+        self.MAX_ACTOR_PEDESTRIAN = 20
+        self.MAX_ACTOR_CAR = 20
+        self.MAX_ACTOR_BICYCLE = 10
+        self.MAX_ACTOR_MOTORCYCLE = 5
+
+        ##A list of informations about the pedestrian typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.pedestrians = []
+        ##A list of informations about the cars typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.cars = []
+        ##A list of informations about the bicycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.bicycle = []
+        ##A list of informations about the motorcycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.motorcycle = []
+        ##A list of informations about the pedestrian typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_pedestrians = []
+        ##A list of informations about the cars typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_cars = []
+        ##A list of informations about the bicycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_bicycle = []
+        ##A list of informations about the motorcycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_motorcycle = []
+
+        self.actors_by_type = [self.pedestrians, self.cars, self.bicycle, self.motorcycle]
+        self.previous_actors_by_type = [self.previous_pedestrians, self.previous_cars, self.previous_bicycle, self.previous_motorcycle]
+        self.MAX_ACTOR_BY_TYPE = [self.MAX_ACTOR_PEDESTRIAN, self.MAX_ACTOR_CAR, self.MAX_ACTOR_BICYCLE, self.MAX_ACTOR_MOTORCYCLE]
+
+        ##The subscriber to the topic where th information is sent from the android apps
+        self.sub = rospy.Subscriber("/chatter", String, self.UpdateList)
+        ##The projector that transforms the latitudes and longitudes into 2D carthesian coordinates
+        self.P = pyproj.Proj(proj='utm', zone=31, ellps='WGS84', preserve_units=True)
+        ##A list that contains in this order : sender_ip (String), user_id (int), latitude, longitude, altitude, euler_angle1, euler_angle2, euler_angle3 (floats)
+        self.msg = []
+        ##The origin of the digital twin, in latitude-longitude format
+        self.originll = [59.35379833333333, 18.065075]
+        ##The origin of the digital twin, in x-y format
+        self.originxy = self.P(self.originll[0], self.originll[1])
+
         self.publishPoses()
 
-    ##This function sets the initial pose of the actors and also the poses to which actors are to be moved.
+
+    ##This method parse the information received from the android app through Rosbridge and add the informations about the actor to the correct list
     #@param self The object pointer
-    #@param Px x position of the pose
-    #@param Py y position of the pose
-    #@param pose_increment_value Value by which the pose is incremented in each count 
-    #@param number_of_actors The total number of actors of each type/category
-    #@param actor_category The type of actor
-    def getPoseArray(self,Px,Py,pose_increment_value,number_of_actors,actor_category) :
-        actors_pose_array = categorized_poses() # Defining the array to which the poses are appended
+    def UpdateList(self):
+        self.msg = []
+        c=0
+        for e in data.data.split(','):
+            if c != 0:
+                self.msg.append(eval(e))
+            else:
+                self.msg.append(e)
+                c += 1
         
+        eulers = self.msg[-3:]
+        quat = tf.transformations.quaternion_from_euler(eulers[0], eulers[1], eulers[2])
+
+        #A list that contains in this order : sender_ip (String), user_id (int), PoseX, PoseY, PoseZ, QuaternionX, QuaternionY, QuaternionZ, QuaternionW (floats)
+        actor = self.msg[:2] 
+        actor.extend(self.GPS_to_prescan(self.msg[2], self.msg[3],0)) ##altitude is null on the digital twin
+        actor.extend(quat)
+
+        if actor[1] == 1 and len(self.pedestrians) < self.MAX_ACTOR_PEDESTRIAN:
+            del actor[1]
+            self.pedestrians.append(actor)
+        elif actor[1] == 2 and len(self.cars) < self.MAX_ACTOR_CAR:
+            del actor[1]
+            self.pedestrians.append(actor)
+        elif actor[1] == 3 and len(self.bicycle) < self.MAX_ACTOR_BICYCLE:
+            del actor[1]
+            self.pedestrians.append(actor)
+        elif actor[1] == 4 and len(self.motorcycle) < self.MAX_ACTOR_MOTORCYCLE:
+            del actor[1]
+            self.pedestrians.append(actor)
+
+
+    ##GPS_to_prescan method
+    #
+    #A method to get the carthesian coordinates of the point given its latitude and longitude relatively to the origin of the digital twin
+    #
+    #@param self the object pointer
+    #@param latitude A float representing the latitude of a point
+    #@param longitude A float representing the longitude of a point
+    #@param altitude A float representing the altitude of a point
+    def GPS_to_prescan(self, latitude, longitude, altitude):
+        
+        x, y = self.P(latitude, longitude)
+        z = altitude
+
+        return [x-self.originxy[0], y-self.originxy[1], z]
+
+
+    ##This method sets the initial pose of the actors and also the poses to which actors are to be moved.
+    #@param self The object pointer
+    #@param actor_category an integer representing the user's category (1:pedestrian 2:car 3:bicycle 4:motorcycle)
+    def getPoseArray(self, actor_category):
+        actors_pose_array = categorized_poses() # Defining the array to which the poses are appended
+        actors = self.actors_by_type[actor_category]
+        previous_actor = self.previous_actors_by_type[actor_category]
+
         #Setting the initial pose of the actors
         actor_initial_pose =Pose()
         actor_initial_pose.position.x = 2000
@@ -46,43 +134,64 @@ class ActorsPosesPublisher():
         actor_initial_pose.orientation.z = 0
         actor_initial_pose.orientation.w = 1
 
-        #For loop to append poses each of the 55 actors 
-        for i in range(0,number_of_actors):
+        for actor in actors:
+            present = False ##A boolean to indicate if he user was already in the simulation or not
+            allowed = True ##A boolean to indicate if the actor can be updated or added or if there are too many. 
             actors_pose = categorized_pose()
             actors_pose.category = actor_category   # Defining the type of actor like car,pedestrain etc
-            
-            #(Subtract the initial pose of the actors because in matlab the actors initial position is taken as the starting position ie,origin )
-            actors_pose.pose.position.x = Px - actor_initial_pose.position.x + pose_increment_value  
-            actors_pose.pose.position.y = Py - actor_initial_pose.position.y + pose_increment_value 
-            actors_pose.pose.position.z = 0
-            actors_pose.pose.orientation.x = 0
-            actors_pose.pose.orientation.y = 0
-            actors_pose.pose.orientation.z = 0 
-            actors_pose.pose.orientation.w = 1
-            actors_pose.header.seq = 1 
-            actors_pose.header.stamp = rospy.Time.now() 
-            actors_pose.header.frame_id = "map"
 
-            actors_pose_array.poses.append(actors_pose)
+            for p_actor in previous_actor: ##get the previous position of the actor or initialise a new one
+                if p_actor[0] == actor[0]:
+                    Px = p_actor[1]
+                    Py = p_actor[2]
+                    dx = actor[1]-Px
+                    dy = actor[2]-Py
+                    present = True
+                    allowed = True
+                
+            if present = False and len(actors)<self.MAX_ACTOR_BY_TYPE[actor_category]:
+                Px = actor_initial_pose.position.x
+                Py = actor_initial_pose.position.y
+                dx = actor[1]
+                dy = actor[2]
+                allowed = True
             
-            #Incrementing the poses to form the array of poses for 55 actors.
-            Px = Px + self.INCREMENT_CONSTANT_   
-            Py = Py + self.INCREMENT_CONSTANT_
+            if allowed:
+            #(Subtract the initial pose of the actors because in matlab the actors initial position is taken as the starting position ie,origin )
+                actors_pose.pose.position.x = Px - actor_initial_pose.position.x + dx  
+                actors_pose.pose.position.y = Py - actor_initial_pose.position.y + dy 
+                actors_pose.pose.position.z = 0
+                actors_pose.pose.orientation.x = actor[4]
+                actors_pose.pose.orientation.y = actor[5]
+                actors_pose.pose.orientation.z = actor[6] 
+                actors_pose.pose.orientation.w = actor[7]
+                actors_pose.header.seq = 1 
+                actors_pose.header.stamp = rospy.Time.now() 
+                actors_pose.header.frame_id = "map"
+
+                actors_pose_array.poses.append(actors_pose)
+            
+            
+        self.previous_actors_by_type[actor_category] = list(self.actors_by_type[actor_category])
         return(actors_pose_array)
 
-    ## The function which publishes the array of poses of all 55 actors in each count.
+
+
+    ## The method which publishes the array of poses of all 55 actors in each count.
     #@param self The object pointer 
     def publishPoses(self):
         
-        COUNTER = 0 # Setting up a counter to increment the poses by a value so as to make the actors move 
-        while not rospy.is_shutdown() and COUNTER < 50:
+        s=0
+        for actor_type in self.actors_by_type:
+            s+=len(actor_type)
+        while not rospy.is_shutdown() and s>0:
             pose_increment_value = self.INCREMENT_CONSTANT_ * COUNTER  
             
                       
-            array_of_pedestrian_poses = self.getPoseArray(54,168,pose_increment_value, 20,1 )
-            array_of_car_poses = self.getPoseArray(96,171,pose_increment_value, 20, 2 )
-            array_of_cycle_poses = self.getPoseArray(63,171,pose_increment_value, 10, 3 )
-            array_of_motorcycle_poses = self.getPoseArray(208,171,pose_increment_value, 5, 4 )
+            array_of_pedestrian_poses = self.getPoseArray(1)
+            array_of_car_poses = self.getPoseArray(2)
+            array_of_cycle_poses = self.getPoseArray(3)
+            array_of_motorcycle_poses = self.getPoseArray(4)
             
             actors_pose_array = categorized_poses()
 
