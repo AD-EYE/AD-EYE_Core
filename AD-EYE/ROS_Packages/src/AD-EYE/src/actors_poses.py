@@ -97,45 +97,45 @@ class ActorsPosesPublisher():
             ip = actor[0]
             previous_index = self.was_present(ip, user_type)
             if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_by_type[user_type][previous_index] = actor
+                self.actors_by_type[user_type - 1][previous_index] = actor
             else:  ##Add the user in the simulation if there is room for more
                 place = self.add(user_type)
                 if type(place) == int:
-                    self.actors_by_type[user_type][place] = actor
-                    self.actors_count_by_type[user_type] += 1
+                    self.actors_by_type[user_type - 1][place] = actor
+                    self.actors_count_by_type[user_type - 1] += 1
 
         elif user_type == 2 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
             ip = actor[0]
             previous_index = self.was_present(ip, user_type)
             if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_by_type[user_type][previous_index] = actor
+                self.actors_by_type[user_type - 1][previous_index] = actor
             else:  ##Add the user in the simulation if there is room for more
                 place = self.add(user_type)
                 if type(place) == int:
-                    self.actors_by_type[user_type][place] = actor
-                    self.actors_count_by_type[user_type] += 1
+                    self.actors_by_type[user_type - 1][place] = actor
+                    self.actors_count_by_type[user_type - 1] += 1
 
         elif user_type == 3 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
             ip = actor[0]
             previous_index = self.was_present(ip, user_type)
             if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_by_type[user_type][previous_index] = actor
+                self.actors_by_type[user_type - 1][previous_index] = actor
             else:  ##Add the user in the simulation if there is room for more
                 place = self.add(user_type)
                 if type(place) == int:
-                    self.actors_by_type[user_type][place] = actor
-                    self.actors_count_by_type[user_type] += 1
+                    self.actors_by_type[user_type - 1][place] = actor
+                    self.actors_count_by_type[user_type - 1] += 1
 
         elif user_type == 4 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
             ip = actor[0]
             previous_index = self.was_present(ip, user_type)
             if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_by_type[user_type][previous_index] = actor
+                self.actors_by_type[user_type - 1][previous_index] = actor
             else:  ##Add the user in the simulation if there is room for more
                 place = self.add(user_type)
                 if type(place) == int:
-                    self.actors_by_type[user_type][place] = actor
-                    self.actors_count_by_type[user_type] += 1
+                    self.actors_by_type[user_type - 1][place] = actor
+                    self.actors_count_by_type[user_type - 1] += 1
 
         elif user_type == -1:
             pass
@@ -149,7 +149,7 @@ class ActorsPosesPublisher():
     #@param self the object pointer
     #@param user_type An int indicting the type of actor considered
     def add(self, user_type):
-        p_actors = self.previous_actors_by_type[user_type]
+        p_actors = self.previous_actors_by_type[user_type - 1]
         for i in range(len(actors)):
             if p_actors[i] == self.CLEAN_ACTOR:
                 return i
@@ -162,8 +162,8 @@ class ActorsPosesPublisher():
     #@param ip A String indicating the IPV4 adress of the sending device, used to differentiate the actors
     #@param user_type An int indicting the type of actor considered
     def was_present(self, ip, user_type):
-        for i in range(len(self.previous_actors_by_type[user_type])):
-            previous_actor_ip = self.previous_actors_by_type[user_type][i][0]
+        for i in range(len(self.previous_actors_by_type[user_type - 1])):
+            previous_actor_ip = self.previous_actors_by_type[user_type - 1][i][0]
             if previous_actor_ip == ip:
                 return i
         return None
@@ -203,8 +203,8 @@ class ActorsPosesPublisher():
         actor_initial_pose.orientation.z = 0
         actor_initial_pose.orientation.w = 1
 
-        actors = self.actors_by_type[actor_category]
-        previous_actors = self.previous_actors_by_type[actor_category]
+        actors = self.actors_by_type[actor_category - 1]
+        previous_actors = self.previous_actors_by_type[actor_category - 1]
 
         for i in range(len(actors)):
             present = False ##A boolean to indicate if he user was already in the simulation or not
@@ -254,7 +254,7 @@ class ActorsPosesPublisher():
             actors_pose_array.poses.append(actors_pose)
             
             
-        self.previous_actors_by_type[actor_category] = list(self.actors_by_type[actor_category])
+        self.previous_actors_by_type[actor_category - 1] = list(self.actors_by_type[actor_category - 1])
         return(actors_pose_array)
 
 
