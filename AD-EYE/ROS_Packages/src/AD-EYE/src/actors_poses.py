@@ -31,25 +31,29 @@ class ActorsPosesPublisher():
         self.MAX_ACTOR_BICYCLE = 10
         self.MAX_ACTOR_MOTORCYCLE = 5
 
-        ##A list of informations about the pedestrian typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.pedestrians = []
-        ##A list of informations about the cars typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.cars = []
-        ##A list of informations about the bicycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.bicycle = []
-        ##A list of informations about the motorcycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.motorcycle = []
-        ##A list of informations about the pedestrian typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_pedestrians = []
-        ##A list of informations about the cars typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_cars = []
-        ##A list of informations about the bicycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_bicycle = []
-        ##A list of informations about the motorcycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_motorcycle = []
+        self.CLEAN_ACTOR = ["0", 0, 0, 0, 0, 0, 0, 0]
 
-        self.actors_by_type = [self.pedestrians, self.cars, self.bicycle, self.motorcycle]
-        self.previous_actors_by_type = [self.previous_pedestrians, self.previous_cars, self.previous_bicycle, self.previous_motorcycle]
+        self.actors_count_by_type = [0, 0, 0, 0] ##Represent the number of actors in each category
+
+        ##A list of informations about the pedestrian typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.pedestrians = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_PEDESTRIAN)]
+        ##A list of informations about the cars typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.cars = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_CAR)]
+        ##A list of informations about the bicycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.bicycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_BICYCLE)]
+        ##A list of informations about the motorcycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.motorcycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_MOTORCYCLE)]
+        ##A list of informations about the pedestrian typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_pedestrians = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_PEDESTRIAN)]
+        ##A list of informations about the cars typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_cars = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_CAR)]
+        ##A list of informations about the bicycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_bicycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_BICYCLE)]
+        ##A list of informations about the motorcycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.previous_motorcycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_MOTORCYCLE)]
+
+        self.actors_by_type = [self.pedestrians, self.cars, self.bicycles, self.motorcycles]
+        self.previous_actors_by_type = [self.previous_pedestrians, self.previous_cars, self.previous_bicycles, self.previous_motorcycles]
         self.MAX_ACTOR_BY_TYPE = [self.MAX_ACTOR_PEDESTRIAN, self.MAX_ACTOR_CAR, self.MAX_ACTOR_BICYCLE, self.MAX_ACTOR_MOTORCYCLE]
 
         ##The subscriber to the topic where th information is sent from the android apps
@@ -86,18 +90,84 @@ class ActorsPosesPublisher():
         actor.extend(self.GPS_to_prescan(self.msg[2], self.msg[3],0)) ##altitude is null on the digital twin
         actor.extend(quat)
 
-        if actor[1] == 1 and len(self.pedestrians) < self.MAX_ACTOR_PEDESTRIAN:
-            del actor[1]
-            self.pedestrians.append(actor)
-        elif actor[1] == 2 and len(self.cars) < self.MAX_ACTOR_CAR:
-            del actor[1]
-            self.pedestrians.append(actor)
-        elif actor[1] == 3 and len(self.bicycle) < self.MAX_ACTOR_BICYCLE:
-            del actor[1]
-            self.pedestrians.append(actor)
-        elif actor[1] == 4 and len(self.motorcycle) < self.MAX_ACTOR_MOTORCYCLE:
-            del actor[1]
-            self.pedestrians.append(actor)
+        user_type = actor[1]
+        del actor[1]
+
+        if user_type == 1 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
+            ip = actor[0]
+            previous_index = self.was_present(ip, user_type)
+            if type(previous_index) == int: ##update the user's position if he was already in the simulation
+                self.actors_by_type[user_type][previous_index] = actor
+            else:  ##Add the user in the simulation if there is room for more
+                place = self.add(user_type)
+                if type(place) == int:
+                    self.actors_by_type[user_type][place] = actor
+                    self.actors_count_by_type[user_type] += 1
+
+        elif user_type == 2 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
+            ip = actor[0]
+            previous_index = self.was_present(ip, user_type)
+            if type(previous_index) == int: ##update the user's position if he was already in the simulation
+                self.actors_by_type[user_type][previous_index] = actor
+            else:  ##Add the user in the simulation if there is room for more
+                place = self.add(user_type)
+                if type(place) == int:
+                    self.actors_by_type[user_type][place] = actor
+                    self.actors_count_by_type[user_type] += 1
+
+        elif user_type == 3 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
+            ip = actor[0]
+            previous_index = self.was_present(ip, user_type)
+            if type(previous_index) == int: ##update the user's position if he was already in the simulation
+                self.actors_by_type[user_type][previous_index] = actor
+            else:  ##Add the user in the simulation if there is room for more
+                place = self.add(user_type)
+                if type(place) == int:
+                    self.actors_by_type[user_type][place] = actor
+                    self.actors_count_by_type[user_type] += 1
+
+        elif user_type == 4 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
+            ip = actor[0]
+            previous_index = self.was_present(ip, user_type)
+            if type(previous_index) == int: ##update the user's position if he was already in the simulation
+                self.actors_by_type[user_type][previous_index] = actor
+            else:  ##Add the user in the simulation if there is room for more
+                place = self.add(user_type)
+                if type(place) == int:
+                    self.actors_by_type[user_type][place] = actor
+                    self.actors_count_by_type[user_type] += 1
+
+        elif user_type == -1:
+            pass
+        
+        else:
+            pass
+
+
+    ##A method to find a free index to put the new user in the list of actors
+    #Returns the index (int) or None if no index were available
+    #@param self the object pointer
+    #@param user_type An int indicting the type of actor considered
+    def add(self, user_type):
+        p_actors = self.previous_actors_by_type[user_type]
+        for i in range(len(actors)):
+            if p_actors[i] == self.CLEAN_ACTOR:
+                return i
+        return None
+
+    ##A method to find out if an actor was already in the simulation at the previous step, and if so at which index
+    #Returns the index (int) of the actor in the previous array or None if the actor was not present.
+    #Actors are differentiated by the ip of the sending device
+    #@param self the object pointer
+    #@param ip A String indicating the IPV4 adress of the sending device, used to differentiate the actors
+    #@param user_type An int indicting the type of actor considered
+    def was_present(self, ip, user_type):
+        for i in range(len(self.previous_actors_by_type[user_type])):
+            previous_actor_ip = self.previous_actors_by_type[user_type][i][0]
+            if previous_actor_ip == ip:
+                return i
+        return None
+
 
 
     ##GPS_to_prescan method
@@ -121,8 +191,7 @@ class ActorsPosesPublisher():
     #@param actor_category an integer representing the user's category (1:pedestrian 2:car 3:bicycle 4:motorcycle)
     def getPoseArray(self, actor_category):
         actors_pose_array = categorized_poses() # Defining the array to which the poses are appended
-        actors = self.actors_by_type[actor_category]
-        previous_actor = self.previous_actors_by_type[actor_category]
+        
 
         #Setting the initial pose of the actors
         actor_initial_pose =Pose()
@@ -134,42 +203,55 @@ class ActorsPosesPublisher():
         actor_initial_pose.orientation.z = 0
         actor_initial_pose.orientation.w = 1
 
-        for actor in actors:
+        actors = self.actors_by_type[actor_category]
+        previous_actors = self.previous_actors_by_type[actor_category]
+
+        for i in range(len(actors)):
             present = False ##A boolean to indicate if he user was already in the simulation or not
-            allowed = True ##A boolean to indicate if the actor can be updated or added or if there are too many. 
+            new = False ##A boolean to indicate if the actor must be initialized
+
             actors_pose = categorized_pose()
             actors_pose.category = actor_category   # Defining the type of actor like car,pedestrain etc
 
-            for p_actor in previous_actor: ##get the previous position of the actor or initialise a new one
-                if p_actor[0] == actor[0]:
-                    Px = p_actor[1]
-                    Py = p_actor[2]
-                    dx = actor[1]-Px
-                    dy = actor[2]-Py
-                    present = True
-                    allowed = True
+            actor = actors[i]
+            p_actor = previous_actors[i]
+
+
+            if p_actor != self.CLEAN_ACTOR: ##Was already present
+                Px = p_actor[1]
+                Py = p_actor[2]
+                dx = actor[1]-Px
+                dy = actor[2]-Py
+                present = True
                 
-            if present = False and len(actors)<self.MAX_ACTOR_BY_TYPE[actor_category]:
+            elif actor == self.CLEAN_ACTOR: ##Is not linked to a user
+                Px = actor_initial_pose.position.x
+                Py = actor_initial_pose.position.y
+                dx = 0
+                dy = 0
+            
+            else: ##Is a new user
                 Px = actor_initial_pose.position.x
                 Py = actor_initial_pose.position.y
                 dx = actor[1]
                 dy = actor[2]
-                allowed = True
             
-            if allowed:
+                
+            
+            
             #(Subtract the initial pose of the actors because in matlab the actors initial position is taken as the starting position ie,origin )
-                actors_pose.pose.position.x = Px - actor_initial_pose.position.x + dx  
-                actors_pose.pose.position.y = Py - actor_initial_pose.position.y + dy 
-                actors_pose.pose.position.z = 0
-                actors_pose.pose.orientation.x = actor[4]
-                actors_pose.pose.orientation.y = actor[5]
-                actors_pose.pose.orientation.z = actor[6] 
-                actors_pose.pose.orientation.w = actor[7]
-                actors_pose.header.seq = 1 
-                actors_pose.header.stamp = rospy.Time.now() 
-                actors_pose.header.frame_id = "map"
+            actors_pose.pose.position.x = Px - actor_initial_pose.position.x + dx  
+            actors_pose.pose.position.y = Py - actor_initial_pose.position.y + dy 
+            actors_pose.pose.position.z = 0
+            actors_pose.pose.orientation.x = actor[4]
+            actors_pose.pose.orientation.y = actor[5]
+            actors_pose.pose.orientation.z = actor[6] 
+            actors_pose.pose.orientation.w = actor[7]
+            actors_pose.header.seq = 1 
+            actors_pose.header.stamp = rospy.Time.now() 
+            actors_pose.header.frame_id = "map"
 
-                actors_pose_array.poses.append(actors_pose)
+            actors_pose_array.poses.append(actors_pose)
             
             
         self.previous_actors_by_type[actor_category] = list(self.actors_by_type[actor_category])
@@ -184,9 +266,7 @@ class ActorsPosesPublisher():
         s=0
         for actor_type in self.actors_by_type:
             s+=len(actor_type)
-        while not rospy.is_shutdown() and s>0:
-            pose_increment_value = self.INCREMENT_CONSTANT_ * COUNTER  
-            
+        while not rospy.is_shutdown() and s>0:            
                       
             array_of_pedestrian_poses = self.getPoseArray(1)
             array_of_car_poses = self.getPoseArray(2)
@@ -205,11 +285,8 @@ class ActorsPosesPublisher():
             rate = rospy.Rate(1)
             self.actors_pose_array_pub_.publish(actors_pose_array)
             rate.sleep()
-
-            COUNTER = COUNTER + 1
             
 
 if __name__=="__main__":
     rospy.init_node('actors_poses') #Initialising the node
     ActorsPosesPublisher()
-    
