@@ -12,7 +12,7 @@ classdef categorized_pose < robotics.ros.Message
     end
     
     properties (Constant, Hidden)
-        MD5Checksum = '7ea9955f5189fbec2a19e42fe9a37790' % The MD5 Checksum of the message definition
+        MD5Checksum = '144b5d51e94f5834a200410da783b553' % The MD5 Checksum of the message definition
     end
     
     properties (Access = protected)
@@ -20,23 +20,21 @@ classdef categorized_pose < robotics.ros.Message
     end
     
     properties (Constant, Access = protected)
-        GeometryMsgsPoseClass = robotics.ros.msg.internal.MessageFactory.getClassForType('geometry_msgs/Pose') % Dispatch to MATLAB class for message type geometry_msgs/Pose
         StdMsgsHeaderClass = robotics.ros.msg.internal.MessageFactory.getClassForType('std_msgs/Header') % Dispatch to MATLAB class for message type std_msgs/Header
     end
     
     properties (Dependent)
         Header
         Category
-        Pose
     end
     
     properties (Access = protected)
-        Cache = struct('Header', [], 'Pose', []) % The cache for fast data access
+        Cache = struct('Header', []) % The cache for fast data access
     end
     
     properties (Constant, Hidden)
-        PropertyList = {'Category', 'Header', 'Pose'} % List of non-constant message properties
-        ROSPropertyList = {'category', 'header', 'pose'} % List of non-constant ROS message properties
+        PropertyList = {'Category', 'Header'} % List of non-constant message properties
+        ROSPropertyList = {'category', 'header'} % List of non-constant ROS message properties
     end
     
     methods
@@ -116,33 +114,12 @@ classdef categorized_pose < robotics.ros.Message
             
             obj.JavaMessage.setCategory(category);
         end
-        
-        function pose = get.Pose(obj)
-            %get.Pose Get the value for property Pose
-            if isempty(obj.Cache.Pose)
-                obj.Cache.Pose = feval(obj.GeometryMsgsPoseClass, obj.JavaMessage.getPose);
-            end
-            pose = obj.Cache.Pose;
-        end
-        
-        function set.Pose(obj, pose)
-            %set.Pose Set the value for property Pose
-            validateattributes(pose, {obj.GeometryMsgsPoseClass}, {'nonempty', 'scalar'}, 'categorized_pose', 'Pose');
-            
-            obj.JavaMessage.setPose(pose.getJavaObject);
-            
-            % Update cache if necessary
-            if ~isempty(obj.Cache.Pose)
-                obj.Cache.Pose.setJavaObject(pose.getJavaObject);
-            end
-        end
     end
     
     methods (Access = protected)
         function resetCache(obj)
             %resetCache Resets any cached properties
             obj.Cache.Header = [];
-            obj.Cache.Pose = [];
         end
         
         function cpObj = copyElement(obj)
@@ -162,14 +139,12 @@ classdef categorized_pose < robotics.ros.Message
             
             % Recursively copy compound properties
             cpObj.Header = copy(obj.Header);
-            cpObj.Pose = copy(obj.Pose);
         end
         
         function reload(obj, strObj)
             %reload Called by loadobj to assign properties
             obj.Category = strObj.Category;
             obj.Header = feval([obj.StdMsgsHeaderClass '.loadobj'], strObj.Header);
-            obj.Pose = feval([obj.GeometryMsgsPoseClass '.loadobj'], strObj.Pose);
         end
     end
     
@@ -185,7 +160,6 @@ classdef categorized_pose < robotics.ros.Message
             
             strObj.Category = obj.Category;
             strObj.Header = saveobj(obj.Header);
-            strObj.Pose = saveobj(obj.Pose);
         end
     end
     
