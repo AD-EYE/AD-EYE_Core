@@ -31,7 +31,7 @@ class ActorsPosesPublisher():
         self.MAX_ACTOR_BICYCLE = 10
         self.MAX_ACTOR_MOTORCYCLE = 5
 
-        self.CLEAN_ACTOR = ["0", 0, 0, 0, 0, 0, 0, 0]
+        self.CLEAN_ACTOR = ["0", 2000, 2000, 0, 0, 0, 0, 0]
 
         self.actors_count_by_type = [0, 0, 0, 0] ##Represent the number of actors in each category
 
@@ -72,7 +72,7 @@ class ActorsPosesPublisher():
 
     ##This method parse the information received from the android app through Rosbridge and add the informations about the actor to the correct list
     #@param self The object pointer
-    def UpdateList(self):
+    def UpdateList(self, data):
         self.msg = []
         c=0
         for e in data.data.split(','):
@@ -150,7 +150,7 @@ class ActorsPosesPublisher():
     #@param user_type An int indicting the type of actor considered
     def add(self, user_type):
         p_actors = self.previous_actors_by_type[user_type - 1]
-        for i in range(len(actors)):
+        for i in range(len(p_actors)):
             if p_actors[i] == self.CLEAN_ACTOR:
                 return i
         return None
@@ -195,13 +195,13 @@ class ActorsPosesPublisher():
 
         #Setting the initial pose of the actors
         actor_initial_pose =Pose()
-        actor_initial_pose.position.x = 2000
-        actor_initial_pose.position.y = 2000
-        actor_initial_pose.position.z = 0
-        actor_initial_pose.orientation.x = 0
-        actor_initial_pose.orientation.y = 0
-        actor_initial_pose.orientation.z = 0
-        actor_initial_pose.orientation.w = 1
+        actor_initial_pose.position.x = self.CLEAN_ACTOR[1]
+        actor_initial_pose.position.y = self.CLEAN_ACTOR[2]
+        actor_initial_pose.position.z = self.CLEAN_ACTOR[3]
+        actor_initial_pose.orientation.x = self.CLEAN_ACTOR[4]
+        actor_initial_pose.orientation.y = self.CLEAN_ACTOR[5]
+        actor_initial_pose.orientation.z = self.CLEAN_ACTOR[6]
+        actor_initial_pose.orientation.w = self.CLEAN_ACTOR[7]
 
         actors = self.actors_by_type[actor_category - 1]
         previous_actors = self.previous_actors_by_type[actor_category - 1]
@@ -220,15 +220,15 @@ class ActorsPosesPublisher():
             if p_actor != self.CLEAN_ACTOR: ##Was already present
                 Px = p_actor[1]
                 Py = p_actor[2]
-                dx = actor[1]-Px
-                dy = actor[2]-Py
+                dx = actor[1] - p_actor[1]
+                dy = actor[2] - p_actor[2]
                 present = True
                 
             elif actor == self.CLEAN_ACTOR: ##Is not linked to a user
                 Px = actor_initial_pose.position.x
                 Py = actor_initial_pose.position.y
-                dx = 0
-                dy = 0
+                dx = 0.0
+                dy = 0.0
             
             else: ##Is a new user
                 Px = actor_initial_pose.position.x
@@ -240,8 +240,8 @@ class ActorsPosesPublisher():
             
             
             #(Subtract the initial pose of the actors because in matlab the actors initial position is taken as the starting position ie,origin )
-            actors_pose.pose.position.x = Px - actor_initial_pose.position.x + dx  
-            actors_pose.pose.position.y = Py - actor_initial_pose.position.y + dy 
+            actors_pose.pose.position.x = dx + Px - actor_initial_pose.position.x
+            actors_pose.pose.position.y = dy + Py - actor_initial_pose.position.y
             actors_pose.pose.position.z = 0
             actors_pose.pose.orientation.x = actor[4]
             actors_pose.pose.orientation.y = actor[5]
@@ -283,6 +283,7 @@ class ActorsPosesPublisher():
           
 
             rate = rospy.Rate(1)
+            print(array_of_pedestrian_poses)
             self.actors_pose_array_pub_.publish(actors_pose_array)
             rate.sleep()
             
