@@ -4,7 +4,6 @@ import roslib
 import tf
 import math
 import pyproj
-import threading
 import time
 from std_msgs.msg import Int64
 from std_msgs.msg import String
@@ -35,38 +34,28 @@ class ActorsPosesPublisher():
 
         self.CLEAN_ACTOR = ["0", 2000, 2000, 0, 0, 0, 0, 0]
 
-        ##The period at which the app sends data through ROSbridge, in milli seconds
-        self.SENDING_PERIOD = 2000 
+        ##The period at which the app sends data through ROSbridge, in seconds
+        self.SENDING_PERIOD = 3.
 
-        self.actors_count_by_type = [0, 0, 0, 0] ##Represent the number of actors in each category
+        ##An integer representing the number of periods we wait between checks for finding disconnected users
+        self.CHECK_DELAY = 3
 
-        ##A list of informations about the pedestrian typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.pedestrians = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_PEDESTRIAN)]
-        ##A list of informations about the cars typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.cars = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_CAR)]
-        ##A list of informations about the bicycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.bicycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_BICYCLE)]
-        ##A list of informations about the motorcycle typed actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.motorcycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_MOTORCYCLE)]
-        ##A list of informations about the pedestrian typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_pedestrians = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_PEDESTRIAN)]
-        ##A list of informations about the cars typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_cars = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_CAR)]
-        ##A list of informations about the bicycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_bicycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_BICYCLE)]
-        ##A list of informations about the motorcycle typed actors at the precedent step, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
-        self.previous_motorcycles = [self.CLEAN_ACTOR for i in range(self.MAX_ACTOR_MOTORCYCLE)]
+        ##An integer that get incremented at every itteration of the rospy loop. Used to know when to check for disconnected users
+        self.period_counter = 0
 
-        self.actors_by_type = [self.pedestrians, self.cars, self.bicycles, self.motorcycles]
-        self.previous_actors_by_type = [self.previous_pedestrians, self.previous_cars, self.previous_bicycles, self.previous_motorcycles]
+        ##A list representing the number of actors in each category
+        self.actors_count_by_type = [0, 0, 0, 0] 
+
+        ##A list with the maximum number of actors for each type, sorted by category order
         self.MAX_ACTOR_BY_TYPE = [self.MAX_ACTOR_PEDESTRIAN, self.MAX_ACTOR_CAR, self.MAX_ACTOR_BICYCLE, self.MAX_ACTOR_MOTORCYCLE]
 
-        ##A list with integers that get incremeted when an actor receive new data. If a vlue stays the same for too long, the user is disconnected and the value is set back to 0
-        self.actors_update_count = [[0 for j in range(self.MAX_ACTOR_BY_TYPE[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE))]
-        self.previous_actors_update_count = list(self.actors_update_count)
-
+        ##A list of list of informations about the differents actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        self.actors_by_type = [[self.CLEAN_ACTOR for j in range(self.MAX_ACTOR_BY_TYPE[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE))]
+        ##The previous state of the actors_by_type list.
+        self.previous_actors_by_type = [[self.CLEAN_ACTOR for j in range(self.MAX_ACTOR_BY_TYPE[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE))]
+        
         ##The subscriber to the topic where th information is sent from the android apps
-        self.sub = rospy.Subscriber("/chatter", String, self.UpdateList)
+        self.sub = rospy.Subscriber("/Android_GPS_Data", String, self.UpdateList)
         ##The projector that transforms the latitudes and longitudes into 2D carthesian coordinates
         self.P = pyproj.Proj(proj='utm', zone=31, ellps='WGS84', preserve_units=True)
         ##A list that contains in this order : sender_ip (String), user_id (int), latitude, longitude, altitude, euler_angle1, euler_angle2, euler_angle3 (floats)
@@ -76,10 +65,6 @@ class ActorsPosesPublisher():
         ##The origin of the digital twin, in x-y format
         self.originxy = self.P(self.originll[0], self.originll[1])
 
-        ##A thread that runs in the background and check if a use is connected or not
-        self.disconnect_thread = threading.Thread(target=self.Disconnect)
-        #self.disconnect_thread.daemon = True
-        self.disconnect_thread.start()
 
         self.publishPoses()
 
@@ -87,6 +72,9 @@ class ActorsPosesPublisher():
     ##This method parse the information received from the android app through Rosbridge and add the informations about the actor to the correct list
     #@param self The object pointer
     def UpdateList(self, data):
+
+        self.previous_actors_by_type = [[list(actor) for actor in actors] for actors in self.actors_by_type] ##Creating the previous step without linking the lists
+
         self.msg = []
         c=0
         for e in data.data.split(','):
@@ -107,68 +95,19 @@ class ActorsPosesPublisher():
 
         user_type = actor[1]
         del actor[1]
+        actor.append(time.time())
 
-        if user_type == 1 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
+        if user_type in [1, 2, 3, 4] and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if there is room for more user of this category
             ip = actor[0]
             previous_index = self.was_present(ip, user_type)
             if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_update_count[user_type - 1][previous_index] = update_count
                 self.actors_by_type[user_type - 1][previous_index] = actor
             else:  ##Add the user in the simulation if there is room for more
                 place = self.add(user_type)
                 if type(place) == int:
-                    self.actors_update_count[user_type - 1][place] = update_count
                     self.actors_by_type[user_type - 1][place] = actor
                     self.actors_count_by_type[user_type - 1] += 1
 
-        elif user_type == 2 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
-            ip = actor[0]
-            previous_index = self.was_present(ip, user_type)
-            if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_update_count[user_type - 1][previous_index] = update_count
-                self.actors_by_type[user_type - 1][previous_index] = actor
-            else:  ##Add the user in the simulation if there is room for more
-                place = self.add(user_type)
-                if type(place) == int:
-                    self.actors_update_count[user_type - 1][place] = update_count
-                    self.actors_by_type[user_type - 1][place] = actor
-                    self.actors_count_by_type[user_type - 1] += 1
-
-        elif user_type == 3 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
-            ip = actor[0]
-            previous_index = self.was_present(ip, user_type)
-            if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_update_count[user_type - 1][previous_index] = update_count
-                self.actors_by_type[user_type - 1][previous_index] = actor
-            else:  ##Add the user in the simulation if there is room for more
-                place = self.add(user_type)
-                if type(place) == int:
-                    self.actors_update_count[user_type - 1][place] = update_count
-                    self.actors_by_type[user_type - 1][place] = actor
-                    self.actors_count_by_type[user_type - 1] += 1
-
-        elif user_type == 4 and self.actors_count_by_type[user_type -1 ] < self.MAX_ACTOR_BY_TYPE[user_type -1]: ##if the user is a pedestrian and there is room for more
-            ip = actor[0]
-            previous_index = self.was_present(ip, user_type)
-            if type(previous_index) == int: ##update the user's position if he was already in the simulation
-                self.actors_update_count[user_type - 1][previous_index] = update_count
-                self.actors_by_type[user_type - 1][previous_index] = actor
-            else:  ##Add the user in the simulation if there is room for more
-                place = self.add(user_type)
-                if type(place) == int:
-                    self.actors_update_count[user_type - 1][place] = update_count
-                    self.actors_by_type[user_type - 1][place] = actor
-                    self.actors_count_by_type[user_type - 1] += 1
-
-        elif user_type == -1: ##if the user disconnects
-            print("disconnected")
-            ip = actor[0]
-            previous_index = self.was_present(ip, user_type)
-            if type(previous_index) == int: ##update the user's position if he was already in the simulation to a clean state
-                self.actors_by_type[user_type - 1][previous_index] = self.CLEAN_ACTOR
-                self.actors_update_count[user_type - 1][previous_index] = 0
-
-        
         else:
             pass
 
@@ -198,19 +137,18 @@ class ActorsPosesPublisher():
         return None
 
 
-    def Disconnect(self):
-        while True:
-            for actor_list in self.actors_update_count:
-                i = self.actors_update_count.index(actor_list)
-                for actor_count in actor_list:
-                    j = actor_list.index(actor_count)
-                    if actor_count != 0 and actor_count == self.previous_actors_update_count[i][j] : ##The position has not been updated
-                        self.actors_by_type[i][j] = self.CLEAN_ACTOR
-                        self.actors_update_count[i][j] = 0
-            self.previous_actors_update_count = list(self.actors_update_count)
-            print("checked")
-            time.sleep(3*self.SENDING_PERIOD)
-
+    ##A method that disconnects a user if the node did not receive updates in a long time
+    #
+    #@param self the object pointer
+    def Check_disconnection(self):
+        now = time.time()
+        for actor_list in self.actors_by_type:
+            i = self.actors_by_type.index(actor_list) # i represent the user's id - 1
+            for actor in actor_list:
+                j = actor_list.index(actor) # j represents the index of an actor of type i + 1
+                received_time = actor[-1]
+                if now - received_time > self.CHECK_DELAY*self.SENDING_PERIOD:
+                    self.actors_by_type[i][j] = self.CLEAN_ACTOR
 
     ##GPS_to_prescan method
     #
@@ -250,7 +188,6 @@ class ActorsPosesPublisher():
 
         for i in range(len(actors)):
             present = False ##A boolean to indicate if he user was already in the simulation or not
-            new = False ##A boolean to indicate if the actor must be initialized
 
             actors_pose = categorized_pose()
             actors_pose.category = actor_category   # Defining the type of actor like car,pedestrain etc
@@ -296,7 +233,6 @@ class ActorsPosesPublisher():
             actors_pose_array.poses.append(actors_pose)
             
             
-        self.previous_actors_by_type[actor_category - 1] = list(self.actors_by_type[actor_category - 1])
         return(actors_pose_array)
 
 
@@ -305,10 +241,11 @@ class ActorsPosesPublisher():
     #@param self The object pointer 
     def publishPoses(self):
         
-        s=0
-        for actor_type in self.actors_by_type:
-            s+=len(actor_type)
-        while not rospy.is_shutdown() and s>0:            
+        while not rospy.is_shutdown():    
+
+            if self.period_counter == self.CHECK_DELAY:
+                self.period_counter = 0
+                self.Check_disconnection()
                       
             array_of_pedestrian_poses = self.getPoseArray(1)
             array_of_car_poses = self.getPoseArray(2)
@@ -324,8 +261,9 @@ class ActorsPosesPublisher():
           
           
 
-            rate = rospy.Rate(1)
+            rate = rospy.Rate(self.SENDING_PERIOD)
             self.actors_pose_array_pub_.publish(actors_pose_array)
+            self.period_counter += 1
             rate.sleep()
             
 
