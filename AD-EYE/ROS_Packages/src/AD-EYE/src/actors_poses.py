@@ -49,12 +49,12 @@ class ActorsPosesPublisher():
         ##A list with the maximum number of actors for each type, sorted by category order
         self.MAX_ACTOR_BY_TYPE = [self.MAX_ACTOR_PEDESTRIAN, self.MAX_ACTOR_CAR, self.MAX_ACTOR_BICYCLE, self.MAX_ACTOR_MOTORCYCLE]
 
-        ##A list of list of informations about the differents actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
+        ##A list of list of information about the differents actors, including the ip of the sender (for identification purpose), the position and orientation relative to the origin of the digital twin
         self.actors_by_type = [[self.CLEAN_ACTOR for j in range(self.MAX_ACTOR_BY_TYPE[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE))]
         ##The previous state of the actors_by_type list.
         self.previous_actors_by_type = [[self.CLEAN_ACTOR for j in range(self.MAX_ACTOR_BY_TYPE[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE))]
         
-        ##The subscriber to the topic where th information is sent from the android apps
+        ##The subscriber to the topic where the information is sent from the android apps
         self.sub = rospy.Subscriber("/Android_GPS_Data", String, self.UpdateList)
         ##The projector that transforms the latitudes and longitudes into 2D carthesian coordinates
         self.P = pyproj.Proj(proj='utm', zone=31, ellps='WGS84', preserve_units=True)
@@ -67,6 +67,49 @@ class ActorsPosesPublisher():
 
 
         self.publishPoses()
+
+
+    ##A method to find a free index to put the new user in the list of actors
+    #Returns the index (int) or None if no index were available
+    #@param self the object pointer
+    #@param user_type An int indicting the type of actor considered
+    def add(self, user_type):
+        p_actors = self.previous_actors_by_type[user_type - 1]
+        for i in range(len(p_actors)):
+            if p_actors[i] == self.CLEAN_ACTOR:
+                return i
+        return None
+
+
+    ##A method to find out if an actor was already in the simulation at the previous step, and if so at which index
+    #Returns the index (int) of the actor in the previous array or None if the actor was not present.
+    #Actors are differentiated by the ip of the sending device
+    #@param self the object pointer
+    #@param ip A String indicating the IPV4 adress of the sending device, used to differentiate the actors
+    #@param user_type An int indicting the type of actor considered
+    def was_present(self, ip, user_type):
+        for i in range(len(self.previous_actors_by_type[user_type - 1])):
+            previous_actor_ip = self.previous_actors_by_type[user_type - 1][i][0]
+            if previous_actor_ip == ip:
+                return i
+        return None
+
+
+    ##GPS_to_prescan method
+    #
+    #A method to get the carthesian coordinates of the point given its latitude and longitude relatively to the origin of the digital twin
+    #
+    #@param self the object pointer
+    #@param latitude A float representing the latitude of a point
+    #@param longitude A float representing the longitude of a point
+    #@param altitude A float representing the altitude of a point
+    def GPS_to_prescan(self, latitude, longitude, altitude):
+        
+        x, y = self.P(latitude, longitude)
+        z = altitude
+
+        return [x-self.originxy[0], y-self.originxy[1], z]
+
 
 
     ##This method parse the information received from the android app through Rosbridge and add the informations about the actor to the correct list
@@ -111,31 +154,9 @@ class ActorsPosesPublisher():
         else:
             pass
 
+    
 
-    ##A method to find a free index to put the new user in the list of actors
-    #Returns the index (int) or None if no index were available
-    #@param self the object pointer
-    #@param user_type An int indicting the type of actor considered
-    def add(self, user_type):
-        p_actors = self.previous_actors_by_type[user_type - 1]
-        for i in range(len(p_actors)):
-            if p_actors[i] == self.CLEAN_ACTOR:
-                return i
-        return None
-
-    ##A method to find out if an actor was already in the simulation at the previous step, and if so at which index
-    #Returns the index (int) of the actor in the previous array or None if the actor was not present.
-    #Actors are differentiated by the ip of the sending device
-    #@param self the object pointer
-    #@param ip A String indicating the IPV4 adress of the sending device, used to differentiate the actors
-    #@param user_type An int indicting the type of actor considered
-    def was_present(self, ip, user_type):
-        for i in range(len(self.previous_actors_by_type[user_type - 1])):
-            previous_actor_ip = self.previous_actors_by_type[user_type - 1][i][0]
-            if previous_actor_ip == ip:
-                return i
-        return None
-
+    
 
     ##A method that disconnects a user if the node did not receive updates in a long time
     #
@@ -150,21 +171,7 @@ class ActorsPosesPublisher():
                 if now - received_time > self.CHECK_DELAY*self.SENDING_PERIOD:
                     self.actors_by_type[i][j] = self.CLEAN_ACTOR
 
-    ##GPS_to_prescan method
-    #
-    #A method to get the carthesian coordinates of the point given its latitude and longitude relatively to the origin of the digital twin
-    #
-    #@param self the object pointer
-    #@param latitude A float representing the latitude of a point
-    #@param longitude A float representing the longitude of a point
-    #@param altitude A float representing the altitude of a point
-    def GPS_to_prescan(self, latitude, longitude, altitude):
-        
-        x, y = self.P(latitude, longitude)
-        z = altitude
-
-        return [x-self.originxy[0], y-self.originxy[1], z]
-
+    
 
     ##This method sets the initial pose of the actors and also the poses to which actors are to be moved.
     #@param self The object pointer
@@ -187,7 +194,7 @@ class ActorsPosesPublisher():
         previous_actors = self.previous_actors_by_type[actor_category - 1]
 
         for i in range(len(actors)):
-            present = False ##A boolean to indicate if he user was already in the simulation or not
+            present = False ##A boolean to indicate if the user was already in the simulation or not
 
             actors_pose = categorized_pose()
             actors_pose.category = actor_category   # Defining the type of actor like car,pedestrain etc
