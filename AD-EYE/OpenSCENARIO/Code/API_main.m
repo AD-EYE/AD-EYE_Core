@@ -31,6 +31,21 @@ cd(strcat("OpenSCENARIO/Results/",folder_name,"/OpenSCENARIO"))
 close_system(convertStringsToChars(name_simulink), 0)
 open_system(convertStringsToChars(name_simulink))
 %Constructing structure from xml file OpenSCENARIO
+
+if ~isfile(convertStringsToChars(strcat(name_experiment, ".pb")))
+    disp("Experiment was not built, it will be built now");
+    command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
+    ...are concatenated and executed using a dos function in the end
+    CurrentExperiment = strcat(pwd, '\', name_experiment, '.pex');
+    command = strcat(command, ' -load ', ' "', CurrentExperiment, '"'); %load the MainExperiment in PreScan
+    command = strcat(command, ' -realignPaths'); %unknown use from PreScan
+    command = strcat(command, ' -build'); %build the experiment
+    command = strcat(command, ' -close');
+    errorCode = dos(command); %takes all the above commands in 'Command' variable and execute
+    if errorCode ~= 0
+        error(['Failed to perform build command: error code' errorCode]);
+    end
+end
 models = prescan.experiment.readDataModels(convertStringsToChars(strcat(name_experiment, ".pb")));
 
 
