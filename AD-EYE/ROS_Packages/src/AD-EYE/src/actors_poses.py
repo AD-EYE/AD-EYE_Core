@@ -174,7 +174,7 @@ class ActorsPosesPublisher():
     #@param self The object pointer
     #@param actor A list with the informations about the actor at the current step
     #@param p_actor A list with the informations about the actor at the previous step
-    def getPreviousPoseAndDisplacement(self, actor, p_actor):
+    def getPreviousPoseAndDisplacement(self, actor, p_actor, actor_initial_pose):
         if p_actor != self.DEFAULT_POSE_: ##Was already present
             Px = p_actor[1]
             Py = p_actor[2]
@@ -251,7 +251,7 @@ class ActorsPosesPublisher():
 
             
             
-            Px, Py, dx, dy = self.getPreviousPoseAndDisplacement(actors[i], previous_actors[i])
+            Px, Py, dx, dy = self.getPreviousPoseAndDisplacement(actors[i], previous_actors[i], actor_initial_pose)
             
 
             self.updateActorPose(actors_pose, actors[i], actor_initial_pose, Px, Py, dx, dy)
@@ -272,8 +272,8 @@ class ActorsPosesPublisher():
         
         while not rospy.is_shutdown():    
 
-            if self.period_counter == self.CHECK_DELAY_:
-                self.period_counter = 0
+            if self.period_counter_ == self.CHECK_DELAY_:
+                self.period_counter_ = 0
                 self.checkDisconnection()
                       
             array_of_pedestrian_poses = self.getPoseArray(1)
@@ -292,7 +292,7 @@ class ActorsPosesPublisher():
 
             rate = rospy.Rate(self.SENDING_PERIOD_)
             self.actors_pose_array_pub_.publish(actors_pose_array)
-            self.period_counter += 1
+            self.period_counter_ += 1
             rate.sleep()
             
 
