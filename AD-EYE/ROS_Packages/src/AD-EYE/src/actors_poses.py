@@ -129,7 +129,7 @@ class ActorsPosesPublisher():
         quat = tf.transformations.quaternion_from_euler(eulers[0], eulers[1], eulers[2])
 
         #A list that contains in this order : sender_ip (String), user_id (int), PoseX, PoseY, PoseZ, QuaternionX, QuaternionY, QuaternionZ, QuaternionW (floats)
-        actor = self.msg[:2] 
+        actor = msg[:2] 
         actor.extend(self.gpsToPrescan(msg[2], msg[3],0)) ##altitude is null on the digital twin
         actor.extend(quat)
 
