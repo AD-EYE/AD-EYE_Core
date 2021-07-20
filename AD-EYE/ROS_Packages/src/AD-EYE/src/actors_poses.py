@@ -15,8 +15,8 @@ from geometry_msgs.msg import PoseStamped
 
 ## A class that will publish the poses to various types of actors
 # The class ActorsPosesPublisher publishes poses of 20 pedestrians,20 cars,10 cyclists and 5 motorcycles to the topic
-# actors_poses. The actors are initially placed far away from the world in the position (2000,2000,0)
- 
+# actors_poses. The actors are initially placed far away from the world in the position (2000,2000,0).
+# Because of the value expected by Matlab, the integer representing the user type must be set between 1 and 4 (1:pedestrian 2:car 3:bicycle 4:motorcycle). Thus, we need to offset it by one to use it as a list index.
 class ActorsPosesPublisher():
     ## The constructor
     #@param self The object pointer
@@ -53,7 +53,7 @@ class ActorsPosesPublisher():
         self.previous_actors_by_type_ = [[self.DEFAULT_POSE_ for j in range(self.MAX_ACTOR_BY_TYPE_[i])] for i in range(len(self.MAX_ACTOR_BY_TYPE_))]
         
         ##The subscriber to the topic where the information is sent from the android apps
-        self.sub = rospy.Subscriber("/Android_GPS_Data", String, self.appInfoCallback)
+        self.app_info_sub_ = rospy.Subscriber("/Android_GPS_Data", String, self.appInfoCallback)
         ##The projector that transforms the latitudes and longitudes into 2D carthesian coordinates
         self.gps_projector_ = pyproj.Proj(proj='utm', zone=31, ellps='WGS84', preserve_units=True)
         ##The origin of the digital twin, in latitude-longitude format
@@ -222,7 +222,7 @@ class ActorsPosesPublisher():
 
     ##This method sets the initial pose of the actors and also the poses to which actors are to be moved.
     #@param self The object pointer
-    #@param actor_category an integer representing the user's category (1:pedestrian 2:car 3:bicycle 4:motorcycle). The value taken by this integer makes it neceessary to offset it by 1 to be used as a list index
+    #@param actor_category an integer representing the user's category (1:pedestrian 2:car 3:bicycle 4:motorcycle).
     def getPoseArray(self, actor_category):
         actors_pose_array = categorized_poses() # Defining the array to which the poses are appended
         
