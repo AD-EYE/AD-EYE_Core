@@ -19,8 +19,6 @@
 
 using namespace grid_map;
 
-#define LANE_VALUE 25
-#define PI 3.14159265 
 
 /*!
  * \brief This class is used to extract data from the GridMap given by the GridMapCreator
@@ -38,6 +36,7 @@ private:
     GridMap grid_map_;
     float frequency_ = 10; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
+    std::string visualized_layer_; // this variable is a new class member that will contain the layer we want to visualize
 
 
     /*!
@@ -74,17 +73,15 @@ private:
 
     /*!
      * \brief The information of one layer from the GridMap are translated into an occupancy grid
-     * \details Info from one layer is reduced to either LANE_VALUE or 0, 
+     * \details Info from one layer is reduced to either LANE_VALUE, RED, YELLOW, WHITE, GREEN, OBSTRUCTED_VALUE or 0,
+     * according to the layer selected 
      * as these values are the only ones that the safety planner can read.
      */
-
      void visualizationProcess() {
         size_t nCells = occ_grid_.data.size();
         size_t index;
-        float laneValue;
+        float firstOccValue;
         Position pos;
-
-        grid_map::Polygon area;
 
         for(GridMapIterator it(grid_map_) ; !it.isPastEnd() ; ++it) {
             if(!grid_map_.getPosition(*it, pos)) {
@@ -93,28 +90,14 @@ private:
             }
 
             //Getting values
-            laneValue = grid_map_.atPosition("DrivableAreas", pos);
+            firstOccValue = grid_map_.atPosition(visualized_layer_, pos);
 
             index = it.getLinearIndex();
-            occ_grid_.data[nCells - index - 1] = calculateOccValue(laneValue);
+            occ_grid_.data[nCells - index - 1] = firstOccValue;
 
         }
     }
 
-    /*!
-     * \brief This function is used to calculate the occupancy value of a cell according to the layer of the grid map
-     * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
-     * \return The occupancy value calculated
-     */
-    float calculateOccValue(float laneValue){
-        float occValue = 0;
-    
-        if(laneValue == 1) {
-            occValue = LANE_VALUE;
-        }
-    
-        return occValue;
-    }
 
 
 public:
@@ -122,15 +105,16 @@ public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
-     * \param grid_map_topic The topic on which to find informations on GridMap.
+     * \param topic_name The topic on which to find informations on GridMap.
+     * \param layer_name The layer we want to visualize.
      * \details Initializes the node and its components such as publishers and subscribers.
      */
-
-    OccMapCreator(ros::NodeHandle &nh, std::string grid_map_topic) : nh_(nh), rate_(1)
+    OccMapCreator(ros::NodeHandle &nh, std::string topic_name, std::string layer_name) : nh_(nh), rate_(1), visualized_layer_(layer_name)
     {
+
         // Initialize node and publishers
         pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/occmap_one_layer", 1);
-        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
+        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>(topic_name, 1, &OccMapCreator::gridMapCallback, this);
 
         rate_ = ros::Rate(frequency_);
 
@@ -170,14 +154,32 @@ public:
 
 };
 
+/*!
+* \brief Exception
+* \details Exception raise if parameters aren't given
+*/
+void usage(std::string binName) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
+                     " <topic_name> <layer_name>");
+}
 
 int main(int argc, char** argv)
 {
+    if(argc < 3) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    std::string topic_name;
+    std::string layer_name;
+
+    topic_name = argv[1];
+    layer_name = argv[2];
+
     // Initialize node
     ros::init(argc, argv, "visualization");
     ros::NodeHandle nh;
-    std::string grid_map_topic = "/grid_map_";
-    OccMapCreator omc(nh, grid_map_topic);
+    OccMapCreator omc(nh, topic_name, layer_name);
 
     omc.run();
     return 0;
