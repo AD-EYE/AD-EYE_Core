@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   grid_map_core
   grid_map_ros
   grid_map_msgs
+  geometry_msgs
+  nav_msgs
   tf
   cpp_utils
   op_ros_helpers
@@ -28,6 +30,10 @@ catkin_package(
     tf
     grid_map_core
     grid_map_msgs
+    grid_map_ros
+    geometry_msgs
+    nav_msgs
+    cpp_utils
     op_ros_helpers
     tf2_ros
   DEPENDS
