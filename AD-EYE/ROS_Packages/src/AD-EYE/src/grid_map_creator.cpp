@@ -1,24 +1,24 @@
-#include <ros/ros.h>
-#include <grid_map_ros/grid_map_ros.hpp>
-#include <grid_map_msgs/GridMap.h>
-#include <vector>
-#include <string>
-#include <cmath>
-#include <stdlib.h>
-#include <limits>
+#include <ros/ros.h> // ROS
+#include <grid_map_ros/grid_map_ros.hpp> // for ROS gridmap support
+#include <string> // for string support
+#include <cmath> // for math functions
+#include <cmath> // for math functions
+#include <dirent.h> // for directory search
 
-#include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Odometry.h>
 #include <vectormap.h>
 #include <prescanmodel.h>
-#include <rcv_common_msgs/SSMP_control.h>
-#include <cpp_utils/pose_datatypes.h>
-#include <geometry_msgs/PoseArray.h>
 
+#include <cpp_utils/pose_datatypes.h> // for cpp_utils::extract_yaw
+
+// ROS messages
+#include <grid_map_msgs/GridMap.h>
+#include <nav_msgs/OccupancyGrid.h>
+#include <rcv_common_msgs/SSMP_control.h>
+#include <geometry_msgs/PoseArray.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PolygonStamped.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
 
-#include <dirent.h>
 
 using namespace grid_map;
 
@@ -43,11 +43,12 @@ private:
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
 
-    // variables
     //Position
     float x_ego_;
     float y_ego_;
     float yaw_ego_;
+    float x_ego_old_;
+    float y_ego_old_;
 
     // for the ego footprint layer
     float last_x_ego_center_;
@@ -55,10 +56,8 @@ private:
     float last_yaw_ego_;
     bool first_position_callback_ = true;
 
-    
-    float x_ego_old_;
-    float y_ego_old_;
-    geometry_msgs::Quaternion q_ego_;
+
+
     //Dimensions
     float length_ego_ = 4.6;
     float width_ego_ = 2.2;
@@ -78,15 +77,16 @@ private:
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
-    //Map
+
+    //GridMap
     GridMap map_;
     float map_resolution_;
     const float occmap_width_;
     const float occmap_height_;
     const float submap_dimensions_;
+
     //Ros utils
     ros::Rate rate_;
-    float frequency_;
     bool use_pex_file_ = false;
     bool use_ground_truth_dynamic_objects_ = false;
 
@@ -97,9 +97,43 @@ private:
     void createEmptyGridMap(VectorMap vector_map)
     {
         // Determine the boundaries of the map based on the maximum and minimum values for x and y as saved in the Vector Map
-        float lowest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(0) - 1);
+        float lowest_x;
+        float lowest_y;
+        float maplength_x;
+        float maplength_y;
+        findGridMapBoundary(vector_map, lowest_x, lowest_y, maplength_x, maplength_y);
+
+        // Create grid map consisting of four layers
+        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
+        map_.setFrameId("SSMP_map");
+        map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
+        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(), map_.getSize()(0), map_.getSize()(1));
+
+
+        // All cells in all layers must first be initialized to 0
+        for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+            map_.at("DrivableAreas", *it) = 0;
+            map_.at("StaticObjects", *it) = 0;
+            map_.at("DynamicObjects", *it) = 0;
+            map_.at("Lanes", *it) = 0;
+            map_.at("SafeAreas", *it) = 0;
+            map_.at("EgoVehicle", *it) = 0;
+        }
+    }
+
+    /*!
+     * \brief Finds the boundaries of the gridmap based on the vector map.
+     * \param vector_map The loaded vector map
+     * \param lowest_x The x value of the bottom left corner position
+     * \param lowest_y The y value of the bottom left corner position
+     * \param maplength_x The size of the grid map along x axis
+     * \param maplength_y The size of the grid map along y axis
+     */
+    void findGridMapBoundary(VectorMap &vector_map, float &lowest_x, float &lowest_y, float &maplength_x,
+                        float &maplength_y) const {
+        lowest_x= vector_map.points_x_.at(vector_map.nodes_pid_.at(0) - 1);
+        lowest_y= vector_map.points_y_.at(vector_map.nodes_pid_.at(0) - 1);
         float highest_x = vector_map.points_x_.at(vector_map.nodes_pid_.at(0) - 1);
-        float lowest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(0) - 1);
         float highest_y = vector_map.points_y_.at(vector_map.nodes_pid_.at(0) - 1);
         for(int i = 1; i < (int)vector_map.nodes_pid_.size(); i++){
             if(vector_map.points_x_.at(vector_map.nodes_pid_.at(i) - 1) < lowest_x){
@@ -122,25 +156,11 @@ private:
         highest_y += submap_dimensions_ * 1.5;
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
-        // Create grid map consisting of four layers
-        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
-        map_.setFrameId("SSMP_map");
-        float maplength_x = highest_x-lowest_x;
-        float maplength_y = highest_y-lowest_y;
-        map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
-        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(), map_.getSize()(0), map_.getSize()(1));
-
-
-        // All cells in all layers must first be initialized to 0
-        for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-            map_.at("DrivableAreas", *it) = 0;
-            map_.at("StaticObjects", *it) = 0;
-            map_.at("DynamicObjects", *it) = 0;
-            map_.at("Lanes", *it) = 0;
-            map_.at("SafeAreas", *it) = 0;
-            map_.at("EgoVehicle", *it) = 0;
-        }
+        // Compute the map dimensions
+        maplength_x= highest_x - lowest_x;
+        maplength_y= highest_y - lowest_y;
     }
+
     /*!
      * \brief Adds objects from the pex file.
      * \param nh A reference to a ros::NodeHandle.
@@ -361,7 +381,6 @@ private:
     void positionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg){
         x_ego_ = msg->pose.position.x;
         y_ego_ = msg->pose.position.y;
-        q_ego_ = msg->pose.orientation;
         yaw_ego_ = cpp_utils::extract_yaw(msg->pose.orientation);
         float x_ego_center = x_ego_ + cos(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
@@ -664,8 +683,8 @@ public:
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
-        frequency_ = 20;                       // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
-        rate_ = ros::Rate(frequency_);
+        rate_ = ros::Rate(20);         // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately tracked, remember to allign this value with the flattening_node
+
 
         //height_ego = 2; //Height is not critical for now
         length_other_ = length_ego_;
@@ -718,11 +737,9 @@ public:
 
         grid_map_msgs::GridMap message;
 
-        float rostime;
-
         //Main loop
         while (nh_.ok()) {
-            rostime = ros::Time::now().toSec();
+            ros::Time rostime = ros::Time::now();
             ros::spinOnce();
 
             if(use_ground_truth_dynamic_objects_)
@@ -758,8 +775,8 @@ public:
             footprint_ego_.header.stamp = ros::Time::now();
             pub_footprint_ego_.publish(footprint_ego_);
 
-            rostime = ros::Time::now().toSec() - rostime;
-            if(rostime > 1 / frequency_){
+            ros::Duration rostime_elapsed = ros::Time::now() - rostime;
+            if(rostime_elapsed > rate_.expectedCycleTime()){
                 ROS_WARN("GridMapCreator : frequency is not met!");
             }
 
