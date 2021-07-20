@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSCENARIO>
+
+<FileHeader revMajor="0" revMinor="9" date="2021-07-15T10:00:00" description="Lead Vehicle stopped" author="Alicia Fossard"/>
+
+<ParameterDeclaration/>
+
+<Catalogs>
+    <VehicleCatalog>
+        <Directory path="Catalogs/VehicleCatalogs"/>
+    </VehicleCatalog>
+    <DriverCatalog>
+        <Directory path="Catalogs/DriverCatalogs"/>
+    </DriverCatalog>
+    <PedestrianCatalog>
+        <Directory path="Catalogs/ObserverCatalogs"/>
+    </PedestrianCatalog>
+    <PedestrianControllerCatalog>
+        <Directory path="Catalogs/PedestrianCatalogs"/>
+    </PedestrianControllerCatalog>
+    <MiscObjectCatalog>
+        <Directory path="Catalogs/MiscObjectCatalogs"/>
+    </MiscObjectCatalog>
+    <EnvironmentCatalog>
+        <Directory path="Catalogs/EnvironmentCatalogs"/>
+    </EnvironmentCatalog>
+    <ManeuverCatalog>
+        <Directory path="Catalogs/ManeuverCatalogs"/>
+    </ManeuverCatalog>
+    <TrajectoryCatalog>
+        <Directory path="Catalogs/TrajectoryCatalog"/>
+    </TrajectoryCatalog>
+    <RouteCatalog>
+        <Directory path="Catalogs/RoutingCatalog"/>
+    </RouteCatalog>
+</Catalogs>
+
+<Entities>
+    <Object name="Ego">
+        <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+        <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+        </Controller>
+    </Object>
+
+    <Object name="Second_car">
+        <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+        <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+        </Controller>
+    </Object>
+
+</Entities>
+
+<Global>
+	<SetEnvironment>
+		<Environment>
+			<Weather>
+				<Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+			</Weather>
+            <RoadCondition frictionScaleFactor="1.0"/>
+		</Environment>
+	</SetEnvironment>
+</Global>
+
+<Storyboard>
+    <Init>
+        <Actions>
+			<Private object="Ego">
+				<Action>
+					<Longitudinal>
+						<Speed>
+							<Dynamics shape="linear"/>
+							<Target>
+								<Absolute value= "17.0"/> 
+							</Target>
+						</Speed>
+					</Longitudinal>
+				</Action>
+                <Action>
+                    <Position>
+                        <World x="424.22" y="220" z="0.68999999761581421" h="305.536*pi/180" p="0" r="0"/> 
+                    </Position>
+                </Action>
+			</Private>
+
+            <Private object="Second_car">
+				<Action>
+					<Longitudinal>
+						<Speed>
+							<Dynamics shape="linear"/>
+							<Target>
+								<Absolute value= "17.0"/> 
+							</Target>
+						</Speed>
+					</Longitudinal>
+				</Action>
+				<Action>
+                    <Position>
+                        <World x="424.22" y="174.74" z="0.68999999761581421" h="305.536*pi/180" p="0" r="0"/> 
+                    </Position>
+				</Action>
+			</Private>
+        </Actions>
+    </Init>
+
+
+    <Story name="Stop" owner="Second_car">
+        <Act name="LeadCarStop">
+            <Sequence>
+                <Actors>
+                </Actors>
+                <Maneuver>
+                    <Event priority="overwrite" maximumExecutionCount="1" name="EgoStopevent">
+                        <Action name="EgoStopAction">
+                            <Private object="Second_car">
+                                <Action>
+                                    <Longitudinal>
+                                        <Speed>
+                                            <Target>
+                                                <Absolute value="0.0"/>
+                                            </Target>
+                                        </Speed>
+                                    </Longitudinal>
+                                </Action>
+                            </Private>
+                        </Action>
+                        <StartConditions>
+                            <ConditionGroup>
+                                <Condition delay="0.0" edge="rising" name="RelativeDistance">
+                                    <ByValueCondition>
+                                        <SimulationTime rule="greaterThan" value="1.0"/>
+                                    </ByValueCondition>
+                                </Condition>
+                            </ConditionGroup>
+                        </StartConditions>
+                    </Event>
+                </Maneuver>
+            </Sequence>
+        </Act>
+    </Story>
+</Storyboard>
+
+</OpenSCENARIO>
