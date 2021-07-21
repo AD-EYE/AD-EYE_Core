@@ -123,7 +123,7 @@ private:
         ROS_INFO("X: (%f, %f), Y: (%f, %f)", lowest_x, highest_x, lowest_y, highest_y);
 
         // Create grid map consisting of four layers
-        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
+        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas", "SensorSectors"});
         map_.setFrameId("SSMP_map");
         float maplength_x = highest_x-lowest_x;
         float maplength_y = highest_y-lowest_y;
@@ -139,6 +139,7 @@ private:
             map_.at("Lanes", *it) = 0;
             map_.at("SafeAreas", *it) = 0;
             map_.at("EgoVehicle", *it) = 0;
+            map_.at("SensorSectors", *it) = 0;
         }
     }
     /*!
