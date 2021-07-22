@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <OpenSCENARIO>
 
-<FileHeader revMajor="0" revMinor="9" date="2021-07-15T10:00:00" description="Lead Vehicle stopped" author="Alicia Fossard"/>
+<FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle stopped" author="Alicia Fossard"/>
 
 <ParameterDeclaration/>
 
@@ -72,14 +72,14 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value="{5.0,0.5,17.0}"/>
+								<Absolute value="15"/>
 							</Target>
 						</Speed>
 					</Longitudinal>
 				</Action>
 				<Action>
 					<Position>
-						<World x="424.22" y="174.74" z="0" h="215*pi/180" p="0" r="0"/>
+						<World x="424.22" y="174.74" z="0" h="pi" p="0" r="0"/>
 					</Position>
 				</Action>
 			</Private>
@@ -90,7 +90,7 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value= "0.0"/> 
+								<Absolute value= "15"/> 
 							</Target>
 						</Speed>
 					</Longitudinal>
@@ -103,6 +103,51 @@
 			</Private>
         </Actions>
     </Init>
+
+    <Story name="DeceleratingStory" owner="Ford_Fiesta_Hatchback_1">
+        <Act name="DeceleratingAct">
+            <Sequence name="DeceleratingSequence" numberOfExecutions="1">
+                <Actors>
+                    <Entity name="Ford_Fiesta_Hatchback_1"/>
+                </Actors>
+
+                <Maneuver name="Decelerating">
+                    <Event name="DeceleratingEvent" priority="overwrite">
+                        <Action name="DeceleratingAction">
+                            <Private>
+                                <Longitudinal>
+                                    <Speed>
+                                        <Dynamics shape="linear" value="-2.0" Dimension="rate"/>
+                                        <Target> 
+                                            <Absolute value="3"/>
+                                        </Target> 
+                                    </Speed>
+                                </Longitudinal>
+                            </Private>
+                        </Action>
+                        <StartConditions>
+                            <ConditionGroup>
+                                <Condition name="" delay="0" edge="rising">
+                                    <ByEntity>
+                                        <TriggeringEntities rule="any">
+                                            <Entity name="Ford_Fiesta_Hatchback_1"/>
+                                        </TriggeringEntities>
+                                        <EntityCondition>
+                                            <Distance value="100" freespace="false" alongRoute="false" rule="less_than">
+                                                <Position>
+                                                    <RelativeObject object="Ego"/>
+                                                </Position>
+                                            </Distance>
+                                        </EntityCondition>
+                                    </ByEntity>
+                                </Condition>
+                            </ConditionGroup>
+                        </StartConditions>
+                    </Event>
+                </Maneuver>
+            </Sequence>
+        </Act>
+    </Story>
 </Storyboard>
 
 </OpenSCENARIO>
