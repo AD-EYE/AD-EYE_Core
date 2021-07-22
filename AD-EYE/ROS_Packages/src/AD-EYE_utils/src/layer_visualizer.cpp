@@ -1,28 +1,26 @@
+//ROS
 #include <ros/ros.h>
+//used for the gridmap
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 #include <grid_map_ros/GridMapRosConverter.hpp>
+
+//basic libraries used in the node
 #include <vector>
 #include <string>
 #include <cmath>
 #include <stdlib.h>
 #include <limits>
 
+//used for the occupancy grid
 #include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Odometry.h>
-#include <geometry_msgs/PoseStamped.h>
-
-#include <tf/transform_broadcaster.h>
-
-#include <cpp_utils/pose_datatypes.h>
-
 
 using namespace grid_map;
 
 
 /*!
  * \brief This class is used to extract data from the GridMap given by the GridMapCreator
- * \details This node produce one OccupancyGrid with one layer from the GridMap.
+ * \details This node produces one OccupancyGrid with one layer from the GridMap.
  */
 class OccMapCreator
 {
@@ -73,14 +71,13 @@ private:
 
     /*!
      * \brief The information of one layer from the GridMap are translated into an occupancy grid
-     * \details Info from one layer is reduced to either LANE_VALUE, RED, YELLOW, WHITE, GREEN, OBSTRUCTED_VALUE or 0,
-     * according to the layer selected 
+     * \details Info from one layer is reduced to the value corresponding to the layer selected 
      * as these values are the only ones that the safety planner can read.
      */
      void visualizationProcess() {
         size_t nCells = occ_grid_.data.size();
         size_t index;
-        float firstOccValue;
+        float occValue;
         Position pos;
 
         for(GridMapIterator it(grid_map_) ; !it.isPastEnd() ; ++it) {
@@ -90,10 +87,10 @@ private:
             }
 
             //Getting values
-            firstOccValue = grid_map_.atPosition(visualized_layer_, pos);
+            occValue = grid_map_.atPosition(visualized_layer_, pos);
 
             index = it.getLinearIndex();
-            occ_grid_.data[nCells - index - 1] = firstOccValue;
+            occ_grid_.data[nCells - index - 1] = occValue;
 
         }
     }
@@ -184,5 +181,3 @@ int main(int argc, char** argv)
     omc.run();
     return 0;
 }
-
-

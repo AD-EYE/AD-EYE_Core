@@ -8,15 +8,13 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  tf
+  op_ros_helpers
+## Addition of needed packages
   grid_map_core
   grid_map_ros
   grid_map_msgs
-  geometry_msgs
   nav_msgs
-  tf
-  cpp_utils
-  op_ros_helpers
-  tf2_ros
 )
 
 
@@ -28,14 +26,11 @@ catkin_package(
   CATKIN_DEPENDS
     roscpp
     tf
+    op_ros_helpers
     grid_map_core
     grid_map_msgs
     grid_map_ros
-    geometry_msgs
     nav_msgs
-    cpp_utils
-    op_ros_helpers
-    tf2_ros
   DEPENDS
 )
 
@@ -100,6 +95,7 @@ add_dependencies(pointCloudAccumulator
   ${catkin_EXPORTED_TARGETS}
 )
 
+## Addition of an executable for compilation
 add_executable(
   layerVisualizer
   src/layer_visualizer.cpp
