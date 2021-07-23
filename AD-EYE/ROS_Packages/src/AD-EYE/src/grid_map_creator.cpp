@@ -638,6 +638,35 @@ private:
         return polygon;
     }
 
+    /*!
+     * \brief This function creates a circle section in the gridmap.
+     * \param x x coordinate of the center location in the gridmap.
+     * \param y y coordinate of the center location in the gridmap.
+     * \param radius Sensor beam range in meter.
+     * \param orientation Orientation of the section, seen from above.
+     * \param angle Openning angle of the section.
+     * \return A circle section created corresponding to the given parameters.
+     * \details This function is especially used to create sensor sectors arround the car.
+     * The circle section will be approximate by a succession of points close enought.
+     */
+    grid_map::Polygon circle_section_creator(float x, float y, float radius, float orientation, float angle) {
+        angle = 0.5 * angle;
+        grid_map::Polygon polygon;
+        float step = 0.1; //the angle step for the succession of points
+        polygon.setFrameId("SSMP_map");
+        polygon.addVertex(Position(x, y));
+        
+        for (int i = 0; i <= (2 * angle); i+=step) { //approximate circle section by a succession of points
+            polygon.addVertex(Position(x + radius * cos(orientation + (angle - i * step)), y + radius * sin(orientation + (angle - i * step))));
+        }
+
+        if (fmodf((2 * angle), step) != 0) { //if the discretion of the circle section by step doesn't fall right, we add the lat point
+            polygon.addVertex(Position(x + radius * cos(orientation - angle), y + radius * sin(orientation - angle)));
+        }
+
+        return polygon;
+    }
+
 
 public:
 
