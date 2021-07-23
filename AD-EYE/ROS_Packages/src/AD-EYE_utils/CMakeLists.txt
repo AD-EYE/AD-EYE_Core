@@ -10,6 +10,11 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf
   op_ros_helpers
+## Addition of needed packages
+  grid_map_core
+  grid_map_ros
+  grid_map_msgs
+  nav_msgs
 )
 
 
@@ -22,6 +27,11 @@ catkin_package(
     roscpp
     tf
     op_ros_helpers
+    grid_map_core
+    grid_map_msgs
+    grid_map_ros
+    nav_msgs
+  DEPENDS
 )
 
 include_directories(
@@ -82,6 +92,21 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 add_dependencies(pointCloudAccumulator
+  ${catkin_EXPORTED_TARGETS}
+)
+
+## Addition of an executable for compilation
+add_executable(
+  layerVisualizer
+  src/layer_visualizer.cpp
+)
+
+target_link_libraries(
+  layerVisualizer
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(layerVisualizer
   ${catkin_EXPORTED_TARGETS}
 )
 
