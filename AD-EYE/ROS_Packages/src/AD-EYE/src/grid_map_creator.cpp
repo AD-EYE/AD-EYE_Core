@@ -44,6 +44,12 @@ private:
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
 
+    //subscribers to have sensors information
+    ros::Subscriber sub_radar_;
+    ros::Subscriber sub_camera_tl_;
+    ros::Subscriber sub_camera_1_;
+    ros::Subscriber sub_camera_2_;
+
     //Position
     float x_ego_;
     float y_ego_;
@@ -433,6 +439,41 @@ private:
         dynamic_objects_active_ = true;
     }
 
+    /*!
+     * \brief Radar Callback : called when information from the radar changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details .
+     */
+    void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
+        
+    }
+
+    /*!
+     * \brief Camera 1 Callback : called when information from the camera 1 changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details .
+     */
+    void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
+
+    }
+
+    /*!
+     * \brief Camera 2 Callback : called when information from the camera 2 changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details .
+     */
+    void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
+
+    }
+
+    /*!
+     * \brief camera tl Callback : called when information from the camera tl changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details .
+     */
+    void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
+
+    }
 
     /*!
      * \brief This function initialize the GridMap with the static entities.
@@ -705,6 +746,12 @@ public:
         pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &GridMapCreator::positionCallback, this);
+
+        //Subscribe to topics that give information about sensors
+        sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &GridMapCreator::radarCallback, this);
+        sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &GridMapCreator::cameraTlCallback, this);
+        sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &GridMapCreator::camera1Callback, this);
+        sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &GridMapCreator::camera2Callback, this);
         
         if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
