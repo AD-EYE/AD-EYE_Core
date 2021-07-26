@@ -23,6 +23,7 @@
 using namespace grid_map;
 
 #define HALF_PI 1.5708
+#define PI 3.1415
 
 /*!
  * \brief The GridMapCreator maintains a grid map used to know where safe places are.
@@ -650,18 +651,17 @@ private:
      * The circle section will be approximate by a succession of points close enought.
      */
     grid_map::Polygon circle_section_creator(float x, float y, float radius, float orientation, float angle) {
-        angle = 0.5 * angle;
         grid_map::Polygon polygon;
-        float step = 0.1; //the angle step for the succession of points
+        float dangle = 0.1; //the angle step for the succession of points
         polygon.setFrameId("SSMP_map");
         polygon.addVertex(Position(x, y));
         
-        for (int i = 0; i <= (2 * angle); i+=step) { //approximate circle section by a succession of points
-            polygon.addVertex(Position(x + radius * cos(orientation + (angle - i * step)), y + radius * sin(orientation + (angle - i * step))));
-        }
+        for (float i = (orientation - (angle / 2)); i <= (orientation + (angle / 2)); i=i+dangle){ //approximate circle section by a succession of points
+                polygon.addVertex(Position(x + radius * cos(i * PI / 180), y + radius * sin(i * PI / 180)));
+        } 
 
-        if (fmodf((2 * angle), step) != 0) { //if the discretion of the circle section by step doesn't fall right, we add the lat point
-            polygon.addVertex(Position(x + radius * cos(orientation - angle), y + radius * sin(orientation - angle)));
+        if (fmodf(angle, dangle) != 0) { //if the discretion of the circle section by step doesn't fall right, we add the last point
+            polygon.addVertex(Position(x + radius * cos((orientation + (angle / 2)) * PI / 180), y + radius * sin((orientation + (angle / 2)) * PI / 180)));
         }
 
         return polygon;
