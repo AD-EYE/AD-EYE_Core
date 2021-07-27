@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf
   op_ros_helpers
-## Addition of needed packages
+## Support for gridmap
   grid_map_core
   grid_map_ros
   grid_map_msgs
@@ -95,7 +95,7 @@ add_dependencies(pointCloudAccumulator
   ${catkin_EXPORTED_TARGETS}
 )
 
-## Addition of an executable for compilation
+## Executable for layer_visualizer node
 add_executable(
   layerVisualizer
   src/layer_visualizer.cpp
