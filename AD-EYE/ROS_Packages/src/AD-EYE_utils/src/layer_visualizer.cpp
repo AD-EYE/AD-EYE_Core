@@ -19,7 +19,7 @@ using namespace grid_map;
 
 
 /*!
- * \brief This class is used to extract data from the GridMap given by the GridMapCreator
+ * \brief This class is used to extract data from the GridMap
  * \details This node produces one OccupancyGrid with one layer from the GridMap.
  */
 class OccMapCreator
@@ -34,7 +34,7 @@ private:
     GridMap grid_map_;
     float frequency_ = 10; // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
-    std::string visualized_layer_; // this variable is a new class member that will contain the layer we want to visualize
+    std::string visualized_layer_; // class member that will contain the name of the layer we want to visualize
 
 
     /*!
@@ -109,7 +109,7 @@ public:
     OccMapCreator(ros::NodeHandle &nh, std::string topic_name, std::string layer_name) : nh_(nh), rate_(1), visualized_layer_(layer_name)
     {
 
-        // Initialize node and publishers
+        // Initialize node and publishers/subscribers
         pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/occmap_one_layer", 1);
         sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>(topic_name, 1, &OccMapCreator::gridMapCallback, this);
 
@@ -152,8 +152,8 @@ public:
 };
 
 /*!
-* \brief Exception
-* \details Exception raise if parameters aren't given
+* \brief Print a help message on how to use the node.
+* \details Specify arguments needed
 */
 void usage(std::string binName) {
     ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
