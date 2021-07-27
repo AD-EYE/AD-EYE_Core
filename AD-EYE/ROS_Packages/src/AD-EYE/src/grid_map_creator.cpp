@@ -97,6 +97,15 @@ private:
     geometry_msgs::PolygonStamped footprint_ego_;
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
+    //Sensors information
+    std_msgs::Float32MultiArray radar_info_;
+    std_msgs::Float32MultiArray radar_info_old_;
+    sensor_msgs::Image camera1_info_;
+    sensor_msgs::Image camera1_info_old_;
+    sensor_msgs::Image camera2_info_;
+    sensor_msgs::Image camera2_info_old_;
+    sensor_msgs::Image cameratl_info_;
+    sensor_msgs::Image cameratl_info_old_;
     //Parameters
     bool dynamic_objects_ground_truth_active_ = false;
     bool connection_established_ = false;
@@ -468,6 +477,7 @@ private:
      * \details This function takes radar information to create an area according to the parameters.
      */
     void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
+        radar_info_ = *msg;
         // condition message received
         radar_active_ = true;
     }
@@ -478,6 +488,7 @@ private:
      * \details This function takes camera 1 information to create an area according to the parameters.
      */
     void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
+        camera1_info_ = *msg;
         // condition message received
         camera1_active_ = true;
     }
@@ -488,6 +499,7 @@ private:
      * \details This function takes camera 1 information to create an area according to the parameters.
      */
     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
+        camera2_info_ = *msg;
         // condition message received
         camera2_active_ = true;
     }
@@ -498,6 +510,7 @@ private:
      * \details This function takes camera tl information to create an area according to the parameters.
      */
     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
+        cameratl_info_ = *msg;
         // condition message received
         cameratl_active_ = true;
     }
@@ -551,13 +564,13 @@ private:
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         
         // If the car moved
-        if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_) {
+        // if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_) {
             grid_map::Polygon last_radar_sector = circle_section_creator(last_x_radar_, last_y_radar_, range_radar, last_orientation_radar_, opening_angle_radar);
             grid_map::Polygon last_camera1_sector = circle_section_creator(last_x_camera1_, last_y_camera1_, range_camera1, last_orientation_camera1_, opening_angle_camera1);
             grid_map::Polygon last_camera2_sector = circle_section_creator(last_x_camera2_, last_y_camera2_, range_camera2, last_orientation_camera2_, opening_angle_camera2);
             grid_map::Polygon last_cameratl_sector = circle_section_creator(last_x_cameratl_, last_y_cameratl_, range_cameratl, last_orientation_cameratl_, opening_angle_cameratl);
         
-            // Old sectors are removed
+            // Remove last sectors
             for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
                 Position pos; //the position corresponding to the index
                 bool existing_pos = map_.getPosition(*it, pos);
@@ -574,10 +587,10 @@ private:
                     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
                 }
             }
-        }
+        // }
 
         // If the function is called for the first time or if the car moved
-        if(first_sensor_sector_callback_ || (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)) {
+        // if(first_sensor_sector_callback_ || (!first_sensor_sector_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_))) {
             if(first_sensor_sector_callback_)
             {
                 last_x_radar_ = x_radar;
@@ -589,12 +602,34 @@ private:
                 last_x_cameratl_ = x_cameratl;
                 last_y_cameratl_ = y_cameratl;
                 first_sensor_sector_callback_ = false;
+
+                last_x_ego_center_ = x_ego_center;
+                last_y_ego_center_ = y_ego_center;
             }
             radar_sector = circle_section_creator(x_radar, y_radar, range_radar, orientation_radar, opening_angle_radar);
             camera1_sector = circle_section_creator(x_camera1, y_camera1, range_camera1, orientation_camera1, opening_angle_camera1);
             camera2_sector = circle_section_creator(x_camera2, y_camera2, range_camera2, orientation_camera2, opening_angle_camera2);
             cameratl_sector = circle_section_creator(x_cameratl, y_cameratl, range_cameratl, orientation_cameratl, opening_angle_cameratl);
             
+            // New sectors are filled
+            for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+                Position pos; //the position corresponding to the index
+                bool existing_pos = map_.getPosition(*it, pos);
+                // each cell is filled with the number of sensor it contains
+                if(radar_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
+                }
+                if(camera1_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
+                }
+                if(camera2_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
+                }
+                if(cameratl_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
+                }
+            }
+
             // update values of sensors positions and orientations
             last_x_radar_ = x_radar;
             last_y_radar_ = y_radar;
@@ -612,24 +647,11 @@ private:
             last_y_cameratl_ = y_cameratl;
             last_orientation_cameratl_ = orientation_cameratl;
 
-            // New sectors are filled
-            for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                Position pos; //the position corresponding to the index
-                bool existing_pos = map_.getPosition(*it, pos);
-                if(radar_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(camera1_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(camera2_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(cameratl_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-            }
-        }
+            //update position of the ego car
+            last_x_ego_center_ = x_ego_center;
+            last_y_ego_center_ = y_ego_center;
+            last_yaw_ego_ = yaw_ego_;
+        // }
     }
 
     /*!
@@ -899,7 +921,7 @@ public:
 
 
 
-        // Initialize node and publishers
+        // Initialize node and publishers/subscribers
         pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
         pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
@@ -910,11 +932,11 @@ public:
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
-        //Subscribe to topics that give information about sensors
-        sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &GridMapCreator::radarCallback, this);
-        sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &GridMapCreator::camera1Callback, this);
-        sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &GridMapCreator::camera2Callback, this);
-        sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &GridMapCreator::cameraTlCallback, this);
+        // Initialize subscribers for sensor topics
+        sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 10, &GridMapCreator::radarCallback, this);
+        sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 10, &GridMapCreator::camera1Callback, this);
+        sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 10, &GridMapCreator::camera2Callback, this);
+        sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 10, &GridMapCreator::cameraTlCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -1008,6 +1030,11 @@ public:
                 camera1_active_ = false;
                 camera2_active_ = false;
                 cameratl_active_ = false;
+                // Update of topic messages
+                radar_info_old_ = radar_info_;
+                camera1_info_old_ = camera1_info_;
+                camera2_info_old_ = camera2_info_;
+                cameratl_info_old_ = cameratl_info_;                
             }
             
 
