@@ -6,9 +6,12 @@ echo "Enter the passphrase : "
 read -s GIT_STAT_PASSPHRASE
 export GIT_STAT_PASSPHRASE
 
+#Installation of expect package
+sudo apt-get install expect
 
-#Installatin of deploy key for AD-EYE_Core
+#Installation of deploy key for AD-EYE_Core
 cd
+mkdir .ssh/
 cd .ssh/
 rm id_ed25519 id_ed25519.pub known_hosts
 echo "-----BEGIN OPENSSH PRIVATE KEY-----
@@ -297,15 +300,6 @@ hercules --burndown --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/
 hercules --burndown --burndown-people --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/Graphs/people_analysis_Pex.pb
 hercules --devs --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/Graphs/devs_analysis_Pex.pb
 
-# hercules combine ~/Stats_results/Graphs/burndown_analysis.pb | labours -m burndown-project
-# gnome-screenshot -w --file=project
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m burndown-person
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m overwrites-matrix
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m ownership
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m old-vs-new
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs-efforts
-
 nautilus ~/Stats_results/Graphs
 
 #Statistics about commits by month and accumulated over time
@@ -317,6 +311,15 @@ gitstats ~/Git_Statistics/AR_room AR_room_stats
 gitstats ~/Git_Statistics/getting_familiar_TCP getting_familiar_TCP_stats
 gitstats ~/Git_Statistics/infrastructure_database infrastructure_database_stats
 gitstats ~/Git_Statistics/world_creation world_creation_stats
+
+#Displaying hercules graph you want
+# hercules combine ~/Stats_results/Graphs/burndown_analysis.pb | labours -m burndown-project
+# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m burndown-person
+# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m overwrites-matrix
+# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m ownership
+# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs
+# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m old-vs-new
+# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs-efforts
 
 #Graphs about number of commits for each repository and for combined repositories
 cd

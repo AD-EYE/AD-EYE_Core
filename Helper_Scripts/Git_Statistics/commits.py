@@ -4,10 +4,10 @@ import numpy as np
 #This script generates graphs with data provided by gitstats files for each repository and then for the combined repositories
 #AD-EYE_Core
 
-#Generation of variables for working repositories
+#Generation of the list of working repositories
 repositories_names = ["AD-EYE_Core","AD-EYE_GUI","android_app","AR_room","getting_familiar_TCP","infrastructure_database","Pex_Data_Extraction","world_creation"]
 
-#Creation of dates list for combined graphs
+#Creation of a common dates list for combined graphs
 all_dates = []
 textfile = open("/home/adeye/Stats_results/AD-EYE_Core_stats/commits_by_year_month.dat",'r')
 file_data = textfile.readlines()
@@ -36,11 +36,11 @@ else:
     for month in range (10,last_month+1):
         all_dates.append(str(year)+'-'+str(month))
 
-#Creation of variables for combined graphs
+#Creation of variables for combined repositories graphs
 combined_values, time = [0 for k in range (len(all_dates))],[k for k in range (len(all_dates))]
 combined_hist_values,final_hist = [0 for k in range (len(all_dates))],[]
 
-#Extraction of datas from generated text file
+#Extraction of datas from generated text files
 for index in range (len(repositories_names)) :
     #Initialisation of variables for each repository
     values=[]
@@ -85,7 +85,7 @@ for index in range (len(repositories_names)) :
     plt.savefig("/home/adeye/Stats_results/Graphs/"+repositories_names[index]+"_non_accumulated_commits.png")
     plt.clf()
 
-#Generation of the combined graphs
+#Generation of the combined repositories graphs
 for k in range (len(combined_hist_values)):
     if k==0:
         combined_values[k]=combined_hist_values[k]
