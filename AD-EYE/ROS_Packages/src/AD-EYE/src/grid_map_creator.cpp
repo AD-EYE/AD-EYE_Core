@@ -61,7 +61,7 @@ private:
 
     // for the ego footprint layer
     float last_x_ego_center_;
-    float last_y_ego__center_;
+    float last_y_ego_center_;
     float last_yaw_ego_;
     bool first_position_callback_ = true;
 
@@ -417,19 +417,19 @@ private:
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         connection_established_ = true;
         //Creating footprint for Ego vehicle
-        if(x_ego_center != last_x_ego_center_ || x_ego_center != last_y_ego__center_)
+        if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_)
         {
-            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego__center_, length_ego_, width_ego_, last_yaw_ego_);
+            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego_center_, length_ego_, width_ego_, last_yaw_ego_);
             for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
                 map_.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
+        if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)))
         {
             if(first_position_callback_)
             {
                 last_x_ego_center_ = x_ego_center;
-                last_x_ego_center_ = y_ego_center;
+                last_y_ego_center_ = y_ego_center;
                 first_position_callback_ = false;
             }
             grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
@@ -437,7 +437,7 @@ private:
                 map_.at("EgoVehicle", *iterator) = heigth_other_;
             }
             last_x_ego_center_ = x_ego_center;
-            last_y_ego__center_ = y_ego_center;
+            last_y_ego_center_ = y_ego_center;
             last_yaw_ego_ = yaw_ego_;
         }
     }
@@ -511,14 +511,10 @@ private:
         float local_y_camtl = -0.7;
         float local_orientation_camtl = 15.0 * PI / 180.0;
         //Position of the cone tip of the sectors
-        float x_radar;
-        float y_radar;
-        float x_camera1;
-        float y_camera1;
-        float x_camera2;
-        float y_camera2;
-        float x_cameratl;
-        float y_cameratl;
+        float x_radar, y_radar;
+        float x_camera1, y_camera1;
+        float x_camera2, y_camera2;
+        float x_cameratl, y_cameratl;
         //beam range of the sectors, values get in PreScan, in meter
         float range_radar = 30.0;
         float range_camera1 = 750.0;
@@ -535,10 +531,7 @@ private:
         float opening_angle_camera2 = 46.21 * PI / 180.0;
         float opening_angle_cameratl = 46.21 * PI / 180.0;
         // Polygons which represent sensor sectors
-        grid_map::Polygon radar_sector;
-        grid_map::Polygon camera1_sector;
-        grid_map::Polygon camera2_sector;
-        grid_map::Polygon cameratl_sector;
+        grid_map::Polygon radar_sector, camera1_sector, camera2_sector, cameratl_sector;
 
         //calculation of the coordinates of the radar
         x_radar = x_ego_ + local_x_radar * cos(orientation_radar);
@@ -558,7 +551,7 @@ private:
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         
         // If the car moved
-        if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_) {
+        if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_) {
             grid_map::Polygon last_radar_sector = circle_section_creator(last_x_radar_, last_y_radar_, range_radar, last_orientation_radar_, opening_angle_radar);
             grid_map::Polygon last_camera1_sector = circle_section_creator(last_x_camera1_, last_y_camera1_, range_camera1, last_orientation_camera1_, opening_angle_camera1);
             grid_map::Polygon last_camera2_sector = circle_section_creator(last_x_camera2_, last_y_camera2_, range_camera2, last_orientation_camera2_, opening_angle_camera2);
@@ -566,23 +559,25 @@ private:
         
             // Old sectors are removed
             for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                if(last_radar_sector.isInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 1;
+                Position pos; //the position corresponding to the index
+                bool existing_pos = map_.getPosition(*it, pos);
+                if(last_radar_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
                 }
-                if(last_camera1_sector.isInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 1;
+                if(last_camera1_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
                 }
-                if(last_camera2_sector.isInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 1;
+                if(last_camera2_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
                 }
-                if(last_cameratl_sector.isInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 1;
+                if(last_cameratl_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
                 }
             }
         }
 
         // If the function is called for the first time or if the car moved
-        if(first_position_callback_ || (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)) {
+        if(first_sensor_sector_callback_ || (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)) {
             if(first_sensor_sector_callback_)
             {
                 last_x_radar_ = x_radar;
@@ -619,17 +614,19 @@ private:
 
             // New sectors are filled
             for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                if(radar_sector.insInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                Position pos; //the position corresponding to the index
+                bool existing_pos = map_.getPosition(*it, pos);
+                if(radar_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
                 }
-                if(camera1_sector.insInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                if(camera1_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
                 }
-                if(camera2_sector.insInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                if(camera2_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
                 }
-                if(cameratl_sector.insInside(map_.getPosition(*it))) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                if(cameratl_sector.isInside(pos)) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
                 }
             }
         }
