@@ -13,18 +13,25 @@ EgoNameArray = ["BMW_X5_SUV_1"];
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 %% Experiment A
-ScenarioExpNameArray = ["Experiment_A"];
-FolderExpNameArray = ["Experiment_A"];
-PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];
-AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-SimulinkConfigArray = ["SimulinkConfig.xlsx"];
+% ScenarioExpNameArray = ["Experiment_A"];
+% FolderExpNameArray = ["Experiment_A"];
+% PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 
-%% Experiment B Map 1
-% ScenarioExpNameArray = ["Experiment_B"];
-% FolderExpNameArray = ["Experiment_B"];
+%% Scenario 1
+% ScenarioExpNameArray = ["Decelerating"];
+% FolderExpNameArray = ["Decelerating"];
 % PrescanExpNameArray = ["W01_Base_Map"];
 % AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 % SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+
+%% Experiment B Map 1
+ScenarioExpNameArray = ["Experiment_B"];
+FolderExpNameArray = ["Experiment_B"];
+PrescanExpNameArray = ["W01_Base_Map"];
+AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
 
 %% Experiment B Map 2
 % ScenarioExpNameArray = ["Experiment_B"];
@@ -60,9 +67,9 @@ cd(adeye_base + "TA\Configurations")
 addpath(adeye_base+"OpenSCENARIO\Code")
 
 for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
-    if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.object"))) == "Ego")
-        speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value"));
-        %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,1}.Longitudinal.Speed.Target.Absolute.Attributes.value
+    if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
+        speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,1}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
+        %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,1}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value
         if(contains(speed_ego, '{'))
             findOpen = strfind(speed_ego, ',');
                 start_val = extractBetween(speed_ego, 2, findOpen(1)-1);
@@ -73,7 +80,7 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
     end
 end
 
-if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity"))
+if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
     rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity)
     findOpen = strfind(rain_intensity, ';');
     values = [];
@@ -91,7 +98,7 @@ if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.Set
     setRainIntensity(values)
 end
 
-if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
+if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
     reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Global.SetEnvironment.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
     if(contains(reflectivity, '{'))
         findOpen = strfind(reflectivity, ',');
@@ -151,7 +158,7 @@ rosshutdown
 close(ta_openscenario_progress_bar)
 % TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
-%TA('Configurations/TAOrder.xlsx', 1, 500)
+TA('Configurations/TAOrder.xlsx', 1, 500)
 
 
 
