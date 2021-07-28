@@ -1,13 +1,29 @@
 ##Extracting data from a git repository
 
+#Check if needed packages are already installed
+REQUIRED_PKG="expect"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "$REQUIRED_PKG is not installed. Install it using : sudo apt-get install expect."
+  exit 1
+fi
+
+PIP_OK=$(pip3 list | grep -F labours)
+echo Checking for labours:
+if [ "" = "$PIP_OK" ]; then
+  echo "labours package is not installed. Install it using : pip3 install labours."
+  exit 1
+else
+    echo "install ok installed"
+fi
+
 #Initialisation of the passphrase
 #!/bin/bash
+echo
 echo "Enter the passphrase : "
 read -s GIT_STAT_PASSPHRASE
 export GIT_STAT_PASSPHRASE
-
-#Installation of expect package
-sudo apt-get install expect
 
 #Installation of deploy key for AD-EYE_Core
 cd
