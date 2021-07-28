@@ -78,57 +78,6 @@ function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCEN
                 Height =260;
                 set_param(location3,'Position',[X Y X+Width Y+Height]);
                 set_param(location3,'LinkStatus','inactive')
-                
-                %if there is an initial_speed
-                if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,1}.Action{1,1}.Longitudinal.Speed.Initial.Attributes.value"))
-                    initial_speed = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,1}.Action{1,1}.Longitudinal.Speed.Initial.Attributes.value);
-                    step_time = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,1}.Action{1,1}.Longitudinal.Speed.Initial.Attributes.time);
-                    %add the new block to define the initial speed
-                    Blockname6 = "Initial_speed";
-                    location6 =convertStringsToChars(strcat(location3,'/',Blockname6));
-                    add_block(convertCharsToStrings(strcat("OpenSCENARIO/",Blockname6)), location6);
-                    add_condition=1;
-                    
-                    %delete line which link SELF_Demux to Minimalistic Dynamics block
-                    location7 =convertStringsToChars(strcat(location3,'/Subsystem1'));
-                    h = get_param(location7,'LineHandles');
-                    delete_line(h.Inport(1));
-                    
-                    %Change the size and the position of the Initial_speed
-                    %block
-                    size_blk = get_param(location6,'Position');
-                    X = size_blk(1,1)-550;
-                    Y = size_blk(1,2)+130;
-                    Width =80;
-                    Height =120;
-                    set_param(location6,'Position',[X Y X+Width Y+Height]);
-                    
-                    %Set the iniatial speed value
-                    add_block("simulink/Commonly Used Blocks/Constant", strcat(location3,"/Speed"),"Value", initial_speed);
-                    
-                    location9 =convertStringsToChars(strcat(location3,'/',"Speed"));
-                    size_blk = get_param(location9,'Position');
-                    X = size_blk(1,1)-700;
-                    Y = size_blk(1,2)+130;
-                    set_param(location9,'Position',[X Y X+20 Y+20]);
-                    add_line(convertStringsToChars(location3), "Speed/1", "Initial_speed/1");
-                    
-                    %Set the step time
-                    add_block("simulink/Commonly Used Blocks/Constant", strcat(location3,"/Step_time"),"Value", step_time);
-                    
-                    location10 =convertStringsToChars(strcat(location3,'/',"Step_time"));
-                    size_blk = get_param(location10,'Position');
-                    X = size_blk(1,1)-700;
-                    Y = size_blk(1,2)+290;
-                    set_param(location10,'Position',[X Y X+20 Y+20]);
-                    add_line(convertStringsToChars(location3), "Step_time/1", "Initial_speed/3");
-                    
-                    %link the new block with others
-                    add_line(convertStringsToChars(location3), "Initial_speed/1", "Subsystem1/1");
-                    add_line(convertStringsToChars(location3),"SELF_Demux_10/1","Initial_speed/2");
-    
-                end
-                
                 add_line(convertStringsToChars(location), convertStringsToChars(strcat(Blockname3,"/1")),....
                     convertStringsToChars(strcat(Blockname4,"/1" )) ) %connect blocks
             end
@@ -201,7 +150,7 @@ function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCEN
             Blockname1 = "R";
             location1 = convertStringsToChars(strcat(location,Blockname0,"/",Blockname1));
             if (Struct_pex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
-                R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);
+                R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);
                 set_param(location1,'Value',num2str(R));
             end
 
