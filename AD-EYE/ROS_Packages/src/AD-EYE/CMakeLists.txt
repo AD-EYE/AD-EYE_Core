@@ -295,23 +295,10 @@ add_dependencies(
 )
 
 
-add_executable(
-  Scenario1
-  src/scenario_1.cpp
-  #src/point_cloud_to_occupancy_grid.cpp
-)
-target_link_libraries(
-  Scenario1
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario1
-  ${catkin_EXPORTED_TARGETS}
-)
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper Scenario1
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
