@@ -308,15 +308,14 @@ mkdir Stats_results
 cd Stats_results
 mkdir Graphs
 
-hercules --burndown --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/Graphs/burndown_analysis.pb
-hercules --burndown --burndown-people --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/Graphs/people_analysis.pb
-hercules --devs --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/Graphs/devs_analysis.pb
+hercules --burndown --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/burndown_analysis.pb
+hercules --burndown --burndown-people --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/people_analysis.pb
+hercules --devs --pb ~/Git_Statistics/AD-EYE_Core > ~/Stats_results/devs_analysis.pb
 
-hercules --burndown --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/Graphs/burndown_analysis_Pex.pb
-hercules --burndown --burndown-people --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/Graphs/people_analysis_Pex.pb
-hercules --devs --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/Graphs/devs_analysis_Pex.pb
+hercules --burndown --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/burndown_analysis_Pex.pb
+hercules --burndown --burndown-people --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/people_analysis_Pex.pb
+hercules --devs --pb ~/Git_Statistics/Pex_Data_Extraction > ~/Stats_results/devs_analysis_Pex.pb
 
-nautilus ~/Stats_results/Graphs
 
 #Statistics about commits by month and accumulated over time
 gitstats ~/Git_Statistics/AD-EYE_Core AD-EYE_Core_stats
@@ -328,18 +327,30 @@ gitstats ~/Git_Statistics/getting_familiar_TCP getting_familiar_TCP_stats
 gitstats ~/Git_Statistics/infrastructure_database infrastructure_database_stats
 gitstats ~/Git_Statistics/world_creation world_creation_stats
 
-#Displaying hercules graph you want
-# hercules combine ~/Stats_results/Graphs/burndown_analysis.pb | labours -m burndown-project
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m burndown-person
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m overwrites-matrix
-# hercules combine ~/Stats_results/Graphs/people_analysis.pb | labours -m ownership
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m old-vs-new
-# hercules combine ~/Stats_results/Graphs/devs_analysis.pb | labours -m devs-efforts
+#Saving hercules graphs for AD-EYE_Core
+cd ~/Stats_results/Graphs
+hercules combine ~/Stats_results/burndown_analysis.pb | labours -m burndown-project -o ~/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core.png
+hercules combine ~/Stats_results/people_analysis.pb | labours -m overwrites-matrix -o ~/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
+hercules combine ~/Stats_results/people_analysis.pb | labours -m ownership -o ~/Stats_results/Graphs/Code_ownership_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis.pb | labours -m devs -o ~/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis.pb | labours -m old-vs-new -o ~/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis.pb | labours -m devs-efforts -o ~/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+
+#Saving hercules graphs for Pex_Data_Extraction
+hercules combine ~/Stats_results/burndown_analysis_Pex.pb | labours -m burndown-project -o ~/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core.png
+hercules combine ~/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o ~/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
+hercules combine ~/Stats_results/people_analysis_Pex.pb | labours -m ownership -o ~/Stats_results/Graphs/Code_ownership_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis_Pex.pb | labours -m devs -o ~/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o ~/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
+hercules combine ~/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o ~/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+
+nautilus ~/Stats_results/Graphs
 
 #Graphs about number of commits for each repository and for combined repositories
 cd
-python ~/Test_stats/commits.py
+python ~/AD-EYE_Core/Helper_Scripts/Git_Statistics/commits.py
 nautilus ~/Stats_results
 
 #Deleting the cloned folders
