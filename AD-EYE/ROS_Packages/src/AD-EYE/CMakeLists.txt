@@ -64,6 +64,12 @@ add_library(
 add_library(
   experimentRecording src/experiment_recording.cpp
 )
+
+# add_library(
+#   scenarioManagerTemplate src/scenario_manager_template.cpp
+# )
+
+
 # add_library(
 #   pointCloudToOccupancyGridLib src/point_cloud_to_occupancy_grid.cpp
 # )
@@ -273,9 +279,39 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+
+add_executable(
+  ExperimentStopper
+  src/experiment_stopper.cpp
+  #src/point_cloud_to_occupancy_grid.cpp
+)
+target_link_libraries(
+  ExperimentStopper
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  ExperimentStopper
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+  Scenario1
+  src/scenario_1.cpp
+  #src/point_cloud_to_occupancy_grid.cpp
+)
+target_link_libraries(
+  Scenario1
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario1
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper Scenario1
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
