@@ -13,7 +13,7 @@
 #include <boost/filesystem.hpp>
 
 /*!
- * \brief Scenario1 node : Manages start and stop of the recording & experiment
+ * \brief Scenario1 node : Manages start and stop of the recording & experiment for Scenario1
  */
 class Scenario1: public ScenarioManagerTemplate {
 
@@ -30,12 +30,12 @@ class Scenario1: public ScenarioManagerTemplate {
     public:
         /*!
         * \brief Constructor
-        * \param nh A reference to the ros::NodeHandle initialized in the main function.
-        * \details Initializes the node and its components such the as subscriber /current_velocity.
+        * \param nh ros::NodeHandle initialized in the main function.
+        * \param frequency The frequency at which the main loop will be run.
+        * \details Initializes the node and its components such the as subscribers.
         */
         Scenario1(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
         {
-            std::cout << "screating Scenario1" << std::endl;
             speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &Scenario1::speedCallback, this);
             // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
         }
@@ -43,25 +43,15 @@ class Scenario1: public ScenarioManagerTemplate {
         
 
         /*!
-        * \brief Start the recording by calling startSubsciber of point_cloud_to_occupancy_grid class
+        * \brief Starts the experiment, contains what needs to be done during the experiment
         */
-        void startRecording()
+        void startExperiment()
         {
-            std::cout << "Scenario1: started recording" << std::endl;
+            std::cout << "Scenario1: started experiment" << std::endl;
         }
 
-
         /*!
-        * \brief Stop the recording and prompt the result in the log file with a linux command
-        */
-        void stopRecording()
-        {
-            std::cout << "Scenario1: stopped recording" << std::endl;
-        }
-
-
-        /*!
-        * \brief Stop the recording and prompt the result in the log file with a linux command
+        * \brief Stops the experiment, contains the post experiment cleanups
         */
         void stopExperiment()
         {
@@ -69,26 +59,54 @@ class Scenario1: public ScenarioManagerTemplate {
         }
 
         /*!
-        * \brief Stop the recording and prompt the result in the log file with a linux command
+        * \brief Starts the experiment relevant recording
         */
-        void startExperiment()
+        void startRecording()
         {
-            std::cout << "Scenario1: started experiment" << std::endl;
+            std::cout << "Scenario1: started recording" << std::endl;
         }
 
+        /*!
+        * \brief Stops the the experiment relevant recording
+        */
+        void stopRecording()
+        {
+            std::cout << "Scenario1: stopped recording" << std::endl;
+        }
+
+
+
+
+
+
+        /*!
+        * \brief Checks if the conditions to start recording are met
+        */
         bool startRecordingConditionFulfilled()
         {
             return (ego_speed_ > 2);
         }
+
+        /*!
+        * \brief Checks if the conditions to stop recording are met
+        */
         bool stopRecordingConditionFulfilled()
         {
             
             return (ego_speed_ < 2);
         }
+
+        /*!
+        * \brief Checks if the conditions to start the experiment are met
+        */
         bool startExperimentConditionFulfilled()
         {
             return (ego_speed_ > 1);
         }
+
+        /*!
+        * \brief Checks if the conditions to stop the experiment are met
+        */
         bool stopExperimentConditionFulfilled()
         {
             

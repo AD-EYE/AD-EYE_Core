@@ -64,7 +64,7 @@ class ScenarioManagerTemplate {
         virtual bool stopExperimentConditionFulfilled() = 0;
 
         /*!
-        * \brief The main function of the Node. Contains the main loop, which start and stop the recording
+        * \brief Contains the main loop, which runs the state machine of the scenario manager
         */
         void run() 
         {
@@ -87,7 +87,7 @@ class ScenarioManagerTemplate {
                         }
                     }
 
-                    if(stopExperimentConditionFulfilled()) // start condition of the experient
+                    if(stopExperimentConditionFulfilled()) // stop condition of the experiment
                     {
                         experiment_started_ = false;
                         stopExperiment();
@@ -96,7 +96,7 @@ class ScenarioManagerTemplate {
                 }
                 else
                 {
-                    if(startExperimentConditionFulfilled()) // start condition of the experient
+                    if(startExperimentConditionFulfilled()) // start condition of the experiment
                     {
                         experiment_started_ = true;
                         startExperiment();
