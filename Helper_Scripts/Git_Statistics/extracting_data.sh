@@ -281,33 +281,33 @@ interact'
 cd infrastructure_database
 git remote rm origin
 
-# #Installation of deploy key for world_creation
-# cd
-# cd .ssh/
-# rm id_ed25519 id_ed25519.pub
-# echo "-----BEGIN OPENSSH PRIVATE KEY-----
-# b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jYmMAAAAGYmNyeXB0AAAAGAAAABBuJ0TtFu
-# Ke9ZK18rMGqK9OAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAIOl5L1dZKY/ucnMI
-# oHvzXzb6u+LkzeCfogqDdsCENhqLAAAAoG4QMPMZp7jXFgu88glK0Jlql6fBxuAjssWCAs
-# xx83NTShooSkTNpwEJ1sHLA+IJOXvikWNXWFUOPhzuJoBXhe31fUW857aPEi8lvj1G8iVS
-# 1XZb0VcevDDCCZknU6o7CQvlg61FZSp99LsLz1gWE1TALQm5WDuZ2wEHmdbGfc+Fv9mRLl
-# rABnWFIGMqLh2iFpCvrCpP87xLzEziHsFy4dQ=
-# -----END OPENSSH PRIVATE KEY-----" > id_ed25519
-# echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOl5L1dZKY/ucnMIoHvzXzb6u+LkzeCfogqDdsCENhqL your_email@example.com" > id_ed25519.pub
-# sudo chmod 600 ~/.ssh/id_ed25519
-# sudo chmod 600 ~/.ssh/id_ed25519.pub
+#Installation of deploy key for world_creation
+cd
+cd .ssh/
+rm id_ed25519 id_ed25519.pub
+echo "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jYmMAAAAGYmNyeXB0AAAAGAAAABBuJ0TtFu
+Ke9ZK18rMGqK9OAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAIOl5L1dZKY/ucnMI
+oHvzXzb6u+LkzeCfogqDdsCENhqLAAAAoG4QMPMZp7jXFgu88glK0Jlql6fBxuAjssWCAs
+xx83NTShooSkTNpwEJ1sHLA+IJOXvikWNXWFUOPhzuJoBXhe31fUW857aPEi8lvj1G8iVS
+1XZb0VcevDDCCZknU6o7CQvlg61FZSp99LsLz1gWE1TALQm5WDuZ2wEHmdbGfc+Fv9mRLl
+rABnWFIGMqLh2iFpCvrCpP87xLzEziHsFy4dQ=
+-----END OPENSSH PRIVATE KEY-----" > id_ed25519
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOl5L1dZKY/ucnMIoHvzXzb6u+LkzeCfogqDdsCENhqL your_email@example.com" > id_ed25519.pub
+sudo chmod 600 ~/.ssh/id_ed25519
+sudo chmod 600 ~/.ssh/id_ed25519.pub
 
-# #Cloning process for world_creation
-# cd $WORKING_PATH
-# cd Git_Statistics
-# /usr/bin/expect -c'
-# cd $env(WORKING_PATH)/Git_Statistics
-# spawn git clone git@gits-15.sys.kth.se:AD-EYE/world_creation.git
-# expect "Enter passphrase"
-# send $env(GIT_STAT_PASSPHRASE)\r
-# interact'
-# cd world_creation
-# git remote rm origin
+#Cloning process for world_creation
+cd $WORKING_PATH
+cd Git_Statistics
+/usr/bin/expect -c'
+cd $env(WORKING_PATH)/Git_Statistics
+spawn git clone git@gits-15.sys.kth.se:AD-EYE/world_creation.git
+expect "Enter passphrase"
+send $env(GIT_STAT_PASSPHRASE)\r
+interact'
+cd world_creation
+git remote rm origin
 
 #Removing the passphrase
 unset GIT_STAT_PASSPHRASE
@@ -319,13 +319,13 @@ mkdir Stats_results
 cd Stats_results
 mkdir Graphs
 
-# hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
-# hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
-# hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
+hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
+hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
+hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
 
-# hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
-# hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
-# hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
+hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
+hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
+hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
 
 
 #Statistics about commits by month and accumulated over time
@@ -336,26 +336,26 @@ gitstats $WORKING_PATH/Git_Statistics/android_app android_app_stats
 gitstats $WORKING_PATH/Git_Statistics/AR_room AR_room_stats
 gitstats $WORKING_PATH/Git_Statistics/getting_familiar_TCP getting_familiar_TCP_stats
 gitstats $WORKING_PATH/Git_Statistics/infrastructure_database infrastructure_database_stats
-# gitstats $WORKING_PATH/Git_Statistics/world_creation world_creation_stats
+gitstats $WORKING_PATH/Git_Statistics/world_creation world_creation_stats
 
-# #Saving hercules graphs for AD-EYE_Core
-# cd $WORKING_PATH/Stats_results/Graphs
-# hercules combine $WORKING_PATH/Stats_results/burndown_analysis.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
-# mv project.png code_lines_AD-EYE_Core.png
-# hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+#Saving hercules graphs for AD-EYE_Core
+cd $WORKING_PATH/Stats_results/Graphs
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
 
-# #Saving hercules graphs for Pex_Data_Extraction
-# hercules combine $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
-# mv project.png code_lines_AD-EYE_Core.png
-# hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
-# hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+#Saving hercules graphs for Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
 
 nautilus ~/Stats_results/Graphs
 
