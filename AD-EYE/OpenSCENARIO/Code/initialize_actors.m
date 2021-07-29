@@ -3,7 +3,7 @@ function [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO
 %%%%%%%%%%Vehicle/Pedestrians
 
 %Creating initial position/dimensions of ScenarioObjects
-for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioScenarioObject) %Declare number of ScenarioObjects in xml file %main for loop
+for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Declare number of ScenarioObjects in xml file %main for loop
     
     
     %checking if field is a Vehicle otherwise a Pedestian

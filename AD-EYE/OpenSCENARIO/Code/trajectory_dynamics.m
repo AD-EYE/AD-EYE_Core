@@ -113,7 +113,7 @@ for j = 1:length(models.worldmodel.object)
 
                                                     %add block for sinusoidal outputs
                                                     if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.shape) == "sinusoidal")
+                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "sinusoidal")
                                                         %add block Trajectory
                                                         Blockname3 = "sinusoidal";
                                                         Blockname3 = strcat("Trajectory_input_",Blockname3,"_subsystem");
@@ -121,14 +121,14 @@ for j = 1:length(models.worldmodel.object)
                                                         add_condition = 1;
                                                         %add block for linear outputs
                                                     elseif(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.shape) == "linear")
+                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "linear")
                                                         Blockname3 = "linear";
                                                         Blockname3 = strcat("Trajectory_input_",Blockname3,"_subsystem");
                                                         location3 =convertStringsToChars(strcat(location,Blockname3,Blockid(1,p)));
                                                         add_condition = 1;
                                                         %add block for step outputs
                                                     elseif(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.shape) == "step")
+                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "step")
                                                         Blockname3 = "step";
                                                         Blockname3 = strcat("Trajectory_input_",Blockname3,"_subsystem");
                                                         location3 =convertStringsToChars(strcat(location,Blockname3,Blockid(1,p)));
@@ -236,7 +236,7 @@ for j = 1:length(models.worldmodel.object)
                                                     if(isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'Distance_RelativeObject') == 1)
                                                         for h =1: length( models.worldmodel.object)
                                                             if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Distance_RelativeObject.object) == ...
+                                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Distance_RelativeObject) == ...
                                                                     convertCharsToStrings(models.worldmodel.object{h,1}.name)     &&     convertCharsToStrings(models.worldmodel.object{j,1}.name)  ~= name_ego)
                                                                 convertStringsToChars(strcat(location2,"/From4"))
                                                                 set_param(convertStringsToChars(strcat(location2,"/From4")),'GotoTag',convertStringsToChars(strcat("x_",Blockid(1,h) ) )  )
@@ -261,7 +261,7 @@ for j = 1:length(models.worldmodel.object)
                                                     Blockname6 = "/Condition_trajectory";
 
                                                         if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.rule) == "less_than")
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.rule) == "lessThan")
                                                             %%%%%Parameters of Condition_trajectory
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','-1')
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
@@ -273,7 +273,20 @@ for j = 1:length(models.worldmodel.object)
                                                         end
 
                                                         if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.rule) == "greater_than")
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.rule) == "greaterThan")
+                                                            %%%%%Parameters of Condition_trajectory
+                                                            set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
+                                                            set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
+                                                                ,'Criteria','u2 >= Threshold')
+                                                            set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
+                                                                ,'Threshold',...
+                                                                num2str(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)) )
+                                                            %change constant to account for shift if step
+                                                        end
+
+                                                        if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.rule) == "equalTo")
                                                             %%%%%Parameters of Condition_trajectory
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
@@ -293,7 +306,7 @@ for j = 1:length(models.worldmodel.object)
                                                     set_param(convertStringsToChars(strcat(location3,Blockname7,"/Switch3"))...
                                                         ,'Threshold',...
                                                         convertStringsToChars(strcat("-",convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time)))    )
+                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)))    )
                                                     %function
                                                     set_param(convertStringsToChars(strcat(location3,Blockname7,"/Sine1")),'Function','sin')
                                                     %constants and gains
@@ -301,14 +314,14 @@ for j = 1:length(models.worldmodel.object)
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
                                                     set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain4")),'Gain','-1')
                                                     value1 = 4*str2num(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time));
+                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value));
                                                     value2 = 2*pi/value1;
                                                     set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain5")),'Gain',(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
                                                     set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain6")),'Gain',convertStringsToChars(num2str(value2)))                                                                                                
                                                     %used in Aftertermination
                                                     a(i,1) = convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.time);
+                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value);
 
 
                                                         if( isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
