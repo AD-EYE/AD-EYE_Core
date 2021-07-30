@@ -46,12 +46,6 @@ private:
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
 
-    //subscribers to have sensors information
-    ros::Subscriber sub_radar_;
-    ros::Subscriber sub_camera_tl_;
-    ros::Subscriber sub_camera_1_;
-    ros::Subscriber sub_camera_2_;
-
     //Position
     float x_ego_;
     float y_ego_;
@@ -64,23 +58,6 @@ private:
     float last_y_ego_center_;
     float last_yaw_ego_;
     bool first_position_callback_ = true;
-
-    // for the sensor layers
-    float last_x_radar_;
-    float last_y_radar_;
-    float last_orientation_radar_;
-
-    float last_x_camera1_;
-    float last_y_camera1_;
-    float last_orientation_camera1_;
-
-    float last_x_camera2_;
-    float last_y_camera2_;
-    float last_orientation_camera2_;
-
-    float last_x_cameratl_;
-    float last_y_cameratl_;
-    float last_orientation_cameratl_;
 
     bool first_sensor_sector_callback_ = true;
 
@@ -97,25 +74,13 @@ private:
     geometry_msgs::PolygonStamped footprint_ego_;
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
-    //Sensors information
-    std_msgs::Float32MultiArray radar_info_;
-    std_msgs::Float32MultiArray radar_info_old_;
-    sensor_msgs::Image camera1_info_;
-    sensor_msgs::Image camera1_info_old_;
-    sensor_msgs::Image camera2_info_;
-    sensor_msgs::Image camera2_info_old_;
-    sensor_msgs::Image cameratl_info_;
-    sensor_msgs::Image cameratl_info_old_;
+
     //Parameters
     bool dynamic_objects_ground_truth_active_ = false;
     bool connection_established_ = false;
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
-    bool radar_active_ = false;
-    bool camera1_active_ = false;
-    bool camera2_active_ = false;
-    bool cameratl_active_ = false;
 
     //GridMap
     GridMap map_;
@@ -472,189 +437,6 @@ private:
     }
 
     /*!
-     * \brief Radar Callback : called when information from the radar changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details This function takes radar information to create an area according to the parameters.
-     */
-    void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
-        radar_info_ = *msg;
-        // condition message received
-        radar_active_ = true;
-    }
-
-    /*!
-     * \brief Camera 1 Callback : called when information from the camera 1 changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details This function takes camera 1 information to create an area according to the parameters.
-     */
-    void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
-        camera1_info_ = *msg;
-        // condition message received
-        camera1_active_ = true;
-    }
-
-    /*!
-     * \brief Camera 2 Callback : called when information from the camera 2 changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details This function takes camera 1 information to create an area according to the parameters.
-     */
-    void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
-        camera2_info_ = *msg;
-        // condition message received
-        camera2_active_ = true;
-    }
-
-    /*!
-     * \brief camera tl Callback : called when information from the camera tl changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details This function takes camera tl information to create an area according to the parameters.
-     */
-    void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
-        cameratl_info_ = *msg;
-        // condition message received
-        cameratl_active_ = true;
-    }
-
-    void sensorSectorUpdate() {
-        //Position of the sensors from the center of ego in meter (get in PreScan). When local_y is not precised, it is equal to 0.
-        float local_x_radar = 0.5 * length_ego_;
-        float local_x_cam1 = 0.55;
-        float local_x_cam2 = -2.21;
-        float local_x_camtl = -0.16;
-        float local_y_camtl = -0.7;
-        float local_orientation_camtl = 15.0 * PI / 180.0;
-        //Position of the cone tip of the sectors
-        float x_radar, y_radar;
-        float x_camera1, y_camera1;
-        float x_camera2, y_camera2;
-        float x_cameratl, y_cameratl;
-        //beam range of the sectors, values get in PreScan, in meter
-        float range_radar = 30.0;
-        float range_camera1 = 750.0;
-        float range_camera2 = 750.0;
-        float range_cameratl = 750.0;
-        //orientation of the sectors, values get in PreScan, in rad
-        float orientation_radar = yaw_ego_;
-        float orientation_camera1 = yaw_ego_;
-        float orientation_camera2 = yaw_ego_ + PI;
-        float orientation_cameratl = yaw_ego_ - local_orientation_camtl;
-        //opening angle of the sectors, values get in PreScan, in rad
-        float opening_angle_radar = 45.0 * PI / 180.0;
-        float opening_angle_camera1 = 46.21 * PI / 180.0;
-        float opening_angle_camera2 = 46.21 * PI / 180.0;
-        float opening_angle_cameratl = 46.21 * PI / 180.0;
-        // Polygons which represent sensor sectors
-        grid_map::Polygon radar_sector, camera1_sector, camera2_sector, cameratl_sector;
-
-        //calculation of the coordinates of the radar
-        x_radar = x_ego_ + local_x_radar * cos(orientation_radar);
-        y_radar = y_ego_ + local_x_radar * sin(orientation_radar);
-        //calculation of the coordinates of the camera 1
-        x_camera1 = x_ego_ + local_x_cam1 * cos(orientation_camera1);
-        y_camera1 = y_ego_ + local_x_cam1 * sin(orientation_camera1);
-        //calculation of the coordinates of the camera 2
-        x_camera2 = x_ego_ - local_x_cam2 * cos(orientation_camera2);
-        y_camera2 = y_ego_ - local_x_cam2 * sin(orientation_camera2);
-        //calculation of the coordinates of the camera tl
-        x_cameratl = x_ego_ + (local_x_camtl * cos(orientation_cameratl) - local_y_camtl * sin(orientation_cameratl));
-        y_cameratl = y_ego_ + (local_x_camtl * sin(orientation_cameratl) + local_y_camtl * cos(orientation_cameratl));
-
-        // Information usefull to now if the car move
-        float x_ego_center = x_ego_ + cos(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
-        float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
-        
-        // If the car moved
-        // if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_) {
-            grid_map::Polygon last_radar_sector = circle_section_creator(last_x_radar_, last_y_radar_, range_radar, last_orientation_radar_, opening_angle_radar);
-            grid_map::Polygon last_camera1_sector = circle_section_creator(last_x_camera1_, last_y_camera1_, range_camera1, last_orientation_camera1_, opening_angle_camera1);
-            grid_map::Polygon last_camera2_sector = circle_section_creator(last_x_camera2_, last_y_camera2_, range_camera2, last_orientation_camera2_, opening_angle_camera2);
-            grid_map::Polygon last_cameratl_sector = circle_section_creator(last_x_cameratl_, last_y_cameratl_, range_cameratl, last_orientation_cameratl_, opening_angle_cameratl);
-        
-            // Remove last sectors
-            for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                Position pos; //the position corresponding to the index
-                bool existing_pos = map_.getPosition(*it, pos);
-                if(last_radar_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                }
-                if(last_camera1_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                }
-                if(last_camera2_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                }
-                if(last_cameratl_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                }
-            }
-        // }
-
-        // If the function is called for the first time or if the car moved
-        // if(first_sensor_sector_callback_ || (!first_sensor_sector_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_))) {
-            if(first_sensor_sector_callback_)
-            {
-                last_x_radar_ = x_radar;
-                last_y_radar_ = y_radar;
-                last_x_camera1_ = x_camera1;
-                last_y_camera1_ = y_camera1;
-                last_x_camera2_ = x_camera2;
-                last_y_camera2_ = y_camera2;
-                last_x_cameratl_ = x_cameratl;
-                last_y_cameratl_ = y_cameratl;
-                first_sensor_sector_callback_ = false;
-
-                last_x_ego_center_ = x_ego_center;
-                last_y_ego_center_ = y_ego_center;
-            }
-            radar_sector = circle_section_creator(x_radar, y_radar, range_radar, orientation_radar, opening_angle_radar);
-            camera1_sector = circle_section_creator(x_camera1, y_camera1, range_camera1, orientation_camera1, opening_angle_camera1);
-            camera2_sector = circle_section_creator(x_camera2, y_camera2, range_camera2, orientation_camera2, opening_angle_camera2);
-            cameratl_sector = circle_section_creator(x_cameratl, y_cameratl, range_cameratl, orientation_cameratl, opening_angle_cameratl);
-            
-            // New sectors are filled
-            for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                Position pos; //the position corresponding to the index
-                bool existing_pos = map_.getPosition(*it, pos);
-                // each cell is filled with the number of sensor it contains
-                if(radar_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(camera1_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(camera2_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-                if(cameratl_sector.isInside(pos)) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                }
-            }
-
-            // update values of sensors positions and orientations
-            last_x_radar_ = x_radar;
-            last_y_radar_ = y_radar;
-            last_orientation_radar_ = orientation_radar;
-
-            last_x_camera1_ = x_camera1;
-            last_y_camera1_ = y_camera1;
-            last_orientation_camera1_ = orientation_camera1;
-
-            last_x_camera2_ = x_camera2;
-            last_y_camera2_ = y_camera2;
-            last_orientation_camera2_ = orientation_camera2;
-
-            last_x_cameratl_ = x_cameratl;
-            last_y_cameratl_ = y_cameratl;
-            last_orientation_cameratl_ = orientation_cameratl;
-
-            //update position of the ego car
-            last_x_ego_center_ = x_ego_center;
-            last_y_ego_center_ = y_ego_center;
-            last_yaw_ego_ = yaw_ego_;
-        // }
-    }
-
-    /*!
      * \brief This function initialize the GridMap with the static entities.
      * \details First, the vector map is read from the .csv found within the parameters
      * Then, the size of the map is extracted and the map can be initialized.
@@ -859,35 +641,6 @@ private:
         return polygon;
     }
 
-    /*!
-     * \brief This function creates a circle section in the gridmap.
-     * \param x x coordinate of the center location in the gridmap.
-     * \param y y coordinate of the center location in the gridmap.
-     * \param radius Sensor beam range in meter.
-     * \param orientation Orientation of the section, seen from above.
-     * \param angle Openning angle of the section.
-     * \return A circle section created corresponding to the given parameters.
-     * \details This function is especially used to create sensor sectors arround the car.
-     * The circle section will be approximate by a succession of points close enought.
-     * Angles need to be in rad.
-     */
-    grid_map::Polygon circle_section_creator(float x, float y, float radius, float orientation, float angle) {
-        grid_map::Polygon polygon;
-        float dangle = 0.0017; //the angle step for the succession of points. Random choice: 0.1 deg = 0.0017rad.
-        polygon.setFrameId("SSMP_map");
-        polygon.addVertex(Position(x, y));
-        
-        for (float i = (orientation - (angle / 2.0)); i <= (orientation + (angle / 2.0)); i=i+dangle){ //approximate circle section by a succession of points
-                polygon.addVertex(Position(x + radius * cos(i), y + radius * sin(i)));
-        } 
-
-        if (fmodf(angle, dangle) != 0) { //if the discretion of the circle section by step doesn't fall right, we add the last point
-            polygon.addVertex(Position(x + radius * cos(orientation + (angle / 2.0)), y + radius * sin(orientation + (angle / 2.0))));
-        }
-
-        return polygon;
-    }
-
 
 public:
 
@@ -932,11 +685,6 @@ public:
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
 
-        // Initialize subscribers for sensor topics
-        sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 10, &GridMapCreator::radarCallback, this);
-        sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 10, &GridMapCreator::camera1Callback, this);
-        sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 10, &GridMapCreator::camera2Callback, this);
-        sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 10, &GridMapCreator::cameraTlCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -1020,23 +768,7 @@ public:
                     dynamic_objects_initialized_ = true;
                     dynamic_objects_active_ = false;
                 }
-            }
-
-            if(radar_active_ || camera1_active_ || camera2_active_ || cameratl_active_)
-            {
-                // Update of sensor layer
-                sensorSectorUpdate();
-                radar_active_ = false;
-                camera1_active_ = false;
-                camera2_active_ = false;
-                cameratl_active_ = false;
-                // Update of topic messages
-                radar_info_old_ = radar_info_;
-                camera1_info_old_ = camera1_info_;
-                camera2_info_old_ = camera2_info_;
-                cameratl_info_old_ = cameratl_info_;                
-            }
-            
+            }        
 
             // publish
             map_.setTimestamp(ros::Time::now().toNSec());
