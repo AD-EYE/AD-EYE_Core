@@ -1,4 +1,5 @@
-##Extracting data from a git repository
+#Extracting data from a git repository
+#!/bin/bash
 
 #Check if needed packages are already installed
 REQUIRED_PKG="expect"
@@ -27,7 +28,6 @@ else
 fi
 
 #Initialisation of the passphrase
-#!/bin/bash
 echo
 echo "Enter the passphrase : "
 read -s GIT_STAT_PASSPHRASE
@@ -58,42 +58,21 @@ echo "130.237.59.134 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbml
 sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
-
 #Cloning process for AD-EYE_Core
 cd $WORKING_PATH
 mkdir Git_Statistics
 cd Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/AD-EYE_Core.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd AD-EYE_Core
 git checkout dev
 git remote rm origin
-
-
-#Cleaning process for AD-EYE_Core
-wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar
-
-java -jar bfg-1.14.0.jar --delete-folders mjpeg_server
-java -jar bfg-1.14.0.jar --delete-folders web_video_server
-java -jar bfg-1.14.0.jar --delete-folders robot_gui_bridge
-java -jar bfg-1.14.0.jar --delete-folders GUI_server
-
-rm AD-EYE/ROS_Packages/src/Safe_Stop_Planner/ss_trajplanner/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv
-rm AD-EYE/PexFileGeneration/TemplatePexFile/TemplatePexFile.pex
-java -jar bfg-1.14.0.jar --delete-files SSMPset_2018-1-3--11-58-48.csv
-java -jar bfg-1.14.0.jar --delete-files TemplatePexFile.pex
-
-rm -r Prescan_models
-rm -r AD-EYE/Experiments/
-rm -r AD-EYE/Data/
-java -jar bfg-1.14.0.jar --delete-folders Prescan_models
-java -jar bfg-1.14.0.jar --delete-folders Experiments
-java -jar bfg-1.14.0.jar --delete-folders Data
-
 
 #Installation of deploy key for Pex_Data_Extraction
 cd
@@ -112,33 +91,18 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for Pex_Data_Extraction
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/Pex_Data_Extraction.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd Pex_Data_Extraction
 git checkout dev
 git remote rm origin
-
-#Cleaning process for Pex_Data_Extraction
-git filter-branch -f --tree-filter 'rm -f main.py' HEAD
-git filter-branch -f --tree-filter 'rm -f path.py' HEAD
-git filter-branch -f --tree-filter 'rm -f parse.py' HEAD
-git filter-branch -f --tree-filter 'rm -f preproc.py' HEAD
-git filter-branch -f --tree-filter 'rm -f road.py' HEAD
-git filter-branch -f --tree-filter 'rm -f staticalobject.py' HEAD
-git filter-branch -f --tree-filter 'rm -f utils.py' HEAD
-git filter-branch -f --tree-filter 'rm -f vmap.py' HEAD
-
-wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar
-java -jar bfg-1.14.0.jar --delete-folders Tests
-java -jar bfg-1.14.0.jar --delete-folders _pycache_
-java -jar bfg-1.14.0.jar --delete-folders csv
-
 
 #Installation of deploy key for AD-EYE_GUI
 cd
@@ -157,14 +121,15 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for AD-EYE_GUI
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/AD-EYE_GUI.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd AD-EYE_GUI
 git remote rm origin
 
@@ -185,14 +150,15 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for android_app
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/android_app.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd android_app
 git remote rm origin
 
@@ -213,14 +179,15 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for AR_room
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/AR_room.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd AR_room
 git remote rm origin
 
@@ -241,14 +208,15 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for getting_familiar_TCP
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/getting_familiar_TCP.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd getting_familiar_TCP
 git remote rm origin
 
@@ -270,14 +238,15 @@ sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 
 #Cloning process for infrastructure_database
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/infrastructure_database.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd infrastructure_database
 git remote rm origin
 
@@ -298,14 +267,15 @@ sudo chmod 600 ~/.ssh/id_ed25519
 sudo chmod 600 ~/.ssh/id_ed25519.pub
 
 #Cloning process for world_creation
-cd $WORKING_PATH
-cd Git_Statistics
+cd $WORKING_PATH/Git_Statistics
+
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/world_creation.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
+
 cd world_creation
 git remote rm origin
 
@@ -313,22 +283,12 @@ git remote rm origin
 unset GIT_STAT_PASSPHRASE
 
 #Extracting data
-#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction
+#Statistics about commits by month and accumulated over time (before cleaning)
 cd $WORKING_PATH
 mkdir Stats_results
 cd Stats_results
 mkdir Graphs
 
-hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
-hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
-hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
-
-hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
-hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
-hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
-
-
-#Statistics about commits by month and accumulated over time
 gitstats $WORKING_PATH/Git_Statistics/AD-EYE_Core AD-EYE_Core_stats
 gitstats $WORKING_PATH/Git_Statistics/Pex_Data_Extraction Pex_Data_Extraction_stats
 gitstats $WORKING_PATH/Git_Statistics/AD-EYE_GUI AD-EYE_GUI_stats
@@ -337,6 +297,59 @@ gitstats $WORKING_PATH/Git_Statistics/AR_room AR_room_stats
 gitstats $WORKING_PATH/Git_Statistics/getting_familiar_TCP getting_familiar_TCP_stats
 gitstats $WORKING_PATH/Git_Statistics/infrastructure_database infrastructure_database_stats
 gitstats $WORKING_PATH/Git_Statistics/world_creation world_creation_stats
+
+#Graphs about number of commits for each repository and for combined repositories
+cd $WORKING_PATH
+python ~/AD-EYE_Core/Helper_Scripts/Git_Statistics/commits.py
+nautilus $WORKING_PATH/Stats_results
+
+#Cleaning process for AD-EYE_Core
+cd AD-EYE_Core
+wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar
+
+java -jar bfg-1.14.0.jar --delete-folders mjpeg_server
+java -jar bfg-1.14.0.jar --delete-folders web_video_server
+java -jar bfg-1.14.0.jar --delete-folders robot_gui_bridge
+java -jar bfg-1.14.0.jar --delete-folders GUI_server
+
+rm AD-EYE/ROS_Packages/src/Safe_Stop_Planner/ss_trajplanner/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv
+rm AD-EYE/PexFileGeneration/TemplatePexFile/TemplatePexFile.pex
+java -jar bfg-1.14.0.jar --delete-files SSMPset_2018-1-3--11-58-48.csv
+java -jar bfg-1.14.0.jar --delete-files TemplatePexFile.pex
+
+rm -r Prescan_models
+rm -r AD-EYE/Experiments/
+rm -r AD-EYE/Data/
+java -jar bfg-1.14.0.jar --delete-folders Prescan_models
+java -jar bfg-1.14.0.jar --delete-folders Experiments
+java -jar bfg-1.14.0.jar --delete-folders Data
+
+#Cleaning process for Pex_Data_Extraction
+cd Pex_Data_Extraction
+git filter-branch -f --tree-filter 'rm -f main.py' HEAD
+git filter-branch -f --tree-filter 'rm -f path.py' HEAD
+git filter-branch -f --tree-filter 'rm -f parse.py' HEAD
+git filter-branch -f --tree-filter 'rm -f preproc.py' HEAD
+git filter-branch -f --tree-filter 'rm -f road.py' HEAD
+git filter-branch -f --tree-filter 'rm -f staticalobject.py' HEAD
+git filter-branch -f --tree-filter 'rm -f utils.py' HEAD
+git filter-branch -f --tree-filter 'rm -f vmap.py' HEAD
+
+wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar
+java -jar bfg-1.14.0.jar --delete-folders Tests
+java -jar bfg-1.14.0.jar --delete-folders _pycache_
+java -jar bfg-1.14.0.jar --delete-folders csv
+
+
+#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction
+
+hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
+hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
+hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
+
+hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
+hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
+hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
 
 #Saving hercules graphs for AD-EYE_Core
 cd $WORKING_PATH/Stats_results/Graphs
@@ -350,19 +363,15 @@ hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs-
 
 #Saving hercules graphs for Pex_Data_Extraction
 hercules combine $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
-mv project.png code_lines_AD-EYE_Core.png
-hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+mv project.png code_lines_Pex_Data_Extraction.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_Pex_Data_Extraction
 
 nautilus ~/Stats_results/Graphs
 
-#Graphs about number of commits for each repository and for combined repositories
-cd $WORKING_PATH
-python ~/AD-EYE_Core/Helper_Scripts/Git_Statistics/commits.py
-nautilus $WORKING_PATH/Stats_results
-
 #Deleting the cloned folders
+cd $WORKING_PATH
 sudo rm -r -f Git_Statistics
