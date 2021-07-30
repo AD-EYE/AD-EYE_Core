@@ -16,22 +16,22 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
             for j = 1:length(models.worldmodel.object)
                 %check which j car in prescan it has the same story name
-                if(  convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, p}.Attributes.owner)  == convertCharsToStrings(models.worldmodel.object{j, 1}.name) )
+                if(  convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, p}.Act.ManeuverGroup.Actors.EntityRef.Attributes.entityRef)  == convertCharsToStrings(models.worldmodel.object{j, 1}.name) )
                     if(isfield(convertCharsToStrings(trajectory_variable),convertCharsToStrings(models.worldmodel.object{j, 1}.name)) == 1 )                 
 
                         %number of Maneuvers
-                        for m = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act.Sequence.Maneuver)%Number of Maneuvers                        
+                        for m = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act.ManeuverGroup.Maneuver)%Number of Maneuvers                        
                             %number of events
-                            for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act.Sequence.Maneuver{1,m}.Event)                         
+                            for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act.ManeuverGroup.Maneuver{1,m}.Event)                         
 
                                 if(isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act...
-                                        .Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name)),"Longitudinal") == 1 )
+                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name)),"Longitudinal") == 1 )
 
                                     Longitudinal_events(1,p)=Longitudinal_events(1,p)+1;                                
                                 end
 
                                 if(isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,p}.Act...
-                                        .Sequence.Maneuver{1,m}.Event{1, i}.Attributes.name)),"Lateral") == 1 )
+                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name)),"Lateral") == 1 )
 
                                     Lateral_events(1,p) = Lateral_events(1,p)+1;                                
                                 end
