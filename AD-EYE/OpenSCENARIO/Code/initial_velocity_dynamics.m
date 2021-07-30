@@ -10,12 +10,12 @@ for j =1:length(models.worldmodel.object) %main for loop
         %checking if initial condition belongs to the same object
         if(convertCharsToStrings(models.worldmodel.object{j, 1}.name) == convertCharsToStrings(Velocity_variable(x,1)) && convertCharsToStrings(Velocity_variable(x,1)) ~= "Ego")
             
-            for y = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action)
+            for y = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction)
                 %check if is it the position field
-                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.Action{1,y}),'Longitudinal') == 1 )
+                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}),'LongitudinalAction') == 1 )
                     
                     location = strcat(name,convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO...
-                        .Storyboard.Init.Actions.Private{1, x}.Attributes.object),"/Dynamics_Empty/");
+                        .Storyboard.Init.Actions.Private{1, x}.Attributes.entityRef),"/Dynamics_Empty/");
                     Blockid = string(1:length(models.worldmodel.object));
                     %setting position mode to off
                     set_param(convertStringsToChars(strcat(location,"MuxState")) ,'PositioningMode','off');
@@ -95,27 +95,27 @@ for j =1:length(models.worldmodel.object) %main for loop
                     
                     %if rate field exists
                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                            .Action{1,y}.Longitudinal),'Speed') == 1 )
+                            .PrivateAction{1,y}.LongitudinalAction),'SpeedAction') == 1 )
                         %Check if Dynamics exists
                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                .Action{1,y}.Longitudinal.Speed),'Dynamics') == 1 )
+                                .PrivateAction{1,y}.LongitudinalAction.SpeedAction),'SpeedActionDynamics') == 1 )
                             %Check if rate exists
                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                    .Action{1,y}.Longitudinal.Speed.Dynamics),'rate') == 1 )                                
+                                    .PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionDynamics),'value') == 1 )                                
                                 set_param(location1,'Value',Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                    .Action{1,y}.Longitudinal.Speed.Dynamics.Attributes.rate);                                
+                                    .PrivareAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes.value);                                
                             end %rate field check
                         end %Dynamics field check
                         
                         
                         %if rate field exists
                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                .Action{1,y}.Longitudinal.Speed),'Target') == 1 )
+                                .PrivateAction{1,y}.LongitudinalAction.SpeedAction),'SpeedActionTarget') == 1 )
                             %if Absolute exists
                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                    .Action{1,y}.Longitudinal.Speed.Target),'Absolute') == 1 )                                
+                                    .PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionTarget),'AbsoluteTargetSpeed') == 1 )                                
                                 set_param(location1,'Value',Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
-                                    .Action{1,y}.Longitudinal.Speed.Target.Absolute.Attributes.value);                                
+                                    .PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value);                                
                             end %check Absolute field
                         end %check Target field
                         
