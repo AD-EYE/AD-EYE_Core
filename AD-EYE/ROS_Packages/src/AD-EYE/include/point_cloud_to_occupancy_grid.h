@@ -20,6 +20,8 @@ class PointsToOccupancyGrid {
         double map_offset_y_;
         double map_offset_z_;
         nav_msgs::OccupancyGrid occupancy_grid_;
+        std::vector<int> cost_map_full_res_;
+        int max_cell_value_;
         std::string points_topic_;
         std::string cost_map_topic_;
         double scan_z_min_ = 0.1;
@@ -40,6 +42,8 @@ class PointsToOccupancyGrid {
         * \details The messages with an empty frame_id are ignored
         */
         void pointsCallback(const sensor_msgs::PointCloud2::ConstPtr &input_scan);
+
+        void scaleCostMap();
 
 
     public:

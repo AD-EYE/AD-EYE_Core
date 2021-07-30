@@ -3,6 +3,7 @@
 
 
 
+
 void PointsToOccupancyGrid::updateCostMap(const pcl::PointCloud<pcl::PointXYZ> &scan)
 {
     double map_center_x = (map_width_ / 2.0) * map_resolution_ - map_offset_x_;
@@ -16,13 +17,27 @@ void PointsToOccupancyGrid::updateCostMap(const pcl::PointCloud<pcl::PointXYZ> &
             int grid_y = (p.y + map_center_y) / map_resolution_;
             if (!(grid_x < 0 || grid_x >= map_width_ || grid_y < 0 || grid_y >= map_height_)) { // if index is in the grid
                 int index = map_width_ * grid_y + grid_x;
-                occupancy_grid_.data[index] += 1;
-                if (occupancy_grid_.data[index] > 100) // saturate at 100
-                    occupancy_grid_.data[index] = 100;
+                // occupancy_grid_.data[index] += 1;
+                if (cost_map_full_res_[index] < INT_MAX) // saturate at 100
+                    cost_map_full_res_[index] += 1;
+                    //cost_map_full_res_[index] = INT_MAX;
+                if(cost_map_full_res_[index] > max_cell_value_)
+                    max_cell_value_ = cost_map_full_res_[index];
+
+                
             }
         }
     }
+    scaleCostMap();
 }
+
+void PointsToOccupancyGrid::scaleCostMap()
+{
+    for(auto i = 0; i != occupancy_grid_.data.size(); i++) {
+        occupancy_grid_.data[i] = static_cast<int>(100.0f * static_cast<float>(cost_map_full_res_[i]) / static_cast<float>(max_cell_value_));
+    }
+}
+
 
 void PointsToOccupancyGrid::setOccupancyGrid(nav_msgs::OccupancyGrid *occupancy_grid)
 {
@@ -38,6 +53,7 @@ void PointsToOccupancyGrid::setOccupancyGrid(nav_msgs::OccupancyGrid *occupancy_
     occupancy_grid->info.origin.orientation.w = 1.0;
     std::vector<int8_t> cost_map(map_width_ * map_height_, 0);
     occupancy_grid->data.insert(occupancy_grid_.data.end(), cost_map.begin(), cost_map.end());
+    cost_map_full_res_ = std::vector<int>(map_width_ * map_height_, 0);
 }
 
 void PointsToOccupancyGrid::pointsCallback(const sensor_msgs::PointCloud2::ConstPtr &input_scan)
