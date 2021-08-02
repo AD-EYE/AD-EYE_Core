@@ -43,15 +43,16 @@ private:
     enum sensor_type_ {radar, lidar, camera1, camera2, cameratl};
 
     //Following lists contains information of sensor in this order [radar, lidar, camera1, camera2, cameratl].
-    float sensor_timeouts_[5] = {0.05, 0.1, 0.05, 0.05, 0.10}; //Frequency values get in PreScan.
+    float sensor_timeouts_[5] = {0.05, 0.1, 0.05, 0.05, 0.10}; //Time period in seconds, values get in PreScan.
     float sensor_ranges_[5] = {30, 100, 750, 750, 750}; //Beam range of the sectors, values get in PreScan, in meter.
     float sensor_orientations_[5] = {0, 0, 0, PI, -15 * PI / 180}; //Orientation of the sectors compared to the ego car, values get in PreScan, in rad.
     float sensor_opening_angles_[5] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; //Opening angle of the sectors, values get in PreScan, in rad.
     float sensor_pos_x_[5] = {2.3, -0.66, 0.55, -2.21, -0.16}; //x coordinate of the sensor position in the ego car, values get in PreScan, in meter.
     float sensor_pos_y_[5] = {0, 0, 0, 0, -0.7}; //y coordinate of the sensor position in the ego car, values get in PreScan, in meter.
     bool sensor_active_[5] = {false, false, false, false, false}; //Indicates if sensor information are well received.
-    grid_map::Polygon sensor_sectors_[5]; // Polygons which represent sensor sectors.
+    // grid_map::Polygon sensor_sectors_[5]; // Polygons which represent sensor sectors.
 
+    //Name for index in lists
     sensor_type_ radar_ = radar;
     sensor_type_ lidar_ = lidar;
     sensor_type_ camera1_ = camera1;
@@ -67,7 +68,6 @@ private:
      * \details This function takes radar information to create an area according to the parameters.
      */
     void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
-        // check if information are received
         sensor_active_[radar_] = true;
     }
 
@@ -77,7 +77,6 @@ private:
      * \details This function takes lidar information to create an area according to the parameters.
      */
     void lidarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
-        // check if information are received
         sensor_active_[lidar_] = true;
     }
 
@@ -87,7 +86,6 @@ private:
      * \details This function takes camera 1 information to create an area according to the parameters.
      */
     void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
-        // check if information are received
         sensor_active_[camera1_] = true;
     }
 
@@ -97,7 +95,6 @@ private:
      * \details This function takes camera 1 information to create an area according to the parameters.
      */
     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
-        // check if information are received
         sensor_active_[camera2_] = true;
     }
 
@@ -107,7 +104,6 @@ private:
      * \details This function takes camera tl information to create an area according to the parameters.
      */
     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
-        // check if information are received
         sensor_active_[cameratl_] = true;
     }
 
@@ -116,32 +112,14 @@ private:
      * \details This function creates polygons corresponding to the sensor that send information
      */
     void polygonCreator() {
-        
-        //If the message is received, the corresponding polygon is created
-        if(sensor_active_[radar_])
+        sensor_fov_.polygons.clear();
+        for(int i=radar_; i!=cameratl; i++)
         {
-            sensor_sectors_[radar_] = circle_section_creator(sensor_pos_x_[radar_], sensor_pos_y_[radar_], sensor_ranges_[radar_], sensor_orientations_[radar_], sensor_opening_angles_[radar_]);
-            sensor_active_[radar_] = false;
-        }
-        if(sensor_active_[lidar_])
-        {
-            sensor_sectors_[lidar_] = circle_section_creator(sensor_pos_x_[lidar_], sensor_pos_y_[lidar_], sensor_ranges_[lidar_], sensor_orientations_[lidar_], sensor_opening_angles_[lidar_]);
-            sensor_active_[lidar_] = false;
-        }
-        if(sensor_active_[camera1_])
-        {
-            sensor_sectors_[camera1_] = circle_section_creator(sensor_pos_x_[camera1_], sensor_pos_y_[camera1_], sensor_ranges_[camera1_], sensor_orientations_[camera1_], sensor_opening_angles_[camera1_]);
-            sensor_active_[camera1_] = false;
-        }
-        if(sensor_active_[camera2_])
-        {
-            sensor_sectors_[camera2_] = circle_section_creator(sensor_pos_x_[camera2_], sensor_pos_y_[camera2_], sensor_ranges_[camera2_], sensor_orientations_[camera2_], sensor_opening_angles_[camera2_]);
-            sensor_active_[camera2_] = false;
-        }
-        if(sensor_active_[cameratl_])
-        {
-            sensor_sectors_[cameratl_] = circle_section_creator(sensor_pos_x_[cameratl_], sensor_pos_y_[cameratl_], sensor_ranges_[cameratl_], sensor_orientations_[cameratl_], sensor_opening_angles_[cameratl_]);
-            sensor_active_[cameratl_] = false;
+            if(sensor_active_[i])
+            {
+                sensor_fov_.polygons.emplace_back( circle_section_creator(sensor_pos_x_[i], sensor_pos_y_[i], sensor_ranges_[i], sensor_orientations_[i], sensor_opening_angles_[i]));
+                sensor_active_[i] = false;
+            }
         }
     }
 
@@ -215,14 +193,30 @@ public:
                 polygonCreator();                                
             }
 
-            // publish
-
             sensor_fov_.header.stamp = ros::Time::now();
             pub_sensor_fov_.publish(sensor_fov_);
 
             ros::Duration rostime_elapsed = ros::Time::now() - rostime;
+            float time_elapsed_sensors = rostime_elapsed.toNSec();
             if(rostime_elapsed > rate_.expectedCycleTime()){
                 ROS_WARN("SensorFoV : frequency is not met!");
+            }
+
+            // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
+            if(time_elapsed_sensors > (2 * sensor_timeouts_[radar_])){
+                ROS_WARN("Radar : Message not received!");
+            }
+            if(time_elapsed_sensors > (2 * sensor_timeouts_[lidar_])){
+                ROS_WARN("Lidar : Message not received!");
+            }
+            if(time_elapsed_sensors > (2 * sensor_timeouts_[camera1_])){
+                ROS_WARN("Camera 1 : Message not received!");
+            }
+            if(time_elapsed_sensors > (2 * sensor_timeouts_[camera2_])){
+                ROS_WARN("Camera 2 : Message not received!");
+            }
+            if(time_elapsed_sensors > (2 * sensor_timeouts_[cameratl_])){
+                ROS_WARN("Camera tl : Message not received!");
             }
 
             rate_.sleep();

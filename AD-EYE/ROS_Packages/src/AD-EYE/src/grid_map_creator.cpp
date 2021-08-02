@@ -45,6 +45,7 @@ private:
     ros::Subscriber sub_position_;
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
+    ros::Subscriber sub_sensor_fov_;
 
     //Position
     float x_ego_;
@@ -59,7 +60,7 @@ private:
     float last_yaw_ego_;
     bool first_position_callback_ = true;
 
-    bool first_sensor_sector_callback_ = true;
+    // bool first_sensor_sector_callback_ = true;
 
     //Dimensions
     float length_ego_ = 4.6;
@@ -75,12 +76,20 @@ private:
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
 
+    jsk_recognition_msgs::PolygonArray sensor_sectors_;
+    jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
+    // grid_map::Polygon sensor_sectors_[5];
+    // grid_map::Polygon sensor_sectors_old_[5];
+
     //Parameters
     bool dynamic_objects_ground_truth_active_ = false;
     bool connection_established_ = false;
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
+
+    bool sensor_sectors_initialized_ = false;
+    bool sensor_sectors_active_ = false;
 
     //GridMap
     GridMap map_;
@@ -437,6 +446,41 @@ private:
     }
 
     /*!
+     * \brief Sensor sectors Callback : Called when a new sensor information is received.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores the array of polygons created by sensor monitor node.
+     */
+    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
+        sensor_sectors_ = *msg;
+        sensor_sectors_active_ = true;
+    }
+
+    /*!
+     * \brief Update the Sensor Sectors layer using information from the sensors.
+     */
+    void sensorSectorsUpdate() {
+        // size_t N_sensors = sensor_sectors_.polygons.size();
+        // size_t N_sensors = sensor_sectors_.size();
+        // for(int i = 0; i < (int)N_sensors; i++){
+        //     if(sensor_sectors_initialized_){
+        //         // grid_map::Polygon polygon_old = sensor_sectors_old_.at(i);
+        //         grid_map::Polygon polygon_old = sensor_sectors_old_[i];
+        //         for(grid_map::PolygonIterator iterator(map_, polygon_old); !iterator.isPastEnd(); ++iterator){
+        //             map_.at("SensorSectors", *iterator) = map_.at("SensorSectors", *iterator) - 1;
+        //         }
+        //         sensor_sectors_initialized_ = true;
+        //     }
+        //     // grid_map::Polygon polygon = sensor_sectors_.at(i);
+        //     grid_map::Polygon plygon = sensor_sectors_[i];
+        //     for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
+        //         map_.at("SensorSectors", *iterator) = map_.at("SensorSectors", *iterator) + 1;
+        //     }
+        // }
+        // sensor_sectors_active_ = false;
+        // sensor_sectors_old_ = sensor_sectors_;
+    }
+
+    /*!
      * \brief This function initialize the GridMap with the static entities.
      * \details First, the vector map is read from the .csv found within the parameters
      * Then, the size of the map is extracted and the map can be initialized.
@@ -684,7 +728,10 @@ public:
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
-
+        
+        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
+        // sub_sensor_fov_ = nh.subscribe<grid_map::Polygon[5]>("/sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
+        
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -768,6 +815,12 @@ public:
                     dynamic_objects_initialized_ = true;
                     dynamic_objects_active_ = false;
                 }
+            }
+
+            if(sensor_sectors_active_)
+            {
+                // Update the Sensor Sectors layer
+                sensorSectorsUpdate();
             }        
 
             // publish
