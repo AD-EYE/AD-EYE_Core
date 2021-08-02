@@ -55,3 +55,7 @@ echo "In AD-EYE_GUI, there are : " $(find AD-EYE_GUI.wiki/ -name '*.md' | wc -l)
 
 #Extracting data from the AR_room.wiki repository
 echo "In AR_room, there are : " $(find AR_room.wiki/ -name '*.md' | wc -l) "wiki pages and" "$(($(find AR_room.wiki/ -name '*.PNG' | wc -l)+$(find AR_room.wiki/ -name '*.png' | wc -l)+$(find AR_room.wiki/ -name '*.jpg' | wc -l)+$(find AR_room.wiki/ -name '*.JPG' | wc -l)))" " pictures"
+
+#Deleting the cloned folders
+cd $WORKING_PATH
+sudo rm -r -f wiki_statistics

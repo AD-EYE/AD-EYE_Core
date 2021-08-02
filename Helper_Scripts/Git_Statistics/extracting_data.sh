@@ -71,7 +71,7 @@ send $env(GIT_STAT_PASSPHRASE)\r
 interact'
 
 cd AD-EYE_Core
-git checkout dev
+GIT_LFS_SKIP_SMUDGE=1 git checkout dev
 git remote rm origin
 
 #Installation of deploy key for Pex_Data_Extraction
@@ -101,7 +101,7 @@ send $env(GIT_STAT_PASSPHRASE)\r
 interact'
 
 cd Pex_Data_Extraction
-git checkout dev
+GIT_LFS_SKIP_SMUDGE=1 git checkout dev
 git remote rm origin
 
 #Installation of deploy key for AD-EYE_GUI
@@ -183,7 +183,9 @@ cd $WORKING_PATH/Git_Statistics
 
 /usr/bin/expect -c'
 cd $env(WORKING_PATH)/Git_Statistics
-spawn git clone git@gits-15.sys.kth.se:AD-EYE/AR_room.git
+spawn git lfs clone git@gits-15.sys.kth.se:AD-EYE/AR_room.git
+expect "Enter passphrase"
+send $env(GIT_STAT_PASSPHRASE)\r
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
 interact'
@@ -304,7 +306,7 @@ python ~/AD-EYE_Core/Helper_Scripts/Git_Statistics/commits.py
 nautilus $WORKING_PATH/Stats_results
 
 #Cleaning process for AD-EYE_Core
-cd AD-EYE_Core
+cd Git_Statistics/AD-EYE_Core
 wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar
 
 java -jar bfg-1.14.0.jar --delete-folders mjpeg_server
@@ -325,7 +327,8 @@ java -jar bfg-1.14.0.jar --delete-folders Experiments
 java -jar bfg-1.14.0.jar --delete-folders Data
 
 #Cleaning process for Pex_Data_Extraction
-cd Pex_Data_Extraction
+cd
+cd $WORKING_PATH/Git_Statistics/Pex_Data_Extraction
 git filter-branch -f --tree-filter 'rm -f main.py' HEAD
 git filter-branch -f --tree-filter 'rm -f path.py' HEAD
 git filter-branch -f --tree-filter 'rm -f parse.py' HEAD
@@ -342,7 +345,7 @@ java -jar bfg-1.14.0.jar --delete-folders csv
 
 
 #Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction
-
+cd
 hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
 hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
 hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
