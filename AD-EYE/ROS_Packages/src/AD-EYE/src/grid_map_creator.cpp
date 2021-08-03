@@ -60,8 +60,6 @@ private:
     float last_yaw_ego_;
     bool first_position_callback_ = true;
 
-    // bool first_sensor_sector_callback_ = true;
-
     //Dimensions
     float length_ego_ = 4.6;
     float width_ego_ = 2.2;
@@ -76,11 +74,6 @@ private:
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
 
-    jsk_recognition_msgs::PolygonArray sensor_sectors_;
-    jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
-    // grid_map::Polygon sensor_sectors_[5];
-    // grid_map::Polygon sensor_sectors_old_[5];
-
     //Parameters
     bool dynamic_objects_ground_truth_active_ = false;
     bool connection_established_ = false;
@@ -88,8 +81,12 @@ private:
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
 
+    // For the sensor sectors layer
+    bool first_sensor_sector_callback_ = true;
     bool sensor_sectors_initialized_ = false;
     bool sensor_sectors_active_ = false;
+    jsk_recognition_msgs::PolygonArray sensor_sectors_;
+    jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
 
     //GridMap
     GridMap map_;
@@ -459,25 +456,7 @@ private:
      * \brief Update the Sensor Sectors layer using information from the sensors.
      */
     void sensorSectorsUpdate() {
-        // size_t N_sensors = sensor_sectors_.polygons.size();
-        // size_t N_sensors = sensor_sectors_.size();
-        // for(int i = 0; i < (int)N_sensors; i++){
-        //     if(sensor_sectors_initialized_){
-        //         // grid_map::Polygon polygon_old = sensor_sectors_old_.at(i);
-        //         grid_map::Polygon polygon_old = sensor_sectors_old_[i];
-        //         for(grid_map::PolygonIterator iterator(map_, polygon_old); !iterator.isPastEnd(); ++iterator){
-        //             map_.at("SensorSectors", *iterator) = map_.at("SensorSectors", *iterator) - 1;
-        //         }
-        //         sensor_sectors_initialized_ = true;
-        //     }
-        //     // grid_map::Polygon polygon = sensor_sectors_.at(i);
-        //     grid_map::Polygon plygon = sensor_sectors_[i];
-        //     for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
-        //         map_.at("SensorSectors", *iterator) = map_.at("SensorSectors", *iterator) + 1;
-        //     }
-        // }
-        // sensor_sectors_active_ = false;
-        // sensor_sectors_old_ = sensor_sectors_;
+        
     }
 
     /*!
