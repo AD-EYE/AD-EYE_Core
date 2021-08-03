@@ -9,8 +9,8 @@ repositories_names = ["AD-EYE_Core","AD-EYE_GUI","android_app","AR_room","gettin
 
 #Creation of a common dates list for combined graphs
 all_dates = []
-textfile = open("/home/adeye/Stats_results/AD-EYE_Core_stats/commits_by_year_month.dat",'r')
-file_data = textfile.readlines()
+text_file = open("/home/adeye/Stats_results/AD-EYE_Core_stats/commits_by_year_month.dat",'r')
+file_data = text_file.readlines()
 last_line = file_data [len(file_data)-1]
 last_date = last_line.split()[0]
 last_year = int(last_date[0:4])
@@ -47,24 +47,22 @@ for index in range (len(repositories_names)) :
     X,Y,my_xticks = [],[],[]
     hist_values = []
     path = "/home/adeye/Stats_results/"+repositories_names[index]+"_stats/commits_by_year_month.dat"
-    textfile = open(path,'r')
-    file_data = textfile.readlines()
+    text_file = open(path,'r')
+    file_data = text_file.readlines()
 
     for text_element in file_data:
         values.append(text_element.split())
-    for i in range (len(values)):
-        if i==0:
-            X.append(i)
-            my_xticks.append(values[i][0])
-            Y.append(int(values[i][1]))
-            for j in range (int(values[i][1])):
-                hist_values.append(i)
-        else:
-            X.append(i)
-            my_xticks.append(values[i][0])
-            Y.append(Y[i-1]+int(values[i][1]))
-            for j in range (int(values[i][1])):
-                hist_values.append(i)
+    X.append(0)
+    my_xticks.append(values[0][0])
+    Y.append(int(values[0][1]))
+    for j in range (int(values[0][1])):
+        hist_values.append(0)
+    for i in range (1,len(values)):
+        X.append(i)
+        my_xticks.append(values[i][0])
+        Y.append(Y[i-1]+int(values[i][1]))
+        for j in range (int(values[i][1])):
+            hist_values.append(i)
         
     for i in range(len(all_dates)):
         for j in range (len(my_xticks)):
@@ -86,11 +84,9 @@ for index in range (len(repositories_names)) :
     plt.clf()
 
 #Generation of the combined repositories graphs
+combined_values[0]=combined_hist_values[0]
 for k in range (len(combined_hist_values)):
-    if k==0:
-        combined_values[k]=combined_hist_values[k]
-    else:
-        combined_values[k]=combined_values[k-1]+combined_hist_values[k]
+    combined_values[k]=combined_values[k-1]+combined_hist_values[k]
   
 for j in range (len(combined_hist_values)):
     for l in range (combined_hist_values[j]):
