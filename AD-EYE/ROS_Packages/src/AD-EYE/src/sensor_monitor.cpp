@@ -14,8 +14,6 @@
 // Used to define points of polygons
 #include <geometry_msgs/Point32.h>
 
-using namespace grid_map;
-
 #define PI 3.1415
 
 /*!
@@ -211,6 +209,8 @@ public:
         while (nh_.ok()) {
             ros::Time rostime = ros::Time::now();
             ros::spinOnce();
+            
+            ros::Duration rostime_elapsed_sensors = ros::Time::now() - rostime;
 
             if(sensor_active_[radar_] || sensor_active_[lidar_] || sensor_active_[camera1_] || sensor_active_[camera2_] || sensor_active_[cameratl_])
             {
@@ -227,7 +227,7 @@ public:
             }
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
-            float time_elapsed_sensors = rostime_elapsed.toNSec();
+            float time_elapsed_sensors = rostime_elapsed_sensors.toNSec();
             if(time_elapsed_sensors > (2 * sensor_timeouts_[radar_])){
                 ROS_WARN("Radar : Message not received!");
             }
