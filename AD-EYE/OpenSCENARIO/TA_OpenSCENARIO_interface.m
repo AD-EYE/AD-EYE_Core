@@ -20,8 +20,8 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-ScenarioExpNameArray = ["Lower_speed1"];
-FolderExpNameArray = ["Lower_speed1"];
+ScenarioExpNameArray = ["Decelerating"];
+FolderExpNameArray = ["Decelerating"];
 PrescanExpNameArray = ["W01_Base_Map"];
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
