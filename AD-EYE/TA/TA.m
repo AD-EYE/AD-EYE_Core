@@ -291,12 +291,14 @@ function settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run
     CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).PrescanExpName, '.pex');
     command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
-    for setting=1:size(runs(run_index).TagsConfig,1) %size of each cell in ...
+    for setting=1:size(runs(run_index).TagsConfig,2) %size of each cell in ...
         ...Run.TagsConfig() consisting test automation tags and its values
-        tag = runs(run_index).TagsConfig{1,setting};
-        val = num2str(runs(run_index).TagsConfig{2,setting}, '%50.50g');
-        command = [command ' -set ' tag '=' val];
-        settings(end+1) = cellstr([tag ' = ' val]);
+        if size(runs(run_index).TagsConfig,2)>=2
+            tag = runs(run_index).TagsConfig{1,setting};
+            val = num2str(runs(run_index).TagsConfig{2,setting}, '%50.50g');
+            command = [command ' -set ' tag '=' val];
+            settings(end+1) = cellstr([tag ' = ' val]);
+        end
     end
     command = [command ' -realignPaths']; %unknown use from PreScan
     command = [command ' -build']; %build the experiment    
