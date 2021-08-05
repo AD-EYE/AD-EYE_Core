@@ -84,10 +84,9 @@ private:
     bool dynamic_objects_initialized_ = false;
 
     // For the sensor sectors layer
-    bool first_sensor_sector_callback_ = true;
     jsk_recognition_msgs::PolygonArray sensor_sectors_;
-    // jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
-    
+    // The number pf sensors
+    int N_sensors_ = 5;
     // The polygon that keep in memory the sectors  that have to be displayed in the gridmap.
     grid_map::Polygon sensor_area_;
 
@@ -449,30 +448,137 @@ private:
      * \brief Update the Sensor Sectors layer using information from the sensors.
      * \details When the car is moving, this function will delete old polygons and add new polygons corresponding to the new position of the car.
      * To iterate all the polygons from PolygonArray, a new polygon have to be created with Polygon type.
-     * Each sector will be filled with the numbe of sensors there are in this sector.
+     * Each sector will be filled with the number of sensors there are in this sector.
      */
     void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
+        geometry_msgs::PolygonStamped sensor_polygon;
+        size_t N_points;
+        float x_sensor_ego;
+        float y_sensor_ego;
+        float x_sensor;
+        float y_sensor;
         // Remmove all old polygons
         for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
             map_.at("SensorSectors", *it) = 0;
         }
 
-        // Reset the polygon that stocks information from sensors
-        sensor_area_.removeVertices();
-        sensor_sectors_ = *msg;
-        geometry_msgs::PolygonStamped radar = sensor_sectors_.polygons.at(0);
-        sensor_area_.setFrameId("SSMP_base_link");
-        size_t N_points = radar.polygon.points.size();
-        for(int j = 0; j < (int)N_points; j++) {
-            float x_radar_ego = radar.polygon.points.at(j).x;
-            float y_radar_ego = radar.polygon.points.at(j).y;
-            float x_radar = x_radar_ego * cos(yaw_ego_) - y_radar_ego * sin(yaw_ego_) + x_ego_;
-            float y_radar = x_radar_ego * sin(yaw_ego_) + y_radar_ego * cos(yaw_ego_) + y_ego_;
-            sensor_area_.addVertex(grid_map::Position(x_radar, y_radar));
+        for(int i = 0; i < N_sensors_; i=i+1) {
+            // Reset the polygon that stocks information from sensors
+            sensor_area_.removeVertices();
+            sensor_sectors_ = *msg;
+            sensor_polygon = sensor_sectors_.polygons.at(i);
+            sensor_area_.setFrameId("SSMP_base_link");
+            N_points = sensor_polygon.polygon.points.size();
+            // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+            for(int j = 0; j < (int)N_points; j++) {
+                x_sensor_ego = sensor_polygon.polygon.points.at(j).x;
+                y_sensor_ego = sensor_polygon.polygon.points.at(j).y;
+                x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+                y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+                sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+            }
+            // Add 1 to the layer
+            for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+            }
         }
-        for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
-            map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
-        }
+
+        // // Reset the polygon that stocks information from sensors
+        // sensor_area_.removeVertices();
+        // sensor_sectors_ = *msg;
+        // geometry_msgs::PolygonStamped radar_polygon = sensor_sectors_.polygons.at(0);
+        // sensor_area_.setFrameId("SSMP_base_link");
+        // N_points = radar_polygon.polygon.points.size();
+        // // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+        // for(int j = 0; j < (int)N_points; j++) {
+        //     x_sensor_ego = radar_polygon.polygon.points.at(j).x;
+        //     y_sensor_ego = radar_polygon.polygon.points.at(j).y;
+        //     x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+        //     y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+        //     sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+        // }
+        // // Add 1 to the layer
+        // for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+        //     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        // }
+
+        // // Reset the polygon that stocks information from sensors
+        // sensor_area_.removeVertices();
+        // sensor_sectors_ = *msg;
+        // geometry_msgs::PolygonStamped lidar_polygon = sensor_sectors_.polygons.at(1);
+        // sensor_area_.setFrameId("SSMP_base_link");
+        // N_points = lidar_polygon.polygon.points.size();
+        // // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+        // for(int j = 0; j < (int)N_points; j++) {
+        //     x_sensor_ego = lidar_polygon.polygon.points.at(j).x;
+        //     y_sensor_ego = lidar_polygon.polygon.points.at(j).y;
+        //     x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+        //     y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+        //     sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+        // }
+        // // Add 1 to the layer
+        // for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+        //     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        // }
+
+        // // Reset the polygon that stocks information from sensors
+        // sensor_area_.removeVertices();
+        // sensor_sectors_ = *msg;
+        // geometry_msgs::PolygonStamped camera1_polygon = sensor_sectors_.polygons.at(2);
+        // sensor_area_.setFrameId("SSMP_base_link");
+        // N_points = camera1_polygon.polygon.points.size();
+        // // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+        // for(int j = 0; j < (int)N_points; j++) {
+        //     x_sensor_ego = camera1_polygon.polygon.points.at(j).x;
+        //     y_sensor_ego = camera1_polygon.polygon.points.at(j).y;
+        //     x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+        //     y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+        //     sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+        // }
+        // // Add 1 to the layer
+        // for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+        //     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        // }
+
+        // // Reset the polygon that stocks information from sensors
+        // sensor_area_.removeVertices();
+        // sensor_sectors_ = *msg;
+        // geometry_msgs::PolygonStamped camera2_polygon = sensor_sectors_.polygons.at(3);
+        // sensor_area_.setFrameId("SSMP_base_link");
+        // N_points = camera2_polygon.polygon.points.size();
+        // // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+        // for(int j = 0; j < (int)N_points; j++) {
+        //     x_sensor_ego = camera2_polygon.polygon.points.at(j).x;
+        //     y_sensor_ego = camera2_polygon.polygon.points.at(j).y;
+        //     x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+        //     y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+        //     sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+        // }
+        // // Add 1 to the layer
+        // for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+        //     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        // }
+
+        // // Reset the polygon that stocks information from sensors
+        // sensor_area_.removeVertices();
+        // sensor_sectors_ = *msg;
+        // geometry_msgs::PolygonStamped cameratl_polygon = sensor_sectors_.polygons.at(4);
+        // sensor_area_.setFrameId("SSMP_base_link");
+        // N_points = cameratl_polygon.polygon.points.size();
+        // // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+        // for(int j = 0; j < (int)N_points; j++) {
+        //     x_sensor_ego = cameratl_polygon.polygon.points.at(j).x;
+        //     y_sensor_ego = cameratl_polygon.polygon.points.at(j).y;
+        //     x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
+        //     y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+        //     sensor_area_.addVertex(grid_map::Position(x_sensor, y_sensor));
+        // }
+        // // Add 1 to the layer
+        // for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+        //     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        // }
+
+        
     }   
 
     /*!
