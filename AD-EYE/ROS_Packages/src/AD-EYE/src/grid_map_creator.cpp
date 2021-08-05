@@ -47,6 +47,8 @@ private:
     ros::Subscriber sub_dynamic_objects_;
     ros::Subscriber sub_sensor_fov_;
 
+    // ros::Subscriber sub_radar_;
+
     //Position
     float x_ego_;
     float y_ego_;
@@ -83,9 +85,11 @@ private:
 
     // For the sensor sectors layer
     bool first_sensor_sector_callback_ = true;
-    bool sensor_sectors_active_ = false;
     jsk_recognition_msgs::PolygonArray sensor_sectors_;
-    jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
+    // jsk_recognition_msgs::PolygonArray sensor_sectors_old_;
+    
+    // The polygon that keep in memory the sectors  that have to be displayed in the gridmap.
+    grid_map::Polygon sensor_area_;
 
     //GridMap
     GridMap map_;
@@ -442,84 +446,33 @@ private:
     }
 
     /*!
-     * \brief Sensor sectors Callback : Called when a new sensor information is received.
-     * \param msg A smart pointer to the message from the topic.
-     * \details Stores the array of polygons created by sensor monitor node and indicates that one or more information about sensors has changed.
-     */
-    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
-        sensor_sectors_ = *msg;
-        sensor_sectors_active_ = true;
-    }
-
-    /*!
      * \brief Update the Sensor Sectors layer using information from the sensors.
      * \details When the car is moving, this function will delete old polygons and add new polygons corresponding to the new position of the car.
      * To iterate all the polygons from PolygonArray, a new polygon have to be created with Polygon type.
      * Each sector will be filled with the numbe of sensors there are in this sector.
      */
-    void sensorSectorsUpdate() {
-        // If this is not the first time the function is called, old sectors are removed.
-        if(!first_sensor_sector_callback_) {
-            size_t N_sensors = sensor_sectors_old_.polygons.size(); // Extract the number of sensors.
-            // For each sensor polygon
-            for(int i = 0; i < (int)N_sensors; i++) {
-                bool first_point = true;
-                Position previous_point;
-                // A new polygon, similar to the sensor polygon, is created. Useful for the iteration in the gridmap. Informations from sensor sectors will be added in this polygon.
-                grid_map::Polygon polygon;
-                polygon.setFrameId("SSMP_base_link");
-                size_t N_points = sensor_sectors_old_.polygons.at(i).polygon.points.size(); // Extract the number of points.
-                for(int j = 0; j< (int)N_points; j++) {
-                    geometry_msgs::Point32 point;
-                    point.x = sensor_sectors_old_.polygons.at(i).polygon.points.at(j).x;
-                    point.y = sensor_sectors_old_.polygons.at(i).polygon.points.at(j).y;
-                    polygon.addVertex(Position(point.x, point.y)); // The new polygon is created at the same time.
-                    if(!first_point) {
-                        // The old border is removed.
-                        for(grid_map::LineIterator it(map_, previous_point, Position(point.x, point.y)); !it.isPastEnd(); ++it) {
-                            map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                        }
-                        first_point = false;
-                        previous_point = Position(point.x, point.y);
-                    }
-                }
-                // The old polygon is removed.
-                for(grid_map::PolygonIterator it(map_, polygon); !it.isPastEnd(); ++it) {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) - 15;
-                }
-            }
+    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
+        // Remmove all old polygons
+        for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+            map_.at("SensorSectors", *it) = 0;
         }
-        first_sensor_sector_callback_ = false;
 
-        size_t N_sensors = sensor_sectors_.polygons.size(); // Extract the number of sensors.
-        // For each sensor polygon
-        for(int i = 0; i < (int)N_sensors; i++) {
-            bool first_point = true;
-            Position previous_point;
-            // A new polygon, similar to the sensor polygon, is created. Useful for the iteration in the gridmap. Informations from sensor sectors will be added in this polygon.
-            grid_map::Polygon polygon;
-            polygon.setFrameId("SSMP_base_link");
-            size_t N_points = sensor_sectors_.polygons.at(i).polygon.points.size(); // Extract the number of points.
-            for(int j = 0; j< (int)N_points; j++) {
-                geometry_msgs::Point32 point;
-                point.x = sensor_sectors_.polygons.at(i).polygon.points.at(j).x;
-                point.y = sensor_sectors_.polygons.at(i).polygon.points.at(j).y;
-                polygon.addVertex(Position(point.x, point.y)); // The new polygon is created at the same time.
-                if(!first_point) {
-                    // The old border is removed.
-                    for(grid_map::LineIterator it(map_, previous_point, Position(point.x, point.y)); !it.isPastEnd(); ++it) {
-                        map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-                    }
-                    first_point = false;
-                    previous_point = Position(point.x, point.y);
-                }
-            }
-            // The old polygon is removed.
-            for(grid_map::PolygonIterator it(map_, polygon); !it.isPastEnd(); ++it) {
-                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 15;
-            }
+        // Reset the polygon that stocks information from sensors
+        sensor_area_.removeVertices();
+        sensor_sectors_ = *msg;
+        geometry_msgs::PolygonStamped radar = sensor_sectors_.polygons.at(0);
+        sensor_area_.setFrameId("SSMP_base_link");
+        size_t N_points = radar.polygon.points.size();
+        for(int j = 0; j < (int)N_points; j++) {
+            float x_radar_ego = radar.polygon.points.at(j).x;
+            float y_radar_ego = radar.polygon.points.at(j).y;
+            float x_radar = x_radar_ego * cos(yaw_ego_) - y_radar_ego * sin(yaw_ego_) + x_ego_;
+            float y_radar = x_radar_ego * sin(yaw_ego_) + y_radar_ego * cos(yaw_ego_) + y_ego_;
+            sensor_area_.addVertex(grid_map::Position(x_radar, y_radar));
         }
-        sensor_sectors_old_ = sensor_sectors_;
+        for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+            map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 20;
+        }
     }   
 
     /*!
@@ -771,7 +724,7 @@ public:
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
         
-        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 10, &GridMapCreator::sensorSectorsCallback, this);        
+        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -855,14 +808,6 @@ public:
                     dynamic_objects_initialized_ = true;
                     dynamic_objects_active_ = false;
                 }
-            }
-
-            // If information about sensor has changed.
-            if(sensor_sectors_active_)
-            {
-                // Update the Sensor Sectors layer
-                sensorSectorsUpdate();
-                sensor_sectors_active_ = false;
             }
 
             // publish
