@@ -140,6 +140,11 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+add_executable(
+  databaseInfluenceLocalPlanning
+  src/database_influence_local_planning.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -205,6 +210,16 @@ target_link_libraries(
 target_link_libraries(
   goalSequencer
   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  databaseInfluenceLocalPlanning
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  databaseInfluenceLocalPlanning
+  -lmysqlcppconn
 )
 
 
@@ -280,25 +295,26 @@ add_dependencies(
 )
 
 
-add_executable(
-  ExperimentStopper
-  src/experiment_stopper.cpp
-  #src/point_cloud_to_occupancy_grid.cpp
-)
-target_link_libraries(
-  ExperimentStopper
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  ExperimentStopper
-  ${catkin_EXPORTED_TARGETS}
-)
+#add_executable(
+#  ExperimentStopper
+#  src/experiment_stopper.cpp
+#  #src/point_cloud_to_occupancy_grid.cpp
+#)
+#target_link_libraries(
+#  ExperimentStopper
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(
+#  ExperimentStopper
+#  ${catkin_EXPORTED_TARGETS}
+#)
 
 
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper
+#  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
