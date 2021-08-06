@@ -446,6 +446,7 @@ private:
 
     /*!
      * \brief Update the Sensor Sectors layer using information from the sensors.
+     * \param msg A smart pointer to the message from the topic.
      * \details When the car is moving, this function will delete old polygons and add new polygons corresponding to the new position of the car.
      * To iterate all the polygons from PolygonArray, a new polygon have to be created with Polygon type.
      * Each sector will be filled with the number of sensors there are in this sector.
