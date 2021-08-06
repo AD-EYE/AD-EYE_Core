@@ -35,19 +35,22 @@ private:
     //Polygon Array that represent sensors field of view
     jsk_recognition_msgs::PolygonArray sensor_fov_;
 
+    // The number of sensors
+    static const int nb_sensors_ = 5;
+
     // Enumeration useful to have an easy access to indexes of following arrays.
     enum sensor_type_ {radar, lidar, camera1, camera2, cameratl};
 
     // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
-    float sensor_timeouts_[5] = {0.05, 0.1, 0.05, 0.05, 0.10}; // Time period in seconds, values get in PreScan.
-    float sensor_ranges_[5] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values get in PreScan.
-    float sensor_orientations_[5] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values get in PreScan.
-    float sensor_opening_angles_[5] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values get in PreScan.
-    float sensor_pos_x_[5] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values get in PreScan.
-    float sensor_pos_y_[5] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values get in PreScan.
-    bool sensor_active_[5] = {false, false, false, false, false}; // Indicates if sensors information have changed.
+    float sensor_timeouts_[nb_sensors_] = {0.05, 0.1, 0.05, 0.05, 0.10}; // Time period in seconds, values get in PreScan.
+    float sensor_ranges_[nb_sensors_] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values get in PreScan.
+    float sensor_orientations_[nb_sensors_] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values get in PreScan.
+    float sensor_opening_angles_[nb_sensors_] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values get in PreScan.
+    float sensor_pos_x_[nb_sensors_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values get in PreScan.
+    float sensor_pos_y_[nb_sensors_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values get in PreScan.
+    bool sensor_active_[nb_sensors_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
 
-    //Name for index in lists
+    //Names for indexes in lists
     sensor_type_ radar_ = radar;
     sensor_type_ lidar_ = lidar;
     sensor_type_ camera1_ = camera1;
@@ -104,7 +107,7 @@ private:
 
     /*!
      * \brief Polygon Creator : called when at least one sensor send information.
-     * \details This function creates polygons corresponding to the sensor that send information
+     * \details This function creates polygons corresponding to the sensor that send information, and stores them into the sensor_fov_ array.
      */
     void polygonCreator() {
         // Definition of different polygons.
