@@ -47,8 +47,6 @@ private:
     ros::Subscriber sub_dynamic_objects_;
     ros::Subscriber sub_sensor_fov_;
 
-    // ros::Subscriber sub_radar_;
-
     //Position
     float x_ego_;
     float y_ego_;
@@ -486,7 +484,7 @@ private:
             }
             // Add 1 to the layer
             for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
-                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 10;
             }
         }
     }   
