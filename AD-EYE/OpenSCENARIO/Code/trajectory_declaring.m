@@ -26,8 +26,19 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                     trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = (Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name);
-
-
+                                    
+                                    for l = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private) %for each private
+                                        if strcmp((models.worldmodel.object{j, 1}.name),Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.Attributes.entityRef)
+                                            for p = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction) %for each Action
+                                                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}),'LongitudinalAction') == 1)
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).init = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value;
+                                                elseif (isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}),'LateralAction') == 1 )
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).init = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}.LateralAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value;
+                                                end
+                                            end
+                                        end
+                                    end
+                                    
 
                                     %OSCPrivateAction
                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
@@ -94,7 +105,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
                                                             .Action.PrivateAction.LateralAction.LaneChangeAction),'LaneChangeTarget') == 1 )
                                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
-                                                                .Action.PrivateAction.Lateralv.LaneChangeAction.LaneChangeTarget),'AbsoluteTargetLane') == 1 )
+                                                                .Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeTarget),'AbsoluteTargetLane') == 1 )
 
                                                             trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
