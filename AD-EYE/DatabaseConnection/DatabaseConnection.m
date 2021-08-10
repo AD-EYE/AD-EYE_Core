@@ -16,8 +16,7 @@ function DatabaseConnection()
     % Check the weather %
     %%%%%%%%%%%%%%%%%%%%%
     
-    % Create a table to write on an xlsx file. Check TAOrderTemplate to
-    % understand the this table.
+    % Create a table to write on an xlsx file.
     T = ["FolderExpName" "W01_Base_Map/Simulation"; ...
          "PrescanExpName" "W01_Base_Map"; ...
          "EgoName" "BMW_X5_SUV_1"; ...
@@ -26,7 +25,7 @@ function DatabaseConnection()
          "TagsConfig" ""; ...
          "SHHConfig" "Configurations/SSHConfig.csv"];
      
-    %Check the weather condition on the downloaded data from the database
+    %Check the weather conditions on the downloaded data from the database
     for i = 1:size(rows,2)
         if rows(i) == "Kraftigt regn" % If there is rain, add it on the simulation thank to TagsConfig
             T(6,2) = "weather_type=Rain/rain_density=452000/rain_size=1.23000";
