@@ -19,14 +19,14 @@ for j =1:length(models.worldmodel.object) %main for loop
                                         
                                         Velocity_variable(k,3) = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes.dynamicsShape);
 
-                                            end%check snape
+                                    end%check snape
 
                                         if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed"))
                                                 
                                                 Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value);
                                                 Velocity_variable(k,5) = "Absolute";
 
-                                            end %check Absolute
+                                         end %check Absolute
 
                                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget),'RelativeTargetSpeed') == 1 )  %if Absolute exists
 
