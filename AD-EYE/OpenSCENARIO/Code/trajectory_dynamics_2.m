@@ -119,8 +119,9 @@ for j = 1:length(models.worldmodel.object)
 %                                                         Blockname3 = "Condition_trajectory";
 %                                                         location3 =convertStringsToChars(strcat(location,Blockname3,Blockid(1,p)));
 %                                                         add_condition = 1;
-                                                    if (convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsDimension) == "distance" && (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByEntityCondition')==1 && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition, 'RelativeDistanceCondition')==1))
+                                                    if ((isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
+                                                    .Action.PrivateAction.LongitudinalAction),'LongitudinalDistanceAction') == 1 && Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}...
+                                                        .Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.LongitudinalDistanceAction.Attributes.continuous == "true"))
                                                         Blockname3 = "distance";
                                                         Blockname3 = strcat("Trajectory_input_",Blockname3,"_subsystem");
                                                         location3 =convertStringsToChars(strcat(location,Blockname3,Blockid(1,p)));

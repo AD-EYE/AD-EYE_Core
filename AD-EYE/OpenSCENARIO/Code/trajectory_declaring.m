@@ -49,6 +49,17 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
                                             trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Longitudinal',' ');
+                                            
+                                            %Check if in
+                                            %LongitudinalDistanceAction
+                                            %field
+                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
+                                                    .Action.PrivateAction.LongitudinalAction),'LongitudinalDistanceAction') == 1 )
+
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Distance',(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
+                                                        .Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.LongitudinalDistanceAction.Attributes.continuous));
+                                            end
 
                                             %Check if in Speed field
                                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
