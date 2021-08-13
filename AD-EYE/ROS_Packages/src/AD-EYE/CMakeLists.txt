@@ -256,6 +256,20 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
+# Add executable, libraries and dependencies for KPIs computation for the compilation
+add_executable(
+  kpiComputation
+  src/kpi_computation.cpp
+)
+
+target_link_libraries(
+  kpiComputation
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(kpiComputation
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 
@@ -280,25 +294,25 @@ add_dependencies(
 )
 
 
-add_executable(
-  ExperimentStopper
-  src/experiment_stopper.cpp
+#add_executable(
+#  ExperimentStopper
+#  src/experiment_stopper.cpp
   #src/point_cloud_to_occupancy_grid.cpp
-)
-target_link_libraries(
-  ExperimentStopper
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  ExperimentStopper
-  ${catkin_EXPORTED_TARGETS}
-)
+#)
+#target_link_libraries(
+#  ExperimentStopper
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(
+#  ExperimentStopper
+#  ${catkin_EXPORTED_TARGETS}
+#)
 
 
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC #ExperimentStopper
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
