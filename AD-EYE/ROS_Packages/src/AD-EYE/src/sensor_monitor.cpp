@@ -36,19 +36,19 @@ private:
     jsk_recognition_msgs::PolygonArray sensor_fov_;
 
     // The number of sensors
-    static const int nb_sensors_ = 5;
+    static const int NB_SENSORS_ = 5;
 
     // Enumeration useful to have an easy access to indexes of following arrays.
     enum sensor_type_ {radar, lidar, camera1, camera2, cameratl};
 
     // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
-    float sensor_timeouts_[nb_sensors_] = {0.05, 0.1, 0.05, 0.05, 0.10}; // Time period in seconds, values get in PreScan.
-    float sensor_ranges_[nb_sensors_] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values get in PreScan.
-    float sensor_orientations_[nb_sensors_] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values get in PreScan.
-    float sensor_opening_angles_[nb_sensors_] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values get in PreScan.
-    float sensor_pos_x_[nb_sensors_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values get in PreScan.
-    float sensor_pos_y_[nb_sensors_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values get in PreScan.
-    bool sensor_active_[nb_sensors_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.05, 0.1, 0.05, 0.05, 0.10}; // Time period in seconds, values obtained in PreScan.
+    const float SENSOR_RANGES_[NB_SENSORS_] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values obtained in PreScan.
+    const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values obtained in PreScan.
+    const float SENSOR_OPENING_ANGLES_[NB_SENSORS_] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values obtained in PreScan.
+    const float SENSOR_POS_X_[NB_SENSORS_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
+    const float SENSOR_POS_Y_[NB_SENSORS_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
+    bool sensor_active_[NB_SENSORS_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
 
     //Names for indexes in lists
     sensor_type_ radar_ = radar;
@@ -117,25 +117,16 @@ private:
         geometry_msgs::PolygonStamped camera2_poly;
         geometry_msgs::PolygonStamped cameratl_poly;
 
-        // For each sensor, the polygon is created if information about this sensor has changed.
-        if(sensor_active_[radar_]) {
-            radar_poly = circle_section_creator(sensor_pos_x_[radar_], sensor_pos_y_[radar_], sensor_ranges_[radar_], sensor_orientations_[radar_], sensor_opening_angles_[radar_]);
-        }
-        if(sensor_active_[lidar_]) {
-            lidar_poly = circle_section_creator(sensor_pos_x_[lidar_], sensor_pos_y_[lidar_], sensor_ranges_[lidar_], sensor_orientations_[lidar_], sensor_opening_angles_[lidar_]);
-        }
-        if(sensor_active_[camera1_]) {
-            camera1_poly = circle_section_creator(sensor_pos_x_[camera1_], sensor_pos_y_[camera1_], sensor_ranges_[camera1_], sensor_orientations_[camera1_], sensor_opening_angles_[camera1_]);
-        }
-        if(sensor_active_[camera2_]) {
-            camera2_poly = circle_section_creator(sensor_pos_x_[camera2_], sensor_pos_y_[camera2_], sensor_ranges_[camera2_], sensor_orientations_[camera2_], sensor_opening_angles_[camera2_]);
-        }
-        if(sensor_active_[cameratl_]) {
-            cameratl_poly = circle_section_creator(sensor_pos_x_[cameratl_], sensor_pos_y_[cameratl_], sensor_ranges_[cameratl_], sensor_orientations_[cameratl_], sensor_opening_angles_[cameratl_]);
-        }
-
-        // The polygon array is updated with each sensor polygon created.
+        // The polygon array is filled with each sensor polygon.
         sensor_fov_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
+
+        for(int type = radar; type <= cameratl; type++) {
+            // For each sensor, the polygon is created if information about this sensor has changed.
+            if(sensor_active_[type]) {
+                // The polygon array is updated with each sensor polygon created.
+                sensor_fov_.polygons.at(type) = circle_section_creator(SENSOR_POS_X_[type], SENSOR_POS_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
+            }
+        }
     }
 
     /*!
@@ -147,7 +138,7 @@ private:
      * \param angle Openning angle of the section.
      * \return A circle section created corresponding to the given parameters.
      * \details This function is especially used to create sensor sectors arround the car.
-     * The circle section will be approximate by a succession of points closed enought.
+     * The circle section will be approximate by a succession of points close enought.
      * Angles need to be in rad.
      */
     geometry_msgs::PolygonStamped circle_section_creator(float x, float y, float radius, float orientation, float angle) {
@@ -231,19 +222,19 @@ public:
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
             float time_elapsed_sensors = rostime_elapsed_sensors.toNSec();
-            if(time_elapsed_sensors > (2 * sensor_timeouts_[radar_])){
+            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[radar_])){
                 ROS_WARN("Radar : Message not received!");
             }
-            if(time_elapsed_sensors > (2 * sensor_timeouts_[lidar_])){
+            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[lidar_])){
                 ROS_WARN("Lidar : Message not received!");
             }
-            if(time_elapsed_sensors > (2 * sensor_timeouts_[camera1_])){
+            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[camera1_])){
                 ROS_WARN("Camera 1 : Message not received!");
             }
-            if(time_elapsed_sensors > (2 * sensor_timeouts_[camera2_])){
+            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[camera2_])){
                 ROS_WARN("Camera 2 : Message not received!");
             }
-            if(time_elapsed_sensors > (2 * sensor_timeouts_[cameratl_])){
+            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[cameratl_])){
                 ROS_WARN("Camera tl : Message not received!");
             }
 

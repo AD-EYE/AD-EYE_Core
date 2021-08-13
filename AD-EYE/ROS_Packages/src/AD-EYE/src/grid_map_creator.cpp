@@ -446,7 +446,7 @@ private:
      * \brief Update the Sensor Sectors layer using information from the sensors.
      * \param msg A smart pointer to the message from the topic.
      * \details When the car is moving, this function will delete old polygons and add new polygons corresponding to the new position of the car.
-     * To iterate all the polygons from PolygonArray, a new polygon have to be created with Polygon type.
+     * To iterate all the polygons from PolygonArray, a new polygon has to be created with Polygon type.
      * Each sector will be filled with the number of sensors there are in this sector.
      */
     void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
@@ -484,7 +484,7 @@ private:
             }
             // Add 1 to the layer
             for(grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
-                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 10;
+                map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
             }
         }
     }   
