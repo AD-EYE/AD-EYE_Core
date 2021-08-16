@@ -16,6 +16,8 @@
 #include <std_msgs/Float32MultiArray.h>
 #include <autoware_msgs/Lane.h>
 
+using namespace grid_map;
+
 namespace kpi
 {
     // Distance of closest encounter
@@ -67,8 +69,8 @@ private:
 
     // Parameters for the update of KPIs
     bool ttc_first_callback_ = true;
-    bool mttc_first_callback_ = true;
-    bool mttc_second_callback_ = true;
+    // bool mttc_first_callback_ = true;
+    // bool mttc_second_callback_ = true;
 
     // Velocity of the ego car
     float velocity_ego_ = 0;
@@ -86,7 +88,7 @@ private:
     bool trajectory_callback_ = false;
 
     // For the Dynamic and Static objects
-    grid_map_msgs::GridMap map_;
+    GridMap map_;
     bool gridmap_callback_ = false;
 
     // For other cars
@@ -101,6 +103,7 @@ private:
     bool other_cars_callback_ = false;
     // parameter to know if there is other car in the trajectory
     bool car_in_trajectory_ = false;
+    bool object_in_trajectory_ = false;
 
     //Dimensions
     float length_ego_ = 4.6;
@@ -143,30 +146,72 @@ private:
                 }
                 car_in_trajectory_ = true;
             }
-            std::cout<<"x other = "<<x_pos_other<<std::endl;
-            std::cout<<"y other = "<<y_pos_other<<std::endl;
         }
+        std::cout<<"x other = "<<x_other_cars_<<std::endl;
+        std::cout<<"y other = "<<y_other_cars_<<std::endl;
 
         // If there is no car in the trajectory of the ego car, TTC can't be computed.
         if(!car_in_trajectory_) {
-            return;
+            kpi::ttc = -1; // Default value if TTC can't be computed.
         }
+        else {
+            // If this is the first time the function is called, the velocity can't be computed.
+            if(!ttc_first_callback_) {
+                // The value of the velocity of other cars is obtained by derivation of the position
+                float v_x = (x_other_cars_ - x_other_cars_old_)/dt; // x component of the velocity
+                float v_y = (y_other_cars_ - y_other_cars_old_)/dt; // y component of the velocity
+                velocity_other_cars_ = pow(pow(v_x, 2) + pow(v_y, 2), 0.5);
+                delta_v = fabs(velocity_other_cars_ - velocity_ego_);
 
-        // If this is the first time the function is called, the velocity can't be computed.
-        if(!ttc_first_callback_) {
-            // The value of the velocity of other cars is obtained by derivation of the position
-            float v_x = (x_other_cars_ - x_other_cars_old_)/dt; // x component of the velocity
-            float v_y = (y_other_cars_ - y_other_cars_old_)/dt; // y component of the velocity
-            velocity_other_cars_ = pow(pow(v_x, 2) + pow(v_y, 2), 0.5);
-            delta_v = fabs(velocity_other_cars_ - velocity_ego_);
-
-            kpi::ttc = d / delta_v;
+                kpi::ttc = d / delta_v;
+            }
+            else {
+                kpi::ttc = -1; // Default value if TTC can't be computed.
+            }
+            ttc_first_callback_ = false;
         }
-        ttc_first_callback_ = false;
 
         // Update the position of other car
         x_other_cars_old_ = x_other_cars_;
         y_other_cars_old_ = y_other_cars_;
+    }
+
+    /*!
+     * \brief Update the value of KPI Proportion of Stopping Distance.
+     * \details PSD is defined as D/(V^2/2d),
+     * D the remaining distance to the potential point of collision,
+     * V the velocity of the ego car.
+     * d the maximum acceptable deceleration rate. We will take 0.47g for the moment.
+     */
+    void psdUpdate() {
+        // The remaining distance to the potential point of collision
+        float rd;
+        // Maximum acceptable deceleration rate
+        float d = 0.47 * 9.81;
+
+        object_in_trajectory_ = false;
+
+        rd = pow(pow(trajectory_.waypoints.at(0).pose.pose.position.x - x_ego_, 2) + pow(trajectory_.waypoints.at(0).pose.pose.position.y - y_ego_, 2), 0.5);
+        size_t N_traj = trajectory_.waypoints.size();
+        for(int i=0; i<(int)N_traj; i++) {
+            grid_map::Position position;
+            position.x() = trajectory_.waypoints.at(i).pose.pose.position.x;
+            position.y() = trajectory_.waypoints.at(i).pose.pose.position.y;
+            for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+                if(map_.atPosition("StaticObjects", position) == map_.at("StaticObjects", *it)) {
+                    float distance;
+                    distance = pow(pow(position.x() - x_ego_, 2) + pow(position.y() - y_ego_, 2), 0.5);
+                    if(distance < rd) {
+                        rd = distance;
+                        std::cout<<"rd = "<<rd<<std::endl;
+                    }
+                    object_in_trajectory_ = true;
+                }
+            }
+        }
+
+        kpi::psd = rd / (pow(velocity_ego_, 2) / (2 * d));
+
     }
 
     /*!
@@ -175,7 +220,7 @@ private:
      * \details Extracts and stores information from the layers DynamicObjects and StaticObjects.
      */
     void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg) {
-        map_ = *msg;
+        GridMapRosConverter::fromMessage(*msg, map_);
         gridmap_callback_ = true;
     }
 
@@ -198,6 +243,7 @@ private:
     void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
         velocity_ego_ = pow(pow(msg->twist.linear.x, 2) + pow(msg->twist.linear.y, 2), 0.5);
         velocity_ego_callback_ = true;
+        // std::cout<<"v = "<<velocity_ego_<<std::endl;
     }
 
     /*!
@@ -243,19 +289,24 @@ public:
         while(nh_.ok()) {
             ros::spinOnce();
 
-                if(other_cars_callback_) {
-                    ttcUpdate();
-                    other_cars_callback_ = false;
-                }
-                else {
-                    kpi::ttc = -1; // Value if there is no other cars detected
-                }
+            if(other_cars_callback_) {
+                ttcUpdate();
+                other_cars_callback_ = false;
+            }
+            else {
+                kpi::ttc = -1; // Value if there is no other cars detected, default value if TTC can't be computed.
+            }
 
-                if(!car_in_trajectory_) {
-                    kpi::ttc = -1; // Value if there is no other car in the ego car trajectory
-                }
+            if(gridmap_callback_) {
+                psdUpdate();
+                gridmap_callback_ = false;
 
-                std::cout<<"TTC = "<<kpi::ttc<<std::endl; // Test if the ttc is well updated.
+                if(!object_in_trajectory_) {
+                    kpi::psd = -1;
+                }
+            }
+
+            std::cout<<"TTC = "<<kpi::ttc<<std::endl; // Test if the ttc is well updated.
 
             // This array contains information about all KPIs
             kpi_array_.data = {kpi::dce, kpi::ttce, kpi::mtc, kpi::ttc, kpi::mttc, kpi::wttc, kpi::ettc, kpi::ta, kpi::thw, kpi::psd, kpi::tts, kpi::ttb, kpi::ttk};
@@ -268,7 +319,7 @@ public:
 
 int main(int argc, char** argv) {
     // Initialize node
-    ros::init(argc, argv, "computation");
+    ros::init(argc, argv, "kpi_computation");
     ros::NodeHandle nh;
 
     RiskEnvelopeComputation rec(nh);
