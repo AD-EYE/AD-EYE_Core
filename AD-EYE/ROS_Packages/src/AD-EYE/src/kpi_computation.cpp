@@ -81,6 +81,8 @@ private:
     // Position of the ego car
     float x_ego_;
     float y_ego_;
+    float x_ego_old_;
+    float y_ego_old_;
     bool position_ego_callback_ = false;
 
     // The trajectory of the ego car
@@ -125,30 +127,42 @@ private:
         float delta_v;
         // Reset the value
         car_in_trajectory_ = false;
-        // The number of other cars
-        size_t N_other = other_cars_.poses.size();
-        // Search the closest other car in the trajectory of the ego car
-        d = pow(pow(other_cars_.poses.at(0).position.x - x_ego_, 2) + pow(other_cars_.poses.at(0).position.y - y_ego_, 2), 0.5);
-        x_other_cars_ = other_cars_.poses.at(0).position.x;
-        y_other_cars_ = other_cars_.poses.at(0).position.y;
-        for(int i = 0; i < (int)N_other; i++) {
-            float x_pos_other = other_cars_.poses.at(i).position.x; // x coordinate of other car to compare with the trajectory
-            float y_pos_other = other_cars_.poses.at(i).position.y; // y coordinate of other car to compare with the trajectory
-            float x_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.x; // x coordinate of the trajectory point to compare
-            float y_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.y; // y coordinate of the trajectory point to compare
-            // If the other car is in the trajectory
-            if((x_pos_other = x_pos_trajectory) && (y_pos_other = y_pos_trajectory)){
-                // If the other car is the closest of all already tested other cars
-                if(pow(pow(x_pos_other - x_ego_, 2) + pow(y_pos_other - y_ego_, 2), 0.5) < d) {
-                    d = pow(pow(x_pos_other - x_ego_, 2) + pow(y_pos_other - y_ego_, 2), 0.5);
-                    x_other_cars_ = x_pos_other;
-                    y_other_cars_ = y_pos_other;
+
+        size_t N_pts_traj = trajectory_.waypoints.size();
+        for(int i = 0; i < (int)N_pts_traj; i++) {
+            float x_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.x; // x coordinate of the trajectory point to compare with the position of other car
+            float y_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.y; // y coordinate of the trajectory point to compare with the position of other car
+
+            float pose_x; // x coordinate of other car to compare with the trajectory
+            float pose_y; // y coordinate of other car to compare with the trajectory
+
+            // Initialize the values to compare
+            pose_x = other_cars_.poses.at(0).position.x;
+            pose_y = other_cars_.poses.at(0).position.y;
+            d = pow(pow(pose_x - x_ego_, 2) + pow(pose_y - y_ego_,2), 0.5);
+
+            // The number of other cars
+            size_t N_other = other_cars_.poses.size();
+            // Search the closest other car in the trajectory of the ego car
+            for(int j = 0; j < (int)N_other; j++) {
+                pose_x = other_cars_.poses.at(j).position.x;
+                pose_y = other_cars_.poses.at(j).position.y;
+                float distance_to_traj = pow(pow(x_pos_trajectory - pose_x, 2) + pow(y_pos_trajectory - pose_y, 2), 0.5);
+                if(distance_to_traj <= width_ego_ / 2) { // If the car is close enough of the trajectory of the ego car.
+                    float distance_to_ego = pow(pow(pose_x - x_ego_, 2) + pow(pose_y - y_ego_,2), 0.5);
+                    if(distance_to_ego < d) { // If the other car is the closest of all other cars tested
+                        d = distance_to_ego;
+                        x_other_cars_ = pose_x;
+                        y_other_cars_ = pose_y;
+
+                        std::cout<<"x other = "<<x_other_cars_<<std::endl;
+                        std::cout<<"y other = "<<y_other_cars_<<std::endl;
+
+                    }
+                    car_in_trajectory_ = true;
                 }
-                car_in_trajectory_ = true;
             }
         }
-        std::cout<<"x other = "<<x_other_cars_<<std::endl;
-        std::cout<<"y other = "<<y_other_cars_<<std::endl;
 
         // If there is no car in the trajectory of the ego car, TTC can't be computed.
         if(!car_in_trajectory_) {
@@ -161,9 +175,16 @@ private:
                 float v_x = (x_other_cars_ - x_other_cars_old_)/dt; // x component of the velocity
                 float v_y = (y_other_cars_ - y_other_cars_old_)/dt; // y component of the velocity
                 velocity_other_cars_ = pow(pow(v_x, 2) + pow(v_y, 2), 0.5);
-                delta_v = fabs(velocity_other_cars_ - velocity_ego_);
 
-                kpi::ttc = d / delta_v;
+                // If the two vehicles drive the same direction, the sign of the difference of velocity is taking into account.
+                if(((x_ego_ - x_ego_old_) * (x_other_cars_ - x_other_cars_old_) >= 0) || ((y_ego_ - y_ego_old_) * (y_other_cars_ - y_other_cars_old_) >= 0)) {
+                    delta_v = velocity_ego_ - velocity_other_cars_;
+                }
+                else { // If the two vehicles don't drive the same direction, just the value of the difference of velocity is important.
+                    delta_v = fabs(velocity_other_cars_ - velocity_ego_);
+                }
+
+                kpi::ttc = d / delta_v; // If the time is negative, it means that there is no risk of collision, the two vehicules are driving away.
             }
             else {
                 kpi::ttc = -1; // Default value if TTC can't be computed.
@@ -171,48 +192,50 @@ private:
             ttc_first_callback_ = false;
         }
 
-        // Update the position of other car
+        // Update the position of other car and ego car
         x_other_cars_old_ = x_other_cars_;
         y_other_cars_old_ = y_other_cars_;
+        x_ego_old_ = x_ego_;
+        y_ego_old_ = y_ego_;
     }
 
-    /*!
-     * \brief Update the value of KPI Proportion of Stopping Distance.
-     * \details PSD is defined as D/(V^2/2d),
-     * D the remaining distance to the potential point of collision,
-     * V the velocity of the ego car.
-     * d the maximum acceptable deceleration rate. We will take 0.47g for the moment.
-     */
-    void psdUpdate() {
-        // The remaining distance to the potential point of collision
-        float rd;
-        // Maximum acceptable deceleration rate
-        float d = 0.47 * 9.81;
+    // /*!
+    //  * \brief Update the value of KPI Proportion of Stopping Distance.
+    //  * \details PSD is defined as D/(V^2/2d),
+    //  * D the remaining distance to the potential point of collision,
+    //  * V the velocity of the ego car.
+    //  * d the maximum acceptable deceleration rate. We will take 0.47g for the moment.
+    //  */
+    // void psdUpdate() {
+    //     // The remaining distance to the potential point of collision
+    //     float rd;
+    //     // Maximum acceptable deceleration rate
+    //     float d = 0.47 * 9.81;
 
-        object_in_trajectory_ = false;
+    //     object_in_trajectory_ = false;
 
-        rd = pow(pow(trajectory_.waypoints.at(0).pose.pose.position.x - x_ego_, 2) + pow(trajectory_.waypoints.at(0).pose.pose.position.y - y_ego_, 2), 0.5);
-        size_t N_traj = trajectory_.waypoints.size();
-        for(int i=0; i<(int)N_traj; i++) {
-            grid_map::Position position;
-            position.x() = trajectory_.waypoints.at(i).pose.pose.position.x;
-            position.y() = trajectory_.waypoints.at(i).pose.pose.position.y;
-            for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
-                if(map_.atPosition("StaticObjects", position) == map_.at("StaticObjects", *it)) {
-                    float distance;
-                    distance = pow(pow(position.x() - x_ego_, 2) + pow(position.y() - y_ego_, 2), 0.5);
-                    if(distance < rd) {
-                        rd = distance;
-                        std::cout<<"rd = "<<rd<<std::endl;
-                    }
-                    object_in_trajectory_ = true;
-                }
-            }
-        }
+    //     rd = pow(pow(trajectory_.waypoints.at(0).pose.pose.position.x - x_ego_, 2) + pow(trajectory_.waypoints.at(0).pose.pose.position.y - y_ego_, 2), 0.5);
+    //     size_t N_traj = trajectory_.waypoints.size();
+    //     for(int i=0; i<(int)N_traj; i++) {
+    //         grid_map::Position position;
+    //         position.x() = trajectory_.waypoints.at(i).pose.pose.position.x;
+    //         position.y() = trajectory_.waypoints.at(i).pose.pose.position.y;
+    //         for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+    //             if(map_.atPosition("StaticObjects", position) == map_.at("StaticObjects", *it)) {
+    //                 float distance;
+    //                 distance = pow(pow(position.x() - x_ego_, 2) + pow(position.y() - y_ego_, 2), 0.5);
+    //                 if(distance < rd) {
+    //                     rd = distance;
+    //                     std::cout<<"rd = "<<rd<<std::endl;
+    //                 }
+    //                 object_in_trajectory_ = true;
+    //             }
+    //         }
+    //     }
 
-        kpi::psd = rd / (pow(velocity_ego_, 2) / (2 * d));
+    //     kpi::psd = rd / (pow(velocity_ego_, 2) / (2 * d));
 
-    }
+    // }
 
     /*!
      * \brief gridmapCallback: called when information of the gridmap has changed.
@@ -243,7 +266,6 @@ private:
     void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
         velocity_ego_ = pow(pow(msg->twist.linear.x, 2) + pow(msg->twist.linear.y, 2), 0.5);
         velocity_ego_callback_ = true;
-        // std::cout<<"v = "<<velocity_ego_<<std::endl;
     }
 
     /*!
@@ -297,14 +319,14 @@ public:
                 kpi::ttc = -1; // Value if there is no other cars detected, default value if TTC can't be computed.
             }
 
-            if(gridmap_callback_) {
-                psdUpdate();
-                gridmap_callback_ = false;
+            // if(gridmap_callback_) {
+            //     psdUpdate();
+            //     gridmap_callback_ = false;
 
-                if(!object_in_trajectory_) {
-                    kpi::psd = -1;
-                }
-            }
+            //     if(!object_in_trajectory_) {
+            //         kpi::psd = -1;
+            //     }
+            // }
 
             std::cout<<"TTC = "<<kpi::ttc<<std::endl; // Test if the ttc is well updated.
 
