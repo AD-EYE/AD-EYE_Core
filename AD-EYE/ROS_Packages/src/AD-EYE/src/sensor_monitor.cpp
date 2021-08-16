@@ -138,7 +138,7 @@ private:
      * \param angle Openning angle of the section.
      * \return A circle section created corresponding to the given parameters.
      * \details This function is especially used to create sensor sectors arround the car.
-     * The circle section will be approximate by a succession of points close enought.
+     * The circle section will be approximate by a succession of points close enough.
      * Angles need to be in rad.
      */
     geometry_msgs::PolygonStamped circle_section_creator(float x, float y, float radius, float orientation, float angle) {
