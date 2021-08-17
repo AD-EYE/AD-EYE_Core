@@ -69,8 +69,8 @@ private:
 
     // Parameters for the update of KPIs
     bool ttc_first_callback_ = true;
-    // bool mttc_first_callback_ = true;
-    // bool mttc_second_callback_ = true;
+    bool mttc_first_callback_ = true;
+    bool mttc_second_callback_ = true;
 
     // Velocity of the ego car
     float velocity_ego_ = 0;
@@ -112,7 +112,7 @@ private:
     float width_ego_ = 2.2;
 
     // Time range useful to compute velocity of other cars and acceleration.
-    float dt = 1 / frequency_;
+    float dt_ = 1 / frequency_;
 
     /*!
      * \brief Update the value of KPI Time to Collision.
@@ -128,7 +128,9 @@ private:
         // Reset the value
         car_in_trajectory_ = false;
 
+        // The number of points in the trajectory
         size_t N_pts_traj = trajectory_.waypoints.size();
+        // For all points in trajectory, check if the position of other car is in it.
         for(int i = 0; i < (int)N_pts_traj; i++) {
             float x_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.x; // x coordinate of the trajectory point to compare with the position of other car
             float y_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.y; // y coordinate of the trajectory point to compare with the position of other car
@@ -154,10 +156,6 @@ private:
                         d = distance_to_ego;
                         x_other_cars_ = pose_x;
                         y_other_cars_ = pose_y;
-
-                        std::cout<<"x other = "<<x_other_cars_<<std::endl;
-                        std::cout<<"y other = "<<y_other_cars_<<std::endl;
-
                     }
                     car_in_trajectory_ = true;
                 }
@@ -172,19 +170,12 @@ private:
             // If this is the first time the function is called, the velocity can't be computed.
             if(!ttc_first_callback_) {
                 // The value of the velocity of other cars is obtained by derivation of the position
-                float v_x = (x_other_cars_ - x_other_cars_old_)/dt; // x component of the velocity
-                float v_y = (y_other_cars_ - y_other_cars_old_)/dt; // y component of the velocity
+                float v_x = (x_other_cars_ - x_other_cars_old_)/dt_; // x component of the velocity
+                float v_y = (y_other_cars_ - y_other_cars_old_)/dt_; // y component of the velocity
                 velocity_other_cars_ = pow(pow(v_x, 2) + pow(v_y, 2), 0.5);
+                delta_v = velocity_ego_ - velocity_other_cars_;
 
-                // If the two vehicles drive the same direction, the sign of the difference of velocity is taking into account.
-                if(((x_ego_ - x_ego_old_) * (x_other_cars_ - x_other_cars_old_) >= 0) || ((y_ego_ - y_ego_old_) * (y_other_cars_ - y_other_cars_old_) >= 0)) {
-                    delta_v = velocity_ego_ - velocity_other_cars_;
-                }
-                else { // If the two vehicles don't drive the same direction, just the value of the difference of velocity is important.
-                    delta_v = fabs(velocity_other_cars_ - velocity_ego_);
-                }
-
-                kpi::ttc = d / delta_v; // If the time is negative, it means that there is no risk of collision, the two vehicules are driving away.
+                kpi::ttc = d / delta_v; // If the time is negative, it means that there is no risk of collision, the other car drive fatser than the ego.
             }
             else {
                 kpi::ttc = -1; // Default value if TTC can't be computed.
@@ -197,6 +188,123 @@ private:
         y_other_cars_old_ = y_other_cars_;
         x_ego_old_ = x_ego_;
         y_ego_old_ = y_ego_;
+    }
+
+    /*!
+     * \brief Update the value of KPI Modified Time to Collision.
+     * \details MTTC is defined as (+/-(dV^2 + 2*da*D)^0.5 - dV) / da
+     * D is the distance between ego car and the other car,
+     * dV is the difference of velocity between ego and other car,
+     * da is the difference of acceleration between ego and other car.
+     * If da = 0, MTTC = TTC.
+     */
+    void mttcUpdate() {
+        // the distance between other cars and the ego car
+        float d;
+        // the difference between the velocity of the ego car and the other car
+        float delta_v;
+        // the difference between the acceleration of the ego car and the other car
+        float delta_a;
+        // Reset the value
+        car_in_trajectory_ = false;
+
+        // The number of points in the trajectory
+        size_t N_pts_traj = trajectory_.waypoints.size();
+        // For all points in trajectory, check if the position of other car is in it.
+        for(int i = 0; i < (int)N_pts_traj; i++) {
+            float x_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.x; // x coordinate of the trajectory point to compare with the position of other car
+            float y_pos_trajectory = trajectory_.waypoints.at(i).pose.pose.position.y; // y coordinate of the trajectory point to compare with the position of other car
+
+            float pose_x; // x coordinate of other car to compare with the trajectory
+            float pose_y; // y coordinate of other car to compare with the trajectory
+
+            // Initialize the values to compare
+            pose_x = other_cars_.poses.at(0).position.x;
+            pose_y = other_cars_.poses.at(0).position.y;
+            d = pow(pow(pose_x - x_ego_, 2) + pow(pose_y - y_ego_,2), 0.5);
+
+            // The number of other cars
+            size_t N_other = other_cars_.poses.size();
+            // Search the closest other car in the trajectory of the ego car
+            for(int j = 0; j < (int)N_other; j++) {
+                pose_x = other_cars_.poses.at(j).position.x;
+                pose_y = other_cars_.poses.at(j).position.y;
+                float distance_to_traj = pow(pow(x_pos_trajectory - pose_x, 2) + pow(y_pos_trajectory - pose_y, 2), 0.5);
+                if(distance_to_traj <= width_ego_ / 2) { // If the car is close enough of the trajectory of the ego car.
+                    float distance_to_ego = pow(pow(pose_x - x_ego_, 2) + pow(pose_y - y_ego_,2), 0.5);
+                    if(distance_to_ego < d) { // If the other car is the closest of all other cars tested
+                        d = distance_to_ego;
+                        x_other_cars_ = pose_x;
+                        y_other_cars_ = pose_y;
+                    }
+                    car_in_trajectory_ = true;
+                }
+            }
+        }
+
+        // If there is no car in the trajectory of the ego car, MTTC can't be computed.
+        if(!car_in_trajectory_) {
+            kpi::mttc = -1; // Default value if MTTC can't be computed.
+        }
+        else {
+            // If this is the first time the function is called, the velocity can't be computed.
+            if(!mttc_first_callback_) {
+                // The value of the velocity of other cars is obtained by derivation of the position
+                float v_x = (x_other_cars_ - x_other_cars_old_)/dt_; // x component of the velocity
+                float v_y = (y_other_cars_ - y_other_cars_old_)/dt_; // y component of the velocity
+                velocity_other_cars_ = pow(pow(v_x, 2) + pow(v_y, 2), 0.5);
+                delta_v = velocity_ego_ - velocity_other_cars_;
+
+                // If this is the second callback of the function, the acceleration can't be computed.
+                if(!mttc_second_callback_) {
+                    // The value of the acceleration of the other cars and the ego car
+                    acceleration_other_cars_ = (velocity_other_cars_ - velocity_other_cars_old_) / dt_;
+                    acceleration_ego_ = (velocity_ego_ - velocity_ego_old_) / dt_;
+                    delta_a = acceleration_ego_ - acceleration_other_cars_;
+
+                    if(delta_a == 0) {
+                        kpi::mttc = kpi:: ttc;
+                    }
+                    else {
+                        // MTTC is calculated from an equation, there is 2 solutions. The minimum non negative one will be MTTC, if they are both negative, there is no risk of collision.
+                        float mttc_1 = (- delta_v + pow(pow(delta_v, 2) + 2 * delta_a * d, 0.5)) / delta_a;
+                        float mttc_2 = (- delta_v - pow(pow(delta_v, 2) + 2 * delta_a * d, 0.5)) / delta_a;
+                        if(mttc_1 >= 0 && mttc_2 >= 0) {
+                            if(mttc_1 < mttc_2) {
+                                kpi::mttc = mttc_1;
+                            }
+                            else {
+                                kpi::mttc = mttc_2;
+                            }
+                        }
+                        else if(mttc_1 >= 0) {
+                            kpi::mttc = mttc_1;
+                        }
+                        else if(mttc_2 >= 0) {
+                            kpi::mttc = mttc_2;
+                        }
+                        else {
+                            kpi::mttc = -1; // Default value if there is no solutions.
+                        }
+                    }
+                }
+                else {
+                    kpi::mttc = -1; // Default value if MTTC can't be computed.
+                }
+                mttc_second_callback_ = false;
+            }
+            else {
+                kpi::mttc = -1; // Default value if MTTC can't be computed.
+            }
+            mttc_first_callback_ = false;
+        }
+
+        // Update the position of other car and ego car
+        x_other_cars_old_ = x_other_cars_;
+        y_other_cars_old_ = y_other_cars_;
+        x_ego_old_ = x_ego_;
+        y_ego_old_ = y_ego_;
+
     }
 
     // /*!
@@ -313,10 +421,12 @@ public:
 
             if(other_cars_callback_) {
                 ttcUpdate();
+                mttcUpdate();
                 other_cars_callback_ = false;
             }
             else {
                 kpi::ttc = -1; // Value if there is no other cars detected, default value if TTC can't be computed.
+                kpi::mttc = -1; // Value if there is no other cars detected, default value if MTTC can't be computed.
             }
 
             // if(gridmap_callback_) {
@@ -328,7 +438,8 @@ public:
             //     }
             // }
 
-            std::cout<<"TTC = "<<kpi::ttc<<std::endl; // Test if the ttc is well updated.
+            std::cout<<"TTC = "<<kpi::ttc<<std::endl;
+            std::cout<<"MTTC = "<<kpi::mttc<<std::endl; // Test if the mttc is well updated.
 
             // This array contains information about all KPIs
             kpi_array_.data = {kpi::dce, kpi::ttce, kpi::mtc, kpi::ttc, kpi::mttc, kpi::wttc, kpi::ettc, kpi::ta, kpi::thw, kpi::psd, kpi::tts, kpi::ttb, kpi::ttk};
