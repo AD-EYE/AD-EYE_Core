@@ -31,7 +31,8 @@ for j = 1:length(models.worldmodel.object)
                                                 if(isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition),"Distance_RelativeObject") == 1  || isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition),"TimeHeadWay") == 1 || isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-                                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition),"SimulationTimeCondition") == 1 )
+                                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition),"SimulationTimeCondition") == 1  || isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
+                                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition),"Speed_RelativeObject") == 1)
 
 
                                                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Adding blocks
@@ -201,87 +202,7 @@ for j = 1:length(models.worldmodel.object)
 %                                                     end
 
                                                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%connecting lines                                                
-                                                    if(trajectory_type(1,z) =="Longitudinal")
-%                                                         if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-%                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsDimension =="distance"))
-                                                            
-                                                            %Add
-                                                            %Distance_condition
-                                                            %block
-%                                                             Blockname9 = "Distance_condition";
-%                                                             location9=convertStringsToChars(strcat(location,Blockname9));
-%                                                             add_block(convertCharsToStrings(strcat("OpenSCENARIO/",Blockname9)),location9);
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname3,Blockid(1,p),"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname9,"/1"))) ;
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname9,"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname1,"/",int2str(p_L(1,q)-p+2))) ); %add line to the add block
-%                                                             set_param(convertStringsToChars(strcat(location9,"/Current_speed")),'GotoTag','V_in' );
-%                                                             set_param(convertStringsToChars(strcat(location9,"/Distance_wanted")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
-%                                                             set_param(convertStringsToChars(strcat(location9,"/Ego_speed")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value );
-%                                                             set_param((strcat(location9,"/Current_distance")),'Gototag',   convertStringsToChars(strcat("D_",trajectory_type(1,z) ,Blockid(1,j) ) )    )
-%                                                             if (i<p_L)
-%                                                                 set_param(convertStringsToChars(strcat(location9,"/Switch7"))...
-%                                                                 ,'Threshold',...
-%                                                                 trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i+1}.Attributes.name).Condition.Rule.value)
-%                                                             else
-%                                                                 h = get_param(convertStringsToChars(strcat(location9,'/Switch7')),'LineHandles');
-%                                                                delete_line(h.Inport(1));
-%                                                                add_line(convertStringsToChars(location9), convertStringsToChars(strcat("Switch6","/1")),convertStringsToChars(strcat("Switch7","/1")))
-%                                                             end
-%                                                         
-%                                                             
-%                                                         elseif (isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-%                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'SimulationTimeCondition') == 1)
-%                                                             Blockname10 = "Change_speed";
-%                                                             location10=convertStringsToChars(strcat(location,Blockname10,Blockid(1,p)));
-%                                                             add_block(convertCharsToStrings(strcat("OpenSCENARIO/",Blockname10)),location10);
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname3,Blockid(1,p),"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname10,Blockid(1,p),"/1"))) ;
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname10,Blockid(1,p),"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname1,"/",int2str(p_L(1,q)-p+2))) ); % add line to add block
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Desired_speed")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value );
-%                                                             if iscell(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
-%                                                                 set_param(convertStringsToChars(strcat(location10,"/Acceleration")), 'value', num2str(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value{1,1}));
-%                                                                 trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value(:,1)=[];
-%                                                             else
-%                                                                 set_param(convertStringsToChars(strcat(location10,"/Acceleration")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value);
-%                                                             end
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Switch6"))...
-%                                                                 ,'Threshold',...
-%                                                                 trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)
-%                                                             set_param(convertStringsToChars(strcat(location10,"/From1")),'GotoTag','V_in' )
-%                                                             
-%                                                         elseif (isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'Distance_RelativeObject') == 1)
-%                                                             Blockname10 = "Change_speed";
-%                                                             location10=convertStringsToChars(strcat(location,Blockname10,Blockid(1,p)));
-%                                                             add_block(convertCharsToStrings(strcat("OpenSCENARIO/",Blockname10)),location10);
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname3,Blockid(1,p),"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname10,Blockid(1,p),"/1"))) ;
-%                                                             add_line(convertStringsToChars(location0), convertStringsToChars(strcat(Blockname10,Blockid(1,p),"/1"))  ...
-%                                                                 ,convertStringsToChars(strcat(Blockname1,"/",int2str(p_L(1,q)-p+2))) ); % add line to add block
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Desired_speed")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value );
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Acceleration")), 'value', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
-%                                                             ini= str2double(trajectory_variable.(models.worldmodel.object{j, 1}.name).init)/3.6;
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Memory")),'InitialCondition',num2str(ini) );
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Switch6"))...
-%                                                                 ,'Threshold',...
-%                                                                 trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
-%                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)
-%                                                             set_param(convertStringsToChars(strcat(location10,"/From1")),'GotoTag','V_in' )
-%                                                             set_param(convertStringsToChars(strcat(location10,"/Switch6"))...
-%                                                                 ,'Criteria','u2 ~= 0')
-%                                                         end
+                                                    if(trajectory_type(1,z) =="Longitudinal")                                                      
                                                         
                                                         %check if trajectory_output has a connect, otherwise add it
                                                         s3 = get_param(location3, 'PortConnectivity');
@@ -358,8 +279,10 @@ for j = 1:length(models.worldmodel.object)
                                                         if(Blockname3=="Trajectory_input_sinusoidal_subsystem" || Blockname3=="Trajectory_input_turn_subsystem")
                                                             set_param(convertStringsToChars(strcat(location,"Lateral_Dynamics","/Trajectory_output","/Switch")),'Threshold', convertStringsToChars(strcat("-",convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value))))
-                                                            set_param(convertStringsToChars(strcat(location,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', trajectory_variable.(models.worldmodel.object{j, 1}.name)...
-                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
+                                                            if (Blockname3=="Trajectory_input_turn_subsystem")
+                                                                set_param(convertStringsToChars(strcat(location,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                            .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
+                                                            end
                                                         end
                                                             
                                                     end
@@ -369,20 +292,20 @@ for j = 1:length(models.worldmodel.object)
                                                     
                                                     %%%Adding ROS Send
                                                     %%%Velocity
-                                                    if (getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                    if (i==length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event) && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
                                                         add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(location,"ROS Send Velocity") );
                                                         set_param(strcat(location,"ROS Send Velocity"),'LinkStatus', 'inactive') %Unlock links
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"),'LinkStatus', 'inactive')
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"), "topicSource", "specify your own");
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"), "topic", "/other_velocity");
-                                                        if (getSimulinkBlockHandle(strcat(location,"Longitudinal_Dynamics")) == 1)
+                                                        if (getSimulinkBlockHandle(strcat(location,"Longitudinal_Dynamics")) ~= -1)
                                                             add_line(strcat(location), 'Longitudinal_Dynamics/1', 'ROS Send Velocity/1');
                                                         else
                                                             add_line(strcat(location), convertStringsToChars(strcat("Gain",int2str(j),"/1")), 'ROS Send Velocity/1');
                                                         end
                                                         add_block("simulink/Commonly Used Blocks/Constant", strcat(location,"EnableSendVelocity"),'value', '1');
                                                         add_line(strcat(location), 'EnableSendVelocity/1', 'ROS Send Velocity/Enable');
-                                                        if (getSimulinkBlockHandle(strcat(location,"Lateral_Dynamics")) == 1)
+                                                        if (getSimulinkBlockHandle(strcat(location,"Lateral_Dynamics")) ~= -1)
                                                             add_line(strcat(location), 'Lateral_Dynamics/1', 'ROS Send Velocity/2');
                                                         else
                                                             add_block("simulink/Commonly Used Blocks/Constant", strcat(location,"constant"), 'value', '0');
@@ -429,6 +352,8 @@ for j = 1:length(models.worldmodel.object)
                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'TimeHeadWayCondition') == 1)
                                                         set_param(convertStringsToChars(strcat(location2,"/Goto4")),'GotoTag', convertStringsToChars(strcat("T_",trajectory_type(1,z) ,Blockid(1,j) ) )  )
                                                     end
+                                                    
+                                                    
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Parameters of Condition trajetory
                                                     width = abs(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
@@ -489,6 +414,36 @@ for j = 1:length(models.worldmodel.object)
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'GotoTag','V_out' );
                                                         end
                                                         
+                                                        if (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByEntityCondition')==1 && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition, 'SpeedCondition')==1 )
+                                                            set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
+                                                                ,'Criteria','u2 >= Threshold')
+                                                            set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
+                                                                ,'Threshold', trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)
+                                                            if (convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                                    .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Speed_RelativeObject) == "Ego")
+                                                                set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
+                                                                set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'GotoTag','velocity' );
+                                                            else
+                                                                for h =1: length( models.worldmodel.object)
+                                                                    if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Speed_RelativeObject) == ...
+                                                                        convertCharsToStrings(models.worldmodel.object{h,1}.name))
+                                                                        locat = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{h,1}.name),"/Dynamics_Empty/");
+                                                                        add_block("simulink/Signal Routing/Goto", strcat(locat,"Velocity"),'GotoTag', 'Vel');
+                                                                        set_param(strcat(locat,"Velocity"), 'TagVisibility', 'global');
+                                                                        if (getSimulinkBlockHandle(strcat(locat,"Longitudinal_Dynamics")) ~= -1)
+                                                                            add_line(strcat(locat), 'Longitudinal_Dynamics/1', 'Velocity/1');
+                                                                        else
+                                                                            add_line(strcat(locat), convertStringsToChars(strcat("Gain",int2str(j),"/1")), 'Velocity/1');
+                                                                        end
+                                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
+                                                                        set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'GotoTag','Vel' );
+                                                                    end
+                                                                end
+                                                            end
+                                                        end
+                                                        
                                                         if (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByValueCondition')==1 &&  isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition, 'SimulationTimeCondition')==1)
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
@@ -530,7 +485,7 @@ for j = 1:length(models.worldmodel.object)
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
                                                         value1 = 4*str2num(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value));
-                                                        value2 = pi/value1;
+                                                        value2 = 2*pi/value1;
                                                         set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain5")),'Gain',(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value))
                                                         set_param(convertStringsToChars(strcat(location3,Blockname7,"/Gain6")),'Gain',convertStringsToChars(num2str(value2))) 
