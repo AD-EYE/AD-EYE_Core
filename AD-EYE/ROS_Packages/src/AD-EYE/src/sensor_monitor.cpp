@@ -121,11 +121,10 @@ private:
         sensor_fov_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
 
         for(int type = radar_; type <= cameratl_; type++) {
-            // For each sensor, the polygon is created if information about this sensor has changed.
+            // For each sensor, the polygon is created if information about this sensor is sent. If not, there will be an empty polygon for this sensor.
             if(sensor_active_[type]) {
                 // The polygon array is updated with each sensor polygon created.
                 sensor_fov_.polygons.at(type) = circle_section_creator(SENSOR_POS_X_[type], SENSOR_POS_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
-                sensor_active_[type] = false;
             }
         }
     }
@@ -198,7 +197,7 @@ public:
      */
     void run() {
 
-        rate_ = ros::Rate(20);
+        rate_ = ros::Rate(10); // Aligned with the lowest sensor frequency.
 
         //Main loop
         while (nh_.ok()) {
@@ -211,6 +210,11 @@ public:
             {
                 // Update sensor layer
                 polygonCreator();
+                sensor_active_[radar_] = false;
+                sensor_active_[lidar_] = false;
+                sensor_active_[camera1_] = false;
+                sensor_active_[camera2_] = false;
+                sensor_active_[cameratl_] = false;
             }
 
             sensor_fov_.header.stamp = ros::Time::now();

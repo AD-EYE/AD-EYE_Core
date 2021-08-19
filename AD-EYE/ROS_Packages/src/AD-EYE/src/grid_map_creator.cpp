@@ -474,7 +474,7 @@ private:
             sensor_area_.removeVertices();
             sensor_polygon = sensor_sectors_.polygons.at(i); // Extract the sensor polygon.
             nb_points = sensor_polygon.polygon.points.size(); // Extract the number of points in the polygon.
-            // If the polygon is empty, it means that no information is received from the sensor, nothing is displayed in the gridmap.
+            // If the polygon is empty, the loop for can't be run. It means that no information is received from the sensor, nothing is displayed in the gridmap.
             if(nb_points != 0) {
                 // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
                 for(int j = 0; j < (int)nb_points; j++) {
