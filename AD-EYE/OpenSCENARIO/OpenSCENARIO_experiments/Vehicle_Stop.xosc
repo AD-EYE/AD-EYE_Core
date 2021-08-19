@@ -128,6 +128,10 @@
                             <Action name="KeepingDistanceActions">
                                 <PrivateAction>
                                     <LongitudinalAction>
+<<<<<<< HEAD
+=======
+                                        <LongitudinalDistanceAction continuous="true"/>
+>>>>>>> bugfix/OpenSCENARIO_code_update_version
                                         <SpeedAction>
                                             <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="distance"/>
                                             <SpeedActionTarget>

@@ -3,60 +3,50 @@ function [Velocity_variable] =initial_velocity_declaring(models,Struct_OpenSCENA
 
 for j =1:length(models.worldmodel.object) %main for loop
     
-    
-    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard),'Init') == 1 )  %if Init exists
-        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init),'Actions') == 1 )  %if Actions exists
-            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions),'Private') == 1 )  %if Private exists               
+            if(field_exists(Struct_OpenSCENARIO, "Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private"))  %if Private exists               
                 
                 for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private) %for each private
-                    if("Ego" ~= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Attributes.object))
-                        Velocity_variable(k,1) = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Attributes.object);                    
-                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}),'Action') == 1 )  %if Action exists                        
-                            for p = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action) %for each Action
+                    if("Ego" ~= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Attributes.entityRef))
+                        Velocity_variable(k,1) = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Attributes.entityRef);                    
+                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}),'PrivateAction') == 1 )  %if Action exists                        
+                            for p = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction) %for each Action
 
                                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Longitudinal
 
-                                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}),'Longitudinal') == 1 )  %if Speed exists
+                                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}),'LongitudinalAction') == 1 )  %if Speed exists
                                     Velocity_variable(k,2) = "Longitudinal";
-                                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal),'Speed') == 1 )  %if Longitudinal exists
-                                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed),'Dynamics') == 1 )  %if Longitudinal exists
-                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Dynamics.Attributes),'shape') == 1 )  %if Longitudinal exists
+                                    if(field_exists(Struct_OpenSCENARIO, "Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes.dynamicsShape"))
+                                        
+                                        Velocity_variable(k,3) = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes.dynamicsShape);
 
-                                                Velocity_variable(k,3) = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Dynamics.Attributes.shape);
+                                    end%check shape
 
-                                            end%check snape
-                                        end %check Dynamics
-
-                                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed),'Target') == 1 )  %if Longitudinal exists
-                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target),'Absolute') == 1 )  %if Absolute exists
+                                        if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed"))
                                                 
-                                                Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Absolute.Attributes.value);
+                                                Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value);
                                                 Velocity_variable(k,5) = "Absolute";
 
-                                            end %check Absolute
+                                         end %check Absolute
 
-                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target),'Relative') == 1 )  %if Absolute exists
+                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget),'RelativeTargetSpeed') == 1 )  %if Absolute exists
 
-                                                Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.Action{1,p}.Longitudinal.Speed.Target.Relative.Attributes.value);
+                                                Velocity_variable(k,4) = str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.RelativeTargetSpeed.Attributes.value);
                                                 Velocity_variable(k,5) = "Relative";
 
                                             end %check Relative
-                                        end %check Target
-
-                                    end %check Speed
                                 end %check Longitudinal
 
 
                             end %end third for loop
 
                         end %check Action
-                        end %end if not ego
+                        
+%                     
+                    end %end if not ego
                 end %end second for loop, private
                 
                 
             end %check Private
-        end %check Actions
-    end %check Init
     
 end %main for loop, number of objects in Prescan
 

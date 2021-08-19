@@ -1,153 +1,185 @@
-<?xml version="1.0" encoding="utf-8"?>
 <OpenSCENARIO>
 
-<FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle stopped" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle decelerates" author="Alicia Fossard"/>
 
-<ParameterDeclaration/>
+    <ParameterDeclaration/>
 
-<Catalogs>
-    <VehicleCatalog>
-        <Directory path="Catalogs/VehicleCatalogs"/>
-    </VehicleCatalog>
-    <DriverCatalog>
-        <Directory path="Catalogs/DriverCatalogs"/>
-    </DriverCatalog>
-    <PedestrianCatalog>
-        <Directory path="Catalogs/ObserverCatalogs"/>
-    </PedestrianCatalog>
-    <PedestrianControllerCatalog>
-        <Directory path="Catalogs/PedestrianCatalogs"/>
-    </PedestrianControllerCatalog>
-    <MiscObjectCatalog>
-        <Directory path="Catalogs/MiscObjectCatalogs"/>
-    </MiscObjectCatalog>
-    <EnvironmentCatalog>
-        <Directory path="Catalogs/EnvironmentCatalogs"/>
-    </EnvironmentCatalog>
-    <ManeuverCatalog>
-        <Directory path="Catalogs/ManeuverCatalogs"/>
-    </ManeuverCatalog>
-    <TrajectoryCatalog>
-        <Directory path="Catalogs/TrajectoryCatalog"/>
-    </TrajectoryCatalog>
-    <RouteCatalog>
-        <Directory path="Catalogs/RoutingCatalog"/>
-    </RouteCatalog>
-</Catalogs>
+    <Catalogs>
+        <VehicleCatalog>
+            <Directory path="Catalogs/VehicleCatalogs"/>
+        </VehicleCatalog>
+        <DriverCatalog>
+            <Directory path="Catalogs/DriverCatalogs"/>
+        </DriverCatalog>
+        <PedestrianCatalog>
+            <Directory path="Catalogs/ObserverCatalogs"/>
+        </PedestrianCatalog>
+        <PedestrianControllerCatalog>
+            <Directory path="Catalogs/PedestrianCatalogs"/>
+        </PedestrianControllerCatalog>
+        <MiscObjectCatalog>
+            <Directory path="Catalogs/MiscObjectCatalogs"/>
+        </MiscObjectCatalog>
+        <EnvironmentCatalog>
+            <Directory path="Catalogs/EnvironmentCatalogs"/>
+        </EnvironmentCatalog>
+        <ManeuverCatalog>
+            <Directory path="Catalogs/ManeuverCatalogs"/>
+        </ManeuverCatalog>
+        <TrajectoryCatalog>
+            <Directory path="Catalogs/TrajectoryCatalog"/>
+        </TrajectoryCatalog>
+        <RouteCatalog>
+            <Directory path="Catalogs/RoutingCatalog"/>
+        </RouteCatalog>
+    </Catalogs>
 
-<Entities>
-    <Object name="Ego">
-        <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
-        <Controller>
-            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-        </Controller>
-    </Object>
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
 
-    <Object name="Ford_Fiesta_Hatchback_1">
-        <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
-        <Controller>
-            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-        </Controller>
-    </Object>
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+    </Entities>
 
-</Entities>
+    <GlobalAction>
+	    <EnvironmentAction>
+		    <Environment>
+			    <Weather>
+				    <Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+			    </Weather>
+                <RoadCondition frictionScaleFactor="1.0"/>
+		    </Environment>
+	    </EnvironmentAction>
+    </GlobalAction>
+   
+   <Storyboard>
+      <Init>
+         <Actions>
+            <Private entityRef="Ego">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="{5.5,0.56,5.5}"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="424.0"
+                                       y="174.24"
+                                       z="0"
+                                       h="pi"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="5"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="380.0"
+                                       y="174.24"
+                                       z="0"
+                                       h="pi"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+         </Actions>
+      </Init>
 
-<Global>
-	<SetEnvironment>
-		<Environment>
-			<Weather>
-				<Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
-			</Weather>
-            <RoadCondition frictionScaleFactor="1.0"/>
-		</Environment>
-	</SetEnvironment>
-</Global>
+        <Story name="DeceleratingStory" >
+            <ParameterDeclaration/>
+            <Act name="DeceleratingAct">
+                <ManeuverGroup name="DeceleratingSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                    </Actors>
 
-<Storyboard>
-    <Init>
-        <Actions>
-			<Private object="Ego">
-				<Action>
-					<Longitudinal>
-						<Speed>
-							<Dynamics shape="step"/>
-							<Target>
-								<Absolute value="15"/>
-							</Target>
-						</Speed>
-					</Longitudinal>
-				</Action>
-				<Action>
-					<Position>
-						<World x="424.22" y="174.74" z="0" h="pi" p="0" r="0"/>
-					</Position>
-				</Action>
-			</Private>
-
-            <Private object="Ford_Fiesta_Hatchback_1">
-				<Action>
-					<Longitudinal>
-						<Speed>
-							<Dynamics shape="step"/>
-							<Target>
-								<Absolute value= "15"/> 
-							</Target>
-						</Speed>
-					</Longitudinal>
-				</Action>
-				<Action>
-                    <Position>
-                        <World x="330.0" y="174.74" z="0.68999999761581421" h="pi" p="0" r="0"/> 
-                    </Position>
-				</Action>
-			</Private>
-        </Actions>
-    </Init>
-
-    <Story name="DeceleratingStory" owner="Ford_Fiesta_Hatchback_1">
-        <Act name="DeceleratingAct">
-            <Sequence name="DeceleratingSequence" numberOfExecutions="1">
-                <Actors>
-                    <Entity name="Ford_Fiesta_Hatchback_1"/>
-                </Actors>
-
-                <Maneuver name="Decelerating">
-                    <Event name="DeceleratingEvent" priority="overwrite">
-                        <Action name="DeceleratingAction">
-                            <Private>
-                                <Longitudinal>
-                                    <Speed>
-                                        <Dynamics shape="linear" value="-2.0" Dimension="rate"/>
-                                        <Target> 
-                                            <Absolute value="3"/>
-                                        </Target> 
-                                    </Speed>
-                                </Longitudinal>
-                            </Private>
-                        </Action>
-                        <StartConditions>
-                            <ConditionGroup>
-                                <Condition name="" delay="0" edge="rising">
-                                    <ByEntity>
-                                        <TriggeringEntities rule="any">
-                                            <Entity name="Ford_Fiesta_Hatchback_1"/>
-                                        </TriggeringEntities>
-                                        <EntityCondition>
-                                            <Distance value="100" freespace="false" alongRoute="false" rule="less_than">
-                                                <Position>
-                                                    <RelativeObject object="Ego"/>
-                                                </Position>
-                                            </Distance>
-                                        </EntityCondition>
-                                    </ByEntity>
-                                </Condition>
-                            </ConditionGroup>
-                        </StartConditions>
-                    </Event>
-                </Maneuver>
-            </Sequence>
-        </Act>
-    </Story>
-</Storyboard>
+                    <Maneuver name="Decelerating">
+                        <Event priority="overwrite" name="KeepSameDistance" maximumExecutionCount="1">
+                            <Action name="KeepingDistanceActions">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <LongitudinalDistanceAction continuous="true"/>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="distance"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "15"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="MyStartCondition1" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="{40.0;5.0;100.0}" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                        <Event name="DeceleratingEvent" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="DeceleratingAction">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "{0.0;5.0;10}"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Simulation Time" delay="0" conditionEdge="rising">
+                                        <ByValueCondition>
+                                            <SimulationTimeCondition rule="greaterThan" value="11"/>
+                                        </ByValueCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+        </Story>
+    </Storyboard>
 
 </OpenSCENARIO>
