@@ -292,7 +292,7 @@ for j = 1:length(models.worldmodel.object)
                                                     
                                                     %%%Adding ROS Send
                                                     %%%Velocity
-                                                    if (i==length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event) && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                    if (i==1 && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
                                                         add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(location,"ROS Send Velocity") );
                                                         set_param(strcat(location,"ROS Send Velocity"),'LinkStatus', 'inactive') %Unlock links
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"),'LinkStatus', 'inactive')
