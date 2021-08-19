@@ -120,11 +120,12 @@ private:
         // The polygon array is filled with each sensor polygon.
         sensor_fov_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
 
-        for(int type = radar; type <= cameratl; type++) {
+        for(int type = radar_; type <= cameratl_; type++) {
             // For each sensor, the polygon is created if information about this sensor has changed.
             if(sensor_active_[type]) {
                 // The polygon array is updated with each sensor polygon created.
                 sensor_fov_.polygons.at(type) = circle_section_creator(SENSOR_POS_X_[type], SENSOR_POS_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
+                sensor_active_[type] = false;
             }
         }
     }
@@ -186,8 +187,6 @@ public:
         sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &SensorFoV::camera2Callback, this);
         sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &SensorFoV::cameraTlCallback, this);
 
-        rate_ = ros::Rate(20);
-
         //The sensor sectors are set on the same frame than the car.
         sensor_fov_.header.frame_id = "SSMP_base_link"; 
 
@@ -199,6 +198,8 @@ public:
      */
     void run() {
 
+        rate_ = ros::Rate(20);
+
         //Main loop
         while (nh_.ok()) {
             ros::Time rostime = ros::Time::now();
@@ -209,7 +210,7 @@ public:
             if(sensor_active_[radar_] || sensor_active_[lidar_] || sensor_active_[camera1_] || sensor_active_[camera2_] || sensor_active_[cameratl_])
             {
                 // Update sensor layer
-                polygonCreator();                                
+                polygonCreator();
             }
 
             sensor_fov_.header.stamp = ros::Time::now();
@@ -246,10 +247,6 @@ public:
 
 int main(int argc, char **argv)
 {
-    if(argc < 1) {
-        exit(EXIT_FAILURE);
-    }
-
     // init node
     ros::init(argc, argv, "SensorFoV");
     ros::NodeHandle nh;
