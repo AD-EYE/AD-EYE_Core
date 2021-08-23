@@ -17,7 +17,6 @@ if isempty(findOpen)
     return
 end
 
-
 for c = 1:length(findOpen)
     changes(c).textOrigin = findOpen(c);
     %changes(c).textBrake1 = findSeparator(2*c-1);
@@ -57,14 +56,15 @@ for c = 1:length(changes)
     for p = 1:size(documentList,2)
         findOpen = strfind(documentList{c,1}, '{');
         findClose = strfind(documentList{c,1}, '}');
-        if not(isempty(changes(c).valueLow)  && isempty(changes(c).valueStep) && isempty(changes(c).valueHigh) )
-            for v = changes(c).valueLow:changes(c).valueStep:changes(c).valueHigh
-                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', v));
+        findSeparator = strfind(text, ',');
+        if (isempty(findSeparator{1,1}) || (isempty(changes(c).valueLow)  && isempty(changes(c).valueStep) && isempty(changes(c).valueHigh) ))
+            for v= 1:length(values)
+                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', values(v)));
                 colum = colum+1;
             end
         else
-            for v= 1:length(values)
-                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', values(v)));
+            for v = changes(c).valueLow:changes(c).valueStep:changes(c).valueHigh
+                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', v));
                 colum = colum+1;
             end
         end
