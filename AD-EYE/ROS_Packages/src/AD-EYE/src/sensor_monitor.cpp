@@ -42,13 +42,16 @@ private:
     enum sensor_type_ {radar, lidar, camera1, camera2, cameratl};
 
     // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
-    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.05, 0.1, 0.05, 0.05, 0.10}; // Time period in seconds, values obtained in PreScan.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.05, 0.10, 0.05, 0.05, 0.10}; // Time period in seconds, values obtained in PreScan.
     const float SENSOR_RANGES_[NB_SENSORS_] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values obtained in PreScan.
     const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values obtained in PreScan.
     const float SENSOR_OPENING_ANGLES_[NB_SENSORS_] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values obtained in PreScan.
     const float SENSOR_POS_X_[NB_SENSORS_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
     const float SENSOR_POS_Y_[NB_SENSORS_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
     bool sensor_active_[NB_SENSORS_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
+    float sensor_last_time_[NB_SENSORS_] = {0, 0, 0, 0, 0}; // The last time the callback function has been called.
+    float sensor_current_time_[NB_SENSORS_]; // The current time when the callback function is called.
+    float sensor_time_elapsed_[NB_SENSORS_]; //The time elapsed between two callbacks.
 
     //Names for indexes in lists
     sensor_type_ radar_ = radar;
@@ -67,6 +70,9 @@ private:
      */
     void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
         sensor_active_[radar_] = true;
+        sensor_last_time_[radar_] = sensor_current_time_[radar_];
+        sensor_current_time_[radar_] = ros::Time::now().toSec();
+        sensor_time_elapsed_[radar_] = sensor_current_time_[radar_] - sensor_last_time_[radar_];
     }
 
     /*!
@@ -76,6 +82,9 @@ private:
      */
     void lidarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
         sensor_active_[lidar_] = true;
+        sensor_last_time_[lidar_] = sensor_current_time_[lidar_];
+        sensor_current_time_[lidar_] = ros::Time::now().toSec();
+        sensor_time_elapsed_[lidar_] = sensor_current_time_[lidar_] - sensor_last_time_[lidar_];
     }
 
     /*!
@@ -85,6 +94,9 @@ private:
      */
     void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
         sensor_active_[camera1_] = true;
+        sensor_last_time_[camera1_] = sensor_current_time_[camera1_];
+        sensor_current_time_[camera1_] = ros::Time::now().toSec();
+        sensor_time_elapsed_[camera1_] = sensor_current_time_[camera1_] - sensor_last_time_[camera1_];
     }
 
     /*!
@@ -94,6 +106,9 @@ private:
      */
     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
         sensor_active_[camera2_] = true;
+        sensor_last_time_[camera2_] = sensor_current_time_[camera2_];
+        sensor_current_time_[camera2_] = ros::Time::now().toSec();
+        sensor_time_elapsed_[camera2_] = sensor_current_time_[camera2_] - sensor_last_time_[camera2_];
     }
 
     /*!
@@ -103,6 +118,9 @@ private:
      */
     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
         sensor_active_[cameratl_] = true;
+        sensor_last_time_[cameratl_] = sensor_current_time_[cameratl_];
+        sensor_current_time_[cameratl_] = ros::Time::now().toSec();
+        sensor_time_elapsed_[cameratl_] = sensor_current_time_[cameratl_] - sensor_last_time_[cameratl_];
     }
 
     /*!
@@ -125,6 +143,7 @@ private:
             if(sensor_active_[type]) {
                 // The polygon array is updated with each sensor polygon created.
                 sensor_fov_.polygons.at(type) = circle_section_creator(SENSOR_POS_X_[type], SENSOR_POS_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
+                sensor_active_[type] = false;
             }
         }
     }
@@ -197,28 +216,27 @@ public:
      */
     void run() {
 
-        rate_ = ros::Rate(10); // Aligned with the lowest sensor frequency.
+        // Initialize current time and the time elapsed between 2 callbacks for sensors.
+        float first_time = ros::Time::now().toSec();
+        for(int i = radar_ ; i <= cameratl_ ; i++) {
+            sensor_current_time_[i] = first_time;
+        }
+        // time elapsed is initialize this way because if a sensor is broken, the callback function will never be called and no warning message will be sent.
+        sensor_time_elapsed_[radar_] = 5 * SENSOR_TIMEOUTS_[radar_];
+        sensor_time_elapsed_[lidar_] = 3 * SENSOR_TIMEOUTS_[lidar_];
+        sensor_time_elapsed_[camera1_] = 5 * SENSOR_TIMEOUTS_[camera1_];
+        sensor_time_elapsed_[camera2_] = 5 * SENSOR_TIMEOUTS_[camera2_];
+        sensor_time_elapsed_[cameratl_] = 3 * SENSOR_TIMEOUTS_[cameratl_];
+
+        rate_ = ros::Rate(10);
 
         //Main loop
         while (nh_.ok()) {
             ros::Time rostime = ros::Time::now();
             ros::spinOnce();
-            
-            ros::Duration rostime_elapsed_sensors = ros::Time::now() - rostime;
 
-            if(sensor_active_[radar_] || sensor_active_[lidar_] || sensor_active_[camera1_] || sensor_active_[camera2_] || sensor_active_[cameratl_])
-            {
-                // Update sensor layer
-                polygonCreator();
-                sensor_active_[radar_] = false;
-                sensor_active_[lidar_] = false;
-                sensor_active_[camera1_] = false;
-                sensor_active_[camera2_] = false;
-                sensor_active_[cameratl_] = false;
-            }
-
-            sensor_fov_.header.stamp = ros::Time::now();
-            pub_sensor_fov_.publish(sensor_fov_);
+            // Update sensor polygons
+            polygonCreator();
 
             ros::Duration rostime_elapsed = ros::Time::now() - rostime;
             if(rostime_elapsed > rate_.expectedCycleTime()){
@@ -226,22 +244,29 @@ public:
             }
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
-            float time_elapsed_sensors = rostime_elapsed_sensors.toNSec();
-            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[radar_])){
+            if(sensor_time_elapsed_[radar_] > (4 * SENSOR_TIMEOUTS_[radar_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
                 ROS_WARN("Radar : Message not received!");
+                sensor_fov_.polygons.at(radar_).polygon.points.clear();
             }
-            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[lidar_])){
+            if(sensor_time_elapsed_[lidar_] > (2 * SENSOR_TIMEOUTS_[lidar_])){
                 ROS_WARN("Lidar : Message not received!");
+                sensor_fov_.polygons.at(lidar_).polygon.points.clear();
             }
-            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[camera1_])){
+            if(sensor_time_elapsed_[camera1_] > (4 * SENSOR_TIMEOUTS_[camera1_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
                 ROS_WARN("Camera 1 : Message not received!");
+                sensor_fov_.polygons.at(camera1_).polygon.points.clear();
             }
-            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[camera2_])){
+            if(sensor_time_elapsed_[camera2_] > (4 * SENSOR_TIMEOUTS_[camera2_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
                 ROS_WARN("Camera 2 : Message not received!");
+                sensor_fov_.polygons.at(camera2_).polygon.points.clear();
             }
-            if(time_elapsed_sensors > (2 * SENSOR_TIMEOUTS_[cameratl_])){
+            if(sensor_time_elapsed_[cameratl_] > (2 * SENSOR_TIMEOUTS_[cameratl_])){
                 ROS_WARN("Camera tl : Message not received!");
+                sensor_fov_.polygons.at(cameratl_).polygon.points.clear();
             }
+
+            sensor_fov_.header.stamp = ros::Time::now();
+            pub_sensor_fov_.publish(sensor_fov_);
 
             rate_.sleep();
 
