@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle decelerates" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is going straight at a non signal junction in front of the ego car" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -54,7 +54,7 @@
 	    <EnvironmentAction>
 		    <Environment>
 			    <Weather>
-				    <Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+				    <Precipitation type="typeRain" intensity="0.5" />
 			    </Weather>
                 <RoadCondition frictionScaleFactor="1.0"/>
 		    </Environment>

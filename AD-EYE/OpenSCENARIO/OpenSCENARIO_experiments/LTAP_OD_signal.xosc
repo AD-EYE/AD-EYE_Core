@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle decelerates" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is turning left at signal junction" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -131,7 +131,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-80"/> 
+                                                <AbsoluteTargetLane value= "-26.6"/> 
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>

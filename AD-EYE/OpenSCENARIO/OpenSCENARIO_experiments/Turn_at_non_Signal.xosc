@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle decelerates" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is turning lef at non signal junction" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -54,7 +54,7 @@
 	    <EnvironmentAction>
 		    <Environment>
 			    <Weather>
-				    <Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+				    <Precipitation type="typeRain" intensity="0.5" />
 			    </Weather>
                 <RoadCondition frictionScaleFactor="1.0"/>
 		    </Environment>
@@ -131,7 +131,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-80"/> 
+                                                <AbsoluteTargetLane value= "-23"/> 
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>
