@@ -135,11 +135,24 @@ function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCEN
                     elseif (k~=1)
                         z = 1;
                     end
-                    h2(k,1) = strcat(h2(k,1), "/", int2str(z));                           
+                    h2(k,1) = strcat(h2(k,1), "/", int2str(z)); 
                     %see if Main_block is already connected
-                    if(s(k,1).SrcBlock == -1 && k <= length(s1))
+                    if (s(k,1).SrcBlock == -1 && k <= 8)
+                        %get Main_block inports name
+                        sim=get_param(strcat(location,Blockname0),'Handle');
+                        handles=find_system(sim, 'LookUnderMasks', 'on', 'FollowLinks', 'on', 'SearchDepth', 1, 'BlockType', 'Inport');
+                        portInfo=[get_param(handles,'Name')];
+                        inport=portInfo(k);
+                        Name=inport{1,1};
+                        Name=str2num(Name(12:end));
+                        a=h2(k,1);
+                        a=convertStringsToChars(a);
+                        h2(k,1)=a(1:end-2);
+                        h2(k,1) = strcat(h2(k,1), "/", int2str(Name));
                         add_line(location, h2(k,1),strcat(Blockname0,"/",int2str(k)))
-                    elseif(s(k,1).SrcBlock == -1 )
+                    elseif(s(k,1).SrcBlock == -1 && k <= length(s1) && k>8)
+                        add_line(location, h2(k,1),strcat(Blockname0,"/",int2str(k)))
+                    elseif(s(k,1).SrcBlock == -1 && k>8 )
                         add_line(location, h2(k,1),strcat(Blockname3,"/",int2str(k-length(s1))))
                     end
                 end
