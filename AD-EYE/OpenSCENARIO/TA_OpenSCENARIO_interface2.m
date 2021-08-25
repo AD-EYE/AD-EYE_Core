@@ -13,18 +13,18 @@ EgoNameArray = ["BMW_X5_SUV_1"];
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 %% Experiment A
-% xoscFinaleNames = ["Experiment_A"];
-% folderNames = ["Experiment_A"];
-% prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
-% TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
-% TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
+xoscFinaleNames = ["Experiment_A"];
+folderNames = ["Experiment_A"];
+prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
+TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
+TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Turn_right_Signal"];
-folderNames = ["Turn_right_Signal"];
-prescanExperimentTemplates = ["W01_Base_Map"];
-TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
-TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+% xoscFinaleNames = ["Turn_right_Signal"];
+% folderNames = ["Turn_right_Signal"];
+% prescanExperimentTemplates = ["W01_Base_Map"];
+% TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
+% TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
 
 %% Experiment B Map 1
 % xoscFinaleNames = ["Experiment_B"];
@@ -105,6 +105,7 @@ for s= 1:length(listOfNames2)
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     cd(adeye_base + "TA\Configurations")
+    addpath(adeye_base+"OpenSCENARIO\Code")
     for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
         if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
             speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,1}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
