@@ -58,39 +58,39 @@ waitbar(.23,ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
+listOfNames = openscenariomod(convertStringsToChars(xoscFinaleNames(1)));
 
-listOfNames2=[];
+listOfNames_2=[];
 for s= 1:length(listOfNames)
     d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     d=convertStringsToChars(listOfNames(s));
-    listOfNames2=[listOfNames2,OpenScenarioMod2(d(1:end-5))];
+    listOfNames_2=[listOfNames_2,openscenariomod2(d(1:end-5))];
 end
 
 %% Configure OpenSCENARIO experiments
 name_ego = EgoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
 
-for i = 1:length(listOfNames2)
-    waitbar(.23+(i-1)*0.5/length(listOfNames2),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
-    listOfNames2(i)
-    API_main(name_ego,name_prescan_experiment,listOfNames2(i))
+for i = 1:length(listOfNames_2)
+    waitbar(.23+(i-1)*0.5/length(listOfNames_2),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
+    listOfNames_2(i)
+    API_main(name_ego,name_prescan_experiment,listOfNames_2(i))
 end
 
 waitbar(.73,ta_openscenario_progress_bar,'Configuring OpenSCENARIO experiments');
 
-xoscFinaleNames = listOfNames2;
+xoscFinaleNames = listOfNames_2;
 PrescanExpName = prescanExperimentTemplates(1);
 % remove .xosc file extension
-for i=1:length(listOfNames2)
+for i=1:length(listOfNames_2)
     xoscFinaleNames(i) = erase(xoscFinaleNames(i),".xosc");
     folderNames(i) = strcat(PrescanExpName,"/OpenSCENARIO/Results/",xoscFinaleNames(i),"/OpenSCENARIO");
     copyfile(strcat("../OpenSCENARIO_experiments/",xoscFinaleNames(i),".xosc"),strcat("../../Experiments/",folderNames(i)))
 end
-duplicateEgoNames(length(listOfNames2));
-duplicatePrescanExp(length(listOfNames2));
+duplicateEgoNames(length(listOfNames_2));
+duplicatePrescanExp(length(listOfNames_2));
 
 
 
@@ -98,10 +98,10 @@ duplicatePrescanExp(length(listOfNames2));
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
 waitbar(.13,ta_openscenario_progress_bar,'Extract TA specific configurations from xosc scenarios');
 
-duplicateAutowareConfigs(length(listOfNames2));
-duplicateSimulinkConfigs(length(listOfNames2));
-for s= 1:length(listOfNames2)
-    d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames2(s)));
+duplicateAutowareConfigs(length(listOfNames_2));
+duplicateSimulinkConfigs(length(listOfNames_2));
+for s= 1:length(listOfNames_2)
+    d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames_2(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     cd(adeye_base + "TA\Configurations")
