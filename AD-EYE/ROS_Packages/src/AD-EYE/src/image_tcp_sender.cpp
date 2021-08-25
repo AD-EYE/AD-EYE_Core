@@ -238,10 +238,9 @@ public:
 int main(int argc, char** argv)
 {
     std::string input_topic = "/camera_1/image_raw";
-    // char tcp_port[6] = "11000";
     ros::init(argc, argv, "imageTCPsender");
     ros::NodeHandle nh;
-    ImageTCPSender image_tcp_sender(nh, input_topic);//, &tcp_port);
+    ImageTCPSender image_tcp_sender(nh, input_topic);
     image_tcp_sender.run();
     return 0;
 }
