@@ -1,15 +1,15 @@
-ta_openscenario_progress_bar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
-% cleanup = onCleanup( @()(delete(ta_openscenario_progress_bar)));
+TAOpensScenarioProgressBar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
+% cleanup = onCleanup( @()(delete(TAOpensScenarioProgressBar)));
 
 
 %% Parameter onfigurations
 
-global EgoNameArray
+global egoNameArray
 global prescanExperimentTemplates
 global TARosParametersTemplates
 global TASimulinkParametersTemplates
-global TagsConfigArray
-EgoNameArray = ["BMW_X5_SUV_1"];
+global tagsConfigs
+egoNameArray = ["BMW_X5_SUV_1"];
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 %% Experiment A
@@ -50,11 +50,11 @@ TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 
 
-TagsConfigArray = [""];
+tagsConfigs = [""];
 SSHConfig = "Configurations/SSHConfig.csv";
 
 %% Create OpenSCENARIO files
-waitbar(.23,ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
+waitbar(.23,TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
@@ -70,16 +70,16 @@ for s= 1:length(listOfNames)
 end
 
 %% Configure OpenSCENARIO experiments
-name_ego = EgoNameArray(1);
+name_ego = egoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
 
 for i = 1:length(listOfNames_2)
-    waitbar(.23+(i-1)*0.5/length(listOfNames_2),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
+    waitbar(.23+(i-1)*0.5/length(listOfNames_2),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
     listOfNames_2(i)
     API_main(name_ego,name_prescan_experiment,listOfNames_2(i))
 end
 
-waitbar(.73,ta_openscenario_progress_bar,'Configuring OpenSCENARIO experiments');
+waitbar(.73,TAOpensScenarioProgressBar,'Configuring OpenSCENARIO experiments');
 
 xoscFinaleNames = listOfNames_2;
 PrescanExpName = prescanExperimentTemplates(1);
@@ -96,7 +96,7 @@ duplicatePrescanExp(length(listOfNames_2));
 
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
-waitbar(.13,ta_openscenario_progress_bar,'Extract TA specific configurations from xosc scenarios');
+waitbar(.13,TAOpensScenarioProgressBar,'Extract TA specific configurations from xosc scenarios');
 
 duplicateAutowareConfigs(length(listOfNames_2));
 duplicateSimulinkConfigs(length(listOfNames_2));
@@ -126,17 +126,17 @@ end
 
 
 %% Create Experiments and run
-waitbar(.83,ta_openscenario_progress_bar,'Generating TAOrder file');
+waitbar(.83,TAOpensScenarioProgressBar,'Generating TAOrder file');
 
 cd(adeye_base + "TA")
-TACombinations(folderNames, prescanExperimentTemplates, EgoNameArray, TARosParametersTemplates, TASimulinkParametersTemplates, TagsConfigArray, SSHConfig)
+TACombinations(folderNames, prescanExperimentTemplates, egoNameArray, TARosParametersTemplates, TASimulinkParametersTemplates, tagsConfigs, SSHConfig)
 
 
 
 
-waitbar(.93,ta_openscenario_progress_bar,'Starting TA');
+waitbar(.93,TAOpensScenarioProgressBar,'Starting TA');
 rosshutdown
-close(ta_openscenario_progress_bar)
+close(TAOpensScenarioProgressBar)
 % TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 TA('Configurations/TAOrder.xlsx', 1, 500)
@@ -160,8 +160,8 @@ function duplicateSimulinkConfigs(nb_duplications)
 end
 
 function duplicateEgoNames(nb_duplications)
-    global EgoNameArray
-    EgoNameArray = repelem(EgoNameArray,nb_duplications);
+    global egoNameArray
+    egoNameArray = repelem(egoNameArray,nb_duplications);
 end
 
 function duplicatePrescanExp(nb_duplications)
