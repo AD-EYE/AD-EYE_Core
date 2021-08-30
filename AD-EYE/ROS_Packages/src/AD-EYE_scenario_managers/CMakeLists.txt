@@ -322,6 +322,19 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(
+  Scenario24
+  src/scenario_24.cpp
+)
+target_link_libraries(
+  Scenario24
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario24
+  ${catkin_EXPORTED_TARGETS}
+)
+
 
 # Mark executables and/or libraries for installation
 install(
@@ -481,6 +494,13 @@ install(
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+
+install(
+  TARGETS Scenario24
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 
 # Mark cpp header files for installation
