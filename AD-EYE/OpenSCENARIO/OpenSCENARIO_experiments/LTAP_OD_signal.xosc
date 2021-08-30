@@ -131,7 +131,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-26.6"/> 
+                                                <AbsoluteTargetLane value= "-23"/> 
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>
@@ -145,7 +145,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="20.0" relativeDistanceType="Longitudinal"/>
+                                                <SpeedCondition freespace="false" rule="greaterThan" value="1.0"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
