@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "scenario20");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Creating scenario20" << std::endl;
+    std::cout << "Analyzing scenario20" << std::endl;
     scenario20 scenario_20(private_nh, 20);
     scenario_20.run();
 }

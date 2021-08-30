@@ -100,7 +100,7 @@ class scenario13: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_speed_ < 0);
+            return (non_ego_speed_ > 0);
         }
 
         /*!
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "scenario13");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Creating scenario13" << std::endl;
+    std::cout << "Analyzing scenario13" << std::endl;
     scenario13 scenario_13(private_nh, 20);
     scenario_13.run();
 }

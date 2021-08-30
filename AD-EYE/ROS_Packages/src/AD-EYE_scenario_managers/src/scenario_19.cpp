@@ -51,7 +51,7 @@ class scenario19: public ScenarioManagerTemplate {
         scenario19(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
         {
             speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario19::speedCallback, this);
-            // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
+            // ScenarioManagerTemplate::nego_speed_ > 5h_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
             speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario19::speedCallback2, this);
             speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario19::speedCallback3, this);
         }
@@ -100,7 +100,7 @@ class scenario19: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_angle_ > 0);
+            return (non_ego_angle_ < 0);
         }
 
         /*!
@@ -117,7 +117,7 @@ class scenario19: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (non_ego_angle_ > 0);
+            return (ego_speed > 1);
         }
 
         /*!
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "scenario19");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Creating scenario19" << std::endl;
+    std::cout << "Analyzing scenario19" << std::endl;
     scenario19 scenario_19(private_nh, 20);
     scenario_19.run();
 }

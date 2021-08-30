@@ -100,7 +100,7 @@ class scenario12: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_angle_ < 0);
+            return (non_ego_angle_ > 0);
         }
 
         /*!
@@ -117,7 +117,7 @@ class scenario12: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (non_ego_angle_ < 0);
+            return (non_ego_angle_ > 0);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario12: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (non_ego_angle_ > 0);
+            return (non_ego_angle_ < 0);
         }
 
         
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "scenario12");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Creating scenario12" << std::endl;
+    std::cout << "Analyzing scenario12" << std::endl;
     scenario12 scenario_12(private_nh, 20);
     scenario_12.run();
 }

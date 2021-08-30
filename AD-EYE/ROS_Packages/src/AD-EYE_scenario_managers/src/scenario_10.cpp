@@ -100,7 +100,7 @@ class scenario10: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_speed_ < 0);
+            return (non_ego_speed_ > 0);
         }
 
         /*!
@@ -109,7 +109,7 @@ class scenario10: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (ego_speed_ > 8);
+            return (ego_speed_ > 2);
         }
 
         /*!
@@ -117,7 +117,7 @@ class scenario10: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (ego_speed_ > 1);
+            return (non_ego_speed_ > 0);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario10: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ > 8);
+            return (ego_speed_ > 2);
         }
 
         
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "scenario10");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Creating scenario10" << std::endl;
+    std::cout << "Analyzing scenario10" << std::endl;
     scenario10 scenario_10(private_nh, 20);
     scenario_10.run();
 }
