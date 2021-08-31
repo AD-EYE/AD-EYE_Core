@@ -67,19 +67,21 @@ for index in range (len(repositories_names)) :
     for i in range(len(all_dates)):
         for j in range (len(my_xticks)):
             if my_xticks[j]==all_dates[i]:
-                combined_hist_values[i]+=Y[j]
+                combined_hist_values[i]+=int(values[j][1])
 
     #Generation of the graphs for each repository
     dates = np.array(X)
     number_of_commits = np.array(Y)
-    plt.xticks(dates,my_xticks,rotation=45)
+    plt.xticks(dates,my_xticks,rotation=60)
     plt.plot(dates,number_of_commits)
     plt.title(repositories_names[index]+"_Accumulated commits over time")
+    plt.subplots_adjust(bottom=0.15)
     plt.savefig("/home/adeye/Stats_results/Graphs/"+repositories_names[index]+"_accumulated_commits.png")
     plt.clf()
-    plt.xticks(dates,my_xticks,rotation=45)
+    plt.xticks(dates,my_xticks,rotation=60)
     plt.hist(hist_values,bins=range(len(dates)))
     plt.title(repositories_names[index]+"_Non-accumulated commits")
+    plt.subplots_adjust(bottom=0.15)
     plt.savefig("/home/adeye/Stats_results/Graphs/"+repositories_names[index]+"_non_accumulated_commits.png")
     plt.clf()
 
@@ -97,10 +99,12 @@ number_of_commits = np.array(combined_values)
 plt.xticks(dates,all_dates,rotation=60)
 plt.plot(dates,number_of_commits)
 plt.title("Combined accumulated commits over time")
+plt.subplots_adjust(bottom=0.15)
 plt.savefig("/home/adeye/Stats_results/Graphs/combined_accumulated_commits.png")
 plt.clf()
-plt.xticks(dates,all_dates,rotation=45)
+plt.xticks(dates,all_dates,rotation=60)
 plt.hist(final_hist,bins=range(len(all_dates)))
 plt.title("Combined non-accumulated commits over time")
+plt.subplots_adjust(bottom=0.15)
 plt.savefig("/home/adeye/Stats_results/Graphs/combined_non_accumulated_commits.png")
 plt.clf()
