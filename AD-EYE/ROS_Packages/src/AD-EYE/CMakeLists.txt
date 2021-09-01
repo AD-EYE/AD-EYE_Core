@@ -140,6 +140,7 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -257,10 +258,19 @@ add_dependencies(goalSequencer
 )
 
 
+add_executable(
+  motionPrediction
+  src/motion_prediction.cpp
+)
 
+target_link_libraries(
+  motionPrediction
+  ${catkin_LIBRARIES}
+)
 
-
-
+add_dependencies(motionPrediction
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 add_executable(
@@ -280,25 +290,25 @@ add_dependencies(
 )
 
 
-add_executable(
-  ExperimentStopper
-  src/experiment_stopper.cpp
+#add_executable(
+#  ExperimentStopper
+#  src/experiment_stopper.cpp
   #src/point_cloud_to_occupancy_grid.cpp
-)
-target_link_libraries(
-  ExperimentStopper
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  ExperimentStopper
-  ${catkin_EXPORTED_TARGETS}
-)
+#)
+#target_link_libraries(
+#  ExperimentStopper
+#  ${catkin_LIBRARIES}
+#)
+#add_dependencies(
+#  ExperimentStopper
+#  ${catkin_EXPORTED_TARGETS}
+#)
 
 
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC ExperimentStopper
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC #ExperimentStopper
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
