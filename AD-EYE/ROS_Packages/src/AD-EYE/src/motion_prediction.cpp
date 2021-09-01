@@ -21,6 +21,7 @@
 #include "op_utility/DataRW.h"
 #include "op_planner/MappingHelpers.h"
 // #include "op_ros_helpers/op_ROSHelpers.h"
+#include "tf/transform_datatypes.h"
 #include <std_msgs/Int32.h>
 
 class MotionPredictionNew
@@ -33,12 +34,16 @@ private:
     const double MAX_LENGHT_BICYCLE = 2; // in meter
     const double MAX_WIDTH_BICYCLE = 0.8; // in meter
 
-    // std::vector<PlannerHNS::DetectedObject> tracked_objects_;
     visualization_msgs::MarkerArray predicted_trajectories_;
     autoware_msgs::DetectedObjectArray predicted_objects_;
-    // PlannerHNS::WayPoint current_pose_;
-
     autoware_msgs::DetectedObjectArray tracked_objects_;
+
+    enum actor_type_ {static_object, pedestrian, bicycle, car};
+
+    // Information about ego car
+    geometry_msgs::Point32 current_pose_;
+    double yaw_ego_;
+    double velocity_ego_;
 
     // Parameters of other actors
     double velocity_other_actors_;
@@ -77,30 +82,37 @@ private:
     void trackedObjectsCallback(const autoware_msgs::DetectedObjectArrayConstPtr& msg)
     {
         tracked_objects_ = *msg;
+        predicted_objects_.objects.clear();
         size_t nb_objects = msg->objects.size();
         for(int i = 0; i<(int)nb_objects; i++) {
             velocity_other_actors_ = pow(pow(tracked_objects_.objects.at(i).velocity.linear.x, 2) + pow(tracked_objects_.objects.at(i).velocity.linear.y, 2), 0.5);
             width_other_actors_ = tracked_objects_.objects.at(i).dimensions.y;
             lenght_other_actors_ = tracked_objects_.objects.at(i).dimensions.x;
-        }
 
-        // Different cases according to the value of the detected object
-        if (velocity_other_actors_ = 0) {
-            // Nothing is predicted, it's a static object
+            // Different cases according to the value of the detected object
+            if (velocity_other_actors_ = 0) {
+                // Nothing is predicted, it's a static object
+                predictTrajectories(static_object);
+            }
+            else if (velocity_other_actors_ < MAX_VELOCITY_PEDESTRIAN) { // The condition can also be if the actor is not on the road
+                // Predict a trajectory for a pedestrian
+                predictTrajectories(pedestrian);
+                predicted_objects_.objects.push_back(tracked_objects_.objects.at(i));
+            }
+            else if ((velocity_other_actors_ < MAX_VELOCITY_BICYCLE) && 
+                        (width_other_actors_ < MAX_WIDTH_BICYCLE) && 
+                        (lenght_other_actors_ < MAX_LENGHT_BICYCLE))
+            {
+                // Predict a trajectory for a bicycle
+                predictTrajectories(bicycle);
+                predicted_objects_.objects.push_back(tracked_objects_.objects.at(i));
+            }
+            else { // All other actors will be cars
+                // Predict a trajectory for a car
+                predictTrajectories(car);
+                predicted_objects_.objects.push_back(tracked_objects_.objects.at(i));
+            }
         }
-        else if (velocity_other_actors_ < MAX_VELOCITY_PEDESTRIAN) { // The condition can also be if the actor is not on the road
-            // Predict a trajectory for a pedestrian
-        }
-        else if ((velocity_other_actors_ < MAX_VELOCITY_BICYCLE) && 
-                    (width_other_actors_ < MAX_WIDTH_BICYCLE) && 
-                    (lenght_other_actors_ < MAX_LENGHT_BICYCLE))
-        {
-            // Predict a trajectory for a bicycle
-        }
-        else { // All other actors will be cars
-            // Predict a trajectory for a car
-        }
-
     }
 
     /*!
@@ -110,7 +122,9 @@ private:
      */
     void poseCallback(const geometry_msgs::PoseStampedConstPtr& msg)
     {
-        // current_pose_ = PlannerHNS::WayPoint(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, tf::getYaw(msg->pose.orientation));
+        current_pose_.x = msg->pose.position.x;
+        current_pose_.y = msg->pose.position.y;
+        yaw_ego_ = tf::getYaw(msg->pose.orientation);
     }
 
     /*!
@@ -120,7 +134,7 @@ private:
      */
     void vehicleStatusCallback(const geometry_msgs::TwistStampedConstPtr& msg)
     {
-        // current_pose_.v = msg->twist.linear.x;
+        velocity_ego_ = msg->twist.linear.x;
     }
 
 
@@ -184,9 +198,9 @@ private:
 
     /*!
      * \brief Predict different trajectories for a detected object given
-     * \param object_type The type of object to which trajectories are predicted
+     * \param type The type of object to which trajectories are predicted
      */
-    void predictTrajectories(std::string object_type)
+    void predictTrajectories(actor_type_ type)
     {
 
     }
