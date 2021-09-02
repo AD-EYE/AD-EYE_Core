@@ -48,8 +48,7 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
         k = 4;
         %[models] = parameter_sweep_pedestrian(array, i, models,Struct_OpenSCENARIO,Struct_pex,k );  %changing ScenarioObject parameter
         [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial conditions
-    end
-    
+    end   
     
     
     
@@ -85,6 +84,13 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
         if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "PedestrianCatalog")
             disp('In PedestrianCatalog')
             k = 4;
+            disp('miep')
+        end
+        
+        %checking if field is in MiscObjectCatalogs
+        if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "MiscObjectCatalogs")
+            disp('In MiscObjectCatalogs')
+            k = 5;
             disp('miep')
         end
         
