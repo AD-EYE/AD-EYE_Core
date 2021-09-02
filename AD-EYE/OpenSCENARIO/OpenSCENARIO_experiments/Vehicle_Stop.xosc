@@ -1,9 +1,9 @@
 <OpenSCENARIO>
    <FileHeader revMajor="0"
                revMinor="9"
-               date="2017-07-26T10:00:00"
-               description="Sample Scenario - Double Lane Changer"
-               author="Andreas Biehn"/>
+               date="2021-07-15T10:00:00"
+               description="Lead Vehicle stopped"
+               author="Alicia Fossard"/>
    <ParameterDeclarations/>
    <CatalogLocations>
       <VehicleCatalog>
@@ -31,10 +31,6 @@
          <Directory path="Catalogs/RoutingCatalog"/>
       </RouteCatalog>
    </CatalogLocations>
-   <RoadNetwork>
-      <LogicFile filepath="SampleDatabase_01.xodr"/>
-      <SceneGraphFile filepath="SampleDatabase_01.opt.osgb"/>
-   </RoadNetwork>
    <Entities>
       <ScenarioObject name="Ego">
          <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
@@ -42,14 +38,13 @@
             <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
          </ObjectController>
       </ScenarioObject>
-      <ScenarioObject name="Man_200_1">
-         <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
+      <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
          <ObjectController>
             <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
          </ObjectController>
       </ScenarioObject>
    </Entities>
-   
    <Storyboard>
       <Init>
          <Actions>
@@ -59,20 +54,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="{5.5,1.4,13.9}"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction/>
-            </Private>
-            <Private entityRef="GhostActors">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="0"/>
+                           <AbsoluteTargetSpeed value="{5.0,0.5,17.0}"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -80,10 +62,29 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="155.26860046386719"
-                                       y="-337.81317138671875"
-                                       z="0"
-                                       h="215*pi/180"
+                        <WorldPosition x="424.22" y="174.74" z="0" h="215*pi/180" p="0" r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="0.0"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="330.0"
+                                       y="174.74"
+                                       z="0.68999999761581421"
+                                       h="pi"
                                        p="0"
                                        r="0"/>
                      </Position>

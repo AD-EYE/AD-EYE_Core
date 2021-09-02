@@ -109,34 +109,48 @@ function simulink_ego(name_simulink,models, name_ego,Struct_pex, Struct_OpenSCEN
             h2 = h1;
             for k = 1:length(h1)
                 for p =length(h1):-1:0
-                    h2(k,1) = strrep(h2(k,1), strcat("/",int2str(p)),"");
                     h2(k,1) = strrep(h2(k,1), strcat("/",Blockname0),"");
                     h2(k,1) = strrep(h2(k,1), strcat("/",Blockname3),"");
+                end
+                h3 = convertStringsToChars(h2(k,1));
+                if (h3(length(h3)-1: end -1) == '_') %check if the end is _x or _xx
+                    h2(k,1) = h3(1: end -2);
+                    h2(k,1) = convertCharsToStrings(h2(k,1));
+                else
+                    h2(k,1) = h3(1: end -3);
+                    h2(k,1) = convertCharsToStrings(h2(k,1));
                 end
             end
 
 
-
             %create variable with all the names of input port of the Main_block
+            z=1;
             for k = 1:length(h1)
                 existing(k,1) = getSimulinkBlockHandle(convertStringsToChars(h2(k,1)));
                 if(existing(k,1) ~=-1)
-                    h1(k,1) =  strrep(h1(k,1), strcat(name_simulink,name_ego,"/",Blockname0,"/"),"");
-                    h1(k,1) =  strrep(h1(k,1), strcat(name_simulink,name_ego,"/",Blockname3,"/"),"");
+                    h2(k,1) =  strrep(h2(k,1), strcat(name_simulink,name_ego,"/"),"");
+                    h2(k,1) =  strrep(h2(k,1), strcat(name_simulink,name_ego,"/"),"");
+                    if (k~=1 && h2(k,1) == h2(k-1,1)) % to know if we are at the first port of the block or at a following one
+                        z = z+1;
+                    elseif (k~=1)
+                        z = 1;
+                    end
+                    h2(k,1) = strcat(h2(k,1), "/", int2str(z));                           
                     %see if Main_block is already connected
                     if(s(k,1).SrcBlock == -1 && k <= length(s1))
-                        add_line(location, h1(k,1),strcat(Blockname0,"/",int2str(k)))
+                        add_line(location, h2(k,1),strcat(Blockname0,"/",int2str(k)))
                     elseif(s(k,1).SrcBlock == -1 )
-                        add_line(location, h1(k,1),strcat(Blockname3,"/",int2str(k-length(s1))))
+                        add_line(location, h2(k,1),strcat(Blockname3,"/",int2str(k-length(s1))))
                     end
                 end
+                h2(k,1) =  strrep(h2(k,1), strcat("/", int2str(z)),"");
             end
 
             %Chaning Rain constant
             Blockname1 = "R";
             location1 = convertStringsToChars(strcat(location,Blockname0,"/",Blockname1));
             if (Struct_pex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
-                R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Global.SetEnvironment.Environment.Weather.Precipitation.Attributes.intensity);
+                R = str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);
                 set_param(location1,'Value',num2str(R));
             end
 
