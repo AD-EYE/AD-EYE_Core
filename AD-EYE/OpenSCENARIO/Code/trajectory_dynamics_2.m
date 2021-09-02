@@ -48,8 +48,8 @@ for j = 1:length(models.worldmodel.object)
                                                             %change location of condition source
                                                             size_blk = get_param(convertStringsToChars(strcat(location,"MuxState")),'Position');
                                                             if(trajectory_type(1,z) =="Lateral")
-                                                                X = size_blk(1,1)-250;
-                                                                Y = size_blk(1,2)+145;
+                                                                X = size_blk(1,1)-270;
+                                                                Y = size_blk(1,2)+160;
                                                             elseif(trajectory_type(1,z) =="Longitudinal")
                                                                 X = size_blk(1,1)-540;
                                                                 Y = size_blk(1,2)+35;
@@ -297,7 +297,7 @@ for j = 1:length(models.worldmodel.object)
                                                         %%%Adding ROS Send
                                                         %%%Velocity
                                                         if ((z==2 || isfield(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
-                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name)),trajectory_type(1,2) ) == 0) && p ==p_L(1,q) && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, 1}.Attributes.name)),trajectory_type(1,2) ) == 0) && p ==p_L(1,q) && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
                                                             location = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{j,1}.name),"/Dynamics_Empty/");
                                                             add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(location,"ROS Send Velocity") );
                                                             set_param(strcat(location,"ROS Send Velocity"),'LinkStatus', 'inactive') %Unlock links
@@ -315,14 +315,31 @@ for j = 1:length(models.worldmodel.object)
                                                             end
                                                             add_block("simulink/Commonly Used Blocks/Constant", strcat(location,"EnableSendVelocity"),'value', '1');
                                                             add_line(strcat(location), 'EnableSendVelocity/1', 'ROS Send Velocity/Enable');
+                                                            %change the
+                                                            %size and the
+                                                            %position of
+                                                            %the added
+                                                            %block
+                                                            size_blk = get_param(convertStringsToChars(strcat(location,"EnableSendVelocity")),'Position');
+                                                            X = size_blk(1,1)+10;
+                                                            Y = size_blk(1,2)-230;
+                                                            WIDTH = 20;
+                                                            HEIGHT = 20;
+                                                            set_param(strcat(location,"EnableSendVelocity"),'Position',[X Y X+WIDTH Y+HEIGHT]);
                                                             if (getSimulinkBlockHandle(strcat(location,"Lateral_Dynamics")) ~= -1)
                                                                 add_line(strcat(location), 'Lateral_Dynamics/1', 'ROS Send Velocity/2');
                                                             else
                                                                 add_block("simulink/Commonly Used Blocks/Constant", strcat(location,"constant"), 'value', '0');
                                                                 add_line(strcat(location), 'constant/1', 'ROS Send Velocity/2');
+                                                                size_blk = get_param(convertStringsToChars(strcat(location,"constant")),'Position');
+                                                                X = size_blk(1,1)+10;
+                                                                Y = size_blk(1,2)-140;
+                                                                WIDTH = 20;
+                                                                HEIGHT = 20;
+                                                                set_param(strcat(location,"constant"),'Position',[X Y X+WIDTH Y+HEIGHT]);
                                                             end
                                                             size_blk = get_param(convertStringsToChars(strcat(location,"ROS Send Velocity")),'Position');
-                                                            X = size_blk(1,1)+150;
+                                                            X = size_blk(1,1)+200;
                                                             Y = size_blk(1,2)-1600;
                                                             Width = 200;
                                                             Height = 100;
@@ -368,13 +385,7 @@ for j = 1:length(models.worldmodel.object)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Parameters of Condition trajetory
                                                         width = abs(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value));
-    %                                                     if (not(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
-    %                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsDimension) == "distance" && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByEntityCondition')==1 && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition, 'RelativeDistanceCondition')==1) || (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByValueCondition')==1 &&  isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition, 'SimulationTimeCondition')==0))
-    %                                                         if (Blockname3=="Condition_trajectory")
-    %                                                             Blockname6 ="";
-    %                                                         else
-    %                                                             Blockname6="/Condition_trajectory";
-    %                                                         end
+
                                                         Blockname6="/Condition_trajectory";
 
                                                            if(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
@@ -414,16 +425,7 @@ for j = 1:length(models.worldmodel.object)
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)) )
                                                                 %change constant to account for shift if step
                                                             end
-
-    %                                                         if (Blockname3=="Trajectory_input_turn_subsystem")
-    %                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
-    %                                                                 ,'Criteria','u2 >= Threshold')
-    %                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Switch1"))...
-    %                                                                 ,'Threshold', '1')
-    %                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/Gain2")),'Gain','1')
-    %                                                             set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'GotoTag','V_out' );
-    %                                                         end
-
+                                                            
                                                             if (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByEntityCondition')==1 && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition, 'SpeedCondition')==1 )
                                                                 if (convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                                         .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Speed_RelativeObject) == "Ego")
@@ -436,7 +438,13 @@ for j = 1:length(models.worldmodel.object)
                                                                             convertCharsToStrings(models.worldmodel.object{h,1}.name))
                                                                             locat = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{h,1}.name),"/Dynamics_Empty/");
                                                                             add_block("simulink/Signal Routing/Goto", strcat(locat,"Velocity"),'GotoTag', 'Vel');
-                                                                            set_param(strcat(locat,"Velocity"), 'TagVisibility', 'global');
+                                                                            size_blk = get_param(convertStringsToChars(strcat(locat,"Velocity")),'Position');
+                                                                            X = size_blk(1,1)-120;
+                                                                            Y = size_blk(1,2)-300;
+                                                                            WIDTH = 50;
+                                                                            HEIGHT = 20;
+                                                                            set_param(strcat(locat,"Velocity"),'Position',[X Y X+WIDTH Y+HEIGHT]);
+                                                                                            set_param(strcat(locat,"Velocity"), 'TagVisibility', 'global');
                                                                             if (getSimulinkBlockHandle(strcat(locat,"Longitudinal_Dynamics")) ~= -1)
                                                                                 add_line(strcat(locat), 'Longitudinal_Dynamics/1', 'Velocity/1');
                                                                             else
