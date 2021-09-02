@@ -109,7 +109,7 @@ class scenario12: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (ego_speed_ < 5);
+            return (non_ego_angle_ == 0);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario12: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (non_ego_angle_ < 0);
+            return (non_ego_angle_ == 0);
         }
 
         

@@ -100,7 +100,7 @@ class scenario20: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_angle_ < 0);
+            return (non_ego_angle_ > 0);
         }
 
         /*!
@@ -109,7 +109,7 @@ class scenario20: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (ego_speed_ < 2);
+            return (ego_speed_ > 10);
         }
 
         /*!
@@ -117,7 +117,7 @@ class scenario20: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (non_ego_angle_ < 0);
+            return (non_ego_angle_ > 0);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario20: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ >8);
+            return (ego_speed_ >10);
         }
 
         

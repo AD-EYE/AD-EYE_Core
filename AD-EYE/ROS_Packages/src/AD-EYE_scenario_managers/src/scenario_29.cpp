@@ -13,9 +13,9 @@
 #include <boost/filesystem.hpp>
 
 /*!
- * \brief scenario4 node : Manages start and stop of the recording & experiment for scenario4
+ * \brief scenario29 node : Manages start and stop of the recording & experiment for scenario29
  */
-class scenario4: public ScenarioManagerTemplate {
+class scenario29: public ScenarioManagerTemplate {
 
     private:
         ros::Subscriber speed_sub_;
@@ -48,12 +48,12 @@ class scenario4: public ScenarioManagerTemplate {
         * \param frequency The frequency at which the main loop will be run.
         * \details Initializes the node and its components such the as subscribers.
         */
-        scenario4(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
+        scenario29(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
         {
-            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario4::speedCallback, this);
+            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario29::speedCallback, this);
             // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
-            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario4::speedCallback2, this);
-            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario4::speedCallback3, this);
+            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario29::speedCallback2, this);
+            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario29::speedCallback3, this);
         }
 
         
@@ -63,7 +63,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void startExperiment()
         {
-            std::cout << "scenario4: started experiment" << std::endl;
+            std::cout << "scenario29: started experiment" << std::endl;
         }
 
         /*!
@@ -71,7 +71,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void stopExperiment()
         {
-            std::cout << "scenario4: stopped experiment" << std::endl;
+            std::cout << "scenario29: stopped experiment" << std::endl;
         }
 
         /*!
@@ -79,7 +79,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void startRecording()
         {
-            std::cout << "scenario4: started recording" << std::endl;
+            std::cout << "scenario29: started recording" << std::endl;
         }
 
         /*!
@@ -87,7 +87,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void stopRecording()
         {
-            std::cout << "scenario4: stopped recording" << std::endl;
+            std::cout << "scenario29: stopped recording" << std::endl;
         }
 
 
@@ -109,7 +109,7 @@ class scenario4: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (non_ego_angle_ ==0);
+            return (ego_speed_ >11);
         }
 
         /*!
@@ -117,7 +117,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (ego_speed_ > 2);
+            return (ego_speed_ > 1);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario4: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ >10 && non_ego_angle_ == 0);
+            return (ego_speed_ >11);
         }
 
         
@@ -137,10 +137,10 @@ class scenario4: public ScenarioManagerTemplate {
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "scenario4");
+    ros::init(argc, argv, "scenario29");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Analyzing scenario4" << std::endl;
-    scenario4 scenario_4(private_nh, 20);
-    scenario_4.run();
+    std::cout << "Analyzing scenario29" << std::endl;
+    scenario29 scenario_29(private_nh, 20);
+    scenario_29.run();
 }

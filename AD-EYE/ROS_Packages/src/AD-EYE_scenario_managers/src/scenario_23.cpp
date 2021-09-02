@@ -109,7 +109,7 @@ class scenario23: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (ego_speed_ ==0);
+            return (ego_speed_ > 10);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario23: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ ==0);
+            return (ego_speed_ > 12);
         }
 
         

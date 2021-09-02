@@ -126,7 +126,7 @@ class scenario24: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ >10);
+            return (ego_speed_ >13);
         }
 
         

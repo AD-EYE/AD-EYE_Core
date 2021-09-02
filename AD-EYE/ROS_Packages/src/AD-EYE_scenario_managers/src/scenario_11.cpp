@@ -100,7 +100,7 @@ class scenario11: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_speed_ > 2);
+            return (ego_speed_ > 1);
         }
 
         /*!
@@ -109,7 +109,7 @@ class scenario11: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (non_ego_speed_ > -1);
+            return (non_ego_speed_ ==0);
         }
 
         /*!

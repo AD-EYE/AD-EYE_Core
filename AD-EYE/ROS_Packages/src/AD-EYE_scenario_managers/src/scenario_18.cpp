@@ -13,9 +13,9 @@
 #include <boost/filesystem.hpp>
 
 /*!
- * \brief scenario3 node : Manages start and stop of the recording & experiment for scenario3
+ * \brief scenario18 node : Manages start and stop of the recording & experiment for scenario18
  */
-class scenario3: public ScenarioManagerTemplate {
+class scenario18: public ScenarioManagerTemplate {
 
     private:
         ros::Subscriber speed_sub_;
@@ -48,12 +48,12 @@ class scenario3: public ScenarioManagerTemplate {
         * \param frequency The frequency at which the main loop will be run.
         * \details Initializes the node and its components such the as subscribers.
         */
-        scenario3(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
+        scenario18(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
         {
-            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario3::speedCallback, this);
+            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario18::speedCallback, this);
             // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
-            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario3::speedCallback2, this);
-            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario3::speedCallback3, this);
+            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario18::speedCallback2, this);
+            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario18::speedCallback3, this);
         }
 
         
@@ -63,7 +63,7 @@ class scenario3: public ScenarioManagerTemplate {
         */
         void startExperiment()
         {
-            std::cout << "scenario3: started experiment" << std::endl;
+            std::cout << "scenario18: started experiment" << std::endl;
         }
 
         /*!
@@ -71,7 +71,7 @@ class scenario3: public ScenarioManagerTemplate {
         */
         void stopExperiment()
         {
-            std::cout << "scenario3: stopped experiment" << std::endl;
+            std::cout << "scenario18: stopped experiment" << std::endl;
         }
 
         /*!
@@ -79,7 +79,7 @@ class scenario3: public ScenarioManagerTemplate {
         */
         void startRecording()
         {
-            std::cout << "scenario3: started recording" << std::endl;
+            std::cout << "scenario18: started recording" << std::endl;
         }
 
         /*!
@@ -87,7 +87,7 @@ class scenario3: public ScenarioManagerTemplate {
         */
         void stopRecording()
         {
-            std::cout << "scenario3: stopped recording" << std::endl;
+            std::cout << "scenario18: stopped recording" << std::endl;
         }
 
 
@@ -109,7 +109,7 @@ class scenario3: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (ego_speed_ <5);
+            return (non_ego_angle_ == 0);
         }
 
         /*!
@@ -126,7 +126,7 @@ class scenario3: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ < 2);
+            return (non_ego_angle_ == 0);
         }
 
         
@@ -137,10 +137,10 @@ class scenario3: public ScenarioManagerTemplate {
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "scenario3");
+    ros::init(argc, argv, "scenario18");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Analyzing scenario3" << std::endl;
-    scenario3 scenario_3(private_nh, 20);
-    scenario_3.run();
+    std::cout << "Analyzing scenario18" << std::endl;
+    scenario18 scenario_18(private_nh, 20);
+    scenario_18.run();
 }

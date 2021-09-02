@@ -13,18 +13,20 @@
 #include <boost/filesystem.hpp>
 
 /*!
- * \brief scenario4 node : Manages start and stop of the recording & experiment for scenario4
+ * \brief scenario28 node : Manages start and stop of the recording & experiment for scenario28
  */
-class scenario4: public ScenarioManagerTemplate {
+class scenario28: public ScenarioManagerTemplate {
 
     private:
         ros::Subscriber speed_sub_;
         ros::Subscriber speed_sub2_;
         ros::Subscriber speed_sub3_;
+        ros::Subscriber speed_sub4_;
         float SPEED_THRESHOLD_STOP_ = 0.0f;
         float ego_speed_ = 0.0;
         float non_ego_speed_ = 0.0;
         float non_ego_angle_ = 0.0;
+        float pedestrian_speed_ = 0.0;
 
         void speedCallback(geometry_msgs::TwistStamped msg)
         {
@@ -41,6 +43,12 @@ class scenario4: public ScenarioManagerTemplate {
             non_ego_angle_ = msg.twist.angular.z;
         }
 
+        void speedCallback4(geometry_msgs::TwistStamped msg)
+        {
+            pedestrian_speed_ = msg.twist.linear.x;
+        }
+
+
     public:
         /*!
         * \brief Constructor
@@ -48,12 +56,13 @@ class scenario4: public ScenarioManagerTemplate {
         * \param frequency The frequency at which the main loop will be run.
         * \details Initializes the node and its components such the as subscribers.
         */
-        scenario4(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
+        scenario28(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
         {
-            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario4::speedCallback, this);
+            speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &scenario28::speedCallback, this);
             // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
-            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario4::speedCallback2, this);
-            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity", 10, &scenario4::speedCallback3, this);
+            speed_sub2_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity_1", 10, &scenario28::speedCallback2, this);
+            speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity_1", 10, &scenario28::speedCallback3, this);
+            speed_sub4_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity_2", 10, &scenario28::speedCallback4, this);
         }
 
         
@@ -63,7 +72,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void startExperiment()
         {
-            std::cout << "scenario4: started experiment" << std::endl;
+            std::cout << "scenario28: started experiment" << std::endl;
         }
 
         /*!
@@ -71,7 +80,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void stopExperiment()
         {
-            std::cout << "scenario4: stopped experiment" << std::endl;
+            std::cout << "scenario28: stopped experiment" << std::endl;
         }
 
         /*!
@@ -79,7 +88,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void startRecording()
         {
-            std::cout << "scenario4: started recording" << std::endl;
+            std::cout << "scenario28: started recording" << std::endl;
         }
 
         /*!
@@ -87,7 +96,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         void stopRecording()
         {
-            std::cout << "scenario4: stopped recording" << std::endl;
+            std::cout << "scenario28: stopped recording" << std::endl;
         }
 
 
@@ -100,7 +109,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         bool startRecordingConditionFulfilled()
         {
-            return (non_ego_angle_ < 0);
+            return (pedestrian_speed_ > 0);
         }
 
         /*!
@@ -109,7 +118,7 @@ class scenario4: public ScenarioManagerTemplate {
         bool stopRecordingConditionFulfilled()
         {
             
-            return (non_ego_angle_ ==0);
+            return (non_ego_speed_ ==0);
         }
 
         /*!
@@ -117,7 +126,7 @@ class scenario4: public ScenarioManagerTemplate {
         */
         bool startExperimentConditionFulfilled()
         {
-            return (ego_speed_ > 2);
+            return (ego_speed_ > 3);
         }
 
         /*!
@@ -126,7 +135,7 @@ class scenario4: public ScenarioManagerTemplate {
         bool stopExperimentConditionFulfilled()
         {
             
-            return (ego_speed_ >10 && non_ego_angle_ == 0);
+            return (non_ego_speed_ ==0);
         }
 
         
@@ -137,10 +146,10 @@ class scenario4: public ScenarioManagerTemplate {
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "scenario4");
+    ros::init(argc, argv, "scenario28");
     ros::NodeHandle private_nh("~");
 
-    std::cout << "Analyzing scenario4" << std::endl;
-    scenario4 scenario_4(private_nh, 20);
-    scenario_4.run();
+    std::cout << "Analyzing scenario28" << std::endl;
+    scenario28 scenario_28(private_nh, 20);
+    scenario_28.run();
 }
