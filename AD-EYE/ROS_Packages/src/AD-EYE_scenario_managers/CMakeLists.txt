@@ -336,6 +336,79 @@ add_dependencies(
 )
 
 
+add_executable(
+  Scenario27
+  src/scenario_27.cpp
+)
+target_link_libraries(
+  Scenario27
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario27
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+  Scenario28
+  src/scenario_28.cpp
+)
+target_link_libraries(
+  Scenario28
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario28
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+  Scenario29
+  src/scenario_29.cpp
+)
+target_link_libraries(
+  Scenario29
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario29
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+  Scenario30
+  src/scenario_30.cpp
+)
+target_link_libraries(
+  Scenario30
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario30
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+  Scenario31
+  src/scenario_31.cpp
+)
+target_link_libraries(
+  Scenario31
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario31
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+
+
+
 # Mark executables and/or libraries for installation
 install(
   TARGETS Scenario1
@@ -497,6 +570,46 @@ install(
 
 install(
   TARGETS Scenario24
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario27
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario28
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario29
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario30
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario31
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
