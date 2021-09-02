@@ -1,0 +1,194 @@
+<OpenSCENARIO>
+
+    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Lead Vehicle goes straight and then a cyclist comes at an intersection" author="Alicia Fossard"/>
+
+    <ParameterDeclaration/>
+
+    <Catalogs>
+        <VehicleCatalog>
+            <Directory path="Catalogs/VehicleCatalogs"/>
+        </VehicleCatalog>
+        <DriverCatalog>
+            <Directory path="Catalogs/DriverCatalogs"/>
+        </DriverCatalog>
+        <PedestrianCatalog>
+            <Directory path="Catalogs/ObserverCatalogs"/>
+        </PedestrianCatalog>
+        <PedestrianControllerCatalog>
+            <Directory path="Catalogs/PedestrianCatalogs"/>
+        </PedestrianControllerCatalog>
+        <MiscObjectCatalog>
+            <Directory path="Catalogs/MiscObjectCatalogs"/>
+        </MiscObjectCatalog>
+        <EnvironmentCatalog>
+            <Directory path="Catalogs/EnvironmentCatalogs"/>
+        </EnvironmentCatalog>
+        <ManeuverCatalog>
+            <Directory path="Catalogs/ManeuverCatalogs"/>
+        </ManeuverCatalog>
+        <TrajectoryCatalog>
+            <Directory path="Catalogs/TrajectoryCatalog"/>
+        </TrajectoryCatalog>
+        <RouteCatalog>
+            <Directory path="Catalogs/RoutingCatalog"/>
+        </RouteCatalog>
+    </Catalogs>
+
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+
+        
+        <ScenarioObject name="Male_wBicycle_1">
+            <CatalogReference catalogName="PedestrianCatalog" entryName="Male_wBicycle_1"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+    </Entities>
+
+    <GlobalAction>
+	    <EnvironmentAction>
+		    <Environment>
+			    <Weather>
+				    <Precipitation type="typeRain" intensity="0.5" />
+			    </Weather>
+                <RoadCondition frictionScaleFactor="1.0"/>
+		    </Environment>
+	    </EnvironmentAction>
+    </GlobalAction>
+   
+   <Storyboard>
+      <Init>
+         <Actions>
+            <Private entityRef="Ego">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="15"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="84.3"
+                                       y="170.74"
+                                       z="0"
+                                       h="pi/64"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="12"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="99"
+                                       y="170.74"
+                                       z="0"
+                                       h="0"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+
+            <Private entityRef="Male_wBicycle_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="7"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="137.66"
+                                       y="150.47"
+                                       z="0"
+                                       h="pi/2"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+         </Actions>
+      </Init>
+
+        <Story name="DeceleratingStory" >
+            <ParameterDeclaration/>
+            <Act name="DeceleratingAct">
+                <ManeuverGroup name="DeceleratingSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                    </Actors>
+
+                    <Maneuver name="Decelerate">
+                        <Event name="DeceleratingEvent" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="DeceleratingAction">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="6.0" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "0"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Male_wBicycle_1" value="5" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+        </Story>
+    </Storyboard>
+
+</OpenSCENARIO>
