@@ -6,7 +6,6 @@ import numpy as np
 
 #Generation of the list of working repositories
 repositories_names = ["AD-EYE_Core","AD-EYE_GUI","android_app","AR_room","getting_familiar_TCP","infrastructure_database","Pex_Data_Extraction","world_creation"]
-
 #Creation of a common dates list for combined graphs which starts from the oldest date and finish at current month
 all_dates = []
 text_file = open("/home/adeye/Stats_results/AD-EYE_Core_stats/commits_by_year_month.dat",'r')
@@ -90,7 +89,7 @@ for index in range (len(repositories_names)) :
     plt.savefig("/home/adeye/Stats_results/Graphs/"+repositories_names[index]+"_accumulated_commits.png")
     plt.clf()
     plt.xticks(dates,my_xticks,rotation=60)
-    plt.hist(hist_values,bins=range(len(dates)))
+    plt.hist(hist_values,bins=range(len(dates)+1))
     plt.title(repositories_names[index]+"_Non-accumulated commits")
     plt.subplots_adjust(bottom=0.15)
     plt.savefig("/home/adeye/Stats_results/Graphs/"+repositories_names[index]+"_non_accumulated_commits.png")
@@ -99,7 +98,7 @@ for index in range (len(repositories_names)) :
 #Generation of the combined repositories graphs
 #For both configurations graphs values are histogram values accumulated over time
 combined_values[0]=combined_hist_values[0]
-for k in range (len(combined_hist_values)):
+for k in range (1,len(combined_hist_values)):
     combined_values[k]=combined_values[k-1]+combined_hist_values[k]
   
 for j in range (len(combined_hist_values)):
@@ -115,7 +114,7 @@ plt.subplots_adjust(bottom=0.15)
 plt.savefig("/home/adeye/Stats_results/Graphs/combined_accumulated_commits.png")
 plt.clf()
 plt.xticks(dates,all_dates,rotation=60)
-plt.hist(final_hist,bins=range(len(all_dates)))
+plt.hist(final_hist,bins=range(len(all_dates)+1))
 plt.title("Combined non-accumulated commits over time")
 plt.subplots_adjust(bottom=0.15)
 plt.savefig("/home/adeye/Stats_results/Graphs/combined_non_accumulated_commits.png")
