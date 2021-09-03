@@ -38,7 +38,7 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Simulink_state_NEW
             locationSimulinkObject = strcat(nameSimulink,convertCharsToStrings(models.worldmodel.object{i,1}.name) ,"/");
             blockMainBlock = "Main_block";
-            locationMainBlock = convertStringsToChars(strcat(location,blockMainBlock));
+            locationMainBlock = convertStringsToChars(strcat(locationSimulinkObject,blockMainBlock));
             if (getSimulinkBlockHandle(locationMainBlock) == -1)
                 cd(lib_path);
                 add_block(strcat("adeye_lib/",blockMainBlock),locationMainBlock );
@@ -56,8 +56,8 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Creating dynamics empty
             blockDynamicsEmpty = "Dynamics_Empty";
             blockObject = convertStringsToChars(strcat("STATE_",convertCharsToStrings(models.worldmodel.object{i,1}.name), "_rc"));
-            locationDynamicsEmpty =convertStringsToChars(strcat(location,blockDynamicsEmpty));
-            locationObject =convertStringsToChars(strcat(location,blockObject));
+            locationDynamicsEmpty =convertStringsToChars(strcat(locationSimulinkObject,blockDynamicsEmpty));
+            locationObject =convertStringsToChars(strcat(locationSimulinkObject,blockObject));
             if (getSimulinkBlockHandle(locationDynamicsEmpty) ~= -1)
                 h = get_param(locationDynamicsEmpty,'LineHandles');
                 if((h.Outport(1)) ~= -1)
@@ -78,8 +78,8 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
                 Height =260;
                 set_param(locationDynamicsEmpty,'Position',[X Y X+Width Y+Height]);
                 set_param(locationDynamicsEmpty,'LinkStatus','inactive')
-                add_line(convertStringsToChars(location), convertStringsToChars(strcat(blockDynamicsEmpty,"/1")),....
-                    convertStringsToChars(strcat(Blockname4,"/1" )) ) %connect blocks
+                add_line(convertStringsToChars(locationSimulinkObject), convertStringsToChars(strcat(blockDynamicsEmpty,"/1")),....
+                    convertStringsToChars(strcat(blockObject,"/1" )) ) %connect blocks
             end
 
 
@@ -95,7 +95,7 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             s = s1;
 
             x = length(splittedPathToStepBlock);
-            for k = 1:length(splittedPathToStepBlock1)
+            for k = 1:length(splittedPathToStepBlock)
                 splittedPathToStepBlock(k,1) = strrep(splittedPathToStepBlock(k,1), "//","/");
             end
             for j =1:length(q1)
@@ -149,11 +149,11 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
                         a=convertStringsToChars(a);
                         splittedPathToStepBlock2(k,1)=a(1:end-2);
                         splittedPathToStepBlock2(k,1) = strcat(splittedPathToStepBlock2(k,1), "/", int2str(Name));
-                        add_line(location, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
+                        add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
                     elseif(s(k,1).SrcBlock == -1 && k <= length(s1) && k>8)
-                        add_line(location, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
+                        add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
                     elseif(s(k,1).SrcBlock == -1 && k>8 )
-                        add_line(location, splittedPathToStepBlock2(k,1),strcat(blockDynamicsEmpty,"/",int2str(k-length(s1))))
+                        add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockDynamicsEmpty,"/",int2str(k-length(s1))))
                     end
                 end
                 splittedPathToStepBlock2(k,1) =  strrep(splittedPathToStepBlock2(k,1), strcat("/", int2str(z)),"");
