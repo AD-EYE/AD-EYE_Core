@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Lead Vehicle goes straight and then a cyclist comes at an intersection" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Lead Vehicle goes straight and then comes an animal (or a child)" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -50,8 +50,8 @@
         </ScenarioObject>
 
         
-        <ScenarioObject name="NCAP_Cyclist_1">
-            <CatalogReference catalogName="PedestrianCatalog" entryName="NCAP_Cyclist_1"/>
+        <ScenarioObject name="Child_Leaning_1">
+            <CatalogReference catalogName="PedestrianCatalog" entryName="Child_Leaning_1"/>
             <ObjectController>
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
@@ -86,10 +86,10 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="84.3"
-                                       y="170.74"
+                        <WorldPosition x="496.56"
+                                       y="174.24"
                                        z="0"
-                                       h="pi/64"
+                                       h="pi"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -102,7 +102,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="12"/>
+                           <AbsoluteTargetSpeed value="13"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -110,10 +110,10 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="99"
-                                       y="170.74"
+                        <WorldPosition x="462.1"
+                                       y="174.71"
                                        z="0"
-                                       h="0"
+                                       h="pi"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -121,13 +121,13 @@
                </PrivateAction>
             </Private>
 
-            <Private entityRef="NCAP_Cyclist_1">
+            <Private entityRef="Child_Leaning_1">
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="7"/>
+                           <AbsoluteTargetSpeed value="0"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -135,10 +135,10 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="137.66"
-                                       y="150.47"
+                        <WorldPosition x="410.0"
+                                       y="180.24"
                                        z="0"
-                                       h="pi/2"
+                                       h="-pi/2"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -178,7 +178,47 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="NCAP_Cyclist_1" value="5" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Child_Leaning_1" value="5" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+
+            
+            <Act name="RunningAct">
+                <ManeuverGroup name="RunningSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Child_Leaning_1"/>
+                    </Actors>
+
+                    <Maneuver name="ControlLost">
+                        <Event name="RunningEvent" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="RunningAction">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="3.0" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "3"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Child_Leaning_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ford_Fiesta_Hatchback_1" value="15" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
