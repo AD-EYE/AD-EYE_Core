@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%Storyboard Init Actions Private
 %%%%%%%%%%Private Action
-function [Struct_pex] = parametersweepinitalpositions(Struct_OpenSCENARIO,Struct_pex,k,i)
+function [Struct_pex] = parametersweepinitialpositions(Struct_OpenSCENARIO,Struct_pex,k,i)
 
 
 for j = 1:length(Struct_pex.Experiment.Actors.Actor ) %Declare number of objects in .pei file
