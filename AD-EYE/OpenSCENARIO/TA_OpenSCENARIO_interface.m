@@ -20,18 +20,18 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % SimulinkConfigArray = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-% ScenarioExpNameArray = ["Decelerating"];
-% FolderExpNameArray = ["Decelerating"];
-% PrescanExpNameArray = ["W01_Base_Map"];
-% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
-% SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
-
-%% Experiment B Map 1
-ScenarioExpNameArray = ["Experiment_B"];
-FolderExpNameArray = ["Experiment_B"];
+ScenarioExpNameArray = ["Vehicle_Stop"];
+FolderExpNameArray = ["Vehicle_Stop"];
 PrescanExpNameArray = ["W01_Base_Map"];
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+
+%% Experiment B Map 1
+% ScenarioExpNameArray = ["Experiment_B"];
+% FolderExpNameArray = ["Experiment_B"];
+% PrescanExpNameArray = ["W01_Base_Map"];
+% AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
+% SimulinkConfigArray = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
 
 %% Experiment B Map 2
 % ScenarioExpNameArray = ["Experiment_B"];
@@ -246,3 +246,4 @@ function setSpeedEgo(start_val, step, end_val)
         end
     end
 end
+

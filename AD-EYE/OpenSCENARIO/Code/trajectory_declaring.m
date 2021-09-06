@@ -26,8 +26,19 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                     trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = (Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name);
-
-
+                                    
+                                    for l = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private) %for each private
+                                        if strcmp((models.worldmodel.object{j, 1}.name),Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.Attributes.entityRef)
+                                            for p = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, k}.PrivateAction) %for each Action
+                                                if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}),'LongitudinalAction') == 1)
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).init = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value;
+                                                elseif (isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}),'LateralAction') == 1 )
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).init = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, l}.PrivateAction{1,p}.LateralAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value;
+                                                end
+                                            end
+                                        end
+                                    end
+                                    
 
                                     %OSCPrivateAction
                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
@@ -38,6 +49,17 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
                                             trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Longitudinal',' ');
+                                            
+                                            %Check if in
+                                            %LongitudinalDistanceAction
+                                            %field
+                                            if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
+                                                    .Action.PrivateAction.LongitudinalAction),'LongitudinalDistanceAction') == 1 )
+
+                                                    trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                        .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Distance',(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
+                                                        .Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.LongitudinalDistanceAction.Attributes.continuous));
+                                            end
 
                                             %Check if in Speed field
                                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
@@ -49,7 +71,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                     trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Dynamics',(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
                                                         .Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes),'Condition',' ','Longitudinal',' ');
-
+                                                   
                                                     %Check if in Target field
                                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
                                                             .Action.PrivateAction.LongitudinalAction.SpeedAction),'SpeedActionTarget') == 1 )
@@ -94,7 +116,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
                                                             .Action.PrivateAction.LateralAction.LaneChangeAction),'LaneChangeTarget') == 1 )
                                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
-                                                                .Action.PrivateAction.Lateralv.LaneChangeAction.LaneChangeTarget),'AbsoluteTargetLane') == 1 )
+                                                                .Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeTarget),'AbsoluteTargetLane') == 1 )
 
                                                             trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
@@ -162,26 +184,39 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition), "EntityCondition") == 1)
                                                         %Check Distance field
                                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
-                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition), "DistanceCondition") == 1)
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition), "RelativeDistanceCondition") == 1)
 
                                                             %add Condition Rule to Trajectory_variable
                                                             trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
-                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.DistanceCondition.Attributes;
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.RelativeDistanceCondition.Attributes;
 
                                                             %Check RelativeObject field
-                                                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
-                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.DistanceCondition.Position), "RelativeObjectPosition") == 1)
+                                                             %if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                    % .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.RelativeDistanceCondition.Position), "RelativeObjectPosition") == 1)
 
                                                                 %add Relative distance to Trajectory_variable
                                                                 trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Distance_RelativeObject = (Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
-                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.DistanceCondition.Position.RelativeObjectPosition.Attributes.entityRef);
+                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.RelativeDistanceCondition.Attributes.entityRef);
 
 
-                                                            end %RelativeObject field check
+                                                           %end %RelativeObject field check
 
                                                         end %Distance field check
+                                                        
+                                                        if (isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition), "SpeedCondition") == 1)
+                                                            
+                                                            trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.SpeedCondition.Attributes;
+                                                            
+                                                            %add Relative distance to Trajectory_variable
+                                                            trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                   .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Speed_RelativeObject = (Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                   .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.TriggeringEntities.EntityRef.Attributes.entityRef);
+                                                        end
 
                                                         %Check TimeHeadWay field
                                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
@@ -236,9 +271,38 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                             end
 
 
-                                                        end %%Check type,name,rule field check
+                                                        end %Check type,name,rule field check
 
-                                                    end %AfterTermination field check
+                                                    end %AfterTerminaison field check
+                                                    
+                                                    %Check
+                                                    %SimulationTimeCondition
+                                                    %field
+                                                    if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition), "SimulationTimeCondition") == 1)
+                                                        
+                                                        trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                            .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Objects = trajectory_variable.(models.worldmodel.object{j, 1}.name);
+                                                        
+                                                        %Check rule, value
+                                                        if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition.SimulationTimeCondition.Attributes), "rule") == 1 &&...
+                                                                isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition.SimulationTimeCondition.Attributes), "value") == 1)
+
+                                                            trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition.SimulationTimeCondition.Attributes;
+                                                            
+                                                            trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act...
+                                                                .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.SimulationTimeCondition = ' ';
+                                                                   
+
+                                                        end %%Check rule,value
+
+                                                    end %SimulationTimeCondition field check
+
+
 
                                                 end %ByState field  check
 
