@@ -98,7 +98,7 @@ if __name__=="__main__":
     goal_list = []
     goal_list.append( createGoal(257.0, 170.0, 0.0, 0.0, 1.0) )
     goal_list.append( createGoal(223.0, 226.0, 0.0, 1.0, 0.0) )
-    goal_list.append( createGoal(84.0, 170.0, 0.0, 0.0, 1.0) )
+    goal_list.append( createGoal(117.0, 170.0, 0.0, 0.0, 1.0) )
    
     BaseMapGoalLooper(goal_list)
     rospy.spin()

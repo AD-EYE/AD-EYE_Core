@@ -54,7 +54,11 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
         runs(c).TARosParameters = TAOrder{'TARosParameters',c}{1};
         runs(c).TASimulinkParameters = [ta_path,'/Configurations/', TAOrder{'TASimulinkParameters',c}{1}];
   %     runs(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
-        runs(c).TagsConfig = TAOrder{'TagsConfig',c}{1}; %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
+    end
+    
+    for c = firstcolumn:min(lastcolumn,width(TAOrder))
+         %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
+        runs(c).TagsConfig = split(split(TAOrder{'TagsConfig',c}{1},"/"),"=",1); % Split the string to a have a cell of parameters
     end
 
     
@@ -278,21 +282,23 @@ function logInit()
     fclose(fileID);
 end
 
-function setting = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
+function settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
     % Create the complete command.
-    setting = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
+    settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
     ...and save it in cell array named 'Settings'
     command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
     CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).prescanExperiment, '.pex');
     command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
-    for setting=1:size(runs(run_index).TagsConfig,1) %size of each cell in ...
+    for setting=1:size(runs(run_index).TagsConfig,2) %size of each cell in ...
         ...Run.TagsConfig() consisting test automation tags and its values
-        tag = runs(run_index).TagsConfig{setting,1};
-        val = num2str(runs(run_index).TagsConfig{setting,2}, '%50.50g');
-        command = [command ' -set ' tag '=' val];
-        setting(end+1) = cellstr([tag ' = ' val]);
+        if size(runs(run_index).TagsConfig,2)>=2
+            tag = runs(run_index).TagsConfig{1,setting};
+            val = num2str(runs(run_index).TagsConfig{2,setting}, '%50.50g');
+            command = [command ' -set ' tag '=' val];
+            settings(end+1) = cellstr([tag ' = ' val]);
+        end
     end
     command = [command ' -realignPaths']; %unknown use from PreScan
     command = [command ' -build']; %build the experiment    
