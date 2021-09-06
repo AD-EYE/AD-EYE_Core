@@ -6,10 +6,16 @@ cd(adeye_base+"OpenSCENARIO\OpenSCENARIO_experiments");
 SCENARIOS = dir(fullfile(adeye_base+"OpenSCENARIO\OpenSCENARIO_experiments", '*.xosc'));
 NUM = size(SCENARIOS,1);
 
+%Adapt current codes for the tests
+rewriteTA();
+rewritetrajectorydynamics();
+rewriteAPImain();
+
 cd(adeye_base + "OpenSCENARIO");
+fclose('all');
 delete scenario_review.txt;
 
-for i=1:NUM%Loop for each scenario
+for i=1:NUM %Loop for each scenario
     
     %get the name of the next scenario to test
     experimentFile = SCENARIOS(i);
@@ -18,36 +24,42 @@ for i=1:NUM%Loop for each scenario
     experimentNameChar = convertCharsToStrings(experimentName);
     
     % Read the code
+    cd(adeye_base + "OpenSCENARIO");
     file = fopen('TA_OpenSCENARIO_interface2.m');
     line = fgetl(file);
     k = 1;
     while k<204
-       out{k,1}=line;
+       out3{k,1}=line;
        line=fgetl(file);
        k=k+1;
     end
     fclose(file);
     
     %Change the name of the next scenario
-    FINDSTART = strfind(out{23,1}, '[');
-    FINDEND = strfind(out{23,1}, ']');
-    out{23,1} = replaceBetween(out{23,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
+    FINDSTART = strfind(out3{23,1}, '[');
+    FINDEND = strfind(out3{23,1}, ']');
+    out3{23,1} = replaceBetween(out3{23,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
     
-    FINDSTART = strfind(out{24,1}, '[');
-    FINDEND = strfind(out{24,1}, ']');
-    out{24,1} = replaceBetween(out{24,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
+    FINDSTART = strfind(out3{24,1}, '[');
+    FINDEND = strfind(out3{24,1}, ']');
+    out3{24,1} = replaceBetween(out3{24,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
+    
+    %Do only one simulation
+    out3{142,1} = "TA2('Configurations/TAOrder.xlsx', 1, 1)";
     
     %Write the new code in the old one
     file= fopen('TA_OpenSCENARIO_interface2.m','w');
-    for k=1:numel(out)-1
-       fprintf(file,'%s\n',out{k});
+    for k=1:numel(out3)-1
+       fprintf(file,'%s\n',out3{k});
     end
     fclose(file);
     
+    %Add the name of this scenario to the text file
     fid = fopen('scenario_review.txt', 'a');
     fprintf(fid, strcat('Scenario: ', experimentName, '\n'));
     fclose(fid);
     
+    %Launch the simulation
     TA_OpenSCENARIO_interface2;
     
 end%Loop for each scenario
