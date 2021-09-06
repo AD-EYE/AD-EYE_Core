@@ -40,11 +40,11 @@ private:
     const double MIN_WIDTH_PEDESTRIAN = 0.2; // in meter, for a child
     const double MAX_WIDTH_PEDESTRIAN = 1; // in meter, for biggest person
     // For a bicycle
-    const double MIN_VELOCITY_BICYCLE = 2.5; // in meter per second
+    const double MIN_VELOCITY_BICYCLE = 0.5; // in meter per second
     const double MAX_VELOCITY_BICYCLE = 8; // in meter per second
-    const double MIN_LENGHT_BICYCLE = 1.4; // in meter, for a child's bicycle
+    const double MIN_LENGHT_BICYCLE = 0.8; // in meter, for a child's bicycle
     const double MAX_LENGHT_BICYCLE = 2; // in meter, for an adult's bicycle
-    const double MIN_WIDTH_BICYCLE = 0.5; // in meter, for a child's bicycle
+    const double MIN_WIDTH_BICYCLE = 0.3; // in meter, for a child's bicycle
     const double MAX_WIDTH_BICYCLE = 1; // in meter, for an adult's bicycle
     // For a car
     const double MIN_VELOCITY_CAR = 1.39; // in meter per second. The minimum velocity is set at 5km/h in case of traffic congestion.
@@ -128,6 +128,9 @@ private:
             }
 
             // Different cases according to the value of the detected object
+            // This part has to be reviewed, some objects are not well detected
+            // Add conditions on the position of the detected object, if it is not on the road,
+            // it could be a pedestrian.
 
             // Check if the velocity and the size of the detected actor fit with a car
             if ((velocity_other_actors_ >= MIN_VELOCITY_CAR)
@@ -140,6 +143,7 @@ private:
                 detected_objects_.objects.at(detected_objects_.objects.size() - 1).label = "car";
             }
             // Check if the velocity and the size of the detected actor fit with a bicycle
+            // And also check if the position of the actor is on the road.
             else if ((MAX_VELOCITY_BICYCLE >= velocity_other_actors_) && (velocity_other_actors_ >= MIN_VELOCITY_BICYCLE)
                         && (MAX_LENGHT_BICYCLE >= lenght_other_actors_) && (lenght_other_actors_ >= MIN_LENGHT_BICYCLE)
                         && (MAX_WIDTH_BICYCLE >= lenght_other_actors_) && (lenght_other_actors_ >= MIN_WIDTH_BICYCLE))
@@ -150,6 +154,7 @@ private:
                 detected_objects_.objects.at(detected_objects_.objects.size() - 1).label = "bicycle";
             }
             // Check if the velocity and the size of the detected actor fit with a pedestrian
+            // And also check if the position of the actor is out of the road.
             else if ((MAX_VELOCITY_PEDESTRIAN >= velocity_other_actors_) && (velocity_other_actors_ >= MIN_VELOCITY_PEDESTRIAN)
                         && (MAX_LENGHT_PEDESTRIAN >= lenght_other_actors_) && (lenght_other_actors_ >= MIN_LENGHT_PEDESTRIAN)
                         && (MAX_WIDTH_PEDESTRIAN >= lenght_other_actors_) && (lenght_other_actors_ >= MIN_WIDTH_PEDESTRIAN))
@@ -197,7 +202,7 @@ private:
      */
     void lanesCallback(const vector_map_msgs::LaneArray& msg) {
         std::cout << "Received Lanes" << std::endl;
-        if(map_raw_.pLanes  == nullptr) {
+        if(map_raw_.pLanes == nullptr) {
             map_raw_.pLanes = new UtilityHNS::AisanLanesFileReader(msg);
         }
     }
@@ -208,7 +213,7 @@ private:
      */
     void pointsCallback(const vector_map_msgs::PointArray& msg) {
         std::cout << "Received Points" << std::endl;
-        if(map_raw_.pPoints  == nullptr) {
+        if(map_raw_.pPoints == nullptr) {
             map_raw_.pPoints = new UtilityHNS::AisanPointsFileReader(msg);
         }
     }
@@ -219,7 +224,7 @@ private:
      */
     void dtLanesCallback(const vector_map_msgs::DTLaneArray& msg) {
         std::cout << "Received dtLanes" << std::endl;
-        if(map_raw_.pCenterLines  == nullptr) {
+        if(map_raw_.pCenterLines == nullptr) {
             map_raw_.pCenterLines = new UtilityHNS::AisanCenterLinesFileReader(msg);
         }
     }
@@ -230,7 +235,7 @@ private:
      */
     void intersectionCallback(const vector_map_msgs::CrossRoadArray& msg) {
         std::cout << "Received Intersections" << std::endl;
-        if(map_raw_.pIntersections  == nullptr) {
+        if(map_raw_.pIntersections == nullptr) {
             map_raw_.pIntersections = new UtilityHNS::AisanIntersectionFileReader(msg);
         }
     }
@@ -241,7 +246,7 @@ private:
      */
     void areasCallback(const vector_map_msgs::AreaArray& msg) {
         std::cout << "Received Areas" << std::endl;
-        if(map_raw_.pAreas  == nullptr) {
+        if(map_raw_.pAreas == nullptr) {
             map_raw_.pAreas = new UtilityHNS::AisanAreasFileReader(msg);
         }
     }
@@ -252,7 +257,7 @@ private:
      */
     void linesCallback(const vector_map_msgs::LineArray& msg) {
         std::cout << "Received Lines" << std::endl;
-        if(map_raw_.pLines  == nullptr) {
+        if(map_raw_.pLines == nullptr) {
             map_raw_.pLines = new UtilityHNS::AisanLinesFileReader(msg);
         }
     }
@@ -263,7 +268,7 @@ private:
      */
     void stopLinesCallback(const vector_map_msgs::StopLineArray& msg) {
         std::cout << "Received Stop Lines" << std::endl;
-        if(map_raw_.pStopLines  == nullptr) {
+        if(map_raw_.pStopLines == nullptr) {
             map_raw_.pStopLines = new UtilityHNS::AisanStopLineFileReader(msg);
         }
     }
@@ -274,7 +279,7 @@ private:
      */
     void signalsCallback( const vector_map_msgs::SignalArray& msg) {
         std::cout << "Received Signals" << std::endl;
-        if(map_raw_.pSignals  == nullptr) {
+        if(map_raw_.pSignals == nullptr) {
             map_raw_.pSignals = new UtilityHNS::AisanSignalFileReader(msg);
         }
     }
@@ -285,7 +290,7 @@ private:
      */
     void vectorsCallback(const vector_map_msgs::VectorArray& msg) {
         std::cout << "Received Vectors" << std::endl;
-        if(map_raw_.pVectors  == nullptr) {
+        if(map_raw_.pVectors == nullptr) {
             map_raw_.pVectors = new UtilityHNS::AisanVectorFileReader(msg);
         }
     }
@@ -296,7 +301,7 @@ private:
      */
     void curbsCallback(const vector_map_msgs::CurbArray& msg) {
         std::cout << "Received Curbs" << std::endl;
-        if(map_raw_.pCurbs  == nullptr) {
+        if(map_raw_.pCurbs == nullptr) {
             map_raw_.pCurbs = new UtilityHNS::AisanCurbFileReader(msg);
         }
     }
@@ -307,7 +312,7 @@ private:
      */
     void edgesCallback(const vector_map_msgs::RoadEdgeArray& msg) {
         std::cout << "Received Road edges" << std::endl;
-        if(map_raw_.pRoadedges  == nullptr) {
+        if(map_raw_.pRoadedges == nullptr) {
             map_raw_.pRoadedges = new UtilityHNS::AisanRoadEdgeFileReader(msg);
         }
     }
@@ -318,7 +323,7 @@ private:
      */
     void wayAreasCallback(const vector_map_msgs::WayAreaArray& msg) {
         std::cout << "Received Way areas" << std::endl;
-        if(map_raw_.pWayAreas  == nullptr) {
+        if(map_raw_.pWayAreas == nullptr) {
             map_raw_.pWayAreas = new UtilityHNS::AisanWayareaFileReader(msg);
         }
     }
@@ -329,7 +334,7 @@ private:
      */
     void crossWalkCallback(const vector_map_msgs::CrossWalkArray& msg) {
         std::cout << "Received Cross walks" << std::endl;
-        if(map_raw_.pCrossWalks  == nullptr) {
+        if(map_raw_.pCrossWalks == nullptr) {
             map_raw_.pCrossWalks = new UtilityHNS::AisanCrossWalkFileReader(msg);
         }
     }
@@ -340,7 +345,7 @@ private:
      */
     void nodesCallback(const vector_map_msgs::NodeArray& msg) {
         std::cout << "Received Nodes" << std::endl;
-        if(map_raw_.pNodes  == nullptr) {
+        if(map_raw_.pNodes == nullptr) {
             map_raw_.pNodes = new UtilityHNS::AisanNodesFileReader(msg);
         }
     }
@@ -350,7 +355,7 @@ private:
      * \param type The type of object to which trajectories are predicted
      * \details For an oject on the road (as car, bicycle or motorcycle),
      * the predicted trajectories will be, for example, go straight ahead,
-     * turn left or turn right (if the actor arrive  to a crossroad).
+     * turn left or turn right (if the actor arrives  to a crossroad).
      * For a pedestrian, the predicted trajectories will be cross the road,
      * turn left/ right or continue straight ahead on the walkways.
      */
@@ -411,6 +416,9 @@ public:
         sub_nodes_ = nh.subscribe("/vector_map_info/node", 1, &MotionPredictior::nodesCallback,  this);
 
         rate_ = ros::Rate(10);
+
+        updatePlanningParams();
+        predictionVisualizer();
     }
 
     /*!
