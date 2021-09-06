@@ -335,6 +335,19 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(
+  Scenario26
+  src/scenario_26.cpp
+)
+target_link_libraries(
+  Scenario26
+  ${catkin_LIBRARIES}
+)
+add_dependencies(
+  Scenario26
+  ${catkin_EXPORTED_TARGETS}
+)
+
 
 add_executable(
   Scenario27
@@ -570,6 +583,14 @@ install(
 
 install(
   TARGETS Scenario24
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+install(
+  TARGETS Scenario26
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
