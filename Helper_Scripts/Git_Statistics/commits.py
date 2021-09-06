@@ -6,7 +6,7 @@ import numpy as np
 
 #Generation of the list of working repositories
 repositories_names = ["AD-EYE_Core","AD-EYE_GUI","android_app","AR_room","getting_familiar_TCP","infrastructure_database","Pex_Data_Extraction","world_creation"]
-#Creation of a common dates list for combined graphs which starts from the oldest date and finish at current month
+#Creation of a common dates list for combined graphs which starts from the oldest date and finish at the current month
 all_dates = []
 text_file = open("/home/adeye/Stats_results/AD-EYE_Core_stats/commits_by_year_month.dat",'r')
 file_data = text_file.readlines()
@@ -14,13 +14,13 @@ last_line = file_data [len(file_data)-1]
 last_date = last_line.split()[0]
 last_year = int(last_date[0:4])
 
-#To use integer we have to remove 0 in month numbers which are before october, because format is a 2 characters string
+#To use integer we have to remove 0 in month numbers which are before october, because the format is a 2 characters string
 if last_date[5] == '0':
     last_month = int(last_date[6])
 else:
     last_month = int(last_date[5:7])
 
-#For month after october the format is already good so we had the integer as a 2 characters string
+#For months after october the format is already good so we had the integer as a 2 characters string
 #We start at 2018-10 because it is the oldest date of the whole project (in Pex_Data_Extraction)
 for month in range (10,13):
     all_dates.append('2018-'+str(month))
@@ -41,7 +41,7 @@ else:
         all_dates.append(str(year)+'-'+str(month))
 
 #Creation of variables for combined repositories graphs
-#time is a list of the indexes for 
+#time is a list of the indexes to make graph legend match with the dates
 combined_values, time = [0 for k in range (len(all_dates))],[k for k in range (len(all_dates))]
 combined_hist_values,final_hist = [0 for k in range (len(all_dates))],[]
 
@@ -49,7 +49,7 @@ combined_hist_values,final_hist = [0 for k in range (len(all_dates))],[]
 for index in range (len(repositories_names)) :
     #Initialisation of variables for each repository
     values=[]
-    #my_xticks is list of the dates in a string type to add them as legend of the graph
+    #my_xticks is a list of the dates in a string type to add them as the legend of the graph
     X,Y,my_xticks = [],[],[]
     hist_values = []
     path = "/home/adeye/Stats_results/"+repositories_names[index]+"_stats/commits_by_year_month.dat"
@@ -64,7 +64,7 @@ for index in range (len(repositories_names)) :
     my_xticks.append(values[0][0])
     Y.append(int(values[0][1]))
     
-    # Because of the way to make an histogram with Python, hist_values is a list where each index of a date appears as many time as there were commits in that month
+    # Because of the way to make a histogram with Python, hist_values is a list where each index of date appears as many times as there were commits in that month
     for j in range (int(values[0][1])):
         hist_values.append(0)
     for i in range (1,len(values)):
