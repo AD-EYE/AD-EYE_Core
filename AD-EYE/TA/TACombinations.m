@@ -13,11 +13,11 @@ for C_Sce = 1:length(FolderExpNameArray)
     for C_Aut = 1:length(AutowareConfigArray)
         for C_Sim = 1:length(SimulinkConfigArray)
             for C_Tag = 1:length(TagsConfigArray)
-                TAOrder{'FolderExpName',c} = FolderExpNameArray(C_Sce);
-                TAOrder{'PrescanExpName',c} = PrescanExpNameArray(C_Sce);
+                TAOrder{'folderExperiment',c} = FolderExpNameArray(C_Sce);
+                TAOrder{'prescanExperiment',c} = PrescanExpNameArray(C_Sce);
                 TAOrder{'EgoName',c} = EgoNameArray(C_Sce);
-                TAOrder{'AutowareConfig',c} = AutowareConfigArray(C_Aut);
-                TAOrder{'SimulinkConfig',c} = SimulinkConfigArray(C_Sim);
+                TAOrder{'TARosParameters',c} = AutowareConfigArray(C_Aut);
+                TAOrder{'TASimulinkParameters',c} = SimulinkConfigArray(C_Sim);
                 TAOrder{'TagsConfig',c} = TagsConfigArray(C_Tag);
                 TAOrder{'SHHConfig',c} = SHHConfig;
 

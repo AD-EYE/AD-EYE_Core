@@ -48,11 +48,11 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
  
 
     for c = firstcolumn:min(lastcolumn,width(TAOrder))
-        runs(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
-        runs(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
+        runs(c).folderName = TAOrder{'folderExperiment',c}{1};
+        runs(c).prescanExperiment = TAOrder{'prescanExperiment',c}{1};
         runs(c).EgoName = TAOrder{'EgoName',c}{1};
-        runs(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-        runs(c).SimulinkConfig = [ta_path,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+        runs(c).TARosParameters = TAOrder{'TARosParameters',c}{1};
+        runs(c).TASimulinkParameters = [ta_path,'/Configurations/', TAOrder{'TASimulinkParameters',c}{1}];
   %     runs(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
     end
     
@@ -100,10 +100,10 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     setROSParamFromOpenSCENARIO(runs, run_index);
 
-    setROSParamAndLaunch(runs, run_index, device); % set ROS params from the AutowareConfig and starts the ADI
+    setROSParamAndLaunch(runs, run_index, device); % set ROS params from the TARosParameters and starts the ADI
 
     cd(ta_path)
-    cd(['../Experiments/',runs(run_index).FolderExpName]);
+    cd(['../Experiments/',runs(run_index).folderName]);
     MainExperiment = pwd;
 
     % creating experiment names and folders
@@ -122,7 +122,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     % Update the Simulink model
     load_system([simulink_name,'.slx']);
-    simconstantSet(runs(run_index).SimulinkConfig, run_name, runs(run_index).EgoName);
+    simconstantSet(runs(run_index).TASimulinkParameters, run_name, runs(run_index).EgoName);
     save_system([simulink_name,'.slx']);
 
     open_system(simulink_name); % Opens the simulink model for the next two function calls
@@ -176,7 +176,7 @@ function setROSParamAndLaunch(runs, run_index, device)
     sh_folder_path = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
     launch_template_modifier = strcat(sh_folder_path, '/' , 'launchTemplateModifier.sh'); % Script to run the node modifies the launch files 
     manager_file_launch = strcat(sh_folder_path, '/', 'managerFileLaunch.sh'); %contains command to launch manager file in adeye package
-    rosparamScript(runs(run_index).AutowareConfig, runs(run_index).PrescanExpName); % Send all the ros parameters to the linux computer
+    rosparamScript(runs(run_index).TARosParameters, runs(run_index).prescanExperiment); % Send all the ros parameters to the linux computer
     cd('..');
     disp('Python node recieving the ros parameters and modifying launch files');
     system(device, launch_template_modifier); 
@@ -216,19 +216,19 @@ function setROSParamFromOpenSCENARIO(runs, run_index)
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
 
-    splitted_string = split(runs(run_index).FolderExpName,"/");
+    splitted_string = split(runs(run_index).folderName,"/");
     experiment_name = splitted_string(end);
     clear splitted_string;
     experiment_name = experiment_name{1};
-    if isfile(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"))
-        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"));
+    if isfile(strcat("../../Experiments/",runs(run_index).folderName,"/",experiment_name,".xosc"))
+        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).folderName,"/",experiment_name,".xosc"));
         if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
             set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
             disp('Setting ros parameters from OpenSCENARIO file');
         end
     end
 
-%         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).AutowareConfig));
+%         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).TARosParameters));
 %         [index,] = intersect(find(rosparamTable{:,2}=="op_common_params"),find(rosparamTable{:,3}=="maxVelocity"));
 %         if ~isempty(index)
 %             set(ptree,'/simulink/trigger_distance',str2double(rosparamTable{index,7}));
@@ -251,8 +251,8 @@ end
 
 function storeConfiguration(runs, run_index, ta_path, run_directory, settings)
     % Put the configuration files with the experiment
-    copyfile(runs(run_index).SimulinkConfig,run_directory)
-    copyfile(strcat(ta_path,"/Configurations/",runs(run_index).AutowareConfig),run_directory)
+    copyfile(runs(run_index).TASimulinkParameters,run_directory)
+    copyfile(strcat(ta_path,"/Configurations/",runs(run_index).TARosParameters),run_directory)
     % Store current settings to file.
     fileID = fopen([run_directory '\settings.txt'],'wt');
     for line=1:length(settings)
@@ -288,7 +288,7 @@ function settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run
     ...and save it in cell array named 'Settings'
     command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
-    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).PrescanExpName, '.pex');
+    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).prescanExperiment, '.pex');
     command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
     for setting=1:size(runs(run_index).TagsConfig,2) %size of each cell in ...

@@ -46,13 +46,13 @@ for j = 1:length(models.worldmodel.object)
                                                     if (getSimulinkBlockHandle(location0) == -1)
                                                         add_block(convertStringsToChars(strcat("OpenSCENARIO/",blockName0)),location0 );
                                                         %change location of condition source
-                                                        size_blk = get_param(convertStringsToChars(strcat(location,"MuxState")),'Position');
+                                                        sizeBlock = get_param(convertStringsToChars(strcat(location,"MuxState")),'Position');
                                                         if(trajectory_type(1,z) =="Lateral")
-                                                            X = size_blk(1,1)-250;
-                                                            Y = size_blk(1,2)+145;
+                                                            X = sizeBlock(1,1)-250;
+                                                            Y = sizeBlock(1,2)+145;
                                                         elseif(trajectory_type(1,z) =="Longitudinal")
-                                                            X = size_blk(1,1)-540;
-                                                            Y = size_blk(1,2)+35;
+                                                            X = sizeBlock(1,1)-540;
+                                                            Y = sizeBlock(1,2)+35;
                                                         end
                                                         WIDTH = 200;
                                                         HEIGHT = 100;
@@ -282,6 +282,10 @@ for j = 1:length(models.worldmodel.object)
                                                             if (blockName3=="Trajectory_input_turn_subsystem")
                                                                 set_param(convertStringsToChars(strcat(location,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
+                                                                else
+                                                                    set_param(convertStringsToChars(strcat(location,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', strcat("-",trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                            .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value))
+                                                                end
                                                             end
                                                         end
                                                             
