@@ -15,7 +15,7 @@ cd(adeye_base + "TA");
     
     %Insert lines to go to the compareinitialfinalvalues function
     out2{1,1} = 'function TA2(TAOrderFile,firstcolumn,lastcolumn,clear_files)';
-    out2{152,1} = '    adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\"';
+    out2{152,1} = '    adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";';
     out2{153,1} = '    addpath(adeye_base+"OpenSCENARIO\Code");';
     out2{154,1} = strcat('    if exist(',"'simout1'" , ')');
     out2{155,1} = strcat('       if exist(', "'simout2'", ')');
@@ -23,7 +23,7 @@ cd(adeye_base + "TA");
     out2{157,1} = '       else';
     out2{158,1} = '          compareinitialfinalvalues(simout1, struct([]));';
     out2{159,1} = '       end';
-    out2{160,1} = '    elseif exist(simout1)';
+    out2{160,1} = strcat('    elseif exist(', "'simout2'", ')');
     out2{161,1} = '       compareinitialfinalvalues(struct([]), simout2);';
     out2{162,1} = '    else';
     out2{163,1} = '       compareinitialfinalvalues(struct([]), struct([]));';

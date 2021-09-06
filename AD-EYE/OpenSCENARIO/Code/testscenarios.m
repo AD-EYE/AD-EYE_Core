@@ -44,6 +44,8 @@ for i=1:NUM %Loop for each scenario
     FINDEND = strfind(out3{24,1}, ']');
     out3{24,1} = replaceBetween(out3{24,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
     
+    %Change API_main function
+    out3{79,1} = "API_main2(name_ego,name_prescan_experiment,listOfNames2(i))";
     %Do only one simulation
     out3{142,1} = "TA2('Configurations/TAOrder.xlsx', 1, 1)";
     
@@ -56,7 +58,7 @@ for i=1:NUM %Loop for each scenario
     
     %Add the name of this scenario to the text file
     fid = fopen('scenario_review.txt', 'a');
-    fprintf(fid, strcat('Scenario: ', experimentName, '\n'));
+    fprintf(fid, strcat('\nScenario: ', experimentName, '\n'));
     fclose(fid);
     
     %Launch the simulation
