@@ -47,18 +47,18 @@ delete_files(name_experiment,folder_name)
 
 %%%%%%%%%%%%%%%%%%%%%%%%changing inital conditions
 %Changing object dimensions and initial position
- [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego);
+ [Struct_OpenSCENARIO,Struct_pex]= initializeactors(Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
- [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex);
+ [Struct_pex] = weatherconditions(Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables
 %Making Trajectory variable
-[trajectory_variable] = trajectory_declaring(models,Struct_OpenSCENARIO);
+[trajectoryVariable] = trajectorydeclaring(models,Struct_OpenSCENARIO);
 %creating Velocity_variable
-[Velocity_variable] =initial_velocity_declaring(models,Struct_OpenSCENARIO);
+[velocityVariable] =initialvelocitydeclaring(models,Struct_OpenSCENARIO);
 %count number of events per story  (story in ech column)
-[Lateral_events,Longitudinal_events] = trajectory_counter(models,Struct_OpenSCENARIO,trajectory_variable);
+[lateralEvents,longitudinalEvents] = trajectorycounter(models,Struct_OpenSCENARIO,trajectoryVariable);
 
 
 
@@ -68,11 +68,11 @@ delete_files(name_experiment,folder_name)
 %creating ROS blocks
 simulink_ego(name_simulink,models, name_ego, Struct_pex, Struct_OpenSCENARIO)
 %creating label to all vehicles as simulink blocks
-trajectory_labels(Velocity_variable,models,name_simulink);
+trajectorylabels(velocityVariable,models,name_simulink);
 %creating initial_velocity simulink blocks
-initial_velocity_dynamics(name_simulink,models,Struct_OpenSCENARIO,Velocity_variable);
+initialvelocitydynamics(name_simulink,models,Struct_OpenSCENARIO,velocityVariable);
 %Adding block for lonitudinal and lateral dynamics
-trajectory_dynamics_2(name_simulink,models,Struct_OpenSCENARIO,trajectory_variable,Lateral_events,Longitudinal_events,name_ego)
+trajectory_dynamics_2(name_simulink,models,Struct_OpenSCENARIO,trajectoryVariable,lateralEvents,longitudinalEvents,name_ego)
 
 
 
