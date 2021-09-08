@@ -8,6 +8,7 @@
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
+#include <jsk_recognition_msgs/PolygonArray.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -42,6 +43,7 @@ private:
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
+    ros::Subscriber sub_sensor_fov_;
 
     // constants
     const bool SAFE = false;
@@ -52,7 +54,7 @@ private:
     const float PI_ = 3.141592654;
 
     // The number of the safety test
-    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3};
+    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3, CHECK_FRONT_SENSORS = 4, CHECK_BACK_SENSORS = 5};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -80,7 +82,7 @@ private:
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
     
     // Safety tests
-    int num_safety_tests_ = 4;
+    int num_safety_tests_ = 6;
 
     // Initiate the safety counter for tests
     std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
@@ -113,6 +115,18 @@ private:
         double min;
     };
 
+    // enum to identifiate critical level
+    enum CRITICAL_LEVEL_ {IMMEDIATE_STOP, CLOSEST_PARKING, BIGGER_PARKING, INITIAL_GOAL};
+
+    // Test for sensor coverage
+    jsk_recognition_msgs::PolygonArray sensors_fov_;
+    enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl};
+    std::vector<int> FRONT_SENSORS_ = {radar, lidar, camera1}; // numbers of sensors have to fit with those defined in sensor monitor
+    std::vector<int> BACK_SENSORS_ = {lidar, camera2};
+    int number_front_sensors_ = 3; // in the front of the car, there are radar, camera 1 and lidar
+    int number_back_sensors_ = 2; // in the back of the car, there are camera 2 and lidar
+    int nb_defective_front_sensors_; // stores the number of defective sensors in the front of the car
+    int nb_defective_back_sensors_; // stores the number of defective sensors in the back of the car
 
     /*!
      * \brief currentVelocity Callback : Updates the knowledge about the car speed.
@@ -190,6 +204,16 @@ private:
         switch_request_value_ = msg;
     }
 
+    /*!
+     * \brief Sensor field of view callback : Called when the sensors information has changed.
+     * \param msg A smart pointer to the message from the topic.
+     * \details Stores polygons that represent sensor field of view
+     */
+    void sensorFovCallback(const jsk_recognition_msgs::PolygonArrayConstPtr& msg)
+    {
+        sensors_fov_ = *msg;
+        std::cout << "size sensor fov : " << sensors_fov_.polygons.size() << std::endl;
+    }
 
     /*!
      * \brief Get distance to lane : Called at every iteration of the main loop
@@ -455,6 +479,52 @@ private:
     }
 
     /*!
+     * \brief Check front sensors : Called at every interation of the main loop
+     * \return Boolean indicating if front sensors are activated
+     */
+    bool isFrontSensorsActive()
+    {
+        std::cout << "test front" << std::endl;
+        nb_defective_front_sensors_ = 0;
+        bool front_sensors_active = true;
+        for(std::vector<int>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
+            int i;
+            i = std::distance(FRONT_SENSORS_.begin(), it);
+            std::cout << "front sensor iterator" << i << std::endl;
+            if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
+                nb_defective_front_sensors_+=1;
+                front_sensors_active = false;
+            }
+        }
+        std::cout << "number of defective front sensors : " << nb_defective_front_sensors_ << std::endl;
+        std::cout << "is front test passed : " << front_sensors_active << std::endl;
+        return front_sensors_active;
+    }
+
+    /*!
+     * \brief Check back sensors : Called at every interation of the main loop
+     * \return Boolean indicating if back sensors are activated
+     */
+    bool isBackSensorsActive()
+    {
+        std::cout << "test back" << std::endl;
+        nb_defective_back_sensors_ = 0;
+        bool back_sensors_active = true;
+        for(std::vector<int>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
+            int i;
+            i = std::distance(BACK_SENSORS_.begin(), it);
+            std::cout << "back sensor iterator" << i << std::endl;
+            if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
+                nb_defective_back_sensors_+=1;
+                back_sensors_active = false;
+            }
+        }
+        std::cout << "number of defective back sensors : " << nb_defective_back_sensors_ << std::endl;
+        std::cout << "is back test passed : " << back_sensors_active << std::endl;
+        return back_sensors_active;
+    }
+
+    /*!
      * \brief It is in this function that the switch
      * is triggered or not.
      */
@@ -523,6 +593,7 @@ private:
     {
         // The pass result vector of safety test.
         std::vector<bool> instantaneous_test_results(num_safety_tests_);
+        std::cout << "size instantaneous test result : " << instantaneous_test_results.size() << std::endl;
 
         // Check that all necessary nodes are active and store in the vector
         instantaneous_test_results[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
@@ -534,7 +605,13 @@ private:
         instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
         
         // Check that the vehicle is in operational design domain polygon area
-        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain(); 
+        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain();
+
+        // Check that all front sensors are active
+        instantaneous_test_results[CHECK_FRONT_SENSORS] = isFrontSensorsActive();
+
+        // Check that all back sensors are active
+        instantaneous_test_results[CHECK_BACK_SENSORS] = isBackSensorsActive();
 
         return instantaneous_test_results;
     }
@@ -647,6 +724,7 @@ private:
             checkSafetyChecksParameterValidity();
         }
 
+        std::cout << "check non instantaneous test" << std::endl;
         // Initiate Non-instantaneous test result vector
         checkNonInstantaneousResults();
         
@@ -705,6 +783,7 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
+        std::cout << "take decision test" << std::endl;
         // Send test_result to the decision maker function
         takeDecisionBasedOnTestResult();
     }
@@ -803,7 +882,7 @@ public:
      * \details Initialize the node and its components such as publishers and subscribers.
      */
     SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
-    {
+    {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
         pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwrite_behavior", 1, true);
@@ -819,7 +898,8 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
         sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
-        
+        sub_sensor_fov_ = nh.subscribe("/sensor_fov", 1, &SafetySupervisor::sensorFovCallback, this);
+
         // Initialization loop
         waitForInitialization();
 
@@ -827,6 +907,8 @@ public:
         for(int i = 1; i<argc; i++){
             nodes_to_check_.push_back(argv[i]);
         }
+        // std::cout << "number" << nodes_to_check_.front() << std::endl;
+        // std::cout << "number" << nodes_to_check_.size() << std::endl;
 
     }
     
@@ -863,6 +945,7 @@ public:
                 defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
             }
 
+            std::cout << "perform safety test" << std::endl;
             performSafetyTests();
             publish();
                  
