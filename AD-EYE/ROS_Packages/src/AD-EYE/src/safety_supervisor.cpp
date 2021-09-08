@@ -52,7 +52,8 @@ private:
     const float PI_ = 3.141592654;
 
     // The number of the safety test
-    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES = 0, CHECK_CAR_OFF_ROAD = 1, CHECK_DYNAMIC_OJECT = 2, CHECK_CAR_OFF_ODD = 3};
+    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
+        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OJECT, CHECK_CAR_OFF_ODD};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -76,11 +77,14 @@ private:
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     autoware_msgs::Lane autowareTrajectory_;
-    ros::V_string nodes_to_check_;
+    std::vector<string> critical_nodes_level_one_;
+    std::vector<string> critical_nodes_level_two_;
+    std::vector<string> critical_nodes_level_three_;
+    std::vector<string> critical_nodes_level_four_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
     
     // Safety tests
-    int num_safety_tests_ = 4;
+    int num_safety_tests_ = 7;
 
     // Initiate the safety counter for tests
     std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
@@ -423,20 +427,52 @@ private:
     }
 
     /*!
-     * \brief Check active nodes : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes are alive
+     * \brief Check if the given nodes are alive
+     * \param nodes_to_check vector containing the names of the nodes to check
      */
-    bool areCriticalNodesAlive()
+    bool areNodesAlive(std::vector<string> nodes_to_check)
     {
         ros::V_string nodes_alive;
         ros::master::getNodes(nodes_alive);
-        for(auto node : nodes_to_check_){
+        for(auto node : nodes_to_check){
           if(std::find(nodes_alive.begin(), nodes_alive.end(), node) == nodes_alive.end()){
             std::cout << "ERROR: " << node << "was not found" << '\n';
             return false;
           }
         }
         return true;
+    }
+    /*!
+     * \brief Check critical nodes level 1 : Called at every iteration of the main loop
+     * \Checks if all the necessary nodes of criticality level 1 are alive
+     */
+    bool areCriticalNodesLevelOneAlive()
+    {
+        return areNodesAlive(critical_nodes_level_one_);
+    }
+    /*!
+     * \brief Check critical nodes level 2 : Called at every iteration of the main loop
+     * \Checks if all the necessary nodes of criticality level 2 are alive
+     */
+    bool areCriticalNodesLevelTwoAlive()
+    {
+        return areNodesAlive(critical_nodes_level_two_);
+    }
+    /*!
+     * \brief Check critical nodes level 3 : Called at every iteration of the main loop
+     * \Checks if all the necessary nodes of criticality level 3 are alive
+     */
+    bool areCriticalNodesLevelThreeAlive()
+    {
+        return areNodesAlive(critical_nodes_level_three_);
+    }
+    /*!
+     * \brief Check critical nodes level 4 : Called at every iteration of the main loop
+     * \Checks if all the necessary nodes of criticality level 4 are alive
+     */
+    bool areCriticalNodesLevelFourAlive()
+    {
+        return areNodesAlive(critical_nodes_level_four_);
     }
 
     /*!
@@ -525,7 +561,10 @@ private:
         std::vector<bool> instantaneous_test_results(num_safety_tests_);
 
         // Check that all necessary nodes are active and store in the vector
-        instantaneous_test_results[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_ONE] = areCriticalNodesLevelOneAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_FOUR] = areCriticalNodesLevelFourAlive();
         
         //Check that the center of the car on the road
         instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
@@ -823,11 +862,23 @@ public:
         // Initialization loop
         waitForInitialization();
 
-        // Initialize the list of nodes to check
-        for(int i = 1; i<argc; i++){
-            nodes_to_check_.push_back(argv[i]);
-        }
 
+        if (nh.hasParam("critical_nodes_level_one"))
+            nh.getParam("critical_nodes_level_one", critical_nodes_level_one_);
+        else
+            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_one");
+        if (nh.hasParam("critical_nodes_level_two"))
+            nh.getParam("critical_nodes_level_two", critical_nodes_level_two_);
+        else
+            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_two");
+        if (nh.hasParam("critical_nodes_level_three"))
+            nh.getParam("critical_nodes_level_three", critical_nodes_level_three_);
+        else
+            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_three");
+        if (nh.hasParam("critical_nodes_level_four"))
+            nh.getParam("critical_nodes_level_four", critical_nodes_level_four_);
+        else
+            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_four");
     }
     
     /*!
