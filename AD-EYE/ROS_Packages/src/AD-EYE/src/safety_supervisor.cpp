@@ -120,11 +120,11 @@ private:
 
     // Test for sensor coverage
     jsk_recognition_msgs::PolygonArray sensors_fov_;
-    enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl};
-    std::vector<int> FRONT_SENSORS_ = {radar, lidar, camera1}; // numbers of sensors have to fit with those defined in sensor monitor
-    std::vector<int> BACK_SENSORS_ = {lidar, camera2};
-    int number_front_sensors_ = 3; // in the front of the car, there are radar, camera 1 and lidar
-    int number_back_sensors_ = 2; // in the back of the car, there are camera 2 and lidar
+    enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
+    std::vector<int> FRONT_SENSORS_ = {radar, lidar, camera1}; // in the front of the car, there are radar, camera 1 and lidar
+    std::vector<int> BACK_SENSORS_ = {lidar, camera2}; // in the back of the car, there are camera 2 and lidar
+    int number_front_sensors_ = FRONT_SENSORS_.size();
+    int number_back_sensors_ = BACK_SENSORS_.size();
     int nb_defective_front_sensors_; // stores the number of defective sensors in the front of the car
     int nb_defective_back_sensors_; // stores the number of defective sensors in the back of the car
 
