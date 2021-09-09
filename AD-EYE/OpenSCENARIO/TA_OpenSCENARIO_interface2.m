@@ -20,8 +20,8 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Evasive_Action_Maneuver"];
-folderNames = ["Evasive_Action_Maneuver"];
+xoscFinaleNames = ["Pedestrian_Action"];
+folderNames = ["Pedestrian_Action"];
 prescanExperimentTemplates = ["W01_Base_Map"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
@@ -76,7 +76,7 @@ name_prescan_experiment = prescanExperimentTemplates(1);
 for i = 1:length(listOfNames2)
     waitbar(.23+(i-1)*0.5/length(listOfNames2),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
     listOfNames2(i)
-    API_main(name_ego,name_prescan_experiment,listOfNames2(i))
+API_main(name_ego,name_prescan_experiment,listOfNames2(i))
 end
 
 waitbar(.73,ta_openscenario_progress_bar,'Configuring OpenSCENARIO experiments');
@@ -139,7 +139,7 @@ rosshutdown
 close(ta_openscenario_progress_bar)
 % TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
-TA('Configurations/TAOrder.xlsx', 1, 500)
+TA('Configurations/TAOrder.xlsx', 1, 500, 0, false)
 
 
 
@@ -201,4 +201,3 @@ function setSpeedEgo(speed_ego,i)
     table{row,7} = {speed_ego};
     writetable(table,TARosParametersTemplates(i));    
 end
-

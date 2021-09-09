@@ -1,33 +1,63 @@
-function compareinitialfinalvalues(simout1, simout2)
+function compareinitialfinalvalues(outputs)
 
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 cd(adeye_base+"OpenSCENARIO");
 
 %Add to the text file the checking
 fid = fopen('scenario_review.txt', 'a');
+isOkSpeed = 1;
+isOkAngle = 1;
+isOkEgoSpeed = 1;
 
-if not(isempty(simout1)) %Check if simout1 had been added so if longitudinal action exists
-    compareSpeed = simout1.signals.values(length(simout1.signals.values)) - simout1.signals.values(1);
-    if (compareSpeed == 0)
-        fprintf(fid, 'Same speed between the begin and the end\n');
+for i=0:length(outputs)-1
+fprintf(fid, strcat('Actor', num2str(i), '\n'));
+simout=outputs{i+1,1};
+    if (i==0)
+        for p=2:length(simout.signals.values)
+            compareEgoSpeed = simout.signals.values(p) - simout.signals.values(p-1);
+            if not(compareEgoSpeed == 0)
+                break
+            end
+        end
+
+        if (compareEgoSpeed == 0)
+            isOkEgoSpeed = 0;
+            fprintf(fid, 'Same speed for the Ego car between the begin and the end\n');
+        end
     else
-        fprintf(fid, 'Speed have changed between the begin and the end\n');
+        if strcmp(simout.blockName, strcat( 'Run_1_cs/Ford_Fiesta_Hatchback_1/Dynamics_Empty/Workspace_', num2str(i), '_1'))
+           for p=2:length(simout.signals.values)
+            compareSpeed = simout.signals.values(p) - simout.signals.values(p-1);
+            if not(compareSpeed == 0)
+                break
+            end
+           end
+
+        if (compareSpeed == 0)
+            isOkSpeed = 0;
+            fprintf(fid, 'Same speed between the begin and the end\n');
+        end
+        else
+            for p=2:length(simout.signals.values)
+                compareAngle = simout.signals.values(p) - simout.signals.values(p-1);
+                if not(compareAngle == 0)
+                    break
+                end
+            end
+
+        if (compareAngle == 0)
+            isOkAngle = 0;
+            fprintf(fid, 'Same angle between the begin and the end\n');
+        end
+        end
     end
-else
-   fprintf(fid,'There are no longitudinal action\n'); 
 end
 
-if not(isempty(simout2)) %Check if simout2 had been added so if lateral action exists
-    compareAngle = simout2.signals.values(length(simout2.signals.values)) - simout2.signals.values(1);
-    if (compareAngle == 0)
-        fprintf(fid, 'Same angle between the begin and the end\n');
-    else
-        fprintf(fid, 'Angle have changed between the begin and the end\n');
-    end
+if (isOkSpeed && isOkAngle && isOkEgoSpeed)
+    fprintf(fid, 'Ok\n');
 else
-   fprintf(fid, 'There are no lateral action\n'); 
+    fprintf(fid, 'Failed\n');
 end
-
 fclose(fid);
     
 end

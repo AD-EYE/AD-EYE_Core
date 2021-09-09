@@ -1,5 +1,6 @@
-function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
+function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
 
+        global collectdata;
 
     ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
     cleanup = onCleanup(@()(delete(ta_progress_bar)));
@@ -21,6 +22,10 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
       case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = min(lastcolumn, width(TAOrder));
+      case 5 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = min(lastcolumn, width(TAOrder));
+          collectdata = [num2str(collectOutputs)];
       otherwise
           error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
@@ -68,7 +73,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
         waitbar((run_index-firstcolumn+1) / (length(runs)-firstcolumn+1), ta_progress_bar,['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
-        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs);
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
         end
@@ -89,7 +94,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
     clear()
 end
 
-function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files)
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs)
     tic
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
@@ -149,6 +154,26 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     %Close the experiment
     save_system(simulink_name);
+    if (collectOutputs)
+        i=0;
+        outputsLength = 0;
+        outputs=struct([]);
+        while (exist(strcat('simout_', num2str(i), '_1')) || exist(strcat('simout_', num2str(i), '_2')))
+            if (exist(strcat('simout_', num2str(i), '_1')))
+                outputsLength = outputsLength +1;
+                outputs{outputsLength, 1} = eval(strcat('simout_', num2str(i), '_1'));
+                i= i+1;
+            end
+            if (exist(strcat('simout_', num2str(i), '_2')))
+                outputsLength = outputsLength +1;
+                outputs{outputsLength, 1} = eval(strcat('simout_', num2str(i), '_2'));
+                i=i+1;
+            end
+        end
+        adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
+        addpath(adeye_base+"OpenSCENARIO\Code");
+        compareinitialfinalvalues(outputs);
+    end
     close_system(simulink_name);
 
     disp('Killing all the ros nodes');

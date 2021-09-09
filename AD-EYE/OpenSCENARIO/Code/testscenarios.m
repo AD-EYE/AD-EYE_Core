@@ -6,10 +6,8 @@ cd(adeye_base+"OpenSCENARIO\OpenSCENARIO_experiments");
 SCENARIOS = dir(fullfile(adeye_base+"OpenSCENARIO\OpenSCENARIO_experiments", '*.xosc'));
 NUM = size(SCENARIOS,1);
 
-%Adapt current codes for the tests
-rewriteTA();
-rewritetrajectorydynamics();
-rewriteAPImain();
+cd(adeye_base + "OpenSCENARIO\Code");
+%Adapt current codes for the tests;
 
 cd(adeye_base + "OpenSCENARIO");
 fclose('all');
@@ -21,11 +19,11 @@ for i=1:NUM %Loop for each scenario
     experimentFile = SCENARIOS(i);
     experimentFile = experimentFile.name;
     experimentName = experimentFile(1:end-5);
-    experimentNameChar = convertCharsToStrings(experimentName);
+    experimentNameChar = convertStringsToChars(experimentName);
     
     % Read the code
     cd(adeye_base + "OpenSCENARIO");
-    file = fopen('TA_OpenSCENARIO_interface2.m');
+    file = fopen('TA_OpenSCENARIO_interface_tests.m');
     line = fgetl(file);
     k = 1;
     while k<204
@@ -44,14 +42,12 @@ for i=1:NUM %Loop for each scenario
     FINDEND = strfind(out3{24,1}, ']');
     out3{24,1} = replaceBetween(out3{24,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
     
-    %Change API_main function
-    out3{79,1} = "API_main2(name_ego,name_prescan_experiment,listOfNames2(i))";
     %Do only one simulation
-    out3{142,1} = "TA2('Configurations/TAOrder.xlsx', 1, 1)";
+    out3{142,1} = "TA('Configurations/TAOrder.xlsx', 1, 1, 0,true)";
     
     %Write the new code in the old one
-    file= fopen('TA_OpenSCENARIO_interface2.m','w');
-    for k=1:numel(out3)-1
+    file= fopen('TA_OpenSCENARIO_interface_tests.m','w');
+    for k=1:numel(out3)
        fprintf(file,'%s\n',out3{k});
     end
     fclose(file);
@@ -62,6 +58,6 @@ for i=1:NUM %Loop for each scenario
     fclose(fid);
     
     %Launch the simulation
-    TA_OpenSCENARIO_interface2;
+    TA_OpenSCENARIO_interface_tests;
     
 end%Loop for each scenario
