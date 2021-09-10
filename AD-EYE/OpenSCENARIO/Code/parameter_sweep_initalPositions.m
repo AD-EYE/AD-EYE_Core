@@ -19,12 +19,12 @@ for j = 1:length(Struct_pex.Experiment.Actors.Actor ) %Declare number of objects
                         for y = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction)
                             
                             
-                            %check if is it the position field
-                            if(field_exists(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.PrivateAction{1,",num2str(y),"}.TeleportAction.Position")))
+                            %check if it is the position field
+                            if(fieldexists(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.PrivateAction{1,",num2str(y),"}.TeleportAction.Position")))
                                 for z = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position)
                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position(1,z)),'WorldPosition') == 1 )
                                         
-                                        %if i eiists
+                                        %if i exists
                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position(1,z).WorldPosition.Attributes),'x') == 1 )
                                             %Changing i position
                                             if(isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position(1,z).WorldPosition.Attributes.x)) ~= 1)
@@ -36,7 +36,7 @@ for j = 1:length(Struct_pex.Experiment.Actors.Actor ) %Declare number of objects
                                             
                                         end %i field check
                                         
-                                        %if y eiists
+                                        %if y exiists
                                         if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position(1,z).WorldPosition.Attributes),'y') == 1 )
                                             %Changing y position
                                             if(isnan(str2num(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.TeleportAction.Position(1,z).WorldPosition.Attributes.y)) ~= 1)
