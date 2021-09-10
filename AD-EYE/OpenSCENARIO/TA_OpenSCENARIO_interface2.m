@@ -20,11 +20,11 @@ TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-% xoscFinaleNames = ["Turn_right_Signal"];
-% folderNames = ["Turn_right_Signal"];
-% prescanExperimentTemplates = ["W01_Base_Map"];
-% TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
-% TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
+xoscFinaleNames = ["Evasive_Action_Maneuver"];
+folderNames = ["Evasive_Action_Maneuver"];
+prescanExperimentTemplates = ["W01_Base_Map"];
+TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
+TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
 
 %% Experiment B Map 1
 % xoscFinaleNames = ["Experiment_B"];

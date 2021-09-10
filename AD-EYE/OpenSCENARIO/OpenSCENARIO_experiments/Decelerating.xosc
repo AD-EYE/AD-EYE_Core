@@ -54,7 +54,7 @@
 	    <EnvironmentAction>
 		    <Environment>
 			    <Weather>
-				    <Precipitation type="typeRain" intensity="{0.5;1.5;3.5;7.5;15;40}" />
+				    <Precipitation type="typeRain" intensity="0.5" />
 			    </Weather>
                 <RoadCondition frictionScaleFactor="1.0"/>
 		    </Environment>
@@ -70,7 +70,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="{5.5,0.56,5.5}"/>
+                           <AbsoluteTargetSpeed value="5.5"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -146,7 +146,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="{40.0;5.0;100.0}" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="40" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
@@ -160,7 +160,7 @@
                                         <SpeedAction>
                                             <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="time"/>
                                             <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "{0.0;5.0;10}"/> 
+                                                <RelativeTargetSpeed value= "3"/> 
                                             </SpeedActionTarget>
                                         </SpeedAction>
                                     </LongitudinalAction>

@@ -295,7 +295,8 @@ for j = 1:length(models.worldmodel.object)
                                                     
                                                     %%%Adding ROS Send
                                                     %%%Velocity
-                                                    if (z==2 && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                    if (z==2 && p ==p_L(1,q) && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                        location = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{j,1}.name),"/Dynamics_Empty/");
                                                         add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(location,"ROS Send Velocity") );
                                                         set_param(strcat(location,"ROS Send Velocity"),'LinkStatus', 'inactive') %Unlock links
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"),'LinkStatus', 'inactive')

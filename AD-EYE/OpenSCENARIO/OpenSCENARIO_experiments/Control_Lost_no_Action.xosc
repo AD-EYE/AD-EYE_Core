@@ -145,7 +145,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="40.0" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="30.0" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
