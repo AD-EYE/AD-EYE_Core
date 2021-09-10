@@ -1,0 +1,119 @@
+<OpenSCENARIO>
+
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is running a stop sign" author="Alicia Fossard"/>
+
+    <ParameterDeclaration/>
+
+    <Catalogs>
+        <VehicleCatalog>
+            <Directory path="Catalogs/VehicleCatalogs"/>
+        </VehicleCatalog>
+        <DriverCatalog>
+            <Directory path="Catalogs/DriverCatalogs"/>
+        </DriverCatalog>
+        <PedestrianCatalog>
+            <Directory path="Catalogs/ObserverCatalogs"/>
+        </PedestrianCatalog>
+        <PedestrianControllerCatalog>
+            <Directory path="Catalogs/PedestrianCatalogs"/>
+        </PedestrianControllerCatalog>
+        <MiscObjectCatalog>
+            <Directory path="Catalogs/MiscObjectCatalogs"/>
+        </MiscObjectCatalog>
+        <EnvironmentCatalog>
+            <Directory path="Catalogs/EnvironmentCatalogs"/>
+        </EnvironmentCatalog>
+        <ManeuverCatalog>
+            <Directory path="Catalogs/ManeuverCatalogs"/>
+        </ManeuverCatalog>
+        <TrajectoryCatalog>
+            <Directory path="Catalogs/TrajectoryCatalog"/>
+        </TrajectoryCatalog>
+        <RouteCatalog>
+            <Directory path="Catalogs/RoutingCatalog"/>
+        </RouteCatalog>
+    </Catalogs>
+
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+    </Entities>
+
+    <GlobalAction>
+	    <EnvironmentAction>
+		    <Environment>
+			    <Weather>
+				    <Precipitation type="typeRain" intensity="0.5" />
+			    </Weather>
+                <RoadCondition frictionScaleFactor="1.0"/>
+		    </Environment>
+	    </EnvironmentAction>
+    </GlobalAction>
+   
+   <Storyboard>
+      <Init>
+         <Actions>
+            <Private entityRef="Ego">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="15"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="51.26"
+                                       y="171.02"
+                                       z="0"
+                                       h="0.0"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="5"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="71.58"
+                                       y="160.11"
+                                       z="0"
+                                       h="pi/2"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+         </Actions>
+      </Init>
+    </Storyboard>
+
+</OpenSCENARIO>

@@ -1,0 +1,161 @@
+<OpenSCENARIO>
+
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is running red light in front of the ego car" author="Alicia Fossard"/>
+
+    <ParameterDeclaration/>
+
+    <Catalogs>
+        <VehicleCatalog>
+            <Directory path="Catalogs/VehicleCatalogs"/>
+        </VehicleCatalog>
+        <DriverCatalog>
+            <Directory path="Catalogs/DriverCatalogs"/>
+        </DriverCatalog>
+        <PedestrianCatalog>
+            <Directory path="Catalogs/ObserverCatalogs"/>
+        </PedestrianCatalog>
+        <PedestrianControllerCatalog>
+            <Directory path="Catalogs/PedestrianCatalogs"/>
+        </PedestrianControllerCatalog>
+        <MiscObjectCatalog>
+            <Directory path="Catalogs/MiscObjectCatalogs"/>
+        </MiscObjectCatalog>
+        <EnvironmentCatalog>
+            <Directory path="Catalogs/EnvironmentCatalogs"/>
+        </EnvironmentCatalog>
+        <ManeuverCatalog>
+            <Directory path="Catalogs/ManeuverCatalogs"/>
+        </ManeuverCatalog>
+        <TrajectoryCatalog>
+            <Directory path="Catalogs/TrajectoryCatalog"/>
+        </TrajectoryCatalog>
+        <RouteCatalog>
+            <Directory path="Catalogs/RoutingCatalog"/>
+        </RouteCatalog>
+    </Catalogs>
+
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
+    </Entities>
+
+    <GlobalAction>
+	    <EnvironmentAction>
+		    <Environment>
+			    <Weather>
+				    <Precipitation type="typeRain" intensity="0.5" />
+			    </Weather>
+                <RoadCondition frictionScaleFactor="1.0"/>
+		    </Environment>
+	    </EnvironmentAction>
+    </GlobalAction>
+   
+   <Storyboard>
+      <Init>
+         <Actions>
+            <Private entityRef="Ego">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="15"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="122.34"
+                                       y="171.29"
+                                       z="0"
+                                       h="pi/32"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="0"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="134"
+                                       y="181.02"
+                                       z="0"
+                                       h="-pi/2"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+         </Actions>
+      </Init>
+
+        <Story name="SCPStory" >
+            <ParameterDeclaration/>
+            <Act name="SCPAct">
+                <ManeuverGroup name="SCPSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                    </Actors>
+
+                    <Maneuver name="CrossingPaths">
+                        <Event priority="overwrite" name="Accelerate" maximumExecutionCount="1">
+                            <Action name="KeepingDistanceActions">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "15"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="MyStartCondition1" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="15.0" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+        </Story>
+    </Storyboard>
+
+</OpenSCENARIO>

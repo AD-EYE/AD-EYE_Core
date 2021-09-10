@@ -98,10 +98,11 @@ duplicatePrescanExp(length(listOfNames_2));
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
 waitbar(.13,TAOpensScenarioProgressBar,'Extract TA specific configurations from xosc scenarios');
 
-duplicateAutowareConfigs(length(listOfNames_2));
-duplicateSimulinkConfigs(length(listOfNames_2));
-for s= 1:length(listOfNames_2)
-    d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames_2(s)));
+duplicateAutowareConfigs(length(listOfNames2));
+duplicateSimulinkConfigs(length(listOfNames2));
+addpath(adeye_base+"OpenSCENARIO\Code")
+for s= 1:length(listOfNames2)
+    d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames2(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     cd(adeye_base + "TA\Configurations")

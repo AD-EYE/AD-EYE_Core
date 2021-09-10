@@ -7,7 +7,6 @@ for j = 1:length(models.worldmodel.object)
     for z = 1:length(trajectory_type)
         
         p = 0;
-        
         if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
             for q = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story  ) %Number of Stories
 
@@ -296,7 +295,7 @@ for j = 1:length(models.worldmodel.object)
                                                     
                                                     %%%Adding ROS Send
                                                     %%%Velocity
-                                                    if (i==1 && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
+                                                    if (z==2 && getSimulinkBlockHandle(strcat(location,"ROS Send Velocity")) == -1)
                                                         add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(location,"ROS Send Velocity") );
                                                         set_param(strcat(location,"ROS Send Velocity"),'LinkStatus', 'inactive') %Unlock links
                                                         set_param(strcat(location,"ROS Send Velocity","/Publish4"),'LinkStatus', 'inactive')
