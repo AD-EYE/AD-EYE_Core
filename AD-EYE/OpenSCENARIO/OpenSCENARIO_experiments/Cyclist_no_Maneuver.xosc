@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Non ego vehicle, coming from an opposite direction, is turning left at a non signal junction" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Lead Vehicle goes straight and then a cyclist comes at an intersection" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -48,6 +48,14 @@
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
         </ScenarioObject>
+
+        
+        <ScenarioObject name="NCAP_Cyclist_1">
+            <CatalogReference catalogName="PedestrianCatalog" entryName="NCAP_Cyclist_1"/>
+            <ObjectController>
+                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+            </ObjectController>
+        </ScenarioObject>
     </Entities>
 
     <GlobalAction>
@@ -78,10 +86,10 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="134"
-                                       y="236.68"
+                        <WorldPosition x="84.3"
+                                       y="170.74"
                                        z="0"
-                                       h="-pi/2"
+                                       h="pi/64"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -94,7 +102,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="0.1"/>
+                           <AbsoluteTargetSpeed value="12"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -102,8 +110,33 @@
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="137.4"
-                                       y="216.03"
+                        <WorldPosition x="99"
+                                       y="170.74"
+                                       z="0"
+                                       h="0"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+            </Private>
+
+            <Private entityRef="NCAP_Cyclist_1">
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="7"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="137.66"
+                                       y="150.47"
                                        z="0"
                                        h="pi/2"
                                        p="0"
@@ -115,60 +148,23 @@
          </Actions>
       </Init>
 
-        <Story name="TurnStory" >
+        <Story name="DeceleratingStory" >
             <ParameterDeclaration/>
-            <Act name="TurnAct">
-                <ManeuverGroup name="TurnSequence" maximumExecutionCount="1">
+            <Act name="DeceleratingAct">
+                <ManeuverGroup name="DeceleratingSequence" maximumExecutionCount="1">
                     <Actors selectTriggeringEntities="false">
                         <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                     </Actors>
 
-                    <Maneuver name="Turn">
-                        <Event priority="overwrite" name="TurnEvent" maximumExecutionCount="1">
-                            <Action name="TurnActions">
-                                <PrivateAction>
-                                    <LateralAction>
-                                        <LaneChangeAction>
-                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
-                                            <LaneChangeTarget>
-<<<<<<< HEAD
-                                                <AbsoluteTargetLane value= "-23"/> 
-=======
-<<<<<<< HEAD
-                                                <AbsoluteTargetLane value= "-23"/> 
-=======
-                                                <AbsoluteTargetLane value= "-26.6"/> 
->>>>>>> intern_dev
->>>>>>> intern_dev
-                                            </LaneChangeTarget>
-                                        </LaneChangeAction>
-                                    </LateralAction>
-                                </PrivateAction>
-                            </Action>
-                            <StartTrigger>
-                                <ConditionGroup>
-                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
-                                        <ByEntityCondition>
-                                            <TriggeringEntities triggeringEntitiesRule="any">
-                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
-                                            </TriggeringEntities>
-                                            <EntityCondition>
-                                                <SpeedCondition freespace="false" rule="greaterThan" value="1.0"/>
-                                            </EntityCondition>
-                                        </ByEntityCondition>
-                                    </Condition>
-                                </ConditionGroup>
-                            </StartTrigger>
-                        </Event>
-
-                        <Event name="Accelerate" priority="overwrite" maximumExecutionCount="1">
-                            <Action name="AccelerateAction">
+                    <Maneuver name="Decelerate">
+                        <Event name="DeceleratingEvent" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="DeceleratingAction">
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="6.0" dynamicsDimension="time"/>
                                             <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "15"/> 
+                                                <RelativeTargetSpeed value= "0"/> 
                                             </SpeedActionTarget>
                                         </SpeedAction>
                                     </LongitudinalAction>
@@ -182,7 +178,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="20.0" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="NCAP_Cyclist_1" value="5" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>

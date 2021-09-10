@@ -112,19 +112,24 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
     for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story)
 
         if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k},'Act') == 1)
-            if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act,'ManeuverGroup') == 1)
+            if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act) == 1)
+                Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act =  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act};
+            end
+            for a =1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act)
+                if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a},'ManeuverGroup') == 1)
 
-                %make cell of Maneuvers to allow for multiple Maneuvers
-                if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver) == 1)
-                    Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver};
-                end
-
-                for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver)
-                    %make cell of Events to allow for multiple Events
-                    if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event) == 1)
-                        Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event};
+                    %make cell of Maneuvers to allow for multiple Maneuvers
+                    if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver) == 1)
+                        Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver};
                     end
 
+                    for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver)
+                        %make cell of Events to allow for multiple Events
+                        if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event) == 1)
+                            Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event};
+                        end
+
+                    end
                 end
             end
         end
