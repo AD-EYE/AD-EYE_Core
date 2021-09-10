@@ -17,11 +17,15 @@
 #define NATURE 13
 #define BUILDING 12
 #define TRAFFICLIGHT 15
-#define SAFEAREA 17
+// #define SAFEAREA 17
+#define ROADSIDEPARKING 18
+#define RESTAREA 20
 #define STATICCAR 1
 #define ATTR_SET ".<xmlattr>"
 #define DECIMAL_BASE 10
-#define SAFE_STRING_POS 4
+// #define SAFE_STRING_POS 4
+#define ROAD_SIDE_PARKING_STRING_POS 15
+#define REST_AREA_STRING_POS 8
 int is_ego_vehicle = 0;
 
 struct PrescanModel
@@ -39,11 +43,15 @@ struct PrescanModel
         double sizeX;
         double sizeY;
         double sizeZ;
-        int safetyAreaValue;
+        // int safetyAreaValue;
+		int roadSideParkingValue;
+		int restAreaValue;
     };
 
 	// Containers to save the objects based on object ID
-	std::vector<PrescanObject> safeAreaObjects;
+	// std::vector<PrescanObject> safeAreaObjects;
+	std::vector<PrescanObject> roadSideParkingObjects;
+	std::vector<PrescanObject> restAreaObjects;
 	std::vector<PrescanObject> natureObjects;
 	std::vector<PrescanObject> buildingObjects;
 	std::vector<PrescanObject> trafficlightObjects;
@@ -57,7 +65,7 @@ struct PrescanModel
 	 * \param type_id 		The object id of the Actor
 	 * \param safe_value 	The safe area value of the actor
      */
-	void load_actor(boost::property_tree::ptree::value_type& local_ptree, int u_id, int type_id, int safe_value)
+	void load_actor(boost::property_tree::ptree::value_type& local_ptree, int u_id, int type_id, int road_side_parking_value, int rest_area_value)
 	{		
 		// Populating the containers with data from the xml
 		PrescanObject Obj;
@@ -68,7 +76,9 @@ struct PrescanModel
 		Obj.sizeX = local_ptree.second.get<double>("Size.<xmlattr>.X");
 		Obj.sizeY = local_ptree.second.get<double>("Size.<xmlattr>.Y");
 		Obj.sizeZ = local_ptree.second.get<double>("Size.<xmlattr>.Z");
-		Obj.safetyAreaValue = safe_value;
+		// Obj.safetyAreaValue = safe_value;
+		Obj.roadSideParkingValue = road_side_parking_value;
+		Obj.restAreaValue = rest_area_value;
 		
 		// Inserting data into the respective containers 
 		if(type_id == BUILDING)
@@ -83,11 +93,19 @@ struct PrescanModel
 		{
 			trafficlightObjects.push_back(Obj);
 		}
-		if(type_id == SAFEAREA)
+		// if(type_id == SAFEAREA)
+		// {
+		// 	safeAreaObjects.push_back(Obj);
+		// }
+		if(type_id == ROADSIDEPARKING)
 		{
-			safeAreaObjects.push_back(Obj);
+			roadSideParkingObjects.push_back(Obj);
 		}
-		if(type_id == STATICCAR && safe_value != -1)
+		if(type_id == RESTAREA)
+		{
+			restAreaObjects.push_back(Obj);
+		}
+		if(type_id == STATICCAR && road_side_parking_value != -1 && rest_area_value != -1)
 		{
 			staticCarsObjects.push_back(Obj);
 		}
@@ -107,7 +125,9 @@ struct PrescanModel
 
 		ptree pt_experiment = pt.get_child("Experiment");
 
-		int safety_area_value = 0;
+		// int safety_area_value = 0;
+		int road_side_parking_value = 0;
+		int rest_area_value = 0;
 		int u_id = 0;
 		int obj_id = 0;
         
@@ -146,7 +166,9 @@ struct PrescanModel
                             std::string abc = val_actor_attr.second.data();
                             if(abc == "EGO_VEHICLE")
                             {
-                                safety_area_value = -1;
+                                // safety_area_value = -1;
+								road_side_parking_value = -1;
+								rest_area_value = -1;
                             }
                         }
 
@@ -158,8 +180,11 @@ struct PrescanModel
 					if( !child )
                     {
                         //std::cout << "Trajectory not found" << u_id <<std::endl;
-                        load_actor(val_actors, u_id, obj_id, safety_area_value);
-                        safety_area_value = 0;
+                        load_actor(val_actors, u_id, obj_id, road_side_parking_value, rest_area_value);
+                        // safety_area_value = 0;
+						road_side_parking_value = 0;
+						rest_area_value = 0;
+
                     }
                     else
                     {
@@ -189,10 +214,20 @@ struct PrescanModel
                                 if(val_underlay_attr.first == "Description")
                                 {
                                     // checking the codition if the attribute "Description" has the value "SAFE" in it
-                                    if(val_underlay_attr.second.data().size()>=SAFE_STRING_POS && val_underlay_attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
-                                    {
-                                        safety_area_value = strtol(val_underlay_attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
-                                    }
+                                    // if(val_underlay_attr.second.data().size()>=SAFE_STRING_POS && val_underlay_attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
+                                    // {
+                                    //     safety_area_value = strtol(val_underlay_attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
+                                    // }
+									// checking the condition if the attritbute "Description" has the value "roadSideParking" in it
+									if(val_underlay_attr.second.data().size()>=ROAD_SIDE_PARKING_STRING_POS && val_underlay_attr.second.data().substr(0,ROAD_SIDE_PARKING_STRING_POS) == "roadSideParking")
+									{
+										road_side_parking_value = strtol(val_underlay_attr.second.data().substr(ROAD_SIDE_PARKING_STRING_POS).c_str(),NULL,DECIMAL_BASE);
+									}
+									// checking the condition if the attribute "Description" has the value "restArea" in it
+									if(val_underlay_attr.second.data().size()>=REST_AREA_STRING_POS && val_underlay_attr.second.data().substr(0,REST_AREA_STRING_POS) == "restArea")
+									{
+										rest_area_value = strtol(val_underlay_attr.second.data().substr(REST_AREA_STRING_POS).c_str(),NULL,DECIMAL_BASE);
+									}
                                 }
                                 // populating the u_id with the data of the attribute name "UniqueId"
                                 if(val_underlay_attr.first == "UniqueId")
@@ -205,7 +240,7 @@ struct PrescanModel
                                     obj_id = strtol(val_underlay_attr.second.data().c_str(),NULL,DECIMAL_BASE);
                                 }
                             }
-                            load_actor(val_underlays, u_id, obj_id, safety_area_value);						
+                            load_actor(val_underlays, u_id, obj_id, road_side_parking_value, rest_area_value);						
                         }
                     }
                 }

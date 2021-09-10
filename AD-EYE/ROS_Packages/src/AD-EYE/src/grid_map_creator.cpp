@@ -112,7 +112,7 @@ private:
         findGridMapBoundary(vector_map, lowest_x, lowest_y, maplength_x, maplength_y);
 
         // Create grid map consisting of four layers
-        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas", "SensorSectors"});
+        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
         map_.setFrameId("SSMP_map");
         map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
         ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(), map_.getSize()(0), map_.getSize()(1));
@@ -124,9 +124,10 @@ private:
             map_.at("StaticObjects", *it) = 0;
             map_.at("DynamicObjects", *it) = 0;
             map_.at("Lanes", *it) = 0;
-            map_.at("SafeAreas", *it) = 0;
             map_.at("EgoVehicle", *it) = 0;
             map_.at("SensorSectors", *it) = 0;
+            map_.at("RoadSideParking", *it) = 0;
+            map_.at("RestArea", *it) = 0;
         }
     }
 
@@ -224,14 +225,6 @@ private:
             }
             for (grid_map::CircleIterator iterator(map_, center, radius); !iterator.isPastEnd(); ++iterator) {
                 map_.at("StaticObjects", *iterator) = pexObjects.natureObjects.at(i).sizeZ;
-            }
-        }
-
-        // Safe Area objects are always considered to be rectangles
-        for(int i = 0; i < (int)pexObjects.safeAreaObjects.size(); i++){
-            grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
-            for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
-                map_.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
             }
         }
 
