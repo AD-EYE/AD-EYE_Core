@@ -94,14 +94,14 @@ for j =1:length(models.worldmodel.object) %main for loop
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%set parameters
                     
                     %if value field exists in Dynamics
-                    if(field_exists(Struct_OpenSCENARIO, "Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionDynamics.value"))
+                    if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,",num2str(y),"}.LongitudinalAction.SpeedAction.SpeedActionDynamics.value")))
                         set_param(locationblockConstant,'Value',Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
                                     .PrivareAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes.value); 
                     end
                         
                         
                     %if value field exists in Target
-                    if(field_exists(Struct_OpenSCENARIO, "Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed"))
+                    if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.PrivateAction{1,",num2str(y),"}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed")))
                         set_param(locationblockConstant,'Value',Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
                                 .PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value);
                     end %check Target field
