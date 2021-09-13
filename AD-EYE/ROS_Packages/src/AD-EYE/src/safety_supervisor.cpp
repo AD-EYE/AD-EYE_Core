@@ -18,6 +18,8 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
+#define ROAD_SIDE_PARKING_VALUE 250
+#define REST_AREA_VALUE 200
 
 
 /*!
@@ -76,7 +78,7 @@ private:
     bool autoware_trajectory_flag_ = false;
     bool autoware_global_path_flag_ = false;
     
-    grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+    grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
     autoware_msgs::Lane autowareTrajectory_;
     ros::V_string nodes_to_check_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
@@ -120,6 +122,7 @@ private:
 
     // Test for sensor coverage
     jsk_recognition_msgs::PolygonArray sensors_fov_;
+    bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
     std::vector<int> FRONT_SENSORS_ = {radar, lidar, camera1}; // in the front of the car, there are radar, camera 1 and lidar
     std::vector<int> BACK_SENSORS_ = {lidar, camera2}; // in the back of the car, there are camera 2 and lidar
@@ -213,6 +216,7 @@ private:
     {
         sensors_fov_ = *msg;
         std::cout << "size sensor fov : " << sensors_fov_.polygons.size() << std::endl;
+        sensors_fov_flag_ = true;
     }
 
     /*!
@@ -484,21 +488,22 @@ private:
      */
     bool isFrontSensorsActive()
     {
-        std::cout << "test front" << std::endl;
-        nb_defective_front_sensors_ = 0;
-        bool front_sensors_active = true;
-        for(std::vector<int>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
-            int i;
-            i = std::distance(FRONT_SENSORS_.begin(), it);
-            std::cout << "front sensor iterator" << i << std::endl;
-            if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
-                nb_defective_front_sensors_+=1;
-                front_sensors_active = false;
+        if(sensors_fov_flag_) {
+            nb_defective_front_sensors_ = 0;
+            bool front_sensors_active = true;
+            for(std::vector<int>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
+                int i;
+                i = std::distance(FRONT_SENSORS_.begin(), it);
+                if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
+                    nb_defective_front_sensors_+=1;
+                    front_sensors_active = false;
+                }
             }
+            return front_sensors_active;
         }
-        std::cout << "number of defective front sensors : " << nb_defective_front_sensors_ << std::endl;
-        std::cout << "is front test passed : " << front_sensors_active << std::endl;
-        return front_sensors_active;
+        else {
+            nb_defective_front_sensors_ = number_front_sensors_;
+        }
     }
 
     /*!
@@ -507,21 +512,22 @@ private:
      */
     bool isBackSensorsActive()
     {
-        std::cout << "test back" << std::endl;
-        nb_defective_back_sensors_ = 0;
-        bool back_sensors_active = true;
-        for(std::vector<int>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
-            int i;
-            i = std::distance(BACK_SENSORS_.begin(), it);
-            std::cout << "back sensor iterator" << i << std::endl;
-            if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
-                nb_defective_back_sensors_+=1;
-                back_sensors_active = false;
+        if(sensors_fov_flag_) {
+            nb_defective_back_sensors_ = 0;
+            bool back_sensors_active = true;
+            for(std::vector<int>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
+                int i;
+                i = std::distance(BACK_SENSORS_.begin(), it);
+                if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
+                    nb_defective_back_sensors_+=1;
+                    back_sensors_active = false;
+                }
             }
+            return back_sensors_active;
         }
-        std::cout << "number of defective back sensors : " << nb_defective_back_sensors_ << std::endl;
-        std::cout << "is back test passed : " << back_sensors_active << std::endl;
-        return back_sensors_active;
+        else {
+            nb_defective_back_sensors_ = number_back_sensors_;
+        }
     }
 
     /*!
@@ -593,7 +599,6 @@ private:
     {
         // The pass result vector of safety test.
         std::vector<bool> instantaneous_test_results(num_safety_tests_);
-        std::cout << "size instantaneous test result : " << instantaneous_test_results.size() << std::endl;
 
         // Check that all necessary nodes are active and store in the vector
         instantaneous_test_results[CHECK_ACTIVE_NODES] = areCriticalNodesAlive();
@@ -875,6 +880,40 @@ private:
         }
     }
 
+    int findIndexRoadSideParking(grid_map::GridMap map)
+    {
+        int index_road_side_parking;
+        std::vector<grid_map::GridMapIterator> array_index;
+
+        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
+            if(map.at("RoadSideParking", *it) == ROAD_SIDE_PARKING_VALUE) {
+                array_index.push_back(it);
+            }
+        }
+
+        // Compute the median of the iterator array
+        size_t size = array_index.size();
+        index_road_side_parking = array_index.at((int)((int)size / 2)).getLinearIndex();
+        return index_road_side_parking;
+    }
+
+    int findIndexRestArea(grid_map::GridMap map)
+    {
+        int index_rest_area;
+        std::vector<grid_map::GridMapIterator> array_index;
+
+        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
+            if(map.at("RestArea", *it) == REST_AREA_VALUE) {
+                array_index.push_back(it);
+            }
+        }
+
+        // Compute the median of the iterator array
+        size_t size = array_index.size();
+        index_rest_area = array_index.at((int)((int)size / 2)).getLinearIndex();
+        return index_rest_area;
+    }
+
 public:
     /*!
      * \brief Constructor
@@ -909,6 +948,9 @@ public:
         }
         // std::cout << "number" << nodes_to_check_.front() << std::endl;
         // std::cout << "number" << nodes_to_check_.size() << std::endl;
+
+        
+        
 
     }
     
@@ -945,12 +987,21 @@ public:
                 defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
             }
 
-            std::cout << "perform safety test" << std::endl;
             performSafetyTests();
             publish();
                  
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
+        
+            // Test for functions find safe areas
+            if(gridmap_flag_) {
+                int index_road_side_parking = findIndexRoadSideParking(gridmap_);
+                int index_rest_area = findIndexRestArea(gridmap_);
+
+                std::cout << "index road side parking : " << index_road_side_parking << std::endl;
+                std::cout << "index rest area : " << index_rest_area << std::endl;
+            }
+
         }
     }
 
