@@ -36,7 +36,7 @@
 
     <Entities>
         <ScenarioObject name="Ego">
-            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
             <ObjectController>
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
@@ -50,7 +50,7 @@
         </ScenarioObject>
 
         <ScenarioObject name="Ford_Fiesta_Hatchback_1">
-            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA4_blue_147kW"/>
+            <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
             <ObjectController>
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
@@ -69,83 +69,83 @@
     </GlobalAction>
    
    <Storyboard>
-      <Init>
-         <Actions>
-            <Private entityRef="Ego">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="15"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="371"
-                                       y="174.24"
-                                       z="0"
-                                       h="pi"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-            </Private>
-            <Private entityRef="Ford_Fiesta_Hatchback_1">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="13"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="340"
-                                       y="171.24"
-                                       z="0"
-                                       h="pi"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-            </Private>
-            
-            <Private entityRef="Box_1">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="0"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="286.56"
-                                       y="174.74"
-                                       z="0"
-                                       h="0"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-            </Private>
-         </Actions>
-      </Init>
+        <Init>
+            <Actions>
+                <Private entityRef="Ego">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="371"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="15"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+                <Private entityRef="Ford_Fiesta_Hatchback_1">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="340"
+                                                y="171.24"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="13"/>
+                            </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+                
+                <Private entityRef="Box_1">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="286.56"
+                                                y="174.87"
+                                                z="0"
+                                                h="0"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="0"/>
+                            </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+            </Actions>
+        </Init>
 
         <Story name="ChangeLaneStory" >
             <ParameterDeclaration/>
@@ -161,7 +161,7 @@
                                 <PrivateAction>
                                     <LateralAction>
                                         <LaneChangeAction>
-                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="time"/>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="distance"/>
                                             <LaneChangeTarget>
                                                 <AbsoluteTargetLane value= "1"/> 
                                             </LaneChangeTarget>
@@ -185,7 +185,7 @@
                                 <PrivateAction>
                                     <LateralAction>
                                         <LaneChangeAction>
-                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="time"/>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="distance"/>
                                             <LaneChangeTarget>
                                                 <AbsoluteTargetLane value= "25"/> 
                                             </LaneChangeTarget>
