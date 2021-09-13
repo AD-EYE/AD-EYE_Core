@@ -20,8 +20,8 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Evasive_Action_Maneuver"];
-folderNames = ["Evasive_Action_Maneuver"];
+xoscFinaleNames = ["Turn_at_non_Signal"];
+folderNames = ["Turn_at_non_Signal"];
 prescanExperimentTemplates = ["W01_Base_Map"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
@@ -108,7 +108,7 @@ for s= 1:length(listOfNames2)
     cd(adeye_base + "TA\Configurations")
     for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
         if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
-            speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,1}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
+            speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
             setSpeedEgo(speed_ego,s)
         end
     end
