@@ -68,22 +68,22 @@
                     <PrivateAction>
                         <LongitudinalAction>
                             <SpeedAction>
-                            <SpeedActionDynamics dynamicsShape="step"/>
-                            <SpeedActionTarget>
-                                <AbsoluteTargetSpeed value="15"/>
-                            </SpeedActionTarget>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="15"/>
+                                </SpeedActionTarget>
                             </SpeedAction>
                         </LongitudinalAction>
                     </PrivateAction>
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                            <WorldPosition x="424.0"
-                                            y="174.24"
-                                            z="0"
-                                            h="pi"
-                                            p="0"
-                                            r="0"/>
+                                <WorldPosition x="424.0"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
                             </Position>
                         </TeleportAction>
                     </PrivateAction>
@@ -92,22 +92,22 @@
                     <PrivateAction>
                         <LongitudinalAction>
                             <SpeedAction>
-                            <SpeedActionDynamics dynamicsShape="step"/>
-                            <SpeedActionTarget>
-                                <AbsoluteTargetSpeed value="5"/>
-                            </SpeedActionTarget>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="5"/>
+                                </SpeedActionTarget>
                             </SpeedAction>
                         </LongitudinalAction>
                     </PrivateAction>
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                            <WorldPosition x="380.0"
-                                            y="174.24"
-                                            z="0"
-                                            h="pi"
-                                            p="0"
-                                            r="0"/>
+                                <WorldPosition x="380.0"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
                             </Position>
                         </TeleportAction>
                     </PrivateAction>
@@ -123,14 +123,14 @@
                         <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                     </Actors>
 
-                    <Maneuver name="Decelerating">
+                    <Maneuver name="KeepDistance">
                         <Event priority="overwrite" name="KeepSameDistance" maximumExecutionCount="1">
                             <Action name="KeepingDistanceActions">
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <LongitudinalDistanceAction continuous="true"/>
                                         <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="distance"/>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="rate"/>
                                             <SpeedActionTarget>
                                                 <RelativeTargetSpeed value= "15"/> 
                                             </SpeedActionTarget>
