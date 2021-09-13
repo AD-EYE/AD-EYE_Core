@@ -50,26 +50,27 @@
         </ScenarioObject>
     </Entities>
 
-    <GlobalAction>
-	    <EnvironmentAction>
-		    <Environment>
-			    <Weather>
-				    <Precipitation type="typeRain" intensity="0.5" />
-			    </Weather>
-                <RoadCondition frictionScaleFactor="1.0"/>
-		    </Environment>
-	    </EnvironmentAction>
-    </GlobalAction>
-   
+  
    <Storyboard>
         <Init>
-            <Actions>
+            <Actions>    
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <Weather>
+                                <Precipitation type="typeRain" intensity="0.5" />
+                            </Weather>
+                            <RoadCondition frictionScaleFactor="1.0"/>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+ 
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
                                 <WorldPosition x="424.0"
-                                                y="174.24"
+                                                y="174.87"
                                                 z="0"
                                                 h="pi"
                                                 p="0"
@@ -93,7 +94,7 @@
                         <TeleportAction>
                             <Position>
                                 <WorldPosition x="380.0"
-                                                y="174.24"
+                                                y="174.87"
                                                 z="0"
                                                 h="pi"
                                                 p="0"

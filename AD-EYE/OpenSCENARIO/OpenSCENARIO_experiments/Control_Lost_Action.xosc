@@ -49,21 +49,21 @@
             </ObjectController>
         </ScenarioObject>
     </Entities>
-
-    <GlobalAction>
-	    <EnvironmentAction>
-		    <Environment>
-			    <Weather>
-				    <Precipitation type="typeRain" intensity="0.5" />
-			    </Weather>
-                <RoadCondition frictionScaleFactor="1.0"/>
-		    </Environment>
-	    </EnvironmentAction>
-    </GlobalAction>
    
    <Storyboard>
         <Init>
             <Actions>
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <Weather>
+                                <Precipitation type="typeRain" intensity="0.5" />
+                            </Weather>
+                            <RoadCondition frictionScaleFactor="1.0"/>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+                
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
