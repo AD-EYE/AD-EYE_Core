@@ -80,6 +80,12 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
             k = 2;  % Motorbike
         end
         
+        %checking if field is in CyclistCatalog
+        if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "CyclistCatalog")
+            disp('In CyclistCatalog')
+            k = 9;  % Motorbike
+        end
+        
         %checking if field is in PedestrianCatalog
         if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "PedestrianCatalog")
             disp('In PedestrianCatalog')
