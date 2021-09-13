@@ -228,6 +228,21 @@ private:
             }
         }
 
+        // Road Side Parking objects are always considered to be rectangles
+        for(int i = 0; i < (int)pexObjects.roadSideParkingObjects.size(); i++){
+            grid_map::Polygon polygon = rectangle_creator(pexObjects.roadSideParkingObjects.at(i).posX, pexObjects.roadSideParkingObjects.at(i).posY, pexObjects.roadSideParkingObjects.at(i).sizeX, pexObjects.roadSideParkingObjects.at(i).sizeY, 0.01745*pexObjects.roadSideParkingObjects.at(i).yaw);
+            for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
+                map_.at("RoadSideParking", *it) = pexObjects.roadSideParkingObjects.at(i).roadSideParkingValue;
+            }
+        }
+        // Rest Area objects are always considered to be rectangles
+        for(int i = 0; i < (int)pexObjects.restAreaObjects.size(); i++){
+            grid_map::Polygon polygon = rectangle_creator(pexObjects.restAreaObjects.at(i).posX, pexObjects.restAreaObjects.at(i).posY, pexObjects.restAreaObjects.at(i).sizeX, pexObjects.restAreaObjects.at(i).sizeY, 0.01745*pexObjects.restAreaObjects.at(i).yaw);
+            for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
+                map_.at("RestArea", *it) = pexObjects.restAreaObjects.at(i).restAreaValue;
+            }
+        }
+
         // Static Car objects are always considered to be rectangles
 		for(int i = 0; i < (int)pexObjects.staticCarsObjects.size(); i++){
             grid_map::Polygon polygon = rectangle_creator(pexObjects.staticCarsObjects.at(i).posX, pexObjects.staticCarsObjects.at(i).posY, pexObjects.staticCarsObjects.at(i).sizeX, pexObjects.staticCarsObjects.at(i).sizeY, 0.01745*pexObjects.staticCarsObjects.at(i).yaw);
@@ -505,7 +520,7 @@ private:
         veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
 
         createEmptyGridMap(veclane);
-        if(use_pex_file_)
+        // if(use_pex_file_)
             addPrescanObjects(p_nh);
         addVectorMapObjects(veclane);
 
