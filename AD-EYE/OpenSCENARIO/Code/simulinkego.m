@@ -160,7 +160,7 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             end
 
             %Chaning Rain constant
-            blockRain = "R";
+            blockRain = "fi_lidar_rain_intensity";
             locationBlockRain = convertStringsToChars(strcat(locationSimulinkObject,blockMainBlock,"/",blockRain));
             if (StructPex.Experiment.Attributes.WeatherTypeName == convertStringsToChars("Rain"))
                 R = str2double(StructOpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);

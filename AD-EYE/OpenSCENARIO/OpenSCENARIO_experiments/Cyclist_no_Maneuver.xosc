@@ -58,17 +58,7 @@
         </ScenarioObject>
     </Entities>
 
-    <GlobalAction>
-	    <EnvironmentAction>
-		    <Environment>
-			    <Weather>
-				    <Precipitation type="typeRain" intensity="0.5" />
-			    </Weather>
-                <RoadCondition frictionScaleFactor="1.0"/>
-		    </Environment>
-	    </EnvironmentAction>
-    </GlobalAction>
-   
+  
    <Storyboard>
         <Init>
             <Actions>
@@ -121,7 +111,6 @@
                     </PrivateAction>
                 </Private>
 
-<<<<<<< HEAD
                 <Private entityRef="NCAP_Cyclist_1">
                     <PrivateAction>
                         <TeleportAction>
@@ -148,34 +137,6 @@
                 </Private>
             </Actions>
         </Init>
-=======
-            <Private entityRef="NCAP_Cyclist_1">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="7"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="137.66"
-                                       y="150.47"
-                                       z="0"
-                                       h="pi/2"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-            </Private>
-         </Actions>
-      </Init>
->>>>>>> intern_dev
 
         <Story name="DeceleratingStory" >
             <ParameterDeclaration/>

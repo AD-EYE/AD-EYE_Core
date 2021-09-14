@@ -49,22 +49,34 @@
             </ObjectController>
         </ScenarioObject>
     </Entities>
-
-    <GlobalAction>
-	    <EnvironmentAction>
-		    <Environment>
-			    <Weather>
-				    <Precipitation type="typeRain" intensity="{0.5; 40}" />
-			    </Weather>
-                <RoadCondition frictionScaleFactor="1.0"/>
-		    </Environment>
-	    </EnvironmentAction>
-    </GlobalAction>
-   
+  
    <Storyboard>
         <Init>
             <Actions>
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <Weather>
+                                <Precipitation type="typeRain" intensity="0.5" />
+                            </Weather>
+                            <RoadCondition frictionScaleFactor="1.0"/>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+ 
                 <Private entityRef="Ego">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                            <WorldPosition x="424.0"
+                                            y="174.87"
+                                            z="0"
+                                            h="pi"
+                                            p="0"
+                                            r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
                     <PrivateAction>
                         <LongitudinalAction>
                             <SpeedAction>
@@ -75,30 +87,8 @@
                             </SpeedAction>
                         </LongitudinalAction>
                     </PrivateAction>
-                    <PrivateAction>
-                        <TeleportAction>
-                            <Position>
-                                <WorldPosition x="424.0"
-                                                y="174.87"
-                                                z="0"
-                                                h="pi"
-                                                p="0"
-                                                r="0"/>
-                            </Position>
-                        </TeleportAction>
-                    </PrivateAction>
                 </Private>
                 <Private entityRef="Ford_Fiesta_Hatchback_1">
-                    <PrivateAction>
-                        <LongitudinalAction>
-                            <SpeedAction>
-                                <SpeedActionDynamics dynamicsShape="step"/>
-                                <SpeedActionTarget>
-                                    <AbsoluteTargetSpeed value="5"/>
-                                </SpeedActionTarget>
-                            </SpeedAction>
-                        </LongitudinalAction>
-                    </PrivateAction>
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
@@ -110,6 +100,16 @@
                                                 r="0"/>
                             </Position>
                         </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="5"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
                     </PrivateAction>
                 </Private>
             </Actions>
@@ -158,7 +158,11 @@
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <SpeedAction>
+<<<<<<< HEAD
                                             <SpeedActionDynamics dynamicsShape="linear" value="3.0" dynamicsDimension="time"/>
+=======
+                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="rate"/>
+>>>>>>> refactor/OpenScenario_matlab_code
                                             <SpeedActionTarget>
                                                 <RelativeTargetSpeed value= "0"/> 
                                             </SpeedActionTarget>

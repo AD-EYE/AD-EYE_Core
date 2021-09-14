@@ -61,7 +61,7 @@ for j = 1:length(models.worldmodel.object)
                                                         end
 
 
-                                                        locationDynamicsEmpty = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{j,1}.name),"/Dynamics_Empty/",blockTrajectoryDynamics,"/");
+                                                        locationTrajectoryDynamics = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{j,1}.name),"/Dynamics_Empty/",blockTrajectoryDynamics,"/");
                                                         shift1 = -250*(p-1);
                                                         if(trajectory_type(1,z) =="Lateral")
                                                             p_L = Lateral_events;
@@ -71,7 +71,7 @@ for j = 1:length(models.worldmodel.object)
 
                                                         %change the size of the Add block
                                                         blockAdd = "Add";
-                                                        locationBlockAdd =convertStringsToChars(strcat(locationDynamicsEmpty,blockAdd));
+                                                        locationBlockAdd =convertStringsToChars(strcat(locationTrajectoryDynamics,blockAdd));
                                                         if(trajectory_type(1,z) =="Lateral")
                                                             set_param(locationBlockAdd,'Inputs',int2str(p_L(1,q)))
                                                         elseif(trajectory_type(1,z) =="Longitudinal")
@@ -85,17 +85,17 @@ for j = 1:length(models.worldmodel.object)
                                                                 .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'TimeHeadWayCondition') == 1)
                                                             %add block condition source
                                                             blockConditionSource = strcat("Condition_source_time_",trajectory_type(1,z) );
-                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationDynamicsEmpty,blockConditionSource));
+                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource));
                                                             add_condition = 1;
                                                             %check if Longitudinal_dynamics exisits, otherwise do not create Condition_source
                                                         elseif ( isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'Distance_RelativeObject') == 1 || isfield(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'SimulationTimeCondition') == 1)
                                                             %add block condition source
                                                             blockConditionSource = strcat("Condition_source_",trajectory_type(1,z) );
-                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationDynamicsEmpty,blockConditionSource));
+                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource));
                                                             add_condition = 1;
                                                         else
                                                             blockConditionSource = " ";
-                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationDynamicsEmpty,blockConditionSource));
+                                                            locationBlockConditionSource =convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource));
                                                             add_condition = 0;
                                                         end
                                                         if (getSimulinkBlockHandle(locationBlockConditionSource) == -1 && add_condition == 1)
@@ -110,7 +110,7 @@ for j = 1:length(models.worldmodel.object)
                                                             set_param(locationBlockConditionSource,'Position',[X Y X+Width Y+Height]);
                                                             %disable link to library
                                                             set_param(locationBlockConditionSource, 'LinkStatus','inactive');
-                                                            set_param(convertStringsToChars(strcat(locationDynamicsEmpty,blockConditionSource,"/Goto4")),'TagVisibility','global');
+                                                            set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource,"/Goto4")),'TagVisibility','global');
                                                         end
 
 
@@ -118,38 +118,38 @@ for j = 1:length(models.worldmodel.object)
                                                             .Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.LongitudinalDistanceAction.Attributes.continuous == "true")
                                                             blockTrajectory = "distance";
                                                             blockTrajectory = strcat("Trajectory_input_",blockTrajectory,"_subsystem");
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 1;
                                                         elseif (convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "sinusoidal" && abs(str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value)) > 5)
                                                             blockTrajectory = "turn";
                                                             blockTrajectory = strcat("Trajectory_input_",blockTrajectory,"_subsystem");
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 1;
                                                         elseif(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "sinusoidal")
                                                             %add block Trajectory
                                                             blockTrajectory = "sinusoidal";
                                                             blockTrajectory = strcat("Trajectory_input_",blockTrajectory,"_subsystem");
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 1;
                                                             %add block for linear outputs
                                                         elseif(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "linear")
                                                             blockTrajectory = "linear";
                                                             blockTrajectory = strcat("Trajectory_input_",blockTrajectory,"_subsystem");
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 1;
                                                             %add block for step outputs
                                                         elseif(convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.dynamicsShape) == "step")
                                                             blockTrajectory = "step";
                                                             blockTrajectory = strcat("Trajectory_input_",blockTrajectory,"_subsystem");
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 1;
                                                         else
                                                             blockTrajectory = "";
-                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationDynamicsEmpty,blockTrajectory,blockId(1,p)));
+                                                            locationBlockTrajectory =convertStringsToChars(strcat(locationTrajectoryDynamics,blockTrajectory,blockId(1,p)));
                                                             add_condition = 0;
                                                         end
                                                         if (getSimulinkBlockHandle(locationBlockTrajectory) == -1 && add_condition == 1)
@@ -263,19 +263,20 @@ for j = 1:length(models.worldmodel.object)
                                                                     end
                                                                 end
                                                             end
+                                                            
                                                             if(blockTrajectory=="Trajectory_input_turn_subsystem")
-                                                                set_param(convertStringsToChars(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output","/Switch")),'Threshold', convertStringsToChars(strcat("-",convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                                set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,"Trajectory_output","/Switch")),'Threshold', convertStringsToChars(strcat("-",convertCharsToStrings(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value))))
-                                                                delete_line(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output"),"Asin/1", "Switch/2");
-                                                                delete_line(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output"),"Asin/1", "Switch/3");
-                                                                add_line(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output"), "From/1", "Switch/2");
-                                                                add_line(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output"), "Constant/1", "Switch/3");
+                                                                delete_line(strcat(locationTrajectoryDynamics,"Trajectory_output"),"Asin/1", "Switch/2");
+                                                                delete_line(strcat(locationTrajectoryDynamics,"Trajectory_output"),"Asin/1", "Switch/3");
+                                                                add_line(strcat(locationTrajectoryDynamics,"Trajectory_output"), "From/1", "Switch/2");
+                                                                add_line(strcat(locationTrajectoryDynamics,"Trajectory_output"), "Constant/1", "Switch/3");
                                                                 if (str2num(trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                             .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target.value) <0)
-                                                                    set_param(convertStringsToChars(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                                    set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,"Trajectory_output","/Constant")),'value', trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                                 .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value)
                                                                 else
-                                                                    set_param(convertStringsToChars(strcat(locationDynamicsEmpty,"Lateral_Dynamics","/Trajectory_output","/Constant")),'value', strcat("-",trajectory_variable.(models.worldmodel.object{j, 1}.name)...
+                                                                    set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,"Trajectory_output","/Constant")),'value', strcat("-",trajectory_variable.(models.worldmodel.object{j, 1}.name)...
                                                                 .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.value))
                                                                 end
                                                             end
