@@ -13,10 +13,7 @@
 
 ::----- Command line -----::
 @cd C:\Users\adeye\AD-EYE_Core
-git config --local user.name ""
-git config --local user.email ""
-git config --global user.name ""
-git config --global user.email ""
+git config --global --remove-section user
+git config --local --remove-section user
 cd C:\Users\adeye\AD-EYE_Core\Pex_Data_Extraction
-git config --local user.name ""
-git config --local user.email ""
+git config --local --remove-section user

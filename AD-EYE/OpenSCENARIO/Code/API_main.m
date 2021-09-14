@@ -31,6 +31,21 @@ cd(strcat("OpenSCENARIO/Results/",folder_name,"/OpenSCENARIO"))
 close_system(convertStringsToChars(name_simulink), 0)
 open_system(convertStringsToChars(name_simulink))
 %Constructing structure from xml file OpenSCENARIO
+
+if ~isfile(convertStringsToChars(strcat(name_experiment, ".pb")))
+    disp("Experiment was not built, it will be built now");
+    command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
+    ...are concatenated and executed using a dos function in the end
+    CurrentExperiment = strcat(pwd, '\', name_experiment, '.pex');
+    command = strcat(command, ' -load ', ' "', CurrentExperiment, '"'); %load the MainExperiment in PreScan
+    command = strcat(command, ' -realignPaths'); %unknown use from PreScan
+    command = strcat(command, ' -build'); %build the experiment
+    command = strcat(command, ' -close');
+    errorCode = dos(command); %takes all the above commands in 'Command' variable and execute
+    if errorCode ~= 0
+        error(['Failed to perform build command: error code' errorCode]);
+    end
+end
 models = prescan.experiment.readDataModels(convertStringsToChars(strcat(name_experiment, ".pb")));
 
 
@@ -47,18 +62,18 @@ delete_files(name_experiment,folder_name)
 
 %%%%%%%%%%%%%%%%%%%%%%%%changing inital conditions
 %Changing object dimensions and initial position
- [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego);
+ [Struct_OpenSCENARIO,Struct_pex]= initializeactors(Struct_OpenSCENARIO,Struct_pex,name_ego);
 %Changing environmental variables
- [Struct_pex] = weather_conditions(Struct_OpenSCENARIO,Struct_pex);
+ [Struct_pex] = weatherconditions(Struct_OpenSCENARIO,Struct_pex);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%creating variables
 %Making Trajectory variable
-[trajectory_variable] = trajectory_declaring(models,Struct_OpenSCENARIO);
+[trajectoryVariable] = trajectorydeclaring(models,Struct_OpenSCENARIO);
 %creating Velocity_variable
-[Velocity_variable] =initial_velocity_declaring(models,Struct_OpenSCENARIO);
+[velocityVariable] =initialvelocitydeclaring(models,Struct_OpenSCENARIO);
 %count number of events per story  (story in ech column)
-[Lateral_events,Longitudinal_events] = trajectory_counter(models,Struct_OpenSCENARIO,trajectory_variable);
+[lateralEvents,longitudinalEvents] = trajectorycounter(models,Struct_OpenSCENARIO,trajectoryVariable);
 
 
 
@@ -68,11 +83,11 @@ delete_files(name_experiment,folder_name)
 %creating ROS blocks
 simulinkego(name_simulink,models, name_ego, Struct_pex, Struct_OpenSCENARIO)
 %creating label to all vehicles as simulink blocks
-trajectory_labels(Velocity_variable,models,name_simulink);
+trajectorylabels(velocityVariable,models,name_simulink);
 %creating initial_velocity simulink blocks
-initial_velocity_dynamics(name_simulink,models,Struct_OpenSCENARIO,Velocity_variable);
+initialvelocitydynamics(name_simulink,models,Struct_OpenSCENARIO,velocityVariable);
 %Adding block for lonitudinal and lateral dynamics
-trajectory_dynamics_2(name_simulink,models,Struct_OpenSCENARIO,trajectory_variable,Lateral_events,Longitudinal_events,name_ego)
+trajectorydynamics2(name_simulink,models,Struct_OpenSCENARIO,trajectory_variable,Lateral_events,Longitudinal_events,name_ego)
 
 
 
