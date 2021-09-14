@@ -215,7 +215,6 @@ private:
     void sensorFovCallback(const jsk_recognition_msgs::PolygonArrayConstPtr& msg)
     {
         sensors_fov_ = *msg;
-        std::cout << "size sensor fov : " << sensors_fov_.polygons.size() << std::endl;
         sensors_fov_flag_ = true;
     }
 
@@ -488,6 +487,7 @@ private:
      */
     bool isFrontSensorsActive()
     {
+        // if at least one sensor sent a message
         if(sensors_fov_flag_) {
             nb_defective_front_sensors_ = 0;
             bool front_sensors_active = true;
@@ -501,6 +501,7 @@ private:
             }
             return front_sensors_active;
         }
+        // if no sensor sent a message, they are all defectives
         else {
             nb_defective_front_sensors_ = number_front_sensors_;
         }
@@ -512,6 +513,7 @@ private:
      */
     bool isBackSensorsActive()
     {
+        // if at least one sensor sent a message
         if(sensors_fov_flag_) {
             nb_defective_back_sensors_ = 0;
             bool back_sensors_active = true;
@@ -525,6 +527,7 @@ private:
             }
             return back_sensors_active;
         }
+        // if no sensor sent a message, they are all defectives
         else {
             nb_defective_back_sensors_ = number_back_sensors_;
         }
@@ -729,7 +732,6 @@ private:
             checkSafetyChecksParameterValidity();
         }
 
-        std::cout << "check non instantaneous test" << std::endl;
         // Initiate Non-instantaneous test result vector
         checkNonInstantaneousResults();
         
@@ -788,7 +790,6 @@ private:
         // Check the curvature of the global plan
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
-        std::cout << "take decision test" << std::endl;
         // Send test_result to the decision maker function
         takeDecisionBasedOnTestResult();
     }
@@ -880,38 +881,76 @@ private:
         }
     }
 
-    int findIndexRoadSideParking(grid_map::GridMap map)
+    /*!
+     * \brief search the position of the center of the road side parking
+     * \return the position of the center of the area road side parking in the gridmap
+     * if there is no, return (-1, -1)
+     * \param map the gridmap where the road side parking has to be found
+     */
+    grid_map::Position findRoadSideParking(grid_map::GridMap map)
     {
-        int index_road_side_parking;
-        std::vector<grid_map::GridMapIterator> array_index;
+        bool is_road_side_parking = false;
+        grid_map::Position pos_road_side_parking;
+        std::vector<grid_map::Position> array_position;
 
         for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
             if(map.at("RoadSideParking", *it) == ROAD_SIDE_PARKING_VALUE) {
-                array_index.push_back(it);
+                grid_map::Position pos;
+                map.getPosition(*it, pos);
+                array_position.push_back(pos);
+                is_road_side_parking = true;
             }
         }
 
-        // Compute the median of the iterator array
-        size_t size = array_index.size();
-        index_road_side_parking = array_index.at((int)((int)size / 2)).getLinearIndex();
-        return index_road_side_parking;
+        if(is_road_side_parking) {
+            // The index to return is the middle of the area so the median of the array_index is computed
+            size_t size = array_position.size();
+            pos_road_side_parking = array_position.at((int)((int)size / 2));
+
+        }
+        else {
+            pos_road_side_parking = grid_map::Position(-1, -1);
+        }
+        return pos_road_side_parking;
     }
 
-    int findIndexRestArea(grid_map::GridMap map)
+    /*!
+     * \brief search the position of the center of the rest area
+     * \return the position of the center of the rest area in the gridmap
+     * if there is no, return (-1, -1)
+     * \param map the gridmap where the rest area has to be found
+     */
+    grid_map::Position findRestArea(grid_map::GridMap map)
     {
-        int index_rest_area;
-        std::vector<grid_map::GridMapIterator> array_index;
+        bool is_rest_area = false; // parameter to know if there is rest area in the gridmap
+        grid_map::Position pos_rest_area; // the position to return
+        std::vector<grid_map::Position> array_position; // array that stores all position where there is rest area
 
+        // for all index in the gridmap, test if the cell value is REST_AREA_VALUE
         for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
             if(map.at("RestArea", *it) == REST_AREA_VALUE) {
-                array_index.push_back(it);
+                grid_map::Position pos;
+                map.getPosition(*it, pos); // extract the position corresponding to the index
+                array_position.push_back(pos); // add the position to the array
+                is_rest_area = true;
             }
         }
 
-        // Compute the median of the iterator array
-        size_t size = array_index.size();
-        index_rest_area = array_index.at((int)((int)size / 2)).getLinearIndex();
-        return index_rest_area;
+        if(is_rest_area) {
+            // The position to return is the middle of the area
+            grid_map::Position pos_begin;
+            grid_map::Position pos_end;
+            pos_begin = array_position.at(0); // the first position stored in the array
+            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
+            pos_rest_area.x() = (pos_begin.x() + pos_end.x()) / 2;
+            pos_rest_area.y() = (pos_begin.y() + pos_end.y()) / 2;
+            // size_t size = array_position.size();
+            // pos_rest_area = array_position.at((int)((int)size / 2));
+        }
+        else {
+            pos_rest_area = grid_map::Position(-1, -1);
+        }
+        return pos_rest_area;
     }
 
 public:
@@ -995,13 +1034,14 @@ public:
         
             // Test for functions find safe areas
             if(gridmap_flag_) {
-                int index_road_side_parking = findIndexRoadSideParking(gridmap_);
-                int index_rest_area = findIndexRestArea(gridmap_);
+                grid_map::Position pos_road_side_parking = findRoadSideParking(gridmap_);
+                grid_map::Position pos_rest_area = findRestArea(gridmap_);
 
-                std::cout << "index road side parking : " << index_road_side_parking << std::endl;
-                std::cout << "index rest area : " << index_rest_area << std::endl;
+                std::cout << "x position road side parking : " << pos_road_side_parking.x() << std::endl;
+                std::cout << "y position road side parking : " << pos_road_side_parking.y() << std::endl;
+                std::cout << "x position rest area : " << pos_rest_area.x() << std::endl;
+                std::cout << "y position rest area : " << pos_rest_area.y() << std::endl;
             }
-
         }
     }
 
