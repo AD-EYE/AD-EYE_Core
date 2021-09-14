@@ -1,4 +1,4 @@
-function listOfNames2 = OpenScenarioMod2(fileName)
+function listOfNames2 = openscenariomod2(fileName)
 %go to correct folder
 cd '..\OpenSCENARIO_experiments'
 
@@ -19,8 +19,6 @@ end
 
 for c = 1:length(findOpen)
     changes(c).textOrigin = findOpen(c);
-    %changes(c).textBrake1 = findSeparator(2*c-1);
-    %changes(c).textBrake2 = findSeparator(2*c);
     changes(c).textEnd = findClose(c);
     text = extractBetween(document,  findOpen(c)+1,  findClose(c)-1)
     findSeparator = strfind(text, ',');
@@ -47,25 +45,25 @@ for c = 1:length(findOpen)
     end
 end
 
-%copy document
+%copy the document
 documentList(1,1)={document};
 
-%change document
+%modify the document
 for c = 1:length(changes)
-    colum = 1;
+    columnn = 1;
     for p = 1:size(documentList,2)
         findOpen = strfind(documentList{c,1}, '{');
         findClose = strfind(documentList{c,1}, '}');
         findSeparator = strfind(text, ',');
         if (isempty(findSeparator{1,1}) || (isempty(changes(c).valueLow)  && isempty(changes(c).valueStep) && isempty(changes(c).valueHigh) ))
             for v= 1:length(values)
-                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', values(v)));
-                colum = colum+1;
+                documentList(c+1,columnn) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', values(v)));
+                columnn = columnn+1;
             end
         else
             for v = changes(c).valueLow:changes(c).valueStep:changes(c).valueHigh
-                documentList(c+1,colum) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', v));
-                colum = colum+1;
+                documentList(c+1,columnn) = replaceBetween(documentList(c,p),findOpen(1), findClose(1), sprintf('%.6f', v));
+                columnn = columnn+1;
             end
         end
     end
@@ -73,10 +71,10 @@ end
 
 lastRow = size(documentList,1);
 %output
-for colum = 1:size(documentList,2)
-    fileID = fopen([fileName, sprintf('%.0f', colum), '_generated.xosc'],'w');
-    listOfNames2(colum) = convertCharsToStrings([fileName, sprintf('%.0f', colum), '_generated.xosc']);
-    doc = documentList(lastRow, colum);
+for columnn = 1:size(documentList,2)
+    fileID = fopen([fileName, sprintf('%.0f', columnn), '_generated.xosc'],'w');
+    listOfNames2(columnn) = convertCharsToStrings([fileName, sprintf('%.0f', columnn), '_generated.xosc']);
+    doc = documentList(lastRow, columnn);
     fwrite(fileID,doc{1});
     fclose(fileID);
 end
