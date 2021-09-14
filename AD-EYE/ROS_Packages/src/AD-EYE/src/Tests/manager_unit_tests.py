@@ -1,7 +1,12 @@
+#!/usr/bin/env python
+
 import os
+from re import template
 import sys
 import rospy
+
 from std_msgs.msg import Bool
+from std_msgs.msg import Int32MultiArray
 import subprocess
 import unittest
 from rosnode import get_node_names
@@ -335,8 +340,7 @@ class ManagerFeaturesHandlerTester(unittest.TestCase):
         stopROS()
         self.assertGreater(number_of_nodes_running, len(manager_features_handler.features.keys()))
 
-
-
+   
 ##A class to realise tests of the manager class, child class of the @unittest.TestCase class.
 class ManagerTester(unittest.TestCase):
 
@@ -364,6 +368,134 @@ class ManagerTester(unittest.TestCase):
             f.write(old_content)
         stopROS()
         self.assertEquals(is_manager_alive, True)
+
+    #The following methods are used to test whether the features added are allowed for the initial state
+    #
+    #@param self the object pointer
+    def test_initial_feature_request_1(self):
+        manager = Manager()    
+        test_msg = Int32MultiArray()
+        test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Switch","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+
+    def test_initial_feature_request_2(self):
+        manager = Manager()    
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = []
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+
+    def test_initial_feature_request_3(self):
+        manager = Manager()    
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,1,1,0,1,0,1,1,1,1,1,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Switch","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i]) 
+
+    #The following methods are used to test whether the features added are allowed for the enabled state
+    #
+    #@param self the object pointer   
+    def test_enabled_feature_request_1(self):
+        manager = Manager() 
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.ENABLED_STATE  
+        test_msg = Int32MultiArray()
+        test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Switch","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+
+    def test_enabled_feature_request_2(self):
+        manager = Manager()  
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.ENABLED_STATE  
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+
+    def test_enabled_feature_request_3(self):
+        manager = Manager() 
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.ENABLED_STATE   
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,1,1,0,1,1,1,1,1,1,1,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Switch","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+    
+    #The following methods are used to test whether the features added are allowed for the engaged state
+    #
+    #@param self the object pointer
+
+    def test_engaged_feature_request_1(self):
+        manager = Manager()
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.ENGAGED_STATE  
+        test_msg = Int32MultiArray()
+        test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Recording","Map","Sensing","Localization","Fake_Localization","Detection","Mission_Planning","Motion_Planning","Switch","SSMP","Rviz","Recording","Experiment_specific_recording"]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+
+    def test_engaged_feature_request_2(self):
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.ENGAGED_STATE
+        manager = Manager()    
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = []
+        for i in range(len(expected_features)):
+            self.assertEqual(manager.current_features[i],expected_features[i])
+
+    #The following methods are used to test whether the features added are allowed for the fault state
+    #
+    #@param self the object pointer
+    def test_fault_feature_request_1(self):
+        manager = Manager() 
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.FAULT_STATE   
+        test_msg = Int32MultiArray()
+        test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Sensing","Localization","Fake_Localization","Switch","SSMP","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+
+    def test_fault_feature_request_2(self):
+        manager = Manager()  
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.FAULT_STATE  
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+
+    def test_fault_feature_request_3(self):
+        manager = Manager() 
+        self.manager_state_machine = ManagerStateMachine()
+        self.current_state = self.manager_state_machine.States.FAULT_STATE   
+        test_msg = Int32MultiArray()
+        test_msg.data = [0,1,1,1,1,1,1,1,1,1,0,0]
+        manager.featuresRequestCallback(test_msg)
+        expected_features = [ "Map","Sensing","Localization","Fake_Localization","Switch","SSMP","Rviz" ]
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
 
 
 if __name__ == '__main__':
