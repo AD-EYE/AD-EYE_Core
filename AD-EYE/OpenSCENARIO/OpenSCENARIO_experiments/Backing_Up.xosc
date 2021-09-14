@@ -51,69 +51,69 @@
     </Entities>
 
     <Storyboard>
-      <Init>
-         <Actions>
+    <Init>
+        <Actions>
             <GlobalAction>
-               <EnvironmentAction>
-                  <Environment>
-                     <Weather>
-                        <Precipitation type="typeRain" intensity="0.5" />
-                     </Weather>
+                <EnvironmentAction>
+                    <Environment>
+                        <Weather>
+                            <Precipitation type="typeRain" intensity="0.5" />
+                        </Weather>
                         <RoadCondition frictionScaleFactor="1.0"/>
-                  </Environment>
-               </EnvironmentAction>
+                    </Environment>
+                </EnvironmentAction>
             </GlobalAction>
 
             <Private entityRef="Ego">
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="424.0"
-                                       y="174.87"
-                                       z="0"
-                                       h="pi"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="15"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
+                <PrivateAction>
+                    <TeleportAction>
+                        <Position>
+                            <WorldPosition x="424.0"
+                                            y="174.87"
+                                            z="0"
+                                            h="pi"
+                                            p="0"
+                                            r="0"/>
+                        </Position>
+                    </TeleportAction>
+                </PrivateAction>
+                <PrivateAction>
+                    <LongitudinalAction>
+                        <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="15"/>
+                            </SpeedActionTarget>
+                        </SpeedAction>
+                    </LongitudinalAction>
+                </PrivateAction>
             </Private>
             <Private entityRef="Ford_Fiesta_Hatchback_1">
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="380.0"
-                                       y="174.87"
-                                       z="0"
-                                       h="pi"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="-5"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
+                <PrivateAction>
+                    <TeleportAction>
+                        <Position>
+                            <WorldPosition x="380.0"
+                                            y="174.87"
+                                            z="0"
+                                            h="pi"
+                                            p="0"
+                                            r="0"/>
+                        </Position>
+                    </TeleportAction>
+                </PrivateAction>
+                <PrivateAction>
+                    <LongitudinalAction>
+                        <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="-5"/>
+                            </SpeedActionTarget>
+                        </SpeedAction>
+                    </LongitudinalAction>
+                </PrivateAction>
             </Private>
-         </Actions>
-      </Init>
+        </Actions>
+    </Init>
 
     <Story name="Stop" >
             <ParameterDeclaration/>
