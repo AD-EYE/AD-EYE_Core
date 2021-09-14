@@ -20,8 +20,8 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Cyclist_no_Maneuver"];
-folderNames = ["Cyclist_no_Maneuver"];
+xoscFinaleNames = ["Animal_no_Action"];
+folderNames = ["Animal_no_Action"];
 prescanExperimentTemplates = ["W01_Base_Map"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx", "SimulinkConfigExpBmap1goal2.xlsx", "SimulinkConfigExpBmap1goal3.xlsx"];
@@ -114,12 +114,12 @@ for s= 1:length(listOfNames2)
         end
     end
 
-    if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
+    if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
         rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);
         setRainIntensity(rain_intensity,s)
     end
 
-    if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
+    if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
         reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage);
         setReflectivity(reflectivity,s)
     end

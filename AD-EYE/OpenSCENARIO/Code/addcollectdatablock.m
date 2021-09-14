@@ -15,11 +15,11 @@ cd( '..\..\..\..\..\..\OpenSCENARIO\Code\')
 Struct_pex = xml2struct(strcat( "..\..\Experiments\",name_experiment,"\OpenSCENARIO\Results\",folder_name,"\OpenSCENARIO\",name_experiment,".pex"));
 
 %Changing object dimensions and initial position
-[Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,nameEgo);
+[Struct_OpenSCENARIO,Struct_pex]= initializeactors(Struct_OpenSCENARIO,Struct_pex,nameEgo);
 %Making Trajectory variable
-[trajectory_variable] = trajectory_declaring(models,Struct_OpenSCENARIO);
+[trajectory_variable] = trajectorydeclaring(models,Struct_OpenSCENARIO);
 %count number of events per story  (story in ech column)
-[Lateral_events,Longitudinal_events] = trajectory_counter(models,Struct_OpenSCENARIO,trajectory_variable);
+[Lateral_events,Longitudinal_events] = trajectorycounter(models,Struct_OpenSCENARIO,trajectory_variable);
 
 
     numberOfSimout = 0;

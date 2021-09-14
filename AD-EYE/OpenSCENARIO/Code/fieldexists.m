@@ -1,4 +1,4 @@
-function exists = field_exists(input_struct,field_to_find)
+function exists = fieldexists(input_struct,field_to_find)
     %TESTFIELDEXISTANCE Test if the field of a struct exists or not
     exists = false;
 

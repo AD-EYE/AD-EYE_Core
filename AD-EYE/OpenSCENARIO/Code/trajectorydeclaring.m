@@ -61,13 +61,13 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                 end
 
                                                 % Check if in Dynamics field
-                                                if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionDynamics" )))
+                                                if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionDynamics" )))
                                                     trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Dynamics',(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
                                                             .Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionDynamics.Attributes),'Condition',' ','Longitudinal',' ');
 
                                                     % Check if in Relative field
-                                                    if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionTarget.RelativeTargetSpeed")))
+                                                    if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionTarget.RelativeTargetSpeed")))
                                                         trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                                 .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
                                                                 .Action.PrivateAction.LongitudinalAction.SpeedAction.SpeedActionTarget.RelativeTargetSpeed.Attributes;
@@ -88,14 +88,14 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
 
                                             % Check if in LaneChangeActionDynamics field
-                                            if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1," , num2str(k), "}.Act{1," , num2str(a), "}.ManeuverGroup.Maneuver{1," , num2str(m), "}.Event{1, " , num2str(i), "}.Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeActionDynamics")))
+                                            if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1," , num2str(k), "}.Act{1," , num2str(a), "}.ManeuverGroup.Maneuver{1," , num2str(m), "}.Event{1, " , num2str(i), "}.Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeActionDynamics")))
                                                 
                                                 trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name) = struct('Dynamics',(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}...
                                                             .Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeActionDynamics.Attributes),'Condition',' ','Lateral',' ' );
 
                                                 % Check if in AbsoluteTarget field
-                                                if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeTarget.AbsoluteTargetLane")))
+                                                if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeTarget.AbsoluteTargetLane")))
                                                     trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                             .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Dynamics.Target = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i }...
                                                             .Action.PrivateAction.LateralAction.LaneChangeAction.LaneChangeTarget.AbsoluteTargetLane.Attributes;
@@ -116,7 +116,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
 
                                         % Check StartTrigger field
-                                        if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition")))
+                                        if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition")))
                                             % Check Attributes field
                                             if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition), "Attributes") == 1)
@@ -129,7 +129,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
 
                                                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ByEntity
                                             % Check ByEntity field
-                                            if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.TriggeringEntities")))
+                                            if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.TriggeringEntities")))
                                                 trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Attributes_rule = Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.TriggeringEntities.Attributes.triggeringEntitiesRule;
@@ -139,7 +139,7 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.TriggeringEntities.EntityRef.Attributes.entityRef;
 
                                                 % Check EntityCondition and RelativeDistanceAction field
-                                                if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.RelativeDistanceCondition")))
+                                                if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition.RelativeDistanceCondition")))
 
                                                     % Add Condition Rule to trajectoryVariable
                                                     trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
@@ -193,8 +193,8 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
                                                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ByState
                                             % Check ByValue and
                                             % AfterTerminaison fields
-                                            if(field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByValueCondition")))
-                                                if (field_exists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByValueCondition.StoryboardElementStateCondition")))
+                                            if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByValueCondition")))
+                                                if (fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,", num2str(k),"}.Act{1,", num2str(a),"}.ManeuverGroup.Maneuver{1,", num2str(m),"}.Event{1, ", num2str(i),"}.StartTrigger.ConditionGroup.Condition.ByValueCondition.StoryboardElementStateCondition")))
                                                     % Check type,name,rule field
                                                     if(isfield(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}...
                                                         .ManeuverGroup.Maneuver{1,m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByValueCondition.StoryboardElementStateCondition.Attributes), "storyboardElementType") == 1 &&...

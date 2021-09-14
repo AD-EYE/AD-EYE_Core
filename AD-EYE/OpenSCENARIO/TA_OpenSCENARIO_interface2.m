@@ -13,15 +13,15 @@ egoNameArray = ["BMW_X5_SUV_1"];
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 %% Experiment A
-xoscFinaleNames = ["Experiment_A"];
-folderNames = ["Experiment_A"];
-prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
-TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
-TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
+% xoscFinaleNames = ["Experiment_A"];
+% folderNames = ["Experiment_A"];
+% prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
+% TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
+% TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Pedestrian_Action"];
-folderNames = ["Pedestrian_Action"];
+xoscFinaleNames = ["Evasive_Action_Maneuver"];
+folderNames = ["Evasive_Action_Maneuver"];
 prescanExperimentTemplates = ["W01_Base_Map"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx"];
@@ -58,39 +58,39 @@ waitbar(.23,TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames = openscenariomod(convertStringsToChars(xoscFinaleNames(1)));
+listOfNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
 
-listOfNames_2=[];
+listOfNames2=[];
 for s= 1:length(listOfNames)
     d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     d=convertStringsToChars(listOfNames(s));
-    listOfNames_2=[listOfNames_2,openscenariomod2(d(1:end-5))];
+    listOfNames2=[listOfNames2,OpenScenarioMod2(d(1:end-5))];
 end
 
 %% Configure OpenSCENARIO experiments
 name_ego = egoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
 
-for i = 1:length(listOfNames_2)
-    waitbar(.23+(i-1)*0.5/length(listOfNames_2),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
-    listOfNames_2(i)
-    API_main(name_ego,name_prescan_experiment,listOfNames_2(i))
+for i = 1:length(listOfNames2)
+    waitbar(.23+(i-1)*0.5/length(listOfNames2),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
+    listOfNames2(i)
+    API_main(name_ego,name_prescan_experiment,listOfNames2(i))
 end
 
 waitbar(.73,TAOpensScenarioProgressBar,'Configuring OpenSCENARIO experiments');
 
-xoscFinaleNames = listOfNames_2;
+xoscFinaleNames = listOfNames2;
 PrescanExpName = prescanExperimentTemplates(1);
 % remove .xosc file extension
-for i=1:length(listOfNames_2)
+for i=1:length(listOfNames2)
     xoscFinaleNames(i) = erase(xoscFinaleNames(i),".xosc");
     folderNames(i) = strcat(PrescanExpName,"/OpenSCENARIO/Results/",xoscFinaleNames(i),"/OpenSCENARIO");
     copyfile(strcat("../OpenSCENARIO_experiments/",xoscFinaleNames(i),".xosc"),strcat("../../Experiments/",folderNames(i)))
 end
-duplicateEgoNames(length(listOfNames_2));
-duplicatePrescanExp(length(listOfNames_2));
+duplicateEgoNames(length(listOfNames2));
+duplicatePrescanExp(length(listOfNames2));
 
 
 
@@ -109,18 +109,18 @@ for s= 1:length(listOfNames2)
     addpath(adeye_base+"OpenSCENARIO\Code")
     for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
         if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
-            speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
-            setSpeedEgo(speed_ego,s)
+            speedEgo = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
+            setSpeedEgo(speedEgo,s)
         end
     end
 
-    if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
-        rain_intensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);
-        setRainIntensity(rain_intensity,s)
+    if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
+        rainIntensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity);
+        setRainIntensity(rainIntensity,s)
     end
 
-    if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
-        reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage);
+    if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
+        reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage);
         setReflectivity(reflectivity,s)
     end
 end
@@ -183,22 +183,30 @@ end
 
 
 % sets the Rain Intensity in SimulinkConfigs and updates the list
-function setRainIntensity(rain_intensity,i)
+function setRainIntensity(rainIntensity,i)
     global TASimulinkParametersTemplates
     table = readtable(TASimulinkParametersTemplates(i));
     TASimulinkParametersTemplates(i)=insertBefore(TASimulinkParametersTemplates(i),'.xlsx',strcat('_',num2str(i)));
-    row = find(strcmp('R',table{:,1}));
-    table{row,2} = rain_intensity;
+    row = find(strcmp('fi_lidar_rain_intensity',table{:,1}));
+    table{row,2} = rainIntensity;
+    row = find(strcmp('FaultInjectionLidar1',table{:,1}));
+    table{row,2} = 2;
+    row = find(strcmp('FaultInjectionLidar2',table{:,1}));
+    table{row,2} = 2;
+    row = find(strcmp('FaultInjectionLidar3',table{:,1}));
+    table{row,2} = 2;
+    row = find(strcmp('FaultInjectionLidar4',table{:,1}));
+    table{row,2} = 2;
     writetable(table,TASimulinkParametersTemplates(i));
 end
 
 
 % sets the Rain Intensity in AutowareConfigs and updates the list
-function setSpeedEgo(speed_ego,i)
+function setSpeedEgo(speedEgo,i)
     global TARosParametersTemplates
     table = readtable(TARosParametersTemplates(i));
     TARosParametersTemplates(i)=insertBefore(TARosParametersTemplates(i),'.xlsx',strcat('_',num2str(i)));
     row = find(strcmp('maxVelocity',table{:,3}));
-    table{row,7} = {speed_ego};
+    table{row,7} = {speedEgo};
     writetable(table,TARosParametersTemplates(i));    
 end
