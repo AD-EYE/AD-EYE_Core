@@ -903,9 +903,13 @@ private:
         }
 
         if(is_road_side_parking) {
-            // The index to return is the middle of the area so the median of the array_index is computed
-            size_t size = array_position.size();
-            pos_road_side_parking = array_position.at((int)((int)size / 2));
+            // The position to return is the middle of the area
+            grid_map::Position pos_begin;
+            grid_map::Position pos_end;
+            pos_begin = array_position.at(0); // the first position stored in the array
+            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
+            pos_road_side_parking.x() = (pos_begin.x() + pos_end.x()) / 2;
+            pos_road_side_parking.y() = (pos_begin.y() + pos_end.y()) / 2;
 
         }
         else {
@@ -944,8 +948,6 @@ private:
             pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
             pos_rest_area.x() = (pos_begin.x() + pos_end.x()) / 2;
             pos_rest_area.y() = (pos_begin.y() + pos_end.y()) / 2;
-            // size_t size = array_position.size();
-            // pos_rest_area = array_position.at((int)((int)size / 2));
         }
         else {
             pos_rest_area = grid_map::Position(-1, -1);
@@ -969,7 +971,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
-        
+
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
