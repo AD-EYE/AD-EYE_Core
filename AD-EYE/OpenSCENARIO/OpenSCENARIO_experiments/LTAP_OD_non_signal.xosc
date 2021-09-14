@@ -127,14 +127,14 @@
                         <Event name="Accelerate" priority="overwrite" maximumExecutionCount="1">
                             <Action name="AccelerateAction">
                                 <PrivateAction>
-                                    <LongitudinalAction>
-                                        <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
-                                            <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "15"/> 
-                                            </SpeedActionTarget>
-                                        </SpeedAction>
-                                    </LongitudinalAction>
+                                    <LateralAction>
+                                        <LaneChangeAction>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
+                                            <LaneChangeTarget>
+                                                <AbsoluteTargetLane value= "-23"/> 
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
                                 </PrivateAction>
                             </Action>
                             <StartTrigger>

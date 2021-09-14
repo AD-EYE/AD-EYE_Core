@@ -134,6 +134,7 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -251,9 +252,20 @@ add_dependencies(goalSequencer
 )
 
 
+# Add the executable, libraries and dependencies for sensor monitor node
+add_executable(
+  sensorMonitor
+  src/sensor_monitor.cpp
+)
 
+target_link_libraries(
+  sensorMonitor
+  ${catkin_LIBRARIES}
+)
 
-
+add_dependencies(sensorMonitor
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 

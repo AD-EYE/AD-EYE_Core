@@ -39,7 +39,7 @@
 
     <arg name="steeringDelay" default="1.2"/>
     <arg name="minPursuiteDistance" default="3.0"/>
-    <arg name="additionalBrakingDistance" default="5.0"/>
+    <arg name="additionalBrakingDistance" default="2.0"/>
 
     <arg name="giveUpDistance" default="-4.0"/>
 
@@ -125,8 +125,13 @@
     <!-- pure_pursuit config -->
     <node pkg="rostopic" type="rostopic" name="config_waypoint_follower_rostopic"
           args="pub -l /config/waypoint_follower autoware_config_msgs/ConfigWaypointFollower
-        '{ header: auto, param_flag: 0, velocity: 20.0, lookahead_distance: 4.0, lookahead_ratio: 1.0, minimum_lookahead_distance: 3.0, displacement_threshold: 0.0, relative_angle_threshold: 0.0 }' "
+        '{ header: auto, param_flag: 0, velocity: 20.0, lookahead_distance: 7.0, lookahead_ratio: 1.6, minimum_lookahead_distance: 4.2, displacement_threshold: 0.0, relative_angle_threshold: 0.0 }' "
     />
+    <!-- <node pkg="rostopic" type="rostopic" name="config_waypoint_follower_rostopic"
+          args="pub -l /config/waypoint_follower autoware_config_msgs/ConfigWaypointFollower
+        '{ header: auto, param_flag: 0, velocity: 20.0, lookahead_distance: 4.0, lookahead_ratio: 1.0, minimum_lookahead_distance: 3.5, displacement_threshold: 0.0, relative_angle_threshold: 0.0 }' "
+    /> -->
+
 
     <!-- rosrun waypoint_follower pure_pursuit -->
     <node pkg="waypoint_follower" type="pure_pursuit" name="pure_pursuit" output="log" respawn="true">

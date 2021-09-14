@@ -50,8 +50,8 @@
         </ScenarioObject>
 
         
-        <ScenarioObject name="Male_wBicycle_1">
-            <CatalogReference catalogName="PedestrianCatalog" entryName="Male_wBicycle_1"/>
+        <ScenarioObject name="NCAP_Cyclist_1">
+            <CatalogReference catalogName="PedestrianCatalog" entryName="NCAP_Cyclist_1"/>
             <ObjectController>
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
@@ -122,7 +122,7 @@
                </PrivateAction>
             </Private>
 
-            <Private entityRef="Male_wBicycle_1">
+            <Private entityRef="NCAP_Cyclist_1">
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -179,7 +179,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Male_wBicycle_1" value="5" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="NCAP_Cyclist_1" value="5" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>

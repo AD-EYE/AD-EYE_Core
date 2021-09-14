@@ -1,23 +1,23 @@
-ta_openscenario_progress_bar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
-% cleanup = onCleanup( @()(delete(ta_openscenario_progress_bar)));
+TAOpensScenarioProgressBar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
+% cleanup = onCleanup( @()(delete(TAOpensScenarioProgressBar)));
 
 
 %% Parameter onfigurations
 
-global EgoNameArray
+global egoNameArray
 global prescanExperimentTemplates
 global TARosParametersTemplates
 global TASimulinkParametersTemplates
-global TagsConfigArray
-EgoNameArray = ["BMW_X5_SUV_1"];
+global tagsConfigs
+egoNameArray = ["BMW_X5_SUV_1"];
 adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 
 %% Experiment A
-% xoscFinaleNames = ["Experiment_A"];
-% folderNames = ["Experiment_A"];
-% prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
-% TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
-% TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
+xoscFinaleNames = ["Experiment_A"];
+folderNames = ["Experiment_A"];
+prescanExperimentTemplates = ["KTH_pedestrian_autoware_light"];
+TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
+TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
 xoscFinaleNames = ["Evasive_Action_Maneuver"];
@@ -50,53 +50,53 @@ TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx"];
 
 
 
-TagsConfigArray = [""];
+tagsConfigs = [""];
 SSHConfig = "Configurations/SSHConfig.csv";
 
 %% Create OpenSCENARIO files
-waitbar(.23,ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
+waitbar(.23,TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
+listOfNames = openscenariomod(convertStringsToChars(xoscFinaleNames(1)));
 
-listOfNames2=[];
+listOfNames_2=[];
 for s= 1:length(listOfNames)
     d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     d=convertStringsToChars(listOfNames(s));
-    listOfNames2=[listOfNames2,OpenScenarioMod2(d(1:end-5))];
+    listOfNames_2=[listOfNames_2,openscenariomod2(d(1:end-5))];
 end
 
 %% Configure OpenSCENARIO experiments
-name_ego = EgoNameArray(1);
+name_ego = egoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
 
-for i = 1:length(listOfNames2)
-    waitbar(.23+(i-1)*0.5/length(listOfNames2),ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
-    listOfNames2(i)
-    API_main(name_ego,name_prescan_experiment,listOfNames2(i))
+for i = 1:length(listOfNames_2)
+    waitbar(.23+(i-1)*0.5/length(listOfNames_2),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
+    listOfNames_2(i)
+    API_main(name_ego,name_prescan_experiment,listOfNames_2(i))
 end
 
-waitbar(.73,ta_openscenario_progress_bar,'Configuring OpenSCENARIO experiments');
+waitbar(.73,TAOpensScenarioProgressBar,'Configuring OpenSCENARIO experiments');
 
-xoscFinaleNames = listOfNames2;
+xoscFinaleNames = listOfNames_2;
 PrescanExpName = prescanExperimentTemplates(1);
 % remove .xosc file extension
-for i=1:length(listOfNames2)
+for i=1:length(listOfNames_2)
     xoscFinaleNames(i) = erase(xoscFinaleNames(i),".xosc");
     folderNames(i) = strcat(PrescanExpName,"/OpenSCENARIO/Results/",xoscFinaleNames(i),"/OpenSCENARIO");
     copyfile(strcat("../OpenSCENARIO_experiments/",xoscFinaleNames(i),".xosc"),strcat("../../Experiments/",folderNames(i)))
 end
-duplicateEgoNames(length(listOfNames2));
-duplicatePrescanExp(length(listOfNames2));
+duplicateEgoNames(length(listOfNames_2));
+duplicatePrescanExp(length(listOfNames_2));
 
 
 
 
 %% Extract TA specific configurations (AutowareConfig or SimulinkConfig)
-waitbar(.13,ta_openscenario_progress_bar,'Extract TA specific configurations from xosc scenarios');
+waitbar(.13,TAOpensScenarioProgressBar,'Extract TA specific configurations from xosc scenarios');
 
 duplicateAutowareConfigs(length(listOfNames2));
 duplicateSimulinkConfigs(length(listOfNames2));
@@ -106,6 +106,7 @@ for s= 1:length(listOfNames2)
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     cd(adeye_base + "TA\Configurations")
+    addpath(adeye_base+"OpenSCENARIO\Code")
     for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
         if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
             speed_ego = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
@@ -126,17 +127,17 @@ end
 
 
 %% Create Experiments and run
-waitbar(.83,ta_openscenario_progress_bar,'Generating TAOrder file');
+waitbar(.83,TAOpensScenarioProgressBar,'Generating TAOrder file');
 
 cd(adeye_base + "TA")
-TACombinations(folderNames, prescanExperimentTemplates, EgoNameArray, TARosParametersTemplates, TASimulinkParametersTemplates, TagsConfigArray, SSHConfig)
+TACombinations(folderNames, prescanExperimentTemplates, egoNameArray, TARosParametersTemplates, TASimulinkParametersTemplates, tagsConfigs, SSHConfig)
 
 
 
 
-waitbar(.93,ta_openscenario_progress_bar,'Starting TA');
+waitbar(.93,TAOpensScenarioProgressBar,'Starting TA');
 rosshutdown
-close(ta_openscenario_progress_bar)
+close(TAOpensScenarioProgressBar)
 % TA('Configurations/TAOrder.xlsx', 150, 2000, 1)
 %TA('Configurations/TAOrder.xlsx', 1, 2)
 TA('Configurations/TAOrder.xlsx', 1, 500)
@@ -160,8 +161,8 @@ function duplicateSimulinkConfigs(nb_duplications)
 end
 
 function duplicateEgoNames(nb_duplications)
-    global EgoNameArray
-    EgoNameArray = repelem(EgoNameArray,nb_duplications);
+    global egoNameArray
+    egoNameArray = repelem(egoNameArray,nb_duplications);
 end
 
 function duplicatePrescanExp(nb_duplications)
