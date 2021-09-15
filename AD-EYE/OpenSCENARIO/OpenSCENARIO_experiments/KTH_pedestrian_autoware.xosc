@@ -43,7 +43,7 @@
          </ObjectController>
       </ScenarioObject>
       <ScenarioObject name="Man_200_1">
-         <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
+         <CatalogReference catalogName="PedestrianCatalog" entryName="Man_200_1"/>
          <ObjectController>
             <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
          </ObjectController>
@@ -53,16 +53,6 @@
       <Init>
          <Actions>
             <Private entityRef="Ego">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="2"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
                <PrivateAction>
                   <TeleportAction>
                      <Position>
@@ -75,8 +65,25 @@
                      </Position>
                   </TeleportAction>
                </PrivateAction>
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="2"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
             </Private>
             <Private entityRef="Man_200_1">
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="175.59" y="-395.52" z="0" h="31*pi/180" p="0" r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -86,13 +93,6 @@
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="175.59" y="-395.52" z="0" h="31*pi/180" p="0" r="0"/>
-                     </Position>
-                  </TeleportAction>
                </PrivateAction>
             </Private>
          </Actions>
@@ -128,7 +128,7 @@
                                     <EntityRef entityRef="Man_200_1"/>
                                  </TriggeringEntities>
                                  <EntityCondition>
-                                    <DistanceCondition value="[10,10,40]"
+                                    <DistanceCondition value="[10,10,10]"
                                                        freespace="false"
                                                        alongRoute="false"
                                                        rule="lessThan">
