@@ -18,8 +18,10 @@
 #define BUILDING 12
 #define TRAFFICLIGHT 15
 // #define SAFEAREA 17
-#define ROADSIDEPARKING 18
-#define RESTAREA 20
+#define ROADSIDEPARKING_ID 18
+#define RESTAREA_ID 20
+#define ROAD_SIDE_PARKING_VALUE 30
+#define REST_AREA_VALUE 40
 #define STATICCAR 1
 #define ATTR_SET ".<xmlattr>"
 #define DECIMAL_BASE 10
@@ -97,11 +99,11 @@ struct PrescanModel
 		// {
 		// 	safeAreaObjects.push_back(Obj);
 		// }
-		if(type_id == ROADSIDEPARKING)
+		if(type_id == ROADSIDEPARKING_ID)
 		{
 			roadSideParkingObjects.push_back(Obj);
 		}
-		if(type_id == RESTAREA)
+		if(type_id == RESTAREA_ID)
 		{
 			restAreaObjects.push_back(Obj);
 		}
@@ -221,12 +223,12 @@ struct PrescanModel
 									// checking the condition if the attritbute "Description" has the value "roadSideParking" in it
 									if(val_underlay_attr.second.data().size()>=ROAD_SIDE_PARKING_STRING_POS && val_underlay_attr.second.data().substr(0,ROAD_SIDE_PARKING_STRING_POS) == "roadSideParking")
 									{
-										road_side_parking_value = strtol(val_underlay_attr.second.data().substr(ROAD_SIDE_PARKING_STRING_POS).c_str(),NULL,DECIMAL_BASE);
+										road_side_parking_value = ROAD_SIDE_PARKING_VALUE;
 									}
 									// checking the condition if the attribute "Description" has the value "restArea" in it
 									if(val_underlay_attr.second.data().size()>=REST_AREA_STRING_POS && val_underlay_attr.second.data().substr(0,REST_AREA_STRING_POS) == "restArea")
 									{
-										rest_area_value = strtol(val_underlay_attr.second.data().substr(REST_AREA_STRING_POS).c_str(),NULL,DECIMAL_BASE);
+										rest_area_value = REST_AREA_VALUE;
 									}
                                 }
                                 // populating the u_id with the data of the attribute name "UniqueId"

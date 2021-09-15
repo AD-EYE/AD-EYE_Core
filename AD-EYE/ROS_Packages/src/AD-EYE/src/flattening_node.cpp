@@ -26,6 +26,8 @@ using namespace grid_map;
 #define LANE_VALUE 25
 #define OBSTRUCTED_VALUE 100
 #define CROSSING_ROAD_MALUS 50
+#define ROAD_SIDE_PARKING_VALUE 20
+#define REST_AREA_VALUE 0
 
 #define PI 3.14159265
 
@@ -142,7 +144,9 @@ private:
         float staticObjectValue;
         float dynamicObjectValue;
         float laneValue;
-        float safeAreaValue;
+        // float safeAreaValue;
+        float roadSideParkingValue;
+        float restAreaValue;
         Position pos;
 
         grid_map::Polygon area;
@@ -169,7 +173,9 @@ private:
                 staticObjectValue = grid_map_.atPosition("StaticObjects", pos);
                 dynamicObjectValue = grid_map_.atPosition("DynamicObjects", pos);
                 laneValue = grid_map_.atPosition("DrivableAreas", pos);
-                safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
+                // safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
+                roadSideParkingValue = grid_map_.atPosition("RoadSideParking", pos);
+                restAreaValue = grid_map_.atPosition("RestArea", pos);
 
                 float angleToPosition = 0; // angle between the the heading of the ego placed on the left side of the footprint and the vector from the ego position to the grid map cell position
                 angleToPosition = atan2(pos[1] - (y_ego_ + cos(yaw_ego_) * width_ego_ / 2), pos[0] - (x_ego_ - sin(yaw_ego_) * width_ego_ / 2)) - yaw_ego_;
@@ -179,7 +185,7 @@ private:
                     angleToPosition += 2 *PI;
 
                 //Calculation the occupancy value
-                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, safeAreaValue, angleToPosition);
+                occValue = calculateOccValue(staticObjectValue, dynamicObjectValue, laneValue, roadSideParkingValue, restAreaValue, angleToPosition);
             } else { //Hide if not inside the area
                 occValue = RED;
             }
@@ -197,28 +203,36 @@ private:
      * \param laneValue The value of the cell in the DrivableAreas layer of the GridMap
      * \return The occupancy value calculated
      */
-    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float safeAreaValue, float angleToPosition) {
+    float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float roadSideParkingValue, float restAreaValue, float angleToPosition) {
         float occValue = 0;
 
         if(laneValue == 1) {
             occValue = LANE_VALUE;
         }
 
+        if(roadSideParkingValue != 0) {
+            occValue = ROAD_SIDE_PARKING_VALUE;
+        }
+
+        if (restAreaValue != 0) {
+            occValue = REST_AREA_VALUE;
+        }
+
         if(angleToPosition>0) // applying a malus for positions that are on the left side of the ego vehicle
             occValue += CROSSING_ROAD_MALUS;
         
-        if(safeAreaValue > 0) {
-            if (safeAreaValue <= 64) {
-                occValue = RED;
-            } else if (safeAreaValue <= 128) {
-                occValue = YELLOW;
-            } else if (safeAreaValue <= 192){
-                occValue = GREEN;
-            } else {
-                occValue = WHITE;
-            }
-        }
-        
+        // if(safeAreaValue > 0) {
+        //     if (safeAreaValue <= 64) {
+        //         occValue = RED;
+        //     } else if (safeAreaValue <= 128) {
+        //         occValue = YELLOW;
+        //     } else if (safeAreaValue <= 192){
+        //         occValue = GREEN;
+        //     } else {
+        //         occValue = WHITE;
+        //     }
+        // }
+
         if(staticObjectValue > DANGEROUS_HEIGHT_ || dynamicObjectValue > DANGEROUS_HEIGHT_) {
             occValue = OBSTRUCTED_VALUE;
         }
