@@ -14,12 +14,12 @@ while true; do
 done
 
 #clone repo
-cd $HOME
+#cd $HOME
 #sudo rm -rf AD-EYE_Core
-echo "Cloning the AD-EYE Repository"
-git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
+#echo "Cloning the AD-EYE Repository"
+#git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
 cd ~/AD-EYE_Core
-git checkout dev
+#git checkout dev
 
 #Autoware dependencies
 echo -e "\nInstalling Autoware dependencies"
@@ -67,6 +67,7 @@ cd ..
 
 #meet AD-EYE dependencies
 echo -e "\nInstalling adeye dependencies"
+sudo apt-get install libhdf5-openmpi-dev
 sudo apt-get -y install ros-kinetic-costmap-2d ros-kinetic-navigation ros-kinetic-grid-map
 sudo apt-get install ros-kinetic-rosbridge-suite
 
