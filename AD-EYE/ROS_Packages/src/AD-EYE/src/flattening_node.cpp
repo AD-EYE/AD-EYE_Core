@@ -26,8 +26,9 @@ using namespace grid_map;
 #define LANE_VALUE 25
 #define OBSTRUCTED_VALUE 100
 #define CROSSING_ROAD_MALUS 50
-#define ROAD_SIDE_PARKING_VALUE 20
+#define ROAD_SIDE_PARKING_VALUE 5
 #define REST_AREA_VALUE 0
+#define DEFAULT_VALUE 50
 
 #define PI 3.14159265
 
@@ -204,7 +205,7 @@ private:
      * \return The occupancy value calculated
      */
     float calculateOccValue(float staticObjectValue, float dynamicObjectValue, float laneValue, float roadSideParkingValue, float restAreaValue, float angleToPosition) {
-        float occValue = 0;
+        float occValue = DEFAULT_VALUE;
 
         if(laneValue == 1) {
             occValue = LANE_VALUE;

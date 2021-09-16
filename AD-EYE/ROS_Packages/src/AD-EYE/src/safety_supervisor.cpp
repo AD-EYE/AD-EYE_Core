@@ -9,6 +9,8 @@
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
+// #include <std_msgs/Bool.h>
+// #include <queue>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -18,8 +20,8 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
-#define ROAD_SIDE_PARKING_VALUE 250
-#define REST_AREA_VALUE 200
+#define ROAD_SIDE_PARKING_VALUE 30
+#define REST_AREA_VALUE 40
 
 
 /*!
@@ -39,6 +41,9 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
+    // ros::Publisher pub_clear_goal_list_bool_;
+    // ros::Publisher pub_goal_;
+    // ros::Publisher pub_update_local_planner_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -124,8 +129,8 @@ private:
     jsk_recognition_msgs::PolygonArray sensors_fov_;
     bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
-    std::vector<int> FRONT_SENSORS_ = {radar, lidar, camera1}; // in the front of the car, there are radar, camera 1 and lidar
-    std::vector<int> BACK_SENSORS_ = {lidar, camera2}; // in the back of the car, there are camera 2 and lidar
+    std::vector<SENSOR_TYPE_> FRONT_SENSORS_ = {radar, lidar, camera1}; // in the front of the car, there are radar, camera 1 and lidar
+    std::vector<SENSOR_TYPE_> BACK_SENSORS_ = {lidar, camera2}; // in the back of the car, there are camera 2 and lidar
     int number_front_sensors_ = FRONT_SENSORS_.size();
     int number_back_sensors_ = BACK_SENSORS_.size();
     int nb_defective_front_sensors_; // stores the number of defective sensors in the front of the car
@@ -491,7 +496,7 @@ private:
         if(sensors_fov_flag_) {
             nb_defective_front_sensors_ = 0;
             bool front_sensors_active = true;
-            for(std::vector<int>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
+            for(std::vector<SENSOR_TYPE_>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
                 int i;
                 i = std::distance(FRONT_SENSORS_.begin(), it);
                 if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
@@ -517,7 +522,7 @@ private:
         if(sensors_fov_flag_) {
             nb_defective_back_sensors_ = 0;
             bool back_sensors_active = true;
-            for(std::vector<int>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
+            for(std::vector<SENSOR_TYPE_>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
                 int i;
                 i = std::distance(BACK_SENSORS_.begin(), it);
                 if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
@@ -588,9 +593,25 @@ private:
         //newGoal.pose.orientation.w = 1;
         //pub_autoware_goal_.publish(newGoal);
 
-        //std_msgs::Int32 msgTriggerUpdateGlobalPlanner;
-        //msgTriggerUpdateGlobalPlanner.data = 1;
-        //pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
+        
+        // Test for road side parking as new goal
+        // sleep(15);
+        // geometry_msgs::PoseStamped pose_road_side_parking;
+        // pose_road_side_parking = findRoadSideParking(gridmap_);
+
+        // // Set the new goal of the car
+        // redefineGoalRoadSideParking(pose_road_side_parking);
+        
+        // // Test for rest area as new goal
+        // geometry_msgs::PoseStamped pose_rest_area;
+        // pose_rest_area = findRestArea(gridmap_);
+
+        // // Set the new goal of the car
+        // redefineGoalRestArea(pose_rest_area);
+
+        // std_msgs::Int32 msgTriggerUpdateGlobalPlanner;
+        // msgTriggerUpdateGlobalPlanner.data = 1;
+        // pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
     
@@ -887,10 +908,10 @@ private:
      * if there is no, return (-1, -1)
      * \param map the gridmap where the road side parking has to be found
      */
-    grid_map::Position findRoadSideParking(grid_map::GridMap map)
+    geometry_msgs::PoseStamped findRoadSideParking(grid_map::GridMap map)
     {
         bool is_road_side_parking = false;
-        grid_map::Position pos_road_side_parking;
+        geometry_msgs::PoseStamped pose_road_side_parking;
         std::vector<grid_map::Position> array_position;
 
         for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
@@ -908,14 +929,25 @@ private:
             grid_map::Position pos_end;
             pos_begin = array_position.at(0); // the first position stored in the array
             pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pos_road_side_parking.x() = (pos_begin.x() + pos_end.x()) / 2;
-            pos_road_side_parking.y() = (pos_begin.y() + pos_end.y()) / 2;
+            pose_road_side_parking.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
+            pose_road_side_parking.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
 
+            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
+            pose_road_side_parking.pose.orientation.w = 1;
+            pose_road_side_parking.pose.orientation.x = 0;
+            pose_road_side_parking.pose.orientation.y = 0;
+            pose_road_side_parking.pose.orientation.z = 0;
         }
         else {
-            pos_road_side_parking = grid_map::Position(-1, -1);
+            // Default value
+            pose_road_side_parking.pose.position.x = 0;
+            pose_road_side_parking.pose.position.y = 0;
+            pose_road_side_parking.pose.orientation.w = 1;
+            pose_road_side_parking.pose.orientation.x = 0;
+            pose_road_side_parking.pose.orientation.y = 0;
+            pose_road_side_parking.pose.orientation.z = 0;
         }
-        return pos_road_side_parking;
+        return pose_road_side_parking;
     }
 
     /*!
@@ -924,18 +956,17 @@ private:
      * if there is no, return (-1, -1)
      * \param map the gridmap where the rest area has to be found
      */
-    grid_map::Position findRestArea(grid_map::GridMap map)
+    geometry_msgs::PoseStamped findRestArea(grid_map::GridMap map)
     {
-        bool is_rest_area = false; // parameter to know if there is rest area in the gridmap
-        grid_map::Position pos_rest_area; // the position to return
-        std::vector<grid_map::Position> array_position; // array that stores all position where there is rest area
+        bool is_rest_area = false;
+        geometry_msgs::PoseStamped pose_rest_area;
+        std::vector<grid_map::Position> array_position;
 
-        // for all index in the gridmap, test if the cell value is REST_AREA_VALUE
         for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
             if(map.at("RestArea", *it) == REST_AREA_VALUE) {
                 grid_map::Position pos;
-                map.getPosition(*it, pos); // extract the position corresponding to the index
-                array_position.push_back(pos); // add the position to the array
+                map.getPosition(*it, pos);
+                array_position.push_back(pos);
                 is_rest_area = true;
             }
         }
@@ -946,13 +977,70 @@ private:
             grid_map::Position pos_end;
             pos_begin = array_position.at(0); // the first position stored in the array
             pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pos_rest_area.x() = (pos_begin.x() + pos_end.x()) / 2;
-            pos_rest_area.y() = (pos_begin.y() + pos_end.y()) / 2;
+            pose_rest_area.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
+            pose_rest_area.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
+
+            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
+            pose_rest_area.pose.orientation.w = 0.136081322188;
+            pose_rest_area.pose.orientation.x = 0;
+            pose_rest_area.pose.orientation.y = 0;
+            pose_rest_area.pose.orientation.z = 0.990697670206;
         }
         else {
-            pos_rest_area = grid_map::Position(-1, -1);
+            // Default value
+            pose_rest_area.pose.position.x = 0;
+            pose_rest_area.pose.position.y = 0;
+            pose_rest_area.pose.orientation.w = 1;
+            pose_rest_area.pose.orientation.x = 0;
+            pose_rest_area.pose.orientation.y = 0;
+            pose_rest_area.pose.orientation.z = 0;
         }
-        return pos_rest_area;
+        return pose_rest_area;
+    }
+
+    /*!
+     * \brief define the new goal, if the car has to stop in the rest area, and publish it
+     * \param new_pose the new position and orientation to be set for the goal
+     */
+    void redefineGoalRestArea(geometry_msgs::PoseStamped new_pose)
+    {
+        // The new goal to be set
+        geometry_msgs::PoseStamped new_goal;
+        new_goal.header.frame_id = "world";
+        new_goal.pose.position = new_pose.pose.position;
+        new_goal.pose.orientation = new_pose.pose.orientation;
+
+        pub_autoware_goal_.publish(new_goal);
+
+        // Test
+        std::cout << "new goal = x: " << new_goal.pose.position.x << " y: " << new_goal.pose.position.y << std::endl;
+        std::cout << "quaternion w: " << new_goal.pose.orientation.w << " x: " << new_goal.pose.orientation.x << " y: " << new_goal.pose.orientation.y << " z: " << new_goal.pose.orientation.z << std::endl;
+    }
+
+    /*!
+     * \brief define the new goal, if the car has to stop in road side parking, and publish it
+     * \param new_pose the new position and orientation to be set for the goal
+     * \details The function stores the new goal in a variable and when the car is close enough of the road side parking,
+     * the Safe stop planner is activated.
+     */
+    void redefineGoalRoadSideParking(geometry_msgs::PoseStamped new_pose)
+    {
+        // The new goal to be set
+        geometry_msgs::PoseStamped new_goal;
+        new_goal.header.frame_id = "world";
+        new_goal.pose.position = new_pose.pose.position;
+        new_goal.pose.orientation = new_pose.pose.orientation;
+
+        // Switch to the safe stop planner when the car is close enough from the road side planning
+        const double MAX_DISTANCE = 30; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
+        double distance_to_road_side_parking; // The distance between road side parking and the car
+        distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
+        if(distance_to_road_side_parking <= MAX_DISTANCE) {
+            triggerSafetySwitch(); // Switch to the Safe stop planner
+            std_msgs::Int32 msg_switch;
+            msg_switch.data = var_switch_;
+            pub_switch_.publish(msg_switch);
+        }
     }
 
 public:
@@ -1030,20 +1118,20 @@ public:
 
             performSafetyTests();
             publish();
-                 
+
+            // Test for functions find safe areas
+            // if(gridmap_flag_) {
+            //     geometry_msgs::PoseStamped pose_road_side_parking = findRoadSideParking(gridmap_);
+            //     geometry_msgs::PoseStamped pose_rest_area = findRestArea(gridmap_);
+
+            //     std::cout << "x position road side parking : " << pose_road_side_parking.pose.position.x << std::endl;
+            //     std::cout << "y position road side parking : " << pose_road_side_parking.pose.position.y << std::endl;
+            //     std::cout << "x position rest area : " << pose_rest_area.pose.position.x << std::endl;
+            //     std::cout << "y position rest area : " << pose_rest_area.pose.position.y << std::endl;
+            // }
+
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);
-        
-            // Test for functions find safe areas
-            if(gridmap_flag_) {
-                grid_map::Position pos_road_side_parking = findRoadSideParking(gridmap_);
-                grid_map::Position pos_rest_area = findRestArea(gridmap_);
-
-                std::cout << "x position road side parking : " << pos_road_side_parking.x() << std::endl;
-                std::cout << "y position road side parking : " << pos_road_side_parking.y() << std::endl;
-                std::cout << "x position rest area : " << pos_rest_area.x() << std::endl;
-                std::cout << "y position rest area : " << pos_rest_area.y() << std::endl;
-            }
         }
     }
 
