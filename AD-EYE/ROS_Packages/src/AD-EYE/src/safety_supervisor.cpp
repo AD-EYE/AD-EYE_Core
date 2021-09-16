@@ -9,8 +9,6 @@
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
-// #include <std_msgs/Bool.h>
-// #include <queue>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -41,9 +39,6 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_critical_area_;  //Used for critical area visualization
-    // ros::Publisher pub_clear_goal_list_bool_;
-    // ros::Publisher pub_goal_;
-    // ros::Publisher pub_update_local_planner_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -62,7 +57,7 @@ private:
 
     // The number of the safety test
     enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
-        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OJECT, CHECK_CAR_OFF_ODD};
+        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -93,7 +88,7 @@ private:
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
     
     // Safety tests
-    int num_safety_tests_ = 7;
+    int num_safety_tests_ = 12;
 
     // Initiate the safety counter for tests
     std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
@@ -127,18 +122,12 @@ private:
     };
 
     // enum to identifiate critical level
-    enum CRITICAL_LEVEL_ {IMMEDIATE_STOP, CLOSEST_PARKING, BIGGER_PARKING, INITIAL_GOAL};
+    enum CRITICAL_LEVEL_ {INITIAL_GOAL, REST_AREA, ROAD_SIDE_PARKING, IMMEDIATE_STOP};
 
     // Test for sensor coverage
     jsk_recognition_msgs::PolygonArray sensors_fov_;
     bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
-    std::vector<SENSOR_TYPE_> FRONT_SENSORS_ = {radar, lidar, camera1}; // in the front of the car, there are radar, camera 1 and lidar
-    std::vector<SENSOR_TYPE_> BACK_SENSORS_ = {lidar, camera2}; // in the back of the car, there are camera 2 and lidar
-    int number_front_sensors_ = FRONT_SENSORS_.size();
-    int number_back_sensors_ = BACK_SENSORS_.size();
-    int nb_defective_front_sensors_; // stores the number of defective sensors in the front of the car
-    int nb_defective_back_sensors_; // stores the number of defective sensors in the back of the car
 
     /*!
      * \brief currentVelocity Callback : Updates the knowledge about the car speed.
@@ -523,55 +512,83 @@ private:
     }
 
     /*!
-     * \brief Check front sensors : Called at every interation of the main loop
-     * \return Boolean indicating if front sensors are activated
+     * \brief Check radar : Called at every interation of the main loop
+     * \return Boolean indicating if radar is activated
      */
-    bool isFrontSensorsActive()
+    bool isRadarActive()
     {
-        // if at least one sensor sent a message
+        bool radar_active = false;
+        // If the array sensor_fov_ is not empty
         if(sensors_fov_flag_) {
-            nb_defective_front_sensors_ = 0;
-            bool front_sensors_active = true;
-            for(std::vector<SENSOR_TYPE_>::iterator it=FRONT_SENSORS_.begin(); it<FRONT_SENSORS_.end(); it++) {
-                int i;
-                i = std::distance(FRONT_SENSORS_.begin(), it);
-                if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
-                    nb_defective_front_sensors_+=1;
-                    front_sensors_active = false;
-                }
+            if(sensors_fov_.polygons.at(radar).polygon.points.size() != 0) {
+                radar_active = true;
             }
-            return front_sensors_active;
         }
-        // if no sensor sent a message, they are all defectives
-        else {
-            nb_defective_front_sensors_ = number_front_sensors_;
-        }
+        return radar_active;
     }
 
     /*!
-     * \brief Check back sensors : Called at every interation of the main loop
-     * \return Boolean indicating if back sensors are activated
+     * \brief Check lidar : Called at every interation of the main loop
+     * \return Boolean indicating if lidar is activated
      */
-    bool isBackSensorsActive()
+    bool isLidarActive()
     {
-        // if at least one sensor sent a message
+        bool lidar_active = false;
+        // If the array sensor_fov_ is not empty
         if(sensors_fov_flag_) {
-            nb_defective_back_sensors_ = 0;
-            bool back_sensors_active = true;
-            for(std::vector<SENSOR_TYPE_>::iterator it=BACK_SENSORS_.begin(); it<BACK_SENSORS_.end(); it++) {
-                int i;
-                i = std::distance(BACK_SENSORS_.begin(), it);
-                if(sensors_fov_.polygons.at(i).polygon.points.size() == 0) {
-                    nb_defective_back_sensors_+=1;
-                    back_sensors_active = false;
-                }
+            if(sensors_fov_.polygons.at(lidar).polygon.points.size() != 0) {
+                lidar_active = true;
             }
-            return back_sensors_active;
         }
-        // if no sensor sent a message, they are all defectives
-        else {
-            nb_defective_back_sensors_ = number_back_sensors_;
+        return lidar_active;
+    }
+
+    /*!
+     * \brief Check camera 1 : Called at every interation of the main loop
+     * \return Boolean indicating if camera 1 is activated
+     */
+    bool isCamera1Active()
+    {
+        bool camera1_active = false;
+        // If the array sensor_fov_ is not empty
+        if(sensors_fov_flag_) {
+            if(sensors_fov_.polygons.at(camera1).polygon.points.size() != 0) {
+                camera1_active = true;
+            }
         }
+        return camera1_active;
+    }
+
+    /*!
+     * \brief Check camera 2 : Called at every interation of the main loop
+     * \return Boolean indicating if camera 2 is activated
+     */
+    bool isCamera2Active()
+    {
+        bool camera2_active = false;
+        // If the array sensor_fov_ is not empty
+        if(sensors_fov_flag_) {
+            if(sensors_fov_.polygons.at(camera2).polygon.points.size() != 0) {
+                camera2_active = true;
+            }
+        }
+        return camera2_active;
+    }
+
+    /*!
+     * \brief Check camera for traffic lights : Called at every interation of the main loop
+     * \return Boolean indicating if camera for traffic lights is activated
+     */
+    bool isCameratlActive()
+    {
+        bool cameratl_active = false;
+        // If the array sensor_fov_ is not empty
+        if(sensors_fov_flag_) {
+            if(sensors_fov_.polygons.at(cameratl).polygon.points.size() != 0) {
+                cameratl_active = true;
+            }
+        }
+        return cameratl_active;
     }
 
     /*!
@@ -675,11 +692,12 @@ private:
         // Check that the vehicle is in operational design domain polygon area
         instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain();
 
-        // Check that all front sensors are active
-        instantaneous_test_results[CHECK_FRONT_SENSORS] = isFrontSensorsActive();
-
-        // Check that all back sensors are active
-        instantaneous_test_results[CHECK_BACK_SENSORS] = isBackSensorsActive();
+        // Check that all sensors are activated
+        instantaneous_test_results[CHECK_RADAR_ACTIVE] = isRadarActive();
+        instantaneous_test_results[CHECK_LIDAR_ACTIVE] = isLidarActive();
+        instantaneous_test_results[CHECK_CAMERA_1_ACTIVE] = isCamera1Active();
+        instantaneous_test_results[CHECK_CAMERA_2_ACTIVE] = isCamera2Active();
+        instantaneous_test_results[CHECK_CAMERA_TL_ACTIVE] = isCameratlActive();
 
         return instantaneous_test_results;
     }
