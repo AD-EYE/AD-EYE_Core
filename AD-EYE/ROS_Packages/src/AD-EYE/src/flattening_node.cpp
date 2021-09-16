@@ -145,7 +145,6 @@ private:
         float staticObjectValue;
         float dynamicObjectValue;
         float laneValue;
-        // float safeAreaValue;
         float roadSideParkingValue;
         float restAreaValue;
         Position pos;
@@ -174,7 +173,6 @@ private:
                 staticObjectValue = grid_map_.atPosition("StaticObjects", pos);
                 dynamicObjectValue = grid_map_.atPosition("DynamicObjects", pos);
                 laneValue = grid_map_.atPosition("DrivableAreas", pos);
-                // safeAreaValue = grid_map_.atPosition("SafeAreas", pos);
                 roadSideParkingValue = grid_map_.atPosition("RoadSideParking", pos);
                 restAreaValue = grid_map_.atPosition("RestArea", pos);
 
@@ -221,18 +219,6 @@ private:
 
         if(angleToPosition>0) // applying a malus for positions that are on the left side of the ego vehicle
             occValue += CROSSING_ROAD_MALUS;
-        
-        // if(safeAreaValue > 0) {
-        //     if (safeAreaValue <= 64) {
-        //         occValue = RED;
-        //     } else if (safeAreaValue <= 128) {
-        //         occValue = YELLOW;
-        //     } else if (safeAreaValue <= 192){
-        //         occValue = GREEN;
-        //     } else {
-        //         occValue = WHITE;
-        //     }
-        // }
 
         if(staticObjectValue > DANGEROUS_HEIGHT_ || dynamicObjectValue > DANGEROUS_HEIGHT_) {
             occValue = OBSTRUCTED_VALUE;

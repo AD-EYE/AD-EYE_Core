@@ -584,7 +584,9 @@ private:
         bool cameratl_active = false;
         // If the array sensor_fov_ is not empty
         if(sensors_fov_flag_) {
+            std::cout << "Test 1" << std::endl;
             if(sensors_fov_.polygons.at(cameratl).polygon.points.size() != 0) {
+                std::cout << "Test 2" << std::endl;
                 cameratl_active = true;
             }
         }
@@ -679,8 +681,8 @@ private:
 
         // Check that all necessary nodes are active and store in the vector
         instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_ONE] = areCriticalNodesLevelOneAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
+        // instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
+        // instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
         instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_FOUR] = areCriticalNodesLevelFourAlive();
         
         //Check that the center of the car on the road
@@ -698,6 +700,10 @@ private:
         instantaneous_test_results[CHECK_CAMERA_1_ACTIVE] = isCamera1Active();
         instantaneous_test_results[CHECK_CAMERA_2_ACTIVE] = isCamera2Active();
         instantaneous_test_results[CHECK_CAMERA_TL_ACTIVE] = isCameratlActive();
+
+        // Test
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = true;
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = true;
 
         return instantaneous_test_results;
     }
@@ -812,22 +818,86 @@ private:
 
         // Initiate Non-instantaneous test result vector
         checkNonInstantaneousResults();
-        
-        // Find if any non-instantaneous test result is FAIL
-        std::vector<bool>::iterator it;
-        it = std::find(non_instantaneous_results_.begin(), non_instantaneous_results_.end(), FAIL_);
-        
-        // if any non-instantaneous test result is FAIL then switch to safety channel
-        if (it != non_instantaneous_results_.end())
-        {
-            ROS_WARN_STREAM("The test " << (it - non_instantaneous_results_.begin())+1 <<  " is FAIL");
-            triggerSafetySwitch();
+
+        bool all_tests_passed = true;
+        CRITICAL_LEVEL_ most_critical_level; // The most critical level reached
+        most_critical_level = INITIAL_GOAL; // Initialize the most critical level, for the moment no anomaly detected
+
+        for(std::vector<bool>::iterator it = non_instantaneous_results_.begin(); it<non_instantaneous_results_.end(); it++) {
+            SAFETY_TESTS_ current_test;
+            current_test = (SAFETY_TESTS_)std::distance(non_instantaneous_results_.begin(), it);
+
+            if(non_instantaneous_results_[current_test] == FAIL_) {
+                all_tests_passed = false;
+                switch(current_test)
+                {
+                    case CHECK_ACTIVE_NODES_LEVEL_ONE:
+                        most_critical_level = INITIAL_GOAL;
+                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_ONE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_ACTIVE_NODES_LEVEL_TWO:
+                        most_critical_level = REST_AREA;
+                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_TWO +1 <<  " is FAIL");
+                        break;
+                    case CHECK_CAMERA_2_ACTIVE:
+                        most_critical_level = REST_AREA;
+                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_2_ACTIVE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_ACTIVE_NODES_LEVEL_THREE:
+                        most_critical_level = ROAD_SIDE_PARKING;
+                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_THREE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_CAMERA_1_ACTIVE:
+                        most_critical_level = ROAD_SIDE_PARKING;
+                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_1_ACTIVE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_ACTIVE_NODES_LEVEL_FOUR:
+                        most_critical_level = IMMEDIATE_STOP;
+                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_FOUR +1 <<  " is FAIL");
+                        break;
+                    case CHECK_CAMERA_TL_ACTIVE:
+                        most_critical_level = IMMEDIATE_STOP;
+                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_TL_ACTIVE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_LIDAR_ACTIVE:
+                        most_critical_level = IMMEDIATE_STOP;
+                        ROS_WARN_STREAM("The test " << CHECK_LIDAR_ACTIVE +1 <<  " is FAIL");
+                        break;
+                    case CHECK_RADAR_ACTIVE:
+                        most_critical_level = IMMEDIATE_STOP;
+                        ROS_WARN_STREAM("The test " << CHECK_RADAR_ACTIVE +1 <<  " is FAIL");
+                        break;
+                }
+            }
         }
-        else // else switch to nominal channel
+
+        // Make the decision according to the critical level
+        switch(most_critical_level)
         {
-            ROS_DEBUG_STREAM("All tests are PASS");
-            switchNominalChannel();
+            case INITIAL_GOAL:
+                if(all_tests_passed)
+                    ROS_DEBUG_STREAM("All tests are PASS");
+                switchNominalChannel();
+                ROS_INFO("Decision: Go to initial goal");
+                break;
+            case REST_AREA:
+                redefineGoalRestArea();
+                ROS_INFO("Decision: Stop in rest area");
+                break;
+            case ROAD_SIDE_PARKING:
+                redefineGoalRoadSideParking();
+                ROS_INFO("Decision: Stop in road side parking");
+                break;
+            case IMMEDIATE_STOP:
+                triggerSafetySwitch();
+                ROS_INFO("Decision: Immediate stop");
+                break;
         }
+        std_msgs::Int32 msg_switch;
+        msg_switch.data = var_switch_;
+        pub_switch_.publish(msg_switch);
+
+        
     }
     
     /*!
@@ -951,7 +1021,7 @@ private:
      */
     void waitForInitialization()
     {
-        ros::Rate rate(20);
+        ros::Rate rate(10);
         while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
         {
             ros::spinOnce();
@@ -979,6 +1049,8 @@ private:
                 is_road_side_parking = true;
             }
         }
+
+        pose_road_side_parking.header.frame_id = "world";
 
         if(is_road_side_parking) {
             // The position to return is the middle of the area
@@ -1028,6 +1100,8 @@ private:
             }
         }
 
+        pose_rest_area.header.frame_id = "world";
+
         if(is_rest_area) {
             // The position to return is the middle of the area
             grid_map::Position pos_begin;
@@ -1059,19 +1133,17 @@ private:
      * \brief define the new goal, if the car has to stop in the rest area, and publish it
      * \param new_pose the new position and orientation to be set for the goal
      */
-    void redefineGoalRestArea(geometry_msgs::PoseStamped new_pose)
+    void redefineGoalRestArea()
     {
         // The new goal to be set
         geometry_msgs::PoseStamped new_goal;
-        new_goal.header.frame_id = "world";
-        new_goal.pose.position = new_pose.pose.position;
-        new_goal.pose.orientation = new_pose.pose.orientation;
+        new_goal = findRestArea(gridmap_);
 
         pub_autoware_goal_.publish(new_goal);
 
-        // Test
-        std::cout << "new goal = x: " << new_goal.pose.position.x << " y: " << new_goal.pose.position.y << std::endl;
-        std::cout << "quaternion w: " << new_goal.pose.orientation.w << " x: " << new_goal.pose.orientation.x << " y: " << new_goal.pose.orientation.y << " z: " << new_goal.pose.orientation.z << std::endl;
+        // // Test
+        // std::cout << "new goal = x: " << new_goal.pose.position.x << " y: " << new_goal.pose.position.y << std::endl;
+        // std::cout << "quaternion w: " << new_goal.pose.orientation.w << " x: " << new_goal.pose.orientation.x << " y: " << new_goal.pose.orientation.y << " z: " << new_goal.pose.orientation.z << std::endl;
     }
 
     /*!
@@ -1080,13 +1152,11 @@ private:
      * \details The function stores the new goal in a variable and when the car is close enough of the road side parking,
      * the Safe stop planner is activated.
      */
-    void redefineGoalRoadSideParking(geometry_msgs::PoseStamped new_pose)
+    void redefineGoalRoadSideParking()
     {
         // The new goal to be set
         geometry_msgs::PoseStamped new_goal;
-        new_goal.header.frame_id = "world";
-        new_goal.pose.position = new_pose.pose.position;
-        new_goal.pose.orientation = new_pose.pose.orientation;
+        new_goal = findRoadSideParking(gridmap_);
 
         // Switch to the safe stop planner when the car is close enough from the road side planning
         const double MAX_DISTANCE = 30; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
@@ -1094,9 +1164,9 @@ private:
         distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
         if(distance_to_road_side_parking <= MAX_DISTANCE) {
             triggerSafetySwitch(); // Switch to the Safe stop planner
-            std_msgs::Int32 msg_switch;
-            msg_switch.data = var_switch_;
-            pub_switch_.publish(msg_switch);
+            // std_msgs::Int32 msg_switch;
+            // msg_switch.data = var_switch_;
+            // pub_switch_.publish(msg_switch);
         }
     }
 
@@ -1155,7 +1225,7 @@ public:
      */
     void run()
     {
-        ros::Rate rate(20);
+        ros::Rate rate(10);
         while(nh_.ok())
         {
             if(!car_size_set_)
@@ -1182,6 +1252,8 @@ public:
 
             performSafetyTests();
             publish();
+
+            sensors_fov_flag_ = false;
 
             // Test for functions find safe areas
             // if(gridmap_flag_) {
