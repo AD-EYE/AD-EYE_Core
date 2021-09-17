@@ -14,36 +14,40 @@ last_line = file_lines [len(file_lines)-1]
 last_date = last_line.split()[0]
 last_year = int(last_date[0:4])
 
-#To use integer we have to remove 0 in month numbers which are before october, because the format is a 2 characters string
-if last_date[5] == '0':
-    last_month = int(last_date[6])
-else:
-    last_month = int(last_date[5:7])
+def GenerateDataList():
+    #To use integer we have to remove 0 in month numbers which are before october, because the format is a 2 characters string
+    if last_date[5] == '0':
+        last_month = int(last_date[6])
+    else:
+        last_month = int(last_date[5:7])
 
-#For months after october the format is already good so we had the integer as a 2 characters string
-#We start at 2018-10 because it is the oldest date of the whole project (in Pex_Data_Extraction)
-for month in range (10,13):
-    all_dates.append('2018-'+str(month))
-for year in range (2019,last_year):
-    #For months before october, we have to add a 0 string to respect the format of the dates
-    for month in range (1,10):
-        all_dates.append(str(year)+'-0'+str(month))
+    #For months after october the format is already good so we had the integer as a 2 characters string
+    #We start at 2018-10 because it is the oldest date of the whole project (in Pex_Data_Extraction)
     for month in range (10,13):
-        all_dates.append(str(year)+'-'+str(month))
-#We still have to separate the cases where the month number is 1 character and the cases where it is 2 characters
-if last_date[5] == '0':
-    for month in range (1,last_month+1):
-        all_dates.append(str(last_year)+'-0'+str(month))
-else:
-    for month in range (1,10):
-        all_dates.append(str(year)+'-0'+str(month))
-    for month in range (10,last_month+1):
-        all_dates.append(str(year)+'-'+str(month))
+        all_dates.append('2018-'+str(month))
+    for year in range (2019,last_year):
+        #For months before october, we have to add a 0 string to respect the format of the dates
+        for month in range (1,10):
+            all_dates.append(str(year)+'-0'+str(month))
+        for month in range (10,13):
+            all_dates.append(str(year)+'-'+str(month))
+    #We still have to separate the cases where the month number is 1 character and the cases where it is 2 characters
+    if last_date[5] == '0':
+        for month in range (1,last_month+1):
+            all_dates.append(str(last_year)+'-0'+str(month))
+    else:
+        for month in range (1,10):
+            all_dates.append(str(year)+'-0'+str(month))
+        for month in range (10,last_month+1):
+            all_dates.append(str(year)+'-'+str(month))
+    return(all_dates)
+
+all_dates = GenerateDataList()
 
 #Creation of variables for combined repositories graphs
 #time is a list of the indexes to make graph legend match with the dates
 combined_values, time = [0 for k in range (len(all_dates))],[k for k in range (len(all_dates))]
-nb_commits_per_date,commits_indices = [0 for k in range (len(all_dates))],[]
+nb_commits_per_date = [0 for k in range (len(all_dates))]
 
 #Extraction of datas from generated text files
 for index in range (len(repositories_names)) :
@@ -97,6 +101,8 @@ for index in range (len(repositories_names)) :
     plt.clf()
 
 #Generation of the combined repositories graphs
+commits_indices = []
+
 #For both configurations graphs date_value_strings are histogram date_value_strings accumulated over time
 combined_values[0]=nb_commits_per_date[0]
 for k in range (1,len(nb_commits_per_date)):
