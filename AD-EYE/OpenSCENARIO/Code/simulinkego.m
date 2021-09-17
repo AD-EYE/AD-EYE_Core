@@ -88,20 +88,20 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             %create variable with all the names of input port of the Main_block and Dynamic_Empty
             splittedPathToStepBlock = find_system(convertStringsToChars(strcat(nameSimulink,nameEgo,"/", blockMainBlock)),'SearchDepth',1,'BlockType','Inport');
             splittedPathToStepBlock =convertCharsToStrings(splittedPathToStepBlock);
-            q = find_system(convertStringsToChars(strcat(nameSimulink,nameEgo,"/", blockDynamicsEmpty)),'SearchDepth',1,'BlockType','Inport');
-            q1 =convertCharsToStrings(q);
-            s1 = get_param(convertStringsToChars(strcat(locationSimulinkObject,blockMainBlock)),'PortConnectivity');
-            s2 = get_param(convertStringsToChars(strcat(locationSimulinkObject,blockDynamicsEmpty)),'PortConnectivity');
-            s = s1;
+            inports = find_system(convertStringsToChars(strcat(nameSimulink,nameEgo,"/", blockDynamicsEmpty)),'SearchDepth',1,'BlockType','Inport');
+            inportsString =convertCharsToStrings(inports);
+            portsMainBlock = get_param(convertStringsToChars(strcat(locationSimulinkObject,blockMainBlock)),'PortConnectivity');
+            portsDynamicsEmpty = get_param(convertStringsToChars(strcat(locationSimulinkObject,blockDynamicsEmpty)),'PortConnectivity');
+            ports = portsMainBlock;
 
             x = length(splittedPathToStepBlock);
             for k = 1:length(splittedPathToStepBlock)
                 splittedPathToStepBlock(k,1) = strrep(splittedPathToStepBlock(k,1), "//","/");
             end
-            for j =1:length(q1)
+            for j =1:length(inportsString)
                 x = x+1;
-                splittedPathToStepBlock(x,1) = strrep(q1(j,1), "//","/");
-                s(x,1) = s2(j,1);
+                splittedPathToStepBlock(x,1) = strrep(inportsString(j,1), "//","/");
+                ports(x,1) = portsDynamicsEmpty(j,1);
             end
 
             %Create another varable with all the names of input port of the Main_block for comparision
@@ -137,23 +137,23 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
                     end
                     splittedPathToStepBlock2(k,1) = strcat(splittedPathToStepBlock2(k,1), "/", int2str(z)); 
                     %see if Main_block is already connected
-                    if (s(k,1).SrcBlock == -1 && k <= 8)
+                    if (ports(k,1).SrcBlock == -1 && k <= 8)
                         %get Main_block inports name
-                        sim=get_param(strcat(locationSimulinkObject,blockMainBlock),'Handle');
-                        handles=find_system(sim, 'LookUnderMasks', 'on', 'FollowLinks', 'on', 'SearchDepth', 1, 'BlockType', 'Inport');
+                        getHandle=get_param(strcat(locationSimulinkObject,blockMainBlock),'Handle');
+                        handles=find_system(getHandle, 'LookUnderMasks', 'on', 'FollowLinks', 'on', 'SearchDepth', 1, 'BlockType', 'Inport');
                         portInfo=[get_param(handles,'Name')];
                         inport=portInfo(k);
                         Name=inport{1,1};
                         Name=str2num(Name(12:end));
-                        a=splittedPathToStepBlock2(k,1);
-                        a=convertStringsToChars(a);
-                        splittedPathToStepBlock2(k,1)=a(1:end-2);
+                        path=splittedPathToStepBlock2(k,1);
+                        path=convertStringsToChars(path);
+                        splittedPathToStepBlock2(k,1)=path(1:end-2);
                         splittedPathToStepBlock2(k,1) = strcat(splittedPathToStepBlock2(k,1), "/", int2str(Name));
                         add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
-                    elseif(s(k,1).SrcBlock == -1 && k <= length(s1) && k>8)
+                    elseif(ports(k,1).SrcBlock == -1 && k <= length(portsMainBlock) && k>8)
                         add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockMainBlock,"/",int2str(k)))
-                    elseif(s(k,1).SrcBlock == -1 && k>8 )
-                        add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockDynamicsEmpty,"/",int2str(k-length(s1))))
+                    elseif(ports(k,1).SrcBlock == -1 && k>8 )
+                        add_line(locationSimulinkObject, splittedPathToStepBlock2(k,1),strcat(blockDynamicsEmpty,"/",int2str(k-length(portsMainBlock))))
                     end
                 end
                 splittedPathToStepBlock2(k,1) =  strrep(splittedPathToStepBlock2(k,1), strcat("/", int2str(z)),"");
