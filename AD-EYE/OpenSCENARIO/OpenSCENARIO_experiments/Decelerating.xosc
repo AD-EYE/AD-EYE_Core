@@ -129,13 +129,9 @@
                             <Action name="KeepingDistanceActions">
                                 <PrivateAction>
                                     <LongitudinalAction>
-                                        <LongitudinalDistanceAction continuous="true"/>
-                                        <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="rate"/>
-                                            <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "15"/> 
-                                            </SpeedActionTarget>
-                                        </SpeedAction>
+                                        <LongitudinalDistanceAction entityRef="Ego" distance="35" continuous="true">
+                                            <dynamicConstraints maxAcceleration="5" maxDeceleration="4" maxSpeed="20"/>
+                                        </LongitudinalDistanceAction>
                                     </LongitudinalAction>
                                 </PrivateAction>
                             </Action>
@@ -147,7 +143,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="40" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="50" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
