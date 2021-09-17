@@ -302,7 +302,7 @@ class Manager:
     ]
     previous_features = []
     current_features = INITIALIZING_DEFAULT_FEATURES
-
+    
     # Rosbag related constants
     ROSBAG_PATH = "/recording" + str(time.time()) + ".bag"  # ~ is added as a prefix, name of the bag
     ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH + " __name:=rosbag_recorder"  # command to start the rosbag
@@ -318,6 +318,7 @@ class Manager:
     def __init__(self):
         self.manager_state_machine = ManagerStateMachine()
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
+        
         self.manager_features_handler = ManagerFeaturesHandler()
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
@@ -451,15 +452,27 @@ class Manager:
 
     ##A method that publishes a list of integers (0 or 1) representing the active features (for GUI)
     #@param self The object pointer
-    def publishActiveFeatures(self):
+    #def publishActiveFeatures(self):
+        #state_array = Int32MultiArray()
+        #for feature in self.manager_features_handler.features:
+            #if feature in self.current_features:
+                #state_array.data.append(1)
+            #else:
+                #state_array.data.append(0)
+        #self.features_pub.publish(state_array)
+
+    def getBooleanListActiveFeatures(self):
         state_array = Int32MultiArray()
         for feature in self.manager_features_handler.features:
             if feature in self.current_features:
                 state_array.data.append(1)
             else:
                 state_array.data.append(0)
-        self.features_pub.publish(state_array)
+	return state_array
 
+# hard to test but no logic so we skip tests
+    def publishBooleanListActiveFeatures(self):
+        self.features_pub.publish(self.getBooleanListActiveFeatures())
 
 if __name__ == '__main__':
     rospy.init_node('AD-EYE_Manager')

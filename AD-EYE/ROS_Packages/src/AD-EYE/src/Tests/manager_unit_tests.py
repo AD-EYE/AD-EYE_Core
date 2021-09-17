@@ -344,7 +344,16 @@ class ManagerFeaturesHandlerTester(unittest.TestCase):
         stopROS()
         self.assertGreater(number_of_nodes_running, len(manager_features_handler.features.keys()))
 
-   
+    def test_feature_launch_path (self):
+        startROS()
+        manager_features_handler = ManagerFeaturesHandler()
+        for key in manager_features_handler.features:
+            expected_feature_path = manager_features_handler.features[key].createLaunchPaths()
+            feature_path = manager_features_handler.features[key].path
+            self.assertEqual(feature_path, expected_feature_path) 
+
+            
+
 ##A class to realise tests of the manager class, child class of the @unittest.TestCase class.
 class ManagerTester(unittest.TestCase):
 
@@ -377,15 +386,18 @@ class ManagerTester(unittest.TestCase):
     #
     #@param self the object pointer
     def test_initial_feature_request_1(self):
+        startROS()
         manager = Manager()    
         test_msg = Int32MultiArray()
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.INITIALIZING_ALLOWED_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+        stopROS()
 
     def test_initial_feature_request_2(self):
+        startROS()
         manager = Manager()    
         test_msg = Int32MultiArray()
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -393,249 +405,363 @@ class ManagerTester(unittest.TestCase):
         expected_features = []
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+        stopROS()
 
     def test_initial_feature_request_3(self):
+        startROS()
         manager = Manager()    
         test_msg = Int32MultiArray()
         test_msg.data = [0,1,1,0,1,0,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.INITIALIZING_ALLOWED_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i]) 
-
+        stopROS()
     #The following methods are used to test whether the features added are allowed for the enabled state
     #
     #@param self the object pointer   
     def test_enabled_feature_request_1(self):
+        startROS()
         manager = Manager() 
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEnabled(self.manager_state_machine)  
+        getStateMachineToEnabled(manager.manager_state_machine)  
         test_msg = Int32MultiArray()
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.ENABLED_ALLOWED_FEATURES 
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+        stopROS()
 
     def test_enabled_feature_request_2(self):
+        startROS()
         manager = Manager()  
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEnabled(self.manager_state_machine)  
+        getStateMachineToEnabled(manager.manager_state_machine)  
         test_msg = Int32MultiArray()
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = [ ]
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+        stopROS()
 
     def test_enabled_feature_request_3(self):
+        startROS()
         manager = Manager() 
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEnabled(self.manager_state_machine)   
+        getStateMachineToEnabled(manager.manager_state_machine)   
         test_msg = Int32MultiArray()
         test_msg.data = [0,1,1,0,1,1,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.ENABLED_ALLOWED_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-    
+        stopROS()
+
     #The following methods are used to test whether the features added are allowed for the engaged state
     #
     #@param self the object pointer
 
     def test_engaged_feature_request_1(self):
+        startROS() 
         manager = Manager()
-        manager_state_machine = ManagerStateMachine()
-        getStateMachineToEngaged(manager_state_machine)
-        manager.state = manager_state_machine.getState() 
-        print(manager.state) 
+        getStateMachineToEngaged(manager.manager_state_machine)
         test_msg = Int32MultiArray()
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Recording","Map","Sensing","Localization","Fake_Localization","Detection","Mission_Planning","Motion_Planning","Switch","SSMP","Rviz","Experiment_specific_recording"]
+        expected_features = manager.ENGAGED_ALLOWED_FEATURES
         for i in range(len(expected_features)):
-            print(expected_features)
-            print(manager.current_features)
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
+        stopROS()
 
     def test_engaged_feature_request_2(self):
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEngaged(self.manager_state_machine)
-        manager = Manager()    
+        startROS()
+        manager = Manager() 
+        getStateMachineToEngaged(manager.manager_state_machine) 
         test_msg = Int32MultiArray()
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = []
         for i in range(len(expected_features)):
             self.assertEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
     #The following methods are used to test whether the features added are allowed for the fault state
     #
     #@param self the object pointer
     def test_fault_feature_request_1(self):
+        startROS()
         manager = Manager() 
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToFault(self.manager_state_machine)   
+        getStateMachineToFault(manager.manager_state_machine)   
         test_msg = Int32MultiArray()
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Sensing","Localization","Fake_Localization","Switch","SSMP","Rviz" ]
+        expected_features = manager.FAULT_ALLOWED_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
     def test_fault_feature_request_2(self):
+        startROS()
         manager = Manager()  
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToFault(self.manager_state_machine)  
+        getStateMachineToFault(manager.manager_state_machine)  
         test_msg = Int32MultiArray()
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = [ ]
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
     def test_fault_feature_request_3(self):
-        
+        startROS() 
         manager = Manager() 
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToFault(self.manager_state_machine)   
+        getStateMachineToFault(manager.manager_state_machine)   
         test_msg = Int32MultiArray()
-        test_msg.data = [0,1,1,1,1,1,1,1,1,1,0,0]
+        test_msg.data = [0,1,1,1,1,0,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
-        expected_features = [ "Map","Sensing","Localization","Fake_Localization","Switch","SSMP","Rviz" ]
+        expected_features = manager.FAULT_ALLOWED_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-
-    #The following methods are used to test the switchallback function
-    #
-    #@param self the object pointer
-    def test_switch_callback_True(self):
-        rospy.init_node('AD-EYE_Manager')
-        manager = Manager()
-        self.last_switch_time = rospy.Time.now()
-        self.last_switch_time_initialized = False
-        test_msg = Int32()
-        test_msg.data = 1
-        manager.switchCallback(test_msg)
-        expected_value = True
-        self.assertEqual(manager.last_switch_time_initialized, expected_value)
-
-    def test_switch_callback_False(self):
-        rospy.init_node('AD-EYE_Manager')
-        manager = Manager()
-        self.last_switch_time = rospy.Time.now()
-        self.last_switch_time_initialized = False
-        test_msg = Int32()
-        test_msg.data = 0
-        manager.switchCallback(test_msg)
-        expected_value = True
-        self.assertEqual(manager.last_switch_time_initialized, expected_value) 
+        stopROS()
 
     #The following method is  used to test whether the Manager state has the corresponding features when it is in  the initial_state
     #
     #@param self the object pointer
 
     def test_manager_initial_state(self):
+        startROS()
         manager = Manager()
-        self.manager_state_machine = ManagerStateMachine()
-        self.state = self.manager_state_machine.States.INITIALIZING_STATE
         manager.checkManagerState()
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.INITIALIZING_DEFAULT_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
-    #The following method is  used to test whether the Manager state has the corresponding features when it is in  the enabled_state
+    #The following method is  used to test whether the Manager state, when it is changed to the enabled_state from the other three states has the corresponding features 
     #
     #@param self the object pointer
-    def test_manager_enabled_state(self):
-        manager = Manager()
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEnabled(self.manager_state_machine)
+    def test_manager_enabled_state_1(self):
+        startROS()
+        manager = Manager()  
+        manager.state =manager.manager_state_machine.States.INITIALIZING_STATE
+        getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
-        expected_features = [ "Map","Switch","Rviz" ]
+        expected_features = manager.ENABLED_DEFAULT_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
-    #The following method is  used to test whether the Manger state has the corresponding features when it is in  the engaged_state
-    #
-    #@param self the object pointer
-    def test_manager_engaged_state(self):
+    def test_manager_enabled_state_2(self):
+        startROS()
         manager = Manager()
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToEngaged(self.manager_state_machine)
+        manager.state = manager.manager_state_machine.States.ENGAGED_STATE
+        getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
-        expected_features = [ "Map","Sensing","Fake_Localization","Detection","Mission_Planning","Motion_Planning","Switch","SSMP","Rviz" ]
+        expected_features = manager.ENABLED_DEFAULT_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
 
-    #The following method is  used to test whether the Manager state has the corresponding features when it is in  the fault_state
-    #
-    #@param self the object pointer
-    def test_manager_fault_state(self):
-        manager = Manager()
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToFault(self.manager_state_machine)
+    def test_manager_enabled_state_3(self):
+        startROS()
+        manager = Manager() 
+        manager.state =manager.manager_state_machine.States.FAULT_STATE
+        getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
-        expected_features = [ "Map","Sensing","Fake_Localization","Switch","SSMP","Rviz" ]
+        expected_features = manager.ENABLED_DEFAULT_FEATURES
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-    
-    #The following method is  used to test whether the Manager is publishing the corresponding features when it is in  the initial_state
+        stopROS()
+
+
+    #The following methods are  used to test whether the Manager state, when it is changed to the engaged_state ,from the other three states, has the corresponding features 
     #
     #@param self the object pointer
-    def test_active_features_initial_state(self):
+    def test_manager_engaged_state_1(self):
+        startROS()
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.INITIALIZING_STATE
+        getStateMachineToEngaged(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    def test_manager_engaged_state_2(self):
+        startROS()
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.ENABLED_STATE
+        getStateMachineToEngaged(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    def test_manager_engaged_state_3(self):
+        startROS()
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.FAULT_STATE
+        getStateMachineToEngaged(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    #The following methods are  used to test whether the Manager statewhen it is changed to the enabled_state from the other three states has the corresponding features 
+    #
+    #@param self the object pointer
+    def test_manager_fault_state_1(self):
+        startROS()
         rospy.init_node('AD-EYE_Manager')
-        manager = Manager()       
-        manager.publishActiveFeatures()
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.INITIALIZING_STATE
+        getStateMachineToFault(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.FAULT_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    def test_manager_fault_state_2(self):
+        startROS()
+        rospy.init_node('AD-EYE_Manager')
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.ENGAGED_STATE
+        getStateMachineToFault(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.FAULT_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    def test_manager_fault_state_3(self):
+        startROS()
+        rospy.init_node('AD-EYE_Manager')
+        manager = Manager()
+        manager.state = manager.manager_state_machine.States.ENABLED_STATE
+        getStateMachineToFault(manager.manager_state_machine)
+        manager.checkManagerState()
+        expected_features = manager.FAULT_DEFAULT_FEATURES
+        for i in range(len(expected_features)):
+            self.assertSequenceEqual(manager.current_features[i],expected_features[i])
+        stopROS()
+
+    #The following method is  used to test whether the Manager is publishing the corresponding boolean list of active features when it is in  the initial_state
+    #
+    #@param self the object pointer
+    def test_booleanlist_active_features_initial_state(self):
+        startROS()
+        manager = Manager()
+        state_array = Int32MultiArray()      
+        state_array = manager.getBooleanListActiveFeatures()
         expected_array = [0,1,0,0,0,0,0,0,1,0,1,0]
         for i in range(len(expected_array)):
-            self.assertSequenceEqual(manager.state_array[i],expected_array[i])
+            self.assertEqual(state_array.data[i],expected_array[i])
+        stopROS()
 
-
-#The following method is  used to test whether the Manager is publishing the corresponding features when it is in  the enabled_state
+    #The following method is  used to test whether the Manager is publishing the corresponding  boolean list of active features when it is in  the enabled_state
     #
     #@param self the object pointer
-    def test_active_features_enabled_state(self):
-        rospy.init_node('AD-EYE_Manager')
-        manager = Manager()  
-        getStateMachineToEnabled(self.manager_state_machine)
-        manager.publishActiveFeatures()
+    def test_booleanlist_active_features_enabled_state(self):
+        startROS()
+        manager = Manager()             
+        getStateMachineToEnabled(manager.manager_state_machine)
+        state_array = Int32MultiArray()      
+        state_array = manager.getBooleanListActiveFeatures() 
         expected_array = [0,1,0,0,0,0,0,0,1,0,1,0]
         for i in range(len(expected_array)):
-            self.assertSequenceEqual(manager.state_array[i],expected_array[i])
+            self.assertEqual(state_array.data[i],expected_array[i])
+        stopROS()
 
-#The following method is  used to test whether the Manager is publishing the corresponding features when it is in  the engaged_state
+    #The following method is  used to test whether the Manager is publishing the corresponding  boolean list of active features when it is in  the engaged_state
     #
     #@param self the object pointer
-    def test_active_features_engaged_state(self):
-        rospy.init_node('AD-EYE_Manager')
+    def test_booleanlist_active_features_engaged_state(self):
+        startROS()
         manager = Manager()  
-        getStateMachineToEngaged(self.manager_state_machine)
-        manager.publishActiveFeatures()
+        getStateMachineToEngaged(manager.manager_state_machine)
+        state_array = Int32MultiArray()      
+        state_array = manager.getBooleanListActiveFeatures()
         expected_array = [1,1,1,1,1,1,1,1,1,1,1,1]
         for i in range(len(expected_array)):
-            self.assertSequenceEqual(manager.state_array[i],expected_array[i])
+            print(state_array.data[i])
+            print(expected_array[i])
+            self.assertEqual(state_array.data[i],expected_array[i])
+        stopROS
 
-#The following method is  used to test whether the Manager is publishing the corresponding features when it is in  the fault_state
+    #The following method is  used to test whether the Manager is publishing the corresponding  boolean list of active features when it is in  the fault_state
     #
     #@param self the object pointer
-    def test_active_features_fault_state(self):
-        rospy.init_node('AD-EYE_Manager')
+    def test_booleanlist_active_features_fault_state(self):
+        startROS()
         manager = Manager()  
-        getStateMachineToFault(self.manager_state_machine)
-        manager.publishActiveFeatures()
+        getStateMachineToFault(manager.manager_state_machine)
+        state_array = Int32MultiArray()      
+        state_array = manager.getBooleanListActiveFeatures()
         expected_array = [0,1,1,1,1,0,0,0,0,1,1,1,0]
         for i in range(len(expected_array)):
-            self.assertSequenceEqual(manager.state_array[i],expected_array[i])
+            self.assertEqual(state_array.data[i],expected_array[i])
+        stopROS()
+    
+    #Callback method listening to the state of the  manager state machine.
+    #
+    #@param self the object pointer
+    #@param msg A Int8 message from the manager/state topic
 
-
-
-    def test_safety_channel_request_in_fault_state(self):
+    def stateCallBack(self,msg):
         manager = Manager()
-        self.manager_state_machine = ManagerStateMachine()
-        getStateMachineToFault(self.manager_state_machine)
-        
+        return (manager.manager_state_machine.getState())
 
+    #The following methods tests whether the state of the state_machine is accurately published.
+    #
+    #@param self the object pointer
+    def test_state_machine_initial_state(self):
+        startROS()
+        manager = Manager()
+        rospy.Subscriber("manager/state", Int8, self.stateCallBack)
+        test_msg = Int8()
+        test_msg.data = 0
+        state_machine_state = self.stateCallBack(test_msg)
+        expected_state_machine_state = manager.manager_state_machine.current_state
+        self.assertEqual(state_machine_state,expected_state_machine_state)
+        stopROS()
+    
+    #Callback method listening to the /safety_channel/switch_request topic
+    #
+    #@param self the object pointer
+    #@param msg A Int32 message from the  topic
+    def switchrequestCallBack(self,msg):
+        manager = Manager()
+        return(manager.manager_state_machine.getState())
+    #
+    #@param self the object pointer
+    def test_safety_channel_request_in_fault_state(self):
+        startROS()
+        manager = Manager()
+        rospy.Subscriber("/safety_channel/switch_request", Int32, self.switchrequestCallBack)
+        test_msg = Int32()
+        test_msg.data = 1
+        manager_state = self.switchrequestCallBack(test_msg)
+        expected_current_state = manager.manager_state_machine.States.FAULT_STATE
+        self.assertEqual(manager_state, expected_current_state)
+        stopROS()
+
+    #The following methods are used to test the switchallback function
+    #
+    #@param self the object pointer
+    #def test_switch_callback_True(self):
+        #startROS()
+        #rospy.init_node('AD-EYE_Manager')
+        #manager = Manager()
+        #test_msg = Int32()
+        #test_msg.data = 0
+        #manager.switchCallback(test_msg)
+        #expected_value = True
+        #self.assertEqual(manager.last_switch_time_initialized, expected_value)
+        #print(manager.last_switch_time_initialized)
+        #stopROS()
 
         
 if __name__ == '__main__':
