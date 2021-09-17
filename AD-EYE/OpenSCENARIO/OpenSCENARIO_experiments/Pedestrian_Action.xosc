@@ -77,10 +77,10 @@
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="134.54"
-                                            y="214.17"
+                                <WorldPosition x="250"
+                                            y="225.65"
                                             z="0"
-                                            h="-pi/2"
+                                            h="pi"
                                             p="0"
                                             r="0"/>
                             </Position>
@@ -101,10 +101,10 @@
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="134.54"
-                                            y="206.79"
+                                <WorldPosition x="200.97"
+                                            y="225.65"
                                             z="0"
-                                            h="-pi/2"
+                                            h="pi"
                                             p="0"
                                             r="0"/>
                             </Position>
@@ -126,10 +126,10 @@
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="142.87"
-                                            y="168.67"
+                                <WorldPosition x="130.02"
+                                            y="217.44"
                                             z="0"
-                                            h="pi/2"
+                                            h="0"
                                             p="0"
                                             r="0"/>
                             </Position>
@@ -174,36 +174,12 @@
                             <StartTrigger>
                                 <ConditionGroup>
                                     <Condition name="Relative Distance" delay="0" conditionEdge="rising">
-                                        <ByValueCondition>
-                                            <SimulationTimeCondition rule="greaterThan" value="7.5"/>
-                                        </ByValueCondition>
-                                    </Condition>
-                                </ConditionGroup>
-                            </StartTrigger>
-                        </Event>
-
-                        <Event name="Decelerate" priority="overwrite" maximumExecutionCount="1">
-                            <Action name="DecelerateAction">
-                                <PrivateAction>
-                                    <LongitudinalAction>
-                                        <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="linear" value="6.0" dynamicsDimension="rate"/>
-                                            <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "0"/> 
-                                            </SpeedActionTarget>
-                                        </SpeedAction>
-                                    </LongitudinalAction>
-                                </PrivateAction>
-                            </Action>
-                            <StartTrigger>
-                                <ConditionGroup>
-                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
                                         <ByEntityCondition>
                                             <TriggeringEntities triggeringEntitiesRule="any">
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Female_wRaincoat_1" value="5.0" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Female_wRaincoat_1" value="10" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
@@ -227,7 +203,7 @@
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="linear" value="3.0" dynamicsDimension="time"/>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="3.0" dynamicsDimension="rate"/>
                                             <SpeedActionTarget>
                                                 <RelativeTargetSpeed value= "2"/> 
                                             </SpeedActionTarget>
@@ -244,6 +220,45 @@
                                             </TriggeringEntities>
                                             <EntityCondition>
                                                 <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ford_Fiesta_Hatchback_1" value="15" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+
+            <Act name="DecelerateAct">
+                <ManeuverGroup name="DecelerateSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                    </Actors>
+
+                    <Maneuver name="Decelerate">
+                        <Event name="Decelerate" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="DecelerateAction">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="linear" value="6.0" dynamicsDimension="rate"/>
+                                            <SpeedActionTarget>
+                                                <RelativeTargetSpeed value= "0.1"/> 
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Female_wRaincoat_1" value="5.0" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
