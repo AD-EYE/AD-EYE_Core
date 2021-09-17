@@ -584,9 +584,7 @@ private:
         bool cameratl_active = false;
         // If the array sensor_fov_ is not empty
         if(sensors_fov_flag_) {
-            std::cout << "Test 1" << std::endl;
             if(sensors_fov_.polygons.at(cameratl).polygon.points.size() != 0) {
-                std::cout << "Test 2" << std::endl;
                 cameratl_active = true;
             }
         }
@@ -603,12 +601,12 @@ private:
         {
             pub_switch_.publish(switch_request_value_);
         }
-        else
-        {
-            std_msgs::Int32 msg_switch;
-            msg_switch.data = var_switch_;
-            pub_switch_.publish(msg_switch);
-        }
+        // else
+        // {
+        //     std_msgs::Int32 msg_switch;
+        //     msg_switch.data = var_switch_;
+        //     pub_switch_.publish(msg_switch);
+        // }
 
 
         std_msgs::Int32 msg_overwrite_behavior;
@@ -647,22 +645,6 @@ private:
         //newGoal.pose.orientation.z = 0;
         //newGoal.pose.orientation.w = 1;
         //pub_autoware_goal_.publish(newGoal);
-
-        
-        // Test for road side parking as new goal
-        // sleep(15);
-        // geometry_msgs::PoseStamped pose_road_side_parking;
-        // pose_road_side_parking = findRoadSideParking(gridmap_);
-
-        // // Set the new goal of the car
-        // redefineGoalRoadSideParking(pose_road_side_parking);
-        
-        // // Test for rest area as new goal
-        // geometry_msgs::PoseStamped pose_rest_area;
-        // pose_rest_area = findRestArea(gridmap_);
-
-        // // Set the new goal of the car
-        // redefineGoalRestArea(pose_rest_area);
 
         // std_msgs::Int32 msgTriggerUpdateGlobalPlanner;
         // msgTriggerUpdateGlobalPlanner.data = 1;
@@ -1021,7 +1003,7 @@ private:
      */
     void waitForInitialization()
     {
-        ros::Rate rate(10);
+        ros::Rate rate(20);
         while(nh_.ok() && !(gnss_flag_ && gridmap_flag_ && autoware_global_path_flag_ == 1))
         {
             ros::spinOnce();
@@ -1140,10 +1122,6 @@ private:
         new_goal = findRestArea(gridmap_);
 
         pub_autoware_goal_.publish(new_goal);
-
-        // // Test
-        // std::cout << "new goal = x: " << new_goal.pose.position.x << " y: " << new_goal.pose.position.y << std::endl;
-        // std::cout << "quaternion w: " << new_goal.pose.orientation.w << " x: " << new_goal.pose.orientation.x << " y: " << new_goal.pose.orientation.y << " z: " << new_goal.pose.orientation.z << std::endl;
     }
 
     /*!
@@ -1164,9 +1142,6 @@ private:
         distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
         if(distance_to_road_side_parking <= MAX_DISTANCE) {
             triggerSafetySwitch(); // Switch to the Safe stop planner
-            // std_msgs::Int32 msg_switch;
-            // msg_switch.data = var_switch_;
-            // pub_switch_.publish(msg_switch);
         }
     }
 
@@ -1225,7 +1200,7 @@ public:
      */
     void run()
     {
-        ros::Rate rate(10);
+        ros::Rate rate(20);
         while(nh_.ok())
         {
             if(!car_size_set_)
@@ -1254,17 +1229,6 @@ public:
             publish();
 
             sensors_fov_flag_ = false;
-
-            // Test for functions find safe areas
-            // if(gridmap_flag_) {
-            //     geometry_msgs::PoseStamped pose_road_side_parking = findRoadSideParking(gridmap_);
-            //     geometry_msgs::PoseStamped pose_rest_area = findRestArea(gridmap_);
-
-            //     std::cout << "x position road side parking : " << pose_road_side_parking.pose.position.x << std::endl;
-            //     std::cout << "y position road side parking : " << pose_road_side_parking.pose.position.y << std::endl;
-            //     std::cout << "x position rest area : " << pose_rest_area.pose.position.x << std::endl;
-            //     std::cout << "y position rest area : " << pose_rest_area.pose.position.y << std::endl;
-            // }
 
             rate.sleep();
             //ROS_INFO("Current state: %d", var_switch_);

@@ -83,8 +83,6 @@ private:
 
     // For the sensor sectors layer
     jsk_recognition_msgs::PolygonArray sensor_sectors_;
-    // The polygon that keep in memory the sectors  that have to be displayed in the gridmap.
-    grid_map::Polygon sensor_area_;
 
     //GridMap
     GridMap map_;
@@ -457,45 +455,47 @@ private:
      */
     void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
         sensor_sectors_ = *msg;
-        sensor_area_.setFrameId(map_.getFrameId());
-        // For polygons representing sensors
-        geometry_msgs::PolygonStamped sensor_polygon;
-        size_t nb_points; // the number of points in the polygon.
+
+        // These 2 polygons will keep in memory the sectors that have to be displayed in the gridmap. The difference between the 2 is the type.
+        geometry_msgs::PolygonStamped sensor_jsk_polygon;
+        grid_map::Polygon sensor_gridmap_polygon;
+        sensor_gridmap_polygon.setFrameId(map_.getFrameId());
+
         // Position of the sensors compared to the ego car.
-        float x_sensor_ego;
-        float y_sensor_ego;
+        float x_sensor_ego_frame;
+        float y_sensor_ego_frame;
         // Position of the sensor in the gridmap.
-        float x_sensor;
-        float y_sensor;
+        float x_sensor_map_frame;
+        float y_sensor_map_frame;
 
         // Remmove all old polygons
         for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
             map_.at("SensorSectors", *it) = 0;
         }
 
-        // Extract the number of sensors
-        size_t nb_sensors = sensor_sectors_.polygons.size();
-
         // A loop that goes through all sensors polygons.
-        for(int i = 0; i < (int)nb_sensors; i++) {
+        for(int sensor_index = 0; sensor_index < sensor_sectors_.polygons.size(); sensor_index++) {
             // Reset the polygon that stores information from sensors
-            sensor_area_.removeVertices();
-            sensor_polygon = sensor_sectors_.polygons.at(i); // Extract the sensor polygon.
-            nb_points = sensor_polygon.polygon.points.size(); // Extract the number of points in the polygon.
+            sensor_gridmap_polygon.removeVertices();
+
+            sensor_jsk_polygon = sensor_sectors_.polygons.at(sensor_index); // Extract the sensor polygon.
+            size_t nb_points; // the number of points in the polygon.
+            nb_points = sensor_jsk_polygon.polygon.points.size(); // Extract the number of points in the polygon.
+
             // If the polygon is empty, the loop for can't be run. It means that no information is received from the sensor, nothing is displayed in the gridmap.
             if(nb_points != 0) {
                 // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
-                for(int j = 0; j < (int)nb_points; j++) {
+                for(int vertex_index = 0; vertex_index < (int)nb_points; vertex_index++) {
                     // Define the position of the sensor in the gridmap.
-                    x_sensor_ego = sensor_polygon.polygon.points.at(j).x;
-                    y_sensor_ego = sensor_polygon.polygon.points.at(j).y;
-                    x_sensor = x_sensor_ego * cos(yaw_ego_) - y_sensor_ego * sin(yaw_ego_) + x_ego_;
-                    y_sensor = x_sensor_ego * sin(yaw_ego_) + y_sensor_ego * cos(yaw_ego_) + y_ego_;
+                    x_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).x;
+                    y_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).y;
+                    x_sensor_map_frame = x_sensor_ego_frame * cos(yaw_ego_) - y_sensor_ego_frame * sin(yaw_ego_) + x_ego_;
+                    y_sensor_map_frame = x_sensor_ego_frame * sin(yaw_ego_) + y_sensor_ego_frame * cos(yaw_ego_) + y_ego_;
                     // Complete the polygon to then display it in the gridmap.
-                    sensor_area_.addVertex(Position(x_sensor, y_sensor));
+                    sensor_gridmap_polygon.addVertex(Position(x_sensor_map_frame, y_sensor_map_frame));
                 }
                 // Add 1 to the layer
-                for (grid_map::PolygonIterator it(map_, sensor_area_); !it.isPastEnd(); ++it) {
+                for (grid_map::PolygonIterator it(map_, sensor_gridmap_polygon); !it.isPastEnd(); ++it) {
                     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
                 }
             }
@@ -520,7 +520,7 @@ private:
         veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
 
         createEmptyGridMap(veclane);
-        // if(use_pex_file_)
+        if(use_pex_file_)
             addPrescanObjects(p_nh);
         addVectorMapObjects(veclane);
 
