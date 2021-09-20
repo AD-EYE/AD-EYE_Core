@@ -2,7 +2,7 @@ function  trajectorydynamics2(nameSimulink,models,Struct_OpenSCENARIO,trajectory
 
 actorsAct=cell(0,1);
 for j = 1:length(models.worldmodel.object)
-    
+    checkROSDistance=0;
     trajectoryType = ["Longitudinal","Lateral"];
     for z = 1:length(trajectoryType)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -371,6 +371,26 @@ for j = 1:length(models.worldmodel.object)
                                                                     set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From4")),'GotoTag',convertStringsToChars(strcat("x_",blockId(1,h) ) )  )
                                                                     set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From1")),'GotoTag',convertStringsToChars(strcat("y_",blockId(1,h) ) )  )
                                                                     set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From3")),'GotoTag',convertStringsToChars(strcat("z_",blockId(1,h) ) )  )
+                                                                    % Adding ROS distance if the distance measured is between an actor and the Ego car
+                                                                    if strcmp(convertCharsToStrings(trajectoryVariable.(models.worldmodel.object{j, 1}.name)...
+                                                                        .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Distance_RelativeObject), "Ego")
+                                                                        checkROSDistance=1; % we certify that we calculate and send the distance between the ego and the actor
+                                                                        add_block(strcat("adeye_lib/","ROS Send Distance"),strcat(locationBlockConditionSource,"ROS Send Distance") );
+                                                                        set_param(strcat(locationBlockConditionSource,"ROS Send Distance"),'LinkStatus', 'inactive') % Unlock links
+                                                                        set_param(strcat(locationBlockConditionSource,"ROS Send Distance","/Publish4"),'LinkStatus', 'inactive')
+                                                                        set_param(strcat(locationBlockConditionSource,"ROS Send Distance","/Publish4"), "topicSource", "specify your own");
+                                                                        set_param(strcat(locationBlockConditionSource,"ROS Send Distance","/Publish4"), "topic", "/ditance_to_ego_1");
+                                                                        add_line(strcat(locationBlockConditionSource), 'Create_Distance_Function/1', 'ROS Send Distance/1');
+                                                                        add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockConditionSource,"EnableSendDistance"),'value', '1');
+                                                                        add_line(strcat(locationBlockConditionSource), 'EnableSendDistance/1', 'ROS Send Distance/Enable');
+                                                                        % change the size and the position of the added block
+                                                                        size_blk = get_param(convertStringsToChars(strcat(locationBlockConditionSource,"EnableSendDistance")),'Position');
+                                                                        X = size_blk(1,1)+10;
+                                                                        Y = size_blk(1,2)-230;
+                                                                        WIDTH = 20;
+                                                                        HEIGHT = 20;
+                                                                        set_param(strcat(locationBlockConditionSource,"EnableSendDistance"),'Position',[X Y X+WIDTH Y+HEIGHT]);
+                                                                    end
                                                                 end
                                                             end
                                                             convertStringsToChars(strcat(locationBlockConditionSource,"/From4"))
@@ -635,7 +655,53 @@ for j = 1:length(models.worldmodel.object)
                                                         add_line(strcat(locationBlockTrajectory, blockTrajectoryInput), "trueSpeed/1", strcat("oldVelocity", "/1"));                                                        
                                                         set_param(strcat(locationBlockTrajectory, blockTrajectoryInput,"/oldVelocity"), 'TagVisibility', 'global');
                                                     end
-
+                                                    
+                                                    % Check if we have the distance between the actor and the ego car calculated
+                                                    if not(checkROSDistance)
+                                                        checkROSDistance=1;
+                                                        blockConditionSource="Condition_source_Longitudinal";
+                                                        locationDynamicsEmpty = strcat(nameSimulink,convertCharsToStrings(models.worldmodel.object{j,1}.name),"/Dynamics_Empty/");
+                                                        locationBlockConditionSource = strcat(locationDynamicsEmpty, blockConditionSource);
+                                                        % add condition source
+                                                        add_block(convertCharsToStrings(strcat("OpenSCENARIO/",blockConditionSource)),locationBlockConditionSource)
+                                                        % change location of condition source
+                                                        size_blk = get_param(locationBlockAdd,'Position');
+                                                        X = size_blk(1,1)+500+shift1;
+                                                        Y = size_blk(1,2)-300;
+                                                        WIDTH = 70;
+                                                        HEIGHT =90;
+                                                        set_param(locationDynamicsEmpty,'Position',[X Y X+WIDTH Y+HEIGHT]);
+                                                        % disable link to library
+                                                        set_param(locationDynamicsEmpty, 'LinkStatus','inactive');
+                                                        set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource,"/Goto4")),'TagVisibility','global');
+                                                        for h =1: length( models.worldmodel.object)
+                                                            if(convertCharsToStrings(models.worldmodel.object{h,1}.name)=="Ego")
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From4")),'GotoTag',convertStringsToChars(strcat("x_",blockId(1,h) ) )  )
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From1")),'GotoTag',convertStringsToChars(strcat("y_",blockId(1,h) ) )  )
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From3")),'GotoTag',convertStringsToChars(strcat("z_",blockId(1,h) ) )  )
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From9")),'GotoTag',convertStringsToChars(strcat("x_",blockId(1,j) ) )  )
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From2")),'GotoTag',convertStringsToChars(strcat("y_",blockId(1,j) ) )  )
+                                                                set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From5")),'GotoTag',convertStringsToChars(strcat("z_",blockId(1,j) ) )  )
+                                                            end
+                                                        end
+                                                        set_param(locationBlockConditionSource, 'LinkStatus','inactive');
+                                                        add_block(strcat("adeye_lib/","ROS Send Velocity"),strcat(locationBlockConditionSource,"/ROS Send Distance") );
+                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance"),'LinkStatus', 'inactive') % Unlock links
+                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"),'LinkStatus', 'inactive')
+                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"), "topicSource", "specify your own");
+                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"), "topic", "/ditance_to_ego_1");
+                                                        add_line(strcat(locationBlockConditionSource), 'Create_Distance_Function/1', 'ROS Send Distance/1');
+                                                        add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockConditionSource,"/EnableSendDistance"),'value', '1');
+                                                        add_line(strcat(locationBlockConditionSource), 'EnableSendDistance/1', 'ROS Send Distance/Enable');
+                                                        % change the size and the position of the added block
+                                                        size_blk = get_param(convertStringsToChars(strcat(locationBlockConditionSource,"/EnableSendDistance")),'Position');
+                                                        X = size_blk(1,1)+10;
+                                                        Y = size_blk(1,2)-230;
+                                                        WIDTH = 20;
+                                                        HEIGHT = 20;
+                                                        set_param(strcat(locationBlockConditionSource,"/EnableSendDistance"),'Position',[X Y X+WIDTH Y+HEIGHT]);
+                                                    end
+                                                    
 
                                                     end % if statement Distance_RelativeObject check
                                                 end % if statement Objects check
@@ -652,6 +718,8 @@ for j = 1:length(models.worldmodel.object)
         end
     
     end
+    
+    
 end% main for loop
 
 disp('LATERAL DYNAMICS ADDED')
