@@ -689,7 +689,7 @@ for j = 1:length(models.worldmodel.object)
                                                         set_param(strcat(locationBlockConditionSource,"/ROS Send Distance"),'LinkStatus', 'inactive') % Unlock links
                                                         set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"),'LinkStatus', 'inactive')
                                                         set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"), "topicSource", "specify your own");
-                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"), "topic", "/ditance_to_ego_1");
+                                                        set_param(strcat(locationBlockConditionSource,"/ROS Send Distance","/Publish4"), "topic", "/distance_to_ego_1");
                                                         add_line(strcat(locationBlockConditionSource), 'Create_Distance_Function/1', 'ROS Send Distance/1');
                                                         add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockConditionSource,"/EnableSendDistance"),'value', '1');
                                                         add_line(strcat(locationBlockConditionSource), 'EnableSendDistance/1', 'ROS Send Distance/Enable');
