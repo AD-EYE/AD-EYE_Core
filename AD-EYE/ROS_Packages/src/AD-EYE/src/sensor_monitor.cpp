@@ -50,7 +50,7 @@ private:
     bool sensor_active_[NB_SENSORS_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
     // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1), 0.05s (camera 2), 0.1s (camera tl).
     // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of error will be taken.
-    // The time elapsed will be compared to 3 times the sensor timeouts.
+    // The sensor timeouts is 3 times the sensor time period.
     const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.15, 0.3, 0.15, 0.15, 0.3}; // Time period in seconds, values obtained in PreScan.
     float sensor_last_time_[NB_SENSORS_] = {0, 0, 0, 0, 0}; // The last time the callback function has been called.
     float sensor_current_time_[NB_SENSORS_]; // The current time when the callback function is called.
@@ -226,7 +226,7 @@ public:
 
             ros::Duration rostime_elapsed = ros::Time::now() - rostime;
             if(rostime_elapsed > rate_.expectedCycleTime()){
-                ROS_WARN("SensorFoV : frequency is not met!");
+                ROS_WARN("Sensor Monitor : frequency is not met!");
             }
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
@@ -251,7 +251,7 @@ public:
 int main(int argc, char **argv)
 {
     // init node
-    ros::init(argc, argv, "SensorFoV");
+    ros::init(argc, argv, "sensorMonitor");
     ros::NodeHandle nh;
     SensorFoV sfv(nh);
     sfv.run();
