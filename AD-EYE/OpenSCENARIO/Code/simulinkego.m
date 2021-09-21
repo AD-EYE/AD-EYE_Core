@@ -9,26 +9,26 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             locationSimulinkObject = strcat(nameSimulink,convertCharsToStrings(models.worldmodel.object{i,1}.name) ,"/");
 
             %delete Terminators
-            f =  Simulink.FindOptions('SearchDepth',1);
-            b1 = Simulink.findBlocksOfType(convertStringsToChars(locationSimulinkObject),'Terminator',f);
-            b2 = convertCharsToStrings(getfullname(b1));
+            findInteger =  Simulink.FindOptions('SearchDepth',1);
+            findBlock = Simulink.findBlocksOfType(convertStringsToChars(locationSimulinkObject),'Terminator',findInteger);
+            findBlock = convertCharsToStrings(getfullname(findBlock));
 
-            if(isempty(b2) ~= 1)
-                for x = 1:length(b2(:,1))
-                    S1(x,1)=get_param(b2(x,1),'PortConnectivity');
-                    S2 = get_param(S1(x,1).SrcBlock,'name');
+            if(isempty(findBlock) ~= 1)
+                for x = 1:length(findBlock(:,1))
+                    ports(x,1)=get_param(findBlock(x,1),'PortConnectivity');
+                    portName = get_param(ports(x,1).SrcBlock,'name');
                     %location of where the terminators where connected to
-                    location1(x,1)= convertCharsToStrings(S2);
-                    if(getSimulinkBlockHandle(b2(x,1)) ~= -1)
-                        delete_block(b2{x,1})
+                    locationPortName(x,1)= convertCharsToStrings(portName);
+                    if(getSimulinkBlockHandle(findBlock(x,1)) ~= -1)
+                        delete_block(findBlock{x,1})
                     end
                 end
                 %delete_line
-                for p = 1:length(location1)
-                    h = get_param(convertStringsToChars(strcat(locationSimulinkObject,location1(p,1))),'LineHandles');
-                    for x = 1:length(h.Outport)
-                        if((h.Outport(x)) ~= -1)
-                            delete_line(h.Outport(x) )
+                for p = 1:length(locationPortName)
+                    line = get_param(convertStringsToChars(strcat(locationSimulinkObject,locationPortName(p,1))),'LineHandles');
+                    for x = 1:length(line.Outport)
+                        if((line.Outport(x)) ~= -1)
+                            delete_line(line.Outport(x) )
                         end
                     end
                 end
