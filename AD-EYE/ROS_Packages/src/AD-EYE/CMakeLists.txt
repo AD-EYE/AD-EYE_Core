@@ -267,6 +267,19 @@ add_dependencies(sensorMonitor
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(
+  scenarioPresentation
+  src/scenario_presentation.cpp
+)
+
+target_link_libraries(
+  scenarioPresentation
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(scenarioPresentation
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 add_executable(

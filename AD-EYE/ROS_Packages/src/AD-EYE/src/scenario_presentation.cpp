@@ -64,7 +64,40 @@ private:
      */
     void testAnomaly2()
     {
+        // Position for condition to disable and re-enable the node that manage camera 1.
+        grid_map::Position position_camera1_killed;
+        position_camera1_killed = grid_map::Position(53, 75);
+        // The margin of error for the position
+        double error_margin_camera1 = 10;
+        // The duration during when the camera1 is disabled
+        double duration_camera1_killed = 10;
 
+        // The other test is not implemented yet
+        first_test_done_ = true;
+        if((pose_ego_car_.position.x >= (position_camera1_killed.x() - error_margin_camera1)) && (pose_ego_car_.position.x <= (position_camera1_killed.x() + error_margin_camera1))
+            && (pose_ego_car_.position.y >= (position_camera1_killed.y() - error_margin_camera1)) && (pose_ego_car_.position.y <= (position_camera1_killed.y() + error_margin_camera1))
+            && first_test_done_ && (!second_test_started_ && !second_test_done_))
+        {
+            // Kill the node for detection of camera 1 objects
+            system("rosnode kill /camera_1/vision_ssd_detect");
+            second_test_started_ = true;
+            begin_time_second_test_ = ros::Time::now().toSec();
+        }
+        if(second_test_started_)
+        {
+            duration_second_test_ = ros::Time::now().toSec() - begin_time_second_test_;
+            // Condition of time
+            if(duration_second_test_ >= duration_camera1_killed)
+            {
+                if(fork() == 0) {
+                    // restart the node in parallel
+                    system("roslaunch adeye activate_camera_1.launch");
+                }
+                ROS_INFO("Restart camera 1 detection");
+                second_test_started_ = false;
+                second_test_done_ = true;
+            }
+        }
     }
 
     /*!
@@ -72,7 +105,40 @@ private:
      */
     void testAnomaly3()
     {
+        // Position for condition to disable and re-enable the node that manage camera 2.
+        grid_map::Position position_camera2_killed;
+        position_camera2_killed = grid_map::Position(193, 75);
+        // The margin of error for the position
+        double error_margin_camera2 = 10;
+        // The duration during when the camera 2 is disabled
+        double duration_camera2_killed = 10;
 
+        // The other test is not implemented yet
+        first_test_done_ = true;
+        if((pose_ego_car_.position.x >= (position_camera2_killed.x() - error_margin_camera2)) && (pose_ego_car_.position.x <= (position_camera2_killed.x() + error_margin_camera2))
+            && (pose_ego_car_.position.y >= (position_camera2_killed.y() - error_margin_camera2)) && (pose_ego_car_.position.y <= (position_camera2_killed.y() + error_margin_camera2))
+            && first_test_done_ && second_test_done_ && (!third_test_started_ && !third_test_done_))
+        {
+            // Kill the node for detection of camera 2 objects
+            system("rosnode kill /camera_2/vision_ssd_detect");
+            third_test_started_ = true;
+            begin_time_second_test_ = ros::Time::now().toSec();
+        }
+        if(third_test_started_)
+        {
+            duration_third_test_ = ros::Time::now().toSec() - begin_time_third_test_;
+            // Condition of time
+            if(duration_third_test_ >= duration_camera2_killed)
+            {
+                if(fork() == 0) {
+                    // restart the node in parallel
+                    system("roslaunch adeye activate_camera_2.launch");
+                }
+                ROS_INFO("Restart camera 2");
+                third_test_started_ = false;
+                third_test_done_ = true;
+            }
+        }
     }
 
     /*!
@@ -88,10 +154,8 @@ private:
         // The duration during when the node is disabled
         double duration_critical_node_killed = 3;
 
-        // The other tests are not implemented yet
+        // The other test is not implemented yet
         first_test_done_ = true;
-        second_test_done_ = true;
-        third_test_done_ = true;
         if((pose_ego_car_.position.x >= (position_critical_node_killed.x() - error_margin_critical_node)) && (pose_ego_car_.position.x <= (position_critical_node_killed.x() + error_margin_critical_node))
             && (pose_ego_car_.position.y >= (position_critical_node_killed.y() - error_margin_critical_node)) && (pose_ego_car_.position.y <= (position_critical_node_killed.y() + error_margin_critical_node))
             && first_test_done_ && second_test_done_ && third_test_done_ && (!fourth_test_started_ && !fourth_test_done_))
