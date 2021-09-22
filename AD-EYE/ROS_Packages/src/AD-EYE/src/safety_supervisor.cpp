@@ -663,8 +663,8 @@ private:
 
         // Check that all necessary nodes are active and store in the vector
         instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_ONE] = areCriticalNodesLevelOneAlive();
-        // instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
-        // instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
+        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
         instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_FOUR] = areCriticalNodesLevelFourAlive();
         
         //Check that the center of the car on the road
@@ -682,10 +682,6 @@ private:
         instantaneous_test_results[CHECK_CAMERA_1_ACTIVE] = isCamera1Active();
         instantaneous_test_results[CHECK_CAMERA_2_ACTIVE] = isCamera2Active();
         instantaneous_test_results[CHECK_CAMERA_TL_ACTIVE] = isCameratlActive();
-
-        // Test
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = true;
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = true;
 
         return instantaneous_test_results;
     }
