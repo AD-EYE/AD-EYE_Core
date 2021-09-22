@@ -80,7 +80,41 @@ private:
      */
     void testAnomaly4()
     {
+        // Position for condition to disable and re-enable the critical node.
+        grid_map::Position position_critical_node_killed;
+        position_critical_node_killed = grid_map::Position(80, 150);
+        // The margin of error for the position
+        double error_margin_critical_node = 10;
+        // The duration during when the node is disabled
+        double duration_critical_node_killed = 3;
 
+        // The other tests are not implemented yet
+        first_test_done_ = true;
+        second_test_done_ = true;
+        third_test_done_ = true;
+        if((pose_ego_car_.position.x >= (position_critical_node_killed.x() - error_margin_critical_node)) && (pose_ego_car_.position.x <= (position_critical_node_killed.x() + error_margin_critical_node))
+            && (pose_ego_car_.position.y >= (position_critical_node_killed.y() - error_margin_critical_node)) && (pose_ego_car_.position.y <= (position_critical_node_killed.y() + error_margin_critical_node))
+            && first_test_done_ && second_test_done_ && third_test_done_ && (!fourth_test_started_ && !fourth_test_done_))
+        {
+            // Kill the critical node level 1
+            system("rosnode kill /visualization");
+            fourth_test_started_ = true;
+            begin_time_fourth_test_ = ros::Time::now().toSec();
+        }
+        if(fourth_test_started_)
+        {
+            duration_fourth_test_ = ros::Time::now().toSec() - begin_time_fourth_test_;
+            // Condition of time
+            if(duration_fourth_test_ >= duration_critical_node_killed)
+            {
+                if(fork() == 0) {
+                    system("rosrun adeye_utils layerVisualizer /safety_planner_gridmap SensorSectors"); // restart the node in parallel
+                }
+                ROS_INFO("Restart critical node");
+                fourth_test_started_ = false;
+                fourth_test_done_ = true;
+            }
+        }
     }
 
 public:
