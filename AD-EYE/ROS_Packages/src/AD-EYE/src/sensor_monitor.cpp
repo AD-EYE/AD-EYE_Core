@@ -10,6 +10,7 @@
 #include <std_msgs/Float32MultiArray.h>
 #include <sensor_msgs/Image.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
+#include <sensor_msgs/PointCloud2.h>
 
 // Used to define points of polygons
 #include <geometry_msgs/Point32.h>
@@ -83,7 +84,7 @@ private:
      * \brief Lidar Callback : called when information from the lidar changed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void lidarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
+    void lidarCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
         sensorUpdate(LIDAR);
     }
 
@@ -178,7 +179,7 @@ public:
         // Initialize node and publishers/subscribers
         pub_sensor_fovs_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1);
         sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &SensorFoV::radarCallback, this);
-        sub_lidar_ = nh.subscribe<std_msgs::Float32MultiArray>("/points_raw_float32", 1, &SensorFoV::lidarCallback, this);
+        sub_lidar_ = nh.subscribe<sensor_msgs::PointCloud2>("/points_raw", 1, &SensorFoV::lidarCallback, this);
         sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &SensorFoV::camera1Callback, this);
         sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &SensorFoV::camera2Callback, this);
         sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &SensorFoV::cameraTlCallback, this);
