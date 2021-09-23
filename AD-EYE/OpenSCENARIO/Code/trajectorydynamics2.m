@@ -46,13 +46,13 @@ for j = 1:length(models.worldmodel.object)
                                                         if (getSimulinkBlockHandle(locationBlockTrajectoryDynamics) == -1)
                                                             add_block(convertStringsToChars(strcat("OpenSCENARIO/",blockTrajectoryDynamics)),locationBlockTrajectoryDynamics );
                                                             %change location of condition source
-                                                            size_blk = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"MuxState")),'Position');
+                                                            sizeBlock = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"MuxState")),'Position');
                                                             if(trajectory_type(1,z) =="Lateral")
-                                                                X = size_blk(1,1)-270;
-                                                                Y = size_blk(1,2)+160;
+                                                                X = sizeBlock(1,1)-270;
+                                                                Y = sizeBlock(1,2)+160;
                                                             elseif(trajectory_type(1,z) =="Longitudinal")
-                                                                X = size_blk(1,1)-540;
-                                                                Y = size_blk(1,2)+35;
+                                                                X = sizeBlock(1,1)-540;
+                                                                Y = sizeBlock(1,2)+35;
                                                             end
                                                             Width = 200;
                                                             Height = 100;
@@ -102,9 +102,9 @@ for j = 1:length(models.worldmodel.object)
                                                             %add condition source
                                                             add_block(convertCharsToStrings(strcat("OpenSCENARIO/",blockConditionSource)),locationBlockConditionSource)
                                                             %change location of condition source
-                                                            size_blk = get_param(locationBlockAdd,'Position');
-                                                            X = size_blk(1,1)+500+shift1;
-                                                            Y = size_blk(1,2)-300;
+                                                            sizeBlock = get_param(locationBlockAdd,'Position');
+                                                            X = sizeBlock(1,1)+500+shift1;
+                                                            Y = sizeBlock(1,2)-300;
                                                             Width = 70;
                                                             Height =90;
                                                             set_param(locationBlockConditionSource,'Position',[X Y X+Width Y+Height]);
@@ -155,9 +155,9 @@ for j = 1:length(models.worldmodel.object)
                                                         if (getSimulinkBlockHandle(locationBlockTrajectory) == -1 && add_condition == 1)
                                                             add_block(convertCharsToStrings(strcat("OpenSCENARIO/",blockTrajectory)),locationBlockTrajectory)
                                                             %change location of Trajectory input
-                                                            size_blk = get_param(locationBlockAdd,'Position');
-                                                            X = size_blk(1,1)-400;
-                                                            Y = size_blk(1,2)+850+shift1;
+                                                            sizeBlock = get_param(locationBlockAdd,'Position');
+                                                            X = sizeBlock(1,1)-400;
+                                                            Y = sizeBlock(1,2)+850+shift1;
                                                             Width = 100;
                                                             Height = 150;
                                                             set_param(locationBlockTrajectory,'Position',[X Y X+Width Y+Height]);
@@ -307,9 +307,9 @@ for j = 1:length(models.worldmodel.object)
                                                             add_block("simulink/Commonly Used Blocks/Constant", strcat(locationDynamicsEmpty,"EnableSendVelocity"),'value', '1');
                                                             add_line(strcat(locationDynamicsEmpty), 'EnableSendVelocity/1', 'ROS Send Velocity/Enable');
                                                             %change the size and the position of the added block
-                                                            size_blk = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"EnableSendVelocity")),'Position');
-                                                            X = size_blk(1,1)+10;
-                                                            Y = size_blk(1,2)-230;
+                                                            sizeBlock = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"EnableSendVelocity")),'Position');
+                                                            X = sizeBlock(1,1)+10;
+                                                            Y = sizeBlock(1,2)-230;
                                                             WIDTH = 20;
                                                             HEIGHT = 20;
                                                             set_param(strcat(locationDynamicsEmpty,"EnableSendVelocity"),'Position',[X Y X+WIDTH Y+HEIGHT]);
@@ -319,17 +319,17 @@ for j = 1:length(models.worldmodel.object)
                                                                 add_block("simulink/Commonly Used Blocks/Constant", strcat(locationDynamicsEmpty,"constant"), 'value', '0');
                                                                 add_line(strcat(locationDynamicsEmpty), 'constant/1', 'ROS Send Velocity/2');
                                                                 %change the size and the position of the added block
-                                                                size_blk = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"constant")),'Position');
-                                                                X = size_blk(1,1)+10;
-                                                                Y = size_blk(1,2)-140;
+                                                                sizeBlock = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"constant")),'Position');
+                                                                X = sizeBlock(1,1)+10;
+                                                                Y = sizeBlock(1,2)-140;
                                                                 WIDTH = 20;
                                                                 HEIGHT = 20;
                                                                 set_param(strcat(locationDynamicsEmpty,"constant"),'Position',[X Y X+WIDTH Y+HEIGHT]);
                                                             end
                                                             %change the size and the position of the added block Ros send Velocity
-                                                            size_blk = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"ROS Send Velocity")),'Position');
-                                                            X = size_blk(1,1)+200;
-                                                            Y = size_blk(1,2)-1600;
+                                                            sizeBlock = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"ROS Send Velocity")),'Position');
+                                                            X = sizeBlock(1,1)+200;
+                                                            Y = sizeBlock(1,2)-1600;
                                                             Width = 200;
                                                             Height = 100;
                                                             set_param(strcat(locationDynamicsEmpty,"ROS Send Velocity"),'Position',[X Y X+Width Y+Height]);
@@ -430,9 +430,9 @@ for j = 1:length(models.worldmodel.object)
                                                                             locationDynanicsEmpty = strcat(name_simulink,convertCharsToStrings(models.worldmodel.object{h,1}.name),"/Dynamics_Empty/");
                                                                             add_block("simulink/Signal Routing/Goto", strcat(locationDynanicsEmpty,"Velocity"),'GotoTag', 'Vel');
                                                                             %change the size and the position of the added block Velocity
-                                                                            size_blk = get_param(convertStringsToChars(strcat(locationDynanicsEmpty,"Velocity")),'Position');
-                                                                            X = size_blk(1,1)-120;
-                                                                            Y = size_blk(1,2)-300;
+                                                                            sizeBlock = get_param(convertStringsToChars(strcat(locationDynanicsEmpty,"Velocity")),'Position');
+                                                                            X = sizeBlock(1,1)-120;
+                                                                            Y = sizeBlock(1,2)-300;
                                                                             WIDTH = 50;
                                                                             HEIGHT = 20;
                                                                             set_param(strcat(locationDynanicsEmpty,"Velocity"),'Position',[X Y X+WIDTH Y+HEIGHT]);
