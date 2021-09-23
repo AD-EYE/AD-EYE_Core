@@ -1,62 +1,19 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Non ego vehicle, coming from an opposite direction, is passing a third vehicle" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle changes lane (to the lane where ego car is)" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
-
-    <Catalogs>
-        <VehicleCatalog>
-            <Directory path="Catalogs/VehicleCatalogs"/>
-        </VehicleCatalog>
-        <DriverCatalog>
-            <Directory path="Catalogs/DriverCatalogs"/>
-        </DriverCatalog>
-        <PedestrianCatalog>
-            <Directory path="Catalogs/ObserverCatalogs"/>
-        </PedestrianCatalog>
-        <PedestrianControllerCatalog>
-            <Directory path="Catalogs/PedestrianCatalogs"/>
-        </PedestrianControllerCatalog>
-        <MiscObjectCatalog>
-            <Directory path="Catalogs/MiscObjectCatalogs"/>
-        </MiscObjectCatalog>
-        <EnvironmentCatalog>
-            <Directory path="Catalogs/EnvironmentCatalogs"/>
-        </EnvironmentCatalog>
-        <ManeuverCatalog>
-            <Directory path="Catalogs/ManeuverCatalogs"/>
-        </ManeuverCatalog>
-        <TrajectoryCatalog>
-            <Directory path="Catalogs/TrajectoryCatalog"/>
-        </TrajectoryCatalog>
-        <RouteCatalog>
-            <Directory path="Catalogs/RoutingCatalog"/>
-        </RouteCatalog>
-    </Catalogs>
 
     <Entities>
         <ScenarioObject name="Ego">
             <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
 
         <ScenarioObject name="Ford_Fiesta_Hatchback_1">
             <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
-        </ScenarioObject>
-
-        <ScenarioObject name="Audi_A3_1">
-            <CatalogReference catalogName="VechicleCatalog" entryName="Audi_A3_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
     </Entities>
-  
+   
    <Storyboard>
         <Init>
             <Actions>
@@ -70,13 +27,13 @@
                         </Environment>
                     </EnvironmentAction>
                 </GlobalAction>
- 
+                
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="393.23"
-                                                y="226.04"
+                                <WorldPosition x="461.56"
+                                                y="174.87"
                                                 z="0"
                                                 h="pi"
                                                 p="0"
@@ -99,10 +56,10 @@
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="264.74"
-                                                y="222.75"
+                                <WorldPosition x="430.0"
+                                                y="171.87"
                                                 z="0"
-                                                h="0"
+                                                h="pi"
                                                 p="0"
                                                 r="0"/>
                             </Position>
@@ -113,32 +70,7 @@
                             <SpeedAction>
                                 <SpeedActionDynamics dynamicsShape="step"/>
                                 <SpeedActionTarget>
-                                    <AbsoluteTargetSpeed value="15"/>
-                                </SpeedActionTarget>
-                            </SpeedAction>
-                        </LongitudinalAction>
-                    </PrivateAction>
-                </Private>
-                
-                <Private entityRef="Audi_A3_1">
-                    <PrivateAction>
-                        <TeleportAction>
-                            <Position>
-                                <WorldPosition x="294.74"
-                                                y="222.75"
-                                                z="0"
-                                                h="0"
-                                                p="0"
-                                                r="0"/>
-                            </Position>
-                        </TeleportAction>
-                    </PrivateAction>
-                    <PrivateAction>
-                        <LongitudinalAction>
-                            <SpeedAction>
-                                <SpeedActionDynamics dynamicsShape="step"/>
-                                <SpeedActionTarget>
-                                    <AbsoluteTargetSpeed value="8"/>
+                                    <AbsoluteTargetSpeed value="13"/>
                                 </SpeedActionTarget>
                             </SpeedAction>
                         </LongitudinalAction>
@@ -163,7 +95,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="distance"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-1"/> 
+                                                <AbsoluteTargetLane value= "1"/> 
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>
@@ -177,7 +109,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Audi_A3_1" value="30.0" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="30.0" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>

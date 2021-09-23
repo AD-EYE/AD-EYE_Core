@@ -5,32 +5,6 @@
                description="Sample Scenario - Double Lane Changer"
                author="Andreas Biehn"/>
    <ParameterDeclarations/>
-   <CatalogLocations>
-      <VehicleCatalog>
-         <Directory path="Catalogs/VehicleCatalogs"/>
-      </VehicleCatalog>
-      <ControllerCatalog>
-         <Directory path="Catalogs/DriverCatalogs"/>
-      </ControllerCatalog>
-      <PedestrianCatalog>
-         <Directory path="Catalogs/ObserverCatalogs"/>
-      </PedestrianCatalog>
-      <MiscObjectCatalog>
-         <Directory path="Catalogs/MiscObjectCatalogs"/>
-      </MiscObjectCatalog>
-      <EnvironmentCatalog>
-         <Directory path="Catalogs/EnvironmentCatalogs"/>
-      </EnvironmentCatalog>
-      <ManeuverCatalog>
-         <Directory path="Catalogs/ManeuverCatalogs"/>
-      </ManeuverCatalog>
-      <TrajectoryCatalog>
-         <Directory path="Catalogs/TrajectoryCatalog"/>
-      </TrajectoryCatalog>
-      <RouteCatalog>
-         <Directory path="Catalogs/RoutingCatalog"/>
-      </RouteCatalog>
-   </CatalogLocations>
    <RoadNetwork>
       <LogicFile filepath="SampleDatabase_01.xodr"/>
       <SceneGraphFile filepath="SampleDatabase_01.opt.osgb"/>
@@ -38,15 +12,9 @@
    <Entities>
       <ScenarioObject name="Ego">
          <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
-         <ObjectController>
-            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-         </ObjectController>
       </ScenarioObject>
       <ScenarioObject name="Man_200_1">
          <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
-         <ObjectController>
-            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-         </ObjectController>
       </ScenarioObject>
    </Entities>
    <Storyboard>

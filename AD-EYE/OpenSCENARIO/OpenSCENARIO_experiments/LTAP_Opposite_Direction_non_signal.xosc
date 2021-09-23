@@ -1,55 +1,19 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is turning left at signal junction" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-08-21T10:00:00" description="Non ego vehicle, coming from an opposite direction, is turning left at a non signal junction" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
-
-    <Catalogs>
-        <VehicleCatalog>
-            <Directory path="Catalogs/VehicleCatalogs"/>
-        </VehicleCatalog>
-        <DriverCatalog>
-            <Directory path="Catalogs/DriverCatalogs"/>
-        </DriverCatalog>
-        <PedestrianCatalog>
-            <Directory path="Catalogs/ObserverCatalogs"/>
-        </PedestrianCatalog>
-        <PedestrianControllerCatalog>
-            <Directory path="Catalogs/PedestrianCatalogs"/>
-        </PedestrianControllerCatalog>
-        <MiscObjectCatalog>
-            <Directory path="Catalogs/MiscObjectCatalogs"/>
-        </MiscObjectCatalog>
-        <EnvironmentCatalog>
-            <Directory path="Catalogs/EnvironmentCatalogs"/>
-        </EnvironmentCatalog>
-        <ManeuverCatalog>
-            <Directory path="Catalogs/ManeuverCatalogs"/>
-        </ManeuverCatalog>
-        <TrajectoryCatalog>
-            <Directory path="Catalogs/TrajectoryCatalog"/>
-        </TrajectoryCatalog>
-        <RouteCatalog>
-            <Directory path="Catalogs/RoutingCatalog"/>
-        </RouteCatalog>
-    </Catalogs>
 
     <Entities>
         <ScenarioObject name="Ego">
             <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
 
         <ScenarioObject name="Ford_Fiesta_Hatchback_1">
             <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
     </Entities>
-  
+   
    <Storyboard>
         <Init>
             <Actions>
@@ -57,21 +21,21 @@
                     <EnvironmentAction>
                         <Environment>
                             <Weather>
-                                <Precipitation type="typeRain" intensity="{0.5;1.5}" />
+                                <Precipitation type="typeRain" intensity="0.5" />
                             </Weather>
                             <RoadCondition frictionScaleFactor="1.0"/>
                         </Environment>
                     </EnvironmentAction>
                 </GlobalAction>
- 
+
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="122.34"
-                                                y="171.29"
+                                <WorldPosition x="134"
+                                                y="236.68"
                                                 z="0"
-                                                h="pi/32"
+                                                h="-pi/2"
                                                 p="0"
                                                 r="0"/>
                             </Position>
@@ -92,10 +56,10 @@
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="142.62"
-                                                y="174.87"
+                                <WorldPosition x="137.4"
+                                                y="216.03"
                                                 z="0"
-                                                h="pi"
+                                                h="pi/2"
                                                 p="0"
                                                 r="0"/>
                             </Position>
@@ -124,6 +88,35 @@
                     </Actors>
 
                     <Maneuver name="Turn">
+                        <Event name="Accelerate" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="AccelerateAction">
+                                <PrivateAction>
+                                    <LateralAction>
+                                        <LaneChangeAction>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="time"/>
+                                            <LaneChangeTarget>
+                                                <AbsoluteTargetLane value= "-23"/> 
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="20.0" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+
                         <Event priority="overwrite" name="TurnEvent" maximumExecutionCount="1">
                             <Action name="TurnActions">
                                 <PrivateAction>
@@ -131,7 +124,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="distance"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-23"/>
+                                                <AbsoluteTargetLane value= "-23"/> 
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>
@@ -146,35 +139,6 @@
                                             </TriggeringEntities>
                                             <EntityCondition>
                                                 <SpeedCondition freespace="false" rule="greaterThan" value="1.0"/>
-                                            </EntityCondition>
-                                        </ByEntityCondition>
-                                    </Condition>
-                                </ConditionGroup>
-                            </StartTrigger>
-                        </Event>
-
-                        <Event name="Accelerate" priority="overwrite" maximumExecutionCount="1">
-                            <Action name="AccelerateAction">
-                                <PrivateAction>
-                                    <LongitudinalAction>
-                                        <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
-                                            <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "15"/> 
-                                            </SpeedActionTarget>
-                                        </SpeedAction>
-                                    </LongitudinalAction>
-                                </PrivateAction>
-                            </Action>
-                            <StartTrigger>
-                                <ConditionGroup>
-                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
-                                        <ByEntityCondition>
-                                            <TriggeringEntities triggeringEntitiesRule="any">
-                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
-                                            </TriggeringEntities>
-                                            <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="20.0" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>
