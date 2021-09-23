@@ -17,7 +17,7 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
                 for x = 1:length(findBlock(:,1))
                     ports(x,1)=get_param(findBlock(x,1),'PortConnectivity');
                     portName = get_param(ports(x,1).SrcBlock,'name');
-                    %location of where the terminators where connected to
+                    %location of where the terminators are connected to
                     locationPortName(x,1)= convertCharsToStrings(portName);
                     if(getSimulinkBlockHandle(findBlock(x,1)) ~= -1)
                         delete_block(findBlock{x,1})
@@ -104,8 +104,7 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
                 ports(x,1) = portsDynamicsEmpty(j,1);
             end
 
-            %Create another varable with all the names of input port of the Main_block for comparision
-            %h2 is variable h1 stripped down
+            %Create another variable with all the names of input port of the Main_block for comparision
             splittedPathToStepBlock2 = splittedPathToStepBlock;
             for k = 1:length(splittedPathToStepBlock)
                 for p =length(splittedPathToStepBlock):-1:0

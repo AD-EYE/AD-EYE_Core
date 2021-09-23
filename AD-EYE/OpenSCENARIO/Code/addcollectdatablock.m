@@ -18,7 +18,7 @@ Struct_pex = xml2struct(strcat( "..\..\Experiments\",name_experiment,"\OpenSCENA
 [Struct_OpenSCENARIO,Struct_pex]= initializeactors(Struct_OpenSCENARIO,Struct_pex,nameEgo);
 %Making Trajectory variable
 [trajectory_variable] = trajectorydeclaring(models,Struct_OpenSCENARIO);
-%count number of events per story  (story in ech column)
+%count number of events per story  (story in each column)
 [Lateral_events,Longitudinal_events] = trajectorycounter(models,Struct_OpenSCENARIO,trajectory_variable);
 
 
@@ -89,7 +89,7 @@ Struct_pex = xml2struct(strcat( "..\..\Experiments\",name_experiment,"\OpenSCENA
                                                     end %for loop number of events (trajectories)
                                                 end
                                             end %if statement which story belongs to which object
-                                        end %numb er of maneuvers
+                                        end %number of maneuvers
                                     end %if statement which object has trajectories
                                 end %Check if object has which event
                             end %if statement to check existence of object in trajectory_variable
