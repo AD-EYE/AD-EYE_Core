@@ -36,7 +36,7 @@
 
     <Entities>
         <ScenarioObject name="Ego">
-            <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+            <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
             <ObjectController>
                 <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
             </ObjectController>
@@ -49,83 +49,83 @@
             </ObjectController>
         </ScenarioObject>
     </Entities>
-
-    <GlobalAction>
-	    <EnvironmentAction>
-		    <Environment>
-			    <Weather>
-				    <Precipitation type="typeRain" intensity="0.5" />
-			    </Weather>
-                <RoadCondition frictionScaleFactor="1.0"/>
-		    </Environment>
-	    </EnvironmentAction>
-    </GlobalAction>
    
    <Storyboard>
         <Init>
             <Actions>
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <Weather>
+                                <Precipitation type="typeRain" intensity="0.5" />
+                            </Weather>
+                            <RoadCondition frictionScaleFactor="1.0"/>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+
                 <Private entityRef="Ego">
-                    <PrivateAction>
-                        <LongitudinalAction>
-                            <SpeedAction>
-                            <SpeedActionDynamics dynamicsShape="step"/>
-                            <SpeedActionTarget>
-                                <AbsoluteTargetSpeed value="15"/>
-                            </SpeedActionTarget>
-                            </SpeedAction>
-                        </LongitudinalAction>
-                    </PrivateAction>
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                            <WorldPosition x="424.0"
-                                            y="174.24"
-                                            z="0"
-                                            h="pi"
-                                            p="0"
-                                            r="0"/>
+                                <WorldPosition x="424.0"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
                             </Position>
                         </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="15"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
                     </PrivateAction>
                 </Private>
                 <Private entityRef="Ford_Fiesta_Hatchback_1">
                     <PrivateAction>
-                        <LongitudinalAction>
-                            <SpeedAction>
-                            <SpeedActionDynamics dynamicsShape="step"/>
-                            <SpeedActionTarget>
-                                <AbsoluteTargetSpeed value="5"/>
-                            </SpeedActionTarget>
-                            </SpeedAction>
-                        </LongitudinalAction>
-                    </PrivateAction>
-                    <PrivateAction>
                         <TeleportAction>
                             <Position>
-                            <WorldPosition x="385.0"
-                                            y="174.24"
-                                            z="0"
-                                            h="pi"
-                                            p="0"
-                                            r="0"/>
+                                <WorldPosition x="385.0"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
                             </Position>
                         </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="5"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
                     </PrivateAction>
                 </Private>
             </Actions>
         </Init>
 
-        <Story name="DeceleratingStory" >
+        <Story name="AcceleratingStory" >
             <ParameterDeclaration/>
-            <Act name="DeceleratingAct">
-                <ManeuverGroup name="DeceleratingSequence" maximumExecutionCount="1">
+            <Act name="AcceleratingAct">
+                <ManeuverGroup name="AcceleratingSequence" maximumExecutionCount="1">
                     <Actors selectTriggeringEntities="false">
                         <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                     </Actors>
 
-                    <Maneuver name="Decelerating">
-                        <Event priority="overwrite" name="KeepSameDistance" maximumExecutionCount="1">
-                            <Action name="KeepingDistanceActions">
+                    <Maneuver name="Accelerating">
+                        <Event priority="overwrite" name="Accelerating" maximumExecutionCount="1">
+                            <Action name="AcceleratingActions">
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <SpeedAction>
@@ -145,7 +145,7 @@
                                                 <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                                             </TriggeringEntities>
                                             <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="35.0" relativeDistanceType="Longitudinal"/>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="30.0" relativeDistanceType="Longitudinal"/>
                                             </EntityCondition>
                                         </ByEntityCondition>
                                     </Condition>

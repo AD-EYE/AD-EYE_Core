@@ -58,7 +58,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="{5.5,0.56,8.3}"/>
+                           <AbsoluteTargetSpeed value="{5.5,0.56,5.5}"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -128,7 +128,7 @@
                                     <EntityRef entityRef="Man_200_1"/>
                                  </TriggeringEntities>
                                  <EntityCondition>
-                                    <DistanceCondition value="[20,2,40]"
+                                    <DistanceCondition value="[20,2,20]"
                                                        freespace="false"
                                                        alongRoute="false"
                                                        rule="lessThan">

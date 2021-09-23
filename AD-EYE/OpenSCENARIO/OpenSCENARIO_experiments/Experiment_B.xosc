@@ -55,18 +55,41 @@
          <Actions>
             <Private entityRef="Ego">
                <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="380.0"
+                                       y="174.87"
+                                       z="0"
+                                       h="pi"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+               <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="{5.5,1.4,13.9}"/>
+                           <AbsoluteTargetSpeed value="5.5"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
                </PrivateAction>
-               <PrivateAction/>
             </Private>
             <Private entityRef="GhostActors">
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="380.0"
+                                       y="174.87"
+                                       z="0"
+                                       h="pi"
+                                       p="0"
+                                       r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -76,18 +99,6 @@
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="380.0"
-                                       y="174.24"
-                                       z="0"
-                                       h="pi"
-                                       p="0"
-                                       r="0"/>
-                     </Position>
-                  </TeleportAction>
                </PrivateAction>
             </Private>
          </Actions>

@@ -72,6 +72,13 @@
          <Actions>
             <Private entityRef="Ego">
                <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="137.74" y="136.28" z="0" h="pi" p="0" r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
+               <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
@@ -81,25 +88,8 @@
                      </SpeedAction>
                   </LongitudinalAction>
                </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="137.74" y="136.28" z="0" h="pi" p="0" r="0"/>
-                     </Position>
-                  </TeleportAction>
-               </PrivateAction>
             </Private>
             <Private entityRef="MercedesBenz_Actros_1851_LS_4x2_1">
-               <PrivateAction>
-                  <LongitudinalAction>
-                     <SpeedAction>
-                        <SpeedActionDynamics dynamicsShape="step"/>
-                        <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="50"/>
-                        </SpeedActionTarget>
-                     </SpeedAction>
-                  </LongitudinalAction>
-               </PrivateAction>
                <PrivateAction>
                   <TeleportAction>
                      <Position>
@@ -107,8 +97,6 @@
                      </Position>
                   </TeleportAction>
                </PrivateAction>
-            </Private>
-            <Private entityRef="BMW_X5_SUV_1">
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -119,6 +107,8 @@
                      </SpeedAction>
                   </LongitudinalAction>
                </PrivateAction>
+            </Private>
+            <Private entityRef="BMW_X5_SUV_1">
                <PrivateAction>
                   <TeleportAction>
                      <Position>
@@ -126,8 +116,25 @@
                      </Position>
                   </TeleportAction>
                </PrivateAction>
+               <PrivateAction>
+                  <LongitudinalAction>
+                     <SpeedAction>
+                        <SpeedActionDynamics dynamicsShape="step"/>
+                        <SpeedActionTarget>
+                           <AbsoluteTargetSpeed value="50"/>
+                        </SpeedActionTarget>
+                     </SpeedAction>
+                  </LongitudinalAction>
+               </PrivateAction>
             </Private>
             <Private entityRef="Lexus_GS_450h_F_Sport_Sedan_1">
+               <PrivateAction>
+                  <TeleportAction>
+                     <Position>
+                        <WorldPosition x="108.77" y="27.51" z="0" h="0" p="0" r="0"/>
+                     </Position>
+                  </TeleportAction>
+               </PrivateAction>
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -138,15 +145,15 @@
                      </SpeedAction>
                   </LongitudinalAction>
                </PrivateAction>
+            </Private>
+            <Private entityRef="Man_200_1">
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="108.77" y="27.51" z="0" h="0" p="0" r="0"/>
+                        <WorldPosition x="77.69" y="139.53" z="0" h="pi*3/2" p="0" r="0"/>
                      </Position>
                   </TeleportAction>
                </PrivateAction>
-            </Private>
-            <Private entityRef="Man_200_1">
                <PrivateAction>
                   <LongitudinalAction>
                      <SpeedAction>
@@ -156,13 +163,6 @@
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
-               </PrivateAction>
-               <PrivateAction>
-                  <TeleportAction>
-                     <Position>
-                        <WorldPosition x="77.69" y="139.53" z="0" h="pi*3/2" p="0" r="0"/>
-                     </Position>
-                  </TeleportAction>
                </PrivateAction>
             </Private>
          </Actions>
