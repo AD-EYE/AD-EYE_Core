@@ -320,6 +320,7 @@ class Manager:
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
         
         self.manager_features_handler = ManagerFeaturesHandler()
+        
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
@@ -344,7 +345,7 @@ class Manager:
         if self.current_features != self.previous_features:  # checks if the list of active features has changed
             self.startAndStopFeatures()
         self.state_pub.publish(self.manager_state_machine.getState().value)  # publish the state machine state (for GUI)
-        self.publishActiveFeatures()  # publish the current active features (for GUI)
+        self.publishBooleanListActiveFeatures()  # publish the current active features (for GUI)
 
     ##Callback method listening to the features requests (features that we want to activate/deactivate)
     #@param self The object pointer
@@ -450,17 +451,6 @@ class Manager:
             "xterm -hold -e bash " + adeye_package_location + "/sh/rosbag_stop ~/" + self.ROSBAG_PATH,
             shell=True, preexec_fn=os.setpgrp, executable='/bin/bash')
 
-    ##A method that publishes a list of integers (0 or 1) representing the active features (for GUI)
-    #@param self The object pointer
-    #def publishActiveFeatures(self):
-        #state_array = Int32MultiArray()
-        #for feature in self.manager_features_handler.features:
-            #if feature in self.current_features:
-                #state_array.data.append(1)
-            #else:
-                #state_array.data.append(0)
-        #self.features_pub.publish(state_array)
-
     def getBooleanListActiveFeatures(self):
         state_array = Int32MultiArray()
         for feature in self.manager_features_handler.features:
@@ -470,7 +460,7 @@ class Manager:
                 state_array.data.append(0)
 	return state_array
 
-# hard to test but no logic so we skip tests
+
     def publishBooleanListActiveFeatures(self):
         self.features_pub.publish(self.getBooleanListActiveFeatures())
 
