@@ -1,5 +1,6 @@
-function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
+function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
 
+        global collectdata;
 
     ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
     cleanup = onCleanup(@()(delete(ta_progress_bar)));
@@ -21,6 +22,10 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
       case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = min(lastcolumn, width(TAOrder));
+      case 5 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
+          TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+          lastcolumn = min(lastcolumn, width(TAOrder));
+          collectdata = [num2str(collectOutputs)];
       otherwise
           error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
@@ -48,13 +53,17 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
  
 
     for c = firstcolumn:min(lastcolumn,width(TAOrder))
-        runs(c).FolderExpName = TAOrder{'FolderExpName',c}{1};
-        runs(c).PrescanExpName = TAOrder{'PrescanExpName',c}{1};
+        runs(c).folderName = TAOrder{'folderExperiment',c}{1};
+        runs(c).prescanExperiment = TAOrder{'prescanExperiment',c}{1};
         runs(c).EgoName = TAOrder{'EgoName',c}{1};
-        runs(c).AutowareConfig = TAOrder{'AutowareConfig',c}{1};
-        runs(c).SimulinkConfig = [ta_path,'/Configurations/', TAOrder{'SimulinkConfig',c}{1}];
+        runs(c).TARosParameters = TAOrder{'TARosParameters',c}{1};
+        runs(c).TASimulinkParameters = [ta_path,'/Configurations/', TAOrder{'TASimulinkParameters',c}{1}];
   %     runs(c).GoalConfig = TAOrder{'GoalConfig',c}{1};
-        runs(c).TagsConfig = TAOrder{'TagsConfig',c}{1}; %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
+    end
+    
+    for c = firstcolumn:min(lastcolumn,width(TAOrder))
+         %'fl', 'fog', etc. are the tags assigned to parameters in PreScan experiment,go to Experiment > Test Automation Settings > Open Test Automation dialog box
+        runs(c).TagsConfig = split(split(TAOrder{'TagsConfig',c}{1},"/"),"=",1); % Split the string to a have a cell of parameters
     end
 
     
@@ -68,7 +77,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
         waitbar((run_index-firstcolumn+1) / (length(runs)-firstcolumn+1), ta_progress_bar,['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
-        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs);
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
         end
@@ -89,17 +98,17 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)
     clear()
 end
 
-function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files)
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs)
     tic
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
 
     setROSParamFromOpenSCENARIO(runs, run_index);
 
-    setROSParamAndLaunch(runs, run_index, device); % set ROS params from the AutowareConfig and starts the ADI
+    setROSParamAndLaunch(runs, run_index, device); % set ROS params from the TARosParameters and starts the ADI
 
     cd(ta_path)
-    cd(['../Experiments/',runs(run_index).FolderExpName]);
+    cd(['../Experiments/',runs(run_index).folderName]);
     MainExperiment = pwd;
 
     % creating experiment names and folders
@@ -118,7 +127,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     % Update the Simulink model
     load_system([simulink_name,'.slx']);
-    simconstantSet(runs(run_index).SimulinkConfig, run_name, runs(run_index).EgoName);
+    simconstantSet(runs(run_index).TASimulinkParameters, run_name, runs(run_index).EgoName);
     save_system([simulink_name,'.slx']);
 
     open_system(simulink_name); % Opens the simulink model for the next two function calls
@@ -149,6 +158,26 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
 
     %Close the experiment
     save_system(simulink_name);
+    if (collectOutputs)
+        i=0;
+        outputsLength = 0;
+        outputs=struct([]);
+        while (exist(strcat('simout_', num2str(i), '_1')) || exist(strcat('simout_', num2str(i), '_2')))
+            if (exist(strcat('simout_', num2str(i), '_1')))
+                outputsLength = outputsLength +1;
+                outputs{outputsLength, 1} = eval(strcat('simout_', num2str(i), '_1'));
+                i= i+1;
+            end
+            if (exist(strcat('simout_', num2str(i), '_2')))
+                outputsLength = outputsLength +1;
+                outputs{outputsLength, 1} = eval(strcat('simout_', num2str(i), '_2'));
+                i=i+1;
+            end
+        end
+        adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
+        addpath(adeye_base+"OpenSCENARIO\Code");
+        compareinitialfinalvalues(outputs);
+    end
     close_system(simulink_name);
 
     disp('Killing all the ros nodes');
@@ -172,7 +201,7 @@ function setROSParamAndLaunch(runs, run_index, device)
     sh_folder_path = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
     launch_template_modifier = strcat(sh_folder_path, '/' , 'launchTemplateModifier.sh'); % Script to run the node modifies the launch files 
     manager_file_launch = strcat(sh_folder_path, '/', 'managerFileLaunch.sh'); %contains command to launch manager file in adeye package
-    rosparamScript(runs(run_index).AutowareConfig, runs(run_index).PrescanExpName); % Send all the ros parameters to the linux computer
+    rosparamScript(runs(run_index).TARosParameters, runs(run_index).prescanExperiment); % Send all the ros parameters to the linux computer
     cd('..');
     disp('Python node recieving the ros parameters and modifying launch files');
     system(device, launch_template_modifier); 
@@ -212,19 +241,19 @@ function setROSParamFromOpenSCENARIO(runs, run_index)
     ptree = rosparam;
     cd ('..\OpenSCENARIO\Code')
 
-    splitted_string = split(runs(run_index).FolderExpName,"/");
+    splitted_string = split(runs(run_index).folderName,"/");
     experiment_name = splitted_string(end);
     clear splitted_string;
     experiment_name = experiment_name{1};
-    if isfile(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"))
-        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).FolderExpName,"/",experiment_name,".xosc"));
+    if isfile(strcat("../../Experiments/",runs(run_index).folderName,"/",experiment_name,".xosc"))
+        Struct_OpenSCENARIO = xml2struct(strcat("../../Experiments/",runs(run_index).folderName,"/",experiment_name,".xosc"));
         if(field_exists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value"))
             set(ptree,'/simulink/trigger_distance',str2double(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story.Act.Sequence.Maneuver.Event{1,1}.StartConditions.ConditionGroup.Condition.ByEntity.EntityCondition.Distance.Attributes.value));
             disp('Setting ros parameters from OpenSCENARIO file');
         end
     end
 
-%         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).AutowareConfig));
+%         rosparamTable = readROSConfigTable(strcat("../../TA/Configurations/",Run(run).TARosParameters));
 %         [index,] = intersect(find(rosparamTable{:,2}=="op_common_params"),find(rosparamTable{:,3}=="maxVelocity"));
 %         if ~isempty(index)
 %             set(ptree,'/simulink/trigger_distance',str2double(rosparamTable{index,7}));
@@ -247,8 +276,8 @@ end
 
 function storeConfiguration(runs, run_index, ta_path, run_directory, settings)
     % Put the configuration files with the experiment
-    copyfile(runs(run_index).SimulinkConfig,run_directory)
-    copyfile(strcat(ta_path,"/Configurations/",runs(run_index).AutowareConfig),run_directory)
+    copyfile(runs(run_index).TASimulinkParameters,run_directory)
+    copyfile(strcat(ta_path,"/Configurations/",runs(run_index).TARosParameters),run_directory)
     % Store current settings to file.
     fileID = fopen([run_directory '\settings.txt'],'wt');
     for line=1:length(settings)
@@ -278,21 +307,23 @@ function logInit()
     fclose(fileID);
 end
 
-function setting = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
+function settings = duplicateTemplatePrescanExperiment(MainExperiment, runs, run_index, run_directory)
     % Create the complete command.
-    setting = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
+    settings = cellstr('Altered Settings:'); %takes all the parameter tags and its values from Run.TagsConfig() ...
     ...and save it in cell array named 'Settings'
     command = 'PreScan.CLI.exe'; %all the commands in 'Command' variable ...
     ...are concatenated and executed using a dos function in the end
-    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).PrescanExpName, '.pex');
+    CurrentExperiment = strcat(MainExperiment, '\', runs(run_index).prescanExperiment, '.pex');
     command = [command ' -load ' '"' CurrentExperiment '"']; %load the MainExperiment in PreScan
     command = [command ' -save ' '"' run_directory '"']; %save it in ResultDir created    
-    for setting=1:size(runs(run_index).TagsConfig,1) %size of each cell in ...
+    for setting=1:size(runs(run_index).TagsConfig,2) %size of each cell in ...
         ...Run.TagsConfig() consisting test automation tags and its values
-        tag = runs(run_index).TagsConfig{setting,1};
-        val = num2str(runs(run_index).TagsConfig{setting,2}, '%50.50g');
-        command = [command ' -set ' tag '=' val];
-        setting(end+1) = cellstr([tag ' = ' val]);
+        if size(runs(run_index).TagsConfig,2)>=2
+            tag = runs(run_index).TagsConfig{1,setting};
+            val = num2str(runs(run_index).TagsConfig{2,setting}, '%50.50g');
+            command = [command ' -set ' tag '=' val];
+            settings(end+1) = cellstr([tag ' = ' val]);
+        end
     end
     command = [command ' -realignPaths']; %unknown use from PreScan
     command = [command ' -build']; %build the experiment    

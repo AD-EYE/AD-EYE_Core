@@ -1,6 +1,6 @@
 <OpenSCENARIO>
 
-    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle decelerates" author="Alicia Fossard"/>
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is turning left at non signal junction" author="Alicia Fossard"/>
 
     <ParameterDeclaration/>
 
@@ -13,7 +13,7 @@
             <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
         </ScenarioObject>
     </Entities>
-  
+
    <Storyboard>
         <Init>
             <Actions>
@@ -27,15 +27,15 @@
                         </Environment>
                     </EnvironmentAction>
                 </GlobalAction>
- 
+   
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                            <WorldPosition x="424.0"
-                                            y="174.87"
+                                <WorldPosition x="33.77"
+                                            y="171.37"
                                             z="0"
-                                            h="pi"
+                                            h="0.0001"
                                             p="0"
                                             r="0"/>
                             </Position>
@@ -51,17 +51,17 @@
                             </SpeedAction>
                         </LongitudinalAction>
                     </PrivateAction>
-                </Private>
+                    </Private>
                 <Private entityRef="Ford_Fiesta_Hatchback_1">
                     <PrivateAction>
                         <TeleportAction>
                             <Position>
-                                <WorldPosition x="380.0"
-                                                y="174.87"
-                                                z="0"
-                                                h="pi"
-                                                p="0"
-                                                r="0"/>
+                                <WorldPosition x="68.12"
+                                            y="180.70"
+                                            z="0"
+                                            h="-pi/2"
+                                            p="0"
+                                            r="0"/>
                             </Position>
                         </TeleportAction>
                     </PrivateAction>
@@ -70,7 +70,7 @@
                             <SpeedAction>
                                 <SpeedActionDynamics dynamicsShape="step"/>
                                 <SpeedActionTarget>
-                                    <AbsoluteTargetSpeed value="5"/>
+                                    <AbsoluteTargetSpeed value="0.1"/>
                                 </SpeedActionTarget>
                             </SpeedAction>
                         </LongitudinalAction>
@@ -79,47 +79,24 @@
             </Actions>
         </Init>
 
-        <Story name="DeceleratingStory" >
+        <Story name="TurnStory" >
             <ParameterDeclaration/>
-            <Act name="DeceleratingAct">
-                <ManeuverGroup name="DeceleratingSequence" maximumExecutionCount="1">
+            <Act name="TurnAct">
+                <ManeuverGroup name="TurnSequence" maximumExecutionCount="1">
                     <Actors selectTriggeringEntities="false">
                         <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                     </Actors>
 
-                    <Maneuver name="KeepDistance">
-                        <Event priority="overwrite" name="KeepSameDistance" maximumExecutionCount="1">
-                            <Action name="KeepingDistanceActions">
-                                <PrivateAction>
-                                    <LongitudinalAction>
-                                        <LongitudinalDistanceAction  entityRef= "Ego" distance="30" continuous="true">
-                                            <DynamicConstraints maxSpeed="10" maxAcceleration="5" maxDeceleration="3"/>
-                                        </LongitudinalDistanceAction>
-                                </PrivateAction>
-                            </Action>
-                            <StartTrigger>
-                                <ConditionGroup>
-                                    <Condition name="MyStartCondition1" delay="0" conditionEdge="rising">
-                                        <ByEntityCondition>
-                                            <TriggeringEntities triggeringEntitiesRule="any">
-                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
-                                            </TriggeringEntities>
-                                            <EntityCondition>
-                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="20.0" relativeDistanceType="Longitudinal"/>
-                                            </EntityCondition>
-                                        </ByEntityCondition>
-                                    </Condition>
-                                </ConditionGroup>
-                            </StartTrigger>
-                        </Event>
-                        <Event name="DeceleratingEvent" priority="overwrite" maximumExecutionCount="1">
-                            <Action name="DeceleratingAction">
+                    <Maneuver name="Turn">
+
+                        <Event name="Accelerate" priority="overwrite" maximumExecutionCount="1">
+                            <Action name="AccelerateAction">
                                 <PrivateAction>
                                     <LongitudinalAction>
                                         <SpeedAction>
-                                            <SpeedActionDynamics dynamicsShape="linear" value="4.0" dynamicsDimension="rate"/>
+                                            <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
                                             <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "0"/> 
+                                                <RelativeTargetSpeed value= "15"/> 
                                             </SpeedActionTarget>
                                         </SpeedAction>
                                     </LongitudinalAction>
@@ -127,10 +104,44 @@
                             </Action>
                             <StartTrigger>
                                 <ConditionGroup>
-                                    <Condition name="Simulation Time" delay="0" conditionEdge="rising">
-                                        <ByValueCondition>
-                                            <SimulationTimeCondition rule="greaterThan" value="7"/>
-                                        </ByValueCondition>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Ego" value="15.0" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+
+                        <Event priority="overwrite" name="TurnEvent" maximumExecutionCount="1">
+                            <Action name="TurnActions">
+                                <PrivateAction>
+                                    <LateralAction>
+                                        <LaneChangeAction>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="distance"/>
+                                            <LaneChangeTarget>
+                                                <AbsoluteTargetLane value= "-23"/> 
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <SpeedCondition freespace="false" rule="greaterThan" value="1.0"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
                                     </Condition>
                                 </ConditionGroup>
                             </StartTrigger>

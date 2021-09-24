@@ -1,4 +1,4 @@
-function [Struct_OpenSCENARIO,Struct_pex]= initialize_actors(Struct_OpenSCENARIO,Struct_pex,name_ego)
+function [Struct_OpenSCENARIO,Struct_pex]= initializeactors(Struct_OpenSCENARIO,Struct_pex,name_ego)
 
 %%%%%%%%%%Vehicle/Pedestrians
 
@@ -39,7 +39,7 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
         end
 
         %[models] = parameter_sweep_bicycle(array, i, models,Struct_OpenSCENARIO,Struct_pex,k );    %changing ScenarioObject parameters
-        [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial conditions
+        [Struct_pex] = parametersweepinitialpositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial conditions
     end %first main if statement
     
     %checking type of pedestrian
@@ -47,9 +47,8 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
             .Pedestrian.Attributes.category) == "pedestrian" ) %Check pedestrain field
         k = 4;
         %[models] = parameter_sweep_pedestrian(array, i, models,Struct_OpenSCENARIO,Struct_pex,k );  %changing ScenarioObject parameter
-        [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial conditions
-    end
-    
+        [Struct_pex] = parametersweepinitialpositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial conditions
+    end   
     
     
     
@@ -88,8 +87,22 @@ for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject) %Decl
             disp('miep')
         end
         
+        %checking if field is in MiscObjectCatalogs
+        if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "MiscObjectCatalogs")
+            disp('In MiscObjectCatalogs')
+            k = 5;
+            disp('miep')
+        end
+        
+        %checking if field is in CyclistCatalog
+        if(convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.Entities.ScenarioObject{1, i}.CatalogReference.Attributes.catalogName) == "CyclistCatalog")
+            disp('In CyclistCatalog')
+            k = 9;  % Motorbike
+            disp('miep')
+        end
+        
         %[models] = parameter_sweep_vehicle(array, i, models,Struct_OpenSCENARIO,Struct_pex,k ); %changing ScenarioObject parameters
-        [Struct_pex] = parameter_sweep_initalPositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial condition
+        [Struct_pex] = parametersweepinitialpositions(Struct_OpenSCENARIO,Struct_pex,k,i); %changing initial condition
     end
     
 end %main for loop
@@ -112,19 +125,25 @@ if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard,'Story'))
     for k = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story)
 
         if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k},'Act') == 1)
-            if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act,'ManeuverGroup') == 1)
+            %make cell of Acts to allow multiple Acts
+            if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act) == 1)
+                Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act =  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act};
+            end
+            for a =1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act)
+                if(isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a},'ManeuverGroup') == 1)
 
-                %make cell of Maneuvers to allow for multiple Maneuvers
-                if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver) == 1)
-                    Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver};
-                end
-
-                for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver)
-                    %make cell of Events to allow for multiple Events
-                    if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event) == 1)
-                        Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act.ManeuverGroup.Maneuver{1,i}.Event};
+                    %make cell of Maneuvers to allow for multiple Maneuvers
+                    if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver) == 1)
+                        Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver};
                     end
 
+                    for i = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver)
+                        %make cell of Events to allow for multiple Events
+                        if(length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event) == 1)
+                            Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event=  {Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,k}.Act{1,a}.ManeuverGroup.Maneuver{1,i}.Event};
+                        end
+
+                    end
                 end
             end
         end

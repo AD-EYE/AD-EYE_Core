@@ -1,34 +1,41 @@
 <OpenSCENARIO>
-   <FileHeader revMajor="0"
-               revMinor="9"
-               date="2017-07-26T10:00:00"
-               description="Sample Scenario - Double Lane Changer"
-               author="Andreas Biehn"/>
-   <ParameterDeclarations/>
-   <RoadNetwork>
-      <LogicFile filepath="SampleDatabase_01.xodr"/>
-      <SceneGraphFile filepath="SampleDatabase_01.opt.osgb"/>
-   </RoadNetwork>
-   <Entities>
-      <ScenarioObject name="Ego">
-         <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
-      </ScenarioObject>
-      <ScenarioObject name="Man_200_1">
-         <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>1
-      </ScenarioObject>
-   </Entities>
-   
+
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Non ego vehicle is running a stop sign" author="Alicia Fossard"/>
+
+    <ParameterDeclaration/>
+
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
+        </ScenarioObject>
+
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
+        </ScenarioObject>
+    </Entities>
+  
    <Storyboard>
       <Init>
          <Actions>
+            <GlobalAction>
+               <EnvironmentAction>
+                  <Environment>
+                     <Weather>
+                        <Precipitation type="typeRain" intensity="0.5" />
+                     </Weather>
+                        <RoadCondition frictionScaleFactor="1.0"/>
+                  </Environment>
+               </EnvironmentAction>
+            </GlobalAction>
+ 
             <Private entityRef="Ego">
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="155.26860046386719"
-                                       y="-337.81317138671875"
+                        <WorldPosition x="51.26"
+                                       y="171.02"
                                        z="0"
-                                       h="215*pi/180"
+                                       h="0.0"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -39,20 +46,20 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="5.5"/>
+                           <AbsoluteTargetSpeed value="15"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
                </PrivateAction>
             </Private>
-            <Private entityRef="GhostActors">
+            <Private entityRef="Ford_Fiesta_Hatchback_1">
                <PrivateAction>
                   <TeleportAction>
                      <Position>
-                        <WorldPosition x="380.0"
-                                       y="174.87"
+                        <WorldPosition x="71.58"
+                                       y="160.11"
                                        z="0"
-                                       h="pi"
+                                       h="pi/2"
                                        p="0"
                                        r="0"/>
                      </Position>
@@ -63,7 +70,7 @@
                      <SpeedAction>
                         <SpeedActionDynamics dynamicsShape="step"/>
                         <SpeedActionTarget>
-                           <AbsoluteTargetSpeed value="0"/>
+                           <AbsoluteTargetSpeed value="5"/>
                         </SpeedActionTarget>
                      </SpeedAction>
                   </LongitudinalAction>
@@ -71,5 +78,6 @@
             </Private>
          </Actions>
       </Init>
-   </Storyboard>
+    </Storyboard>
+
 </OpenSCENARIO>

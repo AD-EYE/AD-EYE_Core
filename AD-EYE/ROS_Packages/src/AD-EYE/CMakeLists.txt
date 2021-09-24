@@ -64,12 +64,6 @@ add_library(
 add_library(
   experimentRecording src/experiment_recording.cpp
 )
-
-# add_library(
-#   scenarioManagerTemplate src/scenario_manager_template.cpp
-# )
-
-
 # add_library(
 #   pointCloudToOccupancyGridLib src/point_cloud_to_occupancy_grid.cpp
 # )
@@ -139,6 +133,7 @@ add_executable(
   goalSequencer
   src/goal_sequencer.cpp
 )
+
 
 target_link_libraries(
   GridMapCreator
@@ -257,9 +252,20 @@ add_dependencies(goalSequencer
 )
 
 
+# Add the executable, libraries and dependencies for sensor monitor node
+add_executable(
+  sensorMonitor
+  src/sensor_monitor.cpp
+)
 
+target_link_libraries(
+  sensorMonitor
+  ${catkin_LIBRARIES}
+)
 
-
+add_dependencies(sensorMonitor
+  ${catkin_EXPORTED_TARGETS}
+)
 
 
 
