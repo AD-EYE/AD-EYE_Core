@@ -46,6 +46,7 @@ private:
     ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
     ros::Subscriber sub_sensor_fov_;
+    ros::Subscriber sub_goal_coordinates_;
 
     // constants
     const bool SAFE = false;
@@ -128,6 +129,10 @@ private:
     jsk_recognition_msgs::PolygonArray sensors_fov_;
     bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
+
+    bool broke_at_least_once_ = false; // To know if there already is at least 1 anomaly
+    bool is_anomaly_fix_ = false; // To know if there already is an anomaly and if it is fixed
+    geometry_msgs::PoseStamped initial_goal_coordinates_;
 
     /*!
      * \brief currentVelocity Callback : Updates the knowledge about the car speed.
@@ -214,6 +219,12 @@ private:
     {
         sensors_fov_ = *msg;
         sensors_fov_flag_ = true;
+    }
+
+    void storeGoalCoordinatesCallback(const geometry_msgs::PoseStampedConstPtr& msg)
+    {
+        initial_goal_coordinates_.header.frame_id = "world";
+        initial_goal_coordinates_.pose = msg->pose;
     }
 
     /*!
@@ -860,9 +871,21 @@ private:
                 if(all_tests_passed)
                     ROS_DEBUG_STREAM("All tests are PASS");
                 switchNominalChannel();
+                // If there is at least 1 anomaly
+                if(broke_at_least_once_) {
+                    is_anomaly_fix_ = true;
+                    broke_at_least_once_ = false;
+                }
+                // If there is at least 1 anomaly fixed
+                if(is_anomaly_fix_) {
+                    // Redefine the initial goal
+                    pub_autoware_goal_.publish(initial_goal_coordinates_);
+                }
                 ROS_INFO("Decision: Go to initial goal");
                 break;
             case REST_AREA:
+                broke_at_least_once_ = true;
+                is_anomaly_fix_ = false;
                 redefineGoalRestArea();
                 ROS_INFO("Decision: Stop in rest area");
                 break;
@@ -1169,6 +1192,7 @@ public:
         sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
         sub_sensor_fov_ = nh.subscribe("/sensor_fov", 1, &SafetySupervisor::sensorFovCallback, this);
+        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
 
         // Initialization loop
         waitForInitialization();
