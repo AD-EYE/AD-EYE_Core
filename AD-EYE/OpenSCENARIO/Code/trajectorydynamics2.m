@@ -512,8 +512,8 @@ for j = 1:length(models.worldmodel.object)
                                                                 set_param(convertStringsToChars(strcat(locationBlockTrajectory,blockConditionTrajectory,"/Constant5")) ,'value', trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value) 
                                                                 %%%%%%%%%%%% Add block to send ROS condition
-                                                                add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value', trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
-                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
+%                                                                 add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value', trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
+%                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
 
                                                             end
 
@@ -690,7 +690,7 @@ for j = 1:length(models.worldmodel.object)
                                                         set_param(locationDynamicsEmpty,'Position',[X Y X+WIDTH Y+HEIGHT]);
                                                         % disable link to library
                                                         set_param(locationDynamicsEmpty, 'LinkStatus','inactive');
-                                                        set_param(convertStringsToChars(strcat(locationTrajectoryDynamics,blockConditionSource,"/Goto4")),'TagVisibility','global');
+                                                        set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/Goto4")),'TagVisibility','global');
                                                         for h =1: length( models.worldmodel.object)
                                                             if(convertCharsToStrings(models.worldmodel.object{h,1}.name)=="Ego")
                                                                 set_param(convertStringsToChars(strcat(locationBlockConditionSource,"/From4")),'GotoTag',convertStringsToChars(strcat("x_",blockId(1,h) ) )  )
@@ -710,6 +710,8 @@ for j = 1:length(models.worldmodel.object)
                                                         add_line(strcat(locationBlockConditionSource), 'Create_Distance_Function/1', 'ROS Send Distance/1');
                                                         add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockConditionSource,"/EnableSendDistance"),'value', '1');
                                                         add_line(strcat(locationBlockConditionSource), 'EnableSendDistance/1', 'ROS Send Distance/Enable');
+                                                        open_system(strcat(locationBlockConditionSource));
+                                                        delete_block(strcat(locationBlockConditionSource,'/Goto4'));
                                                         % change the size and the position of the added block
                                                         size_blk = get_param(convertStringsToChars(strcat(locationBlockConditionSource,"/EnableSendDistance")),'Position');
                                                         X = size_blk(1,1)+10;
