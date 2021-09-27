@@ -825,39 +825,57 @@ private:
                 switch(current_test)
                 {
                     case CHECK_ACTIVE_NODES_LEVEL_ONE:
-                        most_critical_level = INITIAL_GOAL;
+                        if(most_critical_level <= INITIAL_GOAL) {
+                            most_critical_level = INITIAL_GOAL;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_ONE +1 <<  " is FAIL");
                         break;
                     case CHECK_ACTIVE_NODES_LEVEL_TWO:
-                        most_critical_level = REST_AREA;
+                        if(most_critical_level <= REST_AREA) {
+                            most_critical_level = REST_AREA;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_TWO +1 <<  " is FAIL");
                         break;
                     case CHECK_CAMERA_2_ACTIVE:
-                        most_critical_level = REST_AREA;
+                        if(most_critical_level <= REST_AREA) {
+                            most_critical_level = REST_AREA;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_CAMERA_2_ACTIVE +1 <<  " is FAIL");
                         break;
                     case CHECK_ACTIVE_NODES_LEVEL_THREE:
-                        most_critical_level = ROAD_SIDE_PARKING;
+                        if(most_critical_level <= ROAD_SIDE_PARKING) {
+                            most_critical_level = ROAD_SIDE_PARKING;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_THREE +1 <<  " is FAIL");
                         break;
                     case CHECK_CAMERA_1_ACTIVE:
-                        most_critical_level = ROAD_SIDE_PARKING;
+                        if(most_critical_level <= ROAD_SIDE_PARKING) {
+                            most_critical_level = ROAD_SIDE_PARKING;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_CAMERA_1_ACTIVE +1 <<  " is FAIL");
                         break;
                     case CHECK_ACTIVE_NODES_LEVEL_FOUR:
-                        most_critical_level = IMMEDIATE_STOP;
+                        if(most_critical_level <= IMMEDIATE_STOP) {
+                            most_critical_level = IMMEDIATE_STOP;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_FOUR +1 <<  " is FAIL");
                         break;
                     case CHECK_CAMERA_TL_ACTIVE:
-                        most_critical_level = IMMEDIATE_STOP;
+                        if(most_critical_level <= IMMEDIATE_STOP) {
+                            most_critical_level = IMMEDIATE_STOP;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_CAMERA_TL_ACTIVE +1 <<  " is FAIL");
                         break;
                     case CHECK_LIDAR_ACTIVE:
-                        most_critical_level = IMMEDIATE_STOP;
+                        if(most_critical_level <= IMMEDIATE_STOP) {
+                            most_critical_level = IMMEDIATE_STOP;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_LIDAR_ACTIVE +1 <<  " is FAIL");
                         break;
                     case CHECK_RADAR_ACTIVE:
-                        most_critical_level = IMMEDIATE_STOP;
+                        if(most_critical_level <= IMMEDIATE_STOP) {
+                            most_critical_level = IMMEDIATE_STOP;
+                        }
                         ROS_WARN_STREAM("The test " << CHECK_RADAR_ACTIVE +1 <<  " is FAIL");
                         break;
                 }
