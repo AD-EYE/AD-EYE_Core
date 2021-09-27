@@ -20,8 +20,8 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 % TASimulinkParametersTemplates = ["SimulinkConfig.xlsx"];
 
 %% Scenario 1
-xoscFinaleNames = ["Evasive_Action_Maneuver"];
-folderNames = ["Evasive_Action_Maneuver"];
+xoscFinaleNames = ["Decelerating"];
+folderNames = ["Decelerating"];
 prescanExperimentTemplates = ["W01_Base_Map"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkConfigExpBmap1goal1.xlsx"];

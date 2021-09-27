@@ -37,7 +37,7 @@ for i = 1:length(velocityVariable(:,1))
                     for q  = 1:length(findTerminatorNames(:,1))
                         S1=get_param(findTerminatorNames(q,1),'PortConnectivity');
                         S2 = get_param(S1.SrcBlock,'name');
-                        %location of where the terminators where connected to
+                        %location of where the terminators are connected to
                         locationBlockSelfDemux= convertCharsToStrings(S2);
                         if(getSimulinkBlockHandle(findTerminatorNames(q,1)) ~= -1)
                             delete_block(findTerminatorNames(q,1))
