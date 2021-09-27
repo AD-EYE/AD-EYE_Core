@@ -866,7 +866,6 @@ private:
             case INITIAL_GOAL:
                 if(all_tests_passed)
                     ROS_DEBUG_STREAM("All tests are PASS");
-                switchNominalChannel();
                 // If there is at least 1 anomaly
                 if(broke_at_least_once_) {
                     is_anomaly_fix_ = true;
@@ -877,6 +876,7 @@ private:
                     // Redefine the initial goal
                     pub_autoware_goal_.publish(initial_goal_coordinates_);
                 }
+                switchNominalChannel();
                 ROS_INFO("Decision: Go to initial goal");
                 break;
             case REST_AREA:
@@ -1188,7 +1188,7 @@ public:
         sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
         sub_sensor_fov_ = nh.subscribe("/sensor_fov", 1, &SafetySupervisor::sensorFovCallback, this);
-        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
+        sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
 
         // Initialization loop
         waitForInitialization();

@@ -520,7 +520,7 @@ private:
         veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
 
         createEmptyGridMap(veclane);
-        if(use_pex_file_)
+        // if(use_pex_file_)
             addPrescanObjects(p_nh);
         addVectorMapObjects(veclane);
 
