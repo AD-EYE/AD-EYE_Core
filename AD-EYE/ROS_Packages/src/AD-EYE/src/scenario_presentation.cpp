@@ -62,7 +62,7 @@ private:
         // The margin of error for the position
         double error_margin_lidar = 10;
         // The duration during when the lidar has to be disabled.
-        double duration_lidar_killed = 5; // to verify
+        double duration_lidar_killed = 5;
 
         if((pose_ego_car_.position.x >= (position_lidar_killed.x() - error_margin_lidar)) && (pose_ego_car_.position.x <= (position_lidar_killed.x() + error_margin_lidar))
             && (pose_ego_car_.position.y >= (position_lidar_killed.y() - error_margin_lidar)) && (pose_ego_car_.position.y <= (position_lidar_killed.y() + error_margin_lidar))
@@ -135,11 +135,11 @@ private:
     {
         // Position for condition to disable and re-enable the node that manage camera 2.
         grid_map::Position position_camera2_killed;
-        position_camera2_killed = grid_map::Position(50, 75);
+        position_camera2_killed = grid_map::Position(265, 75);
         // The margin of error for the position
         double error_margin_camera2 = 10;
         // The duration during when the camera 2 is disabled
-        double duration_camera2_killed = 10;
+        double duration_camera2_killed = 50;
 
         if((pose_ego_car_.position.x >= (position_camera2_killed.x() - error_margin_camera2)) && (pose_ego_car_.position.x <= (position_camera2_killed.x() + error_margin_camera2))
             && (pose_ego_car_.position.y >= (position_camera2_killed.y() - error_margin_camera2)) && (pose_ego_car_.position.y <= (position_camera2_killed.y() + error_margin_camera2))
@@ -222,12 +222,10 @@ public:
         {
             ros::spinOnce();
 
-            first_test_done_ = true;
-            second_test_done_ = true;
-            // testAnomaly1();
-            // testAnomaly2();
+            testAnomaly1();
+            testAnomaly2();
             testAnomaly3();
-            // testAnomaly4();
+            testAnomaly4();
 
             rate.sleep();
         }
