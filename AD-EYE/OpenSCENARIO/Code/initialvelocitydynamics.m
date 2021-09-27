@@ -59,7 +59,7 @@ for j =1:length(models.worldmodel.object) %main for loop
                         for q  = 1:length(findBlocksGroundNames(:,1))
                             S1=get_param(findBlocksGroundNames(q,1),'PortConnectivity');
                             S2 = get_param(S1.DstBlock,'name');
-                            %location of where the terminators where connected to
+                            %location of where the terminators are connected to
                             locationBlockGround= convertCharsToStrings(S2);
                             if(getSimulinkBlockHandle(findBlocksGroundNames(q,1)) ~= -1)
                                 delete_block(findBlocksGroundNames(q,1))
