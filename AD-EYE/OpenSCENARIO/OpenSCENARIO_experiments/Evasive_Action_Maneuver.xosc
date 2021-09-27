@@ -4,56 +4,17 @@
 
     <ParameterDeclaration/>
 
-    <Catalogs>
-        <VehicleCatalog>
-            <Directory path="Catalogs/VehicleCatalogs"/>
-        </VehicleCatalog>
-        <DriverCatalog>
-            <Directory path="Catalogs/DriverCatalogs"/>
-        </DriverCatalog>
-        <PedestrianCatalog>
-            <Directory path="Catalogs/ObserverCatalogs"/>
-        </PedestrianCatalog>
-        <PedestrianControllerCatalog>
-            <Directory path="Catalogs/PedestrianCatalogs"/>
-        </PedestrianControllerCatalog>
-        <MiscObjectCatalog>
-            <Directory path="Catalogs/MiscObjectCatalogs"/>
-        </MiscObjectCatalog>
-        <EnvironmentCatalog>
-            <Directory path="Catalogs/EnvironmentCatalogs"/>
-        </EnvironmentCatalog>
-        <ManeuverCatalog>
-            <Directory path="Catalogs/ManeuverCatalogs"/>
-        </ManeuverCatalog>
-        <TrajectoryCatalog>
-            <Directory path="Catalogs/TrajectoryCatalog"/>
-        </TrajectoryCatalog>
-        <RouteCatalog>
-            <Directory path="Catalogs/RoutingCatalog"/>
-        </RouteCatalog>
-    </Catalogs>
-
     <Entities>
         <ScenarioObject name="Ego">
             <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
 
         <ScenarioObject name="Box_1">
             <CatalogReference catalogName="MiscObjectCatalogs" entryName="Box_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="ObserverCatalogs" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
 
         <ScenarioObject name="Ford_Fiesta_Hatchback_1">
             <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
-            <ObjectController>
-                <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
-            </ObjectController>
         </ScenarioObject>
     </Entities>
 
@@ -147,15 +108,15 @@
             </Actions>
         </Init>
 
-        <Story name="ChangeLaneStory" >
+        <Story name="ChangeLaneAndAvoidObjectStory" >
             <ParameterDeclaration/>
-            <Act name="ChangeLaneAct">
-                <ManeuverGroup name="ChangeLaneSequence" maximumExecutionCount="1">
+            <Act name="ChangeLaneAndAvoidObjectAct">
+                <ManeuverGroup name="ChangeLaneAndAvoidObjectSequence" maximumExecutionCount="1">
                     <Actors selectTriggeringEntities="false">
                         <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
                     </Actors>
 
-                    <Maneuver name="ChangeLane">
+                    <Maneuver name="ChangeLaneAndAvoidObject">
                         <Event priority="overwrite" name="ChangeLaneEvent" maximumExecutionCount="1">
                             <Action name="ChangeLaneActions">
                                 <PrivateAction>

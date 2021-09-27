@@ -25,7 +25,7 @@ class SensorFoV
 private:
     // publishers and subscribers
     ros::NodeHandle &nh_;
-    ros::Publisher pub_sensor_fov_;
+    ros::Publisher pub_sensor_fovs_;
     ros::Subscriber sub_radar_;
     ros::Subscriber sub_lidar_;
     ros::Subscriber sub_camera_tl_;
@@ -33,94 +33,82 @@ private:
     ros::Subscriber sub_camera_2_;
 
     //Polygon Array that represent sensors field of view
-    jsk_recognition_msgs::PolygonArray sensor_fov_;
+    jsk_recognition_msgs::PolygonArray sensor_field_of_views_;
 
     // The number of sensors
     static const int NB_SENSORS_ = 5;
 
-    // Enumeration useful to have an easy access to indexes of following arrays.
-    enum sensor_type_ {radar, lidar, camera1, camera2, cameratl};
+    // Enumeration of all the sensors types.
+    enum SENSOR_TYPE_ {RADAR, LIDAR, CAMERA1, CAMERA2, CAMERATL};
 
     // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
-    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.05, 0.10, 0.05, 0.05, 0.10}; // Time period in seconds, values obtained in PreScan.
     const float SENSOR_RANGES_[NB_SENSORS_] = {30, 100, 750, 750, 750}; // Beam ranges of the sectors in meter, values obtained in PreScan.
     const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = {0, 0, 0, PI, -15 * PI / 180}; // Orientations of the sectors compared to the ego car in rad, values obtained in PreScan.
     const float SENSOR_OPENING_ANGLES_[NB_SENSORS_] = {45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0, 46.21 * PI / 180.0}; // Opening angles of the sectors in rad, values obtained in PreScan.
-    const float SENSOR_POS_X_[NB_SENSORS_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
-    const float SENSOR_POS_Y_[NB_SENSORS_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
+    const float SENSOR_POSITION_X_[NB_SENSORS_] = {2.3, -0.66, 0.55, -2.21, -0.16}; // x coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
+    const float SENSOR_POSITION_Y_[NB_SENSORS_] = {0, 0, 0, 0, -0.7}; // y coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
     bool sensor_active_[NB_SENSORS_] = {false, false, false, false, false}; // Indicates if sensors information have changed.
+    // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1), 0.05s (camera 2), 0.1s (camera tl).
+    // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of error will be taken.
+    // The time elapsed will be compared to 3 times the sensor timeouts.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = {0.15, 0.3, 0.15, 0.15, 0.3}; // Time period in seconds, values obtained in PreScan.
     float sensor_last_time_[NB_SENSORS_] = {0, 0, 0, 0, 0}; // The last time the callback function has been called.
     float sensor_current_time_[NB_SENSORS_]; // The current time when the callback function is called.
     float sensor_time_elapsed_[NB_SENSORS_]; //The time elapsed between two callbacks.
-
-    //Names for indexes in lists
-    sensor_type_ radar_ = radar;
-    sensor_type_ lidar_ = lidar;
-    sensor_type_ camera1_ = camera1;
-    sensor_type_ camera2_ = camera2;
-    sensor_type_ cameratl_ = cameratl;
 
     //Ros utils
     ros::Rate rate_;
 
     /*!
+     * \brief Sensor Update: called when a sensor is activated
+     * \param sensor_index The type of sensor that needs to be updated.
+     * \details This function changes the value of sensor_active for the corresponding sensor to then update the sensor polygon.
+     */
+    void sensorUpdate(SENSOR_TYPE_ sensor_index){
+        sensor_active_[sensor_index] = true;
+        sensor_last_time_[sensor_index] = sensor_current_time_[sensor_index];
+        sensor_current_time_[sensor_index] = ros::Time::now().toSec();
+        sensor_time_elapsed_[sensor_index] = sensor_current_time_[sensor_index] - sensor_last_time_[sensor_index];
+    }
+
+    /*!
      * \brief Radar Callback : called when information from the radar changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details This function changes the value of sensor_active for the radar to then update the radar polygon.
      */
     void radarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
-        sensor_active_[radar_] = true;
-        sensor_last_time_[radar_] = sensor_current_time_[radar_];
-        sensor_current_time_[radar_] = ros::Time::now().toSec();
-        sensor_time_elapsed_[radar_] = sensor_current_time_[radar_] - sensor_last_time_[radar_];
+        sensorUpdate(RADAR);
     }
 
     /*!
      * \brief Lidar Callback : called when information from the lidar changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details This function changes the value of sensor_active for the lidar to then update the lidar polygon.
      */
     void lidarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
-        sensor_active_[lidar_] = true;
-        sensor_last_time_[lidar_] = sensor_current_time_[lidar_];
-        sensor_current_time_[lidar_] = ros::Time::now().toSec();
-        sensor_time_elapsed_[lidar_] = sensor_current_time_[lidar_] - sensor_last_time_[lidar_];
+        sensorUpdate(LIDAR);
     }
 
     /*!
      * \brief Camera 1 Callback : called when information from the camera 1 changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details This function changes the value of sensor_active for the camera 1 to then update the camera 1 polygon.
      */
     void camera1Callback(const sensor_msgs::Image::ConstPtr& msg){
-        sensor_active_[camera1_] = true;
-        sensor_last_time_[camera1_] = sensor_current_time_[camera1_];
-        sensor_current_time_[camera1_] = ros::Time::now().toSec();
-        sensor_time_elapsed_[camera1_] = sensor_current_time_[camera1_] - sensor_last_time_[camera1_];
+        sensorUpdate(CAMERA1);
     }
 
     /*!
      * \brief Camera 2 Callback : called when information from the camera 2 changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details This function changes the value of sensor_active for the camera 2 to then update the camera2 polygon.
      */
     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg){
-        sensor_active_[camera2_] = true;
-        sensor_last_time_[camera2_] = sensor_current_time_[camera2_];
-        sensor_current_time_[camera2_] = ros::Time::now().toSec();
-        sensor_time_elapsed_[camera2_] = sensor_current_time_[camera2_] - sensor_last_time_[camera2_];
+        sensorUpdate(CAMERA2);
     }
 
     /*!
      * \brief camera tl Callback : called when information from the camera tl changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details This function changes the value of sensor_active for the camera tl to then update the camera tl polygon.
      */
     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
-        sensor_active_[cameratl_] = true;
-        sensor_last_time_[cameratl_] = sensor_current_time_[cameratl_];
-        sensor_current_time_[cameratl_] = ros::Time::now().toSec();
-        sensor_time_elapsed_[cameratl_] = sensor_current_time_[cameratl_] - sensor_last_time_[cameratl_];
+        sensorUpdate(CAMERATL);
     }
 
     /*!
@@ -128,21 +116,11 @@ private:
      * \details This function creates polygons corresponding to the sensor that send information, and stores them into the sensor_fov_ array.
      */
     void polygonCreator() {
-        // Definition of different polygons.
-        geometry_msgs::PolygonStamped radar_poly;
-        geometry_msgs::PolygonStamped lidar_poly;
-        geometry_msgs::PolygonStamped camera1_poly;
-        geometry_msgs::PolygonStamped camera2_poly;
-        geometry_msgs::PolygonStamped cameratl_poly;
-
-        // The polygon array is filled with each sensor polygon.
-        sensor_fov_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
-
-        for(int type = radar_; type <= cameratl_; type++) {
+        for(int type = RADAR; type <= CAMERATL; type++) {
             // For each sensor, the polygon is created if information about this sensor is sent. If not, there will be an empty polygon for this sensor.
             if(sensor_active_[type]) {
                 // The polygon array is updated with each sensor polygon created.
-                sensor_fov_.polygons.at(type) = circle_section_creator(SENSOR_POS_X_[type], SENSOR_POS_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
+                sensor_field_of_views_.polygons.at(type) = createCircleSection(SENSOR_POSITION_X_[type], SENSOR_POSITION_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
                 sensor_active_[type] = false;
             }
         }
@@ -160,29 +138,29 @@ private:
      * The circle section will be approximate by a succession of points close enough.
      * Angles need to be in rad.
      */
-    geometry_msgs::PolygonStamped circle_section_creator(float x, float y, float radius, float orientation, float angle) {
+    geometry_msgs::PolygonStamped createCircleSection(float x, float y, float radius, float orientation, float angle) {
         geometry_msgs::PolygonStamped polygon;
         float dangle = 0.0017; // The angle step for the succession of points. Random choice: 0.1 deg = 0.0017rad.
         polygon.header.frame_id = "SSMP_base_link";
-        // Definition of the point that will be added to the polygon.
-        geometry_msgs::Point32 point1;
-        point1.x = x;
-        point1.y = y;
-        polygon.polygon.points.emplace_back(point1);
+        // Definition of the apex of the section that will be added to the polygon.
+        geometry_msgs::Point32 apex;
+        apex.x = x;
+        apex.y = y;
+        polygon.polygon.points.emplace_back(apex);
         for (float i = (orientation - (angle / 2.0)); i <= (orientation + (angle / 2.0)); i=i+dangle){ // Approximate circle section by a succession of points
             // Definition of the points that will be added to the polygon.
-            geometry_msgs::Point32 point2;
-            point2.x = x + radius * cos(i);
-            point2.y = y + radius * sin(i);
-            polygon.polygon.points.emplace_back(point2);
+            geometry_msgs::Point32 point;
+            point.x = x + radius * cos(i);
+            point.y = y + radius * sin(i);
+            polygon.polygon.points.emplace_back(point);
         } 
 
-        if (fmodf(angle, dangle) != 0) { // If the discretion of the circle section by step doesn't fall right, we add the last point.
+        if (fmodf(angle, dangle) != 0) { // If the discretization of the circle section with the step dangle doesn't fall right, we add the last point.
             // Definition of the point that will be added to the polygon.
-            geometry_msgs::Point32 point3;
-            point3.x = x + radius * cos(orientation + (angle / 2.0));
-            point3.y = y + radius * sin(orientation + (angle / 2.0));
-            polygon.polygon.points.emplace_back(point3);
+            geometry_msgs::Point32 point2;
+            point2.x = x + radius * cos(orientation + (angle / 2.0));
+            point2.y = y + radius * sin(orientation + (angle / 2.0));
+            polygon.polygon.points.emplace_back(point2);
         }
 
         return polygon;
@@ -195,10 +173,10 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initializes the node and its components such as publishers and subscribers.
      */
-    SensorFoV(ros::NodeHandle& nh) : nh_(nh), rate_(1)
+    SensorFoV(ros::NodeHandle& nh) : nh_(nh), rate_(20)
     {
         // Initialize node and publishers/subscribers
-        pub_sensor_fov_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1);
+        pub_sensor_fovs_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1);
         sub_radar_ = nh.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &SensorFoV::radarCallback, this);
         sub_lidar_ = nh.subscribe<std_msgs::Float32MultiArray>("/points_raw_float32", 1, &SensorFoV::lidarCallback, this);
         sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &SensorFoV::camera1Callback, this);
@@ -206,7 +184,7 @@ public:
         sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &SensorFoV::cameraTlCallback, this);
 
         //The sensor sectors are set on the same frame than the car.
-        sensor_fov_.header.frame_id = "SSMP_base_link"; 
+        sensor_field_of_views_.header.frame_id = "SSMP_base_link"; 
 
     }
 
@@ -218,17 +196,25 @@ public:
 
         // Initialize current time and the time elapsed between 2 callbacks for sensors.
         float first_time = ros::Time::now().toSec();
-        for(int i = radar_ ; i <= cameratl_ ; i++) {
+        for(int i = RADAR ; i <= CAMERATL ; i++) {
             sensor_current_time_[i] = first_time;
         }
         // time elapsed is initialize this way because if a sensor is broken, the callback function will never be called and no warning message will be sent.
-        sensor_time_elapsed_[radar_] = 5 * SENSOR_TIMEOUTS_[radar_];
-        sensor_time_elapsed_[lidar_] = 3 * SENSOR_TIMEOUTS_[lidar_];
-        sensor_time_elapsed_[camera1_] = 5 * SENSOR_TIMEOUTS_[camera1_];
-        sensor_time_elapsed_[camera2_] = 5 * SENSOR_TIMEOUTS_[camera2_];
-        sensor_time_elapsed_[cameratl_] = 3 * SENSOR_TIMEOUTS_[cameratl_];
+        sensor_time_elapsed_[RADAR] = 2 * SENSOR_TIMEOUTS_[RADAR];
+        sensor_time_elapsed_[LIDAR] = 2 * SENSOR_TIMEOUTS_[LIDAR];
+        sensor_time_elapsed_[CAMERA1] = 2 * SENSOR_TIMEOUTS_[CAMERA1];
+        sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
+        sensor_time_elapsed_[CAMERATL] = 2 * SENSOR_TIMEOUTS_[CAMERATL];
 
-        rate_ = ros::Rate(10);
+        // Initialize the polygon array that will be published later
+        // Definition of different sensor polygons.
+        geometry_msgs::PolygonStamped radar_poly;
+        geometry_msgs::PolygonStamped lidar_poly;
+        geometry_msgs::PolygonStamped camera1_poly;
+        geometry_msgs::PolygonStamped camera2_poly;
+        geometry_msgs::PolygonStamped cameratl_poly;
+        // The polygon array is filled with each sensor polygon.
+        sensor_field_of_views_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
 
         //Main loop
         while (nh_.ok()) {
@@ -244,29 +230,17 @@ public:
             }
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the sensor to have a margin of error.
-            if(sensor_time_elapsed_[radar_] > (4 * SENSOR_TIMEOUTS_[radar_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
-                ROS_WARN("Radar : Message not received!");
-                sensor_fov_.polygons.at(radar_).polygon.points.clear();
-            }
-            if(sensor_time_elapsed_[lidar_] > (2 * SENSOR_TIMEOUTS_[lidar_])){
-                ROS_WARN("Lidar : Message not received!");
-                sensor_fov_.polygons.at(lidar_).polygon.points.clear();
-            }
-            if(sensor_time_elapsed_[camera1_] > (4 * SENSOR_TIMEOUTS_[camera1_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
-                ROS_WARN("Camera 1 : Message not received!");
-                sensor_fov_.polygons.at(camera1_).polygon.points.clear();
-            }
-            if(sensor_time_elapsed_[camera2_] > (4 * SENSOR_TIMEOUTS_[camera2_])){ // Here, the time elapsed is compared to 4 times because the frequency of the radar is 2 times more than 10 Hz (the rate of the main loop).
-                ROS_WARN("Camera 2 : Message not received!");
-                sensor_fov_.polygons.at(camera2_).polygon.points.clear();
-            }
-            if(sensor_time_elapsed_[cameratl_] > (2 * SENSOR_TIMEOUTS_[cameratl_])){
-                ROS_WARN("Camera tl : Message not received!");
-                sensor_fov_.polygons.at(cameratl_).polygon.points.clear();
+            for(int sensor_index = RADAR; sensor_index <= CAMERATL; sensor_index++) {
+                // Array that is useful to write the name in the warning message
+                std::string SENSOR_NAME[NB_SENSORS_] = {"Radar", "Lidar", "Camera 1", "Camera 2", "Camera traffic light"};
+                if(sensor_time_elapsed_[sensor_index] > SENSOR_TIMEOUTS_[sensor_index]) {
+                    sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();
+                    ROS_WARN_STREAM("No message received from sensor " << SENSOR_NAME[sensor_index]);
+                }
             }
 
-            sensor_fov_.header.stamp = ros::Time::now();
-            pub_sensor_fov_.publish(sensor_fov_);
+            sensor_field_of_views_.header.stamp = ros::Time::now();
+            pub_sensor_fovs_.publish(sensor_field_of_views_);
 
             rate_.sleep();
 

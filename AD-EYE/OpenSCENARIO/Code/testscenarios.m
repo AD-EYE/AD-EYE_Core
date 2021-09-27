@@ -34,16 +34,19 @@ for i=1:NUM % Loop for each scenario
     fclose(file);
     
     % Change the name of the next scenario
-    FINDSTART = strfind(out3{23,1}, '[');
-    FINDEND = strfind(out3{23,1}, ']');
-    out3{23,1} = replaceBetween(out3{23,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
+    rowxoscFinaleNames = 23;
+    FINDSTART = strfind(out3{rowxoscFinaleNames,1}, '[');
+    FINDEND = strfind(out3{rowxoscFinaleNames,1}, ']');
+    out3{rowxoscFinaleNames,1} = replaceBetween(out3{rowxoscFinaleNames,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
     
-    FINDSTART = strfind(out3{24,1}, '[');
-    FINDEND = strfind(out3{24,1}, ']');
-    out3{24,1} = replaceBetween(out3{24,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
+    rowfolderNames = 24;
+    FINDSTART = strfind(out3{rowfolderNames,1}, '[');
+    FINDEND = strfind(out3{rowfolderNames,1}, ']');
+    out3{rowfolderNames,1} = replaceBetween(out3{rowfolderNames,1}, FINDSTART +2, FINDEND-2, experimentNameChar);
     
     % Do only one simulation
-    out3{142,1} = "TA('Configurations/TAOrder.xlsx', 1, 1, 0,true)";
+    rowTAFunction = 142;
+    out3{rowTAFunction,1} = "TA('Configurations/TAOrder.xlsx', 1, 1, 0,true)";
     
     % Write the new code in the old one
     file= fopen('TA_OpenSCENARIO_interface_tests.m','w');
