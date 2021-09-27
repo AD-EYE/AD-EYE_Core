@@ -429,6 +429,9 @@ for j = 1:length(models.worldmodel.object)
                                                                     ,'Threshold',...
                                                                     num2str(-1*str2num(trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)) )
+                                                                %%%%%%%%%%%% Add block to send ROS condition
+                                                                add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value',trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
+                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
                                                             end
 
                                                             if(convertCharsToStrings(trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
@@ -442,6 +445,9 @@ for j = 1:length(models.worldmodel.object)
                                                                     num2str(str2num(trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)) )
                                                                 % change constant to account for shift if step
+                                                                %%%%%%%%%%%% Add block to send ROS condition
+                                                                add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value',trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
+                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
                                                             end
 
                                                             if(convertCharsToStrings(trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
@@ -455,6 +461,9 @@ for j = 1:length(models.worldmodel.object)
                                                                     num2str(str2num(trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)) )
                                                                 % change constant to account for shift if step
+                                                                %%%%%%%%%%%% Add block to send ROS condition
+                                                                add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value',trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
+                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
                                                             end
                                                             
                                                             if (isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition, 'ByEntityCondition')==1 && isfield(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1, q}.Act{1,a}.ManeuverGroup.Maneuver{1, m}.Event{1, i}.StartTrigger.ConditionGroup.Condition.ByEntityCondition.EntityCondition, 'SpeedCondition')==1 )
@@ -502,6 +511,9 @@ for j = 1:length(models.worldmodel.object)
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value)
                                                                 set_param(convertStringsToChars(strcat(locationBlockTrajectory,blockConditionTrajectory,"/Constant5")) ,'value', trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
                                                                     .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value) 
+                                                                %%%%%%%%%%%% Add block to send ROS condition
+                                                                add_block("simulink/Commonly Used Blocks/Constant", strcat(locationBlockTrajectory,blockConditionTrajectory,"/ConditionROS"),'value', trajectoryVariable.(models.worldmodel.object{j, 1}.name).(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}...
+                                                                    .ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition.Rule.value);
 
                                                             end
 
@@ -512,6 +524,11 @@ for j = 1:length(models.worldmodel.object)
 %                                                                     ,'Threshold', '0.001')
 %                                                                 set_param(convertStringsToChars(strcat(locationBlockTrajectory,blockConditionTrajectory,"/Gain2")),'Gain','1')
 %                                                             end
+
+                                                            add_block("robotlib/Set Parameter", strcat(locationBlockTrajectory,blockConditionTrajectory, "/ROS Parameter"));
+                                                            add_line(strcat(locationBlockTrajectory,blockConditionTrajectory), "ConditionROS/1", "ROS Parameter/1");
+                                                            set_param(strcat(locationBlockTrajectory,blockConditionTrajectory,"/ROS Parameter"), "ParameterSource", "specify your own");
+                                                            set_param(strcat(locationBlockTrajectory,blockConditionTrajectory,"/ROS Parameter"), "ParameterName", strcat("/ConditionROS_", num2str(j), "_", num2str(p)));
 
         %%%%%%%%%%%%%%%%%%%%%%% %%%%% Parameters of Trajectory_input
                                                         if (blockTrajectory=="Trajectory_input_sinusoidal_subsystem" || blockTrajectory=="Trajectory_input_turn_subsystem")
