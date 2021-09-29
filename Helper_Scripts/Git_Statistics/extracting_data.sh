@@ -217,7 +217,14 @@ cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/getting_familiar_TCP.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
-interact'
+interact'# PIP_OK=$(pip3 list | grep -F labours)
+# echo Checking for labours:
+# if [ "" = "$PIP_OK" ]; then
+#   echo "labours package is not installed. Install it using : pip3 install labours."
+#   exit 1
+# else
+#     echo "install ok installed"
+# fi
 
 cd getting_familiar_TCP
 git remote rm origin
@@ -344,15 +351,15 @@ java -jar bfg-1.14.0.jar --delete-folders _pycache_
 java -jar bfg-1.14.0.jar --delete-folders csv
 
 
-#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction
+#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction filtered by code languages
 cd
 hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
 hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
 hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
 
-hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
-hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
-hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
+hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
+hercules --burndown --burndown-people --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
+hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
 
 #Saving hercules graphs for AD-EYE_Core
 cd $WORKING_PATH/Stats_results/Graphs
