@@ -169,11 +169,11 @@ function simulinkego(nameSimulink,models, nameEgo,StructPex, StructOpenSCENARIO)
             Simulink.BlockDiagram.expandSubsystem(locationMainBlock,'CreateArea','On')
             
             % Send ROS target value of the Ego car
-            add_block("simulink/Commonly Used Blocks/Constant", strcat(locationSimulinkObject,"EgoSpeed"),'value', get_field(StructOpenSCENARIO, "StructOpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,1}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
-            add_block("robotlib/Set Parameter", strcat(locationSimulinkObject, "ROS Parameter"));
-            add_line(locationSimulinkObject, "EgoSpeed/1", "ROS Parameter/1");
-            set_param(strcat(locationSimulinkObject,"ROS Parameter"), "ParameterSource", "specify your own");
-            set_param(strcat(locationSimulinkObject,"ROS Parameter"), "ParameterName", "/initial_speed_0");
+%             add_block("simulink/Commonly Used Blocks/Constant", strcat(locationSimulinkObject,"EgoSpeed"),'value', get_field(StructOpenSCENARIO, "StructOpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,1}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
+%             add_block("robotlib/Set Parameter", strcat(locationSimulinkObject, "ROS Parameter"));
+%             add_line(locationSimulinkObject, "EgoSpeed/1", "ROS Parameter/1");
+%             set_param(strcat(locationSimulinkObject,"ROS Parameter"), "ParameterSource", "specify your own");
+%             set_param(strcat(locationSimulinkObject,"ROS Parameter"), "ParameterName", "/initial_speed_0");
             
         end %if statement checking which object in Prescan is the ego vehicle
     end %for loop over all Prescan objects
