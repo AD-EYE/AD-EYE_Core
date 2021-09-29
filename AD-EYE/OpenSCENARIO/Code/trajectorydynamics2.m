@@ -71,10 +71,10 @@ for j = 1:length(models.worldmodel.object)
                                                             add_block(convertStringsToChars(strcat("OpenSCENARIO/",blockTrajectoryDynamics)),locationBlockTrajectoryDynamics );
                                                             %change location of condition source
                                                             sizeBlock = get_param(convertStringsToChars(strcat(locationDynamicsEmpty,"MuxState")),'Position');
-                                                            if(trajectory_type(1,z) =="Lateral")
+                                                            if(trajectoryType(1,z) =="Lateral")
                                                                 X = sizeBlock(1,1)-270;
                                                                 Y = sizeBlock(1,2)+160;
-                                                            elseif(trajectory_type(1,z) =="Longitudinal")
+                                                            elseif(trajectoryType(1,z) =="Longitudinal")
                                                                 X = sizeBlock(1,1)-540;
                                                                 Y = sizeBlock(1,2)+35;
                                                             end
@@ -648,9 +648,9 @@ for j = 1:length(models.worldmodel.object)
 
     %                                                             if( isfield(trajectoryVariable.(models.worldmodel.object{j, 1}.name)...
     %                                                                 .(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Story{1,q}.Act{1,a}.ManeuverGroup.Maneuver{1,m}.Event{1, i}.Attributes.name).Condition, 'TimeHeadWayCondition') == 1)
-    %                                                                 set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("T_",trajectory_type(1,z) ,Blockid(1,j) )) )
+    %                                                                 set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("T_",trajectoryType(1,z) ,Blockid(1,j) )) )
     %                                                             else
-    %                                                                 set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("D_",trajectory_type(1,z) ,Blockid(1,j) )) )
+    %                                                                 set_param(convertStringsToChars(strcat(location3,Blockname6,"/From")),'Gototag',convertStringsToChars(strcat("D_",trajectoryType(1,z) ,Blockid(1,j) )) )
     %                                                             end
     % 
     %                                                             %change constant to account for shift if step
