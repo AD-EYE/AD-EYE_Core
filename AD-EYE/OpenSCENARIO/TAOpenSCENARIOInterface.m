@@ -58,15 +58,15 @@ waitbar(.23,TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
+scenariosVariantsNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
 
 name_ego = egoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
 
-for i = 1:length(listOfNames)
-    waitbar(.23+(i-1)*0.5/length(listOfNames),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
-    listOfNames(i)
-    API_main(name_ego,name_prescan_experiment,listOfNames(i))
+for i = 1:length(scenariosVariantsNames)
+    waitbar(.23+(i-1)*0.5/length(scenariosVariantsNames),TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
+    scenariosVariantsNames(i)
+    API_main(name_ego,name_prescan_experiment,scenariosVariantsNames(i))
 end
 
 
@@ -74,14 +74,14 @@ end
 waitbar(.13,TAOpensScenarioProgressBar,'Extract TA specific configurations from xosc scenarios');
 
 addpath(adeye_base+"OpenSCENARIO\Code")
-d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames(s)));
+scenarioPath=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',scenariosVariantsNames(1)));
 cd(adeye_base + "OpenSCENARIO\Code")
-Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
+structOpenSCENARIO = xml2struct([scenarioPath(1:end-5), '.xosc']);
 cd(adeye_base + "TA\Configurations")
 addpath(adeye_base+"OpenSCENARIO\Code")
-for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
-    if(convertCharsToStrings(get_field(Struct_OpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
-        speedEgo = get_field(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
+for x = 1:length(structOpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private)
+    if(convertCharsToStrings(get_field(structOpenSCENARIO,strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.Attributes.entityRef"))) == "Ego")
+        speedEgo = get_field(structOpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1,",num2str(x),"}.PrivateAction{1,2}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value"));
         %Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}.PrivateAction{1,1}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value
         if(contains(speedEgo, '{'))
             findOpen = strfind(speedEgo, ',');
@@ -93,8 +93,8 @@ for x = 1:length(Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Privat
     end
 end
 
-if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
-    rainIntensity= convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity)
+if(fieldexists(structOpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity"))
+    rainIntensity= convertCharsToStrings(structOpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.Environment.Weather.Precipitation.Attributes.intensity)
     findOpen = strfind(rainIntensity, ';');
     values = [];
     for i= 1:length(findOpen)+1
@@ -111,8 +111,8 @@ if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalActio
     setRainIntensity(values)
 end
 
-if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
-    reflectivity = convertCharsToStrings(Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
+if(fieldexists(structOpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage"))
+    reflectivity = convertCharsToStrings(structOpenSCENARIO.OpenSCENARIO.GlobalAction.EnvironmentAction.TargetProperties.Lidar.TargetPropertySettings.Attributes.ReflectionPercentage)
     if(contains(reflectivity, '{'))
         findOpen = strfind(reflectivity, ',');
             start_val = extractBetween(reflectivity, 2, findOpen(1)-1);
@@ -123,13 +123,12 @@ if(fieldexists(Struct_OpenSCENARIO,"Struct_OpenSCENARIO.OpenSCENARIO.GlobalActio
 end
 
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames2=[];
-for s= 1:length(listOfNames)
-    d=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',listOfNames(s)));
+for s= 1:length(scenariosVariantsNames)
+    scenarioPath=convertStringsToChars(strcat('..\OpenSCENARIO_experiments\',scenariosVariantsNames(s)));
     cd(adeye_base + "OpenSCENARIO\Code")
-    Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
-    d=convertStringsToChars(listOfNames(s));
-    listOfNames2=[listOfNames2,OpenScenarioMod2(d(1:end-5))];
+    structOpenSCENARIO = xml2struct([scenarioPath(1:end-5), '.xosc']);
+    scenarioPath=convertStringsToChars(scenariosVariantsNames(s));
+    OpenScenarioMod2(scenarioPath(1:end-5));
 end
 
 %% Configure OpenSCENARIO experiments
@@ -137,16 +136,16 @@ end
 waitbar(.73,TAOpensScenarioProgressBar,'Configuring OpenSCENARIO experiments');
 cd(adeye_base + "OpenSCENARIO\Code")
 
-xoscFinaleNames = listOfNames;
+xoscFinaleNames = scenariosVariantsNames;
 PrescanExpName = prescanExperimentTemplates(1);
 % remove .xosc file extension
-for i=1:length(listOfNames)
+for i=1:length(scenariosVariantsNames)
     xoscFinaleNames(i) = erase(xoscFinaleNames(i),".xosc");
     folderNames(i) = strcat(PrescanExpName,"/OpenSCENARIO/Results/",xoscFinaleNames(i),"/OpenSCENARIO");
     copyfile(strcat("../OpenSCENARIO_experiments/",xoscFinaleNames(i),".xosc"),strcat("../../Experiments/",folderNames(i)))
 end
-duplicateEgoNames(length(listOfNames));
-duplicatePrescanExp(length(listOfNames));
+duplicateEgoNames(length(scenariosVariantsNames));
+duplicatePrescanExp(length(scenariosVariantsNames));
 
 
 
