@@ -42,7 +42,7 @@ class Scenario30: public ScenarioManagerTemplate {
         }
 
         void speedCallback2(geometry_msgs::TwistStamped msg)
-        {
+        { 
             non_ego_speed_ = msg.twist.linear.x;
         }
 
@@ -77,6 +77,9 @@ class Scenario30: public ScenarioManagerTemplate {
             speed_sub3_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity_1", 10, &Scenario30::speedCallback3, this);
             speed_sub4_ = ScenarioManagerTemplate::nh_.subscribe("/other_velocity_2", 10, &Scenario30::speedCallback4, this);
             collision_distance_sub5_ = ScenarioManagerTemplate::nh_.subscribe("/distance_to_ego_1", 10, &Scenario30::speedCallback5, this);
+            nh.getParam("/ConditionROS_1_1",  distance_) ;
+            nh.getParam("/initial_speed_0",  initial_ego_speed_) ;
+            nh.getParam("/initial_speed_1",  initial_non_ego_speed_) ;   
         }
 
         
@@ -87,15 +90,11 @@ class Scenario30: public ScenarioManagerTemplate {
         void startExperiment()
         {
             // std::cout << "scenario30: started experiment" << std::endl;
-            nh.getParam("/ConditionROS_1_1",  distance_) ;
-            nh.getParam("/initial_speed_0",  initial_ego_speed_) ;
-            nh.getParam("/initial_speed_1",  initial_non_ego_speed_) ;   
             std::fstream myfile;
             myfile.open ("/home/adeye/Experiment_Results/Pedestrian_Action/Pedestrian.csv", std::ios_base::app);
             myfile << "\n New experiment\n";
             myfile << "Initial speed of the ego car:," << initial_ego_speed_ << "\n";
             myfile << "Iniatial speed of the non ego car:," << initial_non_ego_speed_ << "\n";
-            std::cout << "scenario30: stopped recording" << std::endl;
             myfile << "Trigger distance between the pedestrian and the non ego car:," << distance_<< "\n";
             myfile.close();
         }
