@@ -357,9 +357,9 @@ hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/AD-EY
 hercules --burndown --languages="python" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_py.pb
 hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_py.pb
 
-hercules --burndown --languages="cpp" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_cpp.pb
-hercules --burndown --languages="cpp" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_cpp.pb
-hercules --devs --languages="cpp" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_cpp.pb
+hercules --burndown --languages="c++" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_cpp.pb
+hercules --burndown --languages="c++" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_cpp.pb
+hercules --devs --languages="c++" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_cpp.pb
 
 hercules --burndown --languages="matlab" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_ml.pb
 hercules --burndown --languages="matlab" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_ml.pb
