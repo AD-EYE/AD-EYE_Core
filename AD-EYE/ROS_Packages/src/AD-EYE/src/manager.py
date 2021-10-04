@@ -162,7 +162,7 @@ class ManagerFeaturesHandler:
             self.features[key].path = adeye_package_path + launch_folder + self.features[key].path
 
         self.features["Experiment_specific_recording"].path = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE" \
-                                                              "/launch/ExperimentA.launch "
+                                                              "/launch/ExperimentPedestrianAction.launch"
         self.features["Recording"].path = ""
 
     ##Method createFeaturesControls
