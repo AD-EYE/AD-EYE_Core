@@ -18,11 +18,14 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PolygonStamped.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
+#include <std_msgs/Float32MultiArray.h>
+#include <sensor_msgs/Image.h>
 
 
 using namespace grid_map;
 
 #define HALF_PI 1.5708
+#define PI 3.1415
 
 /*!
  * \brief The GridMapCreator maintains a grid map used to know where safe places are.
@@ -42,6 +45,7 @@ private:
     ros::Subscriber sub_position_;
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
+    ros::Subscriber sub_sensor_fov_;
 
     //Position
     float x_ego_;
@@ -52,11 +56,9 @@ private:
 
     // for the ego footprint layer
     float last_x_ego_center_;
-    float last_y_ego__center_;
+    float last_y_ego_center_;
     float last_yaw_ego_;
     bool first_position_callback_ = true;
-
-
 
     //Dimensions
     float length_ego_ = 4.6;
@@ -71,12 +73,16 @@ private:
     geometry_msgs::PolygonStamped footprint_ego_;
     jsk_recognition_msgs::PolygonArray detected_objects_;
     jsk_recognition_msgs::PolygonArray detected_objects_old_;
+
     //Parameters
     bool dynamic_objects_ground_truth_active_ = false;
     bool connection_established_ = false;
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
     bool dynamic_objects_initialized_ = false;
+
+    // For the sensor sectors layer
+    jsk_recognition_msgs::PolygonArray sensor_sectors_;
 
     //GridMap
     GridMap map_;
@@ -104,7 +110,7 @@ private:
         findGridMapBoundary(vector_map, lowest_x, lowest_y, maplength_x, maplength_y);
 
         // Create grid map consisting of four layers
-        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas"});
+        map_ = GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "SafeAreas", "SensorSectors"});
         map_.setFrameId("SSMP_map");
         map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_, Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
         ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(), map_.getSize()(0), map_.getSize()(1));
@@ -118,6 +124,7 @@ private:
             map_.at("Lanes", *it) = 0;
             map_.at("SafeAreas", *it) = 0;
             map_.at("EgoVehicle", *it) = 0;
+            map_.at("SensorSectors", *it) = 0;
         }
     }
 
@@ -386,19 +393,19 @@ private:
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_; // center of the car's rectangular footprint
         connection_established_ = true;
         //Creating footprint for Ego vehicle
-        if(x_ego_center != last_x_ego_center_ || x_ego_center != last_y_ego__center_)
+        if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_)
         {
-            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego__center_, length_ego_, width_ego_, last_yaw_ego_);
+            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego_center_, length_ego_, width_ego_, last_yaw_ego_);
             for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
                 map_.at("EgoVehicle", *iterator) = 0;
             }
         }
-        if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego__center_ || yaw_ego_ != last_yaw_ego_)))
+        if(first_position_callback_ || (!first_position_callback_ && (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)))
         {
             if(first_position_callback_)
             {
                 last_x_ego_center_ = x_ego_center;
-                last_x_ego_center_ = y_ego_center;
+                last_y_ego_center_ = y_ego_center;
                 first_position_callback_ = false;
             }
             grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
@@ -406,7 +413,7 @@ private:
                 map_.at("EgoVehicle", *iterator) = heigth_other_;
             }
             last_x_ego_center_ = x_ego_center;
-            last_y_ego__center_ = y_ego_center;
+            last_y_ego_center_ = y_ego_center;
             last_yaw_ego_ = yaw_ego_;
         }
     }
@@ -431,6 +438,61 @@ private:
         dynamic_objects_active_ = true;
     }
 
+    /*!
+     * \brief Update the Sensor Sectors layer using information from the sensors.
+     * \param msg A smart pointer to the message from the topic.
+     * \details When the car is moving, this function will delete old polygons and add new polygons corresponding to the new position of the car.
+     * To iterate all the polygons from PolygonArray, a new polygon has to be created with Polygon type.
+     * Each sector will be filled with the number of sensors there are in this sector.
+     */
+    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg) {
+        sensor_sectors_ = *msg;
+
+        // These 2 polygons will keep in memory the sectors that have to be displayed in the gridmap. The difference between the 2 is the type.
+        geometry_msgs::PolygonStamped sensor_jsk_polygon;
+        grid_map::Polygon sensor_gridmap_polygon;
+        sensor_gridmap_polygon.setFrameId(map_.getFrameId());
+
+        // Position of the sensors compared to the ego car.
+        float x_sensor_ego_frame;
+        float y_sensor_ego_frame;
+        // Position of the sensor in the gridmap.
+        float x_sensor_map_frame;
+        float y_sensor_map_frame;
+
+        // Remmove all old polygons
+        for(GridMapIterator it(map_); !it.isPastEnd(); ++it) {
+            map_.at("SensorSectors", *it) = 0;
+        }
+
+        // A loop that goes through all sensors polygons.
+        for(int sensor_index = 0; sensor_index < sensor_sectors_.polygons.size(); sensor_index++) {
+            // Reset the polygon that stores information from sensors
+            sensor_gridmap_polygon.removeVertices();
+
+            sensor_jsk_polygon = sensor_sectors_.polygons.at(sensor_index); // Extract the sensor polygon.
+            size_t nb_points; // the number of points in the polygon.
+            nb_points = sensor_jsk_polygon.polygon.points.size(); // Extract the number of points in the polygon.
+
+            // If the polygon is empty, the loop for can't be run. It means that no information is received from the sensor, nothing is displayed in the gridmap.
+            if(nb_points != 0) {
+                // A loop that goes through the sensor polygon to create the new polygon with the correct position in the gridmap
+                for(int vertex_index = 0; vertex_index < (int)nb_points; vertex_index++) {
+                    // Define the position of the sensor in the gridmap.
+                    x_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).x;
+                    y_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).y;
+                    x_sensor_map_frame = x_sensor_ego_frame * cos(yaw_ego_) - y_sensor_ego_frame * sin(yaw_ego_) + x_ego_;
+                    y_sensor_map_frame = x_sensor_ego_frame * sin(yaw_ego_) + y_sensor_ego_frame * cos(yaw_ego_) + y_ego_;
+                    // Complete the polygon to then display it in the gridmap.
+                    sensor_gridmap_polygon.addVertex(Position(x_sensor_map_frame, y_sensor_map_frame));
+                }
+                // Add 1 to the layer
+                for (grid_map::PolygonIterator it(map_, sensor_gridmap_polygon); !it.isPastEnd(); ++it) {
+                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                }
+            }
+        }
+    }
 
     /*!
      * \brief This function initialize the GridMap with the static entities.
@@ -670,16 +732,18 @@ public:
 
 
 
-        // Initialize node and publishers
+        // Initialize node and publishers/subscribers
         pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
         pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &GridMapCreator::positionCallback, this);
-        
+
         if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else
             sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
+        
+        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -764,8 +828,6 @@ public:
                     dynamic_objects_active_ = false;
                 }
             }
-            
-            
 
             // publish
             map_.setTimestamp(ros::Time::now().toNSec());
