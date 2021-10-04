@@ -3,34 +3,34 @@
 
 
 import os
-from re import M, template
 import sys
-from unittest.case import expectedFailure
 import rospy
 
 
-from std_msgs.msg import Bool
-from std_msgs.msg import Int32MultiArray
-import subprocess
 import unittest
+import subprocess
 from rosnode import get_node_names
 from rosnode import rosnode_ping
+from std_msgs.msg import Bool
+from std_msgs.msg import Int32MultiArray
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
+sys.path.insert(1, os.path.join(sys.path[0], '..')) #to access the manager source file
 from manager import ManagerStateMachine
 from manager import ManagerFeaturesHandler
 from manager import Manager
 
+PKG = 'adeye'
+import roslib; roslib.load_manifest(PKG) 
+
 ##A function to start ROS.
 def startROS():
-    ROSCORE_SLEEP_TIME = 1
+    ROSCORE_SLEEP_TIME = 2
     subprocess.Popen(['xterm', '-e', 'rosmaster', '--core'])
     rospy.sleep(ROSCORE_SLEEP_TIME)
 
 ##A function to stop ROS.
 def stopROS():
-    ROSCORE_SLEEP_TIME = 1
+    ROSCORE_SLEEP_TIME = 3
     subprocess.Popen(['rosnode', 'kill', '-a'])
     subprocess.Popen(['xterm', '-e', 'killall', 'rosmaster'])
     rospy.sleep(ROSCORE_SLEEP_TIME)
@@ -388,9 +388,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.INITIALIZING_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     def test_initial_feature_request_2(self):
         startROS()
@@ -399,9 +399,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = []
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     def test_initial_feature_request_3(self):
         startROS()
@@ -410,9 +410,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,1,1,0,1,0,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.INITIALIZING_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i]) 
-        stopROS()
     #The following methods are used to test whether the features added are allowed for the enabled state
     #
     #@param self the object pointer   
@@ -424,9 +424,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.ENABLED_ALLOWED_FEATURES 
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     def test_enabled_feature_request_2(self):
         startROS()
@@ -436,9 +436,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = [ ]
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     def test_enabled_feature_request_3(self):
         startROS()
@@ -448,9 +448,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,1,1,0,1,1,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.ENABLED_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     #The following methods are used to test whether the features added are allowed for the engaged state
     #
@@ -464,9 +464,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.ENGAGED_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i], expected_features[i])
-        stopROS()
 
     def test_engaged_feature_request_2(self):
         startROS()
@@ -476,9 +476,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = []
+        stopROS()
         for i in range(len(expected_features)):
             self.assertEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     #The following methods are used to test whether the features added are allowed for the fault state
     #
@@ -491,9 +491,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [1,1,1,1,1,1,1,1,1,1,1,1]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.FAULT_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_fault_feature_request_2(self):
         startROS()
@@ -503,9 +503,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,0,0,0,0,0,0,0,0,0,0,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = [ ]
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_fault_feature_request_3(self):
         startROS() 
@@ -515,9 +515,9 @@ class ManagerTester(unittest.TestCase):
         test_msg.data = [0,1,1,1,1,0,1,1,1,1,1,0]
         manager.featuresRequestCallback(test_msg)
         expected_features = manager.FAULT_ALLOWED_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     #The following method is  used to test whether the Manager state has the corresponding features when it is in  the initial_state
     #
@@ -528,9 +528,9 @@ class ManagerTester(unittest.TestCase):
         manager = Manager()
         manager.checkManagerState()
         expected_features = manager.INITIALIZING_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     #The following method is  used to test whether the Manager state, when it is changed to the enabled_state from the other three states has the corresponding features 
     #
@@ -542,9 +542,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENABLED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_enabled_state_2(self):
         startROS()
@@ -553,9 +553,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENABLED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_enabled_state_3(self):
         startROS()
@@ -564,9 +564,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEnabled(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENABLED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
 
     #The following methods are  used to test whether the Manager state, when it is changed to the engaged_state ,from the other three states, has the corresponding features 
@@ -579,9 +579,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEngaged(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_engaged_state_2(self):
         startROS()
@@ -590,9 +590,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEngaged(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_engaged_state_3(self):
         startROS()
@@ -601,9 +601,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToEngaged(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.ENGAGED_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     #The following methods are  used to test whether the Manager state when it is changed to the enabled_state from the other three states has the corresponding features 
     #
@@ -616,9 +616,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToFault(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.FAULT_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_fault_state_2(self):
         startROS()
@@ -628,9 +628,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToFault(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.FAULT_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     def test_manager_fault_state_3(self):
         startROS()
@@ -640,9 +640,9 @@ class ManagerTester(unittest.TestCase):
         getStateMachineToFault(manager.manager_state_machine)
         manager.checkManagerState()
         expected_features = manager.FAULT_DEFAULT_FEATURES
+        stopROS()
         for i in range(len(expected_features)):
             self.assertSequenceEqual(manager.current_features[i],expected_features[i])
-        stopROS()
 
     #The following methods are used to test whether the Manager is publishing the corresponding boolean list of active features 
     #
@@ -657,8 +657,8 @@ class ManagerTester(unittest.TestCase):
                 manager.current_features.append(manager.manager_features_handler.features.keys()[feature_index])
         state_array = Int32MultiArray()
         state_array = manager.getBooleanListActiveFeatures() 
-        self.assertEqual(state_array.data,expected_output)
         stopROS()
+        self.assertEqual(state_array.data,expected_output)
 
     def test_booleanlist_active_features_case_2(self):
         startROS()
@@ -670,8 +670,8 @@ class ManagerTester(unittest.TestCase):
                 manager.current_features.append((manager.manager_features_handler.features.keys()[feature_index]))
         state_array = Int32MultiArray()      
         state_array = manager.getBooleanListActiveFeatures() 
-        self.assertEqual(state_array.data,expected_output)
         stopROS()
+        self.assertEqual(state_array.data,expected_output)
 
     def test_booleanlist_active_features_case_3(self):
         startROS()
@@ -683,20 +683,12 @@ class ManagerTester(unittest.TestCase):
                 manager.current_features.append((manager.manager_features_handler.features.keys()[feature_index]))
         state_array = Int32MultiArray()      
         state_array = manager.getBooleanListActiveFeatures()
-        self.assertEqual(state_array.data,expected_output)
         stopROS()
+        self.assertEqual(state_array.data,expected_output)
 
 if __name__ == '__main__':
-    
-    # Ros unit testing framework is used to run all tests and save in .xml format
     import rosunit
-
-    # rosunit.unitrun('adeye', 'Manager_test_results_features_handler', ManagerFeaturesHandlerTester)
-
-    stopROS()
-    rosunit.unitrun('adeye', 'Manager_test_results', ManagerTester)
-
-    stopROS()
-    rosunit.unitrun('adeye', 'Manager_test_results_state_machine', ManagerStateMachineTester)
-    
-    # unittest.main()
+    import rostest
+    rostest.unitrun(PKG, 'Manager_test_results_features_handler', ManagerFeaturesHandlerTester)
+    # rostest.rosrun(PKG, 'Manager_test_results', ManagerTester)
+    rostest.unitrun(PKG, 'Manager_test_results_state_machine', ManagerStateMachineTester)
