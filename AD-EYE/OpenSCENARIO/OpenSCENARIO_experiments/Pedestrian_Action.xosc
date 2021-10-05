@@ -13,13 +13,13 @@
             <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
         </ScenarioObject>
 
-        
+
         <ScenarioObject name="Female_wRaincoat_1">
             <CatalogReference catalogName="PedestrianCatalog" entryName="Female_wRaincoat_1"/>
         </ScenarioObject>
     </Entities>
 
- 
+
    <Storyboard>
         <Init>
             <Actions>
@@ -33,7 +33,7 @@
                         </Environment>
                     </EnvironmentAction>
                 </GlobalAction>
-  
+
                 <Private entityRef="Ego">
                     <PrivateAction>
                         <TeleportAction>
@@ -64,7 +64,7 @@
                             <Position>
                                 <WorldPosition x="200.97"
                                             y="225.65"
-                                            z="0"
+                                            z="0.529999971389771"
                                             h="pi"
                                             p="0"
                                             r="0"/>
@@ -126,7 +126,7 @@
                                         <LaneChangeAction>
                                             <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi/2" dynamicsDimension="distance"/>
                                             <LaneChangeTarget>
-                                                <AbsoluteTargetLane value= "-5"/> 
+                                                <AbsoluteTargetLane value= "-5"/>
                                             </LaneChangeTarget>
                                         </LaneChangeAction>
                                     </LateralAction>
@@ -151,7 +151,7 @@
                 </ManeuverGroup>
             </Act>
 
-            
+
             <Act name="RunningAct">
                 <ManeuverGroup name="RunningSequence" maximumExecutionCount="1">
                     <Actors selectTriggeringEntities="false">
@@ -166,7 +166,7 @@
                                         <SpeedAction>
                                             <SpeedActionDynamics dynamicsShape="linear" value="3.0" dynamicsDimension="rate"/>
                                             <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "2"/> 
+                                                <RelativeTargetSpeed value= "2"/>
                                             </SpeedActionTarget>
                                         </SpeedAction>
                                     </LongitudinalAction>
@@ -205,7 +205,7 @@
                                         <SpeedAction>
                                             <SpeedActionDynamics dynamicsShape="linear" value="6.0" dynamicsDimension="rate"/>
                                             <SpeedActionTarget>
-                                                <RelativeTargetSpeed value= "0.1"/> 
+                                                <RelativeTargetSpeed value= "0.1"/>
                                             </SpeedActionTarget>
                                         </SpeedAction>
                                     </LongitudinalAction>
