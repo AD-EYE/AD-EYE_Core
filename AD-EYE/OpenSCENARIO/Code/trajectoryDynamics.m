@@ -1,4 +1,4 @@
-function  trajectorydynamics2(nameSimulink,models,Struct_OpenSCENARIO,trajectoryVariable,LateralEvents,LongitudinalEvents,nameEgo)
+function  trajectoryDynamics(nameSimulink,models,Struct_OpenSCENARIO,trajectoryVariable,LateralEvents,LongitudinalEvents,nameEgo)
 
 actorsAct=cell(0,1);
 for j = 1:length(models.worldmodel.object)

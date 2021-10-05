@@ -1,4 +1,4 @@
-function listOfNames2 = openscenariomod2(fileName)
+function listOfNames2 = openScenarioSplitCurlyBrackets(fileName)
 %go to correct folder
 cd '..\OpenSCENARIO_experiments'
 

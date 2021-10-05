@@ -1,7 +1,5 @@
-function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
-
-        global collectdata;
-
+function TA(TAOrderFile, firstcolumn, lastcolumn, clearFiles, collectOutputs)
+    global collectdata
     ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
     cleanup = onCleanup(@()(delete(ta_progress_bar)));
     
@@ -10,25 +8,30 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
           firstcolumn = 1;
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = width(TAOrder);
-          clear_files = 0;
+          clearFiles = 0;
+          collectOutputs = false;
       case 2 % the TAorder and one index were passed, run only this one.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = firstcolumn;
-          clear_files = 0;
+          clearFiles = 0;
+          collectOutputs = false;
       case 3 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = min(lastcolumn, width(TAOrder));
-          clear_files = 0;
-      case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
+          clearFiles = 0;
+          collectOutputs = false;
+      case 4 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clearFiles is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = min(lastcolumn, width(TAOrder));
-      case 5 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clear_files is 1 then the generated files and folders will be removed.
+          collectOutputs = false;
+      case 5 % the TAOrder was passed with a start and an end. The interval [firstcolumn,lastcolumn] will be ran. If clearFiles is 1 then the generated files and folders will be removed.
           TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
           lastcolumn = min(lastcolumn, width(TAOrder));
-          collectdata = [num2str(collectOutputs)];
       otherwise
-          error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clear_files)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
+          error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clearFiles)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
+    
+    collectdata = [num2str(collectOutputs)];
     
     if(firstcolumn<1)
         error("first column index must be strictly greater than zero");
@@ -77,7 +80,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
     
     for run_index = firstcolumn:min(lastcolumn,width(TAOrder))
         waitbar((run_index-firstcolumn+1) / (length(runs)-firstcolumn+1), ta_progress_bar,['Run index ' num2str(run_index) '    ' num2str(run_index-firstcolumn+1) '/' num2str(length(runs)-firstcolumn+1)]);
-        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs);
+        [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clearFiles, collectOutputs);
         if simulation_ran == 0
             failed_experiments = [failed_experiments,run_index];
         end
@@ -85,7 +88,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
             disp("Retrying the experiments that failed to run so far")
             failed_experiments_copy = failed_experiments;
             for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
-                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files);
+                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clearFiles);
                 if simulation_ran == 1% If this run suceeded then we can remove it from the failed experiments
                     failed_experiments(i) = [];
                 end
@@ -98,7 +101,7 @@ function TA(TAOrderFile,firstcolumn,lastcolumn,clear_files,collectOutputs)
     clear()
 end
 
-function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clear_files, collectOutputs)
+function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clearFiles, collectOutputs)
     tic
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
@@ -203,7 +206,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
     cd(ta_path);
     killPrescanFederates(ta_path)
 
-    if clear_files
+    if clearFiles
         rmdir(folder_to_delete,'s') % cleanup the experiment folder
     end
     

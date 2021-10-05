@@ -1,5 +1,5 @@
 TAOpensScenarioProgressBar = waitbar(0,'Starting TA OpenSCENARIO interface','Name','TA_OpenSCENARIO progress');
-% cleanup = onCleanup( @()(delete(TAOpensScenarioProgressBar)));
+cleanup = onCleanup( @()(delete(TAOpensScenarioProgressBar)));
 
 
 %% Parameter onfigurations
@@ -58,7 +58,7 @@ waitbar(.23,TAOpensScenarioProgressBar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-scenariosVariantsNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
+scenariosVariantsNames = openScenarioSplitSquareBrackets(convertStringsToChars(xoscFinaleNames(1)));
 
 name_ego = egoNameArray(1);
 name_prescan_experiment = prescanExperimentTemplates(1);
@@ -128,7 +128,7 @@ for s= 1:length(scenariosVariantsNames)
     cd(adeye_base + "OpenSCENARIO\Code")
     structOpenSCENARIO = xml2struct([scenarioPath(1:end-5), '.xosc']);
     scenarioPath=convertStringsToChars(scenariosVariantsNames(s));
-    OpenScenarioMod2(scenarioPath(1:end-5));
+    openScenarioSplitCurlyBrackets(scenarioPath(1:end-5));
 end
 
 %% Configure OpenSCENARIO experiments
