@@ -1,5 +1,4 @@
 function TA(TAOrderFile, firstcolumn, lastcolumn, clearFiles, collectOutputs)
-    global collectdata
     ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
     cleanup = onCleanup(@()(delete(ta_progress_bar)));
     
@@ -31,7 +30,6 @@ function TA(TAOrderFile, firstcolumn, lastcolumn, clearFiles, collectOutputs)
           error('MATLAB:notEnoughInputs', 'Usage is as follow:\n   TA(TAOrderFile)                                      run the full TAorder\n   TA(TAOrderFile,run_index)                            run the run_index experiment of TAorder\n   TA(TAOrderFile,firstcolumn,lastcolumn)               run TAOrder between firstcolumn and lastcolumn included\n   TA(TAOrderFile,firstcolumn,lastcolumn,clearFiles)   run TAOrder between firstcolumn and lastcolumn included and clears the generated files if clear_file is set to 1\n')
     end
     
-    collectdata = [num2str(collectOutputs)];
     
     if(firstcolumn<1)
         error("first column index must be strictly greater than zero");
@@ -88,7 +86,7 @@ function TA(TAOrderFile, firstcolumn, lastcolumn, clearFiles, collectOutputs)
             disp("Retrying the experiments that failed to run so far")
             failed_experiments_copy = failed_experiments;
             for i = length(failed_experiments_copy):-1:1 % Loop in reverse order so that we can remove elements without changing the indexes of the upcoming i
-                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clearFiles);
+                [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, ta_path, max_duration, runtimes, firstcolumn, clearFiles, collectOutputs);
                 if simulation_ran == 1% If this run suceeded then we can remove it from the failed experiments
                     failed_experiments(i) = [];
                 end
