@@ -66,7 +66,7 @@ private:
     //float height_ego; //Height is not critical for now
     float length_other_;
     float width_other_;
-    float heigth_other_;
+    float height_other_;
     //Environments
     geometry_msgs::PoseArray other_actors_;
     geometry_msgs::PoseArray other_actors_old_;
@@ -195,7 +195,11 @@ private:
 
         // building objects are always considered to be rectangles, and as such, a rectangle is created and the PolygonIterator is used. The number 0.01745 is a conversion from degrees to radians
         for(int i = 0; i < (int)pexObjects.buildingObjects.size(); i++){
-            grid_map::Polygon polygon = rectangle_creator(pexObjects.buildingObjects.at(i).posX, pexObjects.buildingObjects.at(i).posY, pexObjects.buildingObjects.at(i).sizeX, pexObjects.buildingObjects.at(i).sizeY, 0.01745*pexObjects.buildingObjects.at(i).yaw);
+            grid_map::Polygon polygon = createRectangle(pexObjects.buildingObjects.at(i).posX,
+                                                        pexObjects.buildingObjects.at(i).posY,
+                                                        pexObjects.buildingObjects.at(i).sizeX,
+                                                        pexObjects.buildingObjects.at(i).sizeY,
+                                                        0.01745 * pexObjects.buildingObjects.at(i).yaw);
             for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator) {
                 map_.at("StaticObjects", *iterator) = pexObjects.buildingObjects.at(i).sizeZ;
             }
@@ -227,7 +231,11 @@ private:
 
         // Safe Area objects are always considered to be rectangles
         for(int i = 0; i < (int)pexObjects.safeAreaObjects.size(); i++){
-            grid_map::Polygon polygon = rectangle_creator(pexObjects.safeAreaObjects.at(i).posX, pexObjects.safeAreaObjects.at(i).posY, pexObjects.safeAreaObjects.at(i).sizeX, pexObjects.safeAreaObjects.at(i).sizeY, 0.01745*pexObjects.safeAreaObjects.at(i).yaw);
+            grid_map::Polygon polygon = createRectangle(pexObjects.safeAreaObjects.at(i).posX,
+                                                        pexObjects.safeAreaObjects.at(i).posY,
+                                                        pexObjects.safeAreaObjects.at(i).sizeX,
+                                                        pexObjects.safeAreaObjects.at(i).sizeY,
+                                                        0.01745 * pexObjects.safeAreaObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
                 map_.at("SafeAreas", *it) = pexObjects.safeAreaObjects.at(i).safetyAreaValue;
             }
@@ -235,7 +243,11 @@ private:
 
         // Static Car objects are always considered to be rectangles
 		for(int i = 0; i < (int)pexObjects.staticCarsObjects.size(); i++){
-            grid_map::Polygon polygon = rectangle_creator(pexObjects.staticCarsObjects.at(i).posX, pexObjects.staticCarsObjects.at(i).posY, pexObjects.staticCarsObjects.at(i).sizeX, pexObjects.staticCarsObjects.at(i).sizeY, 0.01745*pexObjects.staticCarsObjects.at(i).yaw);
+            grid_map::Polygon polygon = createRectangle(pexObjects.staticCarsObjects.at(i).posX,
+                                                        pexObjects.staticCarsObjects.at(i).posY,
+                                                        pexObjects.staticCarsObjects.at(i).sizeX,
+                                                        pexObjects.staticCarsObjects.at(i).sizeY,
+                                                        0.01745 * pexObjects.staticCarsObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
                 map_.at("StaticObjects", *it) = pexObjects.staticCarsObjects.at(i).sizeZ;
                 //ROS_INFO_STREAM("staticCarsObjects : " << pexObjects.staticCarsObjects.at(i).ID);
@@ -302,7 +314,8 @@ private:
                 y_other = other_actors_old_.poses.at(i).position.y;
                 yaw_other = cpp_utils::extract_yaw(other_actors_old_.poses.at(i).orientation);
                 if(x_other - x_ego_old_ < submap_dimensions_ && x_other - x_ego_old_ > -submap_dimensions_ && y_other - y_ego_old_ < submap_dimensions_ && y_other - y_ego_old_ > -submap_dimensions_){
-                    grid_map::Polygon otherCarOld = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
+                    grid_map::Polygon otherCarOld = createRectangle(x_other, y_other, length_other_, width_other_,
+                                                                    yaw_other);
                     for(grid_map::PolygonIterator iterator(map_, otherCarOld); !iterator.isPastEnd(); ++iterator){
                         map_.at("DynamicObjects", *iterator) = 0;
                     }
@@ -313,9 +326,9 @@ private:
             y_other = other_actors_.poses.at(i).position.y;
             yaw_other = cpp_utils::extract_yaw(other_actors_.poses.at(i).orientation);
             if(x_other - x_ego_ < submap_dimensions_ && x_other - x_ego_ > -submap_dimensions_ && y_other - y_ego_ < submap_dimensions_ && y_other - y_ego_ > -submap_dimensions_){
-                grid_map::Polygon otherCar = rectangle_creator(x_other, y_other, length_other_, width_other_, yaw_other);
+                grid_map::Polygon otherCar = createRectangle(x_other, y_other, length_other_, width_other_, yaw_other);
                 for(grid_map::PolygonIterator iterator(map_, otherCar); !iterator.isPastEnd(); ++iterator){
-                    map_.at("DynamicObjects", *iterator) = heigth_other_;
+                    map_.at("DynamicObjects", *iterator) = height_other_;
                 }
             }
         }
@@ -366,14 +379,14 @@ private:
                     if(!first_point)
                     {
                         for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y)); !iterator.isPastEnd(); ++iterator) {
-                            map_.at("StaticObjects", *iterator) = heigth_other_;
+                            map_.at("StaticObjects", *iterator) = height_other_;
                         }
                     }
                     first_point = false;
                     previous_point = Position(pt.x, pt.y);
                 }
                 for(grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator){
-                    map_.at("DynamicObjects", *iterator) = heigth_other_;
+                    map_.at("DynamicObjects", *iterator) = height_other_;
                 }
             }
             detected_objects_old_ = detected_objects_;
@@ -395,7 +408,8 @@ private:
         //Creating footprint for Ego vehicle
         if(x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_)
         {
-            grid_map::Polygon egoCar = rectangle_creator(last_x_ego_center_, last_y_ego_center_, length_ego_, width_ego_, last_yaw_ego_);
+            grid_map::Polygon egoCar = createRectangle(last_x_ego_center_, last_y_ego_center_, length_ego_, width_ego_,
+                                                       last_yaw_ego_);
             for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
                 map_.at("EgoVehicle", *iterator) = 0;
             }
@@ -408,9 +422,9 @@ private:
                 last_y_ego_center_ = y_ego_center;
                 first_position_callback_ = false;
             }
-            grid_map::Polygon egoCar = rectangle_creator(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
+            grid_map::Polygon egoCar = createRectangle(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
             for(grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator){
-                map_.at("EgoVehicle", *iterator) = heigth_other_;
+                map_.at("EgoVehicle", *iterator) = height_other_;
             }
             last_x_ego_center_ = x_ego_center;
             last_y_ego_center_ = y_ego_center;
@@ -533,7 +547,7 @@ private:
      * Then, it uses the pex file location to go to the right folder (which is hardcoded as
      * <ExperimentFolder>/staticObjects)
      */
-    std::string checkFile(float resolution, std::string pex_file_location) {
+    static std::string checkFile(float resolution, std::string pex_file_location) {
         // Finds the right folder from the pex file location
         //   Ignores the .pex file and goes 1 folder back
         std::size_t pos = pex_file_location.find_last_of("/");
@@ -687,7 +701,7 @@ private:
      * \return A rectangle created corresponding to the given parameters
      * \details This function is especially used to creates car footprint.
      */
-    grid_map::Polygon rectangle_creator(float x, float y, float length, float width, float angle) {
+    static grid_map::Polygon createRectangle(float x, float y, float length, float width, float angle) {
         length = 0.5 * length;
         width = 0.5 * width;
         grid_map::Polygon polygon;
@@ -753,7 +767,7 @@ public:
         //height_ego = 2; //Height is not critical for now
         length_other_ = length_ego_;
         width_other_ = width_ego_;
-        heigth_other_ = 2;
+        height_other_ = 2;
 
         x_ego_old_ = 0;
         y_ego_old_ = 0;
@@ -852,9 +866,9 @@ public:
  * \brief Print a help message on how to use the node.
  * \details Specify arguments needed
  */
-void usage(const std::string& binName) {
-    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
-                     " <area_width> <area_height_front> <area_height_back>");
+void usage(const std::string& bin_name) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << bin_name <<
+                          " <area_width> <area_height_front> <area_height_back>");
 }
 
 int main(int argc, char **argv)
