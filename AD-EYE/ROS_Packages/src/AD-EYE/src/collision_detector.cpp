@@ -1,5 +1,4 @@
 #include <ros/ros.h>
-#include <ros/master.h>
 #include <ros/this_node.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
@@ -11,7 +10,6 @@
 
 #include <cpp_utils/pose_datatypes.h>
 
-#include <visualization_msgs/Marker.h> //Used for ego footprint visualization
 #include <std_msgs/ColorRGBA.h>        //Used for ego footprint visualization
 
 /*!
@@ -29,29 +27,29 @@ class CollisionDetector
 private:
     // node, publishers and subscribers
     ros::NodeHandle &nh_;
-    ros::Subscriber subFootprint;
-    ros::Subscriber subGnss;
-    ros::Subscriber subVelocity;
-    ros::Subscriber subGridmap;
-    ros::Publisher pubCollision;
+    ros::Subscriber sub_footprint_;
+    ros::Subscriber sub_gnss_;
+    ros::Subscriber sub_velocity_;
+    ros::Subscriber sub_gridmap_;
+    ros::Publisher pub_collision_;
 
     //ros::Publisher pubArea;  //Used for ego footprint visualization
 
     //Ego footprint
-    const float car_length = 5; // These values should be calculated or taken from a
-    const float car_width = 2;  // msg, not hardcoded.
+    const float car_length_ = 5; // These values should be calculated or taken from a
+    const float car_width_ = 2;  // msg, not hardcoded.
 
-    const float cog_offset = 1.69; // Offset between the gnss pose and the center of the car
-    grid_map::Polygon egoFootprint;
+    const float cog_offset_ = 1.69; // Offset between the gnss ego_pose_ and the center of the car
+    grid_map::Polygon ego_footprint_;
 
     // variables
-    geometry_msgs::Pose pose;
-    geometry_msgs::TwistStamped velocity;
-    bool gnss_flag;
-    bool gridmap_flag;
-    grid_map::GridMap gridmap; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+    geometry_msgs::Pose ego_pose_;
+    geometry_msgs::TwistStamped ego_velocity_;
+    bool gnss_flag_;
+    bool gridmap_flag_;
+    grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     //! Used to determine the type of the collision
-    enum class collisionType {None, staticObject, dynamicObject};
+    enum class CollisionType {None, staticObject, dynamicObject};
 
 
 public:
@@ -64,15 +62,17 @@ public:
     {
         // Initialize the node, publishers and subscribers
         //pubArea = nh_.advertise<visualization_msgs::Marker>("/collision_ego_footprint", 1, true);  //Used for ego footprint visualization
-        pubCollision = nh_.advertise<std_msgs::Bool>("/collision", 10);
-        subGnss = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnss_callback, this);
-        subVelocity = nh_.subscribe<geometry_msgs::TwistStamped>("/current_velocity", 10, &CollisionDetector::velocity_callback, this);
+        pub_collision_ = nh_.advertise<std_msgs::Bool>("/collision", 10);
+        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnssCallback, this);
+        sub_velocity_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_velocity", 10,
+                                                                   &CollisionDetector::velocityCallback, this);
 
-        subGridmap = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &CollisionDetector::gridmap_callback, this);
+        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1,
+                                                             &CollisionDetector::gridmapCallback, this);
 
         // Initialize the flags
-        gnss_flag = 0;
-        gridmap_flag = 0;
+        gnss_flag_ = false;
+        gridmap_flag_ = false;
 
     }
 
@@ -81,25 +81,25 @@ public:
      * \param msg A smart pointer to the message from the topic.
      * \details Updates gnss information of the vehicle position.
      */
-    void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& gnss)
+    void gnssCallback(const geometry_msgs::PoseStamped::ConstPtr& gnss)
     {
-        pose = gnss->pose;
-        gnss_flag = true;
+        ego_pose_ = gnss->pose;
+        gnss_flag_ = true;
     }
 
-    void velocity_callback(const geometry_msgs::TwistStamped::ConstPtr& vel) {
-        velocity = *vel;
+    void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& vel) {
+        ego_velocity_ = *vel;
     }
 
     /*!
-     * \brief Gridmap Callback : Called when the gridmap information has changed.
+     * \brief Gridmap Callback : Called when the gridmap_ information has changed.
      * \param msg A smart pointer to the message from the topic.
-     * \details Updates the gridmap information.
+     * \details Updates the gridmap_ information.
      */
-    void gridmap_callback(const grid_map_msgs::GridMap::ConstPtr& msg)
+    void gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& msg)
     {
-        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap);
-        gridmap_flag = true;
+        grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
+        gridmap_flag_ = true;
     }
 
 
@@ -107,44 +107,44 @@ public:
      * \brief Check for collision using the SSMP_gridMap
      * \param gridmap The gridMap to look in
      * \param pose The position of the car
-     * \return A collisionType enum member, regarding the type of collision (None if no collision)
+     * \return A CollisionType enum member, regarding the type of collision (None if no collision)
      */
-    collisionType checkCollision(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
+    CollisionType checkCollision(const grid_map::GridMap& gridmap, const geometry_msgs::Pose& pose)
     {
         const float x = pose.position.x;
         const float y = pose.position.y;
         const float a = cpp_utils::extract_yaw(pose.orientation);
 
-        const grid_map::Position center(x + cog_offset * cos(a)/2, y + cog_offset * sin(a)/2);
+        const grid_map::Position center(x + cog_offset_ * cos(a) / 2, y + cog_offset_ * sin(a) / 2);
 
-        egoFootprint.removeVertices();
-        const grid_map::Position point1(center.x() + (cos(a) * car_length - sin(a) * car_width)/2,
-                                        center.y() + (sin(a) * car_length + cos(a) * car_width)/2);
-        const grid_map::Position point2(point1.x() + sin(a) * car_width, point1.y() - cos(a) * car_width);
-        const grid_map::Position point3(point2.x() - cos(a) * car_length, point2.y() - sin(a) * car_length);
-        const grid_map::Position point4(point1.x() - cos(a) * car_length, point1.y() - sin(a) * car_length);
+        ego_footprint_.removeVertices();
+        const grid_map::Position point1(center.x() + (cos(a) * car_length_ - sin(a) * car_width_) / 2,
+                                        center.y() + (sin(a) * car_length_ + cos(a) * car_width_) / 2);
+        const grid_map::Position point2(point1.x() + sin(a) * car_width_, point1.y() - cos(a) * car_width_);
+        const grid_map::Position point3(point2.x() - cos(a) * car_length_, point2.y() - sin(a) * car_length_);
+        const grid_map::Position point4(point1.x() - cos(a) * car_length_, point1.y() - sin(a) * car_length_);
 
-        egoFootprint.addVertex(point1);
-        egoFootprint.addVertex(point2);
-        egoFootprint.addVertex(point3);
-        egoFootprint.addVertex(point4);
+        ego_footprint_.addVertex(point1);
+        ego_footprint_.addVertex(point2);
+        ego_footprint_.addVertex(point3);
+        ego_footprint_.addVertex(point4);
 
         /*visualization_msgs::Marker ca_visu;  //Used for ego footprint visualization
         std_msgs::ColorRGBA color;
         color.r = 1.0;
         color.a = 1.0;
-        grid_map::PolygonRosConverter::toLineMarker(egoFootprint, color, 0.2, 0.5, ca_visu);
-        ca_visu.header.frame_id = gridmap.getFrameId();
-        ca_visu.header.stamp.fromNSec(gridmap.getTimestamp());
+        grid_map::PolygonRosConverter::toLineMarker(ego_footprint_, color, 0.2, 0.5, ca_visu);
+        ca_visu.header.frame_id = gridmap_.getFrameId();
+        ca_visu.header.stamp.fromNSec(gridmap_.getTimestamp());
         pubArea.publish(ca_visu); */
 
-        for(grid_map::PolygonIterator areaIt(gridmap, egoFootprint) ; !areaIt.isPastEnd() ; ++areaIt) {
+        for(grid_map::PolygonIterator areaIt(gridmap, ego_footprint_) ; !areaIt.isPastEnd() ; ++areaIt) {
             if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
-                return collisionType::dynamicObject;
+                return CollisionType::dynamicObject;
             }
         }
 
-        return collisionType::None;
+        return CollisionType::None;
     }
 
 
@@ -156,36 +156,36 @@ public:
      */
     void run()
     {
-        collisionType collision = collisionType::None;
-        std_msgs::Bool collisionState;
+        CollisionType collision = CollisionType::None;
+        std_msgs::Bool collision_state;
         ros::Rate rate(20);
         ROS_INFO("Collision detector started !");
         while(nh_.ok())
         {
-            collisionState.data = false;
+            collision_state.data = false;
             ros::spinOnce();
 
-            if(gridmap_flag && gnss_flag)
+            if(gridmap_flag_ && gnss_flag_)
             {
                 // Collision detection
-                collision = checkCollision(gridmap, pose);
-                if(collision != collisionType::None) {
+                collision = checkCollision(gridmap_, ego_pose_);
+                if(collision != CollisionType::None) {
                     std::stringstream msg;
                     std::string type;
-                    if(collision == collisionType::dynamicObject) {
+                    if(collision == CollisionType::dynamicObject) {
                         type = "Static";
-                    } else if (collision == collisionType::staticObject) {
+                    } else if (collision == CollisionType::staticObject) {
                         type = "Dynamic";
                     }
                     msg << "Collision detected ! [" << type << " Object]\n";
-                    msg << "Position (x,y) = (" << pose.position.x << ", " << pose.position.y << ")\n";
-                    msg << "Car Velocity   = " << velocity.twist.linear.x;
+                    msg << "Position (x,y) = (" << ego_pose_.position.x << ", " << ego_pose_.position.y << ")\n";
+                    msg << "Car Velocity   = " << ego_velocity_.twist.linear.x;
 
                     ROS_WARN_STREAM_THROTTLE(1, msg.str());
-                    collisionState.data = true;
+                    collision_state.data = true;
                 }
             }
-            pubCollision.publish(collisionState);
+            pub_collision_.publish(collision_state);
 
             rate.sleep();
         }
