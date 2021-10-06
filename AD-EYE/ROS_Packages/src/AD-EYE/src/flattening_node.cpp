@@ -52,8 +52,8 @@ private:
     // 0.20 is just a random value chosen, this value indicates at what height objects become dangerous, so right now this is set to 20 cm
     const float DANGEROUS_HEIGHT_ = 0.20;
     nav_msgs::OccupancyGrid occ_grid_;
-    const float occmap_width_;
-    const float occmap_height_;
+    const float OCCMAP_WIDTH_;
+    const float OCCMAP_HEIGHT_;
     float submap_dimensions_;
     GridMap grid_map_;
     float frequency_ = 20; // this value should be aligned with the frequency value used in the GridMapCreator_node
@@ -69,8 +69,8 @@ private:
      */
     void extractsSubmap(const GridMap &full_grid_map) {
         bool is_submap_extracted;
-        submap_dimensions_ = sqrt(std::pow(occmap_width_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
-                                      std::pow(occmap_height_, 2));
+        submap_dimensions_ = sqrt(std::pow(OCCMAP_WIDTH_, 2) +      // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+                                      std::pow(OCCMAP_HEIGHT_, 2));
         const Length subMap_size(submap_dimensions_, submap_dimensions_);
         Position subMap_center;
         subMap_center.x() = x_ego_ + car_offset_ * cos(yaw_ego_);
@@ -146,13 +146,13 @@ private:
         Position pos;
 
         grid_map::Polygon area;
-        float alpha = yaw_ego_ + std::atan(occmap_width_ / occmap_height_); // Angle between the horizontal and the diagonal of the area
+        float alpha = yaw_ego_ + std::atan(OCCMAP_WIDTH_ / OCCMAP_HEIGHT_); // Angle between the horizontal and the diagonal of the area
         Position point1 = grid_map_.getPosition();
         point1.x() += cos(alpha) * submap_dimensions_ / 2;
         point1.y() += sin(alpha) * submap_dimensions_ / 2;
-        Position point2 = {point1.x() + occmap_width_ * sin(yaw_ego_), point1.y() - occmap_width_ * cos(yaw_ego_)};
-        Position point3 = {point2.x() - occmap_height_ * cos(yaw_ego_), point2.y() - occmap_height_ * sin(yaw_ego_)};
-        Position point4 = {point3.x() - occmap_width_ * sin(yaw_ego_), point3.y() + occmap_width_ * cos(yaw_ego_)};
+        Position point2 = {point1.x() + OCCMAP_WIDTH_ * sin(yaw_ego_), point1.y() - OCCMAP_WIDTH_ * cos(yaw_ego_)};
+        Position point3 = {point2.x() - OCCMAP_HEIGHT_ * cos(yaw_ego_), point2.y() - OCCMAP_HEIGHT_ * sin(yaw_ego_)};
+        Position point4 = {point3.x() - OCCMAP_WIDTH_ * sin(yaw_ego_), point3.y() + OCCMAP_WIDTH_ * cos(yaw_ego_)};
         area.addVertex(point1);
         area.addVertex(point2);
         area.addVertex(point3);
@@ -238,9 +238,9 @@ public:
      * The area related parameters needs to be given as command line arguments to the node (order : width, height_front, height_back)
      */
     OccMapCreator(ros::NodeHandle &nh, const float area_width, const float area_height_front, const float area_height_back) : nh_(nh), rate_(1),
-                                                                                                                              occmap_width_(area_width),                               // The width in meter...
-        occmap_height_(area_height_front + area_height_back), // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-        car_offset_(area_height_front - occmap_height_ / 2) // relative distance between the center of the grid map and the center of the car (longitudinal axis positive towards the front of the car
+                                                                                                                              OCCMAP_WIDTH_(area_width),                               // The width in meter...
+        OCCMAP_HEIGHT_(area_height_front + area_height_back), // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        car_offset_(area_height_front - OCCMAP_HEIGHT_ / 2) // relative distance between the center of the grid map and the center of the car (longitudinal axis positive towards the front of the car
     {
         // Initialize node and publishers
         pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
@@ -294,9 +294,9 @@ public:
 * \brief Exception
 * \details Exception raise if area parameters aren't given
 */
-void usage(std::string binName) {
-    ROS_FATAL_STREAM("\n" << "Usage : " << binName <<
-                     " <area_width> <area_height_front> <area_height_back>");
+void usage(std::string bin_name) {
+    ROS_FATAL_STREAM("\n" << "Usage : " << bin_name <<
+                          " <area_width> <area_height_front> <area_height_back>");
 }
 
 int main(int argc, char** argv)
