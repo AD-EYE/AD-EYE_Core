@@ -183,7 +183,7 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
     disp('Killing all the ros nodes');
 
     %contains command to kill all the ros nodes and consecutively rosmaster 
-    system(device,'/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killRosNodes.sh'); 
+    system(device,'/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killROS.sh'); 
     rosshutdown;
 
     cd(ta_path);
@@ -200,7 +200,7 @@ end
 function setROSParamAndLaunch(runs, run_index, device)
     sh_folder_path = '/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh';
     launch_template_modifier = strcat(sh_folder_path, '/' , 'launchTemplateModifier.sh'); % Script to run the node modifies the launch files 
-    manager_file_launch = strcat(sh_folder_path, '/', 'managerFileLaunch.sh'); %contains command to launch manager file in adeye package
+    manager_file_launch = strcat(sh_folder_path, '/', 'launchManagerFile.sh'); %contains command to launch manager file in adeye package
     rosparamScript(runs(run_index).TARosParameters, runs(run_index).prescanExperiment); % Send all the ros parameters to the linux computer
     cd('..');
     disp('Python node recieving the ros parameters and modifying launch files');
