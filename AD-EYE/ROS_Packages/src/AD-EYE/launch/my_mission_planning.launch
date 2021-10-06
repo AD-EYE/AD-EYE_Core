@@ -25,7 +25,6 @@
         <arg name="mapSource" value="$(arg mapSource)"/>
         <arg name="mapFileName" value="$(arg mapFileName)"/>
         <arg name="enableDynamicMapUpdate" value="$(arg enableDynamicMapUpdate)"/>
-        <!--arg name="adeyeGoalMarkerSize" value="$(arg adeyeGoalMarkerSize)"/-->
     </include>
 
     <node pkg="adeye" type="goalSequencer" name="goalSequencer" output="screen"/>
