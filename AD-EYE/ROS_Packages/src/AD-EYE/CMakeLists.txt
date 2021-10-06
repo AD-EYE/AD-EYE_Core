@@ -64,9 +64,6 @@ add_library(
 add_library(
   experimentRecording src/experiment_recording.cpp
 )
-# add_library(
-#   pointCloudToOccupancyGridLib src/point_cloud_to_occupancy_grid.cpp
-# )
 
 add_executable(
   GridMapCreator
@@ -272,7 +269,6 @@ add_dependencies(sensorMonitor
 add_executable(
   ExperimentC
   src/experimentC.cpp
-  #src/point_cloud_to_occupancy_grid.cpp
 )
 target_link_libraries(
   ExperimentC
