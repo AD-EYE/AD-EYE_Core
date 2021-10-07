@@ -59,6 +59,12 @@ private:
     //Ros utils
     ros::Rate rate_;
 
+    // The frequencies of lidar and camera for traffic lights are twice less than other sensors frequencies so they are called once on 2
+    bool even_loop_lidar_;
+    bool odd_loop_lidar_;
+    bool even_loop_cameratl_;
+    bool odd_loop_cameratl_;
+
     /*!
      * \brief Sensor Update: called when a sensor is activated
      * \param sensor_index The type of sensor that needs to be updated.
@@ -85,6 +91,9 @@ private:
      */
     void lidarCallback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
         sensorUpdate(LIDAR);
+        // initialize the value of the parity loop
+        even_loop_lidar_ = false;
+        odd_loop_lidar_ = true;
     }
 
     /*!
@@ -109,6 +118,9 @@ private:
      */
     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg){
         sensorUpdate(CAMERATL);
+        // initialize the value of the parity loop
+        even_loop_cameratl_ = false;
+        odd_loop_cameratl_ = true;
     }
 
     /*!
@@ -118,10 +130,26 @@ private:
     void polygonCreator() {
         for(int type = RADAR; type <= CAMERATL; type++) {
             // For each sensor, the polygon is created if information about this sensor is sent. If not, there will be an empty polygon for this sensor.
-            if(sensor_active_[type]) {
+            if(sensor_active_[type] || (type == LIDAR && even_loop_lidar_) || (type == CAMERATL && even_loop_cameratl_)) {
                 // The polygon array is updated with each sensor polygon created.
                 sensor_field_of_views_.polygons.at(type) = createCircleSection(SENSOR_POSITION_X_[type], SENSOR_POSITION_Y_[type], SENSOR_RANGES_[type], SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
                 sensor_active_[type] = false;
+
+                if(type == LIDAR) {
+                    bool parity_storage;
+                    // exchange the value of parity loop for lidar
+                    parity_storage = even_loop_lidar_;
+                    even_loop_lidar_ = odd_loop_lidar_;
+                    odd_loop_lidar_ = parity_storage;
+                }
+
+                if(type == CAMERATL) {
+                    bool parity_storage;
+                    // exchange the value of parity loop for camera tl
+                    parity_storage = even_loop_cameratl_;
+                    even_loop_cameratl_ = odd_loop_cameratl_;
+                    odd_loop_cameratl_ = parity_storage;
+                }
             }
         }
     }
@@ -206,18 +234,19 @@ public:
         sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
         sensor_time_elapsed_[CAMERATL] = 2 * SENSOR_TIMEOUTS_[CAMERATL];
 
-        // Initialize the polygon array that will be published later
-        // Definition of different sensor polygons.
-        geometry_msgs::PolygonStamped radar_poly;
-        geometry_msgs::PolygonStamped lidar_poly;
-        geometry_msgs::PolygonStamped camera1_poly;
-        geometry_msgs::PolygonStamped camera2_poly;
-        geometry_msgs::PolygonStamped cameratl_poly;
-        // The polygon array is filled with each sensor polygon.
-        sensor_field_of_views_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
-
         //Main loop
         while (nh_.ok()) {
+
+            // Initialize the polygon array that will be published later
+            // Definition of different sensor polygons.
+            geometry_msgs::PolygonStamped radar_poly;
+            geometry_msgs::PolygonStamped lidar_poly;
+            geometry_msgs::PolygonStamped camera1_poly;
+            geometry_msgs::PolygonStamped camera2_poly;
+            geometry_msgs::PolygonStamped cameratl_poly;
+            // The polygon array is filled with each sensor polygon.
+            sensor_field_of_views_.polygons = {radar_poly, lidar_poly, camera1_poly, camera2_poly, cameratl_poly};
+
             ros::Time rostime = ros::Time::now();
             ros::spinOnce();
 
