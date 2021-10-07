@@ -75,5 +75,11 @@
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
+    <node pkg="adeye"
+        type="sensorMonitor"
+        name="sensorMonitor"
+        output="screen"
+        launch-prefix="xterm -e"/>
+
 
 </launch>

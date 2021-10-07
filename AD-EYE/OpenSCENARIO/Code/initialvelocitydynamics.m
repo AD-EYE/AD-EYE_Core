@@ -104,6 +104,10 @@ for j =1:length(models.worldmodel.object) %main for loop
                     if(fieldexists(Struct_OpenSCENARIO, strcat("Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, ",num2str(x),"}.PrivateAction{1,",num2str(y),"}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed")))
                         set_param(locationblockConstant,'Value',Struct_OpenSCENARIO.OpenSCENARIO.Storyboard.Init.Actions.Private{1, x}...
                                 .PrivateAction{1,y}.LongitudinalAction.SpeedAction.SpeedActionTarget.AbsoluteTargetSpeed.Attributes.value);
+                        add_block("robotlib/Set Parameter", strcat(locationDynamicsEmpty, "ROS Parameter"));
+                        add_line(locationDynamicsEmpty, strcat(blockConstant,blockId(1,j), "/1"), "ROS Parameter/1");
+                        set_param(strcat(locationDynamicsEmpty,"ROS Parameter"), "ParameterSource", "specify your own");
+                        set_param(strcat(locationDynamicsEmpty,"ROS Parameter"), "ParameterName", strcat("/initial_speed_", num2str(j)));
                     end %check Target field
                         
                         
