@@ -32,5 +32,5 @@ pip3 install --upgrade pip
 
 #Installing dependencies
 echo "Installing dependencies"
-pip3 install -r requirements.txt
+pip3 install -r vector_mapper_dependencies.txt
 sudo apt-get install python3-tk
