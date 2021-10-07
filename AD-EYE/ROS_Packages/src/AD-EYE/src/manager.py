@@ -162,7 +162,7 @@ class ManagerFeaturesHandler:
             self.features[key].path = adeye_package_path + launch_folder + self.features[key].path
 
         self.features["Experiment_specific_recording"].path = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE" \
-                                                              "/launch/ExperimentA.launch "
+                                                              "/launch/ExperimentPedestrianAction.launch"
         self.features["Recording"].path = ""
 
     ##Method createFeaturesControls
@@ -302,7 +302,7 @@ class Manager:
     ]
     previous_features = []
     current_features = INITIALIZING_DEFAULT_FEATURES
-
+    
     # Rosbag related constants
     ROSBAG_PATH = "/recording" + str(time.time()) + ".bag"  # ~ is added as a prefix, name of the bag
     ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH + " __name:=rosbag_recorder"  # command to start the rosbag
@@ -318,7 +318,9 @@ class Manager:
     def __init__(self):
         self.manager_state_machine = ManagerStateMachine()
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
+        
         self.manager_features_handler = ManagerFeaturesHandler()
+        
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
@@ -343,7 +345,7 @@ class Manager:
         if self.current_features != self.previous_features:  # checks if the list of active features has changed
             self.startAndStopFeatures()
         self.state_pub.publish(self.manager_state_machine.getState().value)  # publish the state machine state (for GUI)
-        self.publishActiveFeatures()  # publish the current active features (for GUI)
+        self.publishBooleanListActiveFeatures()  # publish the current active features (for GUI)
 
     ##Callback method listening to the features requests (features that we want to activate/deactivate)
     #@param self The object pointer
@@ -449,17 +451,18 @@ class Manager:
             "xterm -hold -e bash " + adeye_package_location + "/sh/rosbag_stop ~/" + self.ROSBAG_PATH,
             shell=True, preexec_fn=os.setpgrp, executable='/bin/bash')
 
-    ##A method that publishes a list of integers (0 or 1) representing the active features (for GUI)
-    #@param self The object pointer
-    def publishActiveFeatures(self):
+    def getBooleanListActiveFeatures(self):
         state_array = Int32MultiArray()
         for feature in self.manager_features_handler.features:
             if feature in self.current_features:
                 state_array.data.append(1)
             else:
                 state_array.data.append(0)
-        self.features_pub.publish(state_array)
+	return state_array
 
+
+    def publishBooleanListActiveFeatures(self):
+        self.features_pub.publish(self.getBooleanListActiveFeatures())
 
 if __name__ == '__main__':
     rospy.init_node('AD-EYE_Manager')

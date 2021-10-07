@@ -217,7 +217,14 @@ cd $env(WORKING_PATH)/Git_Statistics
 spawn git clone git@gits-15.sys.kth.se:AD-EYE/getting_familiar_TCP.git
 expect "Enter passphrase"
 send $env(GIT_STAT_PASSPHRASE)\r
-interact'
+interact'# PIP_OK=$(pip3 list | grep -F labours)
+# echo Checking for labours:
+# if [ "" = "$PIP_OK" ]; then
+#   echo "labours package is not installed. Install it using : pip3 install labours."
+#   exit 1
+# else
+#     echo "install ok installed"
+# fi
 
 cd getting_familiar_TCP
 git remote rm origin
@@ -344,17 +351,53 @@ java -jar bfg-1.14.0.jar --delete-folders _pycache_
 java -jar bfg-1.14.0.jar --delete-folders csv
 
 
-#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction
+#Hercules graphs (about lines of code) for AD-EYE_Core and Pex_Data_Extraction filtered by code languages
 cd
-hercules --burndown --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis.pb
-hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis.pb
-hercules --devs --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis.pb
+hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_py.pb
+hercules --burndown --languages="python" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_py.pb
+hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_py.pb
 
-hercules --burndown --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
-hercules --burndown --burndown-people --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
-hercules --devs --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
+hercules --burndown --languages="c++" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_cpp.pb
+hercules --burndown --languages="c++" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_cpp.pb
+hercules --devs --languages="c++" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_cpp.pb
+
+hercules --burndown --languages="matlab" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/burndown_analysis_ml.pb
+hercules --burndown --languages="matlab" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_ml.pb
+hercules --devs --languages="matlab" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_ml.pb
+
+hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
+hercules --burndown --burndown-people --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
+hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
 
 #Saving hercules graphs for AD-EYE_Core
+#Python files
+cd $WORKING_PATH/Stats_results/Graphs
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_py.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core_py.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_py.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core_py
+hercules combine $WORKING_PATH/Stats_results/people_analysis_py.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core_py
+#C++ files
+cd $WORKING_PATH/Stats_results/Graphs
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_cpp.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core_cpp.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_cpp.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core_cpp
+hercules combine $WORKING_PATH/Stats_results/people_analysis_cpp.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core_cpp
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_cpp.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core_cpp
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_cpp.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core_cpp
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_cpp.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core_cpp
+#Matlab files
+cd $WORKING_PATH/Stats_results/Graphs
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_ml.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core_ml.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_ml.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core_ml
+hercules combine $WORKING_PATH/Stats_results/people_analysis_ml.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core_ml
+#Combined code files
 cd $WORKING_PATH/Stats_results/Graphs
 hercules combine $WORKING_PATH/Stats_results/burndown_analysis.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
 mv project.png code_lines_AD-EYE_Core.png

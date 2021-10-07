@@ -78,6 +78,18 @@ private:
     }
 
     /*!
+     * \brief Sensor Update: called when a sensor is activated
+     * \param sensor_index The type of sensor that needs to be updated.
+     * \details This function changes the value of sensor_active for the corresponding sensor to then update the sensor polygon.
+     */
+    void sensorUpdate(SENSOR_TYPE_ sensor_index){
+        sensor_active_[sensor_index] = true;
+        sensor_last_time_[sensor_index] = sensor_current_time_[sensor_index];
+        sensor_current_time_[sensor_index] = ros::Time::now().toSec();
+        sensor_time_elapsed_[sensor_index] = sensor_current_time_[sensor_index] - sensor_last_time_[sensor_index];
+    }
+
+    /*!
      * \brief Radar Callback : called when information from the radar changed.
      * \param msg A smart pointer to the message from the topic.
      */

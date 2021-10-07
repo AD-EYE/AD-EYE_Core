@@ -1,0 +1,178 @@
+<OpenSCENARIO>
+
+    <FileHeader revMajor="0" revMinor="9" date="2021-07-21T10:00:00" description="Lead Vehicle changes lane (to the lane where ego car is) and then try to avoid an object" author="Alicia Fossard"/>
+
+    <ParameterDeclaration/>
+
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VechicleCatalog" entryName="BMW_X5_SUV_1"/>
+        </ScenarioObject>
+
+        <ScenarioObject name="Box_1">
+            <CatalogReference catalogName="MiscObjectCatalogs" entryName="Box_1"/>
+        </ScenarioObject>
+
+        <ScenarioObject name="Ford_Fiesta_Hatchback_1">
+            <CatalogReference catalogName="VechicleCatalog" entryName="Ford_Fiesta_Hatchback_1"/>
+        </ScenarioObject>
+    </Entities>
+
+   <Storyboard>
+        <Init>
+            <Actions>
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <Weather>
+                                <Precipitation type="typeRain" intensity="40" />
+                            </Weather>
+                            <RoadCondition frictionScaleFactor="1.0"/>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+
+                <Private entityRef="Ego">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="371"
+                                                y="174.87"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="15"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+                <Private entityRef="Ford_Fiesta_Hatchback_1">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="340"
+                                                y="171.24"
+                                                z="0"
+                                                h="pi"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="13"/>
+                            </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+                
+                <Private entityRef="Box_1">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <WorldPosition x="286.56"
+                                                y="174.87"
+                                                z="0"
+                                                h="0"
+                                                p="0"
+                                                r="0"/>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                            <SpeedActionDynamics dynamicsShape="step"/>
+                            <SpeedActionTarget>
+                                <AbsoluteTargetSpeed value="0"/>
+                            </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+            </Actions>
+        </Init>
+
+        <Story name="ChangeLaneAndAvoidObjectStory" >
+            <ParameterDeclaration/>
+            <Act name="ChangeLaneAndAvoidObjectAct">
+                <ManeuverGroup name="ChangeLaneAndAvoidObjectSequence" maximumExecutionCount="1">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                    </Actors>
+
+                    <Maneuver name="ChangeLaneAndAvoidObject">
+                        <Event priority="overwrite" name="ChangeLaneEvent" maximumExecutionCount="1">
+                            <Action name="ChangeLaneActions">
+                                <PrivateAction>
+                                    <LateralAction>
+                                        <LaneChangeAction>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="distance"/>
+                                            <LaneChangeTarget>
+                                                <AbsoluteTargetLane value= "1"/> 
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByValueCondition>
+                                            <SimulationTimeCondition rule="greaterThan" value='2'/>
+                                        </ByValueCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+
+                        <Event priority="overwrite" name="AvoidObjectEvent" maximumExecutionCount="1">
+                            <Action name="AvoidObjectActions">
+                                <PrivateAction>
+                                    <LateralAction>
+                                        <LaneChangeAction>
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="pi" dynamicsDimension="distance"/>
+                                            <LaneChangeTarget>
+                                                <AbsoluteTargetLane value= "25"/> 
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Relative Distance" delay="0" conditionEdge="rising">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ford_Fiesta_Hatchback_1"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition freespace="false" rule="lessThan" entityRef="Box_1" value="15.0" relativeDistanceType="Longitudinal"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+        </Story>
+    </Storyboard>
+
+</OpenSCENARIO>
