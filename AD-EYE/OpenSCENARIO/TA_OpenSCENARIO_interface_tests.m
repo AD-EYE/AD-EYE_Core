@@ -58,7 +58,7 @@ waitbar(.23,ta_openscenario_progress_bar,'Creating OpenSCENARIO experiments');
 
 %Creating multiple .xosc and experiment files
 cd(adeye_base + "OpenSCENARIO\Code")
-listOfNames = OpenScenarioMod(convertStringsToChars(xoscFinaleNames(1)));
+listOfNames = openScenarioSplitSquareBrackets(convertStringsToChars(xoscFinaleNames(1)));
 
 listOfNames2=[];
 for s= 1:length(listOfNames)
@@ -66,7 +66,7 @@ for s= 1:length(listOfNames)
     cd(adeye_base + "OpenSCENARIO\Code")
     Struct_OpenSCENARIO = xml2struct([d(1:end-5), '.xosc']);
     d=convertStringsToChars(listOfNames(s));
-    listOfNames2=[listOfNames2,OpenScenarioMod2(d(1:end-5))];
+    listOfNames2=[listOfNames2,openScenarioSplitCurlyBrackets(d(1:end-5))];
 end
 
 %% Configure OpenSCENARIO experiments

@@ -1,4 +1,4 @@
-function listOfNames2 = openscenariomod2(fileName)
+function listOfNames2 = openScenarioSplitCurlyBrackets(fileName)
 %go to correct folder
 cd '..\OpenSCENARIO_experiments'
 
@@ -72,8 +72,7 @@ end
 lastRow = size(documentList,1);
 %output
 for columnn = 1:size(documentList,2)
-    fileID = fopen([fileName, sprintf('%.0f', columnn), '_generated.xosc'],'w');
-    listOfNames2(columnn) = convertCharsToStrings([fileName, sprintf('%.0f', columnn), '_generated.xosc']);
+    fileID = fopen([fileName, sprintf('%.0f', columnn), '.xosc'],'w');
     doc = documentList(lastRow, columnn);
     fwrite(fileID,doc{1});
     fclose(fileID);

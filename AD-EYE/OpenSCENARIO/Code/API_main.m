@@ -87,7 +87,7 @@ trajectorylabels(velocityVariable,models,nameSimulink);
 %creating initial_velocity simulink blocks
 initialvelocitydynamics(nameSimulink,models,StructOpenSCENARIO,velocityVariable);
 %Adding block for lonitudinal and lateral dynamics
-trajectorydynamics2(nameSimulink,models,StructOpenSCENARIO,trajectoryVariable,lateralEvents,longitudinalEvents,nameEgo)
+trajectoryDynamics(nameSimulink,models,StructOpenSCENARIO,trajectoryVariable,lateralEvents,longitudinalEvents,nameEgo)
 
 
 
