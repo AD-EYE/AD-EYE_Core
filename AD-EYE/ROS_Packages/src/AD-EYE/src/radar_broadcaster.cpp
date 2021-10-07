@@ -10,35 +10,35 @@
 * \details The std_msgs::Float32MultiArray come from the /radarDetections topic.
 * The autoware_msgs::DetectedObject is published on /detection/radar_tracker/objects topic
 */
-class radarBroadcaster
+class RadarBroadcaster
 {
 private:
     // Node, publishers and subscribers
     ros::NodeHandle &nh_;
 
-    ros::Subscriber subRadarDetections;
+    ros::Subscriber sub_radar_detections_;
 
-    ros::Publisher pubRadarObjects;
+    ros::Publisher pub_radar_objects_;
 
     // Structures
-    struct detection{
+    struct Detection{
         double x;
         double y;
         double z;
     };
 
     // variables
-    std::vector<detection> detections;
-    bool radarDetection_flag = false;
+    std::vector<Detection> detections;
+    bool radar_detection_flag = false;
 
     /*!
-    * \brief Callback of the /radarDetections topic sucriber.
-    * \details Converts the float vector received into a vector of detection (struct with x, y and z)
+    * \brief Callback of the /radarDetections topic subscriber.
+    * \details Converts the float vector received into a vector of Detection (struct with x, y and z)
     */
-    void radarDetections_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
+    void radarDetectionsCallback(const std_msgs::Float32MultiArray::ConstPtr& msg)
     {
         std_msgs::Float32MultiArray radarMsg = *msg;
-        detection d;
+        Detection d;
         detections.clear();
         for (size_t i = 0; i < radarMsg.data.size()/3; i++) {
             d.x = radarMsg.data.at(3*i);
@@ -46,7 +46,7 @@ private:
             d.z = radarMsg.data.at(3*i+2);
             detections.push_back(d);
         }
-        radarDetection_flag = true;
+        radar_detection_flag = true;
     }
 
     /*!
@@ -94,9 +94,7 @@ private:
             }
 
         }
-        pubRadarObjects.publish(msg);
-
-
+        pub_radar_objects_.publish(msg);
     }
 
 
@@ -106,11 +104,12 @@ public:
     * \param nh A reference to the ros::NodeHandle initialized in the main function.
     * \details The node subscribes to /radarDetections topic and advertise to /detection/radar_tracker/objects topic
     */
-    radarBroadcaster(ros::NodeHandle &nh) : nh_(nh)
+    RadarBroadcaster(ros::NodeHandle &nh) : nh_(nh)
     {
         // Initialize the publishers and subscribers
-        subRadarDetections = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1, &radarBroadcaster::radarDetections_callback, this);
-        pubRadarObjects = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/radar_tracker/objects", 1, true);
+        sub_radar_detections_ = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1,
+                                                                           &RadarBroadcaster::radarDetectionsCallback, this);
+        pub_radar_objects_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("/Detection/radar_tracker/objects", 1, true);
     }
 
     /*!
@@ -122,9 +121,9 @@ public:
       while(nh_.ok())
       {
           ros::spinOnce();
-          if(radarDetection_flag == true)
+          if(radar_detection_flag)
           {
-              radarDetection_flag = false;
+              radar_detection_flag = false;
               publish();
           }
           rate.sleep();
@@ -136,7 +135,7 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "radar_broadcaster");
     ros::NodeHandle nh;
-    radarBroadcaster rB(nh);
-    rB.run();
+    RadarBroadcaster radar_broadcaster(nh);
+    radar_broadcaster.run();
     return 0;
 }

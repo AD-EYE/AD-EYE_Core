@@ -3,10 +3,8 @@
 #include <autoware_msgs/DetectedObjectArray.h>
 
 #include <tf2_ros/transform_listener.h>
-#include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PointStamped.h>
-//#include <geometry_msgs/PolygonStamped.h>
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 
 /*!
@@ -28,12 +26,10 @@ private:
     * \param msg The message receive in the subscriber
     * \details There is an exception : If it can't calculate the new position, it seends a ROS_WARN
     */
-    void detectedObjects_callback(autoware_msgs::DetectedObjectArray msg)
+    void detectedObjectsCallback(autoware_msgs::DetectedObjectArray msg)
     {
         geometry_msgs::PoseStamped pose_stamped_in;
         geometry_msgs::PoseStamped pose_stamped_out;
-        geometry_msgs::PointStamped point_stamped_in;
-        geometry_msgs::PointStamped point_stamped_out;
 
         for (size_t i = 0; i < msg.objects.size(); i++) {
             msg.header.frame_id = target_frame_;
@@ -50,6 +46,8 @@ private:
                 //std::cout << "Frame out: " << pose_stamped_out.header.frame_id << '\n';
 
 
+                geometry_msgs::PointStamped point_stamped_in;
+                geometry_msgs::PointStamped point_stamped_out;
                 for (size_t j = 0; j < msg.objects.at(i).convex_hull.polygon.points.size(); j++) {
                     point_stamped_in.point.x = msg.objects.at(i).convex_hull.polygon.points[j].x;
                     point_stamped_in.point.y = msg.objects.at(i).convex_hull.polygon.points[j].y;
@@ -79,15 +77,15 @@ public:
      * \brief Constructor of the class
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \param inputTopic1 Name of the topic where our object will be receive.
-     * \param outputTopic Name of the topic where the output message will be published
-     * \param targetFrame The new frame
+     * \param output_topic Name of the topic where the output message will be published
+     * \param target_frame The new frame
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    ObjectsFrameAdapter(ros::NodeHandle &nh, std::string inputTopic, std::string outputTopic, std::string targetFrame) : nh_(nh), tf_listener_(tf_buffer_)
+    ObjectsFrameAdapter(ros::NodeHandle &nh, std::string input_topic, std::string output_topic, std::string target_frame) : nh_(nh), tf_listener_(tf_buffer_), target_frame_(target_frame)
     {
-        target_frame_ = targetFrame;
-        sub_objects_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(inputTopic, 1, &ObjectsFrameAdapter::detectedObjects_callback, this);
-        pub_objects_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(outputTopic, 1, true);
+        sub_objects_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic, 1,
+                                                                         &ObjectsFrameAdapter::detectedObjectsCallback, this);
+        pub_objects_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(output_topic, 1, true);
     }
 
     /*!
