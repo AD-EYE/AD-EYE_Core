@@ -7,13 +7,12 @@ bool VectorMap::checkFileOpening(const std::ifstream &input_file_stream, const s
         ss << "Couldn't open file" << file_name;
         ROS_ERROR_STREAM(ss.str());
         throw std::runtime_error(ss.str());
-        return false;
     } else {
         return true;
     }
 }
 
-void VectorMap::load_vectormap(std::string points_file, std::string lanes_file, std::string nodes_file, std::string dtlanes_file) {
+void VectorMap::loadVectormap(std::string points_file, std::string lanes_file, std::string nodes_file, std::string dtlanes_file) {
     readPoints(points_file);
     readLanes(lanes_file);
     readNodes(nodes_file);

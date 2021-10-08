@@ -535,7 +535,7 @@ private:
         std::string fileNode = p_nh.param<std::string>("fileNode","");
         std::string fileDtlane = p_nh.param<std::string>("fileDtlane","");
         VectorMap veclane;
-        veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
+        veclane.loadVectormap(filePoint, fileLane, fileNode, fileDtlane);
 
         createEmptyGridMap(veclane);
         if(use_pex_file_)

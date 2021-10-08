@@ -85,7 +85,7 @@ class VectorMap
         * \param dtlanes_file The path to dtlane.csv
         * \details The function parses files and stores the data into the structure.
         */
-        void load_vectormap(std::string points_file, std::string lanes_file, std::string nodes_file, std::string dtlanes_file);
+        void loadVectormap(std::string points_file, std::string lanes_file, std::string nodes_file, std::string dtlanes_file);
         
 };
 
