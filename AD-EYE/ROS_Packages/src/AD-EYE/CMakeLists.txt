@@ -108,7 +108,7 @@ add_executable(
 add_executable(
   cameraObjectListFuse
   src/camera_object_list_fuse.cpp
-        src/safety_fault_detectors/safety_fault_detector.cpp src/safety_fault_detectors/safety_fault_detector.h)
+        src/safety_fault_detectors/safety_fault_detector.cpp include/safety_fault_detectors/safety_fault_detector.h)
 
 add_executable(
   lidarRadarFuse
@@ -283,6 +283,10 @@ add_dependencies(
 
 
 add_library(SafetyFaultDetectors src/safety_fault_detectors/safety_fault_detector.cpp src/safety_fault_detectors/active_nodes_checker.cpp)
+target_link_libraries(
+        SafetyFaultDetectors
+        ${catkin_LIBRARIES}
+)
 
 add_executable(
   TestFault
