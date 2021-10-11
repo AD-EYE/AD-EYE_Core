@@ -7,9 +7,9 @@
 
 #include <vector>
 #include <string>
-#include "safety_fault_detector.h"
+#include "safety_fault_monitor.h"
 
-class ActiveNodeChecker: public SafetyFaultDetector {
+class ActiveNodeChecker: public SafetyFaultMonitor {
 private:
     std::vector<std::string> nodes_to_check_;
     bool isFailingRightNow() override;

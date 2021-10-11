@@ -2,10 +2,10 @@
 // Created by adeye on 2021-10-11.
 //
 
-#include "safety_fault_detectors/car_off_road_checker.h"
+#include "safety_fault_monitors/car_off_road_checker.h"
 
 CarOffRoadChecker::CarOffRoadChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold):
-        SafetyFaultDetector(increment_value, decrement_value, high_threshold, low_threshold)
+        SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
     sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &CarOffRoadChecker::gnssCallback, this);
     sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &CarOffRoadChecker::gridmapCallback, this);

@@ -11,10 +11,10 @@
 #include <grid_map_msgs/GridMap.h>
 #include <geometry_msgs/PoseStamped.h>
 
-#include "safety_fault_detector.h"
+#include "safety_fault_monitor.h"
 
 
-class CarOffRoadChecker: public SafetyFaultDetector {
+class CarOffRoadChecker: public SafetyFaultMonitor {
 private:
     ros::NodeHandle nh_;
     ros::Subscriber sub_gnss_;

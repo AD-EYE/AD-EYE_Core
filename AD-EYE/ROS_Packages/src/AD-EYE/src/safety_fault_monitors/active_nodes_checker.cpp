@@ -4,9 +4,9 @@
 
 
 #include <ros/ros.h>
-#include "safety_fault_detectors/active_nodes_checker.h"
+#include "safety_fault_monitors/active_nodes_checker.h"
 
-ActiveNodeChecker::ActiveNodeChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, int criticality_level): SafetyFaultDetector(increment_value, decrement_value, high_threshold, low_threshold)
+ActiveNodeChecker::ActiveNodeChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, int criticality_level): SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
     switch (criticality_level) {
         case 1:

@@ -2,8 +2,8 @@
 // Created by adeye on 2021-10-08.
 //
 
-#ifndef ADEYE_SAFETY_FAULT_DETECTOR_H
-#define ADEYE_SAFETY_FAULT_DETECTOR_H
+#ifndef ADEYE_SAFETY_FAULT_MONITOR_H
+#define ADEYE_SAFETY_FAULT_MONITOR_H
 
 /*!
      * \brief Mother class for safety fault detection
@@ -12,7 +12,7 @@
      * test is respectively failed or passed. When the counter is between those threshold the test keep the same status
      * as previously.
      */
-class SafetyFaultDetector {
+class SafetyFaultMonitor {
 
 private:
 
@@ -35,7 +35,7 @@ public:
      * \param high_threshold Upper value at which the counter is saturated. When the counter reaches this value the test is considered failed.
      * \param low_threshold Lower value at which the counter is saturated. When the counter reaches this value the test is considered successful.
      */
-    SafetyFaultDetector(int increment_value, int decrement_value, int high_threshold, int low_threshold);
+    SafetyFaultMonitor(int increment_value, int decrement_value, int high_threshold, int low_threshold);
 
     /*!
      * \brief Updates the counter based of the result of isFailingRightNow
@@ -56,4 +56,4 @@ public:
 };
 
 
-#endif //ADEYE_SAFETY_FAULT_DETECTOR_H
+#endif //ADEYE_SAFETY_FAULT_MONITOR_H

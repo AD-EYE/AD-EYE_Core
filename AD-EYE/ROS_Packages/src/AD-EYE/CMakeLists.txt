@@ -108,7 +108,7 @@ add_executable(
 add_executable(
   cameraObjectListFuse
   src/camera_object_list_fuse.cpp
-        src/safety_fault_detectors/safety_fault_detector.cpp include/safety_fault_detectors/safety_fault_detector.h)
+)
 
 add_executable(
   lidarRadarFuse
@@ -282,24 +282,25 @@ add_dependencies(
 )
 
 
-add_library(SafetyFaultDetectors
-        src/safety_fault_detectors/safety_fault_detector.cpp
-        src/safety_fault_detectors/active_nodes_checker.cpp
-        src/safety_fault_detectors/geofencing_checker.cpp
-        src/safety_fault_detectors/car_off_road_checker.cpp)
+add_library(SafetyFaultMonitors
+        src/safety_fault_monitors/safety_fault_monitor.cpp
+        src/safety_fault_monitors/active_nodes_checker.cpp
+        src/safety_fault_monitors/geofencing_checker.cpp
+        src/safety_fault_monitors/car_off_road_checker.cpp
+        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp)
 target_link_libraries(
-        SafetyFaultDetectors
+        SafetyFaultMonitors
         ${catkin_LIBRARIES}
 )
 
 add_executable(
   TestFault
-        src/safety_fault_detectors/fault_detectors_unit_tests.cpp
+        src/safety_fault_monitors/fault_detectors_unit_tests.cpp
 )
 target_link_libraries(
   TestFault
   ${catkin_LIBRARIES}
-  SafetyFaultDetectors
+        SafetyFaultMonitors
 )
 add_dependencies(
   TestFault

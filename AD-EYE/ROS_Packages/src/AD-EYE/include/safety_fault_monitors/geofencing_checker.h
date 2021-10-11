@@ -6,12 +6,12 @@
 #define ADEYE_GEOFENCING_CHECKER_H
 
 #include <ros/ros.h>
-#include "safety_fault_detector.h"
+#include "safety_fault_monitor.h"
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 #include <geometry_msgs/PoseStamped.h>
 
-class GeofencingChecker: public SafetyFaultDetector {
+class GeofencingChecker: public SafetyFaultMonitor {
 private:
     ros::NodeHandle nh_;
     ros::Subscriber sub_gnss_;
