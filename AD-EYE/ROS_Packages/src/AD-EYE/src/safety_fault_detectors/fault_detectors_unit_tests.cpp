@@ -5,12 +5,13 @@
 #include <iostream>
 #include <ros/ros.h>
 #include <unistd.h>
+#include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
-#include <grid_map_ros/grid_map_ros.hpp> // for ROS gridmap support
 #include <geometry_msgs/PoseStamped.h>
 
 #include "safety_fault_detectors/active_nodes_checker.h"
 #include "safety_fault_detectors/geofencing_checker.h"
+#include "safety_fault_detectors/car_off_road_checker.h"
 
 void TestSafetyFaultDetector() {
     class SafetyFaultDetectorTester: public SafetyFaultDetector {
@@ -73,11 +74,11 @@ void TestGeofencingCheckerIn(ros::NodeHandle nh) {
     nh.setParam("/operational_design_domain", std::vector<double>{0, 0, 10, 0, 10, 10, 0, 10});
 
     ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-    grid_map::GridMap map_ = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    map_.setFrameId("test_frame");
-    map_.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
     grid_map_msgs::GridMap message;
-    grid_map::GridMapRosConverter::toMessage(map_, message);
+    grid_map::GridMapRosConverter::toMessage(map, message);
     pub_grid_map.publish(message);
 
     ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
@@ -104,11 +105,11 @@ void TestGeofencingCheckerOut(ros::NodeHandle nh) {
     nh.setParam("/operational_design_domain", std::vector<double>{0, 0, 10, 0, 10, 10, 0, 10});
 
     ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-    grid_map::GridMap map_ = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    map_.setFrameId("test_frame");
-    map_.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
     grid_map_msgs::GridMap message;
-    grid_map::GridMapRosConverter::toMessage(map_, message);
+    grid_map::GridMapRosConverter::toMessage(map, message);
     pub_grid_map.publish(message);
 
     ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
@@ -130,15 +131,15 @@ void TestGeofencingCheckerOut(ros::NodeHandle nh) {
 }
 
 //uses default values for the geofencing area
-void TestIncrementGeofencingCheckerDefault(ros::NodeHandle nh) {
+void TestDecrementGeofencingCheckerDefault(ros::NodeHandle nh) {
     GeofencingChecker geofencing_checker(1,1,4,-4);
 
     ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-    grid_map::GridMap map_ = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    map_.setFrameId("test_frame");
-    map_.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
     grid_map_msgs::GridMap message;
-    grid_map::GridMapRosConverter::toMessage(map_, message);
+    grid_map::GridMapRosConverter::toMessage(map, message);
     pub_grid_map.publish(message);
 
     ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
@@ -160,15 +161,15 @@ void TestIncrementGeofencingCheckerDefault(ros::NodeHandle nh) {
 }
 
 //uses default values for the geofencing area
-void TestDecrementGeofencingCheckerDefault(ros::NodeHandle nh) {
+void TestIncrementGeofencingCheckerDefault(ros::NodeHandle nh) {
     GeofencingChecker geofencing_checker(1,1,4,-4);
 
     ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-    grid_map::GridMap map_ = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    map_.setFrameId("test_frame");
-    map_.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
     grid_map_msgs::GridMap message;
-    grid_map::GridMapRosConverter::toMessage(map_, message);
+    grid_map::GridMapRosConverter::toMessage(map, message);
     pub_grid_map.publish(message);
 
     ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
@@ -215,11 +216,11 @@ void TestGeofencingCheckerNoGNSS(ros::NodeHandle nh) {
     GeofencingChecker geofencing_checker(1,1,4,-4);
 
     ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-    grid_map::GridMap map_ = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    map_.setFrameId("test_frame");
-    map_.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
     grid_map_msgs::GridMap message;
-    grid_map::GridMapRosConverter::toMessage(map_, message);
+    grid_map::GridMapRosConverter::toMessage(map, message);
     pub_grid_map.publish(message);
 
     ros::Duration(0.1).sleep(); // needed to make sure the ROS msgs are received
@@ -235,6 +236,90 @@ void TestGeofencingCheckerNoGNSS(ros::NodeHandle nh) {
 }
 
 
+
+
+void TestIncrementCarOffRoadChecker(ros::NodeHandle nh) {
+    CarOffRoadChecker car_off_road_checker(1,1,4,-4);
+
+    ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::Polygon polygon;
+    polygon.addVertex(grid_map::Position(0, 0));
+    polygon.addVertex(grid_map::Position(50, 0));
+    polygon.addVertex(grid_map::Position(50, 50));
+    polygon.addVertex(grid_map::Position(0, 50));
+    // Polygon Interator
+    for (grid_map::PolygonIterator iterator(map, polygon);
+         !iterator.isPastEnd(); ++iterator) {
+        map.at("Lanes", *iterator) = 0;
+    }
+    grid_map_msgs::GridMap message;
+    grid_map::GridMapRosConverter::toMessage(map, message);
+    pub_grid_map.publish(message);
+
+    ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
+    geometry_msgs::PoseStamped pose;
+    pose.header.frame_id = "test_frame";
+    pose.pose.position.x = 2;
+    pose.pose.position.y = 10;
+    pub_pose.publish(pose);
+
+    ros::Duration(0.1).sleep(); // needed to make sure the ROS msgs are received
+    ros::spinOnce();
+
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+
+    bool is_faulty = car_off_road_checker.isFaulty();
+    assert(is_faulty);
+}
+
+//uses default values for the geofencing area
+void TestDecrementCarOffRoadChecker(ros::NodeHandle nh) {
+    CarOffRoadChecker car_off_road_checker(1,1,4,-4);
+
+    ros::Publisher pub_grid_map = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
+    grid_map::GridMap map = grid_map::GridMap({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
+    map.setFrameId("test_frame");
+    map.setGeometry(grid_map::Length(50, 50), 1, grid_map::Position(0, 0));
+    grid_map::Polygon polygon;
+    polygon.addVertex(grid_map::Position(0, 0));
+    polygon.addVertex(grid_map::Position(10, 0));
+    polygon.addVertex(grid_map::Position(10, 10));
+    polygon.addVertex(grid_map::Position(0, 10));
+    // Polygon Interator
+    for (grid_map::PolygonIterator iterator(map, polygon);
+         !iterator.isPastEnd(); ++iterator) {
+        map.at("Lanes", *iterator) = 1; // lane
+    }
+    grid_map_msgs::GridMap message;
+    grid_map::GridMapRosConverter::toMessage(map, message);
+    pub_grid_map.publish(message);
+
+    ros::Publisher pub_pose = nh.advertise<geometry_msgs::PoseStamped>("/ground_truth_pose", 1, true);
+    geometry_msgs::PoseStamped pose;
+    pose.header.frame_id = "test_frame";
+    pose.pose.position.x = 2;
+    pose.pose.position.y = 10;
+    pub_pose.publish(pose); // vehicle should be on the lane area we defined earlier
+
+    ros::Duration(0.1).sleep(); // needed to make sure the ROS msgs are received
+    ros::spinOnce();
+
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+    car_off_road_checker.updateCounter();
+
+    bool is_faulty = car_off_road_checker.isFaulty();
+    assert(!is_faulty);
+}
+
+
 int main(int argc, char **argv) {
     ros::init(argc, argv, "TesterNode");
     ros::NodeHandle nh;
@@ -247,5 +332,7 @@ int main(int argc, char **argv) {
     TestDecrementGeofencingCheckerDefault(nh);
     TestGeofencingCheckerNoGridmap(nh);
     TestGeofencingCheckerNoGNSS(nh);
+    TestIncrementCarOffRoadChecker(nh);
+    TestDecrementCarOffRoadChecker(nh);
     std::cout << "All tests passed (the error messages above, if any, are printed by the different modules to indicate faults that they have detected which were set up for these tests)" << std::endl;
 }

@@ -96,11 +96,11 @@ void GeofencingChecker::writeGeofencingOnGridmap(const std::vector<double> &poly
     // Define ODD Polygon area through coordinates from ROS parameter server
     for (int i = 0; i < polygon_coordinates.size() ; i+=2)
     {
-        polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
+        polygon.addVertex(grid_map::Position(polygon_coordinates[i], polygon_coordinates[i+1]));
     }
 
     // Add again the first coordinates from the vector to close down the polygon area
-    polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
+    polygon.addVertex(grid_map::Position(polygon_coordinates[0], polygon_coordinates[1]));
 
     // Polygon Interator
     for (grid_map::PolygonIterator iterator(gridmap_, polygon);

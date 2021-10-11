@@ -285,7 +285,8 @@ add_dependencies(
 add_library(SafetyFaultDetectors
         src/safety_fault_detectors/safety_fault_detector.cpp
         src/safety_fault_detectors/active_nodes_checker.cpp
-        src/safety_fault_detectors/geofencing_checker.cpp)
+        src/safety_fault_detectors/geofencing_checker.cpp
+        src/safety_fault_detectors/car_off_road_checker.cpp)
 target_link_libraries(
         SafetyFaultDetectors
         ${catkin_LIBRARIES}
