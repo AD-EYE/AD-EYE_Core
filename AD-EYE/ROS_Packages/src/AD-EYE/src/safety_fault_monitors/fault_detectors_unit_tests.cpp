@@ -13,6 +13,7 @@
 #include "safety_fault_monitors/geofencing_checker.h"
 #include "safety_fault_monitors/car_off_road_checker.h"
 #include "safety_fault_monitors/obstacles_in_critical_area_checker.h"
+#include "safety_fault_monitors/sensor_checker.h"
 
 void TestSafetyFaultDetector() {
     class SafetyFaultDetectorTester: public SafetyFaultMonitor {
@@ -347,7 +348,7 @@ void TestNoObstacleInCriticalArea(ros::NodeHandle nh) {
     geometry_msgs::PoseStamped pose;
     pose.header.frame_id = "test_frame";
     pose.pose.position.x = 2;
-    pose.pose.position.y = 10;
+    pose.pose.position.y = 15;
     pub_pose.publish(pose); // vehicle should be on the lane area we defined earlier
 
 
@@ -446,6 +447,70 @@ void TestObstacleInCriticalArea(ros::NodeHandle nh) {
 }
 
 
+void TestSensorCheckerNoSensorMsg(ros::NodeHandle nh) {
+    SensorChecker sensor_checker(1, 1, 4, -4, SENSOR_TYPE::lidar);
+
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    assert(sensor_checker.isFaulty()); // since no sensor msg was published, the module should return fault
+}
+
+void TestSensorCheckerGoodSensorMsg(ros::NodeHandle nh) {
+    SensorChecker sensor_checker(1, 1, 4, -4, SENSOR_TYPE::lidar);
+
+    ros::Publisher sensor_poly_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("sensor_fov",1,true);
+    jsk_recognition_msgs::PolygonArray poly_array_msg;
+    geometry_msgs::PolygonStamped poly;
+    geometry_msgs::Point32 pt;
+    poly.polygon.points.push_back(pt);
+    poly.polygon.points.push_back(pt);
+    poly_array_msg.polygons.push_back(poly);
+    poly_array_msg.polygons.push_back(poly);
+    poly_array_msg.polygons.push_back(poly);
+    poly_array_msg.polygons.push_back(poly);
+    poly_array_msg.polygons.push_back(poly);
+    sensor_poly_pub.publish(poly_array_msg);
+
+    ros::Duration(0.1).sleep(); // needed to make sure the ROS msgs are received
+    ros::spinOnce();
+
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    assert(!sensor_checker.isFaulty()); // since no sensor msg was published, the module should return fault
+}
+
+void TestSensorCheckerBadSensorMsg(ros::NodeHandle nh) {
+    SensorChecker sensor_checker(1, 1, 4, -4, SENSOR_TYPE::lidar);
+
+    ros::Publisher sensor_poly_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("sensor_fov",1,true);
+    jsk_recognition_msgs::PolygonArray poly_array_msg;
+    geometry_msgs::PolygonStamped poly;
+    geometry_msgs::Point32 pt;
+    poly.polygon.points.push_back(pt);
+    poly.polygon.points.push_back(pt);
+    poly_array_msg.polygons.push_back(poly);
+    geometry_msgs::PolygonStamped empty_poly;
+    poly_array_msg.polygons.push_back(empty_poly);
+    poly_array_msg.polygons.push_back(empty_poly);
+    poly_array_msg.polygons.push_back(empty_poly);
+    poly_array_msg.polygons.push_back(empty_poly);
+    sensor_poly_pub.publish(poly_array_msg);
+
+    ros::Duration(0.1).sleep(); // needed to make sure the ROS msgs are received
+    ros::spinOnce();
+
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    sensor_checker.updateCounter();
+    assert(sensor_checker.isFaulty()); // since no sensor msg was published, the module should return fault
+}
+
+
 int main(int argc, char **argv) {
     ros::init(argc, argv, "TesterNode");
     ros::NodeHandle nh;
@@ -460,7 +525,10 @@ int main(int argc, char **argv) {
     TestGeofencingCheckerNoGNSS(nh);
     TestIncrementCarOffRoadChecker(nh);
     TestDecrementCarOffRoadChecker(nh);
-//    TestNoObstacleInCriticalArea(nh);
+    TestNoObstacleInCriticalArea(nh);
     TestObstacleInCriticalArea(nh);
+    TestSensorCheckerNoSensorMsg(nh);
+    TestSensorCheckerGoodSensorMsg(nh);
+    TestSensorCheckerBadSensorMsg(nh);
     std::cout << "All tests passed (the error messages above, if any, are printed by the different modules to indicate faults that they have detected which were set up for these tests)" << std::endl;
 }

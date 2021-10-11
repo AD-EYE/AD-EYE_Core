@@ -287,7 +287,8 @@ add_library(SafetyFaultMonitors
         src/safety_fault_monitors/active_nodes_checker.cpp
         src/safety_fault_monitors/geofencing_checker.cpp
         src/safety_fault_monitors/car_off_road_checker.cpp
-        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp)
+        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp
+        src/safety_fault_monitors/sensor_checker.cpp)
 target_link_libraries(
         SafetyFaultMonitors
         ${catkin_LIBRARIES}
