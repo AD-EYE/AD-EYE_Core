@@ -58,7 +58,7 @@ private:
 
     // The number of the safety test
     enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
-        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
+        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OBJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
@@ -682,7 +682,7 @@ private:
         instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
         
         //Is there a dynamic object in the critical area
-        instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
+        instantaneous_test_results[CHECK_DYNAMIC_OBJECT] = !isObjectInCriticalArea();
         
         // Check that the vehicle is in operational design domain polygon area
         instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain();

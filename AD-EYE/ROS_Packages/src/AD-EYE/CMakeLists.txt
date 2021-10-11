@@ -282,7 +282,10 @@ add_dependencies(
 )
 
 
-add_library(SafetyFaultDetectors src/safety_fault_detectors/safety_fault_detector.cpp src/safety_fault_detectors/active_nodes_checker.cpp)
+add_library(SafetyFaultDetectors
+        src/safety_fault_detectors/safety_fault_detector.cpp
+        src/safety_fault_detectors/active_nodes_checker.cpp
+        src/safety_fault_detectors/geofencing_checker.cpp)
 target_link_libraries(
         SafetyFaultDetectors
         ${catkin_LIBRARIES}
@@ -290,12 +293,12 @@ target_link_libraries(
 
 add_executable(
   TestFault
-  src/safety_fault_detectors/Tester.cpp
+        src/safety_fault_detectors/fault_detectors_unit_tests.cpp
 )
 target_link_libraries(
   TestFault
   ${catkin_LIBRARIES}
-        SafetyFaultDetectors
+  SafetyFaultDetectors
 )
 add_dependencies(
   TestFault

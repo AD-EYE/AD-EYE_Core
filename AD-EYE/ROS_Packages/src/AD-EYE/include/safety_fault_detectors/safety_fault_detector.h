@@ -46,7 +46,7 @@ public:
      * \brief Purely virtual method that returns whether the functionality is malfunctioning.
      * \details This method must be overridden by the specific fault detector
      */
-    virtual bool isFailingRightNow() =0;
+    virtual bool isFailingRightNow() = 0;
 
     /*!
      * \brief Returns the conclusion of the fault detector

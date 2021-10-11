@@ -6,7 +6,7 @@
 #include <ros/ros.h>
 #include "safety_fault_detectors/active_nodes_checker.h"
 
-ActiveNodeChecker::ActiveNodeChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, int criticality_level, ros::NodeHandle& nh): SafetyFaultDetector(increment_value, decrement_value, high_threshold, low_threshold), nh_(nh)
+ActiveNodeChecker::ActiveNodeChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, int criticality_level): SafetyFaultDetector(increment_value, decrement_value, high_threshold, low_threshold)
 {
     switch (criticality_level) {
         case 1:
@@ -54,5 +54,5 @@ bool ActiveNodeChecker::areNodesAlive()
 
 bool ActiveNodeChecker::isFailingRightNow() {
 
-    return areNodesAlive();
+    return !areNodesAlive();
 }
