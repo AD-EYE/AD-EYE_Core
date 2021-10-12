@@ -40,7 +40,7 @@ private:
     grid_map::Polygon critical_area_;
 
 
-    bool isFailingRightNow() override;
+    bool hasTestFailed() override;
 
 
     /*!
@@ -89,7 +89,7 @@ private:
 public:
 
     ObstaclesInCriticalAreaChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
-
+    ~ObstaclesInCriticalAreaChecker();
 };
 
 

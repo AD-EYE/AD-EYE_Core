@@ -52,7 +52,11 @@ bool ActiveNodeChecker::areNodesAlive()
     return true;
 }
 
-bool ActiveNodeChecker::isFailingRightNow() {
+bool ActiveNodeChecker::hasTestFailed() {
 
     return !areNodesAlive();
+}
+
+ActiveNodeChecker::~ActiveNodeChecker() {
+
 }

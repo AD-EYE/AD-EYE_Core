@@ -151,6 +151,7 @@ target_link_libraries(
 target_link_libraries(
   safetySupervisor
   ${catkin_LIBRARIES}
+  SafetyFaultMonitors
 )
 
 target_link_libraries(

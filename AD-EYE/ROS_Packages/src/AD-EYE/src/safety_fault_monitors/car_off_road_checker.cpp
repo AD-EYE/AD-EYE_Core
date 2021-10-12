@@ -12,7 +12,7 @@ CarOffRoadChecker::CarOffRoadChecker(int increment_value, int decrement_value, i
 }
 
 
-bool CarOffRoadChecker::isFailingRightNow() {
+bool CarOffRoadChecker::hasTestFailed() {
     if(!gridmap_flag_ || !gnss_flag_)
         return true;
     else
@@ -42,4 +42,8 @@ void CarOffRoadChecker::gridmapCallback(const grid_map_msgs::GridMap::ConstPtr& 
 {
     grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
     gridmap_flag_ = true;
+}
+
+CarOffRoadChecker::~CarOffRoadChecker() {
+
 }

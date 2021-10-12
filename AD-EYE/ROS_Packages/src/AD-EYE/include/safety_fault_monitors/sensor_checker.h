@@ -11,7 +11,7 @@
 #include <jsk_recognition_msgs/PolygonArray.h>
 #include "safety_fault_monitor.h"
 
-enum SENSOR_TYPE {radar, lidar, camera1, camera2, cameratl}; // sensors indices as defined in the sensor monitor
+enum SENSOR_TYPE {radar, lidar, camera1, camera2, cameratl, NB_SENSORS}; // sensors indices as defined in the sensor monitor
 
 class SensorChecker: public SafetyFaultMonitor {
 
@@ -31,8 +31,9 @@ private:
 
 public:
     SensorChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, SENSOR_TYPE sensor_to_monitor);
+    ~SensorChecker();
 
-    bool isFailingRightNow() override;
+    bool hasTestFailed() override;
 
 
     bool isSensorActive();

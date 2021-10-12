@@ -24,7 +24,7 @@ private:
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
 
-    bool isFailingRightNow() override;
+    bool hasTestFailed() override;
 
     /*!
      * \brief Check car off road : Called at every iteration of the main loop
@@ -48,6 +48,7 @@ private:
 
 public:
     CarOffRoadChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
+    ~CarOffRoadChecker();
 };
 
 

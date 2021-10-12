@@ -21,7 +21,7 @@ private:
     const int HIGH_THRESHOLD_;
     const int LOW_THRESHOLD_;
     int counter_value_ = 0;
-    bool is_test_passing_ = true;
+    bool is_fault_confirmed_ = false;
 
     void incrementAndSaturateCounter();
     void decrementAndSaturateCounter();
@@ -38,20 +38,25 @@ public:
     SafetyFaultMonitor(int increment_value, int decrement_value, int high_threshold, int low_threshold);
 
     /*!
-     * \brief Updates the counter based of the result of isFailingRightNow
+    * \brief Destructor
+    */
+    ~SafetyFaultMonitor();
+
+    /*!
+     * \brief Updates the counter based of the result of hasTestFailed
      */
-    void updateCounter();
+    void update();
 
     /*!
      * \brief Purely virtual method that returns whether the functionality is malfunctioning.
      * \details This method must be overridden by the specific fault detector
      */
-    virtual bool isFailingRightNow() = 0;
+    virtual bool hasTestFailed() = 0;
 
     /*!
      * \brief Returns the conclusion of the fault detector
      */
-    bool isFaulty();
+    bool isFaultConfirmed() const;
 
 };
 

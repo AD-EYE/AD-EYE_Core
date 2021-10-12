@@ -12,13 +12,14 @@
 class ActiveNodeChecker: public SafetyFaultMonitor {
 private:
     std::vector<std::string> nodes_to_check_;
-    bool isFailingRightNow() override;
+    bool hasTestFailed() override;
     void retrieveNodesToCheckParam(const char*  param_name);
     bool areNodesAlive();
 
 
 public:
     ActiveNodeChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold, int criticality_level);
+    ~ActiveNodeChecker();
 };
 
 #endif //ADEYE_ACTIVE_NODES_CHECKER_H

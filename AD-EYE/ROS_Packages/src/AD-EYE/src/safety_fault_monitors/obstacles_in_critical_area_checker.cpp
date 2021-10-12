@@ -5,6 +5,10 @@
 #include <cpp_utils/pose_datatypes.h>
 #include "safety_fault_monitors/obstacles_in_critical_area_checker.h"
 
+
+#include <visualization_msgs/Marker.h> //Used for critical area visualization
+#include <std_msgs/ColorRGBA.h>        //Used for critical area visualization
+
 ObstaclesInCriticalAreaChecker::ObstaclesInCriticalAreaChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold):
         SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
@@ -40,7 +44,6 @@ bool ObstaclesInCriticalAreaChecker::isObjectInCriticalArea()
 
     for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt)
     {
-        int value = gridmap_.at("DynamicObjects", *areaIt);
         if(gridmap_.at("DynamicObjects", *areaIt) > 0)
         { //If there is something inside the area
             ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
@@ -141,7 +144,7 @@ void ObstaclesInCriticalAreaChecker::currentVelocityCallback(const geometry_msgs
     current_velocity_ = msg->twist.linear.x;
 }
 
-bool ObstaclesInCriticalAreaChecker::isFailingRightNow() {
+bool ObstaclesInCriticalAreaChecker::hasTestFailed() {
     if(!gridmap_flag_ || !gnss_flag_ || !trajectory_flag_ || autowareTrajectory_.waypoints.empty())
         return true;
     else
@@ -164,4 +167,8 @@ void ObstaclesInCriticalAreaChecker::updateCriticalAreaSize() {
             car_size_set_ = true;
         }
     }
+}
+
+ObstaclesInCriticalAreaChecker::~ObstaclesInCriticalAreaChecker() {
+
 }

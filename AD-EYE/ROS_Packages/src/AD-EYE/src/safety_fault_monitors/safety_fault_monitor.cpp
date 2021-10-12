@@ -15,15 +15,15 @@ SafetyFaultMonitor::SafetyFaultMonitor(int increment_value, int decrement_value,
     }
 }
 
-void SafetyFaultMonitor::updateCounter() {
-    if(isFailingRightNow())
+void SafetyFaultMonitor::update() {
+    if(hasTestFailed())
         incrementAndSaturateCounter();
     else
         decrementAndSaturateCounter();
 }
 
-bool SafetyFaultMonitor::isFaulty() {
-    return !is_test_passing_;
+bool SafetyFaultMonitor::isFaultConfirmed() const {
+    return is_fault_confirmed_;
 }
 
 void SafetyFaultMonitor::incrementAndSaturateCounter() {
@@ -31,7 +31,7 @@ void SafetyFaultMonitor::incrementAndSaturateCounter() {
     if(counter_value_ >= HIGH_THRESHOLD_)
     {
         counter_value_ = HIGH_THRESHOLD_;
-        is_test_passing_ = false;
+        is_fault_confirmed_ = true;
     }
 }
 
@@ -40,6 +40,8 @@ void SafetyFaultMonitor::decrementAndSaturateCounter() {
     if(counter_value_ <= LOW_THRESHOLD_)
     {
         counter_value_ = LOW_THRESHOLD_;
-        is_test_passing_ = true;
+        is_fault_confirmed_ = false;
     }
 }
+
+SafetyFaultMonitor::~SafetyFaultMonitor() = default;

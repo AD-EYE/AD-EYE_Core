@@ -18,6 +18,13 @@
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 
+
+#include "safety_fault_monitors/active_nodes_checker.h"
+#include "safety_fault_monitors/geofencing_checker.h"
+#include "safety_fault_monitors/car_off_road_checker.h"
+#include "safety_fault_monitors/obstacles_in_critical_area_checker.h"
+#include "safety_fault_monitors/sensor_checker.h"
+
 #define ROAD_SIDE_PARKING_VALUE 30
 #define REST_AREA_VALUE 40
 
@@ -38,15 +45,18 @@ private:
     ros::Publisher pub_overwrite_trajectory_eval_;
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
-    ros::Publisher pub_critical_area_;  //Used for critical area visualization
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
     ros::Subscriber sub_autoware_global_plan_;
-    ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
     ros::Subscriber sub_sensor_fov_;
     ros::Subscriber sub_goal_coordinates_;
+
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_one_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_two_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_three_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_four_;
 
     // constants
     const bool SAFE = false;
@@ -54,7 +64,6 @@ private:
     const int NO_BEHAVIOR_OVERWRITE_ = -1;
     enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
-    const float PI_ = 3.141592654;
 
     // The number of the safety test
     enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
@@ -63,36 +72,18 @@ private:
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
 
-    //Critical area
-    float car_length_ = 5;
-    float car_width_ = 2;
-    bool car_size_set_ = false;
-    float critical_area_length_ = car_length_; //Size of the critical Area
-    float critical_area_width_ = car_width_ * 1.2;
-    grid_map::Polygon critical_area_;
-
     geometry_msgs::Pose pose_;
-    float current_velocity_ = 0;
     bool var_switch_;
     int varoverwrite_behavior_;
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
-    bool autoware_trajectory_flag_ = false;
     bool autoware_global_path_flag_ = false;
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    autoware_msgs::Lane autowareTrajectory_;
-    std::vector<string> critical_nodes_level_one_;
-    std::vector<string> critical_nodes_level_two_;
-    std::vector<string> critical_nodes_level_three_;
-    std::vector<string> critical_nodes_level_four_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
     
     // Safety tests
     int num_safety_tests_ = 12;
-
-    // Initiate the safety counter for tests
-    std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
 
     // Set the default threshold value for each pass and fail safety test
     std::vector<int> thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
@@ -101,47 +92,25 @@ private:
     // Set the default increment and decrement value for each pass and fail safety test
     std::vector<int> increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
     std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
-    
-    // Constant Pass and Fail boolean
-    const bool PASS_ = true;
-    const bool FAIL_ = false;
-
-    // Initiate Non-Instantaneous result vector
-    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS_);
    
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
-
-    // ODD Polygon coordinates
-    // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
-    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates_;
 
     struct CurvatureExtremum {
         double max;
         double min;
     };
 
-    // enum to identifiate critical level
+    // enum to identify critical level
     enum CRITICAL_LEVEL_ {INITIAL_GOAL, REST_AREA, ROAD_SIDE_PARKING, IMMEDIATE_STOP};
 
     // Test for sensor coverage
-    jsk_recognition_msgs::PolygonArray sensors_fov_;
-    bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
 
     bool broke_at_least_once_ = false; // To know if there already is at least 1 anomaly
-    bool is_anomaly_fix_ = false; // To know if there already is an anomaly and if it is fixed
+    bool is_anomaly_fixed_ = false; // To know if there already is an anomaly and if it is now fixed
     geometry_msgs::PoseStamped initial_goal_coordinates_;
-
-    /*!
-     * \brief currentVelocity Callback : Updates the knowledge about the car speed.
-     * \param msg A smart pointer to the message from the topic.
-     */
-    void currentVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)
-    {
-        current_velocity_ = msg->twist.linear.x;
-    }
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -164,21 +133,9 @@ private:
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
-        // Operational design domain default polygon coordinates are same as full grid map
-        ODD_default_gridmap_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
-    /*!
-     * \brief Autoware trajectory Callback : Called when the trajectory from autoware has changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details Updates the autoware trajectory information.
-     */
-    void autowareTrajectoryCallback(const autoware_msgs::Lane::ConstPtr& msg)
-    {
-        autowareTrajectory_ = *msg;
-        autoware_trajectory_flag_ = true;
-    }
 
     /*!
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
@@ -210,16 +167,6 @@ private:
         switch_request_value_ = msg;
     }
 
-    /*!
-     * \brief Sensor field of view callback : Called when the sensors information has changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details Stores polygons that represent sensor field of view
-     */
-    void sensorFovCallback(const jsk_recognition_msgs::PolygonArrayConstPtr& msg)
-    {
-        sensors_fov_ = *msg;
-        sensors_fov_flag_ = true;
-    }
 
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStampedConstPtr& msg)
     {
@@ -370,239 +317,6 @@ private:
     }
 
     /*!
-     * \brief Get distance : Called to calculate the distance between two points
-       \param x_one, x_two, y_one, y_two The inputs contains the waypoints coordinates .
-     * \return Distance between 2 points
-     */
-    double getDistance(double x_one, double x_two, double y_one, double y_two)
-    {
-        return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
-    }
-
-    /*!
-     * \brief Check dynamic objects : Called at every iteration of the main loop
-     * \Checks if there is a dynamic object in the critical area
-     * \return Boolean indicating the presence of an obstacle in the critical area
-     */
-    bool isObjectInCriticalArea()
-    {
-        const float x = pose_.position.x;    //Center is currently in the front of the car
-        const float y = pose_.position.y;
-        const float yaw = cpp_utils::extract_yaw(pose_.orientation);
-        const grid_map::Position center(x + car_length_ * cos(yaw)/2, y + car_length_ * sin(yaw)/2);
-        critical_area_length_ = car_length_  + current_velocity_;
-        
-        // Condition for creating a critical area through autoware trajectory waypoints
-        if (autowareTrajectory_.waypoints.size() > 0)
-        {   
-            // Remove critical area vertices
-            critical_area_.removeVertices();
-            
-            // Initiate the index value and length for getting the critical area length
-            int index = 0;
-            double length = 0;
-
-            // `For` loop for finding an index value from autoware trajectory to set the critical area length
-            for (int k = 0; k < autowareTrajectory_.waypoints.size()-1; k++)
-            {
-                // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
-                double distance_between_two_waypoints = getDistance(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
-                         
-                // Add the distance between two waypoints into the length
-                length += distance_between_two_waypoints;
-
-                // If the length from autoware trajectory is higher than critical area length, store the index value
-                if (length >= critical_area_length_ )
-                {
-                    // Store the index value and break the loop
-                    index = k;
-                    break;
-                }  
-            }
-            
-            // Creating the critical area polygon through two `for` loops
-            // First `for` loop define the vertices for one side of the critical area
-            for (int i = 0; i <= index; i++)
-            {
-                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(i).pose.pose.orientation);
-                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
-                                                                 autowareTrajectory_.waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
-            }
-            
-            // Second `for` loop define the vertices for other side of the critical area
-            for (int j = index; j >= 0; j--)
-            {
-                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(j).pose.pose.orientation);
-                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
-                                                                 autowareTrajectory_.waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
-            }
-
-            visualization_msgs::Marker criticalAreaMarker;  //Used for demo critical area visualization
-            std_msgs::ColorRGBA color;
-            color.r = 1.0;
-            color.a = 1.0;
-            grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
-            criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
-            criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
-            pub_critical_area_.publish(criticalAreaMarker);
-
-            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) 
-            {
-                if(gridmap_.at("DynamicObjects", *areaIt) > 0) 
-                { //If there is something inside the area
-                    ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /*!
-     * \brief Check if the given nodes are alive
-     * \param nodes_to_check vector containing the names of the nodes to check
-     */
-    bool areNodesAlive(std::vector<string> nodes_to_check)
-    {
-        ros::V_string nodes_alive;
-        ros::master::getNodes(nodes_alive);
-        for(auto node : nodes_to_check){
-          if(std::find(nodes_alive.begin(), nodes_alive.end(), node) == nodes_alive.end()){
-            std::cout << "ERROR: " << node << "was not found" << '\n';
-            return false;
-          }
-        }
-        return true;
-    }
-    /*!
-     * \brief Check critical nodes level 1 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 1 are alive
-     */
-    bool areCriticalNodesLevelOneAlive()
-    {
-        return areNodesAlive(critical_nodes_level_one_);
-    }
-    /*!
-     * \brief Check critical nodes level 2 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 2 are alive
-     */
-    bool areCriticalNodesLevelTwoAlive()
-    {
-        return areNodesAlive(critical_nodes_level_two_);
-    }
-    /*!
-     * \brief Check critical nodes level 3 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 3 are alive
-     */
-    bool areCriticalNodesLevelThreeAlive()
-    {
-        return areNodesAlive(critical_nodes_level_three_);
-    }
-    /*!
-     * \brief Check critical nodes level 4 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 4 are alive
-     */
-    bool areCriticalNodesLevelFourAlive()
-    {
-        return areNodesAlive(critical_nodes_level_four_);
-    }
-
-    /*!
-     * \brief Check car off road : Called at every interation of the main loop
-     * \return Boolean indicating if the center of the car is off the road
-     */
-    bool isCarOffRoad()
-    {
-      float current_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(pose_.position.x, pose_.position.y));
-      //ROS_INFO("Lane ID : %f", current_lane_id);
-      if (current_lane_id == 0) {
-          ROS_WARN_THROTTLE(1, "The center of the car is not on the road");
-          return true;
-      }
-      return false;
-    }
-
-    /*!
-     * \brief Check radar : Called at every interation of the main loop
-     * \return Boolean indicating if radar is activated
-     */
-    bool isRadarActive()
-    {
-        bool radar_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(radar).polygon.points.size() != 0) {
-                radar_active = true;
-            }
-        }
-        return radar_active;
-    }
-
-    /*!
-     * \brief Check lidar : Called at every interation of the main loop
-     * \return Boolean indicating if lidar is activated
-     */
-    bool isLidarActive()
-    {
-        bool lidar_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(lidar).polygon.points.size() != 0) {
-                lidar_active = true;
-            }
-        }
-        return lidar_active;
-    }
-
-    /*!
-     * \brief Check camera 1 : Called at every interation of the main loop
-     * \return Boolean indicating if camera 1 is activated
-     */
-    bool isCamera1Active()
-    {
-        bool camera1_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(camera1).polygon.points.size() != 0) {
-                camera1_active = true;
-            }
-        }
-        return camera1_active;
-    }
-
-    /*!
-     * \brief Check camera 2 : Called at every interation of the main loop
-     * \return Boolean indicating if camera 2 is activated
-     */
-    bool isCamera2Active()
-    {
-        bool camera2_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(camera2).polygon.points.size() != 0) {
-                camera2_active = true;
-            }
-        }
-        return camera2_active;
-    }
-
-    /*!
-     * \brief Check camera for traffic lights : Called at every interation of the main loop
-     * \return Boolean indicating if camera for traffic lights is activated
-     */
-    bool isCameratlActive()
-    {
-        bool cameratl_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(cameratl).polygon.points.size() != 0) {
-                cameratl_active = true;
-            }
-        }
-        return cameratl_active;
-    }
-
-    /*!
      * \brief It is in this function that the switch
      * is triggered or not.
      */
@@ -662,77 +376,7 @@ private:
         // pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
-    
-    /*!
-     * \brief Check instantaneous result : Called at every iteration of the main loop
-     * \Checks if all tests are true or false return instantaneous test result
-     */
-    std::vector<bool> checkInstantaneousResults()
-    {
-        // The pass result vector of safety test.
-        std::vector<bool> instantaneous_test_results(num_safety_tests_);
 
-        // Check that all necessary nodes are active and store in the vector
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_ONE] = areCriticalNodesLevelOneAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_FOUR] = areCriticalNodesLevelFourAlive();
-        
-        //Check that the center of the car on the road
-        instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
-        
-        //Is there a dynamic object in the critical area
-        instantaneous_test_results[CHECK_DYNAMIC_OBJECT] = !isObjectInCriticalArea();
-        
-        // Check that the vehicle is in operational design domain polygon area
-        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain();
-
-        // Check that all sensors are activated
-        instantaneous_test_results[CHECK_RADAR_ACTIVE] = isRadarActive();
-        instantaneous_test_results[CHECK_LIDAR_ACTIVE] = isLidarActive();
-        instantaneous_test_results[CHECK_CAMERA_1_ACTIVE] = isCamera1Active();
-        instantaneous_test_results[CHECK_CAMERA_2_ACTIVE] = isCamera2Active();
-        instantaneous_test_results[CHECK_CAMERA_TL_ACTIVE] = isCameratlActive();
-
-        return instantaneous_test_results;
-    }
-    
-    /*!
-     * \brief Update counter value : Called at every iteration of the main loop
-     * \Updates the counter value based instantaneous test results
-     * \param test_result, threshold_pass_test, threshold_fail_test, increment_value, decrement_value, counter_value, takes these parameter to update the counter
-     */
-    int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
-    {
-        // If loop for updating the counter values until it reaches to threshold value
-        // If the test is successfully passed
-        if (test_result)
-        {
-            // Increment counter
-            counter_value += increment_value;
-    
-            // Check if the counter reaches the threshold value then counter value will be same as threshold value
-            if (counter_value > threshold_pass_test)
-            {
-                // Increment counter
-                counter_value = threshold_pass_test;
-            }
-            
-        }
-        else if(!test_result) // if the test is failed
-        {
-            // Decrement counter
-            counter_value += decrement_value;  
-
-            // Check if the counter reaches the threshold value then counter value will be same as threshold value
-            if(counter_value < threshold_fail_test)
-            {
-                // Decrement counter
-                counter_value = threshold_fail_test;    
-            }
-        } 
-        return counter_value;
-    }
     
     /*!
      * \brief Check non-instantaneous result : Called at every iteration of the main loop
@@ -740,31 +384,30 @@ private:
      */
     void checkNonInstantaneousResults()
     {
-        // Extract Instantaneous safety test result
-        std::vector<bool> instantaneous_test_results = checkInstantaneousResults();
-        
-        // For loop for each test result
-        for (int i = 0; i < num_safety_tests_; i++)
+        // For loop for each safety monitor
+        for(int i = 0; i < safety_monitors_level_one_.size(); i++)
         {
             // Update the counter value based on instantaneous test results
-            safety_test_counters_[i] = updateCounter(instantaneous_test_results[i], thresholds_pass_test_[i], thresholds_fail_test_[i], increments_pass_test_[i], decrements_fail_test_[i], safety_test_counters_[i] );
-            
-            // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
-            if (safety_test_counters_[i] == thresholds_pass_test_[i])
-            {
-                non_instantaneous_results_[i] = PASS_;
-
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
-            }
-            else if (safety_test_counters_[i] == thresholds_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
-            {
-                non_instantaneous_results_[i] = FAIL_;
-
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
-            }
+            safety_monitors_level_one_.at(i)->update();
         }
+        for(int i = 0; i < safety_monitors_level_two_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_two_.at(i)->update();
+        }
+        for(int i = 0; i < safety_monitors_level_three_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_three_.at(i)->update();
+        }
+        for(int i = 0; i < safety_monitors_level_four_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_four_.at(i)->update();
+        }
+
     }
-    
+
     /*!
      * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
@@ -785,7 +428,7 @@ private:
         {
             increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
             ROS_WARN("The increment pass test vector size is not same as number of safety tests");
-        } 
+        }
         else if (decrements_fail_test_.size() != num_safety_tests_)
         {
             decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
@@ -797,11 +440,11 @@ private:
      * \brief Take final decision based on non-instantaneous results : Called at every iteration of the main loop
      * \Checks if all tests are pass or fail and trigger the safety switch or nominal channel
      */
-    void takeDecisionBasedOnTestResult()
-    {
-        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
-                || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
-        {
+    CRITICAL_LEVEL_ takeDecisionBasedOnTestsResults() {
+        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) ||
+            ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
+            || ros::param::get("/increment_vector_pass_test_", increments_pass_test_) ||
+            ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_)) {
             checkSafetyChecksParameterValidity();
         }
 
@@ -812,111 +455,27 @@ private:
         CRITICAL_LEVEL_ most_critical_level; // The most critical level reached
         most_critical_level = INITIAL_GOAL; // Initialize the most critical level, for the moment no anomaly detected
 
-        for(std::vector<bool>::iterator it = non_instantaneous_results_.begin(); it<non_instantaneous_results_.end(); it++) {
-            SAFETY_TESTS_ current_test;
-            current_test = (SAFETY_TESTS_)std::distance(non_instantaneous_results_.begin(), it);
 
-            if(non_instantaneous_results_[current_test] == FAIL_) {
-                all_tests_passed = false;
-                switch(current_test)
-                {
-                    case CHECK_ACTIVE_NODES_LEVEL_ONE:
-                        if(most_critical_level <= INITIAL_GOAL) {
-                            most_critical_level = INITIAL_GOAL;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_ONE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_TWO:
-                        if(most_critical_level <= REST_AREA) {
-                            most_critical_level = REST_AREA;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_TWO +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_2_ACTIVE:
-                        if(most_critical_level <= REST_AREA) {
-                            most_critical_level = REST_AREA;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_2_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_THREE:
-                        if(most_critical_level <= ROAD_SIDE_PARKING) {
-                            most_critical_level = ROAD_SIDE_PARKING;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_THREE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_1_ACTIVE:
-                        if(most_critical_level <= ROAD_SIDE_PARKING) {
-                            most_critical_level = ROAD_SIDE_PARKING;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_1_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_FOUR:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_FOUR +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_TL_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_TL_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_LIDAR_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_LIDAR_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_RADAR_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_RADAR_ACTIVE +1 <<  " is FAIL");
-                        break;
-                }
-            }
+        for (int i = 0; i < safety_monitors_level_four_.size(); i++) {
+            // Update the counter value based on instantaneous test results
+            if (safety_monitors_level_four_.at(i)->isFaultConfirmed())
+                return CRITICAL_LEVEL_::IMMEDIATE_STOP;
         }
-
-        // Make the decision according to the critical level
-        switch(most_critical_level)
-        {
-            case INITIAL_GOAL:
-                if(all_tests_passed)
-                    ROS_DEBUG_STREAM("All tests are PASS");
-                // If there is at least 1 anomaly
-                if(broke_at_least_once_) {
-                    is_anomaly_fix_ = true;
-                    broke_at_least_once_ = false;
-                }
-                // If there is at least 1 anomaly fixed
-                if(is_anomaly_fix_) {
-                    // Redefine the initial goal
-                    pub_autoware_goal_.publish(initial_goal_coordinates_);
-                }
-                switchNominalChannel();
-                ROS_INFO("Decision: Go to initial goal");
-                break;
-            case REST_AREA:
-                broke_at_least_once_ = true;
-                is_anomaly_fix_ = false;
-                redefineGoalRestArea();
-                ROS_INFO("Decision: Stop in rest area");
-                break;
-            case ROAD_SIDE_PARKING:
-                redefineGoalRoadSideParking();
-                ROS_INFO("Decision: Stop in road side parking");
-                break;
-            case IMMEDIATE_STOP:
-                triggerSafetySwitch();
-                ROS_INFO("Decision: Immediate stop");
-                break;
+        for (int i = 0; i < safety_monitors_level_three_.size(); i++) {
+            // Update the counter value based on instantaneous test results
+            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
+                return CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
         }
-        std_msgs::Int32 msg_switch;
-        msg_switch.data = var_switch_;
-        pub_switch_.publish(msg_switch);
-
-        
+        // For loop for each safety monitor
+        for (int i = 0; i < safety_monitors_level_one_.size(); i++) {
+            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
+                return CRITICAL_LEVEL_::REST_AREA;
+        }
+        for (int i = 0; i < safety_monitors_level_two_.size(); i++) {
+            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
+                return CRITICAL_LEVEL_::IMMEDIATE_STOP;
+        }
+        return CRITICAL_LEVEL_::IMMEDIATE_STOP;
     }
     
     /*!
@@ -958,81 +517,50 @@ private:
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
         // Send test_result to the decision maker function
-        takeDecisionBasedOnTestResult();
+
+
+
+        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();;
+        performAction(most_critical_level);
     }
-    
-    /*!
-     * \brief Check if the vector of operational design domain polygon coordinates is valid.
-     * \return Boolean indicating true if the operational design domain polygon coordinates are exactly into pairs.
-     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
-     */
-    bool isPolygonValid(std::vector<double> polygon_coordinates)
-    {
-        if (polygon_coordinates.size() % 2 != 0)
+
+
+    void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
+        switch(most_critical_level)
         {
-            ROS_WARN("Invalid polygon, the list defining the polygon contains an odd number of values");
-            return false;
+            case INITIAL_GOAL:
+                // If there is at least 1 anomaly
+                if(broke_at_least_once_) {
+                    is_anomaly_fixed_ = true;
+                    broke_at_least_once_ = false;
+                }
+                // If there is at least 1 anomaly fixed
+                if(is_anomaly_fixed_) {
+                    // Redefine the initial goal
+                    pub_autoware_goal_.publish(initial_goal_coordinates_);
+                }
+                switchNominalChannel();
+                ROS_INFO("Decision: Go to initial goal");
+                break;
+            case REST_AREA:
+                broke_at_least_once_ = true;
+                is_anomaly_fixed_ = false;
+                redefineGoalRestArea();
+                ROS_INFO("Decision: Stop in rest area");
+                break;
+            case ROAD_SIDE_PARKING:
+                redefineGoalRoadSideParking();
+                ROS_INFO("Decision: Stop in road side parking");
+                break;
+            case IMMEDIATE_STOP:
+                triggerSafetySwitch();
+                ROS_INFO("Decision: Immediate stop");
+                break;
         }
-        return true;
-    }
-    
-    /*!
-     * \brief Check if the vehicle is inside the operational design domain polygon area.
-     * \return Boolean indicating true if the vehicle is off the operational design domain polygon area.
-     */
-    bool isVehicleOffOperationalDesignDomain()
-    {
-        // Extract the polygon area and send true if the vehicle is not in the polygon area
-        float odd_value_at_ego_position = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
-
-        if (odd_value_at_ego_position == 0)
-        {
-            ROS_WARN("The Vehicle is outside the operational design domain polygon");
-            return true;
-        }
-        else
-        {
-            ROS_INFO("The vehicle is inside the operational design domain polygon");
-            return false;
-        }
-    }
-    
-    /*!
-     * \brief The function where the operational design domain polygon has been created.
-     * \details Polygon iterator creates the polygon according to given coordinates.
-     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
-     */
-    void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
-    {
-        // The operational design domain values
-        const double ODD_LAYER_IN_VALUE = 5.0;
-        const double ODD_LAYER_OUT_VALUE = 0.0;
-
-
-        // Add new layer called ODD (Operational design domain)
-        gridmap_.add("ODD", ODD_LAYER_OUT_VALUE);
-
-        if (isPolygonValid(polygon_coordinates))
-        {       
-            // Initiate the grid map ODD polygon
-            grid_map::Polygon polygon;
-            
-            // Define ODD Polygon area through coordinates from ROS parameter server
-            for (int i = 0; i < polygon_coordinates.size() ; i+=2)
-            {
-                polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
-            }
-
-            // Add again the first coordinates from the vector to close down the polygon area
-            polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
-
-            // Polygon Interator
-            for (grid_map::PolygonIterator iterator(gridmap_, polygon);
-                !iterator.isPastEnd(); ++iterator) {
-                gridmap_.at("ODD", *iterator) = ODD_LAYER_IN_VALUE;
-            }
-        }
-    }
+        std_msgs::Int32 msg_switch;
+        msg_switch.data = var_switch_;
+        pub_switch_.publish(msg_switch);
+    };
 
     /*!
      * \brief The initialization loop waits until all flags have been received.
@@ -1197,39 +725,38 @@ public:
         pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
-        pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
-        sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
-        sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
-        sub_sensor_fov_ = nh.subscribe("/sensor_fov", 1, &SafetySupervisor::sensorFovCallback, this);
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
+
+        createFaultMonitors();
 
         // Initialization loop
         waitForInitialization();
-
-
-        if (nh.hasParam("critical_nodes_level_one"))
-            nh.getParam("critical_nodes_level_one", critical_nodes_level_one_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_one");
-        if (nh.hasParam("critical_nodes_level_two"))
-            nh.getParam("critical_nodes_level_two", critical_nodes_level_two_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_two");
-        if (nh.hasParam("critical_nodes_level_three"))
-            nh.getParam("critical_nodes_level_three", critical_nodes_level_three_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_three");
-        if (nh.hasParam("critical_nodes_level_four"))
-            nh.getParam("critical_nodes_level_four", critical_nodes_level_four_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_four");
     }
-    
+
+    void createFaultMonitors() {
+        safety_monitors_level_one_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 1));
+
+        safety_monitors_level_two_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 2));
+        safety_monitors_level_two_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 2));
+        safety_monitors_level_two_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera2));
+
+        safety_monitors_level_three_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 3));
+        safety_monitors_level_three_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera1));
+
+        safety_monitors_level_four_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 4));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::cameratl));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::lidar));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::radar));
+        safety_monitors_level_four_.emplace_back(make_shared<CarOffRoadChecker>(1, 1, 4, -4));
+        safety_monitors_level_four_.emplace_back(make_shared<ObstaclesInCriticalAreaChecker>(1, 1, 4, -4));
+        safety_monitors_level_four_.emplace_back(make_shared<GeofencingChecker>(1, 1, 4, -4));
+    }
+
     /*!
      * \brief The main loop of the Node
      * \details Checks for topics updates, then evaluate
@@ -1241,39 +768,19 @@ public:
         ros::Rate rate(20);
         while(nh_.ok())
         {
-            if(!car_size_set_)
-            {
-                if (nh_.getParam("car_width_", car_width_) && nh_.getParam("car_length_", car_length_))
-                {
-                    critical_area_length_ = car_length_; //Size of the critical Area
-                    critical_area_width_ = car_width_ * 1.2;
-                    car_size_set_ = true;
-                }
-            }
 
             ros::spinOnce();
-            
-            // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates from ODD
-            if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
-            {
-                defineOperationalDesignDomain(ODD_coordinates_);
-            }
-            else
-            {
-                defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
-            }
 
             performSafetyTests();
             publish();
 
-            sensors_fov_flag_ = false;
 
             rate.sleep();
-            //ROS_INFO("Current state: %d", var_switch_);
         }
     }
 
 };
+
 
 int main(int argc, char **argv)
 {

@@ -11,7 +11,7 @@ GeofencingChecker::GeofencingChecker(int increment_value, int decrement_value, i
     sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GeofencingChecker::gridmapCallback, this);
 }
 
-bool GeofencingChecker::isFailingRightNow() {
+bool GeofencingChecker::hasTestFailed() {
 //    ros::spinOnce();
     if(!gridmap_flag_ || !gnss_flag_)
         return true;
@@ -107,4 +107,8 @@ void GeofencingChecker::writeGeofencingOnGridmap(const std::vector<double> &poly
          !iterator.isPastEnd(); ++iterator) {
         gridmap_.at("ODD", *iterator) = ODD_LAYER_IN_VALUE;
     }
+}
+
+GeofencingChecker::~GeofencingChecker() {
+
 }

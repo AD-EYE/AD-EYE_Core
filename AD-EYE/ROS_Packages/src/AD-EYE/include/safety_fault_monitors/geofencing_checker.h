@@ -25,7 +25,7 @@ private:
     // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
     std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates_;
 
-    bool isFailingRightNow() override;
+    bool hasTestFailed() override;
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -57,7 +57,7 @@ private:
 
 public:
     GeofencingChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
-
+    ~GeofencingChecker();
     void writeGeofencingOnGridmap(const std::vector<double> &polygon_coordinates);
 };
 

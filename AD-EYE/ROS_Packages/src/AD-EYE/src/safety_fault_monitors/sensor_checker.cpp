@@ -18,7 +18,7 @@ void SensorChecker::sensorFovCallback(const jsk_recognition_msgs::PolygonArrayCo
     sensors_fov_flag_ = true;
 }
 
-bool SensorChecker::isFailingRightNow() {
+bool SensorChecker::hasTestFailed() {
     return !isSensorActive();
 }
 
@@ -29,4 +29,8 @@ bool SensorChecker::isSensorActive() {
     else if(!sensors_fov_.polygons.at(sensor_to_monitor_).polygon.points.empty()) {
         return true;
     }
+}
+
+SensorChecker::~SensorChecker() {
+
 }
