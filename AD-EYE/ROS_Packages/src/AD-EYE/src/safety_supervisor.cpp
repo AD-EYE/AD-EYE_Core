@@ -17,6 +17,9 @@
 
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
+#include "op_planner/PlanningHelpers.h"
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 
 #include "safety_fault_monitors/active_nodes_checker.h"
@@ -45,6 +48,7 @@ private:
     ros::Publisher pub_overwrite_trajectory_eval_;
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
+    ros::Publisher pub_road_side_parking_viz_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
@@ -52,11 +56,18 @@ private:
     ros::Subscriber sub_switch_request_;
     ros::Subscriber sub_sensor_fov_;
     ros::Subscriber sub_goal_coordinates_;
+    ros::Subscriber sub_ssmp_endposes_;
+
+
+    tf2_ros::Buffer tf_buffer_;
+    tf2_ros::TransformListener tf_listener_;
 
     std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_one_;
     std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_two_;
     std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_three_;
     std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_four_;
+
+    visualization_msgs::MarkerArray ssmp_current_endposes_;
 
     // constants
     const bool SAFE = false;
@@ -172,6 +183,18 @@ private:
     {
         initial_goal_coordinates_.header.frame_id = "world";
         initial_goal_coordinates_.pose = msg->pose;
+    }
+
+    void ssmpEndposesCallback(const visualization_msgs::MarkerArrayConstPtr& msg)
+    {
+        ssmp_current_endposes_.markers.clear();
+        for(auto & marker : msg->markers)
+        {
+            if(marker.color.a != 0) // the markers with alpha 0 are invisible and thus not endposes
+            {
+                ssmp_current_endposes_.markers.push_back(marker);
+            }
+        }
     }
 
     /*!
@@ -293,7 +316,7 @@ private:
      * \brief Get menger curvature : References can be found looking for "Menger curvature"
      * \Calculates the inverse of the radius of the circle defined by 3 points
      */
-    double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
+    static double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         double curvature = 0;
         double cross_product = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
@@ -311,9 +334,18 @@ private:
      * \brief Get distance : Called at every iteration of the main loop
      * \return Distance between 2 points
      */
-    double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
+    static double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
     {
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
+    }
+
+    /*!
+     * \brief Get distance : Called at every iteration of the main loop
+     * \return Distance between 2 points
+     */
+    static double getDistance(const geometry_msgs::Pose& P1, const geometry_msgs::Pose& P2)
+    {
+        return sqrt((P2.position.x - P1.position.x) * (P2.position.x - P1.position.x) + (P2.position.y - P1.position.y) * (P2.position.y - P1.position.y));
     }
 
     /*!
@@ -382,7 +414,7 @@ private:
      * \brief Check non-instantaneous result : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    void checkNonInstantaneousResults()
+    void updateFaultMonitors()
     {
         // For loop for each safety monitor
         for(int i = 0; i < safety_monitors_level_one_.size(); i++)
@@ -449,33 +481,34 @@ private:
         }
 
         // Initiate Non-instantaneous test result vector
-        checkNonInstantaneousResults();
+        updateFaultMonitors();
 
         bool all_tests_passed = true;
         CRITICAL_LEVEL_ most_critical_level; // The most critical level reached
         most_critical_level = INITIAL_GOAL; // Initialize the most critical level, for the moment no anomaly detected
 
 
-        for (int i = 0; i < safety_monitors_level_four_.size(); i++) {
+        for(auto & i : safety_monitors_level_four_) {
             // Update the counter value based on instantaneous test results
-            if (safety_monitors_level_four_.at(i)->isFaultConfirmed())
+            if (i->isFaultConfirmed())
                 return CRITICAL_LEVEL_::IMMEDIATE_STOP;
         }
-        for (int i = 0; i < safety_monitors_level_three_.size(); i++) {
+        for(auto & i : safety_monitors_level_three_) {
             // Update the counter value based on instantaneous test results
-            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
+            if (i->isFaultConfirmed())
                 return CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
         }
-        // For loop for each safety monitor
-        for (int i = 0; i < safety_monitors_level_one_.size(); i++) {
-            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
+        for(auto & i : safety_monitors_level_two_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
                 return CRITICAL_LEVEL_::REST_AREA;
         }
-        for (int i = 0; i < safety_monitors_level_two_.size(); i++) {
-            if (safety_monitors_level_three_.at(i)->isFaultConfirmed())
-                return CRITICAL_LEVEL_::IMMEDIATE_STOP;
+        for(auto & i : safety_monitors_level_one_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
+                return CRITICAL_LEVEL_::INITIAL_GOAL;
         }
-        return CRITICAL_LEVEL_::IMMEDIATE_STOP;
+        return CRITICAL_LEVEL_::INITIAL_GOAL;
     }
     
     /*!
@@ -525,6 +558,35 @@ private:
     }
 
 
+    bool isRoadSideParkingReachableBySSMP(geometry_msgs::PoseStamped parking_pose) {
+        double DISTANCE_THRESHOLD = 3;
+//        std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << ssmp_current_endposes_.markers.front().pose.position.x << "    distance: " << getDistance(ssmp_current_endposes_.markers.front().pose, parking_pose.pose) << std::endl;
+//        if(!ssmp_current_endposes_.markers.empty())
+//        {
+//            std::cout << "   endpose x:" << ssmp_current_endposes_.markers.front().pose.position.x << std::endl;
+//        }
+        for(auto endpose: ssmp_current_endposes_.markers)
+        {
+            geometry_msgs::PoseStamped pose_stamped_out;
+            try{
+                geometry_msgs::PoseStamped pose_stamped_in;
+                pose_stamped_in.header = ssmp_current_endposes_.markers.front().header;
+                pose_stamped_in.pose = ssmp_current_endposes_.markers.front().pose;
+                tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
+//                std::cout << "   endpose transformed x:" << pose_stamped_out.pose.position.x << std::endl;
+
+            }
+            catch (tf2::TransformException &ex) {
+                ROS_WARN("%s",ex.what());
+                ros::Duration(1.0).sleep();
+            }
+//            std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << pose_stamped_out.pose.position.x << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
+            if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
+                return true;
+        }
+        return false;
+    }
+
     void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
         switch(most_critical_level)
         {
@@ -549,7 +611,17 @@ private:
                 ROS_INFO("Decision: Stop in rest area");
                 break;
             case ROAD_SIDE_PARKING:
-                redefineGoalRoadSideParking();
+                if(isThereAValidRoadSideParking())
+                {
+                    geometry_msgs::PoseStamped road_side_parking_pose = findClosestRoadSideParking();
+                    if(isRoadSideParkingReachableBySSMP(road_side_parking_pose)) // if not we need to wait a bit to be able to park on the parking
+                        triggerSafetySwitch();
+                }
+                else // if there is no valid parking we stop immediately (going one level up in term of criticality)
+                {
+                    triggerSafetySwitch();
+                }
+//                redefineGoalRoadSideParking();
                 ROS_INFO("Decision: Stop in road side parking");
                 break;
             case IMMEDIATE_STOP:
@@ -576,54 +648,101 @@ private:
         }
     }
 
+    bool isThereAValidRoadSideParking()
+    {
+        const double PERP_DISTANCE_THRESHOLD = 20;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 5;
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
+            if(gridmap_.at("RoadSideParking", *it) != 0) {
+                grid_map::Position pos;
+                gridmap_.getPosition(*it, pos);
+                PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
+                PlannerHNS::RelativeInfo info;
+                PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+                int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+                double distance_on_traj = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, wp);
+                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && info.perp_distance < PERP_DISTANCE_THRESHOLD)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /*!
      * \brief search the position of the center of the road side parking
      * \return the position of the center of the area road side parking in the gridmap
      * if there is no, return (-1, -1)
      * \param map the gridmap where the road side parking has to be found
      */
-    geometry_msgs::PoseStamped findRoadSideParking(grid_map::GridMap map)
+    geometry_msgs::PoseStamped findClosestRoadSideParking()
     {
-        bool is_road_side_parking = false;
-        geometry_msgs::PoseStamped pose_road_side_parking;
+        const double PERP_DISTANCE_THRESHOLD = 20;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 5;
         std::vector<grid_map::Position> array_position;
 
-        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
-            if(map.at("RoadSideParking", *it) == ROAD_SIDE_PARKING_VALUE) {
+
+        auto min_distance = DBL_MAX;
+        grid_map::Position min_pos;
+
+
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
+            if(gridmap_.at("RoadSideParking", *it) != 0) {
                 grid_map::Position pos;
-                map.getPosition(*it, pos);
-                array_position.push_back(pos);
-                is_road_side_parking = true;
+                gridmap_.getPosition(*it, pos);
+                PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
+                PlannerHNS::RelativeInfo info;
+                PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+                int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+                double distance_on_traj = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, wp);
+                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && distance_on_traj < min_distance && info.perp_distance < PERP_DISTANCE_THRESHOLD)
+                {
+//                    std::cout << "_______________________________________" << std::endl;
+//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
+//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
+//                    std::cout << "distance on traj " << distance_on_traj << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
+//                    std::cout << "_______________________________________" << std::endl;
+                    min_distance = distance_on_traj;
+                    min_pos = pos;
+                }
+//                array_position.push_back(pos);
+//                is_road_side_parking = true;
             }
         }
 
+        visualization_msgs::Marker marker;
+        // Set the frame ID and timestamp.  See the TF tutorials for information on these.
+        marker.header.frame_id = "/SSMP_map";
+        marker.header.stamp = ros::Time::now();
+        marker.id = 0;
+        marker.action = visualization_msgs::Marker::ADD;
+        marker.type = visualization_msgs::Marker::CUBE;
+        marker.pose.position.x = min_pos.x();
+        marker.pose.position.y = min_pos.y();
+        marker.pose.position.z = 0;
+        marker.pose.orientation.x = 0.0;
+        marker.pose.orientation.y = 0.0;
+        marker.pose.orientation.z = 0.0;
+        marker.pose.orientation.w = 1.0;
+        marker.scale.x = 3.0;
+        marker.scale.y = 3.0;
+        marker.scale.z = 1.0;
+        marker.color.r = 1.0f;
+        marker.color.g = 0.0f;
+        marker.color.b = 1.0f;
+        marker.color.a = 1.0;
+        marker.lifetime = ros::Duration();
+        pub_road_side_parking_viz_.publish(marker);
+
+        geometry_msgs::PoseStamped pose_road_side_parking;
         pose_road_side_parking.header.frame_id = "world";
-
-        if(is_road_side_parking) {
-            // The position to return is the middle of the area
-            grid_map::Position pos_begin;
-            grid_map::Position pos_end;
-            pos_begin = array_position.at(0); // the first position stored in the array
-            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pose_road_side_parking.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
-            pose_road_side_parking.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
-
-            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
-            pose_road_side_parking.pose.orientation.w = 1;
-            pose_road_side_parking.pose.orientation.x = 0;
-            pose_road_side_parking.pose.orientation.y = 0;
-            pose_road_side_parking.pose.orientation.z = 0;
-        }
-        else {
-            // Default value
-            pose_road_side_parking.pose.position.x = 0;
-            pose_road_side_parking.pose.position.y = 0;
-            pose_road_side_parking.pose.orientation.w = 1;
-            pose_road_side_parking.pose.orientation.x = 0;
-            pose_road_side_parking.pose.orientation.y = 0;
-            pose_road_side_parking.pose.orientation.z = 0;
-        }
+        pose_road_side_parking.pose.position.x = min_pos.x();
+        pose_road_side_parking.pose.position.y = min_pos.y();
         return pose_road_side_parking;
+
     }
 
     /*!
@@ -699,10 +818,10 @@ private:
     {
         // The new goal to be set
         geometry_msgs::PoseStamped new_goal;
-        new_goal = findRoadSideParking(gridmap_);
+        new_goal = findClosestRoadSideParking();
 
         // Switch to the safe stop planner when the car is close enough from the road side planning
-        const double MAX_DISTANCE = 30; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
+        const double MAX_DISTANCE = 10; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
         double distance_to_road_side_parking; // The distance between road side parking and the car
         distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
         if(distance_to_road_side_parking <= MAX_DISTANCE) {
@@ -716,7 +835,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
+    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
     {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
@@ -725,12 +844,14 @@ public:
         pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
+        pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
+        sub_ssmp_endposes_ = nh_.subscribe<visualization_msgs::MarkerArray>("/safe_stop_endposes_vis", 1, &SafetySupervisor::ssmpEndposesCallback, this);
 
         createFaultMonitors();
 
