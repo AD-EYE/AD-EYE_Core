@@ -617,13 +617,14 @@ private:
                     geometry_msgs::PoseStamped road_side_parking_pose = findClosestRoadSideParking();
                     if(isRoadSideParkingReachableBySSMP(road_side_parking_pose)) // if not we need to wait a bit to be able to park on the parking
                         triggerSafetySwitch();
+                    ROS_INFO("Decision: Stop in road side parking");
                 }
                 else // if there is no valid parking we stop immediately (going one level up in term of criticality)
                 {
                     triggerSafetySwitch();
+                    ROS_INFO("Decision: No road side parking available, performing immediate stop");
                 }
 //                redefineGoalRoadSideParking();
-                ROS_INFO("Decision: Stop in road side parking");
                 break;
             case IMMEDIATE_STOP:
                 triggerSafetySwitch();
@@ -648,12 +649,14 @@ private:
             rate.sleep();
         }
     }
-
     bool isThereAValidRoadSideParking()
+
     {
         const double PERP_DISTANCE_THRESHOLD = 20;
         const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 5;
         PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+        double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
         for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
             if(gridmap_.at("RoadSideParking", *it) != 0) {
                 grid_map::Position pos;
@@ -661,10 +664,10 @@ private:
                 PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
                 PlannerHNS::RelativeInfo info;
                 PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
-                int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
                 double distance_on_traj = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, wp);
-                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && info.perp_distance < PERP_DISTANCE_THRESHOLD)
+                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && distance_on_traj < remaining_traj_length && abs(info.perp_distance) < PERP_DISTANCE_THRESHOLD)
                 {
+//                    std::cout << "distance_on_traj: " << distance_on_traj << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
                     return true;
                 }
             }
@@ -811,27 +814,6 @@ private:
         new_goal = findRestArea(gridmap_);
 
         pub_autoware_goal_.publish(new_goal);
-    }
-
-    /*!
-     * \brief define the new goal, if the car has to stop in road side parking, and publish it
-     * \param new_pose the new position and orientation to be set for the goal
-     * \details The function stores the new goal in a variable and when the car is close enough of the road side parking,
-     * the Safe stop planner is activated.
-     */
-    void redefineGoalRoadSideParking()
-    {
-        // The new goal to be set
-        geometry_msgs::PoseStamped new_goal;
-        new_goal = findClosestRoadSideParking();
-
-        // Switch to the safe stop planner when the car is close enough from the road side planning
-        const double MAX_DISTANCE = 10; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
-        double distance_to_road_side_parking; // The distance between road side parking and the car
-        distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
-        if(distance_to_road_side_parking <= MAX_DISTANCE) {
-            triggerSafetySwitch(); // Switch to the Safe stop planner
-        }
     }
 
 public:
