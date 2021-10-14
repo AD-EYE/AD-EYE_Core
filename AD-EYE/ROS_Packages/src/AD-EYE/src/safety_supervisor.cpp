@@ -570,8 +570,8 @@ private:
             geometry_msgs::PoseStamped pose_stamped_out;
             try{
                 geometry_msgs::PoseStamped pose_stamped_in;
-                pose_stamped_in.header = ssmp_current_endposes_.markers.front().header;
-                pose_stamped_in.pose = ssmp_current_endposes_.markers.front().pose;
+                pose_stamped_in.header = endpose.header;
+                pose_stamped_in.pose = endpose.pose;
                 tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
 //                std::cout << "   endpose transformed x:" << pose_stamped_out.pose.position.x << std::endl;
 
@@ -580,7 +580,8 @@ private:
                 ROS_WARN("%s",ex.what());
                 ros::Duration(1.0).sleep();
             }
-//            std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << pose_stamped_out.pose.position.x << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
+//            std::cout << "before transormation: " << "   endpose x:" << pose_stamped_out.pose.position.x << "   endpose y:" << pose_stamped_out.pose.position.y << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
+//            std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << pose_stamped_out.pose.position.x << "   endpose y:" << pose_stamped_out.pose.position.y << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
             if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
                 return true;
         }
@@ -685,14 +686,19 @@ private:
 
 
         auto min_distance = DBL_MAX;
-        grid_map::Position min_pos;
+        int min_id;
 
+        std::unordered_map<int, std::vector<grid_map::Position>> parking_positions_by_id;
 
         PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
         for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
             if(gridmap_.at("RoadSideParking", *it) != 0) {
                 grid_map::Position pos;
                 gridmap_.getPosition(*it, pos);
+                if (parking_positions_by_id.find(gridmap_.at("RoadSideParking", *it)) != parking_positions_by_id.end())
+                    parking_positions_by_id[gridmap_.at("RoadSideParking", *it)].push_back(pos);
+                else
+                    parking_positions_by_id[gridmap_.at("RoadSideParking", *it)] = std::vector<grid_map::Position>{pos};
                 PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
                 PlannerHNS::RelativeInfo info;
                 PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
@@ -706,27 +712,30 @@ private:
 //                    std::cout << "distance on traj " << distance_on_traj << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
 //                    std::cout << "_______________________________________" << std::endl;
                     min_distance = distance_on_traj;
-                    min_pos = pos;
+                    min_id = gridmap_.at("RoadSideParking", *it);
                 }
-//                array_position.push_back(pos);
-//                is_road_side_parking = true;
             }
         }
 
+        //average all the positions of the parking to find the center
+        geometry_msgs::PoseStamped average_position;
+        average_position.header.frame_id = "/SSMP_map";
+        for(auto position: parking_positions_by_id[min_id])
+        {
+            average_position.pose.position.x += position.x();
+            average_position.pose.position.y += position.y();
+        }
+        average_position.pose.position.x /= parking_positions_by_id[min_id].size();
+        average_position.pose.position.y /= parking_positions_by_id[min_id].size();
+
         visualization_msgs::Marker marker;
         // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-        marker.header.frame_id = "/SSMP_map";
+        marker.header.frame_id = average_position.header.frame_id;
         marker.header.stamp = ros::Time::now();
         marker.id = 0;
         marker.action = visualization_msgs::Marker::ADD;
         marker.type = visualization_msgs::Marker::CUBE;
-        marker.pose.position.x = min_pos.x();
-        marker.pose.position.y = min_pos.y();
-        marker.pose.position.z = 0;
-        marker.pose.orientation.x = 0.0;
-        marker.pose.orientation.y = 0.0;
-        marker.pose.orientation.z = 0.0;
-        marker.pose.orientation.w = 1.0;
+        marker.pose = average_position.pose;
         marker.scale.x = 3.0;
         marker.scale.y = 3.0;
         marker.scale.z = 1.0;
@@ -737,11 +746,7 @@ private:
         marker.lifetime = ros::Duration();
         pub_road_side_parking_viz_.publish(marker);
 
-        geometry_msgs::PoseStamped pose_road_side_parking;
-        pose_road_side_parking.header.frame_id = "world";
-        pose_road_side_parking.pose.position.x = min_pos.x();
-        pose_road_side_parking.pose.position.y = min_pos.y();
-        return pose_road_side_parking;
+        return average_position;
 
     }
 
