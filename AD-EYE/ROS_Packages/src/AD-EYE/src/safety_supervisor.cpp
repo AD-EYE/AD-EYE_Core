@@ -89,6 +89,8 @@ private:
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
     bool autoware_global_path_flag_ = false;
+
+    bool is_rest_area_chosen_ = false;
     
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
@@ -557,14 +559,13 @@ private:
         performAction(most_critical_level);
     }
 
-
+    /*!
+     * \brief Returns whether there is a SSMP endpose that is close enough to the given parking
+     * \param parking_pose target road side parking pose
+     * \return boolean characterizing the whether the pose is reachable by SSMP
+     */
     bool isRoadSideParkingReachableBySSMP(geometry_msgs::PoseStamped parking_pose) {
         double DISTANCE_THRESHOLD = 3;
-//        std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << ssmp_current_endposes_.markers.front().pose.position.x << "    distance: " << getDistance(ssmp_current_endposes_.markers.front().pose, parking_pose.pose) << std::endl;
-//        if(!ssmp_current_endposes_.markers.empty())
-//        {
-//            std::cout << "   endpose x:" << ssmp_current_endposes_.markers.front().pose.position.x << std::endl;
-//        }
         for(auto endpose: ssmp_current_endposes_.markers)
         {
             geometry_msgs::PoseStamped pose_stamped_out;
@@ -573,21 +574,22 @@ private:
                 pose_stamped_in.header = endpose.header;
                 pose_stamped_in.pose = endpose.pose;
                 tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
-//                std::cout << "   endpose transformed x:" << pose_stamped_out.pose.position.x << std::endl;
-
             }
             catch (tf2::TransformException &ex) {
                 ROS_WARN("%s",ex.what());
                 ros::Duration(1.0).sleep();
             }
-//            std::cout << "before transormation: " << "   endpose x:" << pose_stamped_out.pose.position.x << "   endpose y:" << pose_stamped_out.pose.position.y << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
-//            std::cout << "parking_pose x: " << parking_pose.pose.position.x << "   endpose x:" << pose_stamped_out.pose.position.x << "   endpose y:" << pose_stamped_out.pose.position.y << "    distance: " << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
             if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
                 return true;
         }
         return false;
     }
 
+
+    /*!
+     * \brief Perform the minimal risk condition connected to the decision take
+     * \param most_critical_level Decision taken
+     */
     void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
         switch(most_critical_level)
         {
@@ -601,6 +603,7 @@ private:
                 if(is_anomaly_fixed_) {
                     // Redefine the initial goal
                     pub_autoware_goal_.publish(initial_goal_coordinates_);
+                    is_rest_area_chosen_ = false;
                 }
                 switchNominalChannel();
                 ROS_INFO("Decision: Go to initial goal");
@@ -608,9 +611,24 @@ private:
             case REST_AREA:
                 broke_at_least_once_ = true;
                 is_anomaly_fixed_ = false;
-                redefineGoalRestArea();
-                ROS_INFO("Decision: Stop in rest area");
-                break;
+                if(!is_rest_area_chosen_)
+                {
+                    if(isThereAValidRestArea())
+                    {
+                        geometry_msgs::PoseStamped rest_area_pose = findClosestRestArea();
+                        is_rest_area_chosen_ = true;
+                        pub_autoware_goal_.publish(rest_area_pose);
+                        ROS_INFO("Decision: Stop in rest area");
+                        break;
+                    }
+                    else
+                    {
+                        ROS_INFO("Decision: No road side parking available, performing immediate stop");
+                    }
+                }
+                else{
+                    break;
+                }
             case ROAD_SIDE_PARKING:
                 if(isThereAValidRoadSideParking())
                 {
@@ -649,8 +667,13 @@ private:
             rate.sleep();
         }
     }
-    bool isThereAValidRoadSideParking()
 
+
+    /*!
+     * \brief Returns whether there is a parking that is considered reachable in the gridmap
+     * \return boolean characterizing the existence of a reachable road side parking
+     */
+    bool isThereAValidRoadSideParking()
     {
         const double PERP_DISTANCE_THRESHOLD = 20;
         const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 5;
@@ -676,10 +699,8 @@ private:
     }
 
     /*!
-     * \brief search the position of the center of the road side parking
-     * \return the position of the center of the area road side parking in the gridmap
-     * if there is no, return (-1, -1)
-     * \param map the gridmap where the road side parking has to be found
+     * \brief search the position of the barycenter of the road side parking
+     * \return Position of the barycenter of the closest road side parking reachable in the gridmap
      */
     geometry_msgs::PoseStamped findClosestRoadSideParking()
     {
@@ -732,7 +753,6 @@ private:
         average_position.pose.position.y /= parking_positions_by_id[min_id].size();
 
         visualization_msgs::Marker marker;
-        // Set the frame ID and timestamp.  See the TF tutorials for information on these.
         marker.header.frame_id = average_position.header.frame_id;
         marker.header.stamp = ros::Time::now();
         marker.id = 0;
@@ -753,67 +773,108 @@ private:
 
     }
 
-    /*!
-     * \brief search the position of the center of the rest area
-     * \return the position of the center of the rest area in the gridmap
-     * if there is no, return (-1, -1)
-     * \param map the gridmap where the rest area has to be found
-     */
-    geometry_msgs::PoseStamped findRestArea(grid_map::GridMap map)
+
+
+    bool isThereAValidRestArea()
     {
-        bool is_rest_area = false;
-        geometry_msgs::PoseStamped pose_rest_area;
+        const double PERP_DISTANCE_THRESHOLD = 75;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 25;
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+        double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
+        for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
+            if(gridmap_.at("RestArea", *it) != 0) {
+                grid_map::Position pos;
+                gridmap_.getPosition(*it, pos);
+                PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
+                PlannerHNS::RelativeInfo info;
+                PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+                double distance_on_traj = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, wp);
+                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && distance_on_traj < remaining_traj_length && abs(info.perp_distance) < PERP_DISTANCE_THRESHOLD)
+                {
+//                    std::cout << "distance_on_traj: " << distance_on_traj << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /*!
+     * \brief search the position of the barycenter of the closest rest area
+     * \return Position of the barycenter of the closest rest area in the gridmap
+     */
+    geometry_msgs::PoseStamped findClosestRestArea()
+    {
+        const double PERP_DISTANCE_THRESHOLD = 75;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 25;
         std::vector<grid_map::Position> array_position;
 
-        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
-            if(map.at("RestArea", *it) == REST_AREA_VALUE) {
+
+        auto min_distance = DBL_MAX;
+        int min_id;
+
+        std::unordered_map<int, std::vector<grid_map::Position>> parking_positions_by_id;
+
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
+            if(gridmap_.at("RestArea", *it) != 0) {
                 grid_map::Position pos;
-                map.getPosition(*it, pos);
-                array_position.push_back(pos);
-                is_rest_area = true;
+                gridmap_.getPosition(*it, pos);
+                if (parking_positions_by_id.find(gridmap_.at("RestArea", *it)) != parking_positions_by_id.end())
+                    parking_positions_by_id[gridmap_.at("RestArea", *it)].push_back(pos);
+                else
+                    parking_positions_by_id[gridmap_.at("RestArea", *it)] = std::vector<grid_map::Position>{pos};
+                PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
+                PlannerHNS::RelativeInfo info;
+                PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+                int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+                double distance_on_traj = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, wp);
+                if(DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_on_traj && distance_on_traj < min_distance && info.perp_distance < PERP_DISTANCE_THRESHOLD)
+                {
+//                    std::cout << "_______________________________________" << std::endl;
+//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
+//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
+//                    std::cout << "distance on traj " << distance_on_traj << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
+//                    std::cout << "_______________________________________" << std::endl;
+                    min_distance = distance_on_traj;
+                    min_id = gridmap_.at("RestArea", *it);
+                }
             }
         }
 
-        pose_rest_area.header.frame_id = "world";
-
-        if(is_rest_area) {
-            // The position to return is the middle of the area
-            grid_map::Position pos_begin;
-            grid_map::Position pos_end;
-            pos_begin = array_position.at(0); // the first position stored in the array
-            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pose_rest_area.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
-            pose_rest_area.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
-
-            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
-            pose_rest_area.pose.orientation.w = 0.136081322188;
-            pose_rest_area.pose.orientation.x = 0;
-            pose_rest_area.pose.orientation.y = 0;
-            pose_rest_area.pose.orientation.z = 0.990697670206;
+        //average all the positions of the rest area to find the center
+        geometry_msgs::PoseStamped average_position;
+        average_position.header.frame_id = "/SSMP_map";
+        average_position.pose.orientation = pose_.orientation;
+        for(auto position: parking_positions_by_id[min_id])
+        {
+            average_position.pose.position.x += position.x();
+            average_position.pose.position.y += position.y();
         }
-        else {
-            // Default value
-            pose_rest_area.pose.position.x = 0;
-            pose_rest_area.pose.position.y = 0;
-            pose_rest_area.pose.orientation.w = 1;
-            pose_rest_area.pose.orientation.x = 0;
-            pose_rest_area.pose.orientation.y = 0;
-            pose_rest_area.pose.orientation.z = 0;
-        }
-        return pose_rest_area;
-    }
+        average_position.pose.position.x /= parking_positions_by_id[min_id].size();
+        average_position.pose.position.y /= parking_positions_by_id[min_id].size();
 
-    /*!
-     * \brief define the new goal, if the car has to stop in the rest area, and publish it
-     * \param new_pose the new position and orientation to be set for the goal
-     */
-    void redefineGoalRestArea()
-    {
-        // The new goal to be set
-        geometry_msgs::PoseStamped new_goal;
-        new_goal = findRestArea(gridmap_);
+        visualization_msgs::Marker marker;
+        marker.header.frame_id = average_position.header.frame_id;
+        marker.header.stamp = ros::Time::now();
+        marker.id = 0;
+        marker.action = visualization_msgs::Marker::ADD;
+        marker.type = visualization_msgs::Marker::CUBE;
+        marker.pose = average_position.pose;
+        marker.scale.x = 3.0;
+        marker.scale.y = 3.0;
+        marker.scale.z = 1.0;
+        marker.color.r = 0.0f;
+        marker.color.g = 0.0f;
+        marker.color.b = 1.0f;
+        marker.color.a = 1.0;
+        marker.lifetime = ros::Duration();
+        pub_road_side_parking_viz_.publish(marker);
 
-        pub_autoware_goal_.publish(new_goal);
+        return average_position;
+
     }
 
 public:
