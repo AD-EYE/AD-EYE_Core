@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W15_Road_Side_Parking" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="A4446E2FD65499FC1ED5E877CEC1C56A9F7F7EF8C5566ADBD511BAEF516DF726" UniqueExperimentIdentifier="5ddfbd90-d1bf-4c17-8f53-752bcf02b0ca" UniqueIdCounter="2737" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W15_Road_Side_Parking" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="7331008144E9A6975CDE60440A6CE92E6AD242BE84CE2A8FB324011ECEE413C5" UniqueExperimentIdentifier="cbb9fa9b-daf5-43c0-9547-621ca6e14ddd" UniqueIdCounter="2858" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a gas station" id="GasStation_1" UniqueId="1539" SensorDetectability="Occluding" NumericalID="26" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="GasStation" AnimatedActor="false" CompilationSheetPicture="GasStation_HighPoly.png" HashCode="67fd08da2d8a5a37c11b9cc1767d099c" ModelFile="Buildings\GasStation\GasStation.osgb" GenericModelSourceFile="Buildings\GasStation\GasStation.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="157.34040832519531" Y="190.83343505859375" Z="0" />
@@ -29035,8 +29035,8 @@
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="2121" SensorDetectability="Invisible" NumericalID="381" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="265.5324878692627" Y="136.62837982177734" Z="-2.2204460492503131E-16" />
-      <Orientation Bank="0" Tilt="0" Heading="180" />
+      <Location X="90.00255012512207" Y="75.6594009399414" Z="-2.2204460492503131E-16" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
       <CoGOffset X="0" Y="0" Z="0" />
@@ -29428,7 +29428,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2729" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2851" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29453,7 +29453,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2730" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2852" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29478,7 +29478,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2731" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2853" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29503,7 +29503,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2732" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2854" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29541,7 +29541,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2733" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2855" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29576,7 +29576,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2734" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2856" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29638,7 +29638,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="2735" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="2857" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -30530,7 +30530,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_1" UniqueId="1537" SensorDetectability="Occluding" NumericalID="24" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="117.30821990966777" Y="69.452373348668885" Z="0" />
+        <Location X="117.30821990966777" Y="69.4523733472574" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="20" Y="10" Z="0.0099999997764825821" />
@@ -30543,7 +30543,7 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="3.7936716083230588" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="2.2611818361978759" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="2.2611818361520757" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -30568,7 +30568,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_3" UniqueId="2614" SensorDetectability="Occluding" NumericalID="382" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="246.50740051269551" Y="143.58216857653059" Z="0" />
+        <Location X="246.5074005126956" Y="143.58216857653059" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="20" Y="10" Z="0.0099999997764825821" />
@@ -30580,14 +30580,14 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="7.971889159066345" Heading="E" />
+          <Longitude Degrees="0" Minutes="0" Seconds="7.9718891590663468" Heading="E" />
           <Latitude Degrees="0" Minutes="0" Seconds="4.6746479036984239" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="restArea" id="Pavement_4" UniqueId="2736" SensorDetectability="Occluding" NumericalID="383" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="193.12548828124991" Y="-4.5863513810509016" Z="0" />
+        <Location X="193.12548828124991" Y="-4.5863513754049716" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="356.91825905823248" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="40" Y="20" Z="0.0099999997764825821" />
@@ -30600,7 +30600,7 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="6.2455528030597414" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="0.14931922319872767" Heading="S" />
+          <Latitude Degrees="0" Minutes="0" Seconds="0.14931922301552772" Heading="S" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -31382,7 +31382,7 @@
         <RoadMarkings />
         <DirtSpots />
         <CrossSections>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_0" UniqueId="1443" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.1860056" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_0" UniqueId="1443" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.1860056" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -31403,7 +31403,7 @@
             </LaneLineDefinitions>
             <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_1" UniqueId="1446" MaxSpeed="50" Heading="179.76881992429898" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.33619" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_1" UniqueId="1446" MaxSpeed="50" Heading="179.76881992429898" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.33619" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -31424,7 +31424,7 @@
             </LaneLineDefinitions>
             <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_2" UniqueId="1449" MaxSpeed="50" Heading="270.63413591451433" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.1860027" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_1CrossingRoadEnd_2" UniqueId="1449" MaxSpeed="50" Heading="270.63413591451433" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.1860027" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="2" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -31560,7 +31560,7 @@
         <RoadMarkings />
         <DirtSpots />
         <CrossSections>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_0" UniqueId="1468" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.2301025" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_0" UniqueId="1468" MaxSpeed="50" Heading="0" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.2301025" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -31581,7 +31581,7 @@
             </LaneLineDefinitions>
             <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_1" UniqueId="1471" MaxSpeed="50" Heading="179.84660072623103" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.2851486" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_1" UniqueId="1471" MaxSpeed="50" Heading="179.84660072623103" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.2851486" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
@@ -31602,7 +31602,7 @@
             </LaneLineDefinitions>
             <NumberOfExitLanes>1</NumberOfExitLanes>
           </RoadCrossSection>
-          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_2" UniqueId="1474" MaxSpeed="50" Heading="270.19792313337109" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="Solid" RoadLengthTillStopMarker="12.2301035" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
+          <RoadCrossSection xsi:type="CrossingRoadEnd" Description="" id="YCrossing_2CrossingRoadEnd_2" UniqueId="1474" MaxSpeed="50" Heading="270.19792313337109" LaneWidth="3.5" NumberOfLanes="2" DirectionChangeAfterLane="1" RoadEndMarker="None" RoadLengthTillStopMarker="12.2301035" RoadEndLength="18" RoadEndOffsetRelative="0" DropletWidth="0">
             <RoadJointList>
               <RoadJoint JointId="2" NumberOfLanes="2" StartLane="1" />
             </RoadJointList>
