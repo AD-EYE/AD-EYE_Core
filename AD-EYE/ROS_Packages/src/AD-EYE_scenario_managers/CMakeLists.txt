@@ -5,417 +5,436 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 
 find_package(
-    catkin REQUIRED
-    roscpp
-  )
+        catkin REQUIRED
+        roscpp
+        autoware_msgs
+        op_planner
+        op_ros_helpers
+)
 
 catkin_package(
-    CATKIN_DEPENDS
-    roscpp
+        CATKIN_DEPENDS
+        roscpp
+        autoware_msgs
+        op_planner
+        op_ros_helpers
 )
 
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
+        include
+        ${catkin_INCLUDE_DIRS}
 )
 
 
 
 add_executable(
-  Scenario1
-  src/scenario_1.cpp
+        Scenario1
+        src/scenario_1.cpp
 )
 target_link_libraries(
-  Scenario1
-  ${catkin_LIBRARIES}
+        Scenario1
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario1
-  ${catkin_EXPORTED_TARGETS}
+        Scenario1
+        ${catkin_EXPORTED_TARGETS}
 )
 
 add_executable(
-  Scenario2
-  src/scenario_2.cpp
+        Scenario2
+        src/scenario_2.cpp
 )
 target_link_libraries(
-  Scenario2
-  ${catkin_LIBRARIES}
+        Scenario2
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario2
-  ${catkin_EXPORTED_TARGETS}
+        Scenario2
+        ${catkin_EXPORTED_TARGETS}
 )
 
 add_executable(
-  Scenario3
-  src/scenario_3.cpp
+        Scenario3
+        src/scenario_3.cpp
 )
 target_link_libraries(
-  Scenario3
-  ${catkin_LIBRARIES}
+        Scenario3
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario3
-  ${catkin_EXPORTED_TARGETS}
-)
-
-
-add_executable(
-  Scenario4
-  src/scenario_4.cpp
-)
-target_link_libraries(
-  Scenario4
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario4
-  ${catkin_EXPORTED_TARGETS}
+        Scenario3
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario5
-  src/scenario_5.cpp
+        Scenario4
+        src/scenario_4.cpp
 )
 target_link_libraries(
-  Scenario5
-  ${catkin_LIBRARIES}
+        Scenario4
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario5
-  ${catkin_EXPORTED_TARGETS}
+        Scenario4
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario6
-  src/scenario_6.cpp
+        Scenario5
+        src/scenario_5.cpp
 )
 target_link_libraries(
-  Scenario6
-  ${catkin_LIBRARIES}
+        Scenario5
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario6
-  ${catkin_EXPORTED_TARGETS}
+        Scenario5
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario7
-  src/scenario_7.cpp
+        Scenario6
+        src/scenario_6.cpp
 )
 target_link_libraries(
-  Scenario7
-  ${catkin_LIBRARIES}
+        Scenario6
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario7
-  ${catkin_EXPORTED_TARGETS}
+        Scenario6
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario8
-  src/scenario_8.cpp
+        Scenario7
+        src/scenario_7.cpp
 )
 target_link_libraries(
-  Scenario8
-  ${catkin_LIBRARIES}
+        Scenario7
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario8
-  ${catkin_EXPORTED_TARGETS}
+        Scenario7
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario9
-  src/scenario_9.cpp
+        Scenario8
+        src/scenario_8.cpp
 )
 target_link_libraries(
-  Scenario9
-  ${catkin_LIBRARIES}
+        Scenario8
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario9
-  ${catkin_EXPORTED_TARGETS}
+        Scenario8
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario10
-  src/scenario_10.cpp
+        Scenario9
+        src/scenario_9.cpp
 )
 target_link_libraries(
-  Scenario10
-  ${catkin_LIBRARIES}
+        Scenario9
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario10
-  ${catkin_EXPORTED_TARGETS}
+        Scenario9
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario11
-  src/scenario_11.cpp
+        Scenario10
+        src/scenario_10.cpp
 )
 target_link_libraries(
-  Scenario11
-  ${catkin_LIBRARIES}
+        Scenario10
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario11
-  ${catkin_EXPORTED_TARGETS}
+        Scenario10
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario12
-  src/scenario_12.cpp
+        Scenario11
+        src/scenario_11.cpp
 )
 target_link_libraries(
-  Scenario12
-  ${catkin_LIBRARIES}
+        Scenario11
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario12
-  ${catkin_EXPORTED_TARGETS}
+        Scenario11
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario13
-  src/scenario_13.cpp
+        Scenario12
+        src/scenario_12.cpp
 )
 target_link_libraries(
-  Scenario13
-  ${catkin_LIBRARIES}
+        Scenario12
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario13
-  ${catkin_EXPORTED_TARGETS}
+        Scenario12
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario14
-  src/scenario_14.cpp
+        Scenario13
+        src/scenario_13.cpp
 )
 target_link_libraries(
-  Scenario14
-  ${catkin_LIBRARIES}
+        Scenario13
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario14
-  ${catkin_EXPORTED_TARGETS}
-)
-
-add_executable(
-  Scenario15
-  src/scenario_15.cpp
-)
-target_link_libraries(
-  Scenario15
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario15
-  ${catkin_EXPORTED_TARGETS}
-)
-
-add_executable(
-  Scenario16
-  src/scenario_16.cpp
-)
-target_link_libraries(
-  Scenario16
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario16
-  ${catkin_EXPORTED_TARGETS}
+        Scenario13
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario17
-  src/scenario_17.cpp
+        Scenario14
+        src/scenario_14.cpp
 )
 target_link_libraries(
-  Scenario17
-  ${catkin_LIBRARIES}
+        Scenario14
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario17
-  ${catkin_EXPORTED_TARGETS}
+        Scenario14
+        ${catkin_EXPORTED_TARGETS}
 )
 
 add_executable(
-  Scenario18
-  src/scenario_18.cpp
+        Scenario15
+        src/scenario_15.cpp
 )
 target_link_libraries(
-  Scenario18
-  ${catkin_LIBRARIES}
+        Scenario15
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario18
-  ${catkin_EXPORTED_TARGETS}
-)  
+        Scenario15
+        ${catkin_EXPORTED_TARGETS}
+)
 
 add_executable(
-  Scenario19
-  src/scenario_20.cpp
+        Scenario16
+        src/scenario_16.cpp
 )
 target_link_libraries(
-  Scenario19
-  ${catkin_LIBRARIES}
+        Scenario16
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario19
-  ${catkin_EXPORTED_TARGETS}
-)
-
-
-add_executable(
-  Scenario20
-  src/scenario_20.cpp
-)
-target_link_libraries(
-  Scenario20
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario20
-  ${catkin_EXPORTED_TARGETS}
+        Scenario16
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario22
-  src/scenario_22.cpp
+        Scenario17
+        src/scenario_17.cpp
 )
 target_link_libraries(
-  Scenario22
-  ${catkin_LIBRARIES}
+        Scenario17
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario22
-  ${catkin_EXPORTED_TARGETS}
+        Scenario17
+        ${catkin_EXPORTED_TARGETS}
+)
+
+add_executable(
+        Scenario18
+        src/scenario_18.cpp
+)
+target_link_libraries(
+        Scenario18
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario18
+        ${catkin_EXPORTED_TARGETS}
+)
+
+add_executable(
+        Scenario19
+        src/scenario_20.cpp
+)
+target_link_libraries(
+        Scenario19
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario19
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario23
-  src/scenario_23.cpp
+        Scenario20
+        src/scenario_20.cpp
 )
 target_link_libraries(
-  Scenario23
-  ${catkin_LIBRARIES}
+        Scenario20
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario23
-  ${catkin_EXPORTED_TARGETS}
-)
-
-add_executable(
-  Scenario24
-  src/scenario_24.cpp
-)
-target_link_libraries(
-  Scenario24
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario24
-  ${catkin_EXPORTED_TARGETS}
-)
-
-add_executable(
-  Scenario26
-  src/scenario_26.cpp
-)
-target_link_libraries(
-  Scenario26
-  ${catkin_LIBRARIES}
-)
-add_dependencies(
-  Scenario26
-  ${catkin_EXPORTED_TARGETS}
+        Scenario20
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario27
-  src/scenario_27.cpp
+        Scenario22
+        src/scenario_22.cpp
 )
 target_link_libraries(
-  Scenario27
-  ${catkin_LIBRARIES}
+        Scenario22
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario27
-  ${catkin_EXPORTED_TARGETS}
+        Scenario22
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario28
-  src/scenario_28.cpp
+        Scenario23
+        src/scenario_23.cpp
 )
 target_link_libraries(
-  Scenario28
-  ${catkin_LIBRARIES}
+        Scenario23
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario28
-  ${catkin_EXPORTED_TARGETS}
+        Scenario23
+        ${catkin_EXPORTED_TARGETS}
+)
+
+add_executable(
+        Scenario24
+        src/scenario_24.cpp
+)
+target_link_libraries(
+        Scenario24
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario24
+        ${catkin_EXPORTED_TARGETS}
+)
+
+add_executable(
+        Scenario26
+        src/scenario_26.cpp
+)
+target_link_libraries(
+        Scenario26
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario26
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario29
-  src/scenario_29.cpp
+        Scenario27
+        src/scenario_27.cpp
 )
 target_link_libraries(
-  Scenario29
-  ${catkin_LIBRARIES}
+        Scenario27
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario29
-  ${catkin_EXPORTED_TARGETS}
+        Scenario27
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario30
-  src/scenario_30.cpp
+        Scenario28
+        src/scenario_28.cpp
 )
 target_link_libraries(
-  Scenario30
-  ${catkin_LIBRARIES}
+        Scenario28
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario30
-  ${catkin_EXPORTED_TARGETS}
+        Scenario28
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
 add_executable(
-  Scenario31
-  src/scenario_31.cpp
+        Scenario29
+        src/scenario_29.cpp
 )
 target_link_libraries(
-  Scenario31
-  ${catkin_LIBRARIES}
+        Scenario29
+        ${catkin_LIBRARIES}
 )
 add_dependencies(
-  Scenario31
-  ${catkin_EXPORTED_TARGETS}
+        Scenario29
+        ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+        Scenario30
+        src/scenario_30.cpp
+)
+target_link_libraries(
+        Scenario30
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario30
+        ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_executable(
+        Scenario31
+        src/scenario_31.cpp
+)
+target_link_libraries(
+        Scenario31
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        Scenario31
+        ${catkin_EXPORTED_TARGETS}
+)
+
+add_executable(
+        FaultExperimentManager
+        src/fault_experiment_manager.cpp
+)
+target_link_libraries(
+        FaultExperimentManager
+        ${catkin_LIBRARIES}
+)
+add_dependencies(
+        FaultExperimentManager
+        ${catkin_EXPORTED_TARGETS}
 )
 
 
@@ -424,222 +443,20 @@ add_dependencies(
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS Scenario1
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        TARGETS Scenario1 Scenario2 Scenario3 Scenario4 Scenario5 Scenario6 Scenario7 Scenario8 Scenario9 Scenario10
+        Scenario11 Scenario12 Scenario13 Scenario14 Scenario15 Scenario16 Scenario17 Scenario18 Scenario19 Scenario20
+        Scenario22 Scenario23 Scenario24 Scenario26 Scenario27 Scenario28 Scenario29 Scenario30 Scenario31
+        FaultExperimentManager
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-
-# Mark executables and/or libraries for installation
-install(
-  TARGETS Scenario2
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario3
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario4
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario5
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario6
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario7
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario8
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario9
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario10
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario11
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario12
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario13
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario14
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario15
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario16
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario17
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-  install(
-  TARGETS Scenario19
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario18
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario20
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(
-  TARGETS Scenario22
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario23
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario24
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario26
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario27
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario28
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario29
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario30
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
-install(
-  TARGETS Scenario31
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
 
 
 # Mark cpp header files for installation
 install(
-  DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
+        DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+        FILES_MATCHING PATTERN "*.h"
 )
