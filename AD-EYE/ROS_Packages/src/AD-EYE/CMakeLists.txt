@@ -297,7 +297,7 @@ target_link_libraries(
 
 add_executable(
   TestFault
-        src/safety_fault_monitors/fault_detectors_unit_tests.cpp
+        src/safety_fault_monitors/fault_monitors_unit_tests.cpp
 )
 target_link_libraries(
   TestFault
