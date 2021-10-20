@@ -6,6 +6,9 @@ import os
 from roslaunch.config import load_config_default
 from numpy.random import randint
 from numpy.random import seed
+from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseWithCovarianceStamped
+from autoware_msgs.msg import LaneArray
 
 #Command line input: python3 tests_for_vector_mapper.py world_name:=W01_Base_Map
 
@@ -27,7 +30,6 @@ def randomPosition(file_rows):
         random_end_row = randint(0, file_rows)
         return random_start_row, random_end_row
 
-
 ##A function for reading point.csv file and returning its start and end point.
 #@param csv_path The str of csv_path
 #@param csv_file_name The str of csv name
@@ -37,17 +39,22 @@ def readCsvFile(csv_path, csv_file_name):
         
         file_rows = len(list_of_points)-1
         
-        position_rows = randomPosition(file_rows)
-        
+        #position_rows = randomPosition(file_rows)
+        position_rows = [1232, 3420] #256 to 1000 doesn't work
         #Check if their distance if too close. If it is, call for new random position again.
-        while abs(position_rows[0] - position_rows[1]) <= 10:
-                position_rows = randomPosition(file_rows)
+        #while abs(position_rows[0] - position_rows[1]) <= 10:
+        #        position_rows = randomPosition(file_rows)
         
         start_point = (list_of_points.loc[ [position_rows[0]],[4,5] ]) #[3]=row, [4,5]=coloumn represent Global Y, X
         end_point = (list_of_points.loc[ [position_rows[1]],[4,5] ])
-        
         print(start_point)
-        print(end_point) 
+        print(end_point)
+
+        start_point_array = [ start_point.loc[position_rows[0] , 4], start_point.loc[position_rows[0] , 5] ]
+        end_point_array = [ end_point.loc[position_rows[1] , 4], end_point.loc[position_rows[1] , 5] ]
+
+
+        return start_point_array, end_point_array
 
 ##A function for checking the user input is correct.
 #By cheking world_name, if name exist, or if any input is given.
@@ -77,23 +84,58 @@ def checkInputArgs(csv_path, csv_file_name):
             print("Please specify a world name. Right now world_name:=W01_Base_Map is used.")
             print(example_input)
         
+def callback(data):
+        data.id = sys.argv[1]
+        rospy.loginfo("I heard " + data.id)
+
 
 ##Main function that initizalize node and corresponding launch file.
 def main():
-        rospy.init_node('vector_map_loader', anonymous=True) #Initializing ROS Node given nodename. 
+        rospy.init_node('vector_map_tester', anonymous=True) #Initializing ROS Node given nodename. 
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
-        roslaunch_file = ["/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_map.launch"]
-        launch = roslaunch.parent.ROSLaunchParent(uuid, roslaunch_file)
+        roslaunch_file = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_map.launch"
+        roslaunch_file2 ="/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_mission_planning.launch"
+        launch = roslaunch.parent.ROSLaunchParent(uuid, [roslaunch_file, roslaunch_file2])
         
         launch.start()
 
-        args_dict = getArgs(roslaunch_file)
+        args_dict = getArgs([roslaunch_file])
         csv_path = args_dict.get("VectorMap_Files_Folder") #Get the key value which is a path.
         csv_file_name = "point.csv"  
 
         checkInputArgs(csv_path, csv_file_name)
-        readCsvFile(csv_path, csv_file_name)
+        positions_array = readCsvFile(csv_path, csv_file_name)
+        start_point_array = positions_array[0]
+        end_point_array = positions_array[1]
+        
+        pub_goal = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size = 1)
+        pub_init_pose = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size = 1)
+        sub_global_plan = rospy.Subscriber("/lane_waypoints_array", LaneArray, callback, queue_size=1)
+
+        goal_msg = PoseStamped()
+        goal_msg.header.stamp = rospy.get_rostime()
+        goal_msg.header.frame_id = str(sys.argv[1])
+        goal_msg.pose.position.x = end_point_array[1]
+        goal_msg.pose.position.y = end_point_array[0]
+        goal_msg.pose.position.z = 0.0
+        goal_msg.pose.orientation.w = 1.0
+        goal_msg.pose.orientation.z = 0.0
+
+        initpose_msg = PoseWithCovarianceStamped()
+        initpose_msg.header.stamp = rospy.get_rostime()
+        initpose_msg.header.frame_id = str(sys.argv[1])
+        initpose_msg.pose.pose.position.x = start_point_array[1]
+        initpose_msg.pose.pose.position.y = start_point_array[0]
+        initpose_msg.pose.pose.position.z = 0.0
+        initpose_msg.pose.pose.orientation.w = 1.0
+        initpose_msg.pose.pose.orientation.z = 0.0
+
+        rate = rospy.Rate(3)
+        while not rospy.is_shutdown():
+                pub_goal.publish(goal_msg)
+                pub_init_pose.publish(initpose_msg)
+                rate.sleep()
 
         try:
             launch.spin()
