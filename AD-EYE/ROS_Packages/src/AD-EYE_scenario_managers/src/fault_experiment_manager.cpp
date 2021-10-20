@@ -35,6 +35,9 @@ private:
 
     const std::string RESULT_FILE = "/home/adeye/Experiment_Results/FaultExperiments.csv";
 
+    int trigger_distance_ = 0;
+    int fault_criticality_level_ = 0;
+
     void speedCallback(geometry_msgs::TwistStamped msg)
     {
         ego_speed_ = msg.twist.linear.x;
@@ -86,6 +89,24 @@ private:
         pub_autoware_goal_.publish(newGoal);
     }
 
+
+    static void killSSDCamera1()
+    {
+        system("rosnode kill /camera_1/vision_ssd_detect");
+    }
+    static void killSSDCamera2()
+    {
+        system("rosnode kill /camera_2/vision_ssd_detect");
+    }
+    static void killTwistFilter()
+    {
+        system("rosnode kill /twist_filter");
+    }
+    static void killGoalSequencer()
+    {
+        system("rosnode kill /goalSequencer");
+    }
+
 public:
     /*!
     * \brief Constructor
@@ -100,6 +121,8 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
 
+        trigger_distance_ = 65 + 10 * (int) (getExpIndex() / 4);
+        fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
 
@@ -121,19 +144,19 @@ public:
     {
         std::cout << "FaultExperimentManager: started experiment" << std::endl;
 
-        switch(getExpIndex() % 4)
+        switch(fault_criticality_level_)
         {
-            case 0:
-                killTwistFilter();
-                break;
             case 1:
-                killSSDCamera1();
+                killGoalSequencer();
                 break;
             case 2:
                 killSSDCamera2();
                 break;
             case 3:
-                killGoalSequencer();
+                killSSDCamera1();
+                break;
+            case 4:
+                killTwistFilter();
                 break;
         }
     }
@@ -169,27 +192,10 @@ public:
         std::cout << remaining_traj_length << " meters remaining to goal" << std::endl;
         std::ofstream myfile;
         myfile.open(RESULT_FILE, std::ios::app);
-        myfile << remaining_traj_length << "\n";
+        myfile << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length << "\n";
         myfile.close();
     }
 
-
-    void killSSDCamera1()
-    {
-        system("rosnode kill /camera_1/vision_ssd_detect");
-    }
-    void killSSDCamera2()
-    {
-        system("rosnode kill /camera_2/vision_ssd_detect");
-    }
-    void killTwistFilter()
-    {
-        system("rosnode kill /twist_filter");
-    }
-    void killGoalSequencer()
-    {
-        system("rosnode kill /goalSequencer");
-    }
 
 
 
@@ -219,7 +225,7 @@ public:
     */
     bool startExperimentConditionFulfilled() override
     {
-        return (ego_speed_ > 1 && ego_pose_.position.x > 65 + 10 * (int) (getExpIndex() / 4));
+        return (ego_speed_ > 1 && ego_pose_.position.x > trigger_distance_);
     }
 
     /*!
