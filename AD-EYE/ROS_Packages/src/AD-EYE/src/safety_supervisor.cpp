@@ -728,7 +728,7 @@ private:
     static bool isRoadSideParkingValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
     {
         const double PERPENDICULAR_DISTANCE_THRESHOLD = 20;
-        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 5;
+        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 20;
         return (DISTANCE_TO_PARKING_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERPENDICULAR_DISTANCE_THRESHOLD);
     }
 
