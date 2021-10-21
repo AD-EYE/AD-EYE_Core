@@ -31,12 +31,13 @@ private:
     geometry_msgs::Pose ego_pose_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
 
-    const double SPED_STOP_THRESHOLD_ = 0.05;
+    const double SPEED_STOP_THRESHOLD_ = 0.05;
 
-    const std::string RESULT_FILE = "/home/adeye/Experiment_Results/FaultExperiments.csv";
+    const std::string RESULT_FILE_PATH = "/home/adeye/Experiment_Results/FaultExperiments.csv";
 
     int trigger_distance_ = 0;
     int fault_criticality_level_ = 0;
+
 
     void speedCallback(geometry_msgs::TwistStamped msg)
     {
@@ -121,7 +122,7 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
 
-        trigger_distance_ = 65 + 10 * (int) (getExpIndex() / 4);
+        trigger_distance_ = 10 * (int) (getExpIndex() / 4);
         fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
@@ -129,12 +130,12 @@ public:
 
     int getExpIndex()
     {
-        std::ifstream file(RESULT_FILE);
+        std::ifstream result_file(RESULT_FILE_PATH);
         std::string line;
-        int rows = 0;
-        while (getline(file, line))
-            rows++;
-        return rows;
+        int nb_lines = 0;
+        while (getline(result_file, line))
+            nb_lines++;
+        return nb_lines;
     }
 
     /*!
@@ -186,14 +187,24 @@ public:
     {
         std::cout << "FaultExperimentManager: stopped recording" << std::endl;
 
+        double remaining_traj_length = getRemainingTrajectoryLength();
+        std::cout << remaining_traj_length << " meters remaining to goal" << std::endl;
+        std::ofstream results_file;
+        results_file.open(RESULT_FILE_PATH, std::ios::app);
+        results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length << "\n";
+        results_file.close();
+    }
+
+    double getRemainingTrajectoryLength()
+    {
         PlannerHNS::WayPoint pose_wp(ego_pose_.position.x, ego_pose_.position.y, 0, 0);
         int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
         double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
-        std::cout << remaining_traj_length << " meters remaining to goal" << std::endl;
-        std::ofstream myfile;
-        myfile.open(RESULT_FILE, std::ios::app);
-        myfile << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length << "\n";
-        myfile.close();
+        return remaining_traj_length;
+    }
+    double getGlobalPathLength()
+    {
+        return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), 0, autoware_global_path_.front().back());
     }
 
 
@@ -208,7 +219,7 @@ public:
     */
     bool startRecordingConditionFulfilled() override
     {
-        return (hasExperimentStarted() && ego_speed_ < SPED_STOP_THRESHOLD_);
+        return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_);
     }
 
     /*!
@@ -216,7 +227,7 @@ public:
     */
     bool stopRecordingConditionFulfilled() override
     {
-        return (ego_speed_ < SPED_STOP_THRESHOLD_);
+        return (ego_speed_ < SPEED_STOP_THRESHOLD_);
 //        return (has_received_global_plan_);
     }
 
@@ -225,7 +236,7 @@ public:
     */
     bool startExperimentConditionFulfilled() override
     {
-        return (ego_speed_ > 1 && ego_pose_.position.x > trigger_distance_);
+        return (ego_speed_ > 1 && getGlobalPathLength() - trigger_distance_ > getRemainingTrajectoryLength());
     }
 
     /*!
@@ -234,7 +245,7 @@ public:
     bool stopExperimentConditionFulfilled() override
     {
 
-        return (ego_speed_ < SPED_STOP_THRESHOLD_);
+        return (ego_speed_ < SPEED_STOP_THRESHOLD_);
     }
 
 
