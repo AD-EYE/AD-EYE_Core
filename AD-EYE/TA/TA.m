@@ -125,20 +125,24 @@ function [simulation_ran, runtimes] = doARun(runs, run_index, device, hostname, 
     storeConfiguration(runs, run_index, ta_path, run_directory, settings); % Saves the TA config files in the run folder
 
     cd(run_directory); % Navigate to new experiment
-    scenarioFile = dir(fullfile(run_directory, '*.xosc')); % We search the name of the xosc file
-    scenarioName = scenarioFile.name;
-    scenarioNameWithoutExtension = scenarioName(1:end-5);
-    % The number of xosc files generated from the xosc OpenScenario file
-    % will give the number of TA simulation
-    numberOfTAScenario = length(dir(fullfile("C:\Users\adeye\AD-EYE_Core\AD-EYE\OpenSCENARIO\OpenSCENARIO_experiments/", strcat(scenarioNameWithoutExtension,'*')))) -1;
-    if not(numberOfTAScenario ==0) % If there is no TA parameters
-        index= mod(run_index, numberOfTAScenario); % Look for the right final xosc generated
-        if (index ==0)
-            index=numberOfTAScenario;
+    
+    try
+        scenarioFile = dir(fullfile(run_directory, '*.xosc')); % We search the name of the xosc file
+        scenarioName = scenarioFile.name;
+        scenarioNameWithoutExtension = scenarioName(1:end-5);
+        % The number of xosc files generated from the xosc OpenScenario file
+        % will give the number of TA simulation
+        numberOfTAScenario = length(dir(fullfile("C:\Users\adeye\AD-EYE_Core\AD-EYE\OpenSCENARIO\OpenSCENARIO_experiments/", strcat(scenarioNameWithoutExtension,'*')))) -1;
+        if not(numberOfTAScenario ==0) % If there is no TA parameters
+            index= mod(run_index, numberOfTAScenario); % Look for the right final xosc generated
+            if (index ==0)
+                index=numberOfTAScenario;
+            end
+            scenarioFinalName = strrep(scenarioName, '.xosc', strcat(num2str(index), '.xosc')); % xosc file following ASAM convention, and scenario which is running
+            copyfile(strcat("C:\Users\adeye\AD-EYE_Core\AD-EYE\OpenSCENARIO\OpenSCENARIO_experiments/",scenarioFinalName),run_directory); % put the xosc file corresponding to the running simulation inside the run folder
+            delete(scenarioName); % delete the variant xosc file
         end
-        scenarioFinalName = strrep(scenarioName, '.xosc', strcat(num2str(index), '.xosc')); % xosc file following ASAM convention, and scenario which is running
-        copyfile(strcat("C:\Users\adeye\AD-EYE_Core\AD-EYE\OpenSCENARIO\OpenSCENARIO_experiments/",scenarioFinalName),run_directory); % put the xosc file corresponding to the running simulation inside the run folder
-        delete(scenarioName); % delete the variant xosc file
+    catch
     end
     % Update the Simulink model
     load_system([simulink_name,'.slx']);
