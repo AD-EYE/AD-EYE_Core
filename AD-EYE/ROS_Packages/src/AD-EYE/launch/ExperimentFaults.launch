@@ -3,5 +3,6 @@
     <node pkg="adeye_scenario_managers"
           type="FaultExperimentManager"
           name="FaultExperimentManager"
-          output="screen"/>
+          output="screen"
+          launch-prefix="xterm -e"/>
 </launch>
