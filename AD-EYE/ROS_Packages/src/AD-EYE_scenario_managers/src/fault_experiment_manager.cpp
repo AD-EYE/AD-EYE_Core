@@ -38,10 +38,19 @@ private:
     int trigger_distance_ = 0;
     int fault_criticality_level_ = 0;
 
+    ros::Time motion_start_time;
+    bool is_motion_start_time_set = false;
+    ros::Time motion_stop_time;
+
 
     void speedCallback(geometry_msgs::TwistStamped msg)
     {
         ego_speed_ = msg.twist.linear.x;
+        if(!is_motion_start_time_set && ego_speed_ > 0)
+        {
+            motion_start_time = ros::Time::now();
+            is_motion_start_time_set = true;
+        }
     }
 
 
@@ -122,7 +131,7 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
 
-        trigger_distance_ = 10 * (int) (getExpIndex() / 4);
+        trigger_distance_ = 250 + 100 * (int) (getExpIndex() / 4);
         fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
@@ -178,6 +187,7 @@ public:
         std::cout << "FaultExperimentManager: started recording" << std::endl;
         has_received_global_plan_ = false;
         publishOriginalGoal();
+        motion_stop_time = ros::Time::now();
     }
 
     /*!
@@ -187,18 +197,22 @@ public:
     {
         std::cout << "FaultExperimentManager: stopped recording" << std::endl;
 
+
         double remaining_traj_length = getRemainingTrajectoryLength();
         std::cout << remaining_traj_length << " meters remaining to goal" << std::endl;
         std::ofstream results_file;
         results_file.open(RESULT_FILE_PATH, std::ios::app);
-        results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length << "\n";
+        results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length <<
+        "," << motion_start_time.toSec() << "," << motion_stop_time.toSec() << "," <<
+        motion_stop_time.toSec() - motion_start_time.toSec() << "\n";
         results_file.close();
     }
 
     double getRemainingTrajectoryLength()
     {
         PlannerHNS::WayPoint pose_wp(ego_pose_.position.x, ego_pose_.position.y, 0, 0);
-        int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+        int current_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
+//        int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
         double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
         return remaining_traj_length;
     }
@@ -208,8 +222,39 @@ public:
     }
 
 
+    static double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
+    {
+        return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
+    }
+
+    static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
+    {
+        double min_dist = DBL_MAX;
+        int min_index = 0;
+        for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
+        {
+            if(getDistance(p, trajectory.at(wp_index)) < min_dist)
+            {
+                min_dist = getDistance(p, trajectory.at(wp_index));
+                min_index = wp_index;
+            }
+        }
+        return min_index;
+    }
 
 
+    void displayRemainingDistance()
+    {
+
+        if(has_received_global_plan_)
+        {
+
+            PlannerHNS::WayPoint pose_wp(ego_pose_.position.x, ego_pose_.position.y, 0, 0);
+            int current_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
+            double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
+            std::cout << "    " << getRemainingTrajectoryLength() << "  " << current_wp_index << "\t\r" << std::flush;
+        }
+    }
 
 
 
@@ -219,6 +264,7 @@ public:
     */
     bool startRecordingConditionFulfilled() override
     {
+        displayRemainingDistance();
         return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_);
     }
 
@@ -227,6 +273,7 @@ public:
     */
     bool stopRecordingConditionFulfilled() override
     {
+        displayRemainingDistance();
         return (ego_speed_ < SPEED_STOP_THRESHOLD_);
 //        return (has_received_global_plan_);
     }
@@ -236,6 +283,7 @@ public:
     */
     bool startExperimentConditionFulfilled() override
     {
+        displayRemainingDistance();
         return (ego_speed_ > 1 && getGlobalPathLength() - trigger_distance_ > getRemainingTrajectoryLength());
     }
 
@@ -244,7 +292,7 @@ public:
     */
     bool stopExperimentConditionFulfilled() override
     {
-
+        displayRemainingDistance();
         return (ego_speed_ < SPEED_STOP_THRESHOLD_);
     }
 
