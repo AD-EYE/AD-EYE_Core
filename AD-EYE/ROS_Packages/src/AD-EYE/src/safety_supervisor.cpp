@@ -728,7 +728,7 @@ private:
     static bool isRoadSideParkingValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
     {
         const double PERPENDICULAR_DISTANCE_THRESHOLD = 20;
-        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 20;
+        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 25;
         return (DISTANCE_TO_PARKING_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERPENDICULAR_DISTANCE_THRESHOLD);
     }
 
@@ -754,7 +754,7 @@ private:
                     parking_positions_wp_by_id[gridmap_.at("RoadSideParking", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
                 PlannerHNS::RelativeInfo info;
                 PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
-                int considered_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), wp, 0);
+                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
                 double distance_ego_to_parking = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
                 if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, info.perp_distance) && distance_ego_to_parking < min_distance)
                 {
@@ -783,10 +783,25 @@ private:
 
     }
 
+    static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
+    {
+        double min_dist = DBL_MAX;
+        int min_index = 0;
+        for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
+        {
+            if(getDistance(p, trajectory.at(wp_index)) < min_dist)
+            {
+                min_dist = getDistance(p, trajectory.at(wp_index));
+                min_index = wp_index;
+            }
+        }
+        return min_index;
+    }
+
     int getEgoWaypointIndexOnGlobalPlan()
     {
         PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
-        int pose_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
+        int pose_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
         return pose_wp_index;
     }
 
@@ -867,7 +882,7 @@ private:
                     rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)].push_back(wp);
                 else
                     rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
-                int considered_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), wp, 0);
+                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
                 double distance_ego_rest_area = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
 //                if (std::find(id_seen.begin(), id_seen.end(), gridmap_.at("RestArea", *map_iterator)) == id_seen.end()) {
 //                    std::cout << "_______________________________________" << std::endl;
