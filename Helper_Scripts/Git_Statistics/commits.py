@@ -28,7 +28,7 @@ def GenerateDateStringList():
     # We start at 2018-10 because it is the oldest date of the whole project (in Pex_Data_Extraction)
     for month in range(10, 13):
         result_dates.append('2018-' + str(month))
-    for year in range(2019, last_year + 1):
+    for year in range(2019, last_year):
         # For months before october, we have to add a 0 string to respect the format of the dates
         for month in range(1, 10):
             result_dates.append(str(year) + '-0' + str(month))
@@ -40,9 +40,9 @@ def GenerateDateStringList():
             result_dates.append(str(last_year) + '-0' + str(month))
     else:
         for month in range(1, 10):
-            result_dates.append(str(year) + '-0' + str(month))
+            result_dates.append(str(last_year) + '-0' + str(month))
         for month in range(10, last_month + 1):
-            result_dates.append(str(year) + '-' + str(month))
+            result_dates.append(str(last_year) + '-' + str(month))
     return result_dates
 
 
@@ -77,23 +77,22 @@ def plot_and_save_non_accumulated_commits(dates, x_legend_strings, hist_values, 
 def averageThree(values):
     if(len(values) <= 1):
         return values
-    result = []
-    for(i in range(len(values))):
+    results = []
+    for i in range(len(values)):
         if(i == 0):
-            results.append((values[i] + values[i + 1]) / 3)
+            results.append(int((values[i] + values[i + 1]) / 3))
         elif(i == len(values) - 1):
-            results.append((values[i - 1] + values[1]) / 3)
+            results.append(int((values[i - 1] + values[i]) / 3))
         else:
-            
-            results.append((values[i - 1] + values[1] + values[i + 1]) / 3)
+            results.append(int((values[i - 1] + values[i] + values[i + 1]) / 3))
     return results
         
 # Because of the way to make a histogram with Python, hist_values is a list where each index of date appears as
 # many times as there were commits in that month
 def valuesToIndices(values):
     hist = []
-    for(i in range(len(values))):
-        for(j in range(len(values(i)))):
+    for i in range(len(values)):
+        for j in range(values[i]):
             hist.append(i)
     return hist
 
@@ -107,7 +106,7 @@ for repo_name in repositories_names:
     path = "/home/adeye/Stats_results/" + repo_name + "_stats/commits_by_year_month.dat"
     commit_data_file = open(path, 'r')
     file_lines = commit_data_file.readlines()
-    commit_per_month = []
+    commits_per_month = []
 
     # date_indices is a list of the indexes and cumulated_number_of_commits is a list of the date_value_strings
     for line_index in range(len(file_lines)):
@@ -115,7 +114,7 @@ for repo_name in repositories_names:
         date_indices.append(line_index)
         x_legend_strings.append(date_value_strings[line_index][0])
         
-        commits_per_month.append(date_value_strings[line_index][1])
+        commits_per_month.append(int(date_value_strings[line_index][1]))
             
         if line_index == 0:
             cumulated_number_of_commits.append(int(date_value_strings[line_index][1]))
@@ -131,12 +130,14 @@ for repo_name in repositories_names:
         if not found:
             print("not found" + x_legend_strings[line_index])
 
-    hist_values = valuesToIndices(averageThree(commit_per_month))
+    hist_values = valuesToIndices(commits_per_month)
+    hist_values_smooth = valuesToIndices(averageThree(commits_per_month))
 
     # Generation of the graphs for each repository
     if len(date_value_strings) != 1:
         plot_and_save_accumulated_commits(date_indices, x_legend_strings, cumulated_number_of_commits, repo_name)
     plot_and_save_non_accumulated_commits(date_indices, x_legend_strings, hist_values, repo_name)
+    plot_and_save_non_accumulated_commits(date_indices, x_legend_strings, hist_values_smooth, repo_name+"_smooth")
 
 # Generation of the combined repositories graphs
 commits_indices = []
@@ -146,12 +147,15 @@ combined_values[0] = nb_commits_per_date[0]
 for k in range(1, len(nb_commits_per_date)):
     combined_values[k] = combined_values[k - 1] + nb_commits_per_date[k]
 
-for j in range(len(nb_commits_per_date)):
-    for l in range(nb_commits_per_date[j]):
-        commits_indices.append(time[j])
+# for j in range(len(nb_commits_per_date)):
+#     for l in range(nb_commits_per_date[j]):
+#         commits_indices.append(time[j])
+commits_indices = valuesToIndices(nb_commits_per_date)
+commits_indices_smooth = valuesToIndices(averageThree(nb_commits_per_date))
 
 dates = np.array(time)
 number_of_commits = np.array(combined_values)
 
 plot_and_save_accumulated_commits(dates, dates_strings, number_of_commits, "AD-EYE_repos_combined")
 plot_and_save_non_accumulated_commits(dates, dates_strings, commits_indices, "AD-EYE_repos_combined")
+plot_and_save_non_accumulated_commits(dates, dates_strings, commits_indices_smooth, "AD-EYE_repos_combined_smooth")
