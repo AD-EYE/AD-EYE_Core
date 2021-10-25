@@ -72,6 +72,30 @@ def plot_and_save_non_accumulated_commits(dates, x_legend_strings, hist_values, 
     plt.savefig("/home/adeye/Stats_results/Graphs/" + repo_name + "_non_accumulated_commits.png")
     plt.clf()
 
+## smoothing by taking a moving avarage of three
+## special case for the first and third element and if there is less than one element
+def averageThree(values):
+    if(len(values) <= 1):
+        return values
+    result = []
+    for(i in range(len(values))):
+        if(i == 0):
+            results.append((values[i] + values[i + 1]) / 3)
+        elif(i == len(values) - 1):
+            results.append((values[i - 1] + values[1]) / 3)
+        else:
+            
+            results.append((values[i - 1] + values[1] + values[i + 1]) / 3)
+    return results
+        
+# Because of the way to make a histogram with Python, hist_values is a list where each index of date appears as
+# many times as there were commits in that month
+def valuesToIndices(values):
+    hist = []
+    for(i in range(len(values))):
+        for(j in range(len(values(i)))):
+            hist.append(i)
+    return hist
 
 # Extraction of data from generated text files
 for repo_name in repositories_names:
@@ -83,16 +107,16 @@ for repo_name in repositories_names:
     path = "/home/adeye/Stats_results/" + repo_name + "_stats/commits_by_year_month.dat"
     commit_data_file = open(path, 'r')
     file_lines = commit_data_file.readlines()
+    commit_per_month = []
 
     # date_indices is a list of the indexes and cumulated_number_of_commits is a list of the date_value_strings
     for line_index in range(len(file_lines)):
         date_value_strings.append(file_lines[line_index].split())
         date_indices.append(line_index)
         x_legend_strings.append(date_value_strings[line_index][0])
-        # Because of the way to make a histogram with Python, hist_values is a list where each index of date appears as
-        # many times as there were commits in that month
-        for j in range(int(date_value_strings[line_index][1])):
-            hist_values.append(line_index)
+        
+        commits_per_month.append(date_value_strings[line_index][1])
+            
         if line_index == 0:
             cumulated_number_of_commits.append(int(date_value_strings[line_index][1]))
         else:
@@ -106,6 +130,8 @@ for repo_name in repositories_names:
                 nb_commits_per_date[i] += int(date_value_strings[line_index][1])
         if not found:
             print("not found" + x_legend_strings[line_index])
+
+    hist_values = valuesToIndices(averageThree(commit_per_month))
 
     # Generation of the graphs for each repository
     if len(date_value_strings) != 1:
