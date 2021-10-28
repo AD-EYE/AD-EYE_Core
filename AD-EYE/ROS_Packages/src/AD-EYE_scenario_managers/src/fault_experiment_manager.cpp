@@ -25,11 +25,14 @@ private:
     ros::Subscriber speed_sub_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_autoware_global_plan_;
+    ros::Subscriber sub_autoware_state_;
     bool has_received_global_plan_ = false;
     ros::Publisher pub_autoware_goal_;
     float ego_speed_ = 0.0;
     geometry_msgs::Pose ego_pose_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
+
+    double autoware_behavior_state_ = 0;
 
     const double SPEED_STOP_THRESHOLD_ = 0.05;
 
@@ -39,6 +42,7 @@ private:
     int fault_criticality_level_ = 0;
 
     ros::Time motion_start_time;
+    ros::Time experiment_start_time;
     bool is_motion_start_time_set = false;
     ros::Time motion_stop_time;
 
@@ -85,6 +89,17 @@ private:
         has_received_global_plan_ = true;
     }
 
+    /*!
+     * \brief Behavior State Callback : Continuously called to show the vehicle behaviour state information.
+     * \param msg The message contains the vehicle state status.
+     * \details Stores the autoware behavior state status.
+     */
+    void behaviorStateCallback(const geometry_msgs::TwistStamped::ConstPtr &msg)
+    {
+        // Autoware behavior state (2.0 = Forward state and 13.0 = End state)
+        autoware_behavior_state_ =  msg -> twist.angular.y;
+    }
+
     void publishOriginalGoal()
     {
         geometry_msgs::PoseStamped newGoal;
@@ -116,6 +131,14 @@ private:
     {
         system("rosnode kill /goalSequencer");
     }
+    static void killRadarBroadcaster()
+    {
+        system("rosnode kill /radar_broadcaster");
+    }
+    static void killGlobalPlanner()
+    {
+        system("rosnode kill /op_global_planner");
+    }
 
 public:
     /*!
@@ -129,9 +152,11 @@ public:
         speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &FaultExperimentManager::speedCallback, this);
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &FaultExperimentManager::gnssCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
+        sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &FaultExperimentManager::behaviorStateCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
 
-        trigger_distance_ = 250 + 100 * (int) (getExpIndex() / 4);
+
+        trigger_distance_ = 15 + 2 * (int) (getExpIndex() / 4);
         fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
@@ -154,16 +179,19 @@ public:
     {
         std::cout << "FaultExperimentManager: started experiment" << std::endl;
 
+        experiment_start_time = ros::Time::now();
         switch(fault_criticality_level_)
         {
             case 1:
                 killGoalSequencer();
                 break;
             case 2:
-                killSSDCamera2();
+                killRadarBroadcaster();
+//                killSSDCamera2();
                 break;
             case 3:
-                killSSDCamera1();
+                killGlobalPlanner();
+//                killSSDCamera1();
                 break;
             case 4:
                 killTwistFilter();
@@ -204,7 +232,7 @@ public:
         results_file.open(RESULT_FILE_PATH, std::ios::app);
         results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length <<
         "," << motion_start_time.toSec() << "," << motion_stop_time.toSec() << "," <<
-        motion_stop_time.toSec() - motion_start_time.toSec() << "\n";
+        motion_stop_time.toSec() - motion_start_time.toSec() << experiment_start_time.toSec() << motion_start_time.toSec() - experiment_start_time.toSec() << "\n";
         results_file.close();
     }
 
@@ -265,7 +293,7 @@ public:
     bool startRecordingConditionFulfilled() override
     {
         displayRemainingDistance();
-        return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_);
+        return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_ && autoware_behavior_state_ != 9);
     }
 
     /*!

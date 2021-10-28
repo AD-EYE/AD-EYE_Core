@@ -5,7 +5,7 @@
 
 
     <rosparam>
-        use_pex_file: false
+        use_pex_file: true
     </rosparam>
     <arg name="use_ground_truth_dynamic_objects" default="false"/> <!-- if the moving obstacles are obtained through a ground truth topic or should be from perception-->
 
@@ -51,9 +51,9 @@
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
 
 
-    <rosparam param="critical_nodes_level_one">["/voxel_grid_filter"]</rosparam>
-    <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam>
-    <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
+    <rosparam param="critical_nodes_level_one">["/goalSequencer"]</rosparam>
+    <rosparam param="critical_nodes_level_two">["/radar_broadcaster"]</rosparam>
+    <rosparam param="critical_nodes_level_three">["/op_global_planner"]</rosparam>
     <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/sender", "/controlSwitch"]</rosparam>
     <node pkg="adeye"
           type="safetySupervisor"

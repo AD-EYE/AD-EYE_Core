@@ -728,7 +728,7 @@ private:
     static bool isRoadSideParkingValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
     {
         const double PERPENDICULAR_DISTANCE_THRESHOLD = 20;
-        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 25;
+        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 30;
         return (DISTANCE_TO_PARKING_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERPENDICULAR_DISTANCE_THRESHOLD);
     }
 
@@ -982,13 +982,13 @@ public:
         safety_monitors_level_one_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 1));
 
         safety_monitors_level_two_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 2));
-        safety_monitors_level_two_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera2));
+//        safety_monitors_level_two_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera2));
 
         safety_monitors_level_three_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 3));
-        safety_monitors_level_three_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera1));
+//        safety_monitors_level_three_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera1));
 
         safety_monitors_level_four_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 4));
-        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::cameratl));
+//        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::cameratl));
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::lidar));
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::radar));
         safety_monitors_level_four_.emplace_back(make_shared<CarOffRoadChecker>(1, 1, 15, -15));
