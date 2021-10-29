@@ -816,7 +816,7 @@ private:
     static bool isRestAreaValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
     {
         const double PERP_DISTANCE_THRESHOLD = 75;
-        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 25;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 30;
         return (DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERP_DISTANCE_THRESHOLD);
     }
 
