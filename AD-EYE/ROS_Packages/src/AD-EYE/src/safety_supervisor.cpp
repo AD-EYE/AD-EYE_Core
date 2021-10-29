@@ -992,7 +992,7 @@ public:
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::lidar));
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::radar));
         safety_monitors_level_four_.emplace_back(make_shared<CarOffRoadChecker>(1, 1, 15, -15));
-        safety_monitors_level_four_.emplace_back(make_shared<ObstaclesInCriticalAreaChecker>(1, 1, 4, -4));
+//        safety_monitors_level_four_.emplace_back(make_shared<ObstaclesInCriticalAreaChecker>(1, 1, 4, -4));
         safety_monitors_level_four_.emplace_back(make_shared<GeofencingChecker>(1, 1, 4, -4));
     }
 

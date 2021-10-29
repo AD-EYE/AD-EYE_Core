@@ -100,7 +100,7 @@ public:
                     }
                 }
 
-                if(stopExperimentConditionFulfilled() && !isRecordingRunning()) // stop condition of the experiment
+                if(stopExperimentConditionFulfilled() && !isRecordingRunning() && hasRecordingStarted()) // stop condition of the experiment
                 {
                     experiment_running_ = false;
                     stopExperiment();

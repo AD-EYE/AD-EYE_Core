@@ -15,6 +15,7 @@
 #include <iostream>
 #include <sstream>
 #include <boost/filesystem.hpp>
+#include <std_msgs/Int32.h>
 
 /*!
  * \brief Scenario1 node : Manages start and stop of the recording & experiment for Scenario1
@@ -26,6 +27,7 @@ private:
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_autoware_state_;
+    ros::Subscriber sub_switch_control_;
     bool has_received_global_plan_ = false;
     ros::Publisher pub_autoware_goal_;
     float ego_speed_ = 0.0;
@@ -45,6 +47,9 @@ private:
     ros::Time experiment_start_time;
     bool is_motion_start_time_set = false;
     ros::Time motion_stop_time;
+
+
+    int switch_command_ = 0;
 
 
     void speedCallback(geometry_msgs::TwistStamped msg)
@@ -98,6 +103,10 @@ private:
     {
         // Autoware behavior state (2.0 = Forward state and 13.0 = End state)
         autoware_behavior_state_ =  msg -> twist.angular.y;
+    }
+
+    void switchCommandCallback(const std_msgs::Int32::ConstPtr& msg){
+        switch_command_ = msg->data;
     }
 
     void publishOriginalGoal()
@@ -154,9 +163,11 @@ public:
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
         sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &FaultExperimentManager::behaviorStateCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
+        sub_switch_control_ = nh_.subscribe<std_msgs::Int32>("/switch_command", 1, &FaultExperimentManager::switchCommandCallback, this);
 
 
-        trigger_distance_ = 15 + 2 * (int) (getExpIndex() / 4);
+
+        trigger_distance_ = 15 + 5 * (int) (getExpIndex() / 4);
         fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
@@ -232,7 +243,7 @@ public:
         results_file.open(RESULT_FILE_PATH, std::ios::app);
         results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length <<
         "," << motion_start_time.toSec() << "," << motion_stop_time.toSec() << "," <<
-        motion_stop_time.toSec() - motion_start_time.toSec() << experiment_start_time.toSec() << motion_start_time.toSec() - experiment_start_time.toSec() << "\n";
+        (motion_stop_time.toSec() - motion_start_time.toSec())  << "," << experiment_start_time.toSec()  << "," << (motion_stop_time.toSec() - experiment_start_time.toSec()) << "\n";
         results_file.close();
     }
 
@@ -293,7 +304,7 @@ public:
     bool startRecordingConditionFulfilled() override
     {
         displayRemainingDistance();
-        return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_ && autoware_behavior_state_ != 9);
+        return (hasExperimentStarted() && ego_speed_ < SPEED_STOP_THRESHOLD_ && (static_cast<int>(autoware_behavior_state_) == 13 || switch_command_ == 1));
     }
 
     /*!
