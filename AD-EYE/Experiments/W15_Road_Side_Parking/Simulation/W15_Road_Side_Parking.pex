@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W15_Road_Side_Parking" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="9AB3585C0DED0AE771501C06AC43F05EB016C3FA95B12025BE77A671C95444F6" UniqueExperimentIdentifier="11539f63-2695-449a-b60e-a60483d4c8d9" UniqueIdCounter="3100" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W15_Road_Side_Parking" UniqueId="0" TotalSimulationTime="0" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="682BBD195A78EBA066EA26680E1837FE4B116D138D82A72E96DD3B44F45F2D92" UniqueExperimentIdentifier="b7cda1ce-f42a-4156-9689-2685db6493f2" UniqueIdCounter="3227" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a gas station" id="GasStation_1" UniqueId="1539" SensorDetectability="Occluding" NumericalID="26" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="GasStation" AnimatedActor="false" CompilationSheetPicture="GasStation_HighPoly.png" HashCode="67fd08da2d8a5a37c11b9cc1767d099c" ModelFile="Buildings\GasStation\GasStation.osgb" GenericModelSourceFile="Buildings\GasStation\GasStation.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="157.34040832519531" Y="190.83343505859375" Z="0" />
@@ -29428,7 +29428,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3093" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3220" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29453,7 +29453,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3094" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3221" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29478,7 +29478,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3095" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3222" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29503,7 +29503,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3096" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3223" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29541,7 +29541,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3097" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3224" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29576,7 +29576,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3098" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3225" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -29638,7 +29638,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="3099" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="3226" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -30530,7 +30530,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_1" UniqueId="1537" SensorDetectability="Occluding" NumericalID="24" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="117.30821990966777" Y="69.452373344434434" Z="0" />
+        <Location X="117.30821990966777" Y="69.452373343022956" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="20" Y="10" Z="0.0099999997764825821" />
@@ -30543,7 +30543,7 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="3.7936716083230588" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="2.2611818360604756" Heading="N" />
+          <Latitude Degrees="0" Minutes="0" Seconds="2.2611818360146758" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -30568,7 +30568,7 @@
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_3" UniqueId="2614" SensorDetectability="Occluding" NumericalID="382" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="246.50740051269582" Y="143.58216857653059" Z="0" />
+        <Location X="246.50740051269591" Y="143.58216857653059" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="20" Y="10" Z="0.0099999997764825821" />
@@ -30580,14 +30580,14 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="7.971889159066353" Heading="E" />
+          <Longitude Degrees="0" Minutes="0" Seconds="7.9718891590663565" Heading="E" />
           <Latitude Degrees="0" Minutes="0" Seconds="4.6746479036984239" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
       </Underlay>
       <Underlay xsi:type="Pavement" Description="restArea" id="Pavement_4" UniqueId="2736" SensorDetectability="Occluding" NumericalID="383" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="193.12548828124991" Y="-4.5863513641131117" Z="0" />
+        <Location X="193.12548828124991" Y="-4.5863513584671809" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="356.91825905823248" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="40" Y="20" Z="0.0099999997764825821" />
@@ -30600,7 +30600,83 @@
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
           <Longitude Degrees="0" Minutes="0" Seconds="6.2455528030597414" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="0.14931922264912781" Heading="S" />
+          <Latitude Degrees="0" Minutes="0" Seconds="0.14931922246592785" Heading="S" />
+        </GpsLocation>
+        <PreserveAspectRatio>false</PreserveAspectRatio>
+        <AlphaThreshold>0.5</AlphaThreshold>
+      </Underlay>
+      <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_7" UniqueId="3216" SensorDetectability="Occluding" NumericalID="386" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
+        <Location X="254.88227844238264" Y="69.216850284568466" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
+        <Origin X="0.5" Y="0.5" Z="0" />
+        <Size X="20" Y="10" Z="0.0099999997764825821" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Pavement.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <IsAbsolutePosition>false</IsAbsolutePosition>
+        <GpsLocation Altitude="0">
+          <Longitude Degrees="0" Minutes="0" Seconds="8.242727268675992" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="2.2535138401274231" Heading="N" />
+        </GpsLocation>
+        <PreserveAspectRatio>false</PreserveAspectRatio>
+        <AlphaThreshold>0.5</AlphaThreshold>
+      </Underlay>
+      <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_8" UniqueId="3217" SensorDetectability="Occluding" NumericalID="387" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
+        <Location X="312.04429626464849" Y="104.68486786258062" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="90" />
+        <Origin X="0.5" Y="0.5" Z="0" />
+        <Size X="20" Y="10" Z="0.0099999997764825821" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Pavement.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <IsAbsolutePosition>false</IsAbsolutePosition>
+        <GpsLocation Altitude="0">
+          <Longitude Degrees="0" Minutes="0" Seconds="10.091309782304526" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="3.4082567693344146" Heading="N" />
+        </GpsLocation>
+        <PreserveAspectRatio>false</PreserveAspectRatio>
+        <AlphaThreshold>0.5</AlphaThreshold>
+      </Underlay>
+      <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_9" UniqueId="3218" SensorDetectability="Occluding" NumericalID="388" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
+        <Location X="128.85032653808594" Y="143.59634399450917" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
+        <Origin X="0.5" Y="0.5" Z="0" />
+        <Size X="20" Y="10" Z="0.0099999997764825821" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Pavement.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <IsAbsolutePosition>false</IsAbsolutePosition>
+        <GpsLocation Altitude="0">
+          <Longitude Degrees="0" Minutes="0" Seconds="4.1669358373352505" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.6751094183551887" Heading="N" />
+        </GpsLocation>
+        <PreserveAspectRatio>false</PreserveAspectRatio>
+        <AlphaThreshold>0.5</AlphaThreshold>
+      </Underlay>
+      <Underlay xsi:type="Pavement" Description="roadSideParking" id="Pavement_10" UniqueId="3219" SensorDetectability="Occluding" NumericalID="389" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
+        <Location X="6.9505996704101829" Y="143.94070434735957" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="11.888676111546395" />
+        <Origin X="0.5" Y="0.5" Z="0" />
+        <Size X="20" Y="10" Z="0.0099999997764825821" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Pavement.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <IsAbsolutePosition>false</IsAbsolutePosition>
+        <GpsLocation Altitude="0">
+          <Longitude Degrees="0" Minutes="0" Seconds="0.22477787706691149" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.6863208625848181" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -32741,6 +32817,10 @@
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="1538" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="2614" />
         <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="2736" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3216" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3217" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3218" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3219" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" HasSeparateColors="false" Color="FF7FFF00" PredefinedEnumType="InfraOther">
@@ -33906,6 +33986,18 @@
     </ObjectColorID>
     <ObjectColorID Color="FF00AF7F">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="2736" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF007FAF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3216" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFAFBF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_8" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3217" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFBF00AF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_9" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3218" />
+    </ObjectColorID>
+    <ObjectColorID Color="FF00AFBF">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Pavement_10" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="3219" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
