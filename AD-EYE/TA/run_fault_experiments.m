@@ -1,7 +1,7 @@
 % nb_runs = 240;
-nb_runs = 20;
+nb_runs = 480;
 
-folderNames = ["W15_Road_Side_Parking\W15_Road_Side_Parking_low_res"];
+folderNames = ["W15_Road_Side_Parking\W15_Road_Side_Parking_no_camera"];
 prescanExperimentTemplates = ["W15_Road_Side_Parking"];
 TARosParametersTemplates = ["AutowareConfigTemplate.xlsx"];
 TASimulinkParametersTemplates = ["SimulinkEmptyConfig.xlsx"];
@@ -15,4 +15,4 @@ TACombinations(folderNames, prescanExperimentTemplates, egoNameArray, TARosParam
 
 
 
-TA('Configurations/TAOrder.xlsx', 1, 500, 1, false)
+TA('Configurations/TAOrder.xlsx', 1, 5000, 1, false)
