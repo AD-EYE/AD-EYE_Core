@@ -846,6 +846,10 @@ private:
      */
     bool isThereAValidRestArea()
     {
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        int pose_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
+        if(pose_wp_index > 520)
+            return false;
         double remaining_traj_length = getRemainingTrajectoryLength();
         for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
             PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
