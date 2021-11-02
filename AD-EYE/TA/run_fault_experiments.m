@@ -24,17 +24,35 @@ system(device,'/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killROS
 rosshutdown;
 
 
-nb_runs = 480;
+ta_progress_bar = waitbar(0,'Initializing test automation','Name','TA progress');
+cleanup = onCleanup(@()(delete(ta_progress_bar)));
+
+nb_runs = 500;
 
 for run_index = 1:nb_runs
+    waitbar((run_index) / (nb_runs), ta_progress_bar,['Run index ' num2str(run_index) '    ' num2str(run_index) '/' num2str(nb_runs)]);
+
     cd("C:\Users\adeye\AD-EYE_Core\AD-EYE\Experiments\W15_Road_Side_Parking\W15_Road_Side_Parking_no_camera\");
     runCore(device) % Start roscore
     rosinit(hostname) % Start Matlab node
     launchROS(device);
-    simulink_name = "C:\Users\adeye\AD-EYE_Core\AD-EYE\Experiments\W15_Road_Side_Parking\W15_Road_Side_Parking_no_camera\W15_Road_Side_Parking_cs.slx"
-    sim(simulink_name, [0 600]);
+    simulink_name = "C:\Users\adeye\AD-EYE_Core\AD-EYE\Experiments\W15_Road_Side_Parking\W15_Road_Side_Parking_no_camera\W15_Road_Side_Parking_cs.slx";
+    try
+        sim(simulink_name, [0 600]);
+    catch ME
+        switch ME.identifier
+            case 'SL_SERVICES:utils:CNTRL_C_INTERRUPTION' % if the user interruped the code
+                rethrow(ME) % we throw the Matlab Exception
+            case 'Simulink:SFunctions:SFcnErrorStatus' % most likely a PreScan federate issue, in that case we will kill all federates, log and try to run again
+                warning("Failed to start experiment. Other attemps will be made until success.")
+            otherwise % if there was a PreScan issue such as missing federates then we can try to run again
+                disp(ME.identifier)
+                rethrow(ME)
+        end
+    end
     system(device,'/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/sh/killROS.sh');
     rosshutdown;
+    killPrescanFederates('C:\Users\adeye\AD-EYE_Core\AD-EYE\TA');
 end
 
 
@@ -64,4 +82,12 @@ function launchROS(device)
     manager_file_launch = strcat(sh_folder_path, '/', 'launchManagerFile.sh'); %contains command to launch manager file in adeye package
     disp('Launching the manager file')
     system(device, manager_file_launch);
+end
+
+function killPrescanFederates(ta_path)
+    dir = pwd;
+    cd(ta_path);
+    !KillAllFederates.bat
+    cd(dir);
+    clear dir;
 end
