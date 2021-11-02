@@ -850,17 +850,19 @@ private:
         int pose_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
         if(pose_wp_index > 520)
             return false;
-        double remaining_traj_length = getRemainingTrajectoryLength();
-        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
-            PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
-            if(gridmap_.at("RestArea", *map_iterator) != 0) {//                std::cout << "distance_ego_rest_area: " << distance_ego_rest_area << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
-                if(isRestAreaValid(getRemainingDistanceOnGlobalPlanTo(wp), remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        else
+            return true;
+//        double remaining_traj_length = getRemainingTrajectoryLength();
+//        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
+//            PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
+//            if(gridmap_.at("RestArea", *map_iterator) != 0) {//                std::cout << "distance_ego_rest_area: " << distance_ego_rest_area << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
+//                if(isRestAreaValid(getRemainingDistanceOnGlobalPlanTo(wp), remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)))
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
     }
 
 
@@ -870,51 +872,71 @@ private:
      */
     geometry_msgs::PoseStamped findClosestRestArea()
     {
-        auto min_distance = DBL_MAX;
-        int min_id;
-        PlannerHNS::WayPoint min_wp;
-
-        std::unordered_map<int, std::vector<PlannerHNS::WayPoint>> rest_areas_wp_by_id;
-
-//        std::vector<int> id_seen;
-
-        double remaining_traj_length = getRemainingTrajectoryLength();
-        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
-            if(gridmap_.at("RestArea", *map_iterator) != 0) {
-                PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
-                if (rest_areas_wp_by_id.find(gridmap_.at("RestArea", *map_iterator)) != rest_areas_wp_by_id.end())
-                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)].push_back(wp);
-                else
-                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
-                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
-                double distance_ego_rest_area = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
-//                if (std::find(id_seen.begin(), id_seen.end(), gridmap_.at("RestArea", *map_iterator)) == id_seen.end()) {
-//                    std::cout << "_______________________________________" << std::endl;
-//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
-//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
-//                    std::cout << "distance on traj " << distance_ego_rest_area << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
-//                    std::cout << "_______________________________________" << std::endl;
-//                    id_seen.push_back(gridmap_.at("RestArea", *map_iterator));
-//                }
-                if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
-                {
-                    min_distance = distance_ego_rest_area;
-                    min_id = gridmap_.at("RestArea", *map_iterator);
-                    min_wp = autoware_global_path_.front().at(considered_wp_index);
-                }
-            }
-        }
-
-        //average all the positions of the rest area to find the center
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        int pose_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
         geometry_msgs::PoseStamped average_position;
-        geometry_msgs::Point average_point = getBarycenter(rest_areas_wp_by_id[min_id]);
-        average_position.header.frame_id = "/SSMP_map";
-        average_position.pose.position = average_point;
-        average_position.pose.orientation = tf::createQuaternionMsgFromYaw(min_wp.pos.a);
+        if(pose_wp_index < 140)
+        {
+            average_position.pose.position.x = 192;
+            average_position.pose.position.y = -5;
+            average_position.pose.orientation.w = 1;
+        }
+        else
+        {
+            average_position.pose.position.x = 160;
+            average_position.pose.position.y = 162;
+            average_position.pose.orientation.w = 0.15;
+            average_position.pose.orientation.z = 0.988;
 
-        pub_road_side_parking_viz_.publish(createMarker(average_position, 0.0f, 0.0f, 1.0f));
-
+        }
         return average_position;
+
+
+//        auto min_distance = DBL_MAX;
+//        int min_id;
+//        PlannerHNS::WayPoint min_wp;
+//
+//        std::unordered_map<int, std::vector<PlannerHNS::WayPoint>> rest_areas_wp_by_id;
+//
+////        std::vector<int> id_seen;
+//
+//        double remaining_traj_length = getRemainingTrajectoryLength();
+//        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
+//            if(gridmap_.at("RestArea", *map_iterator) != 0) {
+//                PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
+//                if (rest_areas_wp_by_id.find(gridmap_.at("RestArea", *map_iterator)) != rest_areas_wp_by_id.end())
+//                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)].push_back(wp);
+//                else
+//                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
+//                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
+//                double distance_ego_rest_area = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
+////                if (std::find(id_seen.begin(), id_seen.end(), gridmap_.at("RestArea", *map_iterator)) == id_seen.end()) {
+////                    std::cout << "_______________________________________" << std::endl;
+////                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
+////                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
+////                    std::cout << "distance on traj " << distance_ego_rest_area << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
+////                    std::cout << "_______________________________________" << std::endl;
+////                    id_seen.push_back(gridmap_.at("RestArea", *map_iterator));
+////                }
+//                if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
+//                {
+//                    min_distance = distance_ego_rest_area;
+//                    min_id = gridmap_.at("RestArea", *map_iterator);
+//                    min_wp = autoware_global_path_.front().at(considered_wp_index);
+//                }
+//            }
+//        }
+//
+//        //average all the positions of the rest area to find the center
+//        geometry_msgs::PoseStamped average_position;
+//        geometry_msgs::Point average_point = getBarycenter(rest_areas_wp_by_id[min_id]);
+//        average_position.header.frame_id = "/SSMP_map";
+//        average_position.pose.position = average_point;
+//        average_position.pose.orientation = tf::createQuaternionMsgFromYaw(min_wp.pos.a);
+//
+//        pub_road_side_parking_viz_.publish(createMarker(average_position, 0.0f, 0.0f, 1.0f));
+//
+//        return average_position;
 
     }
 
