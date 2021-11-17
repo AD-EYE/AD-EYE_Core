@@ -13,6 +13,9 @@
 #include <visualization_msgs/Marker.h> //Used for critical area visualization
 #include <std_msgs/ColorRGBA.h>        //Used for critical area visualization
 
+
+#include <rcv_common_msgs/trajectory_reference.h>
+
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 #include "op_planner/PlanningHelpers.h"
@@ -54,6 +57,7 @@ private:
     ros::Subscriber sub_sensor_fov_;
     ros::Subscriber sub_goal_coordinates_;
     ros::Subscriber sub_ssmp_endposes_;
+    ros::Subscriber sub_ssmp_traj_;
 
 
     tf2_ros::Buffer tf_buffer_;
@@ -65,6 +69,7 @@ private:
     std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_four_;
 
     visualization_msgs::MarkerArray ssmp_current_endposes_;
+    rcv_common_msgs::trajectory_reference ssmp_current_traj_;
 
     // constants
     const bool SAFE = false;
@@ -199,6 +204,12 @@ private:
             }
         }
     }
+    void ssmpTrajCallback(const rcv_common_msgs::trajectory_reference::ConstPtr& msg)
+    {
+        ssmp_current_traj_ = *msg;
+    }
+
+
 
     /*!
      * \brief Get distance to lane : Called at every iteration of the main loop
@@ -566,31 +577,43 @@ private:
      * \return boolean characterizing the whether the pose is reachable by SSMP
      */
     bool isRoadSideParkingReachableBySSMP(geometry_msgs::PoseStamped parking_pose) {
-        double DISTANCE_THRESHOLD = 3;
-        for(auto endpose: ssmp_current_endposes_.markers)
-        {
-            geometry_msgs::PoseStamped pose_stamped_out;
-            try{
-                geometry_msgs::PoseStamped pose_stamped_in;
-                pose_stamped_in.header = endpose.header;
-                pose_stamped_in.pose = endpose.pose;
-                tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
-            }
-            catch (tf2::TransformException &ex) {
-                ROS_WARN("%s",ex.what());
-                ros::Duration(1.0).sleep();
-            }
-            if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
-            {
-//                std::cout << "_________________________________________" << std::endl;
-//                std::cout << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
-//                std::cout << pose_stamped_out.pose.position.x<< "   " << pose_stamped_out.pose.position.y << std::endl;
-//                std::cout << parking_pose.pose.position.x<< "   " << parking_pose.pose.position.y << std::endl;
-//                std::cout << "_________________________________________" << std::endl;
-                return true;
-            }
-        }
-        return false;
+        if(ssmp_current_traj_.x.empty())
+            return false;
+        geometry_msgs::PoseStamped pose_stamped_in;
+        geometry_msgs::PoseStamped pose_stamped_out;
+        pose_stamped_in.header.frame_id = "SSMP_base_link";
+        pose_stamped_in.pose.position.x = ssmp_current_traj_.x.back();
+        pose_stamped_in.pose.position.y = ssmp_current_traj_.y.back();
+        pose_stamped_in.pose.orientation.w = 1; // dummy orientation to mak quaternion valid
+        tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
+        grid_map::Position pos(pose_stamped_out.pose.position.x, pose_stamped_out.pose.position.y);
+        if(gridmap_.atPosition("RoadSideParking", pos) != 0)
+            return true;
+        else
+            return false;
+//
+//        ssmp_current_traj_.x.back(), ssmp_current_traj_.y.back());
+
+//        double DISTANCE_THRESHOLD = 3;
+//        for(auto endpose: ssmp_current_endposes_.markers)
+//        {
+//            geometry_msgs::PoseStamped pose_stamped_out;
+//            try{
+//                geometry_msgs::PoseStamped pose_stamped_in;
+//                pose_stamped_in.header = endpose.header;
+//                pose_stamped_in.pose = endpose.pose;
+//                tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
+//            }
+//            catch (tf2::TransformException &ex) {
+//                ROS_WARN("%s",ex.what());
+//                ros::Duration(1.0).sleep();
+//            }
+//            if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
+//            {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
 
@@ -997,6 +1020,7 @@ public:
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
         sub_ssmp_endposes_ = nh_.subscribe<visualization_msgs::MarkerArray>("/safe_stop_endposes_vis", 1, &SafetySupervisor::ssmpEndposesCallback, this);
+        sub_ssmp_traj_ = nh_.subscribe<rcv_common_msgs::trajectory_reference>("/entire_traj", 1, &SafetySupervisor::ssmpTrajCallback, this);
 
         createFaultMonitors();
 
