@@ -54,7 +54,7 @@
     <arg name="publishes_for_steering_robot" default="true"/>
 
     <!-- Link to Simulink -->
-    <include file="$(find adeye)/launch/sender.launch"/>
+    <include file="$(find adeye)/launch/control_signal_forwarder.launch"/>
 
     <!-- op_common_params -->
     <include file="$(find op_local_planner)/launch/op_common_params.launch">
