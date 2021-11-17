@@ -10,27 +10,19 @@ from std_msgs.msg import String
 rospack = rospkg.RosPack()
 
 # Basic folder locations
-ADEYE_PACKAGE_LOCATION = rospack.get_path('adeye')+"/"
-TEMPLATE_LAUNCH_FILES_LOCATION = "template_launch_files/"
-MODIFIED_LAUNCH_FILES_LOCATION = "modified_launch_files/"
+ADEYE_PACKAGE_FULL_PATH = rospack.get_path('adeye')+"/"
+TEMPLATE_LAUNCH_FILES_RELATIVE_PATH = "template_launch_files/"
+MODIFIED_LAUNCH_FILES_RELATIVE_PATH = "modified_launch_files/"
 
 # Full path to folder
-TEMPLATE_LAUNCH_FILES_FULL_PATH = ("%s%s" % (ADEYE_PACKAGE_LOCATION, TEMPLATE_LAUNCH_FILES_LOCATION))
-MODIFIED_LAUNCH_FILES_FULL_PATH = ("%s%s" % (ADEYE_PACKAGE_LOCATION, MODIFIED_LAUNCH_FILES_LOCATION))
+TEMPLATE_LAUNCH_FILES_FULL_PATH = ("%s%s" % (ADEYE_PACKAGE_FULL_PATH, TEMPLATE_LAUNCH_FILES_RELATIVE_PATH))
+MODIFIED_LAUNCH_FILES_FULL_PATH = ("%s%s" % (ADEYE_PACKAGE_FULL_PATH, MODIFIED_LAUNCH_FILES_RELATIVE_PATH))
 
-#Parent name of ros parameters and map.launch file
 PARENT_NAME = "/adeye"
-POINTCLOUD_DIRECTORY1 = "/home/adeye/AD-EYE_Core/AD-EYE/Experiments/"
-POINTCLOUD_DIRECTORY2 = "/Pointcloud_Files/"
-AREA_MAP = "config"
-NODE_MAP = "manager"
-VARIABLE_MAP = "WorldName"
-SPECIAL_PARAMETER_MAP = str(PARENT_NAME + "/map/points_map_loader/args")
-
 
 ##Fills in the launch files templates from TEMPLATE_LAUNCH_FILES_FULL_PATH replacing the placeholder by the values on the ROS parameter server. 
 ##The modified tamplates are saved in MODIFIED_LAUNCH_FILES_FULL_PATH
-def listener():
+def generate_modified_launch_files():
 
     if not os.path.exists(MODIFIED_LAUNCH_FILES_FULL_PATH):
         os.makedirs(MODIFIED_LAUNCH_FILES_FULL_PATH)
@@ -61,5 +53,4 @@ def listener():
 
 
 if __name__ == '__main__':
-     rospy.init_node('listener', anonymous = True) #initializing listener node
-     listener()
+     generate_modified_launch_files()
