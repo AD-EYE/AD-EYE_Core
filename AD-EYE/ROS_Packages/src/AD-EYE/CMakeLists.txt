@@ -146,6 +146,7 @@ target_link_libraries(
 target_link_libraries(
   safetySupervisor
   ${catkin_LIBRARIES}
+  SafetyFaultMonitors
 )
 
 target_link_libraries(
@@ -265,6 +266,35 @@ add_dependencies(
   ExperimentC
   ${catkin_EXPORTED_TARGETS}
 )
+
+
+add_library(SafetyFaultMonitors
+        src/safety_fault_monitors/safety_fault_monitor.cpp
+        src/safety_fault_monitors/active_nodes_checker.cpp
+        src/safety_fault_monitors/geofencing_checker.cpp
+        src/safety_fault_monitors/car_off_road_checker.cpp
+        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp
+        src/safety_fault_monitors/sensor_checker.cpp)
+target_link_libraries(
+        SafetyFaultMonitors
+        ${catkin_LIBRARIES}
+)
+
+add_executable(
+  TestFault
+        src/safety_fault_monitors/fault_monitors_unit_tests.cpp
+)
+target_link_libraries(
+  TestFault
+  ${catkin_LIBRARIES}
+        SafetyFaultMonitors
+)
+add_dependencies(
+  TestFault
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
 
 
 # Mark executables and/or libraries for installation

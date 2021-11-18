@@ -72,6 +72,9 @@ public:
     // counter used to send the correct velocity at the correct time
     int counter = 0;
 
+// basically puts the safety planner on hold until both prescan as well as the gridmap are completely loaded, without this, problems will arise
+     ros::Duration(6).sleep();
+
     // handle params
     ros::NodeHandle p_nh("~");
     std::string cm_base  = p_nh.param("costmap_base_topic",std::string("/costmap_base"));
@@ -86,8 +89,7 @@ public:
     odom_sub_ = nh.subscribe<nav_msgs::Odometry>("/vehicle/odom",1, &SafeStopTrajectoryPlanner::odom_callback,this);
     SSMP_control_sub_  = nh.subscribe<rcv_common_msgs::SSMP_control>("/SSMP_control",1,&SafeStopTrajectoryPlanner::SSMP_control_callback,this);
 
-    // basically puts the safety planner on hold until both prescan as well as the gridmap are completely loaded, without this, problems will arise
-     ros::Duration(2).sleep();
+    
 
 
     // loads in the occupancy map

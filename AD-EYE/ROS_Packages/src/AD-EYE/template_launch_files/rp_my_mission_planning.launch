@@ -28,5 +28,6 @@
         <!--arg name="adeyeGoalMarkerSize" value="$(arg adeyeGoalMarkerSize)"/-->
     </include>
 
+    <node pkg="adeye" type="goalSequencer" name="goalSequencer" output="screen"/>
 
 </launch>

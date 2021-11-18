@@ -1,11 +1,31 @@
 <!-- -->
 <launch>
-    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="base_link_to_SSMP_base_link"
-        args="0 0 0 0 0 0 /base_link SSMP_base_link 10"/>
 
-    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="map_to_SSMP_map"
-        args="0 0 0 0 0 0 /map SSMP_map 10"/>
+    <rosparam>
+        use_pex_file: true
+    </rosparam>
+    <arg name="use_ground_truth_dynamic_objects" default="false"/> <!-- if the moving obstacles are obtained through a ground truth topic or should be from perception-->
 
+    <group unless="$(arg use_ground_truth_dynamic_objects)"> <!-- if we do not use ground truth from dynamic object then we need the safety channel perception-->
+        <rosparam>
+            use_ground_truth_dynamic_objects: false
+        </rosparam>
+        <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+    </group>
+    <group if="$(arg use_ground_truth_dynamic_objects)"> <!-- if we use ground truth from dynamic object then the pose of other vehicle is gotten fron a topic-->
+        <rosparam>
+            use_ground_truth_dynamic_objects: true
+        </rosparam>
+    </group>
+
+    <node ns="safety_channel"
+        type="fake_localizer.py"
+        pkg="adeye"
+        name="SSMP_ground_truth_localizer"
+        args="SSMP_ground_truth_localizer SSMP_map SSMP_base_link"/>
+
+    <node ns="safety_channel" pkg="tf" type="static_transform_publisher" name="world_to_SSMP_map"
+        args="0 0 0 0 0 0 /world SSMP_map 10"/>
 
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Vector_Map_Files/"/>
     <arg name="Pex_Folder" value="$(find adeye)/../../../../../AD-EYE/Experiments//adeye/config/manager/WorldName/Simulation/"/>
@@ -26,6 +46,10 @@
     <node pkg="adeye" type="flattening" name="flattening" output="screen"
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
 
+    <rosparam param="critical_nodes_level_one">["/goalSequencer"]</rosparam>
+    <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam>
+    <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
+    <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/sender", "/controlSwitch"]</rosparam>
     <node pkg="adeye"
           type="safetySupervisor"
           name="safetySupervisor"
@@ -46,10 +70,14 @@
         <param name="trajectory_set_filename"
                value="/adeye/SSMP/ss_trajplanner/trajectory_set_filename"/>
         <param name="costmap_base_topic" value="/costmap_base"/>
-        <remap from="/costmap_base/costmap" to="/SafetyPlannerOccmap"/>
+        <remap from="/costmap_base/costmap" to="/safety_planner_occmap"/>
         <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
     </node>
 
-    <include file="$(find adeye)/launch/safety_channel_perception.launch"/>
+
+    <node pkg="adeye"
+        type="sensorMonitor"
+        name="sensorMonitor"
+        output="screen"/>
 
 </launch>
