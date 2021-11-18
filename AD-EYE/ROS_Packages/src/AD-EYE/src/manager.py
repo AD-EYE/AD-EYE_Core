@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# license removed for brevity
 
 import os  # to record rosbags using the command line, os is used to manage SIGINT
 import subprocess  # for recording feature

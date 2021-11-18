@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# license removed for brevity
+
 import rospy
 import math as m
 from autoware_msgs.msg import VehicleCmd

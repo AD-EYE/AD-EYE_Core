@@ -4,17 +4,9 @@
   <version>0.0.0</version>
   <description>The AD-EYE package</description>
 
-  <!-- One maintainer tag required, multiple allowed, one person per tag -->
-  <!-- Example:  -->
-  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
   <maintainer email="adeye@md.kth.se">AD-EYE team</maintainer>
-
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
-
+  <license>See AD-EYE_Core/LICENSE.md</license>
+  <url type="website">http://www.adeye.se</url>
 
 
   <buildtool_depend>catkin</buildtool_depend>
@@ -33,9 +25,5 @@
   <depend>adeye_utils</depend>
 
 
-  <!-- The export tag contains other, unspecified, tags -->
-  <export>
-    <!-- Other tools can request additional information be placed here -->
-
-  </export>
+  <export></export>
 </package>
