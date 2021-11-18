@@ -117,8 +117,8 @@ add_executable(
 
 
 add_executable(
-  goalMapNode
-        src/goal_map_node.cpp
+  laneMapImager
+        src/lane_map_imager.cpp
 )
 
 add_executable(
@@ -179,7 +179,7 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  goalMapNode
+  laneMapImager
   ${catkin_LIBRARIES}
 )
 
@@ -225,7 +225,7 @@ add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_dependencies(goalMapNode
+add_dependencies(laneMapImager
   ${catkin_EXPORTED_TARGETS}
 )
 

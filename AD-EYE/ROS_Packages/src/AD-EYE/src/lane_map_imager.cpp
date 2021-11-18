@@ -12,11 +12,11 @@
 using namespace grid_map;
 
 /*!
-* Initiate GoalMapNode class which extracs "Lane" Layer from Grid Map
+* Initiate LaneMapImager class which extracts "Lane" Layer from Grid Map
 * Convert it into ROS image
-* Publish real world map goal coordiantes from ROS image through pixels coordinates
+* Publish real world map goal coordinates from ROS image through pixels coordinates
 */
-class GoalMapNode
+class LaneMapImager
 {
 
 private:
@@ -31,7 +31,7 @@ private:
     
     // Grid Map
     GridMap grid_map_;
-    double resolution_;
+    double resolution_{};
     Position length_;
     Position position_;
 
@@ -42,16 +42,16 @@ private:
     geometry_msgs::PoseStamped pose_stamped_;
 
     // Real World Coordinates //
-    // Positon Coordinates  //
-    double x_position_world_coordinate_, y_position_world_coordinate_, z_position_world_coordinate_ = 0.0;
-    // Orientation Coordinates //
+    // Position Coordinates  //
+    double x_position_world_coordinate_{}, y_position_world_coordinate_{}, z_position_world_coordinate_ = 0.0;
+    // Orientation Coordinates, harcoded for now //
     double w_orientation_world_coordinate_ = 0.707, x_orientation_world_coordinate_ = 0.0, y_orientation_world_coordinate_ = 0.0, z_orientation_world_coordinate_ = 0.707;
 
     // Pixels Coordinates //
-    double x_pixels_coordinate_, y_pixels_coordinate_;
+    double x_pixels_coordinate_{}, y_pixels_coordinate_{};
 
     //GridMap Coordinates //
-    double x_gridmap_coordinate_, y_gridmap_coordinate_;
+    double x_gridmap_coordinate_{}, y_gridmap_coordinate_{};
 
     // Image Condition
     bool created_image_ = false;
@@ -138,12 +138,12 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    GoalMapNode(ros::NodeHandle &nh) : nh_(nh), rate_(20)
+    explicit LaneMapImager(ros::NodeHandle &nh) : nh_(nh), rate_(20)
     {
         // Initialize node, publishers and subscribers
-        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GoalMapNode::gridMapExtractorCallback, this);
+        map_extractor_ = nh.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &LaneMapImager::gridMapExtractorCallback, this);
         pub_extract_image_ = nh.advertise<sensor_msgs::Image>("/lane_layer_image", 1, true);
-        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &GoalMapNode::goalPixelsCoordinatesCallback, this);
+        goal_pixels_ = nh.subscribe<std_msgs::Int16MultiArray>("/gui/goal_pixels", 1, &LaneMapImager::goalPixelsCoordinatesCallback, this);
         pub_goal_position_ = nh.advertise<geometry_msgs::PoseStamped>("/adeye/goals", 1, true);
     }
     /*!
@@ -175,9 +175,9 @@ public:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "GoalMapNode");
+    ros::init(argc, argv, "LaneMapImager");
     ros::NodeHandle nh;
-    GoalMapNode goal_map_node(nh);
+    LaneMapImager goal_map_node(nh);
     goal_map_node.run();
     return 0;
 }
