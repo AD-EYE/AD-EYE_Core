@@ -101,11 +101,6 @@ add_executable(
 )
 
 add_executable(
-  objectListFuse
-  src/object_list_fuse.cpp
-)
-
-add_executable(
   cameraObjectListFuse
   src/camera_object_list_fuse.cpp
 )
@@ -123,7 +118,7 @@ add_executable(
 
 add_executable(
   goalMapNode
-  src/goal_map_node.cpp
+        src/goal_map_node.cpp
 )
 
 add_executable(
@@ -169,11 +164,6 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  objectListFuse
-  ${catkin_LIBRARIES}
-)
-
-target_link_libraries(
   cameraObjectListFuse
   ${catkin_LIBRARIES}
 )
@@ -187,7 +177,6 @@ target_link_libraries(
   safetyChannelPerception
   ${catkin_LIBRARIES}
 )
-
 
 target_link_libraries(
   goalMapNode
@@ -221,10 +210,6 @@ add_dependencies(collisionDetector
 )
 
 add_dependencies(objectsFrameAdapter
-  ${catkin_EXPORTED_TARGETS}
-)
-
-add_dependencies(objectListFuse
   ${catkin_EXPORTED_TARGETS}
 )
 
@@ -284,7 +269,7 @@ add_dependencies(
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
