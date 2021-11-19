@@ -54,13 +54,13 @@
     <rosparam param="critical_nodes_level_one">["/voxel_grid_filter"]</rosparam>
     <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam>
     <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
-    <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/sender", "/controlSwitch"]</rosparam>
+    <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/control_signal_forwarder", "/controlSwitch"]</rosparam>
     <node pkg="adeye"
           type="safetySupervisor"
           name="safetySupervisor"
           output="screen"
           launch-prefix="xterm -e"
-          args="/pure_pursuit /twist_filter /twist_gate /sender /controlSwitch"/>
+          args="/pure_pursuit /twist_filter /twist_gate /controlSwitch"/>
 
     <node pkg="ss_trajplanner"
           type="ss_trajplanner_node"

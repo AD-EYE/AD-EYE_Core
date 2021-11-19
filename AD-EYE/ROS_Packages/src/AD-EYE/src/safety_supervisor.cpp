@@ -73,10 +73,6 @@ private:
     enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
 
-    // The number of the safety test
-    enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
-        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OBJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
-
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
 
@@ -109,7 +105,7 @@ private:
     double distance_to_lane_;
     double distance_to_road_edge_;
 
-    struct CurvatureExtremum {
+    struct CurvatureExtrema {
         double max;
         double min;
     };
@@ -206,9 +202,8 @@ private:
      */
     double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-
         PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
-        std::vector<int> two_closest_index = getClosestIndex(trajectory, p0);
+        std::vector<int> two_closest_index = getTwoClosestIndices(trajectory, p0);
         int closest_index = two_closest_index.at(0);
         int second_closest_index = two_closest_index.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closest_index);
@@ -223,7 +218,7 @@ private:
      * \brief Get closest index : Called at every iteration of the main loop
      * Finds the closest point in a trajectory to a certain point
      */
-    std::vector<int> getClosestIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
+    std::vector<int> getTwoClosestIndices(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
         int closest_index = 0;
         int second_closest_index = 0;
@@ -256,10 +251,8 @@ private:
      * \brief Get the distance to the road edges : Called at every iteration of the main loop
      * \return The distance to the closest road edge
      */
-    double getDistanceToRoadEdge()
+    double getMinDistanceToRoadEdge()
     {
-        float right_lane_id;
-        float left_lane_id;
         double x = pose_.position.x;
         double y = pose_.position.y;
         double h = tf::getYaw(pose_.orientation);
@@ -276,11 +269,11 @@ private:
             double y_left = y + d*std::sin(h_left);
             double x_right = x + d*std::cos(h_right);
             double y_right = y + d*std::sin(h_right);
-            left_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_left, y_left));
+            float left_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_left, y_left));
             if (left_lane_id != 0) {
                 left_distance = d;
             }
-            right_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_right, y_right));
+            float right_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(x_right, y_right));
             if (right_lane_id != 0) {
                 right_distance = d;
             }
@@ -294,25 +287,25 @@ private:
      * \brief Get curvature : Called at every iteration of the main loop
      * \return The minimum and maximum curvature of the global plan
      */
-    CurvatureExtremum getCurvature(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    static CurvatureExtrema getCurvatureExtrema(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        CurvatureExtremum curvature;
-        curvature.max = 0;
-        curvature.min = 0;
+        CurvatureExtrema curvature_extrema;
+        curvature_extrema.max = 0;
+        curvature_extrema.min = 0;
         if(trajectory.size()>2){
             for (size_t i = 0; i<trajectory.size()-2; i++) {
                 double signed_curvature = getSignedCurvature(trajectory[i], trajectory[i+1], trajectory[i+2]);
-                if (signed_curvature > curvature.max) {
-                    curvature.max = signed_curvature;
+                if (signed_curvature > curvature_extrema.max) {
+                    curvature_extrema.max = signed_curvature;
                 }
-                if (signed_curvature < curvature.min) {
-                    curvature.min = signed_curvature;
+                if (signed_curvature < curvature_extrema.min) {
+                    curvature_extrema.min = signed_curvature;
                 }
             }
         }
-        std::cout << "The max curvature is: " << curvature.max << '\n';
-        std::cout << "The min curvature is: " << curvature.min << '\n';
-        return curvature;
+        std::cout << "The max curvature_extrema is: " << curvature_extrema.max << '\n';
+        std::cout << "The min curvature_extrema is: " << curvature_extrema.min << '\n';
+        return curvature_extrema;
     }
 
     /*!
@@ -420,31 +413,31 @@ private:
     void updateFaultMonitors()
     {
         // For loop for each safety monitor
-        for(int i = 0; i < safety_monitors_level_one_.size(); i++)
+        for(auto & i : safety_monitors_level_one_)
         {
             // Update the counter value based on instantaneous test results
-            safety_monitors_level_one_.at(i)->update();
+            i->update();
         }
-        for(int i = 0; i < safety_monitors_level_two_.size(); i++)
+        for(auto & i : safety_monitors_level_two_)
         {
             // Update the counter value based on instantaneous test results
-            safety_monitors_level_two_.at(i)->update();
+            i->update();
         }
-        for(int i = 0; i < safety_monitors_level_three_.size(); i++)
+        for(auto & i : safety_monitors_level_three_)
         {
             // Update the counter value based on instantaneous test results
-            safety_monitors_level_three_.at(i)->update();
+            i->update();
         }
-        for(int i = 0; i < safety_monitors_level_four_.size(); i++)
+        for(auto & i : safety_monitors_level_four_)
         {
             // Update the counter value based on instantaneous test results
-            safety_monitors_level_four_.at(i)->update();
+            i->update();
         }
 
     }
 
     /*!
-     * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
+     * \brief Check the size of thresholds, increments and decrements vector size from ROS parameter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
     void checkSafetyChecksParameterValidity()
@@ -486,11 +479,6 @@ private:
         // Initiate Non-instantaneous test result vector
         updateFaultMonitors();
 
-        bool all_tests_passed = true;
-        CRITICAL_LEVEL_ most_critical_level; // The most critical level reached
-        most_critical_level = INITIAL_GOAL; // Initialize the most critical level, for the moment no anomaly detected
-
-
         for(auto & i : safety_monitors_level_four_) {
             // Update the counter value based on instantaneous test results
             if (i->isFaultConfirmed())
@@ -521,8 +509,7 @@ private:
     void triggerSafetySwitch()
     {
         var_switch_ = UNSAFE;
-        return;
-    }
+   }
     
     /*!
      * \brief Switch to nominal channel
@@ -531,8 +518,7 @@ private:
     void switchNominalChannel()
     {
         var_switch_ = SAFE;
-        return;
-    }
+   }
 
     /*!
      * \brief The function where the checks are called
@@ -547,10 +533,10 @@ private:
         distance_to_lane_ = getDistanceToLane(autoware_global_path_.at(0));
 
         // Check the distance to the road edge
-        distance_to_road_edge_ = getDistanceToRoadEdge();
+        distance_to_road_edge_ = getMinDistanceToRoadEdge();
 
-        // Check the curvature of the global plan
-        CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
+        // Check the curvature_extrema of the global plan
+        CurvatureExtrema curvature_extrema = getCurvatureExtrema(autoware_global_path_.at(0));
 
         // Send test_result to the decision maker function
 
@@ -565,9 +551,9 @@ private:
      * \param parking_pose target road side parking pose
      * \return boolean characterizing the whether the pose is reachable by SSMP
      */
-    bool isRoadSideParkingReachableBySSMP(geometry_msgs::PoseStamped parking_pose) {
+    bool isRoadSideParkingReachableBySSMP(const geometry_msgs::PoseStamped& parking_pose) {
         double DISTANCE_THRESHOLD = 3;
-        for(auto endpose: ssmp_current_endposes_.markers)
+        for(const auto& endpose: ssmp_current_endposes_.markers)
         {
             geometry_msgs::PoseStamped pose_stamped_out;
             try{
@@ -582,11 +568,6 @@ private:
             }
             if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
             {
-//                std::cout << "_________________________________________" << std::endl;
-//                std::cout << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
-//                std::cout << pose_stamped_out.pose.position.x<< "   " << pose_stamped_out.pose.position.y << std::endl;
-//                std::cout << parking_pose.pose.position.x<< "   " << parking_pose.pose.position.y << std::endl;
-//                std::cout << "_________________________________________" << std::endl;
                 return true;
             }
         }
@@ -689,7 +670,7 @@ private:
         }
     }
 
-    void ensureNumberOfSSMPEndposes(int target_number_of_enposes)
+    void ensureNumberOfSSMPEndposes(int target_number_of_endposes)
     {
         double SPEED_INCREMENT = 0.56;
         int EXTRA_POSES_THRESHOLD_TO_INCREASE_SPEED = 6;
@@ -716,7 +697,6 @@ private:
                 double distance_ego_to_parking = getRemainingDistanceOnGlobalPlanTo(wp);
                 if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)))
                 {
-//                    std::cout << "distance_ego_to_parking: " << distance_ego_to_parking << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
                     return true;
                 }
             }
@@ -758,11 +738,6 @@ private:
                 double distance_ego_to_parking = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
                 if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, info.perp_distance) && distance_ego_to_parking < min_distance)
                 {
-//                    std::cout << "_______________________________________" << std::endl;
-//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
-//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
-//                    std::cout << "distance on traj " << distance_ego_to_parking << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
-//                    std::cout << "_______________________________________" << std::endl;
                     min_distance = distance_ego_to_parking;
                     min_id = gridmap_.at("RoadSideParking", *map_iterator);
                     min_wp = autoware_global_path_.front().at(considered_wp_index);
@@ -872,7 +847,6 @@ private:
 
         std::unordered_map<int, std::vector<PlannerHNS::WayPoint>> rest_areas_wp_by_id;
 
-//        std::vector<int> id_seen;
 
         double remaining_traj_length = getRemainingTrajectoryLength();
         for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
@@ -884,14 +858,6 @@ private:
                     rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
                 int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
                 double distance_ego_rest_area = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
-//                if (std::find(id_seen.begin(), id_seen.end(), gridmap_.at("RestArea", *map_iterator)) == id_seen.end()) {
-//                    std::cout << "_______________________________________" << std::endl;
-//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
-//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
-//                    std::cout << "distance on traj " << distance_ego_rest_area << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
-//                    std::cout << "_______________________________________" << std::endl;
-//                    id_seen.push_back(gridmap_.at("RestArea", *map_iterator));
-//                }
                 if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
                 {
                     min_distance = distance_ego_rest_area;

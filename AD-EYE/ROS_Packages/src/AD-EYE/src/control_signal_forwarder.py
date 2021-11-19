@@ -8,7 +8,7 @@ from std_msgs.msg import UInt32
 import sys
 
 ##A class to get the vehicle's commands from the vehicle_cmd topic and to send them to the corresponding topic
-class Sender:
+class ControlSignalForwarder:
 
     ##The constructor
     #
@@ -47,12 +47,12 @@ class Sender:
 
 
 if __name__ == '__main__':
-    rospy.init_node('sender', anonymous=True)
+    rospy.init_node('control_signal_forwarder', anonymous=True)
     if len(sys.argv) < 3:
-        Sender(True)
+        ControlSignalForwarder(True)
     else:
         if sys.argv[1]=="false":
-            Sender(False)
+            ControlSignalForwarder(False)
         else:
-            Sender(True)
+            ControlSignalForwarder(True)
     rospy.spin()
