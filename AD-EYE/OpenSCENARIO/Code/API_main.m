@@ -20,7 +20,10 @@ cd('..\..')%name_experiment)
 mkdir("Results")
 mkdir(strcat("Results\",folder_name))
 copyfile(strcat("OpenScenario\",name_experiment,"*"), strcat("Results\",folder_name,"\OpenScenario"))
-copyfile("OpenScenario\Resources*", strcat("Results\",folder_name,"\OpenScenario"))
+try
+    copyfile("OpenScenario\Resources*", strcat("Results\",folder_name,"\OpenScenario"))
+catch
+end
 movefile("Results\","OpenScenario\")
 %copyfile("OpenScenario*", strcat("OpenScenario/Results/",folder_name))
 cd(strcat("OpenScenario/Results/",folder_name,"/OpenScenario"))
