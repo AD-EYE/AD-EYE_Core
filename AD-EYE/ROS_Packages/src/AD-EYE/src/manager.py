@@ -447,7 +447,7 @@ class Manager:
         rospack = rospkg.RosPack()
         adeye_package_location = rospack.get_path('adeye') + "/"
         subprocess.Popen(
-            "xterm -hold -e bash " + adeye_package_location + "/sh/rosbag_stop ~/" + self.ROSBAG_PATH,
+            "xterm -hold -e bash " + adeye_package_location + "/sh/rosbagStop.sh ~/" + self.ROSBAG_PATH,
             shell=True, preexec_fn=os.setpgrp, executable='/bin/bash')
 
     def getBooleanListActiveFeatures(self):

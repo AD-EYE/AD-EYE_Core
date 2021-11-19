@@ -16,7 +16,7 @@
  * gives to the car the order either from Autoware or the safety channel, depending of
  * the switch state.
  */
-class controlSwitch
+class ControlSwitch
 {
     private:
         // publishers and subscribers
@@ -105,15 +105,15 @@ class controlSwitch
         * \details Subscribe to : /safe_stop_traj, /autowareTwist, /switch_command
         * advertise to : /SSMP_control, /TwistS, /adeye/local_planner_replan
         */
-        controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate_(40)
+        ControlSwitch(ros::NodeHandle &nh) : nh_(nh), rate_(40)
         {
             // Initialize node and publishers
             pub_SSMP_control_ = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
             pub_out_command_ = nh_.advertise<geometry_msgs::TwistStamped>("/TwistS", 1, true);
             sub_adeye_local_planner_replan_ = nh_.advertise<std_msgs::Bool>("/adeye/local_planner_replan", 1, true);
-            sub_safe_stop_trajectory_ = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &controlSwitch::safeStopTrajectoryCallback, this);
-            sub_autoware_command_ = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &controlSwitch::autowareCommandCallback, this);
-            sub_switch_control_ = nh_.subscribe<std_msgs::Int32>("/switch_command", 1, &controlSwitch::switchCommandCallback, this);
+            sub_safe_stop_trajectory_ = nh_.subscribe<rcv_common_msgs::current_traj_info>("/safe_stop_traj", 100, &ControlSwitch::safeStopTrajectoryCallback, this);
+            sub_autoware_command_ = nh_.subscribe<geometry_msgs::TwistStamped>("/autowareTwist", 100, &ControlSwitch::autowareCommandCallback, this);
+            sub_switch_control_ = nh_.subscribe<std_msgs::Int32>("/switch_command", 1, &ControlSwitch::switchCommandCallback, this);
 
             // the velocities that will be send to prescan
             out_twist_command_.header.frame_id = "base_link";
@@ -178,9 +178,9 @@ class controlSwitch
 int main(int argc, char** argv)
 {
     // Initialize node
-    ros::init(argc, argv, "controlSwitch");
+    ros::init(argc, argv, "ControlSwitch");
     ros::NodeHandle nh;
-    controlSwitch control_switch(nh);
+    ControlSwitch control_switch(nh);
     control_switch.run();
     return 0;
 }
