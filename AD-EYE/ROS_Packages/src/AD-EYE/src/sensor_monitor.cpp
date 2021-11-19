@@ -160,22 +160,22 @@ private:
      * \param y y coordinate of the center location compared to the car.
      * \param radius Sensor beam range in meter.
      * \param orientation Orientation of the section compared to the car, seen from above.
-     * \param angle Openning angle of the section.
+     * \param angle Opening angle of the section.
      * \return A circle section created corresponding to the given parameters.
-     * \details This function is especially used to create sensor sectors arround the car.
+     * \details This function is especially used to create sensor sectors around the car.
      * The circle section will be approximate by a succession of points close enough.
      * Angles need to be in rad.
      */
     geometry_msgs::PolygonStamped createCircleSection(float x, float y, float radius, float orientation, float angle) {
         geometry_msgs::PolygonStamped polygon;
-        float dangle = 0.0017; // The angle step for the succession of points. Random choice: 0.1 deg = 0.0017rad.
+        float d_angle = 0.0017; // The angle step for the succession of points. Random choice: 0.1 deg = 0.0017rad.
         polygon.header.frame_id = "SSMP_base_link";
         // Definition of the apex of the section that will be added to the polygon.
         geometry_msgs::Point32 apex;
         apex.x = x;
         apex.y = y;
         polygon.polygon.points.emplace_back(apex);
-        for (float i = (orientation - (angle / 2.0)); i <= (orientation + (angle / 2.0)); i=i+dangle){ // Approximate circle section by a succession of points
+        for (float i = (orientation - (angle / 2.0)); i <= (orientation + (angle / 2.0)); i= i + d_angle){ // Approximate circle section by a succession of points
             // Definition of the points that will be added to the polygon.
             geometry_msgs::Point32 point;
             point.x = x + radius * cos(i);
@@ -183,12 +183,12 @@ private:
             polygon.polygon.points.emplace_back(point);
         } 
 
-        if (fmodf(angle, dangle) != 0) { // If the discretization of the circle section with the step dangle doesn't fall right, we add the last point.
+        if (fmodf(angle, d_angle) != 0) { // If the discretization of the circle section with the step d_angle doesn't fall right, we add the last point.
             // Definition of the point that will be added to the polygon.
-            geometry_msgs::Point32 point2;
-            point2.x = x + radius * cos(orientation + (angle / 2.0));
-            point2.y = y + radius * sin(orientation + (angle / 2.0));
-            polygon.polygon.points.emplace_back(point2);
+            geometry_msgs::Point32 last_point;
+            last_point.x = x + radius * cos(orientation + (angle / 2.0));
+            last_point.y = y + radius * sin(orientation + (angle / 2.0));
+            polygon.polygon.points.emplace_back(last_point);
         }
 
         return polygon;

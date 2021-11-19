@@ -18,8 +18,8 @@
 #define BUILDING 12
 #define TRAFFICLIGHT 15
 // #define SAFEAREA 17
-#define ROADSIDEPARKING_ID 18
-#define RESTAREA_ID 20
+#define ROADSIDEPARKING_ID 17
+#define RESTAREA_ID 17
 #define ROAD_SIDE_PARKING_VALUE 30
 #define REST_AREA_VALUE 40
 #define STATICCAR 1
@@ -99,11 +99,11 @@ struct PrescanModel
 		// {
 		// 	safeAreaObjects.push_back(Obj);
 		// }
-		if(type_id == ROADSIDEPARKING_ID)
+		if(type_id == ROADSIDEPARKING_ID && road_side_parking_value != 0)
 		{
 			roadSideParkingObjects.push_back(Obj);
 		}
-		if(type_id == RESTAREA_ID)
+		if(type_id == RESTAREA_ID && rest_area_value != 0)
 		{
 			restAreaObjects.push_back(Obj);
 		}
@@ -208,6 +208,8 @@ struct PrescanModel
                         // looping through all the child nodes inside "Underlays"
                         BOOST_FOREACH(ptree::value_type& val_underlays, val_experiment.second.get_child("Underlays"))
                         {
+                            road_side_parking_value = 0;
+                            rest_area_value = 0;
                             // tree with all the attributes of each "Underlay"
                             ptree pt_Underlay_Attr = val_underlays.second.get_child("<xmlattr>");
                             BOOST_FOREACH(ptree::value_type& val_underlay_attr, pt_Underlay_Attr)
@@ -218,7 +220,7 @@ struct PrescanModel
                                     // checking the codition if the attribute "Description" has the value "SAFE" in it
                                     // if(val_underlay_attr.second.data().size()>=SAFE_STRING_POS && val_underlay_attr.second.data().substr(0,SAFE_STRING_POS) == "SAFE")
                                     // {
-                                    //     safety_area_value = strtol(val_underlay_attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);          
+                                    //     safety_area_value = strtol(val_underlay_attr.second.data().substr(SAFE_STRING_POS).c_str(),NULL,DECIMAL_BASE);
                                     // }
 									// checking the condition if the attritbute "Description" has the value "roadSideParking" in it
 									if(val_underlay_attr.second.data().size()>=ROAD_SIDE_PARKING_STRING_POS && val_underlay_attr.second.data().substr(0,ROAD_SIDE_PARKING_STRING_POS) == "roadSideParking")

@@ -11,8 +11,8 @@ class SafetyChannelPerception {
 
     private:
         ros::NodeHandle &nh_;
-        ros::Subscriber sub_Lidar_;
-        ros::Publisher pub_Polygons_;
+        ros::Subscriber sub_lidar_;
+        ros::Publisher pub_polygons_;
         ros::Rate rate_;
         std::string polygon_frame_ = "SSMP_map";
         tf::TransformListener& tf_listener_;
@@ -24,7 +24,7 @@ class SafetyChannelPerception {
         * \details Gets the Point Cloud clusters and transform each point of their convex hull footprints into the frame used for the GridMap
         * \todo Move the processing to another function
         */
-        void ClusterCallback(const autoware_msgs::CloudClusterArray::ConstPtr& msg) {
+        void clusterCallback(const autoware_msgs::CloudClusterArray::ConstPtr& msg) {
             jsk_recognition_msgs::PolygonArray poly_array;
             for(auto cluster: msg->clusters)
             {
@@ -56,7 +56,7 @@ class SafetyChannelPerception {
                 }
                 poly_array.polygons.push_back(poly_in_gridmap_frame);
             }
-            pub_Polygons_.publish(poly_array);
+            pub_polygons_.publish(poly_array);
         }
 
     public:
@@ -67,8 +67,9 @@ class SafetyChannelPerception {
         */
         SafetyChannelPerception(ros::NodeHandle& nh, tf::TransformListener& listener): nh_(nh), rate_(10), tf_listener_(listener)
         {
-            sub_Lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("detection/lidar_detector/cloud_clusters", 1, &SafetyChannelPerception::ClusterCallback, this);
-            pub_Polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("safetyChannelPerception/detection/polygons", 1, true);
+            sub_lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("detection/lidar_detector/cloud_clusters", 1,
+                                                                        &SafetyChannelPerception::clusterCallback, this);
+            pub_polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("safetyChannelPerception/detection/polygons", 1, true);
         }
 
         /*!

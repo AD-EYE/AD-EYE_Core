@@ -238,7 +238,7 @@ private:
                                                         pexObjects.roadSideParkingObjects.at(i).sizeY,
                                                         0.01745 * pexObjects.roadSideParkingObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
-                map_.at("RoadSideParking", *it) = pexObjects.roadSideParkingObjects.at(i).roadSideParkingValue;
+                map_.at("RoadSideParking", *it) = pexObjects.roadSideParkingObjects.at(i).roadSideParkingValue + i; // value is different for each area o avoid clustering later
             }
         }
         // Rest Area objects are always considered to be rectangles
@@ -249,7 +249,7 @@ private:
                                                         pexObjects.restAreaObjects.at(i).sizeY,
                                                         0.01745*pexObjects.restAreaObjects.at(i).yaw);
             for(grid_map::PolygonIterator it(map_, polygon) ; !it.isPastEnd() ; ++it) {
-                map_.at("RestArea", *it) = pexObjects.restAreaObjects.at(i).restAreaValue;
+                map_.at("RestArea", *it) = pexObjects.restAreaObjects.at(i).restAreaValue + i; // value is different for each area o avoid clustering later
             }
         }
 
@@ -535,7 +535,7 @@ private:
         std::string fileNode = p_nh.param<std::string>("fileNode","");
         std::string fileDtlane = p_nh.param<std::string>("fileDtlane","");
         VectorMap veclane;
-        veclane.load_vectormap(filePoint, fileLane, fileNode, fileDtlane);
+        veclane.loadVectormap(filePoint, fileLane, fileNode, fileDtlane);
 
         createEmptyGridMap(veclane);
         if(use_pex_file_)

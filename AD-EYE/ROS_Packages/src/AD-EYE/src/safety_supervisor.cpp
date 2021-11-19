@@ -6,9 +6,7 @@
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float32.h>
-#include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
-#include <jsk_recognition_msgs/PolygonArray.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -17,6 +15,16 @@
 
 #include "op_planner/PlannerH.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
+#include "op_planner/PlanningHelpers.h"
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
+
+#include "safety_fault_monitors/active_nodes_checker.h"
+#include "safety_fault_monitors/geofencing_checker.h"
+#include "safety_fault_monitors/car_off_road_checker.h"
+#include "safety_fault_monitors/obstacles_in_critical_area_checker.h"
+#include "safety_fault_monitors/sensor_checker.h"
 
 #define ROAD_SIDE_PARKING_VALUE 30
 #define REST_AREA_VALUE 40
@@ -38,15 +46,25 @@ private:
     ros::Publisher pub_overwrite_trajectory_eval_;
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
-    ros::Publisher pub_critical_area_;  //Used for critical area visualization
+    ros::Publisher pub_road_side_parking_viz_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
-    ros::Subscriber sub_autoware_trajectory_;
     ros::Subscriber sub_autoware_global_plan_;
-    ros::Subscriber sub_current_velocity_;
     ros::Subscriber sub_switch_request_;
     ros::Subscriber sub_sensor_fov_;
     ros::Subscriber sub_goal_coordinates_;
+    ros::Subscriber sub_ssmp_endposes_;
+
+
+    tf2_ros::Buffer tf_buffer_;
+    tf2_ros::TransformListener tf_listener_;
+
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_one_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_two_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_three_;
+    std::vector<std::shared_ptr<SafetyFaultMonitor>>  safety_monitors_level_four_;
+
+    visualization_msgs::MarkerArray ssmp_current_endposes_;
 
     // constants
     const bool SAFE = false;
@@ -54,45 +72,30 @@ private:
     const int NO_BEHAVIOR_OVERWRITE_ = -1;
     enum STATE_TYPE_ {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
 	TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
-    const float PI_ = 3.141592654;
 
     // The number of the safety test
     enum SAFETY_TESTS_{CHECK_ACTIVE_NODES_LEVEL_ONE, CHECK_ACTIVE_NODES_LEVEL_TWO, CHECK_ACTIVE_NODES_LEVEL_THREE, CHECK_ACTIVE_NODES_LEVEL_FOUR,
-        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
+        CHECK_CAR_OFF_ROAD, CHECK_DYNAMIC_OBJECT, CHECK_CAR_OFF_ODD, CHECK_RADAR_ACTIVE, CHECK_LIDAR_ACTIVE, CHECK_CAMERA_1_ACTIVE, CHECK_CAMERA_2_ACTIVE, CHECK_CAMERA_TL_ACTIVE};
 
     bool was_switch_requested_ = false;
     std_msgs::Int32 switch_request_value_;
 
-    //Critical area
-    float car_length_ = 5;
-    float car_width_ = 2;
-    bool car_size_set_ = false;
-    float critical_area_length_ = car_length_; //Size of the critical Area
-    float critical_area_width_ = car_width_ * 1.2;
-    grid_map::Polygon critical_area_;
-
     geometry_msgs::Pose pose_;
-    float current_velocity_ = 0;
     bool var_switch_;
     int varoverwrite_behavior_;
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
-    bool autoware_trajectory_flag_ = false;
     bool autoware_global_path_flag_ = false;
-    
+
+    bool is_rest_area_chosen_ = false;
+    bool is_road_side_parking_chosen_ = false;
+    geometry_msgs::PoseStamped road_side_parking_pose;
+
     grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking", "RestArea", "SensorSectors"});
-    autoware_msgs::Lane autowareTrajectory_;
-    std::vector<string> critical_nodes_level_one_;
-    std::vector<string> critical_nodes_level_two_;
-    std::vector<string> critical_nodes_level_three_;
-    std::vector<string> critical_nodes_level_four_;
     std::vector<std::vector<PlannerHNS::WayPoint>> autoware_global_path_;
     
     // Safety tests
     int num_safety_tests_ = 12;
-
-    // Initiate the safety counter for tests
-    std::vector<int> safety_test_counters_ = std::vector<int>(num_safety_tests_,0);
 
     // Set the default threshold value for each pass and fail safety test
     std::vector<int> thresholds_pass_test_ = std::vector<int>(num_safety_tests_,4);
@@ -101,47 +104,27 @@ private:
     // Set the default increment and decrement value for each pass and fail safety test
     std::vector<int> increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
     std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
-    
-    // Constant Pass and Fail boolean
-    const bool PASS_ = true;
-    const bool FAIL_ = false;
-
-    // Initiate Non-Instantaneous result vector
-    std::vector<bool> non_instantaneous_results_ = std::vector<bool>(num_safety_tests_, PASS_);
    
     // result of the check functions
     double distance_to_lane_;
     double distance_to_road_edge_;
-
-    // ODD Polygon coordinates
-    // Format:- ODD_coordinates_ = {x1, y1, x2, y2, x3, y3, x4, y4}
-    std::vector<double> ODD_coordinates_, ODD_default_gridmap_coordinates_;
 
     struct CurvatureExtremum {
         double max;
         double min;
     };
 
-    // enum to identifiate critical level
+    // enum to identify critical level
     enum CRITICAL_LEVEL_ {INITIAL_GOAL, REST_AREA, ROAD_SIDE_PARKING, IMMEDIATE_STOP};
 
     // Test for sensor coverage
-    jsk_recognition_msgs::PolygonArray sensors_fov_;
-    bool sensors_fov_flag_ = false;
     enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
 
     bool broke_at_least_once_ = false; // To know if there already is at least 1 anomaly
-    bool is_anomaly_fix_ = false; // To know if there already is an anomaly and if it is fixed
+    bool is_anomaly_fixed_ = false; // To know if there already is an anomaly and if it is now fixed
     geometry_msgs::PoseStamped initial_goal_coordinates_;
 
-    /*!
-     * \brief currentVelocity Callback : Updates the knowledge about the car speed.
-     * \param msg A smart pointer to the message from the topic.
-     */
-    void currentVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)
-    {
-        current_velocity_ = msg->twist.linear.x;
-    }
+    double current_speed_limit_ = 8.3;
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -164,21 +147,9 @@ private:
     {
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
 
-        // Operational design domain default polygon coordinates are same as full grid map
-        ODD_default_gridmap_coordinates_ = {gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5, gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5, gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getLength().y() - (gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5), gridmap_.getLength().x() - (gridmap_.getPosition().x() - gridmap_.getLength().x() * 0.5), gridmap_.getPosition().y() - gridmap_.getLength().y() * 0.5};
         gridmap_flag_ = true;
     }
 
-    /*!
-     * \brief Autoware trajectory Callback : Called when the trajectory from autoware has changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details Updates the autoware trajectory information.
-     */
-    void autowareTrajectoryCallback(const autoware_msgs::Lane::ConstPtr& msg)
-    {
-        autowareTrajectory_ = *msg;
-        autoware_trajectory_flag_ = true;
-    }
 
     /*!
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
@@ -210,21 +181,23 @@ private:
         switch_request_value_ = msg;
     }
 
-    /*!
-     * \brief Sensor field of view callback : Called when the sensors information has changed.
-     * \param msg A smart pointer to the message from the topic.
-     * \details Stores polygons that represent sensor field of view
-     */
-    void sensorFovCallback(const jsk_recognition_msgs::PolygonArrayConstPtr& msg)
-    {
-        sensors_fov_ = *msg;
-        sensors_fov_flag_ = true;
-    }
 
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStampedConstPtr& msg)
     {
         initial_goal_coordinates_.header.frame_id = "world";
         initial_goal_coordinates_.pose = msg->pose;
+    }
+
+    void ssmpEndposesCallback(const visualization_msgs::MarkerArrayConstPtr& msg)
+    {
+        ssmp_current_endposes_.markers.clear();
+        for(auto & marker : msg->markers)
+        {
+            if(marker.color.a != 0) // the markers with alpha 0 are invisible and thus not endposes
+            {
+                ssmp_current_endposes_.markers.push_back(marker);
+            }
+        }
     }
 
     /*!
@@ -346,7 +319,7 @@ private:
      * \brief Get menger curvature : References can be found looking for "Menger curvature"
      * \Calculates the inverse of the radius of the circle defined by 3 points
      */
-    double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
+    static double getSignedCurvature(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2, const PlannerHNS::WayPoint& P3)
     {
         double curvature = 0;
         double cross_product = (P2.pos.x-P1.pos.x)*(P3.pos.y-P1.pos.y)-(P2.pos.y-P1.pos.y)*(P3.pos.x-P1.pos.x);
@@ -364,242 +337,18 @@ private:
      * \brief Get distance : Called at every iteration of the main loop
      * \return Distance between 2 points
      */
-    double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
+    static double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
     {
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
     }
 
     /*!
-     * \brief Get distance : Called to calculate the distance between two points
-       \param x_one, x_two, y_one, y_two The inputs contains the waypoints coordinates .
+     * \brief Get distance : Called at every iteration of the main loop
      * \return Distance between 2 points
      */
-    double getDistance(double x_one, double x_two, double y_one, double y_two)
+    static double getDistance(const geometry_msgs::Pose& P1, const geometry_msgs::Pose& P2)
     {
-        return pow(pow(x_one - x_two, 2) + pow(y_one - y_two, 2), 0.5);
-    }
-
-    /*!
-     * \brief Check dynamic objects : Called at every iteration of the main loop
-     * \Checks if there is a dynamic object in the critical area
-     * \return Boolean indicating the presence of an obstacle in the critical area
-     */
-    bool isObjectInCriticalArea()
-    {
-        const float x = pose_.position.x;    //Center is currently in the front of the car
-        const float y = pose_.position.y;
-        const float yaw = cpp_utils::extract_yaw(pose_.orientation);
-        const grid_map::Position center(x + car_length_ * cos(yaw)/2, y + car_length_ * sin(yaw)/2);
-        critical_area_length_ = car_length_  + current_velocity_;
-        
-        // Condition for creating a critical area through autoware trajectory waypoints
-        if (autowareTrajectory_.waypoints.size() > 0)
-        {   
-            // Remove critical area vertices
-            critical_area_.removeVertices();
-            
-            // Initiate the index value and length for getting the critical area length
-            int index = 0;
-            double length = 0;
-
-            // `For` loop for finding an index value from autoware trajectory to set the critical area length
-            for (int k = 0; k < autowareTrajectory_.waypoints.size()-1; k++)
-            {
-                // Calculate the distance between two autoware trajectory waypoints through euclidean distance equation
-                double distance_between_two_waypoints = getDistance(autowareTrajectory_.waypoints.at(k+1).pose.pose.position.x, autowareTrajectory_.waypoints.at(k).pose.pose.position.x, autowareTrajectory_.waypoints.at(k+1).pose.pose.position.y, autowareTrajectory_.waypoints.at(k).pose.pose.position.y);
-                         
-                // Add the distance between two waypoints into the length
-                length += distance_between_two_waypoints;
-
-                // If the length from autoware trajectory is higher than critical area length, store the index value
-                if (length >= critical_area_length_ )
-                {
-                    // Store the index value and break the loop
-                    index = k;
-                    break;
-                }  
-            }
-            
-            // Creating the critical area polygon through two `for` loops
-            // First `for` loop define the vertices for one side of the critical area
-            for (int i = 0; i <= index; i++)
-            {
-                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(i).pose.pose.orientation);
-                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(i).pose.pose.position.x - sin(yaw) * critical_area_width_/2, 
-                                                                 autowareTrajectory_.waypoints.at(i).pose.pose.position.y + cos(yaw) * critical_area_width_/2)); 
-            }
-            
-            // Second `for` loop define the vertices for other side of the critical area
-            for (int j = index; j >= 0; j--)
-            {
-                float yaw = cpp_utils::extract_yaw(autowareTrajectory_.waypoints.at(j).pose.pose.orientation);
-                critical_area_.addVertex(grid_map::Position(autowareTrajectory_.waypoints.at(j).pose.pose.position.x + sin(yaw) * critical_area_width_/2, 
-                                                                 autowareTrajectory_.waypoints.at(j).pose.pose.position.y -  cos(yaw) * critical_area_width_/2));     
-            }
-
-            visualization_msgs::Marker criticalAreaMarker;  //Used for demo critical area visualization
-            std_msgs::ColorRGBA color;
-            color.r = 1.0;
-            color.a = 1.0;
-            grid_map::PolygonRosConverter::toLineMarker(critical_area_, color, 0.2, 0.5, criticalAreaMarker);
-            criticalAreaMarker.header.frame_id = gridmap_.getFrameId();
-            criticalAreaMarker.header.stamp.fromNSec(gridmap_.getTimestamp());
-            pub_critical_area_.publish(criticalAreaMarker);
-
-            for(grid_map::PolygonIterator areaIt(gridmap_, critical_area_) ; !areaIt.isPastEnd() ; ++areaIt) 
-            {
-                if(gridmap_.at("DynamicObjects", *areaIt) > 0) 
-                { //If there is something inside the area
-                    ROS_WARN_THROTTLE(1, "There is a dynamic object in the critical Area !");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /*!
-     * \brief Check if the given nodes are alive
-     * \param nodes_to_check vector containing the names of the nodes to check
-     */
-    bool areNodesAlive(std::vector<string> nodes_to_check)
-    {
-        ros::V_string nodes_alive;
-        ros::master::getNodes(nodes_alive);
-        for(auto node : nodes_to_check){
-          if(std::find(nodes_alive.begin(), nodes_alive.end(), node) == nodes_alive.end()){
-            std::cout << "ERROR: " << node << "was not found" << '\n';
-            return false;
-          }
-        }
-        return true;
-    }
-    /*!
-     * \brief Check critical nodes level 1 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 1 are alive
-     */
-    bool areCriticalNodesLevelOneAlive()
-    {
-        return areNodesAlive(critical_nodes_level_one_);
-    }
-    /*!
-     * \brief Check critical nodes level 2 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 2 are alive
-     */
-    bool areCriticalNodesLevelTwoAlive()
-    {
-        return areNodesAlive(critical_nodes_level_two_);
-    }
-    /*!
-     * \brief Check critical nodes level 3 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 3 are alive
-     */
-    bool areCriticalNodesLevelThreeAlive()
-    {
-        return areNodesAlive(critical_nodes_level_three_);
-    }
-    /*!
-     * \brief Check critical nodes level 4 : Called at every iteration of the main loop
-     * \Checks if all the necessary nodes of criticality level 4 are alive
-     */
-    bool areCriticalNodesLevelFourAlive()
-    {
-        return areNodesAlive(critical_nodes_level_four_);
-    }
-
-    /*!
-     * \brief Check car off road : Called at every interation of the main loop
-     * \return Boolean indicating if the center of the car is off the road
-     */
-    bool isCarOffRoad()
-    {
-      float current_lane_id = gridmap_.atPosition("Lanes", grid_map::Position(pose_.position.x, pose_.position.y));
-      //ROS_INFO("Lane ID : %f", current_lane_id);
-      if (current_lane_id == 0) {
-          ROS_WARN_THROTTLE(1, "The center of the car is not on the road");
-          return true;
-      }
-      return false;
-    }
-
-    /*!
-     * \brief Check radar : Called at every interation of the main loop
-     * \return Boolean indicating if radar is activated
-     */
-    bool isRadarActive()
-    {
-        bool radar_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(radar).polygon.points.size() != 0) {
-                radar_active = true;
-            }
-        }
-        return radar_active;
-    }
-
-    /*!
-     * \brief Check lidar : Called at every interation of the main loop
-     * \return Boolean indicating if lidar is activated
-     */
-    bool isLidarActive()
-    {
-        bool lidar_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(lidar).polygon.points.size() != 0) {
-                lidar_active = true;
-            }
-        }
-        return lidar_active;
-    }
-
-    /*!
-     * \brief Check camera 1 : Called at every interation of the main loop
-     * \return Boolean indicating if camera 1 is activated
-     */
-    bool isCamera1Active()
-    {
-        bool camera1_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(camera1).polygon.points.size() != 0) {
-                camera1_active = true;
-            }
-        }
-        return camera1_active;
-    }
-
-    /*!
-     * \brief Check camera 2 : Called at every interation of the main loop
-     * \return Boolean indicating if camera 2 is activated
-     */
-    bool isCamera2Active()
-    {
-        bool camera2_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(camera2).polygon.points.size() != 0) {
-                camera2_active = true;
-            }
-        }
-        return camera2_active;
-    }
-
-    /*!
-     * \brief Check camera for traffic lights : Called at every interation of the main loop
-     * \return Boolean indicating if camera for traffic lights is activated
-     */
-    bool isCameratlActive()
-    {
-        bool cameratl_active = false;
-        // If the array sensor_fov_ is not empty
-        if(sensors_fov_flag_) {
-            if(sensors_fov_.polygons.at(cameratl).polygon.points.size() != 0) {
-                cameratl_active = true;
-            }
-        }
-        return cameratl_active;
+        return sqrt((P2.position.x - P1.position.x) * (P2.position.x - P1.position.x) + (P2.position.y - P1.position.y) * (P2.position.y - P1.position.y));
     }
 
     /*!
@@ -647,7 +396,7 @@ private:
         // pub_overwrite_trajectory_eval_.publish(msg_overwrite_trajectory_eval);
 
         //geometry_msgs::PoseStamped newGoal;
-        //newGoal.header.frame_id = "wold";
+        //newGoal.header.frame_id = "world";
         //newGoal.pose.position.x = 100;
         //newGoal.pose.position.y = 171;
         //newGoal.pose.position.z = 0;
@@ -662,109 +411,38 @@ private:
         // pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
     }
-    
-    /*!
-     * \brief Check instantaneous result : Called at every iteration of the main loop
-     * \Checks if all tests are true or false return instantaneous test result
-     */
-    std::vector<bool> checkInstantaneousResults()
-    {
-        // The pass result vector of safety test.
-        std::vector<bool> instantaneous_test_results(num_safety_tests_);
 
-        // Check that all necessary nodes are active and store in the vector
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_ONE] = areCriticalNodesLevelOneAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_TWO] = areCriticalNodesLevelTwoAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_THREE] = areCriticalNodesLevelThreeAlive();
-        instantaneous_test_results[CHECK_ACTIVE_NODES_LEVEL_FOUR] = areCriticalNodesLevelFourAlive();
-        
-        //Check that the center of the car on the road
-        instantaneous_test_results[CHECK_CAR_OFF_ROAD] = !isCarOffRoad();
-        
-        //Is there a dynamic object in the critical area
-        instantaneous_test_results[CHECK_DYNAMIC_OJECT] = !isObjectInCriticalArea();
-        
-        // Check that the vehicle is in operational design domain polygon area
-        instantaneous_test_results[CHECK_CAR_OFF_ODD] = !isVehicleOffOperationalDesignDomain();
-
-        // Check that all sensors are activated
-        instantaneous_test_results[CHECK_RADAR_ACTIVE] = isRadarActive();
-        instantaneous_test_results[CHECK_LIDAR_ACTIVE] = isLidarActive();
-        instantaneous_test_results[CHECK_CAMERA_1_ACTIVE] = isCamera1Active();
-        instantaneous_test_results[CHECK_CAMERA_2_ACTIVE] = isCamera2Active();
-        instantaneous_test_results[CHECK_CAMERA_TL_ACTIVE] = isCameratlActive();
-
-        return instantaneous_test_results;
-    }
-    
-    /*!
-     * \brief Update counter value : Called at every iteration of the main loop
-     * \Updates the counter value based instantaneous test results
-     * \param test_result, threshold_pass_test, threshold_fail_test, increment_value, decrement_value, counter_value, takes these parameter to update the counter
-     */
-    int updateCounter(bool test_result, int threshold_pass_test, int threshold_fail_test, int increment_value, int decrement_value, int counter_value)
-    {
-        // If loop for updating the counter values until it reaches to threshold value
-        // If the test is successfully passed
-        if (test_result)
-        {
-            // Increment counter
-            counter_value += increment_value;
-    
-            // Check if the counter reaches the threshold value then counter value will be same as threshold value
-            if (counter_value > threshold_pass_test)
-            {
-                // Increment counter
-                counter_value = threshold_pass_test;
-            }
-            
-        }
-        else if(!test_result) // if the test is failed
-        {
-            // Decrement counter
-            counter_value += decrement_value;  
-
-            // Check if the counter reaches the threshold value then counter value will be same as threshold value
-            if(counter_value < threshold_fail_test)
-            {
-                // Decrement counter
-                counter_value = threshold_fail_test;    
-            }
-        } 
-        return counter_value;
-    }
     
     /*!
      * \brief Check non-instantaneous result : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
      */
-    void checkNonInstantaneousResults()
+    void updateFaultMonitors()
     {
-        // Extract Instantaneous safety test result
-        std::vector<bool> instantaneous_test_results = checkInstantaneousResults();
-        
-        // For loop for each test result
-        for (int i = 0; i < num_safety_tests_; i++)
+        // For loop for each safety monitor
+        for(int i = 0; i < safety_monitors_level_one_.size(); i++)
         {
             // Update the counter value based on instantaneous test results
-            safety_test_counters_[i] = updateCounter(instantaneous_test_results[i], thresholds_pass_test_[i], thresholds_fail_test_[i], increments_pass_test_[i], decrements_fail_test_[i], safety_test_counters_[i] );
-            
-            // If the counter value is same as pass threshold value then non-instantaneous result will be considered as PASS test
-            if (safety_test_counters_[i] == thresholds_pass_test_[i])
-            {
-                non_instantaneous_results_[i] = PASS_;
-
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
-            }
-            else if (safety_test_counters_[i] == thresholds_fail_test_[i]) // If the counter value is same as fail threshold value then non-instantaneous result will be considered as PASS test
-            {
-                non_instantaneous_results_[i] = FAIL_;
-
-                ROS_DEBUG_STREAM("Counter number is " << safety_test_counters_[i]);
-            }
+            safety_monitors_level_one_.at(i)->update();
         }
+        for(int i = 0; i < safety_monitors_level_two_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_two_.at(i)->update();
+        }
+        for(int i = 0; i < safety_monitors_level_three_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_three_.at(i)->update();
+        }
+        for(int i = 0; i < safety_monitors_level_four_.size(); i++)
+        {
+            // Update the counter value based on instantaneous test results
+            safety_monitors_level_four_.at(i)->update();
+        }
+
     }
-    
+
     /*!
      * \brief Check the size of thresholds, increments and decrements vector size from ROS paramter server : Called at every iteration of the main loop
      * \Checks if the instantaneous test results hit the threshold value and updates the non-instantaneous test result as pass and fail
@@ -785,7 +463,7 @@ private:
         {
             increments_pass_test_ = std::vector<int>(num_safety_tests_,1);
             ROS_WARN("The increment pass test vector size is not same as number of safety tests");
-        } 
+        }
         else if (decrements_fail_test_.size() != num_safety_tests_)
         {
             decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
@@ -797,126 +475,43 @@ private:
      * \brief Take final decision based on non-instantaneous results : Called at every iteration of the main loop
      * \Checks if all tests are pass or fail and trigger the safety switch or nominal channel
      */
-    void takeDecisionBasedOnTestResult()
-    {
-        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) || ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
-                || ros::param::get("/increment_vector_pass_test_", increments_pass_test_)  || ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_) )
-        {
+    CRITICAL_LEVEL_ takeDecisionBasedOnTestsResults() {
+        if (ros::param::get("/threshold_vector_pass_test", thresholds_pass_test_) ||
+            ros::param::get("/threshold_vector_fail_test", thresholds_fail_test_)
+            || ros::param::get("/increment_vector_pass_test_", increments_pass_test_) ||
+            ros::param::get("/decrement_vector_fail_test_", decrements_fail_test_)) {
             checkSafetyChecksParameterValidity();
         }
 
         // Initiate Non-instantaneous test result vector
-        checkNonInstantaneousResults();
+        updateFaultMonitors();
 
         bool all_tests_passed = true;
         CRITICAL_LEVEL_ most_critical_level; // The most critical level reached
         most_critical_level = INITIAL_GOAL; // Initialize the most critical level, for the moment no anomaly detected
 
-        for(std::vector<bool>::iterator it = non_instantaneous_results_.begin(); it<non_instantaneous_results_.end(); it++) {
-            SAFETY_TESTS_ current_test;
-            current_test = (SAFETY_TESTS_)std::distance(non_instantaneous_results_.begin(), it);
 
-            if(non_instantaneous_results_[current_test] == FAIL_) {
-                all_tests_passed = false;
-                switch(current_test)
-                {
-                    case CHECK_ACTIVE_NODES_LEVEL_ONE:
-                        if(most_critical_level <= INITIAL_GOAL) {
-                            most_critical_level = INITIAL_GOAL;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_ONE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_TWO:
-                        if(most_critical_level <= REST_AREA) {
-                            most_critical_level = REST_AREA;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_TWO +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_2_ACTIVE:
-                        if(most_critical_level <= REST_AREA) {
-                            most_critical_level = REST_AREA;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_2_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_THREE:
-                        if(most_critical_level <= ROAD_SIDE_PARKING) {
-                            most_critical_level = ROAD_SIDE_PARKING;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_THREE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_1_ACTIVE:
-                        if(most_critical_level <= ROAD_SIDE_PARKING) {
-                            most_critical_level = ROAD_SIDE_PARKING;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_1_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_ACTIVE_NODES_LEVEL_FOUR:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_ACTIVE_NODES_LEVEL_FOUR +1 <<  " is FAIL");
-                        break;
-                    case CHECK_CAMERA_TL_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_CAMERA_TL_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_LIDAR_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_LIDAR_ACTIVE +1 <<  " is FAIL");
-                        break;
-                    case CHECK_RADAR_ACTIVE:
-                        if(most_critical_level <= IMMEDIATE_STOP) {
-                            most_critical_level = IMMEDIATE_STOP;
-                        }
-                        ROS_WARN_STREAM("The test " << CHECK_RADAR_ACTIVE +1 <<  " is FAIL");
-                        break;
-                }
-            }
+        for(auto & i : safety_monitors_level_four_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
+                return CRITICAL_LEVEL_::IMMEDIATE_STOP;
         }
-
-        // Make the decision according to the critical level
-        switch(most_critical_level)
-        {
-            case INITIAL_GOAL:
-                if(all_tests_passed)
-                    ROS_DEBUG_STREAM("All tests are PASS");
-                // If there is at least 1 anomaly
-                if(broke_at_least_once_) {
-                    is_anomaly_fix_ = true;
-                    broke_at_least_once_ = false;
-                }
-                // If there is at least 1 anomaly fixed
-                if(is_anomaly_fix_) {
-                    // Redefine the initial goal
-                    pub_autoware_goal_.publish(initial_goal_coordinates_);
-                }
-                switchNominalChannel();
-                ROS_INFO("Decision: Go to initial goal");
-                break;
-            case REST_AREA:
-                broke_at_least_once_ = true;
-                is_anomaly_fix_ = false;
-                redefineGoalRestArea();
-                ROS_INFO("Decision: Stop in rest area");
-                break;
-            case ROAD_SIDE_PARKING:
-                redefineGoalRoadSideParking();
-                ROS_INFO("Decision: Stop in road side parking");
-                break;
-            case IMMEDIATE_STOP:
-                triggerSafetySwitch();
-                ROS_INFO("Decision: Immediate stop");
-                break;
+        for(auto & i : safety_monitors_level_three_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
+                return CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
         }
-        std_msgs::Int32 msg_switch;
-        msg_switch.data = var_switch_;
-        pub_switch_.publish(msg_switch);
-
-        
+        for(auto & i : safety_monitors_level_two_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
+                return CRITICAL_LEVEL_::REST_AREA;
+        }
+        for(auto & i : safety_monitors_level_one_) {
+            // Update the counter value based on instantaneous test results
+            if (i->isFaultConfirmed())
+                return CRITICAL_LEVEL_::INITIAL_GOAL;
+        }
+        return CRITICAL_LEVEL_::INITIAL_GOAL;
     }
     
     /*!
@@ -958,81 +553,127 @@ private:
         CurvatureExtremum curvature = getCurvature(autoware_global_path_.at(0));
 
         // Send test_result to the decision maker function
-        takeDecisionBasedOnTestResult();
+
+
+
+        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();;
+        performAction(most_critical_level);
     }
-    
+
     /*!
-     * \brief Check if the vector of operational design domain polygon coordinates is valid.
-     * \return Boolean indicating true if the operational design domain polygon coordinates are exactly into pairs.
-     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
+     * \brief Returns whether there is a SSMP endpose that is close enough to the given parking
+     * \param parking_pose target road side parking pose
+     * \return boolean characterizing the whether the pose is reachable by SSMP
      */
-    bool isPolygonValid(std::vector<double> polygon_coordinates)
-    {
-        if (polygon_coordinates.size() % 2 != 0)
+    bool isRoadSideParkingReachableBySSMP(geometry_msgs::PoseStamped parking_pose) {
+        double DISTANCE_THRESHOLD = 3;
+        for(auto endpose: ssmp_current_endposes_.markers)
         {
-            ROS_WARN("Invalid polygon, the list defining the polygon contains an odd number of values");
-            return false;
-        }
-        return true;
-    }
-    
-    /*!
-     * \brief Check if the vehicle is inside the operational design domain polygon area.
-     * \return Boolean indicating true if the vehicle is off the operational design domain polygon area.
-     */
-    bool isVehicleOffOperationalDesignDomain()
-    {
-        // Extract the polygon area and send true if the vehicle is not in the polygon area
-        float odd_value_at_ego_position = gridmap_.atPosition("ODD", grid_map::Position(pose_.position.x, pose_.position.y));
-
-        if (odd_value_at_ego_position == 0)
-        {
-            ROS_WARN("The Vehicle is outside the operational design domain polygon");
-            return true;
-        }
-        else
-        {
-            ROS_INFO("The vehicle is inside the operational design domain polygon");
-            return false;
-        }
-    }
-    
-    /*!
-     * \brief The function where the operational design domain polygon has been created.
-     * \details Polygon iterator creates the polygon according to given coordinates.
-     * \param polygon_coordinates The function takes one input parameter which contains polygon coordinates.
-     */
-    void defineOperationalDesignDomain(std::vector<double> polygon_coordinates)
-    {
-        // The operational design domain values
-        const double ODD_LAYER_IN_VALUE = 5.0;
-        const double ODD_LAYER_OUT_VALUE = 0.0;
-
-
-        // Add new layer called ODD (Operational design domain)
-        gridmap_.add("ODD", ODD_LAYER_OUT_VALUE);
-
-        if (isPolygonValid(polygon_coordinates))
-        {       
-            // Initiate the grid map ODD polygon
-            grid_map::Polygon polygon;
-            
-            // Define ODD Polygon area through coordinates from ROS parameter server
-            for (int i = 0; i < polygon_coordinates.size() ; i+=2)
+            geometry_msgs::PoseStamped pose_stamped_out;
+            try{
+                geometry_msgs::PoseStamped pose_stamped_in;
+                pose_stamped_in.header = endpose.header;
+                pose_stamped_in.pose = endpose.pose;
+                tf_buffer_.transform(pose_stamped_in, pose_stamped_out, "SSMP_map", ros::Duration(0));
+            }
+            catch (tf2::TransformException &ex) {
+                ROS_WARN("%s",ex.what());
+                ros::Duration(1.0).sleep();
+            }
+            if(getDistance(pose_stamped_out.pose, parking_pose.pose) < DISTANCE_THRESHOLD)
             {
-                polygon.addVertex(grid_map::Position(polygon_coordinates[i],  polygon_coordinates[i+1]));
-            }
-
-            // Add again the first coordinates from the vector to close down the polygon area
-            polygon.addVertex(grid_map::Position(polygon_coordinates[0],  polygon_coordinates[1]));
-
-            // Polygon Interator
-            for (grid_map::PolygonIterator iterator(gridmap_, polygon);
-                !iterator.isPastEnd(); ++iterator) {
-                gridmap_.at("ODD", *iterator) = ODD_LAYER_IN_VALUE;
+//                std::cout << "_________________________________________" << std::endl;
+//                std::cout << getDistance(pose_stamped_out.pose, parking_pose.pose) << std::endl;
+//                std::cout << pose_stamped_out.pose.position.x<< "   " << pose_stamped_out.pose.position.y << std::endl;
+//                std::cout << parking_pose.pose.position.x<< "   " << parking_pose.pose.position.y << std::endl;
+//                std::cout << "_________________________________________" << std::endl;
+                return true;
             }
         }
+        return false;
     }
+
+
+    /*!
+     * \brief Perform the minimal risk condition connected to the decision take
+     * \param most_critical_level Decision taken
+     */
+    void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
+        switch(most_critical_level)
+        {
+            case INITIAL_GOAL:
+                // If there is at least 1 anomaly
+                if(broke_at_least_once_) {
+                    is_anomaly_fixed_ = true;
+                    broke_at_least_once_ = false;
+                }
+                // If there is at least 1 anomaly fixed
+                if(is_anomaly_fixed_) {
+                    // Redefine the initial goal
+                    pub_autoware_goal_.publish(initial_goal_coordinates_);
+                    is_rest_area_chosen_ = false;
+                    is_road_side_parking_chosen_ = false;
+                }
+                switchNominalChannel();
+                ROS_INFO("Decision: Go to initial goal");
+                break;
+            case REST_AREA:
+                broke_at_least_once_ = true;
+                is_anomaly_fixed_ = false;
+                if(!is_rest_area_chosen_)
+                {
+                    if(isThereAValidRestArea())
+                    {
+                        geometry_msgs::PoseStamped rest_area_pose = findClosestRestArea();
+                        is_rest_area_chosen_ = true;
+                        pub_autoware_goal_.publish(rest_area_pose);
+                        ROS_INFO("Decision: Stop in rest area");
+                        break;
+                    }
+                    else
+                    {
+                        ROS_INFO("Decision: No rest area available, performing immediate stop");
+                    }
+                }
+                else{
+                    ROS_INFO("Decision: rest area chosen");
+                    break;
+                }
+            case ROAD_SIDE_PARKING:
+//                    ensureNumberOfSSMPEndposes(15);
+                if(!is_road_side_parking_chosen_)
+                {
+                    if(isThereAValidRoadSideParking())
+                    {
+                    is_road_side_parking_chosen_ = true;
+                    road_side_parking_pose = findClosestRoadSideParking();
+                    }
+                    else // if there is no valid parking we stop immediately (going one level up in term of criticality)
+                    {
+                        triggerSafetySwitch();
+                        ROS_INFO("Decision: No road side parking available, performing immediate stop");
+                    }
+                }
+                else
+                {
+                    if (isRoadSideParkingReachableBySSMP(road_side_parking_pose)) // if not we need to wait a bit to be able to park on the parking
+                    {
+                        ROS_INFO("Decision: Stopping on a road side parking");
+                        triggerSafetySwitch();
+                    }
+                    else
+                        ROS_INFO("Decision: Will stop on a road side parking");
+                }
+                break;
+            case IMMEDIATE_STOP:
+                triggerSafetySwitch();
+                ROS_INFO("Decision: Immediate stop");
+                break;
+        }
+        std_msgs::Int32 msg_switch;
+        msg_switch.data = var_switch_;
+        pub_switch_.publish(msg_switch);
+    };
 
     /*!
      * \brief The initialization loop waits until all flags have been received.
@@ -1048,139 +689,264 @@ private:
         }
     }
 
-    /*!
-     * \brief search the position of the center of the road side parking
-     * \return the position of the center of the area road side parking in the gridmap
-     * if there is no, return (-1, -1)
-     * \param map the gridmap where the road side parking has to be found
-     */
-    geometry_msgs::PoseStamped findRoadSideParking(grid_map::GridMap map)
+    void ensureNumberOfSSMPEndposes(int target_number_of_enposes)
     {
-        bool is_road_side_parking = false;
-        geometry_msgs::PoseStamped pose_road_side_parking;
-        std::vector<grid_map::Position> array_position;
+        double SPEED_INCREMENT = 0.56;
+        int EXTRA_POSES_THRESHOLD_TO_INCREASE_SPEED = 6;
+        if(ssmp_current_endposes_.markers.size() < current_speed_limit_)
+            current_speed_limit_ -= SPEED_INCREMENT;
+        else if(ssmp_current_endposes_.markers.size() > current_speed_limit_ + EXTRA_POSES_THRESHOLD_TO_INCREASE_SPEED)
+            current_speed_limit_ += SPEED_INCREMENT;
 
-        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
-            if(map.at("RoadSideParking", *it) == ROAD_SIDE_PARKING_VALUE) {
-                grid_map::Position pos;
-                map.getPosition(*it, pos);
-                array_position.push_back(pos);
-                is_road_side_parking = true;
+         std_msgs::Float32 msg_limit_max_speed;
+         msg_limit_max_speed.data = current_speed_limit_;
+         pub_limit_max_speed_.publish(msg_limit_max_speed);
+    }
+
+    /*!
+     * \brief Returns whether there is a parking that is considered reachable in the gridmap
+     * \return boolean characterizing the existence of a reachable road side parking
+     */
+    bool isThereAValidRoadSideParking()
+    {
+        double remaining_traj_length = getRemainingTrajectoryLength();
+        for(grid_map::GridMapIterator it(gridmap_); !it.isPastEnd(); ++it) {
+            if(gridmap_.at("RoadSideParking", *it) != 0) {
+                PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(it);
+                double distance_ego_to_parking = getRemainingDistanceOnGlobalPlanTo(wp);
+                if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)))
+                {
+//                    std::cout << "distance_ego_to_parking: " << distance_ego_to_parking << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    static bool isRoadSideParkingValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
+    {
+        const double PERPENDICULAR_DISTANCE_THRESHOLD = 20;
+        const double DISTANCE_TO_PARKING_LOW_THRESHOLD = 25;
+        return (DISTANCE_TO_PARKING_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERPENDICULAR_DISTANCE_THRESHOLD);
+    }
+
+    /*!
+     * \brief search the position of the barycenter of the road side parking
+     * \return Position of the barycenter of the closest road side parking reachable in the gridmap
+     */
+    geometry_msgs::PoseStamped findClosestRoadSideParking()
+    {
+        auto min_distance = DBL_MAX;
+        int min_id;
+        PlannerHNS::WayPoint min_wp;
+
+        std::unordered_map<int, std::vector<PlannerHNS::WayPoint>> parking_positions_wp_by_id;
+
+       double remaining_traj_length = getRemainingTrajectoryLength();
+        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
+            if(gridmap_.at("RoadSideParking", *map_iterator) != 0) {
+                PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
+                if (parking_positions_wp_by_id.find(gridmap_.at("RoadSideParking", *map_iterator)) != parking_positions_wp_by_id.end())
+                    parking_positions_wp_by_id[gridmap_.at("RoadSideParking", *map_iterator)].push_back(wp);
+                else
+                    parking_positions_wp_by_id[gridmap_.at("RoadSideParking", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
+                PlannerHNS::RelativeInfo info;
+                PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
+                double distance_ego_to_parking = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
+                if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, info.perp_distance) && distance_ego_to_parking < min_distance)
+                {
+//                    std::cout << "_______________________________________" << std::endl;
+//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
+//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
+//                    std::cout << "distance on traj " << distance_ego_to_parking << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
+//                    std::cout << "_______________________________________" << std::endl;
+                    min_distance = distance_ego_to_parking;
+                    min_id = gridmap_.at("RoadSideParking", *map_iterator);
+                    min_wp = autoware_global_path_.front().at(considered_wp_index);
+                }
             }
         }
 
-        pose_road_side_parking.header.frame_id = "world";
+        //average all the positions of the parking to find the center
+        geometry_msgs::PoseStamped average_position;
+        average_position.header.frame_id = "/SSMP_map";
+        geometry_msgs::Point average_point = getBarycenter(parking_positions_wp_by_id[min_id]);
+        average_position.pose.position = average_point;
+        average_position.pose.orientation = tf::createQuaternionMsgFromYaw(min_wp.pos.a);
 
-        if(is_road_side_parking) {
-            // The position to return is the middle of the area
-            grid_map::Position pos_begin;
-            grid_map::Position pos_end;
-            pos_begin = array_position.at(0); // the first position stored in the array
-            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pose_road_side_parking.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
-            pose_road_side_parking.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
+        pub_road_side_parking_viz_.publish(createMarker(average_position, 1.0f, 0.0f, 1.0f));
 
-            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
-            pose_road_side_parking.pose.orientation.w = 1;
-            pose_road_side_parking.pose.orientation.x = 0;
-            pose_road_side_parking.pose.orientation.y = 0;
-            pose_road_side_parking.pose.orientation.z = 0;
+        return average_position;
+
+    }
+
+    static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
+    {
+        double min_dist = DBL_MAX;
+        int min_index = 0;
+        for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
+        {
+            if(getDistance(p, trajectory.at(wp_index)) < min_dist)
+            {
+                min_dist = getDistance(p, trajectory.at(wp_index));
+                min_index = wp_index;
+            }
         }
-        else {
-            // Default value
-            pose_road_side_parking.pose.position.x = 0;
-            pose_road_side_parking.pose.position.y = 0;
-            pose_road_side_parking.pose.orientation.w = 1;
-            pose_road_side_parking.pose.orientation.x = 0;
-            pose_road_side_parking.pose.orientation.y = 0;
-            pose_road_side_parking.pose.orientation.z = 0;
-        }
-        return pose_road_side_parking;
+        return min_index;
+    }
+
+    int getEgoWaypointIndexOnGlobalPlan()
+    {
+        PlannerHNS::WayPoint pose_wp(pose_.position.x, pose_.position.y, 0, 0);
+        int pose_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
+        return pose_wp_index;
+    }
+
+    double getRemainingTrajectoryLength()
+    {
+        int pose_wp_index = getEgoWaypointIndexOnGlobalPlan();
+        double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), pose_wp_index, autoware_global_path_.front().back());
+        return remaining_traj_length;
+    }
+
+
+    static bool isRestAreaValid(double distance_to_parking, double remaining_traj_length, double perpendicular_distance)
+    {
+        const double PERP_DISTANCE_THRESHOLD = 75;
+        const double DISTANCE_ON_TRAJ_LOW_THRESHOLD = 25;
+        return (DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERP_DISTANCE_THRESHOLD);
+    }
+
+    PlannerHNS::WayPoint gridmapIteratorToWaypint(grid_map::GridMapIterator it)
+    {
+        grid_map::Position pos;
+        gridmap_.getPosition(*it, pos);
+        PlannerHNS::WayPoint wp(pos.x(), pos.y(), 0, 0);
+        return wp;
+    }
+
+    double getRemainingDistanceOnGlobalPlanTo(PlannerHNS::WayPoint wp)
+    {
+        return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
+    }
+
+    double getPerpendicularDistanceToGlobalPlanFrom(PlannerHNS::WayPoint wp)
+    {
+        PlannerHNS::RelativeInfo info;
+        PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
+        return info.perp_distance;
     }
 
     /*!
-     * \brief search the position of the center of the rest area
-     * \return the position of the center of the rest area in the gridmap
-     * if there is no, return (-1, -1)
-     * \param map the gridmap where the rest area has to be found
+     * \brief Returns whether there is a rest area that is considered reachable in the gridmap
+     * \return boolean characterizing the existence of a reachable rest area
      */
-    geometry_msgs::PoseStamped findRestArea(grid_map::GridMap map)
+    bool isThereAValidRestArea()
     {
-        bool is_rest_area = false;
-        geometry_msgs::PoseStamped pose_rest_area;
-        std::vector<grid_map::Position> array_position;
+        double remaining_traj_length = getRemainingTrajectoryLength();
+        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
+            PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
+            if(gridmap_.at("RestArea", *map_iterator) != 0) {//                std::cout << "distance_ego_rest_area: " << distance_ego_rest_area << "    remaining_traj_length: " << remaining_traj_length << "   perp dist: " << info.perp_distance << std::endl;
+                if(isRestAreaValid(getRemainingDistanceOnGlobalPlanTo(wp), remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-        for(grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it) {
-            if(map.at("RestArea", *it) == REST_AREA_VALUE) {
-                grid_map::Position pos;
-                map.getPosition(*it, pos);
-                array_position.push_back(pos);
-                is_rest_area = true;
+
+    /*!
+     * \brief search the position of the barycenter of the closest rest area
+     * \return Position of the barycenter of the closest rest area in the gridmap
+     */
+    geometry_msgs::PoseStamped findClosestRestArea()
+    {
+        auto min_distance = DBL_MAX;
+        int min_id;
+        PlannerHNS::WayPoint min_wp;
+
+        std::unordered_map<int, std::vector<PlannerHNS::WayPoint>> rest_areas_wp_by_id;
+
+//        std::vector<int> id_seen;
+
+        double remaining_traj_length = getRemainingTrajectoryLength();
+        for(grid_map::GridMapIterator map_iterator(gridmap_); !map_iterator.isPastEnd(); ++map_iterator) {
+            if(gridmap_.at("RestArea", *map_iterator) != 0) {
+                PlannerHNS::WayPoint wp = gridmapIteratorToWaypint(map_iterator);
+                if (rest_areas_wp_by_id.find(gridmap_.at("RestArea", *map_iterator)) != rest_areas_wp_by_id.end())
+                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)].push_back(wp);
+                else
+                    rest_areas_wp_by_id[gridmap_.at("RestArea", *map_iterator)] = std::vector<PlannerHNS::WayPoint>{wp};
+                int considered_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), wp, 0);
+                double distance_ego_rest_area = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
+//                if (std::find(id_seen.begin(), id_seen.end(), gridmap_.at("RestArea", *map_iterator)) == id_seen.end()) {
+//                    std::cout << "_______________________________________" << std::endl;
+//                    std::cout << "egopos x " << pose_wp.pos.x << "   egopos y " << pose_wp.pos.y << std::endl;
+//                    std::cout << "pos x " << pos.x() << "   pos y " << pos.y() << std::endl;
+//                    std::cout << "distance on traj " << distance_ego_rest_area << "   from back " << info.from_back_distance << "  to front " << info.to_front_distance << "   perp_distance " << info.perp_distance << std::endl;
+//                    std::cout << "_______________________________________" << std::endl;
+//                    id_seen.push_back(gridmap_.at("RestArea", *map_iterator));
+//                }
+                if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
+                {
+                    min_distance = distance_ego_rest_area;
+                    min_id = gridmap_.at("RestArea", *map_iterator);
+                    min_wp = autoware_global_path_.front().at(considered_wp_index);
+                }
             }
         }
 
-        pose_rest_area.header.frame_id = "world";
+        //average all the positions of the rest area to find the center
+        geometry_msgs::PoseStamped average_position;
+        geometry_msgs::Point average_point = getBarycenter(rest_areas_wp_by_id[min_id]);
+        average_position.header.frame_id = "/SSMP_map";
+        average_position.pose.position = average_point;
+        average_position.pose.orientation = tf::createQuaternionMsgFromYaw(min_wp.pos.a);
 
-        if(is_rest_area) {
-            // The position to return is the middle of the area
-            grid_map::Position pos_begin;
-            grid_map::Position pos_end;
-            pos_begin = array_position.at(0); // the first position stored in the array
-            pos_end = array_position.at((int)array_position.size() - 1); // the last position stored in the array
-            pose_rest_area.pose.position.x = (pos_begin.x() + pos_end.x()) / 2;
-            pose_rest_area.pose.position.y = (pos_begin.y() + pos_end.y()) / 2;
+        pub_road_side_parking_viz_.publish(createMarker(average_position, 0.0f, 0.0f, 1.0f));
 
-            // The map we are working on contains only 1 road side parking so the quaternions values are set for this road side parking
-            pose_rest_area.pose.orientation.w = 0.136081322188;
-            pose_rest_area.pose.orientation.x = 0;
-            pose_rest_area.pose.orientation.y = 0;
-            pose_rest_area.pose.orientation.z = 0.990697670206;
-        }
-        else {
-            // Default value
-            pose_rest_area.pose.position.x = 0;
-            pose_rest_area.pose.position.y = 0;
-            pose_rest_area.pose.orientation.w = 1;
-            pose_rest_area.pose.orientation.x = 0;
-            pose_rest_area.pose.orientation.y = 0;
-            pose_rest_area.pose.orientation.z = 0;
-        }
-        return pose_rest_area;
+        return average_position;
+
     }
 
-    /*!
-     * \brief define the new goal, if the car has to stop in the rest area, and publish it
-     * \param new_pose the new position and orientation to be set for the goal
-     */
-    void redefineGoalRestArea()
+    static geometry_msgs::Point getBarycenter(const std::vector<PlannerHNS::WayPoint>& positions_wp)
     {
-        // The new goal to be set
-        geometry_msgs::PoseStamped new_goal;
-        new_goal = findRestArea(gridmap_);
-
-        pub_autoware_goal_.publish(new_goal);
-    }
-
-    /*!
-     * \brief define the new goal, if the car has to stop in road side parking, and publish it
-     * \param new_pose the new position and orientation to be set for the goal
-     * \details The function stores the new goal in a variable and when the car is close enough of the road side parking,
-     * the Safe stop planner is activated.
-     */
-    void redefineGoalRoadSideParking()
-    {
-        // The new goal to be set
-        geometry_msgs::PoseStamped new_goal;
-        new_goal = findRoadSideParking(gridmap_);
-
-        // Switch to the safe stop planner when the car is close enough from the road side planning
-        const double MAX_DISTANCE = 30; // The distance from which the car is close enough from the road side parking and the SSMP has to be launched
-        double distance_to_road_side_parking; // The distance between road side parking and the car
-        distance_to_road_side_parking = pow(pow(new_goal.pose.position.x - pose_.position.x, 2) + pow(new_goal.pose.position.y - pose_.position.y, 2), 0.5);
-        if(distance_to_road_side_parking <= MAX_DISTANCE) {
-            triggerSafetySwitch(); // Switch to the Safe stop planner
+        geometry_msgs::Point average_point;
+        for(auto wp: positions_wp)
+        {
+            average_point.x += wp.pos.x;
+            average_point.y += wp.pos.y;
         }
+        average_point.x /= positions_wp.size();
+        average_point.y /= positions_wp.size();
+        return average_point;
     }
+
+    static visualization_msgs::Marker createMarker(const geometry_msgs::PoseStamped& pose, double r, double g, double b)
+    {
+        visualization_msgs::Marker marker;
+        marker.header.frame_id = pose.header.frame_id;
+        marker.header.stamp = ros::Time::now();
+        marker.id = 0;
+        marker.action = visualization_msgs::Marker::ADD;
+        marker.type = visualization_msgs::Marker::CUBE;
+        marker.pose = pose.pose;
+        marker.scale.x = 3.0;
+        marker.scale.y = 3.0;
+        marker.scale.z = 1.0;
+        marker.color.r = r;
+        marker.color.g = g;
+        marker.color.b = b;
+        marker.color.a = 1.0;
+        marker.lifetime = ros::Duration();
+        return marker;
+    }
+
 
 public:
     /*!
@@ -1188,7 +954,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE)
+    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
     {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
@@ -1197,39 +963,39 @@ public:
         pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
-        pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
+        pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
-        sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &SafetySupervisor::autowareTrajectoryCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
-        sub_current_velocity_ = nh.subscribe("/current_velocity", 1, &SafetySupervisor::currentVelocityCallback, this);
         sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
-        sub_sensor_fov_ = nh.subscribe("/sensor_fov", 1, &SafetySupervisor::sensorFovCallback, this);
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
+        sub_ssmp_endposes_ = nh_.subscribe<visualization_msgs::MarkerArray>("/safe_stop_endposes_vis", 1, &SafetySupervisor::ssmpEndposesCallback, this);
+
+        createFaultMonitors();
 
         // Initialization loop
         waitForInitialization();
-
-
-        if (nh.hasParam("critical_nodes_level_one"))
-            nh.getParam("critical_nodes_level_one", critical_nodes_level_one_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_one");
-        if (nh.hasParam("critical_nodes_level_two"))
-            nh.getParam("critical_nodes_level_two", critical_nodes_level_two_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_two");
-        if (nh.hasParam("critical_nodes_level_three"))
-            nh.getParam("critical_nodes_level_three", critical_nodes_level_three_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_three");
-        if (nh.hasParam("critical_nodes_level_four"))
-            nh.getParam("critical_nodes_level_four", critical_nodes_level_four_);
-        else
-            ROS_ERROR("Failed to retreive rosparam critical_nodes_level_four");
     }
-    
+
+    void createFaultMonitors() {
+        safety_monitors_level_one_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 1));
+
+        safety_monitors_level_two_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 2));
+        safety_monitors_level_two_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera2));
+
+        safety_monitors_level_three_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 3));
+        safety_monitors_level_three_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera1));
+
+        safety_monitors_level_four_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 4));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::cameratl));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::lidar));
+        safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::radar));
+        safety_monitors_level_four_.emplace_back(make_shared<CarOffRoadChecker>(1, 1, 15, -15));
+        safety_monitors_level_four_.emplace_back(make_shared<ObstaclesInCriticalAreaChecker>(1, 1, 4, -4));
+        safety_monitors_level_four_.emplace_back(make_shared<GeofencingChecker>(1, 1, 4, -4));
+    }
+
     /*!
      * \brief The main loop of the Node
      * \details Checks for topics updates, then evaluate
@@ -1241,39 +1007,20 @@ public:
         ros::Rate rate(20);
         while(nh_.ok())
         {
-            if(!car_size_set_)
-            {
-                if (nh_.getParam("car_width_", car_width_) && nh_.getParam("car_length_", car_length_))
-                {
-                    critical_area_length_ = car_length_; //Size of the critical Area
-                    critical_area_width_ = car_width_ * 1.2;
-                    car_size_set_ = true;
-                }
-            }
 
             ros::spinOnce();
-            
-            // Provide operational design domain coordinates from ROS parameter server, otherwise use default grid map polygon coordinates from ODD
-            if (nh_.getParam("/operational_design_domain", ODD_coordinates_))
-            {
-                defineOperationalDesignDomain(ODD_coordinates_);
-            }
-            else
-            {
-                defineOperationalDesignDomain(ODD_default_gridmap_coordinates_);
-            }
+
 
             performSafetyTests();
             publish();
 
-            sensors_fov_flag_ = false;
 
             rate.sleep();
-            //ROS_INFO("Current state: %d", var_switch_);
         }
     }
 
 };
+
 
 int main(int argc, char **argv)
 {

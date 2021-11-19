@@ -25,7 +25,7 @@ using namespace grid_map;
 #define RED 99
 #define LANE_VALUE 25
 #define OBSTRUCTED_VALUE 100
-#define CROSSING_ROAD_MALUS 50
+#define CROSSING_ROAD_MALUS 40
 #define ROAD_SIDE_PARKING_VALUE 5
 #define REST_AREA_VALUE 0
 #define DEFAULT_VALUE 50
