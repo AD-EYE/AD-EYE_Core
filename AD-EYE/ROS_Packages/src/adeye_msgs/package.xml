@@ -3,13 +3,18 @@
   <name>adeye_msgs</name>
   <version>0.0.1</version>
   <description>The adeye_msgs package</description>
+
   <maintainer email="adeye@md.kth.se">AD-EYE team</maintainer>
-  <license>TBD</license>
+  <license>See AD-EYE_Core/LICENSE.md</license>
+  <url type="website">http://www.adeye.se</url>
+
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <run_depend>message_runtime</run_depend>
-  <export>
-  </export>
+
+
+  <export>  </export>
 </package>

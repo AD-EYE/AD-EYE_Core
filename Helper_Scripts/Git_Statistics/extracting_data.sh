@@ -365,9 +365,9 @@ hercules --burndown --languages="matlab" --pb $WORKING_PATH/Git_Statistics/AD-EY
 hercules --burndown --languages="matlab" --burndown-people --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/people_analysis_ml.pb
 hercules --devs --languages="matlab" --pb $WORKING_PATH/Git_Statistics/AD-EYE_Core > $WORKING_PATH/Stats_results/devs_analysis_ml.pb
 
-hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb
-hercules --burndown --burndown-people --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex.pb
-hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex.pb
+hercules --burndown --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/burndown_analysis_Pex_py.pb
+hercules --burndown --burndown-people --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/people_analysis_Pex_py.pb
+hercules --devs --languages="python" --pb $WORKING_PATH/Git_Statistics/Pex_Data_Extraction > $WORKING_PATH/Stats_results/devs_analysis_Pex_py.pb
 
 #Saving hercules graphs for AD-EYE_Core
 #Python files
@@ -399,22 +399,22 @@ hercules combine $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m ol
 hercules combine $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core_ml
 #Combined code files
 cd $WORKING_PATH/Stats_results/Graphs
-hercules combine $WORKING_PATH/Stats_results/burndown_analysis.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
-mv project.png code_lines_AD-EYE_Core.png
-hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/people_analysis.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core
-hercules combine $WORKING_PATH/Stats_results/devs_analysis.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_py.pb $WORKING_PATH/Stats_results/burndown_analysis_cpp.pb $WORKING_PATH/Stats_results/burndown_analysis_ml.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_AD-EYE_Core_py_cpp_ml.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_py.pb $WORKING_PATH/Stats_results/people_analysis_cpp.pb $WORKING_PATH/Stats_results/people_analysis_ml.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_AD-EYE_Core_py_cpp_ml
+hercules combine $WORKING_PATH/Stats_results/people_analysis_py.pb $WORKING_PATH/Stats_results/people_analysis_cpp.pb $WORKING_PATH/Stats_results/people_analysis_ml.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_AD-EYE_Core_py_cpp_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb $WORKING_PATH/Stats_results/devs_analysis_cpp.pb $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_AD-EYE_Core_py_cpp_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb $WORKING_PATH/Stats_results/devs_analysis_cpp.pb $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_AD-EYE_Core_py_cpp_ml
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_py.pb $WORKING_PATH/Stats_results/devs_analysis_cpp.pb $WORKING_PATH/Stats_results/devs_analysis_ml.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_AD-EYE_Core_py_cpp_ml
 
 #Saving hercules graphs for Pex_Data_Extraction
-hercules combine $WORKING_PATH/Stats_results/burndown_analysis_Pex.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
-mv project.png code_lines_Pex_Data_Extraction.png
-hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_Pex_Data_Extraction
-hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_Pex_Data_Extraction
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_Pex_Data_Extraction
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_Pex_Data_Extraction
-hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_Pex_Data_Extraction
+hercules combine $WORKING_PATH/Stats_results/burndown_analysis_Pex_py.pb | labours -m burndown-project -o $WORKING_PATH/Stats_results/Graphs/
+mv project.png code_lines_Pex_Data_Extraction_py.png
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex_py.pb | labours -m overwrites-matrix -o $WORKING_PATH/Stats_results/Graphs/Overwrites_matrix_Pex_Data_Extraction_py
+hercules combine $WORKING_PATH/Stats_results/people_analysis_Pex_py.pb | labours -m ownership -o $WORKING_PATH/Stats_results/Graphs/Code_ownership_Pex_Data_Extraction_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex_py.pb | labours -m devs -o $WORKING_PATH/Stats_results/Graphs/Developpers_contribution_Pex_Data_Extraction_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex_py.pb | labours -m old-vs-new -o $WORKING_PATH/Stats_results/Graphs/Old_VS_new_Pex_Data_Extraction_py
+hercules combine $WORKING_PATH/Stats_results/devs_analysis_Pex_py.pb | labours -m devs-efforts -o $WORKING_PATH/Stats_results/Graphs/Developpers_efforts_Pex_Data_Extraction_py
 
 nautilus ~/Stats_results/Graphs
 
