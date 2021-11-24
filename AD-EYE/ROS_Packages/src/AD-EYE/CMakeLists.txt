@@ -134,6 +134,10 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+add_executable(
+  ped_motion_predictor 
+  src/ped_motion_predictor.cpp
+)
 
 target_link_libraries(
   GridMapCreator
@@ -202,6 +206,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  ped_motion_predictor
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -250,6 +259,11 @@ add_dependencies(goalMapNode
 add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
+
+add_dependencies(ped_motion_predictor 
+  ${catkin_EXPORTED_TARGETS}
+)
+
 
 
 # Add the executable, libraries and dependencies for sensor monitor node
