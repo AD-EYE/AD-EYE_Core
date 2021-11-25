@@ -39,8 +39,10 @@ void trackedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg
   std::cout<< std::endl;
 }
 
-void predictedOb_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
+void predictedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
 {
+  std::cout<< "To be continued 2 ;)" << std::endl;
+  std::cout<< std::endl;
 }
 
 
@@ -83,7 +85,7 @@ int main(int argc, char **argv)
   ros::Subscriber pos = n.subscribe("/current_pose", 10, pose_Callback);
   ros::Subscriber vel = n.subscribe("/current_velocity", 10, velocity_Callback);
   ros::Subscriber tracked_obj = n.subscribe("/tracked_objects", 1, trackedObj_Callback);
-  ros::subscriber predicted_obj = n.subscribe("/predicted_objects", 1, predictedOb_Callback);
+  ros::Subscriber predicted_obj = n.subscribe("/predicted_objects", 1, predictedObj_Callback);
  
 
   /**
