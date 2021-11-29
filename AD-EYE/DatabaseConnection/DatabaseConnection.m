@@ -5,7 +5,7 @@ function DatabaseConnection()
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     conn = actxserver('ADODB.Connection');
-    conn.Open('driver={MySQL ODBC 5.3 Unicode Driver}; server=130.237.59.134; port=3306; dns=mydb; uid=adeye; pwd=AdeyeSQL05');
+    conn.Open('driver={MySQL ODBC 5.3 Unicode Driver}; server=IP-address; port=3306; dns=mydb; uid=adeye; pwd=password');
     conn.Execute('use adeye');
     % Query to the database. 
     % In this query, we will be able to restric the data on a location and a time
