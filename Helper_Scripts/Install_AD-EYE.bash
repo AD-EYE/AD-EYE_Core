@@ -19,7 +19,9 @@ done
 #echo "Cloning the AD-EYE Repository"
 #git clone https://gits-15.sys.kth.se/AD-EYE/AD-EYE_Core.git
 cd ~/AD-EYE_Core
-#git checkout dev
+git checkout dev
+echo -e "\nCloning submodules"
+git submodule update --init --recursive
 
 #Autoware dependencies
 echo -e "\nInstalling Autoware dependencies"
