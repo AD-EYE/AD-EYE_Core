@@ -5,7 +5,22 @@
 #include <autoware_msgs/Lane.h>
 #include <autoware_msgs/LaneArray.h>
 #include <std_msgs/Bool.h>
+#include <vector_map_msgs/PointArray.h>
+#include <cmath>
+#include <iostream>
+#include <tf/transform_broadcaster.h>
 
+/*
+Example on how to run the program:
+
+Terminal1 type: rosrun adeye goalSequencer
+Terminal2 type: roslaunch adeye my_map.la world_name:=W01_Base_Map
+Terminal3 type one of the below:
+rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 0.0, y: 0.0, z: 49.156}, orientation: {z: 0.416, w: 0.909}}}'
+rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 137.998049077445, y: 121.23713661199696, z: 49.156}, orientation: {z: 0.760, w: 0.650}}}'
+rostopic pub /adeye/goalseometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 120.0, y: 130.0, z: 1.0}, orientation: {w: 1.0}}}'
+rostopic pub /current_behavior geometry_msgs/TwistStamped "{header: {stamp: now, frame_id: "map"}, twist: {linear: {x: 1.0, y: 2.0, z: 3.0}, angular: {x: 1.0,y: 13.0,z: 1.0}}}"
+*/
 
 /*!
 * Initiate SequenceGoalNode class which stores all goals from the adeye goals, goal_map_node
@@ -20,9 +35,11 @@ private:
     ros::Subscriber sub_position_;
     ros::Subscriber sub_autoware_state_;
     ros::Subscriber sub_autoware_global_plan_;
+    ros::Subscriber sub_vector_map_;
     ros::Publisher pub_goal_;
     ros::Publisher pub_update_local_planner_;
     ros::Publisher pub_clear_goal_list_bool_;
+
     
     // ROS rate
     ros::Rate rate_;
@@ -31,6 +48,9 @@ private:
     float x_ego_;
     float y_ego_;
 
+    // Autoware vectormap
+    vector_map_msgs::PointArray vector_map_data_;
+
     // Goal queue
     std::queue <geometry_msgs::PoseStamped> goal_coordinates_;
 
@@ -38,12 +58,17 @@ private:
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
     bool received_first_goal_ = false;
-    
+    bool received_vector_mapper_ = false;
+
     // Autoware behavior state status
     double autoware_behavior_state_;
 
     // Distance tolerance for duplicate goals
-    const double DISTANCE_TOLERANCE_ = 10; // [m]
+    const double GOAL_DISTANCE_TOLERANCE_ = 10; // [m]
+    const double VMAP_DISTANCE_TOLERANCE_ = 5; // [m]
+
+    // Orientation tolerance between goals or goal and vector map
+    const double ORIENTAION_TOLERANCE_ = 30; // [degrees]
 
     // Vehicle State behaviour
     const double END_STATE_ = 13.0;
@@ -72,8 +97,9 @@ private:
     void storeGoalCoordinatesCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     {
         // Store the first goal if the goal queue is empty and boolean for upcoming goal is false
-        if (goal_coordinates_.empty()) 
-        {
+
+        if (goal_coordinates_.empty() && received_vector_mapper_ && checkGoalValidity(msg -> pose.position.x, msg -> pose.position.y, msg -> pose.orientation) ) 
+        {   
             // Store the first real-world map goal coordinates  
             goal_coordinates_.push(*msg);       
 
@@ -82,16 +108,26 @@ private:
             
             // Boolean for receiving the first goal
             received_first_goal_ = true;
+            
         }
 
-        // Store the upcoming goal positions in the queue if the goal is not near as 10 m to the previous goal
-        if (getDistance(goal_coordinates_.back().pose.position.x, msg -> pose.position.x, goal_coordinates_.back().pose.position.y, msg -> pose.position.y) > DISTANCE_TOLERANCE_)
+        else if (received_vector_mapper_ == false)
+        {
+            ROS_INFO("No vector map received, please close the goal publisher and start vector map in another terminal by typing for example:");
+            ROS_INFO("roslaunch adeye my_map.launch world_name:=W01_Base_Map");
+        }
+
+        else if (goal_coordinates_.empty() == false && checkGoalValidity(msg -> pose.position.x, msg -> pose.position.y, msg -> pose.orientation))
         {
             goal_coordinates_.push(*msg);
 
             // Print the new goal positions
             ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",goal_coordinates_.back().pose.position.x, goal_coordinates_.back().pose.position.y, goal_coordinates_.back().pose.position.z );
-        }    
+        } 
+        else
+        {
+            ROS_INFO("The received goal is not valid");
+        }
     }
     
     /*!
@@ -125,14 +161,119 @@ private:
     }
 
     /*!
-      * \brief Calculate the distance between two x and y points
-      * \param x_1, x_2, y_1 and y_2 are points of the real world map
-      */
-     double getDistance(const double x_one, const double x_two, const double y_one, const double y_two)
-     {
-         return sqrt((x_two - x_one) * (x_two - x_one) + (y_two - y_one) * (y_two - y_one));
-     }
+     * \brief Autoware vector map Callback : Called when the vector map is received.
+     * \param msg The message contains the data points of the vector map. 
+     * \details Stores the data point value from the vector map
+     */ 
+    void vectorMapCallback(const vector_map_msgs::PointArray::ConstPtr &msg)
+    {   
+        ROS_INFO("Recived vector mapper");
+        received_vector_mapper_ = true;
+        vector_map_data_ = *msg;
+    }
     
+
+
+    /*!
+    * \brief Calculate the distance between two x and y points
+    * \param x_1, x_2, y_1 and y_2 are points of the real world map
+    */
+    double getDistance(const double& x_one, const double& x_two, const double& y_one, const double& y_two)
+    {
+        return sqrt((x_two - x_one) * (x_two - x_one) + (y_two - y_one) * (y_two - y_one));
+    }
+
+    /*!
+    * \brief Calculate the orientation between two x and y points and retrun it in degrees
+    * \param x_1, x_2, y_1 and y_2 are points of the real world map
+    */
+    double getOrientation(const double& x_one, const double& x_two, const double& y_one, const double& y_two)
+    {
+        double angle = atan2(y_two-y_one, x_two-x_one);
+        if (angle < 0)
+        {
+            angle += 2*M_PI;
+        }
+    return angle*(180.0/M_PI);
+    }
+
+    /*!
+    * \brief Help function for the function checkGoalValidity
+    * \param x, y is the position of the received goal. file_size_ is the number of lines in the point.csv file that contains vector map data.
+    *        yaw_angle is the angle of the received goal  
+    * \details Loop through the vector map to see if the received goal position is close or within the vector map
+    */
+    bool ifInVectorMapp(const double& x, const double& y, const int& file_size_, const double& yaw_angle)
+    {
+        for (unsigned int i = 0; i < file_size_; i++)
+        {
+            //Check if the goal is close or within the vector map
+            if (getDistance(x, vector_map_data_.data[i].ly, y, vector_map_data_.data[i].bx) <= VMAP_DISTANCE_TOLERANCE_ ) 
+            {
+                //Calcluate the orientation of the vector map
+                double vmap_orientation = getOrientation(vector_map_data_.data[i].ly, vector_map_data_.data[i+1].ly, vector_map_data_.data[i].bx, vector_map_data_.data[i+1].bx); 
+                
+                //Check if the difference between goal and vector map orientation is small enoguh. 
+                if (yaw_angle-vmap_orientation < ORIENTAION_TOLERANCE_)
+                {
+                    return true;
+                }
+                /*Continue the for loop to see if there exist other points in the vector map 
+                with small enough orientation difference with the received goal*/
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        ROS_INFO("Recieved goal is not within the vector map or goal orientation difference from the vector map is too large");
+        return false;
+    }
+
+    /*!
+     * \brief Boolean function that checks the validity of the received goal
+     * \param x, y and goal_orientation are the are data provided by the goals
+     * \details Check if the received goal exist in the vector map and their orientation difference 
+     *          Also check the distance and orientation with the pervious stored goal.
+     */
+    bool checkGoalValidity(const double& x, const double& y, const geometry_msgs::Quaternion& goal_orientation)
+    {
+        //extra -1 since we need to calculate data point of i+1 in the loop
+        int file_size_ = vector_map_data_.data.size() - 2; 
+
+        //Transform quaternion to euler angles
+        double yaw_angle = tf::getYaw(goal_orientation)*(180.0/M_PI);
+
+        //Check goal validity for the first goal
+        //If it is within or close to the vector map and if the orientation is similar.
+        if (goal_coordinates_.empty())
+        {
+            
+            return ifInVectorMapp(x, y, file_size_, yaw_angle);
+            
+        }
+        //Check the goal validity when there exist more than one goal.
+        else 
+        {
+
+            //Distance between two consecutive goals
+            double goal_distance = getDistance(goal_coordinates_.back().pose.position.x, x, goal_coordinates_.back().pose.position.y, y); 
+            //yaw angle of previous goal
+            double previous_yaw_angle = tf::getYaw(goal_coordinates_.back().pose.orientation)*(180.0/M_PI); 
+
+            //Checking the distance and orientation between two consequtive goals. 
+            //They can be some degrees apart from each other even though they are close to each other. 
+            if (goal_distance > GOAL_DISTANCE_TOLERANCE_ || yaw_angle - previous_yaw_angle > ORIENTAION_TOLERANCE_)
+            {
+                return ifInVectorMapp(x, y, file_size_, yaw_angle);
+            }
+            else
+            {
+                ROS_INFO("Distance or orientation between current goal and previous goal is not large enough");
+            }
+
+        }        
+    }
 public:
     /*!
      * \brief Constructor
@@ -146,6 +287,7 @@ public:
         sub_position_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
         sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
         sub_autoware_global_plan_ = nh_.subscribe<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
+        sub_vector_map_ = nh_.subscribe<vector_map_msgs::PointArray>("/vector_map_info/point", 1, &GoalSequencer::vectorMapCallback, this);
         pub_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
         pub_update_local_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
         pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_first_goal", 1, true);
