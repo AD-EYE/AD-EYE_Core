@@ -8,41 +8,46 @@
 
 void pose_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
-  std::cout<<"x_position: " << msg-> pose.position.x << std::endl;
-  std::cout<<"y_position: " << msg-> pose.position.y << std::endl;
-  std::cout<<"z_position: " << msg-> pose.position.z << std::endl;
-  std::cout<< std::endl;
-  std::cout<< "x_orientation: "<< msg->pose.orientation.x << std::endl;
-  std::cout<< "y_orientation: "<< msg->pose.orientation.y << std::endl;
-  std::cout<< "z_orientation: "<< msg->pose.orientation.z << std::endl;
-  std::cout<< "w_orientation: "<< msg->pose.orientation.w << std::endl;
-  std::cout<< std::endl;
+  //std::cout<<"x_position: " << msg-> pose.position.x << std::endl;
+  //std::cout<<"y_position: " << msg-> pose.position.y << std::endl;
+  //std::cout<<"z_position: " << msg-> pose.position.z << std::endl;
+  //std::cout<< std::endl;
+  //std::cout<< "x_orientation: "<< msg->pose.orientation.x << std::endl;
+  //std::cout<< "y_orientation: "<< msg->pose.orientation.y << std::endl;
+  //std::cout<< "z_orientation: "<< msg->pose.orientation.z << std::endl;
+  //std::cout<< "w_orientation: "<< msg->pose.orientation.w << std::endl;
+  //std::cout<< std::endl;
 
  }
 
 void velocity_Callback(const geometry_msgs::TwistStamped::ConstPtr& msg)
 {
-  std::cout << "x_linear_velocity: " << msg->twist.linear.x << std::endl;
-  std::cout << "y_linear_velocity: " << msg->twist.linear.y << std::endl;
-  std::cout << "z_linear_velocity: " << msg->twist.linear.z << std::endl;
-  std::cout<< std::endl;
-  std::cout << "x_angular_velocity: " << msg->twist.angular.x << std::endl;
-  std::cout << "y_angular_velocity: " << msg->twist.angular.y << std::endl;
-  std::cout << "z_angular_velocity: " << msg->twist.angular.z << std::endl;
-  std::cout << std::endl;
+  //std::cout << "x_linear_velocity: " << msg->twist.linear.x << std::endl;
+  //std::cout << "y_linear_velocity: " << msg->twist.linear.y << std::endl;
+  //std::cout << "z_linear_velocity: " << msg->twist.linear.z << std::endl;
+  //std::cout<< std::endl;
+  //std::cout << "x_angular_velocity: " << msg->twist.angular.x << std::endl;
+  //std::cout << "y_angular_velocity: " << msg->twist.angular.y << std::endl;
+  //std::cout << "z_angular_velocity: " << msg->twist.angular.z << std::endl;
+  //std::cout << std::endl;
   
 } 
 
 void trackedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
 {
-  std::cout<< "To be continued :)" << std::endl;
-  std::cout<< std::endl;
+   
+        for (int i = 0; i < msg->objects.size(); i++) {
+            if (msg->objects.at(i).label!="unknown" && msg->objects.at(i).label!="") {
+                std::cout<< msg->objects.at(i).label<< std::endl ;
+
+            }
+        }
 }
 
 void predictedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
 {
-  std::cout<< "To be continued 2 ;)" << std::endl;
-  std::cout<< std::endl;
+  //std::cout<< "To be continued 2 ;)" << std::endl;
+  //std::cout<< std::endl;
 }
 
 
