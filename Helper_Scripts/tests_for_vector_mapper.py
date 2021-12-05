@@ -16,6 +16,26 @@ from geometry_msgs.msg import PoseWithCovarianceStamped
 from autoware_msgs.msg import LaneArray
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
+import random
+
+##A class that receive data from the subscriber
+class Receiver:
+        ##The constructor
+        #@param self The object pointer
+        #@param received_path Boolean that changes to True when the global plan is found
+        def __init__(self, received_path = False):
+                self.received_path = received_path
+        
+        ##Global plan callback : called when the global plan is found.
+        #@param self The object pointer
+        #@param data that contain data info of LaneArray
+        def callback(self, data):
+                if data.lanes[0].waypoints[0].lane_id != '':
+                        rospy.loginfo("Path found!")
+                        self.received_path = True
+                else:
+                        rospy.loginfo("No path found!")
+
 
 ##A function for reading launch_file and making a dictionary of arg 
 #Returning it as keys and values 
@@ -29,12 +49,12 @@ def getArgs(roslaunch_file):
 #@param Integer file_rows length.
 #return random start, end row value
 def randomPosition(csv_path,csv_file_name):
-        seed(1)
+        #seed(1)
         list_of_points = pd.read_csv(csv_path + csv_file_name, delimiter=',', header=None, skip_blank_lines=True,float_precision=None)
         file_rows = len(list_of_points)-2 #total file rows is len(list_of_points)-1. 
                                           #But subtract a extra 1 to make sure that we don't exceed the file rows for the computation of orientation.
-        random_start_row = randint(0, file_rows) #random values from 0 to file_rows.
-        random_end_row = randint(0, file_rows)
+        random_start_row = random.randint(0, file_rows) #random values from 0 to file_rows.
+        random_end_row = random.randint(0, file_rows)
         return random_start_row, random_end_row
 
 
@@ -205,27 +225,6 @@ def marker(start_point_array, end_point_array, quaternion_init, quaternion_goal)
         marker_array.markers.append(marker_goal)
         return marker_array
 
-##Global plan callback : called when the global plan is found.
-#@param data that contain data info of LaneArray
-def callback(data):
-        #data.id = sys.argv[1]
-        #global lane_array
-        #lane_array = data
-        if data.lanes[0].waypoints[0].lane_id != '':
-                rospy.loginfo("Path found!")
-        else:
-                rospy.loginfo("No path found!")
-        
-        
-        #print(data.lanes[0].waypoints[0])
-        #print(data.lanes[0].waypoints[0].lane_id)
-
-        #print(data.lanes.is_blocked[0])
-        #print(data.lanes.waypoints.staop_line_id)
-
-        #if len(data.lanes) > 0:
-        #        last_element = data.lanes[-1]
-        #        print(last_element)
 
 ##Main function that initizalize node and corresponding launch file.
 #Publishes some msg to the global planner.
@@ -263,31 +262,28 @@ def main():
 
         quaternion_init, quaternion_goal = getQuaternion(start_point_array, end_point_array, positions_array2)
 
-        pub_goal = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size = 1)
+
+        receiver = Receiver()
+
+        pub_goal = rospy.Publisher("/adeye/goals", PoseStamped, queue_size = 1)
         pub_init_pose = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size = 1)
         pub_marker_array = rospy.Publisher("/visualization_marker_array", MarkerArray, queue_size = 1)
-        sub_global_plan = rospy.Subscriber("/lane_waypoints_array", LaneArray, callback, queue_size = 1)
+        sub_global_plan = rospy.Subscriber("/lane_waypoints_array", LaneArray, receiver.callback, queue_size = 1)
 
         initpose_msg = startPosition(start_point_array, quaternion_init)
         goal_msg = goalPosition(end_point_array, quaternion_goal)
         marker_array = marker(start_point_array, end_point_array, quaternion_init, quaternion_goal)
 
-        #While loop continues for some seconds and shut downs. 
-        #t_end = time.time() + 3 #wait 3 sec
         rate = rospy.Rate(1)
-        #while time.time() < t_end:
         while not rospy.is_shutdown():
-                pub_goal.publish(goal_msg)
                 pub_init_pose.publish(initpose_msg)
                 pub_marker_array.publish(marker_array)
+                pub_goal.publish(goal_msg)
                 rate.sleep()
-        #try:
-        #    launch.spin()
-        #finally:
-                # After Ctrl+C, stop all nodes from running
-        #    launch.shutdown()
+                if receiver.received_path == True:
+                        break
         rospy.sleep(1)
-        launch.shutdown()
+        launch.shutdown()  
 
 if __name__ == "__main__":
         main()
