@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W02_Base_Map_PB" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="465DB239FAFA027850042157FC8F70F149829A11AEC7BF4A37FE87673E8FD67A" UniqueExperimentIdentifier="14d11921-3a50-4230-b0a1-60ae9c5882ef" UniqueIdCounter="14912" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W02_Base_World_PB" UniqueId="0" Authors="Adeye" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="4AD7F266FD00AD9AF1E167A0EE9A37F987081889B7EE196F4D18FC072B840F5B" UniqueExperimentIdentifier="c57a1ea6-8cde-4bfb-b42b-e4b888f27378" UniqueIdCounter="15051" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="A model of a Ford Fiesta" id="Ford_Fiesta_Hatchback_1" UniqueId="4876" SensorDetectability="Detectable" NumericalID="44" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ford_Fiesta_Hatchback" AnimatedActor="false" CompilationSheetPicture="Ford_Fiesta_HighPoly.png" HashCode="fe2c7a73e0a60cba76689b71cd1bb76a" ModelFile="Vehicles\Ford_Fiesta\Ford_Fiesta.osgb" GenericModelSourceFile="Vehicles\Ford_Fiesta\Ford_Fiesta.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="127.76299285888672" Y="175.12930297851563" Z="0.52999997138977051" />
@@ -5201,7 +5201,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="14911" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="15050" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -10737,13 +10737,13 @@
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
   </Actors>
-  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="3" InterpretedSimulink="W02_Base_Map_PB" />
+  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="3" InterpretedSimulink="W02_Base_World_PB" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="1" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
   <ObjectListProviderDetectableTypes />
   <Environment Description="" id="Environment" UniqueId="145">
     <Underlays>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_1" UniqueId="7639" PreventDragging="true" SensorDetectability="Invisible" NumericalID="28" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="139.14199556518557" Y="143.34202364298253" Z="0" />
+        <Location X="139.1419955651856" Y="143.34202364157105" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="30" Y="30" Z="0.01" />
@@ -10755,8 +10755,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="4.4997617264398384" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="4.6668294340135255" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="4.4997617264398393" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="4.6668294339677256" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -14174,7 +14174,7 @@
       </item>
     </ObjectProperties>
   </PreScanObjectTypeSettings>
-  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="300" VisualizationUpdateRatio="100" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W02_Base_Map_PB.swi" TerminationVisScriptFile="Temp\W02_Base_Map_PB.swt" />
+  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="2" IntegrationFrequency="300" VisualizationUpdateRatio="100" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\W02_Base_World_PB.swi" TerminationVisScriptFile="Temp\W02_Base_World_PB.swt" />
   <Sky Description="Sky" id="Sky" UniqueId="418" SkyBoxName="SKY_Air" UseImageBasedSky="true" GenerateSkyAlbedo="0.5" GeneratedSkyTurbidity="4" ObjectTypeID="50" NumericalID="45" />
   <SpeedProfiles>
     <SpeedProfileBase xsi:type="SpeedProfile" Description="Derived from old (before conversion) RouteObject_1" id="SpeedProfile_1" UniqueId="119">
