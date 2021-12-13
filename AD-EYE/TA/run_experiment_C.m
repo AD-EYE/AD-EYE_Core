@@ -25,8 +25,8 @@ for reflectivity_index = 1:size(parameters{1,2},2)
         values{24, 1} = 1;
         table.Variables = values;
         writetable(table, strcat('Configurations/SimulinkConfigExpC_', num2str(index), '.xlsx'), 'WriteRowNames', true, 'WriteVariableNames', false);
-        TAOrder{1,index} =  {"W01_Base_Map_experimentC"};
-        TAOrder{2,index} =  {"W01_Base_Map_experimentC"};
+        TAOrder{1,index} =  {"W01_Base_World_experimentC"};
+        TAOrder{2,index} =  {"W01_Base_World_experimentC"};
         TAOrder{3,index} =  {"BMW_X5_SUV_1"};
         TAOrder{4,index} =  {"AutowareConfigTemplate.xlsx"};
         TAOrder{5,index} =  {strcat('SimulinkConfigExpC_', num2str(index), '.xlsx')};
