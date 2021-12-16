@@ -3,13 +3,12 @@ adeye_base = "C:\Users\adeye\AD-EYE_Core\AD-EYE\";
 %% Parameter onfigurations
 
 global EgoNameArray
-global ExpNameArray
 global PrescanExpNameArray
 global AutowareConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ScenarioExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
+ScenarioExpNameArray = ["Experiment_A_subset"];%Experiment_A    Experiment_B
 FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_pedestrian_autoware_light
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
