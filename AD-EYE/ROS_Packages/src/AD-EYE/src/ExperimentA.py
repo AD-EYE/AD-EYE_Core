@@ -12,6 +12,7 @@ import tf
 from enum import Enum
 import subprocess
 import time # to put timestamp in rosbags' names
+import socket # to get pc name
 
 
 if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
@@ -45,6 +46,9 @@ class ExperimentARecorder:
     pedistrian_detected = False
     rosbag_started = False
     experiment_started = False
+    last_dist_between_centers = 100000
+    center_passed = False
+
 
     
 
@@ -84,6 +88,7 @@ class ExperimentARecorder:
             self.checkExperimentEnd()
         if self.experiment_started:
             self.ego_speeds.append(current_ego_speed)
+            self.computeDistance()
             self.checkCollision()
             self.checkExperimentEnd()
         # self.vel_pub.publish(Point(current_ego_speed,current_ego_speed,current_ego_speed)) # for visualization in rqt_plot since /current_velocity had issues with the plotting
@@ -122,12 +127,22 @@ class ExperimentARecorder:
                 file.write("A collision occured without passing the pedestrian. This should not happen.\n")
                 file.close()
 
-
+    def computeDistance(self):
+        
+        d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
+        if(d > self.last_dist_between_centers):
+            self.center_passed = True
+        offset_distance = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
+        if(self.center_passed):
+            self.distances_ego_pedestrian.append(-d - offset_distance)
+        else:
+            self.distances_ego_pedestrian.append(d - offset_distance)
+        self.last_dist_between_centers = d
 
     def checkCollision(self):
         # here we check for collision between the car and the pedestrian
         d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
-        self.distances_ego_pedestrian.append(d)
+        # self.distances_ego_pedestrian.append(d)
         if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
             if self.collision == False : # we set the collision speed
                 self.collision = True
@@ -159,7 +174,7 @@ class ExperimentARecorder:
             file.close()
         elif experiment_outcome == ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN:
             collision = 'Yes'
-            stop_distance = - self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
+            stop_distance = self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
             estimated_stop_distance = self.collision_speed * self.collision_speed / 2 / MAX_DECCELERATION # if the car has continue braking it would have stopped at this distance
             self.writeData(collision, stop_distance, estimated_stop_distance)
         elif experiment_outcome == ExperimentOutcomes.CAR_STOPPED:
@@ -188,6 +203,10 @@ class ExperimentARecorder:
         file.write("Number of new pedestrian detections, "+str(self.number_new_detections))
         file.write(', ')
         file.write("Dist pedestrian from lane center, "+str(self.distance_pedestiran_lane_center))
+        file.write(', ')
+        file.write("Center passed, "+str(self.center_passed))
+        file.write(', ')
+        file.write("Computer name, "+socket.gethostname())
         file.write('\n')
         file.close()
 
