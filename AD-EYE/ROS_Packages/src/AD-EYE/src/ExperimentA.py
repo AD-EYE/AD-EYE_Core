@@ -81,7 +81,7 @@ class ExperimentARecorder:
 
     def egoSpeedCallback(self, data):
         current_ego_speed = data.twist.linear.x
-        if current_ego_speed != 0 and not self.experiment_started:
+        if current_ego_speed > 0.3 and not self.experiment_started:
             self.experiment_started = True
             self.startRosbag()
             self.writeParameters()
@@ -107,11 +107,12 @@ class ExperimentARecorder:
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 continue
             
-
+    def shouldStopExperiment(self):
+        return (self.experiment_started and abs(self.ego_speeds[len(self.ego_speeds)-1])<=0.1 and self.distances_ego_pedestrian[-1] < 200)
 
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
-        if self.experiment_started and self.ego_speeds[len(self.ego_speeds)-1]==0.0 and rospy.get_rostime().secs>12:
+        if self.shouldStopExperiment():
             if not self.collision and not self.pedestrian_passed:
                 self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
                 if self.distance_pedestiran_lane_center < 0.001:
@@ -126,11 +127,12 @@ class ExperimentARecorder:
             else: #this possibility of having collided whihout passing the pedestrian end position should never appear
                 file.write("A collision occured without passing the pedestrian. This should not happen.\n")
                 file.close()
+            self.stop_pub.publish(True) # stop_publisher
 
     def computeDistance(self):
         
         d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
-        if(d > self.last_dist_between_centers):
+        if(d > self.last_dist_between_centers and d < 30):
             self.center_passed = True
         offset_distance = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
         if(self.center_passed):
@@ -183,7 +185,7 @@ class ExperimentARecorder:
             self.writeData(collision, stop_distance, stop_distance)
         if self.shouldRecordRosbag(): # in any cases if a rosbag was recorded it must me stopped
             subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
-        self.stop_pub.publish(True) # stop_publisher
+        
 
 
 
