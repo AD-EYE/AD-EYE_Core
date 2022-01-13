@@ -54,7 +54,7 @@ class controlSwitch
         * \param nh A reference to the ros::NodeHandle initialized in the main function.
         * \details Initializes the node and its components such as publishers and subscribers.
         */
-        controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(40)
+        controlSwitch(ros::NodeHandle &nh) : nh_(nh), rate(20)
         {
             // Initialize node and publishers
             pubSSMP_control = nh_.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
@@ -110,10 +110,8 @@ class controlSwitch
         */
         void run() {
             bool initialSwitch = false;
-
-            while (nh_.ok()) {
+            while (ros::ok()) {
                 ros::spinOnce();
-
                 if(switchCommand == AUTOWARE){
                     if(prescanPub){
                         prescanPub = false;
