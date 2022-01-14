@@ -1,4 +1,8 @@
 function TA(TAOrderFile,firstcolumn,lastcolumn)
+
+    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+    
+    
     switch nargin
       case 0
         error('The TA order files must be passed as an argument')
@@ -12,13 +16,13 @@ function TA(TAOrderFile,firstcolumn,lastcolumn)
         error('3 inputs are accepted.')
     end
     
-    TAOrder = readtable(TAOrderFile, 'ReadRowNames',true,'ReadVariableNames',false);
+    
     
     
     %setting up experiments
     BasePath = pwd;
     rosshutdown;
-    SSHConfigFile = TAOrder{'SHHConfig',1}{1};
+    SSHConfigFile = TAOrder{'SHHConfig',1}{1};%nm123 change"SHH"
     
     if(~isfile(SSHConfigFile))
         error('The SSH configuration files was not found. A template can be found, copied and modified in AD-EYE/TA/Configurations/SSHConfigTemplate.csv')
