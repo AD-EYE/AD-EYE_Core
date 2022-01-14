@@ -7,6 +7,7 @@ from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Point
 from autoware_msgs.msg import DetectedObjectArray
 from std_msgs.msg import Bool
+from std_msgs.msg import Float32MultiArray
 import numpy as np
 import tf
 from enum import Enum
@@ -19,7 +20,7 @@ if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the f
     os.mkdir('/home/adeye/Experiment_Results/')
 file = open('/home/adeye/Experiment_Results/ExperimentA.csv','a')
 
-MAX_DECCELERATION = -3 #m/s/s
+MAX_DECCELERATION = -4 #m/s/s
 PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
 ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
 CAR_FRONT_LENGTH = 3.75 # from the back wheels to the front of the chassis
@@ -49,8 +50,14 @@ class ExperimentARecorder:
     last_dist_between_centers = 100000
     center_passed = False
 
+    pedistrian_first_detection_done = False
+    distance_first_detection = 0
+    distance_pedestiran_lane_center_first_detection = 0
 
-    
+    first_nb_points_recorded = False
+    first_nb_points = 0
+    total_nb_points = 0
+    nb_points_callbacks = 0
 
 
     def __init__(self):
@@ -58,12 +65,29 @@ class ExperimentARecorder:
         rospy.Subscriber("/current_velocity", TwistStamped, self.egoSpeedCallback)
         rospy.Subscriber("/simulink/pedestrian_pose", Point, self.pedestrianPositionCallback)
         rospy.Subscriber("/detection/lidar_detector/objects", DetectedObjectArray, self.lidarObjectCallback)
+        rospy.Subscriber("/points_raw_float32", Float32MultiArray, self.pointCloudCallback)
         self.stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
         # self.vel_pub = rospy.Publisher("/expA/velocity",Point, queue_size = 1) # for visualization in rqt_plot since /current_velocity had issues with the plotting
         self.tf_listener = tf.TransformListener()
 
         
-            
+    def isCloseToZero(self, value):
+        return abs(value) < 0.1
+
+    def countNonZerosPoints(self, points):
+        count = 0
+        for point_index in range(len(points)/4):
+            if not (self.isCloseToZero(points[point_index]) and self.isCloseToZero(points[point_index + 1]) and self.isCloseToZero(points[point_index + 2])):
+                count += 1
+        return count
+
+    def pointCloudCallback(self, data):
+        self.nb_points_callbacks += 1
+        nb_valid_points = self.countNonZerosPoints(data.data)
+        self.total_nb_points += nb_valid_points
+        if not self.first_nb_points_recorded:
+            self.first_nb_points_recorded = True
+            self.first_nb_points = nb_valid_points
 
 
     def egoPoseCallback(self, data):
@@ -103,7 +127,14 @@ class ExperimentARecorder:
                     self.number_detections += 1
                     if not self.pedistrian_detected:
                         self.number_new_detections += 1
+                    if not self.pedistrian_first_detection_done:
+                        self.pedistrian_first_detection_done = True
+                        self.distance_first_detection = self.getCurrentDistance()
+                        self.distance_pedestiran_lane_center_first_detection = self.getCurrentDistancePedestrianToLaneCenter()
                     self.pedistrian_detected = True
+                else:
+                    self.pedestrian_detected = False
+
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 continue
             
@@ -114,12 +145,12 @@ class ExperimentARecorder:
         print rospy.get_rostime().secs
         if self.shouldStopExperiment():
             if not self.collision and not self.pedestrian_passed:
-                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                self.distance_pedestiran_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
                 if self.distance_pedestiran_lane_center < 0.001:
                     self.distance_pedestiran_lane_center = 0
                 self.computeAndStoreData(ExperimentOutcomes.CAR_STOPPED)
             elif not self.collision and self.pedestrian_passed:
-                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                self.distance_pedestiran_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
                 self.pedestrian_passed = True
                 self.computeAndStoreData(ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD)
             elif self.collision and self.pedestrian_passed:
@@ -129,9 +160,14 @@ class ExperimentARecorder:
                 file.close()
             self.stop_pub.publish(True) # stop_publisher
 
+    def getCurrentDistancePedestrianToLaneCenter(self):
+        return np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+
+    def getCurrentDistance(self):
+        return np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
+
     def computeDistance(self):
-        
-        d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
+        d = self.getCurrentDistance()
         if(d > self.last_dist_between_centers and d < 30):
             self.center_passed = True
         offset_distance = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
@@ -143,7 +179,7 @@ class ExperimentARecorder:
 
     def checkCollision(self):
         # here we check for collision between the car and the pedestrian
-        d = np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
+        d = self.getCurrentDistance()
         # self.distances_ego_pedestrian.append(d)
         if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
             if self.collision == False : # we set the collision speed
@@ -204,7 +240,15 @@ class ExperimentARecorder:
         file.write(', ')
         file.write("Number of new pedestrian detections, "+str(self.number_new_detections))
         file.write(', ')
-        file.write("Dist pedestrian from lane center, "+str(self.distance_pedestiran_lane_center))
+        file.write("Distance ego to pedestrian at first detection, "+str(self.distance_first_detection))
+        file.write(', ')
+        file.write("Distance pedestrian to lane center at first detection, "+str(self.distance_pedestiran_lane_center_first_detection))
+        file.write(', ')
+        file.write("Dist pedestrian from lane center st end of experiment, "+str(self.distance_pedestiran_lane_center))
+        file.write(', ')
+        file.write("Nb of valid point cloud points at first iteration, "+str(self.first_nb_points))
+        file.write(', ')
+        file.write("Average nb of valid point cloud points, "+str(self.total_nb_points/float(self.nb_points_callbacks)))
         file.write(', ')
         file.write("Center passed, "+str(self.center_passed))
         file.write(', ')
