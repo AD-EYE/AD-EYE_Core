@@ -61,12 +61,12 @@
 	<SetEnvironment>
 		<Environment>
 			<Weather>
-				<Precipitation type="typeRain" intensity="{15;40}" />
+				<Precipitation type="typeRain" intensity="{1;5;10;15;40}" />
 			</Weather>
 		</Environment>
 		<TargetProperties>
 			<Lidar>
-				<TargetPropertySettings ObjectType = "Human" ReflectionPercentage = "{0.3,0.25,0.8}" />
+				<TargetPropertySettings ObjectType = "Human" ReflectionPercentage = "{0.25,0.25,0.75}" />
 			</Lidar>
 		</TargetProperties>
 	</SetEnvironment>
@@ -81,7 +81,7 @@
 						<Speed>
 							<Dynamics shape="step"/>
 							<Target>
-								<Absolute value= "{6.94,1.38,8.33}"/>
+								<Absolute value= "{5.55,1.38,8.31}"/>
 							</Target>
 						</Speed>
 					</Longitudinal>

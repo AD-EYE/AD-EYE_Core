@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSCENARIO>
+
+<FileHeader revMajor="0" revMinor="9" date="2017-07-26T10:00:00" description="Sample Scenario - Double Lane Changer" author="Andreas Biehn"/>
+
+<ParameterDeclaration/>
+
+<Catalogs>
+    <VehicleCatalog>
+        <Directory path="Catalogs/VehicleCatalogs"/>
+    </VehicleCatalog>
+    <DriverCatalog>
+        <Directory path="Catalogs/DriverCatalogs"/>
+    </DriverCatalog>
+    <PedestrianCatalog>
+        <Directory path="Catalogs/ObserverCatalogs"/>
+    </PedestrianCatalog>
+    <PedestrianControllerCatalog>
+        <Directory path="Catalogs/PedestrianCatalogs"/>
+    </PedestrianControllerCatalog>
+    <MiscObjectCatalog>
+        <Directory path="Catalogs/MiscObjectCatalogs"/>
+    </MiscObjectCatalog>
+    <EnvironmentCatalog>
+        <Directory path="Catalogs/EnvironmentCatalogs"/>
+    </EnvironmentCatalog>
+    <ManeuverCatalog>
+        <Directory path="Catalogs/ManeuverCatalogs"/>
+    </ManeuverCatalog>
+    <TrajectoryCatalog>
+        <Directory path="Catalogs/TrajectoryCatalog"/>
+    </TrajectoryCatalog>
+    <RouteCatalog>
+        <Directory path="Catalogs/RoutingCatalog"/>
+    </RouteCatalog>
+</Catalogs>
+
+<RoadNetwork>
+    <Logics filepath="SampleDatabase_01.xodr"/>
+    <SceneGraph filepath="SampleDatabase_01.opt.osgb"/>
+</RoadNetwork>
+
+<Entities>
+    <Object name="Ego">
+        <CatalogReference catalogName="VechicleCatalog" entryName="AudiA3_blue_147kW"/>
+        <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+        </Controller>
+    </Object>
+
+    <Object name="Man_200_1">
+        <CatalogReference catalogName="PedestrianCatalog" entryName="AudiA4_red_147kW"/>
+        <Controller>
+            <CatalogReference catalogName="DriverCatalog" entryName="DefaultDriver"/>
+        </Controller>
+    </Object>
+
+</Entities>
+
+<Global>
+	<SetEnvironment>
+		<Environment>
+			<Weather>
+				<Precipitation type="typeRain" intensity="{0.01}" />
+			</Weather>
+		</Environment>
+		<TargetProperties>
+			<Lidar>
+				<TargetPropertySettings ObjectType = "Human" ReflectionPercentage = "{0.25,0.25,0.75}" />
+			</Lidar>
+		</TargetProperties>
+	</SetEnvironment>
+</Global>
+
+<Storyboard>
+    <Init>
+        <Actions>
+    			<Private object="Ego">
+    				<Action>
+    					<Longitudinal>
+    						<Speed>
+    							<Dynamics shape="step"/>
+    							<Target>
+    								<Absolute value= "{5.55,1.38,8.31}"/>
+    							</Target>
+    						</Speed>
+    					</Longitudinal>
+    				</Action>
+    				<Action>
+              <Position>
+                  <World x="85.23" y="-255.34" z="0.68999999761581421" h="305.536*pi/180" p="0" r="0"/>
+              </Position>
+    				</Action>
+    			</Private>
+        </Actions>
+    </Init>
+
+
+
+    <EndConditions/>
+</Storyboard>
+
+</OpenSCENARIO>
