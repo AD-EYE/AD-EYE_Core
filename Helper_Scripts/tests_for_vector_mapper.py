@@ -19,7 +19,7 @@ from visualization_msgs.msg import MarkerArray
 import random
 
 ##A class that receive data from the subscriber
-class Receiver:
+class GlobalPlanReceiver:
         ##The constructor
         #@param self The object pointer
         #@param received_path Boolean that changes to True when the global plan is found
@@ -36,6 +36,27 @@ class Receiver:
                 else:
                         rospy.loginfo("No path found!")
 
+##A function to initialize launch files
+#Return the path of launch file and launch to later shutdown launch files
+def startLaunchFiles():
+        rospy.init_node('vector_map_tester', anonymous=True) #Initializing ROS Node given nodename. 
+        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+        roslaunch.configure_logging(uuid)
+        roslaunch_file = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_map.launch"
+        roslaunch_file2 ="/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_mission_planning.launch"
+        launch = roslaunch.parent.ROSLaunchParent(uuid, [roslaunch_file, roslaunch_file2])
+
+        launch.start()
+        return roslaunch_file, launch
+
+##A function for extractiv the path to CSV files given the launch file
+#@param roslaunch_file The list containing the str of the file path
+#Return the path of CSV file and its name. 
+def extractCSVPathFromLaunchFile(roslaunch_file):
+        args_dict = getArgs([roslaunch_file])
+        csv_path = args_dict.get("VectorMap_Files_Folder") #Get the key value which is a path.
+        csv_file_name = "point.csv" 
+        return csv_path, csv_file_name
 
 ##A function for reading launch_file and making a dictionary of arg 
 #Returning it as keys and values 
@@ -48,7 +69,7 @@ def getArgs(roslaunch_file):
 ##A function that calls for random postion
 #@param Integer file_rows length.
 #return random start, end row value
-def randomPosition(csv_path,csv_file_name):
+def createTwoRandomIndices(csv_path,csv_file_name):
         #seed(1)
         list_of_points = pd.read_csv(csv_path + csv_file_name, delimiter=',', header=None, skip_blank_lines=True,float_precision=None)
         file_rows = len(list_of_points)-2 #total file rows is len(list_of_points)-1. 
@@ -61,15 +82,15 @@ def randomPosition(csv_path,csv_file_name):
 ##A function for reading point.csv file and returning its start and end point.
 #@param csv_path The str of csv_path
 #@param csv_file_name The str of csv name
-def readCsvFile(csv_path, csv_file_name, position_rows):
+def readCsvFile(csv_path, csv_file_name, row_indices):
 
         list_of_points = pd.read_csv(csv_path + csv_file_name, delimiter=',', header=None, skip_blank_lines=True,float_precision=None)
         
-        start_point = (list_of_points.loc[ [position_rows[0]],[4,5] ]) #[3]=row, [4,5]=coloumn represent Global Y, X
-        end_point = (list_of_points.loc[ [position_rows[1]],[4,5] ])
+        start_point = (list_of_points.loc[ [row_indices[0]],[4,5] ]) #[3]=row, [4,5]=coloumn represent Global Y, X
+        end_point = (list_of_points.loc[ [row_indices[1]],[4,5] ])
 
-        start_point_array = [ start_point.loc[position_rows[0] , 4], start_point.loc[position_rows[0] , 5] ]
-        end_point_array = [ end_point.loc[position_rows[1] , 4], end_point.loc[position_rows[1] , 5] ]
+        start_point_array = [ start_point.loc[row_indices[0] , 4], start_point.loc[row_indices[0] , 5] ]
+        end_point_array = [ end_point.loc[row_indices[1] , 4], end_point.loc[row_indices[1] , 5] ]
         #print(start_point)
         #print(end_point)
         return start_point_array, end_point_array
@@ -124,9 +145,9 @@ def calcOrientation(start_point_array, end_point_array):
 #@param start_point_array List that contains x, y coordinate. 
 #@param end_point_array List that contains x, y coordinate. 
 #return quaternion coordinates for start and goal position.
-def getQuaternion(start_point_array, end_point_array, positions_array2):
-        start_point_array2 = positions_array2[0]
-        end_point_array2 = positions_array2[1]
+def getQuaternion(start_point_array, end_point_array, next_row_indices):
+        start_point_array2 = next_row_indices[0]
+        end_point_array2 = next_row_indices[1]
         yaw_angle_init = calcOrientation(start_point_array, start_point_array2)
         yaw_angle_goal = calcOrientation(end_point_array, end_point_array2)
         #print("yaw angle init: " + str(math.degrees(yaw_angle_init)))
@@ -173,7 +194,7 @@ def goalPosition(end_point_array, quaternion_goal):
 #@param end_point_array List that contains x, y coordinate.
 #@param quaternion_goal List that contains w, x, y, z of quaternion coordinate for goal position.
 #return marker information for publishing.
-def marker(start_point_array, end_point_array, quaternion_init, quaternion_goal):
+def createMarkerArray(start_point_array, end_point_array, quaternion_init, quaternion_goal):
         marker_array = MarkerArray()
         marker_init = Marker()
         marker_init.header.frame_id = "/map"
@@ -229,41 +250,28 @@ def marker(start_point_array, end_point_array, quaternion_init, quaternion_goal)
 ##Main function that initizalize node and corresponding launch file.
 #Publishes some msg to the global planner.
 def main():
-        rospy.init_node('vector_map_tester', anonymous=True) #Initializing ROS Node given nodename. 
-        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-        roslaunch.configure_logging(uuid)
-        roslaunch_file = "/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_map.launch"
-        roslaunch_file2 ="/home/adeye/AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/launch/my_mission_planning.launch"
-        launch = roslaunch.parent.ROSLaunchParent(uuid, [roslaunch_file, roslaunch_file2])
+        roslaunch_file, launch = startLaunchFiles()
 
-        launch.start()
-
-        args_dict = getArgs([roslaunch_file])
-        csv_path = args_dict.get("VectorMap_Files_Folder") #Get the key value which is a path.
-        csv_file_name = "point.csv"  
+        csv_path, csv_file_name = extractCSVPathFromLaunchFile(roslaunch_file)
 
         checkInputArgs(csv_path, csv_file_name)
         #Do while loop. Checks that the distance between start position and goal position is larger than 2.5 meters.
-        position_rows = randomPosition(csv_path, csv_file_name)
-        positions_array = readCsvFile(csv_path, csv_file_name, position_rows)
-        start_point_array = positions_array[0]
-        end_point_array = positions_array[1]
+        row_indices = createTwoRandomIndices(csv_path, csv_file_name)
+        start_point_array, end_point_array = readCsvFile(csv_path, csv_file_name, row_indices)
         dist_goal_init = math.hypot(end_point_array[0] - start_point_array[0], end_point_array[1] - start_point_array[1])
         #print("Distance = " + str(dist_goal_init))
         while dist_goal_init <= 2.5:
-                position_rows = randomPosition(csv_path, csv_file_name)
-                positions_array = readCsvFile(csv_path, csv_file_name, position_rows)
-                start_point_array = positions_array[0]
-                end_point_array = positions_array[1]
+                row_indices = createTwoRandomIndices(csv_path, csv_file_name)
+                start_point_array, end_point_array = readCsvFile(csv_path, csv_file_name, row_indices)
                 dist_goal_init = math.hypot(end_point_array[0] - start_point_array[0], end_point_array[1] - start_point_array[1])                
 
-        position_rows2 = [position_rows[0] + 1, position_rows[1] + 1]
-        positions_array2 = readCsvFile(csv_path, csv_file_name, position_rows2)
+        next_row_indices = [row_indices[0] + 1, row_indices[1] + 1]
+        next_positions = readCsvFile(csv_path, csv_file_name, next_row_indices)
 
-        quaternion_init, quaternion_goal = getQuaternion(start_point_array, end_point_array, positions_array2)
+        quaternion_init, quaternion_goal = getQuaternion(start_point_array, end_point_array, next_positions)
 
 
-        receiver = Receiver()
+        receiver = GlobalPlanReceiver()
 
         pub_goal = rospy.Publisher("/adeye/goals", PoseStamped, queue_size = 1)
         pub_init_pose = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size = 1)
@@ -272,7 +280,7 @@ def main():
 
         initpose_msg = startPosition(start_point_array, quaternion_init)
         goal_msg = goalPosition(end_point_array, quaternion_goal)
-        marker_array = marker(start_point_array, end_point_array, quaternion_init, quaternion_goal)
+        marker_array = createMarkerArray(start_point_array, end_point_array, quaternion_init, quaternion_goal)
 
         rate = rospy.Rate(1)
         while not rospy.is_shutdown():
