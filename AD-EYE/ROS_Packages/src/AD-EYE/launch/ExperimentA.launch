@@ -4,4 +4,11 @@
           type="ExperimentA.py"
           name="ExperimentA"
           output="screen"/>
+
+
+
+    <node pkg="adeye"
+                type="rosbag_start.bash" name="rosbag_start"
+                output="screen"
+        />
 </launch>
