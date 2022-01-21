@@ -14,6 +14,7 @@ from enum import Enum
 import subprocess
 import time # to put timestamp in rosbags' names
 import socket # to get pc name
+import time
 
 
 if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
@@ -44,7 +45,8 @@ class ExperimentARecorder:
     number_detections = 0
     number_new_detections = 0
     pedestrian_passed = False
-    pedistrian_detected = False
+    pedestrian_detected = False
+    pedestrian_detected_previous_iteration = False
     rosbag_started = False
     experiment_started = False
     last_dist_between_centers = 100000
@@ -61,6 +63,7 @@ class ExperimentARecorder:
 
 
     def __init__(self):
+        self.start_time = self.getCurrentTimeSring()
         rospy.Subscriber("/gnss_pose", PoseStamped, self.egoPoseCallback)
         rospy.Subscriber("/current_velocity", TwistStamped, self.egoSpeedCallback)
         rospy.Subscriber("/simulink/pedestrian_pose", Point, self.pedestrianPositionCallback)
@@ -70,7 +73,11 @@ class ExperimentARecorder:
         # self.vel_pub = rospy.Publisher("/expA/velocity",Point, queue_size = 1) # for visualization in rqt_plot since /current_velocity had issues with the plotting
         self.tf_listener = tf.TransformListener()
 
-        
+    def getCurrentTimeSring(self):
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S", t)
+        return str(current_time)
+
     def isCloseToZero(self, value):
         return abs(value) < 0.1
 
@@ -125,18 +132,17 @@ class ExperimentARecorder:
                     print object_pose.pose.position.x
                     print object_pose.pose.position.y
                     self.number_detections += 1
-                    if not self.pedistrian_detected:
-                        self.number_new_detections += 1
                     if not self.pedistrian_first_detection_done:
                         self.pedistrian_first_detection_done = True
                         self.distance_first_detection = self.getCurrentDistance()
                         self.distance_pedestiran_lane_center_first_detection = self.getCurrentDistancePedestrianToLaneCenter()
-                    self.pedistrian_detected = True
-                else:
-                    self.pedestrian_detected = False
-
+                    self.pedestrian_detected = True
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 continue
+        if not self.pedestrian_detected_previous_iteration and self.pedestrian_detected:
+                self.number_new_detections += 1
+        self.pedestrian_detected_previous_iteration = self.pedestrian_detected
+        self.pedestrian_detected = False
             
     def shouldStopExperiment(self):
         return (self.experiment_started and abs(self.ego_speeds[len(self.ego_speeds)-1])<=0.1 and self.distances_ego_pedestrian[-1] < 200)
@@ -168,7 +174,7 @@ class ExperimentARecorder:
 
     def computeDistance(self):
         d = self.getCurrentDistance()
-        if(d > self.last_dist_between_centers and d < 30):
+        if(d > self.last_dist_between_centers and d < 4):
             self.center_passed = True
         offset_distance = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
         if(self.center_passed):
@@ -253,6 +259,10 @@ class ExperimentARecorder:
         file.write("Center passed, "+str(self.center_passed))
         file.write(', ')
         file.write("Computer name, "+socket.gethostname())
+        file.write(', ')
+        file.write("Start time, "+str(self.start_time))
+        file.write(', ')
+        file.write("End time, "+str(self.getCurrentTimeSring()))
         file.write('\n')
         file.close()
 
