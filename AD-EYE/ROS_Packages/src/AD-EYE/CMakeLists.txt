@@ -114,6 +114,16 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
+add_executable(
+  TwistSender
+  src/twist_sender.cpp
+)
+
+add_executable(
+  FreqTester
+  src/frequency_tester.cpp
+)
+
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
@@ -169,6 +179,16 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  TwistSender
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  FreqTester
+  ${catkin_LIBRARIES}
+)
+
 #add_dependencies(${PROJECT_NAME}
 #  ${catkin_EXPORTED_TARGETS}
 #)
@@ -213,9 +233,17 @@ add_dependencies(safetyChannelPerception
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(TwistSender
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(FreqTester
+  ${catkin_EXPORTED_TARGETS}
+)
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter objectListFuse cameraObjectListFuse lidarRadarFuse safetyChannelPerception TwistSender FreqTester
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
