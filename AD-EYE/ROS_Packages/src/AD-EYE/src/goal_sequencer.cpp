@@ -246,7 +246,7 @@ private:
     bool isPointAlignedWithVM(const int& vmap_orientation, const double& yaw_angle)
     {
         //Check if the difference between goal and vector map orientation is small enough. 
-        if(abs(yaw_angle-vmap_orientation < ORIENTAION_TOLERANCE_))
+        if(abs(yaw_angle-vmap_orientation) < ORIENTAION_TOLERANCE_)
         {
             return true;
         }
@@ -321,7 +321,7 @@ private:
             
             //yaw angle of previous goal
             double previous_yaw_angle = tf::getYaw(goal_coordinates_.back().pose.orientation)*(180.0/M_PI); 
-            double angle_between_goals_headings = yaw_angle - previous_yaw_angle;
+            double angle_between_goals_headings = abs(yaw_angle - previous_yaw_angle);
             
             //Check the goal validity when there exist more than one goal.
             is_goal_valid = is_goal_valid && areGoalsDifferentEnough(distance_between_goals, angle_between_goals_headings);
