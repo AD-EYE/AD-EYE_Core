@@ -15,7 +15,7 @@ import subprocess
 import time # to put timestamp in rosbags' names
 import socket # to get pc name
 import time
-
+from jsk_rviz_plugins.msg import OverlayText
 
 if os.path.isdir('/home/adeye/Experiment_Results/') == False : # checks if the folder exists and creates it if not
     os.mkdir('/home/adeye/Experiment_Results/')
@@ -44,9 +44,12 @@ class ExperimentARecorder:
     distance_pedestiran_lane_center = 100
     number_detections = 0
     number_new_detections = 0
+    number_new_tracking = 0
     pedestrian_passed = False
     pedestrian_detected = False
     pedestrian_detected_previous_iteration = False
+    pedestrian_tracked = False
+    pedestrian_tracked_previous_iteration = False
     rosbag_started = False
     experiment_started = False
     last_dist_between_centers = 100000
@@ -61,6 +64,8 @@ class ExperimentARecorder:
     total_nb_points = 0
     nb_points_callbacks = 0
 
+    exception_frame_transform = False
+
 
     def __init__(self):
         self.start_time = self.getCurrentTimeSring()
@@ -68,8 +73,10 @@ class ExperimentARecorder:
         rospy.Subscriber("/current_velocity", TwistStamped, self.egoSpeedCallback)
         rospy.Subscriber("/simulink/pedestrian_pose", Point, self.pedestrianPositionCallback)
         rospy.Subscriber("/detection/lidar_detector/objects", DetectedObjectArray, self.lidarObjectCallback)
+        rospy.Subscriber("/detection/lidar_tracker/objects", DetectedObjectArray, self.lidarTrackerObjectCallback)
         rospy.Subscriber("/points_raw_float32", Float32MultiArray, self.pointCloudCallback)
         self.stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
+        self.text_overlay_pub = rospy.Publisher("/text_overlay",OverlayText, queue_size = 1)
         # self.vel_pub = rospy.Publisher("/expA/velocity",Point, queue_size = 1) # for visualization in rqt_plot since /current_velocity had issues with the plotting
         self.tf_listener = tf.TransformListener()
 
@@ -128,7 +135,7 @@ class ExperimentARecorder:
         for object in data.objects:
             try:
                 object_pose = self.tf_listener.transformPose('/world', object)
-                if((object_pose.pose.position.x - PEDESTRIAN_END_POSITION[0])**2 + (object_pose.pose.position.y - PEDESTRIAN_END_POSITION[1])**2<16 and not self.pedestrian_passed):
+                if((object_pose.pose.position.x - PEDESTRIAN_END_POSITION[0])**2 + (object_pose.pose.position.y - PEDESTRIAN_END_POSITION[1])**2<16):
                     print object_pose.pose.position.x
                     print object_pose.pose.position.y
                     self.number_detections += 1
@@ -138,11 +145,44 @@ class ExperimentARecorder:
                         self.distance_pedestiran_lane_center_first_detection = self.getCurrentDistancePedestrianToLaneCenter()
                     self.pedestrian_detected = True
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+                self.exception_frame_transform = True
                 continue
         if not self.pedestrian_detected_previous_iteration and self.pedestrian_detected:
                 self.number_new_detections += 1
         self.pedestrian_detected_previous_iteration = self.pedestrian_detected
         self.pedestrian_detected = False
+        self.publishDetectionsOverlay()
+        
+
+    def publishDetectionsOverlay(self):
+        text = OverlayText()
+        text.left = 20
+        text.top = 20
+        text.width = 800
+        text.height = 400
+        text.fg_color.a = 1.0
+        text.fg_color.r = 1.0
+        text.fg_color.g = 1.0
+        text.text_size = 26
+        text.font = "Liberation Mono"
+        text.text = "Number of detections: " + str(self.number_detections) + "\n" + "Nb new detections:... " + str(self.number_new_detections) + "\n" + "Nb new trackings:.... " + str(self.number_new_tracking) + "\n" 
+        self.text_overlay_pub.publish(text)
+
+
+    def lidarTrackerObjectCallback(self, data):
+        for object in data.objects:
+            try:
+                object_pose = self.tf_listener.transformPose('/world', object)
+                if((object_pose.pose.position.x - PEDESTRIAN_END_POSITION[0])**2 + (object_pose.pose.position.y - PEDESTRIAN_END_POSITION[1])**2<16):
+                    print("got lidar tracker")
+                    self.pedestrian_tracked = True
+            except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+                self.exception_frame_transform = True
+                continue
+        if not self.pedestrian_tracked_previous_iteration and self.pedestrian_tracked:
+                self.number_new_tracking += 1
+        self.pedestrian_tracked_previous_iteration = self.pedestrian_tracked
+        self.pedestrian_tracked = False
             
     def shouldStopExperiment(self):
         return (self.experiment_started and abs(self.ego_speeds[len(self.ego_speeds)-1])<=0.1 and self.distances_ego_pedestrian[-1] < 200)
@@ -246,6 +286,8 @@ class ExperimentARecorder:
         file.write(', ')
         file.write("Number of new pedestrian detections, "+str(self.number_new_detections))
         file.write(', ')
+        file.write("Number of new pedestrian tracking, "+str(self.number_new_tracking))
+        file.write(', ')
         file.write("Distance ego to pedestrian at first detection, "+str(self.distance_first_detection))
         file.write(', ')
         file.write("Distance pedestrian to lane center at first detection, "+str(self.distance_pedestiran_lane_center_first_detection))
@@ -257,6 +299,8 @@ class ExperimentARecorder:
         file.write("Average nb of valid point cloud points, "+str(self.total_nb_points/float(self.nb_points_callbacks)))
         file.write(', ')
         file.write("Center passed, "+str(self.center_passed))
+        file.write(', ')
+        file.write("Exception in frame transformation, "+str(self.exception_frame_transform))
         file.write(', ')
         file.write("Computer name, "+socket.gethostname())
         file.write(', ')
