@@ -194,7 +194,8 @@ private:
     */
     std::tuple<double, int> findClosestVMDistance(const double& x, const double& y)
     {
-        double closest_vm_distance = 0.0;
+        //initialize it as max value.
+        double closest_vm_distance = std::numeric_limits<double>::max();
         double vm_distance;
         int index;
         for(unsigned int i = 0; i < file_size_; i++)
@@ -202,7 +203,7 @@ private:
             vm_distance = getDistance(x, vector_map_data_.data[i].ly, y, vector_map_data_.data[i].bx);
 
             //Update the point and distance until we find the shortest distance-
-            if(closest_vm_distance == 0.0 || vm_distance < closest_vm_distance)
+            if(vm_distance < closest_vm_distance)
             {
                 closest_vm_distance = vm_distance;
                 index = i;
@@ -258,14 +259,51 @@ private:
 
     }
 
+
+    /*!
+     * \brief Boolean function that checks if the goal is valid with respect to the vector mapper
+     * \param x, y are the data provided by the goals
+     * \param yaw_angle is the orientation of the goal
+     * \details Gets the closest distance to a point of the vector mapper and correponding index of that point. 
+     * Using the disance and index, it check if the received goal exist in the vector map with small enough orientation difference
+     */
+    bool isGoalValidAccordingToVM(const double& x, const double& y,  const double& yaw_angle)
+    {
+        double closest_vm_distance;
+        int index;
+        //Get the closest distance to a point of VM and corresponding index of that point.
+        std::tie(closest_vm_distance, index) = findClosestVMDistance(x, y);
+        
+        //Get the orientation of the closest point of the VM
+        double vmap_orientation = findOrientationOfVM(index);
+
+        //Check goal validity for the first goal by checking if the goal is close enough to the VM with large orientation.
+        if(isPointCloseToVM(closest_vm_distance) && isPointAlignedWithVM(vmap_orientation, yaw_angle))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     /*!
     * \brief Checking the distance and orientation between two consequtive goals 
     * \param distance_between_goals is the distance between two consequtive goals
     * \param angle_between_goals_headings is the orientation between two consequtive goals 
     */
                 
-    bool areGoalsDifferentEnough(const double& distance_between_goals, const double& angle_between_goals_headings)
+    bool areGoalsDifferentEnough(const double& x, const double& y, const double& yaw_angle)
     {
+        //Distance between two consecutive goals
+        double distance_between_goals = getDistance(goal_coordinates_.back().pose.position.x, x, goal_coordinates_.back().pose.position.y, y); 
+        
+        //yaw angle of previous goal
+        double previous_yaw_angle = tf::getYaw(goal_coordinates_.back().pose.orientation)*(180.0/M_PI); 
+
+        double angle_between_goals_headings = abs(yaw_angle - previous_yaw_angle);
+        
         //Goals can be some degrees apart from each other even though they are close to each other.
         if(distance_between_goals > GOAL_DISTANCE_TOLERANCE_ || angle_between_goals_headings > ORIENTAION_TOLERANCE_)
         {
@@ -279,30 +317,22 @@ private:
 
     }
 
-    
+
     /*!
      * \brief Boolean function that checks the validity of the received goal
-     * \param x, y,z and goal_orientation are the are data provided by the goals
+     * \param x, y,z and goal_orientation are the data provided by the goals
      * \details Check if the received goal exist in the vector map and their orientation difference 
      *          Also check the distance and orientation with the pervious stored goal.
      */
     bool isGoalValid(const double& x, const double& y, const double& z, const geometry_msgs::Quaternion& goal_orientation)
     {
         bool is_goal_valid;
-        double closest_vm_distance;
-        int index;
 
         //Transform quaternion to euler angles
         double yaw_angle = tf::getYaw(goal_orientation)*(180.0/M_PI);
 
-        //Get the closest distance to a point of VM and corresponding index of that point.
-        std::tie(closest_vm_distance, index) = findClosestVMDistance(x, y);
-        
-        //Get the orientation of the closest point of the VM
-        double vmap_orientation = findOrientationOfVM(index);
-
-        //Check goal validity for the first goal by checking if the goal is close enough to the VM with large orientation.
-        is_goal_valid = isPointCloseToVM(closest_vm_distance) && isPointAlignedWithVM(vmap_orientation, yaw_angle);
+        //find the cloest point and its distance and orientation.
+        is_goal_valid = isGoalValidAccordingToVM(x, y, yaw_angle);
         
         //If the received goal is the first goal
         if(goal_coordinates_.empty())
@@ -316,15 +346,8 @@ private:
 
         else
         {
-            //Distance between two consecutive goals
-            double distance_between_goals = getDistance(goal_coordinates_.back().pose.position.x, x, goal_coordinates_.back().pose.position.y, y); 
-            
-            //yaw angle of previous goal
-            double previous_yaw_angle = tf::getYaw(goal_coordinates_.back().pose.orientation)*(180.0/M_PI); 
-            double angle_between_goals_headings = abs(yaw_angle - previous_yaw_angle);
-            
             //Check the goal validity when there exist more than one goal.
-            is_goal_valid = is_goal_valid && areGoalsDifferentEnough(distance_between_goals, angle_between_goals_headings);
+            is_goal_valid = is_goal_valid && areGoalsDifferentEnough(x, y, yaw_angle);
             // Print the new goal positions
             ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",
             x, y, z );
