@@ -8,9 +8,9 @@ global AutowareConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ScenarioExpNameArray = ["Experiment_A_fixed_reflectivity"];%Experiment_A_fixed_reflectivity
-FolderExpNameArray = ["Experiment_A_wall"];%Experiment_A    Experiment_B
-PrescanExpNameArray = ["KTH_wall_light"];%KTH_wall_light   KTH_static_pedestrian_light
+ScenarioExpNameArray = ["Experiment_A_subset_speed"];%Experiment_A_fixed_reflectivity
+FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
+PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_wall_light   KTH_static_pedestrian_light
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
 SimulinkConfigArray = ["SimulinkConfig.xlsx"];%SimulinkConfig   GoalConfigExpB
 TagsConfigArray = [""];
@@ -114,6 +114,23 @@ TACombinations(FolderExpNameArray, PrescanExpNameArray, EgoNameArray, AutowareCo
 rosshutdown
 
 TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
+TA('Configurations/TAOrder.xlsx', 1, 8000)
+cd(adeye_base + "TA")
 TA('Configurations/TAOrder.xlsx', 1, 8000)
 
 
