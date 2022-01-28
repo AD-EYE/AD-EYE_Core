@@ -20,6 +20,7 @@ Terminal3 type one of the below:
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 0.0, y: 0.0, z: 49.156}, orientation: {z: 0.416, w: 0.909}}}'
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 137.998049077445, y: 121.23713661199696, z: 49.156}, orientation: {z: 0.760, w: 0.650}}}'
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 140.82, y: 62.27, z: 49.156}, orientation: {z: 0, w: 1}}}'
+rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 418.84, y: 164.26}, orientation: {z: 0.0, w: 1}}}'
 rostopic pub /current_behavior geometry_msgs/TwistStamped "{header: {stamp: now, frame_id: "map"}, twist: {linear: {x: 1.0, y: 2.0, z: 3.0}, angular: {x: 1.0,y: 13.0,z: 1.0}}}"
 */
 
@@ -58,7 +59,7 @@ private:
     // Boolean value for the global planner, end state and the goals
     bool has_global_planner_and_goal_been_reset_ = false;
     bool should_update_global_planner_ = false;
-    bool received_first_goal_ = false;
+    bool first_goal_sent_ = false;
     bool received_vector_mapper_ = false;
 
     int file_size_;
@@ -107,7 +108,7 @@ private:
         else if(isGoalValid(msg -> pose.position.x, msg -> pose.position.y,  msg -> pose.position.z, msg -> pose.orientation))
         {
             // Store the real-world map goal coordinates  
-            goal_coordinates_.push(*msg);       
+            goal_coordinates_.push(*msg);     
         }
         else
         {
@@ -337,11 +338,9 @@ private:
         //If the received goal is the first goal
         if(goal_coordinates_.empty())
         {
-            ROS_INFO("The first goal has been received. Position:- x = %lf, y = %lf, z = %lf",
+            ROS_INFO("The first goal has position:- x = %lf, y = %lf, z = %lf",
             x, y, z);
             
-            // Boolean for receiving the first goal
-            received_first_goal_ = true;
         }
 
         else
@@ -349,7 +348,7 @@ private:
             //Check the goal validity when there exist more than one goal.
             is_goal_valid = is_goal_valid && areGoalsDifferentEnough(x, y, yaw_angle);
             // Print the new goal positions
-            ROS_INFO("The next goal has been received. Position:- x = %lf, y = %lf, z = %lf",
+            ROS_INFO("The next goal has position:- x = %lf, y = %lf, z = %lf",
             x, y, z );
         }
 
@@ -386,7 +385,7 @@ public:
             ros::spinOnce();
             
             // Condition for the first goal
-            if(received_first_goal_) 
+            if(!first_goal_sent_ && !goal_coordinates_.empty()) 
             {      
                 // Publish the first goal 
                 pub_goal_.publish(goal_coordinates_.front());
@@ -394,7 +393,7 @@ public:
                 ROS_INFO("The first goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
                 // Bool value reset to true for sending upcoming goals in the main run loop.
-                received_first_goal_ = false;
+                first_goal_sent_ = true;
             }
             
             // Condition for next (upcoming) goals
