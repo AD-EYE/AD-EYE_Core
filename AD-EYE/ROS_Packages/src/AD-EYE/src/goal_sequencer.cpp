@@ -21,6 +21,11 @@ rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 137.998049077445, y: 121.23713661199696, z: 49.156}, orientation: {z: 0.760, w: 0.650}}}'
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 140.82, y: 62.27, z: 49.156}, orientation: {z: 0, w: 1}}}'
 rostopic pub /adeye/goals geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 418.84, y: 164.26}, orientation: {z: 0.0, w: 1}}}'
+
+Case when goals is 4.4m apart from each other but 180 degrees heading difference:
+rostopic pub /adeye/goals geometry_msgs/seStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 101.27694427859949, y: 222.26434883547188}, orientation: {z: 0.0, w: 1}}}'
+rostopic pub /adeye/goals geometry_msgs/seStamped '{header: {stamp: now, frame_id: "map"}, pose: {position: {x: 98.57472205637728, y: 225.76434883547188}, orientation: {z: 1.0, w: 0.0}}}'
+
 rostopic pub /current_behavior geometry_msgs/TwistStamped "{header: {stamp: now, frame_id: "map"}, twist: {linear: {x: 1.0, y: 2.0, z: 3.0}, angular: {x: 1.0,y: 13.0,z: 1.0}}}"
 */
 
