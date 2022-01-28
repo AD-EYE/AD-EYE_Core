@@ -8,7 +8,7 @@ global AutowareConfigArray
 global SimulinkConfigArray
 global TagsConfigArray
 EgoNameArray = ["BMW_X5_SUV_1"];
-ScenarioExpNameArray = ["Experiment_A_subset_speed"];%Experiment_A_fixed_reflectivity
+ScenarioExpNameArray = ["Experiment_A_subset"];%Experiment_A_fixed_reflectivity
 FolderExpNameArray = ["Experiment_A"];%Experiment_A    Experiment_B
 PrescanExpNameArray = ["KTH_pedestrian_autoware_light"];%KTH_wall_light   KTH_static_pedestrian_light
 AutowareConfigArray = ["AutowareConfigTemplate.xlsx"];
