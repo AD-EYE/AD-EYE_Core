@@ -7,6 +7,7 @@ from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Point
 from autoware_msgs.msg import DetectedObjectArray
 from std_msgs.msg import Bool
+from std_msgs.msg import UInt64
 from std_msgs.msg import Float32MultiArray
 import numpy as np
 import tf
@@ -26,6 +27,7 @@ PEDESTRIAN_END_POSITION = [236.628436713, -484.694323036]
 ROSBAG_PARAMETERS = [7.74,40.0,0.9,20]
 CAR_FRONT_LENGTH = 3.75 # from the back wheels to the front of the chassis
 PEDESTRIAN_WIDTH = 0.3
+OFFSET_DISTANCE = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
 
 
 class ExperimentOutcomes(Enum):
@@ -40,8 +42,8 @@ class ExperimentARecorder:
     collision = False
     pedestrian_position = PEDESTRIAN_END_POSITION
     ego_pose = [0,0,0]
-    distances_ego_pedestrian = []
-    distance_pedestiran_lane_center = 100
+    euclidean_distances_ego_pedestrian = []
+    distance_pedestrian_lane_center = 100
     number_detections = 0
     number_new_detections = 0
     number_new_tracking = 0
@@ -54,17 +56,21 @@ class ExperimentARecorder:
     experiment_started = False
     last_dist_between_centers = 100000
     center_passed = False
+    speed_first_detection = 0
 
-    pedistrian_first_detection_done = False
-    distance_first_detection = 0
-    distance_pedestiran_lane_center_first_detection = 0
+    pedestrian_first_detection_done = False
+    euclidean_distance_first_detection = 0
+    distance_pedestrian_lane_center_first_detection = 0
 
     first_nb_points_recorded = False
     first_nb_points = 0
     total_nb_points = 0
     nb_points_callbacks = 0
+    non_hit_points = []
+    invalidated_points = []
 
-    exception_frame_transform = False
+    has_frame_transform_exception_occurred = False
+
 
 
     def __init__(self):
@@ -75,6 +81,8 @@ class ExperimentARecorder:
         rospy.Subscriber("/detection/lidar_detector/objects", DetectedObjectArray, self.lidarObjectCallback)
         rospy.Subscriber("/detection/lidar_tracker/objects", DetectedObjectArray, self.lidarTrackerObjectCallback)
         rospy.Subscriber("/points_raw_float32", Float32MultiArray, self.pointCloudCallback)
+        rospy.Subscriber("/non_hit_points", UInt64, self.nonHitPointsCallback)
+        rospy.Subscriber("/points_invalidated_rain_model", UInt64, self.invalidatedPointsCallback)
         self.stop_pub = rospy.Publisher("/simulink/stop_experiment",Bool, queue_size = 1) # stop_publisher
         self.text_overlay_pub = rospy.Publisher("/text_overlay",OverlayText, queue_size = 1)
         # self.vel_pub = rospy.Publisher("/expA/velocity",Point, queue_size = 1) # for visualization in rqt_plot since /current_velocity had issues with the plotting
@@ -103,6 +111,10 @@ class ExperimentARecorder:
             self.first_nb_points_recorded = True
             self.first_nb_points = nb_valid_points
 
+    def nonHitPointsCallback(self, data):
+        self.non_hit_points.append(int(data.data))
+    def invalidatedPointsCallback(self, data):
+        self.invalidated_points.append(int(data.data))
 
     def egoPoseCallback(self, data):
         Px = data.pose.position.x
@@ -139,13 +151,14 @@ class ExperimentARecorder:
                     print object_pose.pose.position.x
                     print object_pose.pose.position.y
                     self.number_detections += 1
-                    if not self.pedistrian_first_detection_done:
-                        self.pedistrian_first_detection_done = True
-                        self.distance_first_detection = self.getCurrentDistance()
-                        self.distance_pedestiran_lane_center_first_detection = self.getCurrentDistancePedestrianToLaneCenter()
+                    if not self.pedestrian_first_detection_done:
+                        self.pedestrian_first_detection_done = True
+                        self.euclidean_distance_first_detection = self.getCurrentDistanceEgoToPedestrian() - OFFSET_DISTANCE
+                        self.distance_pedestrian_lane_center_first_detection = self.getCurrentDistancePedestrianToLaneCenter()
+                        self.speed_first_detection = self.ego_speeds[-1]
                     self.pedestrian_detected = True
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-                self.exception_frame_transform = True
+                self.has_frame_transform_exception_occurred = True
                 continue
         if not self.pedestrian_detected_previous_iteration and self.pedestrian_detected:
                 self.number_new_detections += 1
@@ -177,7 +190,7 @@ class ExperimentARecorder:
                     print("got lidar tracker")
                     self.pedestrian_tracked = True
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-                self.exception_frame_transform = True
+                self.has_frame_transform_exception_occurred = True
                 continue
         if not self.pedestrian_tracked_previous_iteration and self.pedestrian_tracked:
                 self.number_new_tracking += 1
@@ -185,18 +198,18 @@ class ExperimentARecorder:
         self.pedestrian_tracked = False
             
     def shouldStopExperiment(self):
-        return (self.experiment_started and abs(self.ego_speeds[len(self.ego_speeds)-1])<=0.1 and self.distances_ego_pedestrian[-1] < 200)
+        return (self.experiment_started and abs(self.ego_speeds[len(self.ego_speeds)-1]) <= 0.1 and self.euclidean_distances_ego_pedestrian[-1] < 200)
 
     def checkExperimentEnd(self):
         print rospy.get_rostime().secs
         if self.shouldStopExperiment():
             if not self.collision and not self.pedestrian_passed:
-                self.distance_pedestiran_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
-                if self.distance_pedestiran_lane_center < 0.001:
-                    self.distance_pedestiran_lane_center = 0
+                self.distance_pedestrian_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
+                if self.distance_pedestrian_lane_center < 0.001:
+                    self.distance_pedestrian_lane_center = 0
                 self.computeAndStoreData(ExperimentOutcomes.CAR_STOPPED)
             elif not self.collision and self.pedestrian_passed:
-                self.distance_pedestiran_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
+                self.distance_pedestrian_lane_center = self.getCurrentDistancePedestrianToLaneCenter()
                 self.pedestrian_passed = True
                 self.computeAndStoreData(ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD)
             elif self.collision and self.pedestrian_passed:
@@ -209,32 +222,32 @@ class ExperimentARecorder:
     def getCurrentDistancePedestrianToLaneCenter(self):
         return np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
 
-    def getCurrentDistance(self):
+    def getCurrentDistanceEgoToPedestrian(self):
         return np.sqrt( (self.ego_pose[1]-self.pedestrian_position[1])**2 + (self.ego_pose[0]-self.pedestrian_position[0])**2 )
 
     def computeDistance(self):
-        d = self.getCurrentDistance()
+        d = self.getCurrentDistanceEgoToPedestrian()
         if(d > self.last_dist_between_centers and d < 4):
             self.center_passed = True
-        offset_distance = CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH
+
         if(self.center_passed):
-            self.distances_ego_pedestrian.append(-d - offset_distance)
+            self.euclidean_distances_ego_pedestrian.append(-d - OFFSET_DISTANCE)
         else:
-            self.distances_ego_pedestrian.append(d - offset_distance)
+            self.euclidean_distances_ego_pedestrian.append(d - OFFSET_DISTANCE)
         self.last_dist_between_centers = d
 
     def checkCollision(self):
         # here we check for collision between the car and the pedestrian
-        d = self.getCurrentDistance()
+        d = self.getCurrentDistanceEgoToPedestrian()
         # self.distances_ego_pedestrian.append(d)
         if d < CAR_FRONT_LENGTH + PEDESTRIAN_WIDTH : # if there is a collision
             if self.collision == False : # we set the collision speed
                 self.collision = True
                 self.collision_speed = self.ego_speeds[len(self.ego_speeds)-2]
-                self.distance_pedestiran_lane_center = np.sqrt((self.pedestrian_position[0]-PEDESTRIAN_END_POSITION[0])**2+(self.pedestrian_position[1]-PEDESTRIAN_END_POSITION[1])**2)
+                self.distance_pedestrian_lane_center = np.sqrt((self.pedestrian_position[0] - PEDESTRIAN_END_POSITION[0]) ** 2 + (self.pedestrian_position[1] - PEDESTRIAN_END_POSITION[1]) ** 2)
                 self.pedestrian_passed = True
-                if self.distance_pedestiran_lane_center < 0.001:
-                    self.distance_pedestiran_lane_center = 0
+                if self.distance_pedestrian_lane_center < 0.001:
+                    self.distance_pedestrian_lane_center = 0
 
         # this is in case the pedestrian is out of the road when the car passes. we want pedestrian_passed to be True while collision is false
         d = np.sqrt( (self.ego_pose[1]-PEDESTRIAN_END_POSITION[1])**2 + (self.ego_pose[0]-PEDESTRIAN_END_POSITION[0])**2 )
@@ -247,23 +260,23 @@ class ExperimentARecorder:
     def computeAndStoreData(self, experiment_outcome):
         if experiment_outcome == ExperimentOutcomes.PEDESTRIAN_OUT_OF_ROAD:
             file.write("The pedestrian wasn't on the road when the car passed him --> no collision, no stop)" + ", "
-                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-4]) + ", "
-                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-3]) + ", "
-                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-2]) + ", "
-                + str(self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]) )
+                       + str(self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 4]) + ", "
+                       + str(self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 3]) + ", "
+                       + str(self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 2]) + ", "
+                       + str(self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 1]))
 
             file.write(', ')
-            file.write("Dist pedestrian from lane center, "+str(self.distance_pedestiran_lane_center))
+            file.write("Dist pedestrian from lane center, " + str(self.distance_pedestrian_lane_center))
             file.write('\n')
             file.close()
         elif experiment_outcome == ExperimentOutcomes.CAR_PASSED_THROUGH_PEDESTRIAN:
             collision = 'Yes'
-            stop_distance = self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
+            stop_distance = self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 1]
             estimated_stop_distance = self.collision_speed * self.collision_speed / 2 / MAX_DECCELERATION # if the car has continue braking it would have stopped at this distance
             self.writeData(collision, stop_distance, estimated_stop_distance)
         elif experiment_outcome == ExperimentOutcomes.CAR_STOPPED:
             collision = 'No'
-            stop_distance = self.distances_ego_pedestrian[len(self.distances_ego_pedestrian)-1]
+            stop_distance = self.euclidean_distances_ego_pedestrian[len(self.euclidean_distances_ego_pedestrian) - 1]
             self.writeData(collision, stop_distance, stop_distance)
         if self.shouldRecordRosbag(): # in any cases if a rosbag was recorded it must me stopped
             subprocess.Popen("rosnode kill /rosbag_recorder", shell=True, executable='/bin/bash')
@@ -271,16 +284,20 @@ class ExperimentARecorder:
 
 
 
-    def writeData(self, Collision, StopDistance, estimated_stop_distance):
+    def writeData(self, collision, stop_distance, estimated_stop_distance):
         file.write("Maximum speed reached, "+str(max(self.ego_speeds)))
         file.write(', ')
-        file.write("Collision, "+str(Collision)) # then we write all the data needed in ExperimentA.csv
+        file.write("Collision, " + str(collision)) # then we write all the data needed in ExperimentA.csv
         file.write(', ')
         file.write("Coll speed, "+str(self.collision_speed))
         file.write(', ')
-        file.write("Stop dist, "+str(StopDistance))
+        file.write("Stop dist, " + str(stop_distance))
         file.write(', ')
         file.write("Estimated stop dist, "+str(estimated_stop_distance))
+        file.write(', ')
+        file.write("Stop dist braking from first detection, "+str(self.euclidean_distance_first_detection + self.speed_first_detection * self.speed_first_detection / 2 / MAX_DECCELERATION))
+        file.write(', ')
+        file.write("Speed at first detection, "+str(self.speed_first_detection ))
         file.write(', ')
         file.write("Number of pedestrian detections, "+str(self.number_detections))
         file.write(', ')
@@ -288,19 +305,27 @@ class ExperimentARecorder:
         file.write(', ')
         file.write("Number of new pedestrian tracking, "+str(self.number_new_tracking))
         file.write(', ')
-        file.write("Distance ego to pedestrian at first detection, "+str(self.distance_first_detection))
+        file.write("Euclidean distance ego to pedestrian at first detection, " + str(self.euclidean_distance_first_detection))
         file.write(', ')
-        file.write("Distance pedestrian to lane center at first detection, "+str(self.distance_pedestiran_lane_center_first_detection))
+        file.write("Distance pedestrian to lane center at first detection (longitudinal dist to ego), " + str(self.distance_pedestrian_lane_center_first_detection))
         file.write(', ')
-        file.write("Dist pedestrian from lane center st end of experiment, "+str(self.distance_pedestiran_lane_center))
+        file.write("Dist pedestrian from lane center at end of experiment (longitudinal dist to ego), " + str(self.distance_pedestrian_lane_center))
         file.write(', ')
         file.write("Nb of valid point cloud points at first iteration, "+str(self.first_nb_points))
         file.write(', ')
         file.write("Average nb of valid point cloud points, "+str(self.total_nb_points/float(self.nb_points_callbacks)))
         file.write(', ')
+        file.write("Nb of non hit points at first iteration, "+str(self.non_hit_points[0]))
+        file.write(', ')
+        file.write("Average nb of non hit points, "+str(sum(self.non_hit_points)/float(len(self.non_hit_points))))
+        file.write(', ')
+        file.write("Nb of points invalidated by rain at first iteration, "+str(self.invalidated_points[0]))
+        file.write(', ')
+        file.write("Average nb of points invalidated by rain , "+str(sum(self.invalidated_points)/float(len(self.invalidated_points))))
+        file.write(', ')
         file.write("Center passed, "+str(self.center_passed))
         file.write(', ')
-        file.write("Exception in frame transformation, "+str(self.exception_frame_transform))
+        file.write("Exception in frame transformation, " + str(self.has_frame_transform_exception_occurred))
         file.write(', ')
         file.write("Computer name, "+socket.gethostname())
         file.write(', ')
