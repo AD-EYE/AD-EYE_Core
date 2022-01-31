@@ -112,6 +112,9 @@ private:
         // Stores the goal if it is valid
         else if(isGoalValid(msg -> pose.position.x, msg -> pose.position.y,  msg -> pose.position.z, msg -> pose.orientation))
         {
+            // Print the new goal positions
+            ROS_INFO("The next goal has position:- x = %lf, y = %lf, z = %lf",
+            msg -> pose.position.x, msg -> pose.position.y,  msg -> pose.position.z );
             // Store the real-world map goal coordinates  
             goal_coordinates_.push(*msg);     
         }
@@ -341,20 +344,9 @@ private:
         is_goal_valid = isGoalValidAccordingToVM(x, y, yaw_angle);
         
         //If the received goal is the first goal
-        if(goal_coordinates_.empty())
+        if(!goal_coordinates_.empty())
         {
-            ROS_INFO("The first goal has position:- x = %lf, y = %lf, z = %lf",
-            x, y, z);
-            
-        }
-
-        else
-        {
-            //Check the goal validity when there exist more than one goal.
             is_goal_valid = is_goal_valid && areGoalsDifferentEnough(x, y, yaw_angle);
-            // Print the new goal positions
-            ROS_INFO("The next goal has position:- x = %lf, y = %lf, z = %lf",
-            x, y, z );
         }
 
         return is_goal_valid;
