@@ -7,6 +7,7 @@
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/LaneArray.h>
+#include <jsk_rviz_plugins/OverlayText.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -47,6 +48,7 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_road_side_parking_viz_;
+    ros::Publisher pub_text_overlay_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_global_plan_;
@@ -121,6 +123,9 @@ private:
     geometry_msgs::PoseStamped initial_goal_coordinates_;
 
     double current_speed_limit_ = 8.3;
+
+
+    CRITICAL_LEVEL_ current_fault_criticality_level_;
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -403,6 +408,40 @@ private:
         // msgTriggerUpdateGlobalPlanner.data = 1;
         // pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
+        publishTextOverlay();
+
+    }
+
+    void publishTextOverlay() {
+        jsk_rviz_plugins::OverlayText text_overlay;
+        text_overlay.left = 20;
+        text_overlay.top = 20;
+        text_overlay.width = 800;
+        text_overlay.height = 400;
+        text_overlay.fg_color.a = 1.0;
+        text_overlay.fg_color.r = 1.0;
+        text_overlay.fg_color.g = 1.0;
+        text_overlay.text_size = 16;
+        text_overlay.font = "Liberation Mono";
+        text_overlay.text = "Current safety channel decision:\n -";
+        switch(current_fault_criticality_level_)
+        {
+            case INITIAL_GOAL:
+                text_overlay.text += "go to initial goal";
+                break;
+            case REST_AREA:
+                text_overlay.text += "go to rest area";
+                break;
+            case ROAD_SIDE_PARKING:
+                text_overlay.text += "go to road side parking";
+                break;
+            case IMMEDIATE_STOP:
+                text_overlay.text += "perform immediate stop";
+                break;
+        }
+
+
+        pub_text_overlay_.publish(text_overlay);
     }
 
     
@@ -525,7 +564,7 @@ private:
      * \details The situation is evaluated and the state of the vehicle is
      * declared safe or unsafe.
      */
-    void performSafetyTests()
+    void performSafetyTestsAndDecision()
     {
         varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE_;
 
@@ -542,7 +581,8 @@ private:
 
 
 
-        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();;
+        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();
+        current_fault_criticality_level_ = most_critical_level;
         performAction(most_critical_level);
     }
 
@@ -920,7 +960,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
+    SafetySupervisor(ros::NodeHandle &nh) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
     {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
@@ -930,6 +970,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
+        pub_text_overlay_ = nh_.advertise<jsk_rviz_plugins::OverlayText>("safety_channel_text_overlay", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
@@ -977,7 +1018,7 @@ public:
             ros::spinOnce();
 
 
-            performSafetyTests();
+            performSafetyTestsAndDecision();
             publish();
 
 
@@ -992,7 +1033,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
-    SafetySupervisor safetySupervisor(nh, argc, argv);
+    SafetySupervisor safetySupervisor(nh);
     safetySupervisor.run();
     return 0;
 }
