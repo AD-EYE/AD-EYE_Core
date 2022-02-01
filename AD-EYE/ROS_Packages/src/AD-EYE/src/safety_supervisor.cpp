@@ -80,7 +80,7 @@ private:
 
     geometry_msgs::Pose pose_;
     bool var_switch_;
-    int varoverwrite_behavior_;
+    int varoverwrite_behavior_{};
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
     bool autoware_global_path_flag_ = false;
@@ -104,8 +104,8 @@ private:
     std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
    
     // result of the check functions
-    double distance_to_lane_;
-    double distance_to_road_edge_;
+    double distance_to_lane_{};
+    double distance_to_road_edge_{};
 
     struct CurvatureExtrema {
         double max;
@@ -114,9 +114,6 @@ private:
 
     // enum to identify critical level
     enum CRITICAL_LEVEL_ {INITIAL_GOAL, REST_AREA, ROAD_SIDE_PARKING, IMMEDIATE_STOP};
-
-    // Test for sensor coverage
-    enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
 
     bool broke_at_least_once_ = false; // To know if there already is at least 1 anomaly
     bool is_anomaly_fixed_ = false; // To know if there already is an anomaly and if it is now fixed
@@ -158,14 +155,14 @@ private:
      */
     void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
-      if(msg->lanes.size() > 0)
+      if(!msg->lanes.empty())
       {
           std::vector<PlannerHNS::WayPoint> m_temp_path;
           autoware_global_path_.clear();
           autoware_global_path_flag_ = true;
-          for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
+          for(const auto & lane : msg->lanes)
           {
-              PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
+              PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(lane, m_temp_path);
               PlannerHNS::PlanningHelpers::CalcAngleAndCost(m_temp_path);
               autoware_global_path_.push_back(m_temp_path);
           }
@@ -205,7 +202,7 @@ private:
      * \brief Get distance to lane : Called at every iteration of the main loop
      * \return Distance to the center line of the lane
      */
-    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory) const
     {
         PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
         std::vector<int> two_closest_index = getTwoClosestIndices(trajectory, p0);
@@ -213,8 +210,8 @@ private:
         int second_closest_index = two_closest_index.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closest_index);
         PlannerHNS::WayPoint p2 = trajectory.at(second_closest_index);
-        // the distance is the distance from the car's position to the line formed by the two points fron the path
-        double distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
+        // the distance is the distance from the car's position to the line formed by the two points from the path
+        double distance = fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2));
         std::cout << "Closest index = " << closest_index << ". Second closest index: " << second_closest_index << ". Distance = " << distance << '\n';
         return distance;
     }
@@ -223,12 +220,12 @@ private:
      * \brief Get closest index : Called at every iteration of the main loop
      * Finds the closest point in a trajectory to a certain point
      */
-    std::vector<int> getTwoClosestIndices(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
+    static std::vector<int> getTwoClosestIndices(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
         int closest_index = 0;
         int second_closest_index = 0;
-        double d_closest_index = DBL_MAX;
-        double d_second_closest_index = DBL_MAX;
+        double d_closest_index = std::numeric_limits<double>::max();
+        double d_second_closest_index = std::numeric_limits<double>::max();
         if(trajectory.size()>1){
             for(int i=0; i<trajectory.size(); i++){
                 double d = pow(trajectory[i].pos.x - p.pos.x, 2) + pow(trajectory[i].pos.y - p.pos.y, 2);
@@ -294,7 +291,7 @@ private:
      */
     static CurvatureExtrema getCurvatureExtrema(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        CurvatureExtrema curvature_extrema;
+        CurvatureExtrema curvature_extrema{};
         curvature_extrema.max = 0;
         curvature_extrema.min = 0;
         if(trajectory.size()>2){
@@ -779,7 +776,7 @@ private:
                 if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, info.perp_distance) && distance_ego_to_parking < min_distance)
                 {
                     min_distance = distance_ego_to_parking;
-                    min_id = gridmap_.at("RoadSideParking", *map_iterator);
+                    min_id = static_cast<int>(gridmap_.at("RoadSideParking", *map_iterator));
                     min_wp = autoware_global_path_.front().at(considered_wp_index);
                 }
             }
@@ -800,7 +797,7 @@ private:
 
     static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
     {
-        double min_dist = DBL_MAX;
+        double min_dist = std::numeric_limits<double>::max();
         int min_index = 0;
         for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
         {
@@ -835,7 +832,7 @@ private:
         return (DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERP_DISTANCE_THRESHOLD);
     }
 
-    PlannerHNS::WayPoint gridmapIteratorToWaypint(grid_map::GridMapIterator it)
+    PlannerHNS::WayPoint gridmapIteratorToWaypint(const grid_map::GridMapIterator& it)
     {
         grid_map::Position pos;
         gridmap_.getPosition(*it, pos);
@@ -843,12 +840,12 @@ private:
         return wp;
     }
 
-    double getRemainingDistanceOnGlobalPlanTo(PlannerHNS::WayPoint wp)
+    double getRemainingDistanceOnGlobalPlanTo(const PlannerHNS::WayPoint& wp)
     {
         return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
     }
 
-    double getPerpendicularDistanceToGlobalPlanFrom(PlannerHNS::WayPoint wp)
+    double getPerpendicularDistanceToGlobalPlanFrom(const PlannerHNS::WayPoint& wp)
     {
         PlannerHNS::RelativeInfo info;
         PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
@@ -901,7 +898,7 @@ private:
                 if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
                 {
                     min_distance = distance_ego_rest_area;
-                    min_id = gridmap_.at("RestArea", *map_iterator);
+                    min_id = static_cast<int>(gridmap_.at("RestArea", *map_iterator));
                     min_wp = autoware_global_path_.front().at(considered_wp_index);
                 }
             }
@@ -923,7 +920,7 @@ private:
     static geometry_msgs::Point getBarycenter(const std::vector<PlannerHNS::WayPoint>& positions_wp)
     {
         geometry_msgs::Point average_point;
-        for(auto wp: positions_wp)
+        for(const auto& wp: positions_wp)
         {
             average_point.x += wp.pos.x;
             average_point.y += wp.pos.y;
@@ -960,7 +957,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
+    explicit SafetySupervisor(ros::NodeHandle &nh) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_), current_fault_criticality_level_(CRITICAL_LEVEL_::INITIAL_GOAL)
     {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
