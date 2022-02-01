@@ -579,7 +579,7 @@ private:
 
 
         CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();
-        current_fault_criticality_level_ = most_critical_level;
+
         performAction(most_critical_level);
     }
 
@@ -617,6 +617,7 @@ private:
      * \param most_critical_level Decision taken
      */
     void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
+        current_fault_criticality_level_ = most_critical_level;
         switch(most_critical_level)
         {
             case INITIAL_GOAL:
@@ -650,7 +651,8 @@ private:
                     }
                     else
                     {
-                        ROS_INFO("Decision: No rest area available, performing immediate stop");
+                        current_fault_criticality_level_ = CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
+                        ROS_INFO("Decision: No rest area available, performing stop in road side parking");
                     }
                 }
                 else{
@@ -663,12 +665,13 @@ private:
                 {
                     if(isThereAValidRoadSideParking())
                     {
-                    is_road_side_parking_chosen_ = true;
-                    road_side_parking_pose = findClosestRoadSideParking();
+                        is_road_side_parking_chosen_ = true;
+                        road_side_parking_pose = findClosestRoadSideParking();
                     }
                     else // if there is no valid parking we stop immediately (going one level up in term of criticality)
                     {
                         triggerSafetySwitch();
+                        current_fault_criticality_level_ = CRITICAL_LEVEL_::IMMEDIATE_STOP;
                         ROS_INFO("Decision: No road side parking available, performing immediate stop");
                     }
                 }
@@ -685,6 +688,7 @@ private:
                 break;
             case IMMEDIATE_STOP:
                 triggerSafetySwitch();
+                current_fault_criticality_level_ = CRITICAL_LEVEL_::IMMEDIATE_STOP;
                 ROS_INFO("Decision: Immediate stop");
                 break;
         }
