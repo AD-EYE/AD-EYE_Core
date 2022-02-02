@@ -94,12 +94,20 @@ class ExperimentARecorder:
         return str(current_time)
 
     def isCloseToZero(self, value):
-        return abs(value) < 0.1
+        return (abs(value) < 0.1)
+    def isPointCloseToZero(self, x, y, z):
+        return (self.isCloseToZero(x) and self.isCloseToZero(y) and self.isCloseToZero(z))
+    def isNan(self, value):
+        return (value!=value)
+    def isPointNan(self, x, y, z):
+        return (self.isNan(x) or self.isNan(y) or self.isNan(z))
 
     def countNonZerosPoints(self, points):
         count = 0
         for point_index in range(len(points)/4):
-            if not (self.isCloseToZero(points[point_index]) and self.isCloseToZero(points[point_index + 1]) and self.isCloseToZero(points[point_index + 2])):
+            is_zero = self.isPointCloseToZero(points[4*point_index], points[4*point_index + 1], points[4*point_index + 2])
+            is_nan = self.isPointNan(points[4*point_index], points[4*point_index + 1], points[4*point_index + 2])
+            if not is_zero and not is_nan:
                 count += 1
         return count
 
