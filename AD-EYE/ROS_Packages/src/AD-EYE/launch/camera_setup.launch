@@ -12,11 +12,11 @@
     <arg name="tf_qw"/>
 
     <!-- base_link to camera tf -->
-    <node ns="$(arg camera)" pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+    <node ns="detection/$(arg camera)" pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
           args="$(arg tf_x) $(arg tf_y) $(arg tf_z) $(arg tf_qx) $(arg tf_qy) $(arg tf_qz) $(arg tf_qw) base_link $(arg camera) 10"/>
 
     <!-- camera_info -->
-    <include ns="$(arg camera)" file="$(find adeye)/launch/camera_info_publisher.launch">
+    <include ns="detection/$(arg camera)" file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="camera_info_publisher"/>
         <arg name="args_list" value="camera_info $(arg camera) 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
@@ -31,8 +31,8 @@
              value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/deploy.prototxt"/>
         <arg name="pretrained_model_file"
              value="$(env HOME)/AD-EYE_Core/AD-EYE/Data/ssdcaffe_models/AD-EYE_SSD_Model/SSD_512x512/VGG_Dataset_SSD_512x512_iter_60000.caffemodel"/>
-        <arg name="image_src" value="image_raw"/>
-        <arg name="image_out" value="image_rects"/>
+        <arg name="image_src" value="/sensor/$(arg camera)/image_raw"/>
+        <arg name="image_out" value="/detection/$(arg camera)/image_rects"/>
         <arg name="object_src" value="image_detector/objects"/>
     </include>
 
@@ -51,11 +51,11 @@
     </include>
 
     <!-- vision_beyond_track-->
-    <node ns="$(arg camera)" pkg="vision_beyond_track" name="vision_beyond_track" type="vision_beyond_track" output="screen">
-        <param name="camera_info_src" type="str" value="/$(arg camera)/camera_info"/>
-        <param name="objects_topic_src" type="str" value="/$(arg camera)/image_detector/objects"/>
+    <node ns="detection/$(arg camera)" pkg="vision_beyond_track" name="vision_beyond_track" type="vision_beyond_track" output="screen">
+        <param name="camera_info_src" type="str" value="/detection/$(arg camera)/camera_info"/>
+        <param name="objects_topic_src" type="str" value="/detection/$(arg camera)/image_detector/objects"/>
         <param name="camera_height" type="double" value="$(arg tf_z)"/>
-        <remap from="/detection/image_tracker/objects" to="/$(arg camera)/image_tracker/objects"/>
+        <remap from="/detection/image_tracker/objects" to="/detection/$(arg camera)/image_tracker/objects"/>
     </node>
 
 </launch>
