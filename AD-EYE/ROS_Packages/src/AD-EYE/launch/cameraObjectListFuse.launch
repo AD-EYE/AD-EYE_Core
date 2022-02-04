@@ -9,6 +9,7 @@
           type="cameraObjectListFuse"
           name="$(arg nodeName)"
           output="screen"
+          ns="detection"
           args="$(arg inputTopic1) $(arg inputTopic2) $(arg outputTopic)"/>
 
 </launch>
