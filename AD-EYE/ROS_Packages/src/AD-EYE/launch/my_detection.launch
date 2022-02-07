@@ -9,12 +9,6 @@
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
           args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
 
-    <!-- traffic_light_camera_info -->
-    <include file="$(find adeye)/launch/camera_info_publisher.launch">
-        <arg name="node_name" value="traffic_light_camera_info_publisher"/>
-        <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
-    </include>
-
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find adeye)/launch/lidar_euclidean_cluster_detect.launch" ns="detection/lidar">
         <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
@@ -74,9 +68,9 @@
     </node>
 
     <!-- imm_ukf_pda_track visualizer -->
-    <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="lidar_detected_objects_visualizer" output="screen">
-        <param name="objects_src_topic" value="/detection/lidar_tracker/objects"/>
-        <remap from="/objects_markers"       to="/detection/lidar_tracker/objects_markers" />
+    <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="tracked_objects_visualizer" output="screen" ns="detection/lidar">
+        <param name="objects_src_topic" value="/tracked_objects"/>
+        <remap from="objects_markers"       to="tracked_objects_markers" />
     </node>
 
 
@@ -137,24 +131,31 @@
     </node>
 
     <!-- objectsFrameAdapter -->
-    <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch" ns="detection">
         <arg name="nodeName" value="objectsFrameAdapter"/>
         <arg name="inputTopic" value="fusion/objects"/>
-        <arg name="outputTopic" value="tracked_objects"/>
+        <arg name="outputTopic" value="objects_map_frame"/>
         <arg name="targetFrame" value="map"/>
     </include>
 
+
+    <!-- traffic_light_camera_info -->
+    <include file="$(find adeye)/launch/camera_info_publisher.launch" ns="detection/tl_camera">
+        <arg name="node_name" value="traffic_light_camera_info_publisher"/>
+        <arg name="args_list" value="camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
+    </include>
+
     <!-- feat_proj -->
-    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">
+    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch" ns="detection/tl_camera">
         <arg name="camera_id" value="/tl_camera"/>
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
     </include>
 
     <!-- traffic_light_recognition -->
-    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
+    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch" ns="detection/tl_camera">
         <arg name="camera_id" default="/"/>
-        <arg name="image_src" default="/tl/image_raw"/>
+        <arg name="image_src" default="/sensor/tl/image_raw"/>
         <arg name="light_src" default="/light_color" />
         <arg name="camera_light_src" default="/camera_light_color" />
         <arg name="ams_light_src" default="/ams_light_color" />

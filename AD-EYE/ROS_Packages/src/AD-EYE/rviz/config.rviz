@@ -10,10 +10,16 @@ Panels:
         - /Autoware1
         - /Autoware1/Maps1
         - /Autoware1/Perception1
+        - /Autoware1/Perception1/Camera 1 and 21
+        - /Autoware1/Perception1/Camera 1 and 21/Camera 2 marker overlay1/Status1
+        - /Autoware1/Perception1/Traffic Light camera1
+        - /Autoware1/Perception1/Traffic Light camera1/Raw Image Traffic Light Camera1
+        - /Autoware1/Perception1/Traffic Light camera1/Traffic Light detection1
+        - /Autoware1/Perception1/Traffic Light camera1/Traffic Light Camera marker overlay1
         - /Autoware1/Planning1
         - /Autoware1/Planning1/Global Planning1/Global Path1
       Splitter Ratio: 0.695804
-    Tree Height: 922
+    Tree Height: 150
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -32,7 +38,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Points Map
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -80,6 +86,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: Vehicle Model
       Robot Description: robot_description
       TF Prefix: ""
@@ -95,7 +106,7 @@ Visualization Manager:
               Marker Topic: /safe_stop_endposes_vis
               Name: safe_stop_endposes_vis
               Namespaces:
-                {}
+                "": true
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -103,7 +114,7 @@ Visualization Manager:
               Marker Topic: /safe_stop_traj_vis
               Name: safe_stop_traj_vis
               Namespaces:
-                {}
+                "": true
               Queue Size: 100
               Value: true
           Enabled: true
@@ -178,7 +189,7 @@ Visualization Manager:
           Marker Topic: /critical_area
           Name: Safety Supervisor critical area
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
           Value: true
       Enabled: true
@@ -222,7 +233,7 @@ Visualization Manager:
               Marker Topic: /vector_map_center_lines_rviz
               Name: Vector Map CenterLines
               Namespaces:
-                {}
+                road_network_vector_map: true
               Queue Size: 100
               Value: true
           Enabled: true
@@ -256,8 +267,8 @@ Visualization Manager:
             - Class: rviz/Group
               Displays:
                 - Class: rviz/Image
-                  Enabled: true
-                  Image Topic: /camera_1/image_rects
+                  Enabled: false
+                  Image Topic: /sensor/detection/image_rects
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -266,10 +277,10 @@ Visualization Manager:
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: true
+                  Value: false
                 - Class: rviz/Image
-                  Enabled: true
-                  Image Topic: /camera_2/image_rects
+                  Enabled: false
+                  Image Topic: /detection/camera_2/image_rects
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -278,10 +289,10 @@ Visualization Manager:
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: true
+                  Value: false
                 - Class: rviz/Image
                   Enabled: false
-                  Image Topic: /camera_1/image_raw
+                  Image Topic: /sensor/camera_1/image_raw
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -293,7 +304,7 @@ Visualization Manager:
                   Value: false
                 - Class: rviz/Image
                   Enabled: false
-                  Image Topic: /camera_2/image_raw
+                  Image Topic: /sensor/camera_2/image_raw
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -304,15 +315,15 @@ Visualization Manager:
                   Unreliable: false
                   Value: false
                 - Class: rviz/Camera
-                  Enabled: false
+                  Enabled: true
                   Image Rendering: background and overlay
-                  Image Topic: /camera_1/image_raw
+                  Image Topic: /detection/camera_1/image_rects
                   Name: Camera 1 marker overlay
                   Overlay Alpha: 0.5
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: false
+                  Value: true
                   Visibility:
                     Autoware:
                       Behavior State: true
@@ -332,17 +343,33 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          "": true
+                          Clustered Points: true
+                          Deteced objects Lidar: true
+                          Raw Lidar Points: true
+                          Tracked objects Lidar: true
                           Value: true
+                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
-                          "": true
+                          Raw Image Traffic Light Camera: true
+                          Traffic Light Camera marker overlay: true
+                          Traffic Light detection: true
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -350,23 +377,32 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Channel:
-                      "": true
+                      Grid map: true
                       Road Side Parking targeted for minimal risk condition: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
                     Vehicle Model: true
                   Zoom Factor: 1
                 - Class: rviz/Camera
-                  Enabled: false
+                  Enabled: true
                   Image Rendering: background and overlay
-                  Image Topic: /camera_2/image_raw
+                  Image Topic: /detection/camera_2/image_rects
                   Name: Camera 2 marker overlay
                   Overlay Alpha: 0.5
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: false
+                  Value: true
                   Visibility:
                     Autoware:
                       Behavior State: true
@@ -386,17 +422,33 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          "": true
+                          Clustered Points: true
+                          Deteced objects Lidar: true
+                          Raw Lidar Points: true
+                          Tracked objects Lidar: true
                           Value: true
+                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
-                          "": true
+                          Raw Image Traffic Light Camera: true
+                          Traffic Light Camera marker overlay: true
+                          Traffic Light detection: true
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -404,8 +456,17 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Channel:
-                      "": true
+                      Grid map: true
                       Road Side Parking targeted for minimal risk condition: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
@@ -416,8 +477,8 @@ Visualization Manager:
             - Class: rviz/Group
               Displays:
                 - Class: rviz/Image
-                  Enabled: false
-                  Image Topic: /tl/image_raw
+                  Enabled: true
+                  Image Topic: /sensor/tl/image_raw
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -426,10 +487,10 @@ Visualization Manager:
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: false
+                  Value: true
                 - Class: rviz/Image
                   Enabled: true
-                  Image Topic: /tlr_superimpose_image
+                  Image Topic: /detection/tl_camera/tlr_superimpose_image
                   Max Value: 1
                   Median window: 5
                   Min Value: 0
@@ -440,15 +501,15 @@ Visualization Manager:
                   Unreliable: false
                   Value: true
                 - Class: rviz/Camera
-                  Enabled: false
+                  Enabled: true
                   Image Rendering: background and overlay
-                  Image Topic: /tl/image_raw
+                  Image Topic: /detection/tl_camera/tlr_superimpose_image
                   Name: Traffic Light Camera marker overlay
                   Overlay Alpha: 0.5
                   Queue Size: 2
                   Transport Hint: raw
                   Unreliable: false
-                  Value: false
+                  Value: true
                   Visibility:
                     Autoware:
                       Behavior State: true
@@ -469,8 +530,12 @@ Visualization Manager:
                           Value: true
                         Detected_objects: true
                         Lidar:
-                          "": true
+                          Clustered Points: true
+                          Deteced objects Lidar: true
+                          Raw Lidar Points: true
+                          Tracked objects Lidar: true
                           Value: true
+                          Voxel Filtered Points: true
                         Tracked Objects Camera 1: true
                         Tracked Objects Camera 2: true
                         Traffic Light camera:
@@ -479,8 +544,18 @@ Visualization Manager:
                           Value: true
                         Value: true
                       Planning:
-                        "":
-                          "": true
+                        Global Planning:
+                          Global Path: true
+                          Goals: true
+                          Value: true
+                        Local Planning:
+                          Collision Points: true
+                          "OP Eval Rollouts ": true
+                          "OP Gen Rollouts ": true
+                          Value: true
+                        Pure Pursuit:
+                          Next Waypoint Mark: true
+                          PP Trajectory Mark: true
                           Value: true
                         Value: true
                       Predicted Trajectories: true
@@ -488,14 +563,23 @@ Visualization Manager:
                       Value: true
                     Grid: true
                     Safety Channel:
-                      "": true
+                      Grid map: true
                       Road Side Parking targeted for minimal risk condition: true
+                      Safe Stop Planner:
+                        Value: true
+                        safe_stop_endposes_vis: true
+                        safe_stop_traj_vis: true
+                      Safety Channel Perception:
+                        Cluster Cloud: true
+                        Convex hulls: true
+                        Value: true
+                      Safety Supervisor critical area: true
                       Value: true
                     TF: true
                     Value: true
                     Vehicle Model: true
                   Zoom Factor: 1
-              Enabled: false
+              Enabled: true
               Name: Traffic Light camera
             - Class: rviz/Group
               Displays:
@@ -514,9 +598,9 @@ Visualization Manager:
                   Enabled: false
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
-                  Max Intensity: 0.223550722
+                  Max Intensity: 1.03728008
                   Min Color: 0; 0; 0
-                  Min Intensity: 0
+                  Min Intensity: 0.0627451017
                   Name: Raw Lidar Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -546,7 +630,7 @@ Visualization Manager:
                   Max Color: 255; 255; 255
                   Max Intensity: 1
                   Min Color: 0; 0; 0
-                  Min Intensity: 0.253757536
+                  Min Intensity: 0.0780041218
                   Name: Voxel Filtered Points
                   Position Transformer: XYZ
                   Queue Size: 10
@@ -584,18 +668,26 @@ Visualization Manager:
                   Size (Pixels): 5
                   Size (m): 0.00999999978
                   Style: Points
-                  Topic: /points_cluster
+                  Topic: /detection/lidar/points_cluster
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
                   Value: false
                 - Class: rviz/MarkerArray
                   Enabled: false
-                  Marker Topic: /detection/lidar_detector/objects_markers
+                  Marker Topic: /detection/lidar/objects_markers
                   Name: Deteced objects Lidar
                   Namespaces:
                     {}
-                  Queue Size: 100
+                  Queue Size: 2
+                  Value: false
+                - Class: rviz/MarkerArray
+                  Enabled: false
+                  Marker Topic: /detection/lidar/tracked_objects_markers
+                  Name: Tracked objects Lidar
+                  Namespaces:
+                    {}
+                  Queue Size: 2
                   Value: false
               Enabled: true
               Name: Lidar
@@ -610,7 +702,7 @@ Visualization Manager:
                   Marker Topic: /local_trajectories_eval_rviz
                   Name: "OP Eval Rollouts "
                   Namespaces:
-                    {}
+                    local_lane_array_marker_colored: true
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -618,7 +710,7 @@ Visualization Manager:
                   Marker Topic: /dynamic_collision_points_rviz
                   Name: Collision Points
                   Namespaces:
-                    {}
+                    collision_points_rviz: true
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -638,7 +730,7 @@ Visualization Manager:
                   Marker Topic: /next_target_mark
                   Name: Next Waypoint Mark
                   Namespaces:
-                    {}
+                    next_target_marker: true
                   Queue Size: 100
                   Value: true
                 - Class: rviz/Marker
@@ -646,7 +738,7 @@ Visualization Manager:
                   Marker Topic: /trajectory_circle_mark
                   Name: PP Trajectory Mark
                   Namespaces:
-                    {}
+                    trajectory_circle_marker: true
                   Queue Size: 100
                   Value: true
               Enabled: true
@@ -658,7 +750,9 @@ Visualization Manager:
                   Marker Topic: /global_waypoints_rviz
                   Name: Global Path
                   Namespaces:
-                    {}
+                    global_lane_array_marker: true
+                    global_lane_waypoint_orientation_marker: true
+                    global_velocity_lane_1: true
                   Queue Size: 100
                   Value: true
                 - Class: rviz/MarkerArray
@@ -666,7 +760,7 @@ Visualization Manager:
                   Marker Topic: /op_destinations_rviz
                   Name: Goals
                   Namespaces:
-                    {}
+                    HMI_Destinations: true
                   Queue Size: 100
                   Value: true
               Enabled: true
@@ -709,7 +803,7 @@ Visualization Manager:
           Marker Topic: /safety_border
           Name: Car Footprint
           Namespaces:
-            {}
+            global_lane_array_marker: true
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -717,7 +811,7 @@ Visualization Manager:
           Marker Topic: /behavior_state
           Name: Behavior State
           Namespaces:
-            {}
+            beh_state: true
           Queue Size: 100
           Value: true
       Enabled: true
@@ -739,7 +833,7 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
       Topic: /initialpose
     - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
+      Topic: /planning/global/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -747,7 +841,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 39.892189
+      Distance: 22.249588
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -762,10 +856,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.479796886
+      Pitch: 0.324797153
       Target Frame: gps
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.28544831
+      Yaw: 3.1504426
     Saved: ~
 Window Geometry:
   Camera 1 detection overlay:
@@ -785,7 +879,7 @@ Window Geometry:
   Height: 1056
   Hide Left Dock: false
   Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd000000040000000000000196000003dafc020000001cfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000028000003da000000d600fffffffa000000020100000003fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000c00430061006d0065007200610000000000ffffffff0000000000000000fb000000100044006900730070006c0061007900730100000000000001360000016a00fffffffb0000003c00520061007700200049006d006100670065002000540072006100660066006900630020004c0069006700680074002000430061006d00650072006100000002e2000001060000001600fffffffb0000002e00540072006100660066006900630020004c006900670068007400200064006500740065006300740069006f006e000000023d000001a70000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000120049006d006100670065005f0072006100770000000000ffffffff0000000000000000fb0000000c00430061006d006500720061000000030a000000e50000000000000000fb000000120049006d00610067006500200052006100770100000421000000160000000000000000fb0000000a0049006d00610067006501000002f4000000cb0000000000000000fb0000000c00430061006d0065007200610000000335000000cd0000000000000000fb0000000a0049006d00610067006501000002ac000001560000000000000000fb0000000c00430061006d00650072006103000008d4000000b40000042300000297fb0000000c00430061006d00650072006101000002aa000001580000000000000000fb0000000a0049006d006100670065000000028d000000a20000000000000000fb0000000c00430061006d0065007200610000000335000000cd0000000000000000fb0000000a0049006d006100670065010000030b000000f70000000000000000fb0000003400430061006d0065007200610020003100200064006500740065006300740069006f006e0020006f007600650072006c006100790000000257000000cd0000001600fffffffb0000003400430061006d0065007200610020003200200064006500740065006300740069006f006e0020006f007600650072006c00610079000000032a000000be0000001600fffffffb0000002400430061006d00650072006100200031002000720061007700200069006d0061006700650000000276000000a00000001600fffffffb0000002400430061006d00650072006100200032002000720061007700200069006d00610067006500000002f1000000f70000001600fffffffb0000002e00430061006d006500720061002000310020006d00610072006b006500720020006f007600650072006c006100790000000318000000cc0000001600fffffffb0000002e00430061006d006500720061002000320020006d00610072006b006500720020006f007600650072006c006100790000000318000000cc0000001600fffffffb0000004600540072006100660066006900630020004c0069006700680074002000430061006d0065007200610020006d00610072006b006500720020006f007600650072006c0061007900000003680000007c0000001600ffffff0000000100000132000003ccfc0200000003fc0000003a000003cc0000000000fffffffa000000000100000002fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000a00560069006500770073000000060d000001320000010f00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073f000000a8fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000069a0000005cfc0100000002fb0000000800540069006d006500000000000000069a0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000005e4000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000196000003dafc020000001cfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073020000025e000002b500000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000028000000d6000000d600fffffffa000000020100000003fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000c00430061006d0065007200610000000000ffffffff0000000000000000fb000000100044006900730070006c0061007900730100000000000001360000016a00fffffffb0000003c00520061007700200049006d006100670065002000540072006100660066006900630020004c0069006700680074002000430061006d0065007200610100000104000000e10000001600fffffffb0000002e00540072006100660066006900630020004c006900670068007400200064006500740065006300740069006f006e01000001eb000000e50000001600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000120049006d006100670065005f0072006100770000000000ffffffff0000000000000000fb0000000c00430061006d006500720061000000030a000000e50000000000000000fb000000120049006d00610067006500200052006100770100000421000000160000000000000000fb0000000a0049006d00610067006501000002f4000000cb0000000000000000fb0000000c00430061006d0065007200610000000335000000cd0000000000000000fb0000000a0049006d00610067006501000002ac000001560000000000000000fb0000000c00430061006d00650072006103000008d4000000b40000042300000297fb0000000c00430061006d00650072006101000002aa000001580000000000000000fb0000000a0049006d006100670065000000028d000000a20000000000000000fb0000000c00430061006d0065007200610000000335000000cd0000000000000000fb0000000a0049006d006100670065010000030b000000f70000000000000000fb0000003400430061006d0065007200610020003100200064006500740065006300740069006f006e0020006f007600650072006c006100790000000162000000630000001600fffffffb0000003400430061006d0065007200610020003200200064006500740065006300740069006f006e0020006f007600650072006c006100790000000187000000550000001600fffffffb0000002400430061006d00650072006100200031002000720061007700200069006d00610067006500000001a6000000480000001600fffffffb0000002400430061006d00650072006100200032002000720061007700200069006d00610067006500000001c6000000a50000001600fffffffb0000002e00430061006d006500720061002000310020006d00610072006b006500720020006f007600650072006c0061007900000002b1000000910000001600fffffffb0000002e00430061006d006500720061002000320020006d00610072006b006500720020006f007600650072006c006100790000000348000000ba0000001600fffffffb0000004600540072006100660066006900630020004c0069006700680074002000430061006d0065007200610020006d00610072006b006500720020006f007600650072006c0061007901000002d60000012c0000001600ffffff0000000100000132000003ccfc0200000003fc0000003a000003cc0000000000fffffffa000000000100000002fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000a00560069006500770073000000060d000001320000010f00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073f000000a8fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000069a0000005cfc0100000002fb0000000800540069006d006500000000000000069a0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000005e4000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Raw Image Traffic Light Camera:
     collapsed: false
   Selection:
@@ -801,5 +895,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 0
+  X: 65
   Y: 24
