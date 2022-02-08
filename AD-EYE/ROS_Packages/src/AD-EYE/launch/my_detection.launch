@@ -146,9 +146,9 @@
     </include>
 
     <!-- feat_proj -->
-    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch" ns="detection/tl_camera">
+    <include file="$(find adeye)/launch/feat_proj.launch" ns="detection/tl_camera">
         <arg name="camera_id" value="/tl_camera"/>
-        <arg name="camera_info_src" value="/camera_info"/>
+        <arg name="camera_info_src" value="/detection/tl_camera/camera_info"/>
         <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
     </include>
 
@@ -157,8 +157,8 @@
         <arg name="camera_id" default="/"/>
         <arg name="image_src" default="/sensor/tl/image_raw"/>
         <arg name="light_src" default="/light_color" />
-        <arg name="camera_light_src" default="/camera_light_color" />
-        <arg name="ams_light_src" default="/ams_light_color" />
+        <arg name="camera_light_src" default="camera_light_color" />
+        <arg name="ams_light_src" default="ams_light_color" />
     </include>
 
 </launch>
