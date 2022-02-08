@@ -923,7 +923,7 @@ public:
     SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
     {   
         // Initialize the node, publishers and subscribers
-        pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
+        pub_switch_ = nh_.advertise<std_msgs::Int32>("switch_command", 1, true);
         pub_overwrite_behavior_ = nh_.advertise<std_msgs::Int32>("/adeye/overwrite_behavior", 1, true);
         pub_limit_max_speed_ = nh_.advertise<std_msgs::Float32>("/adeye/limit_max_speed", 1, true);
         pub_overwrite_trajectory_eval_ = nh_.advertise<autoware_msgs::LaneArray>("/adeye/overwrite_trajectory_eval", 1, true);
@@ -932,9 +932,9 @@ public:
         pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
-        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
+        sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
         sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &SafetySupervisor::autowareGlobalPlanCallback, this);
-        sub_switch_request_ = nh.subscribe("safety_channel/switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
+        sub_switch_request_ = nh.subscribe("switch_request", 1, &SafetySupervisor::switchRequestCallback, this);
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
         sub_ssmp_endposes_ = nh_.subscribe<visualization_msgs::MarkerArray>("/safe_stop_endposes_vis", 1, &SafetySupervisor::ssmpEndposesCallback, this);
 

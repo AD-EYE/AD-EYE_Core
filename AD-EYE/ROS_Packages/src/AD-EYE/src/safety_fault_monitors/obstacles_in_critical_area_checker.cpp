@@ -13,10 +13,10 @@ ObstaclesInCriticalAreaChecker::ObstaclesInCriticalAreaChecker(int increment_val
         SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
     sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &ObstaclesInCriticalAreaChecker::gnssCallback, this);
-    sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &ObstaclesInCriticalAreaChecker::gridmapCallback, this);
+    sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("safety_planner_gridmap", 1, &ObstaclesInCriticalAreaChecker::gridmapCallback, this);
     sub_autoware_trajectory_ = nh_.subscribe<autoware_msgs::Lane>("/final_waypoints", 1, &ObstaclesInCriticalAreaChecker::autowareTrajectoryCallback, this);
     sub_current_velocity_ = nh_.subscribe("/current_velocity", 1, &ObstaclesInCriticalAreaChecker::currentVelocityCallback, this);
-    pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("/critical_area", 1, true);  //Used for critical area visualization
+    pub_critical_area_ = nh_.advertise<visualization_msgs::Marker>("critical_area", 1, true);  //Used for critical area visualization
 }
 
 /*!

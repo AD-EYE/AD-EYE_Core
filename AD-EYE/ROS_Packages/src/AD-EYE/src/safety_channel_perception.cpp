@@ -67,9 +67,9 @@ class SafetyChannelPerception {
         */
         SafetyChannelPerception(ros::NodeHandle& nh, tf::TransformListener& listener): nh_(nh), rate_(10), tf_listener_(listener)
         {
-            sub_lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("detection/lidar_detector/cloud_clusters", 1,
+            sub_lidar_ = nh.subscribe<autoware_msgs::CloudClusterArray>("cloud_clusters", 1,
                                                                         &SafetyChannelPerception::clusterCallback, this);
-            pub_polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("safetyChannelPerception/detection/polygons", 1, true);
+            pub_polygons_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("polygons", 1, true);
         }
 
         /*!

@@ -8,7 +8,7 @@ GeofencingChecker::GeofencingChecker(int increment_value, int decrement_value, i
         SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
     sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &GeofencingChecker::gnssCallback, this);
-    sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &GeofencingChecker::gridmapCallback, this);
+    sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("safety_planner_gridmap", 1, &GeofencingChecker::gridmapCallback, this);
 }
 
 bool GeofencingChecker::hasTestFailed() {

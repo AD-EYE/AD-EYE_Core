@@ -1,6 +1,6 @@
 <launch>
 
-    <group ns="safetyChannelPerception">
+    <group ns="safety_channel/perception">
 
         <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
         <arg name="remove_ground" value="false"/>

@@ -759,17 +759,17 @@ public:
 
 
         // Initialize node and publishers/subscribers
-        pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
-        pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
-        pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
+        pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("safety_planner_gridmap", 1, true);
+        pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("SSMP_ego_footprint", 1, true);
+        pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("SSMP_control", 1, true);
         sub_position_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &GridMapCreator::positionCallback, this);
 
         if(use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>("/pose_otherCar", 1, &GridMapCreator::dynamicObjectsGroundTruthCallback, this);
         else
-            sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safetyChannelPerception/safetyChannelPerception/detection/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
+            sub_dynamic_objects_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/safety_channel/perception/polygons", 1, &GridMapCreator::dynamicObjectsCallback, this);
         
-        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
+        sub_sensor_fov_ = nh.subscribe<jsk_recognition_msgs::PolygonArray>("sensor_fov", 1, &GridMapCreator::sensorSectorsCallback, this);
 
         // these three variables determine the performance of gridmap, the code will warn you whenever the performance becomes to slow to make the frequency
         map_resolution_ = 0.5;                 // 0.25 or lower number is the desired resolution, load time will significantly increase when increasing mapresolution,
@@ -905,7 +905,7 @@ int main(int argc, char **argv)
     }
 
     // init node
-    ros::init(argc, argv, "GridMapCreator");
+    ros::init(argc, argv, "grid_map_creator");
     ros::NodeHandle nh;
     GridMapCreator gmc(nh, area_width, area_height_front, area_height_back);
     gmc.run();

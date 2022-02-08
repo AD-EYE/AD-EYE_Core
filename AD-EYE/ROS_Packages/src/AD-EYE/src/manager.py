@@ -189,17 +189,17 @@ class ManagerFeaturesHandler:
 class Manager:
     INITIALIZING_DEFAULT_FEATURES = [
         # "Recording",
-        "Map",
-        # "Sensing",
+        # "Map",
+        "Sensing",
         # "Localization",
         # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        "Detection",
+        "Mission_Planning",
+        "Motion_Planning",
         "Switch",
         # "SSMP",
-        "Rviz",
-        "Experiment_specific_recording"
+        # "Rviz",
+        # "Experiment_specific_recording"
     ]
     ENABLED_DEFAULT_FEATURES = [
         # "Recording",
@@ -213,7 +213,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
         # "Recording",
@@ -227,7 +227,7 @@ class Manager:
         "Switch",
         "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
         # "Recording",
@@ -321,7 +321,7 @@ class Manager:
         self.manager_features_handler = ManagerFeaturesHandler()
         
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
-        rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
+        rospy.Subscriber("/safety_channel/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
         self.switch_request_pub = rospy.Publisher('/safety_channel/switch_request', Int32, queue_size=1)  # for GUI

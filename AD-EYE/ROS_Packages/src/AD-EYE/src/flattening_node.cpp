@@ -244,8 +244,8 @@ public:
         car_offset_(area_height_front - OCCMAP_HEIGHT_ / 2) // relative distance between the center of the grid map and the center of the car (longitudinal axis positive towards the front of the car
     {
         // Initialize node and publishers
-        pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/safety_planner_occmap", 1);
-        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
+        pub_occ_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("safety_planner_occmap", 1);
+        sub_grid_map_ = nh_.subscribe<grid_map_msgs::GridMap>("safety_planner_gridmap", 1, &OccMapCreator::gridMapCallback, this);
         sub_position_ego_ = nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &OccMapCreator::positionEgoCallback, this);
 
         rate_ = ros::Rate(frequency_);
