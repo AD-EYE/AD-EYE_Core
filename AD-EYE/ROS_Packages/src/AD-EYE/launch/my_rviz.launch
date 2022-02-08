@@ -1,4 +1,8 @@
 <!-- -->
 <launch>
+    <!-- Vehicle Model displayed in rviz -->
+    <param name="robot_description" textfile="$(find adeye)/../../../../AD-EYE/Data/URDF_Actor_Models/BMW_X5/default.urdf" />
+
+    <!-- Rviz with config -->
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find adeye)/rviz/config.rviz"/>
 </launch>

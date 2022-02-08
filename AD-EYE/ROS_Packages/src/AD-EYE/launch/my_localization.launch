@@ -25,11 +25,6 @@
         <arg name="period_in_ms" value="10"/>
     </include>
 
-    <!-- Vehicle Model -->
-    <include file="$(find vehicle_description)/launch/vehicle_model.launch">
-        <arg name="model_path" value="$(find adeye)/../../../../AD-EYE/Data/URDF_Actor_Models/BMW_X5/default.urdf"/>
-    </include>
-
     <!-- Points Downsampler -->
     <node pkg="rostopic" type="rostopic" name="config_voxel_grid_filter_rostopic"
           args="pub -l /config/voxel_grid_filter autoware_config_msgs/ConfigVoxelGridFilter
