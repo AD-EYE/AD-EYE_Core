@@ -6,10 +6,10 @@ import csv
 
 
 # individual parameter values
-RAIN_INTENSITIES = [0.5, 1.5, 3.5, 7.5, 15, 40]
-REFLECTIONS = [round(0.05 * i, 2) for i in range(1, 20)]
-TRIGGER_DISTANCES = [round(20 + 2 * i, 2) for i in range(0, 11)]
-EGO_SPEEDS = [round(5.5 + 0.56 * i, 2) for i in range(0, 6)]
+RAIN_INTENSITIES = [1, 5, 8, 10, 12, 15, 20, 30, 40]
+REFLECTIONS = [round(0.2 * i, 2) for i in range(1, 6)]
+TRIGGER_DISTANCES = [round(20 + 5 * i, 2) for i in range(0, 5)]
+EGO_SPEEDS = [round(8.8889 + 0.5555 * i, 2) for i in range(0, 7)]
 
 
 parameter_set = {} # contains all the parameters configurations of the set (four dimensional dictionary)
@@ -28,11 +28,10 @@ for trigger_ditance in TRIGGER_DISTANCES:
                 parameter_set[trigger_ditance][speed][intensity][reflectivity] = [0, index]
 
 
-
-
+print(index)
 
 # update the counters based on the recorded data
-with open('/home/adeye/Experiment_Results/ExperimentA.csv', newline='') as csvfile:
+with open('/home/adeye/Downloads/ExperimentA_it1.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
         # print(row)
@@ -52,7 +51,7 @@ for trigger_ditance in TRIGGER_DISTANCES:
         for intensity in RAIN_INTENSITIES:
             for reflectivity in REFLECTIONS:
                 index += 1
-                if parameter_set[trigger_ditance][speed][intensity][reflectivity][0] != 1 and index >= 1 and index < 1500:
+                if parameter_set[trigger_ditance][speed][intensity][reflectivity][0] != 1 and index >= 1 and index <= 1575:
                     run_string = "{:<15}".format("Run " + str(index)) + "{:<20}".format("Occurences " + str(parameter_set[trigger_ditance][speed][intensity][reflectivity][0]))
                     param_string = "Set speed, " + str(speed) + " , Set rain intensity, " + str(intensity) + " , Set reflectivity, " + str(reflectivity) + " , Set trigger distance, "+str(trigger_ditance)
                     print(run_string + param_string)
