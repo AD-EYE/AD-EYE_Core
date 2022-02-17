@@ -35,6 +35,8 @@ public:
 
     bool hasTestFailed() override;
 
+    std::string getMonitoredSensor();
+
 
     bool isSensorActive();
 };
