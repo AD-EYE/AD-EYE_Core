@@ -5,7 +5,6 @@
 #ifndef ADEYE_CAR_OFF_ROAD_CHECKER_H
 #define ADEYE_CAR_OFF_ROAD_CHECKER_H
 
-
 #include <ros/ros.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
@@ -13,9 +12,9 @@
 
 #include "safety_fault_monitor.h"
 
-
-class CarOffRoadChecker: public SafetyFaultMonitor {
-private:
+class CarOffRoadChecker : public SafetyFaultMonitor
+{
+  private:
     ros::NodeHandle nh_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
@@ -46,10 +45,9 @@ private:
      */
     void gnssCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
 
-public:
+  public:
     CarOffRoadChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
     ~CarOffRoadChecker();
 };
 
-
-#endif //ADEYE_CAR_OFF_ROAD_CHECKER_H
+#endif  // ADEYE_CAR_OFF_ROAD_CHECKER_H

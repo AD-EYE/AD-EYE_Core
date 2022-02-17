@@ -1,8 +1,7 @@
 #include "ros/ros.h"
 #include <adeye_utils/point_cloud_to_occupancy_grid.h>
 
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     ros::init(argc, argv, "points2costmap");
     ros::NodeHandle private_nh("~");

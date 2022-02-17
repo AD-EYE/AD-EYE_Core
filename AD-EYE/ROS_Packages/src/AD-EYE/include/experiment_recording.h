@@ -3,46 +3,42 @@
 
 #include "ros/ros.h"
 
+class ExperimentRecording
+{
+  private:
+    bool recording_started_ = false;
+    ros::Publisher stop_pub_;
 
-class ExperimentRecording {
+  public:
+    /*!
+    * \brief Constructor
+    * \details Initialize the publisher to stop the epxeriment
+    * \param nh ROS NodeHandle, needed to initialize the publisher that will stop the experiment
+    */
+    ExperimentRecording(ros::NodeHandle nh);
 
-    private:
-        bool recording_started_ = false;
-        ros::Publisher stop_pub_;
+    /*!
+    * \brief Starts the recording
+    * \details This method only affect the state
+    */
+    virtual void startRecording();
 
-    public:
-        /*!
-        * \brief Constructor
-        * \details Initialize the publisher to stop the epxeriment
-        * \param nh ROS NodeHandle, needed to initialize the publisher that will stop the experiment
-        */
-        ExperimentRecording(ros::NodeHandle nh);
+    /*!
+    * \brief Stops the recording
+    * \details This method only affect the state
+    */
+    virtual void stopRecording();
 
-        /*!
-        * \brief Starts the recording
-        * \details This method only affect the state
-        */
-        virtual void startRecording();
+    /*!
+    * \brief Getter to know if the recording is started
+    */
+    virtual bool hasRecordingStarted();
 
-        /*!
-        * \brief Stops the recording
-        * \details This method only affect the state
-        */
-        virtual void stopRecording();
-
-        /*!
-        * \brief Getter to know if the recording is started
-        */
-        virtual bool hasRecordingStarted();
-
-        /*!
-        * \brief Sends a message to stop the experiment
-        * \details This method sends a ROS message that once received by Simulink should stop the simulation
-        */
-        virtual void stopExperiment();
-
-
+    /*!
+    * \brief Sends a message to stop the experiment
+    * \details This method sends a ROS message that once received by Simulink should stop the simulation
+    */
+    virtual void stopExperiment();
 };
-
 
 #endif

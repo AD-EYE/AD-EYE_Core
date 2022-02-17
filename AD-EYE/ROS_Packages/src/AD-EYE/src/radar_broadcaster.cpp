@@ -6,22 +6,24 @@
 #include <geometry_msgs/Point32.h>
 
 /*!
-* \brief A node that converts a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publishes it
+* \brief A node that converts a std_msgs::Float32MultiArray variable into a autoware_msgs::DetectedObject and publishes
+* it
 * \details The std_msgs::Float32MultiArray come from the /radarDetections topic.
 * The autoware_msgs::DetectedObject is published on /detection/radar_tracker/objects topic
 */
 class RadarBroadcaster
 {
-private:
+  private:
     // Node, publishers and subscribers
-    ros::NodeHandle &nh_;
+    ros::NodeHandle& nh_;
 
     ros::Subscriber sub_radar_detections_;
 
     ros::Publisher pub_radar_objects_;
 
     // Structures
-    struct Detection{
+    struct Detection
+    {
         double x;
         double y;
         double z;
@@ -40,10 +42,11 @@ private:
         std_msgs::Float32MultiArray radarMsg = *msg;
         Detection d;
         detections.clear();
-        for (size_t i = 0; i < radarMsg.data.size()/3; i++) {
-            d.x = radarMsg.data.at(3*i);
-            d.y = radarMsg.data.at(3*i+1);
-            d.z = radarMsg.data.at(3*i+2);
+        for (size_t i = 0; i < radarMsg.data.size() / 3; i++)
+        {
+            d.x = radarMsg.data.at(3 * i);
+            d.y = radarMsg.data.at(3 * i + 1);
+            d.z = radarMsg.data.at(3 * i + 2);
             detections.push_back(d);
         }
         radar_detection_flag = true;
@@ -51,7 +54,8 @@ private:
 
     /*!
     * \brief Generate the autoware_msgs::DetectedObject object, populates it and publishes it
-    * \details For each point detected which contain no zero coordinate, set the parameters of object and push it back in the message to publish.
+    * \details For each point detected which contain no zero coordinate, set the parameters of object and push it back
+    * in the message to publish.
     */
     void publish()
     {
@@ -59,10 +63,12 @@ private:
         autoware_msgs::DetectedObjectArray msg;
 
         msg.header.frame_id = "radar";
-        for (size_t i = 0; i < detections.size(); i++) {
-            if (detections.at(i).x != 0 || detections.at(i).y != 0 || detections.at(i).z != 0) {
+        for (size_t i = 0; i < detections.size(); i++)
+        {
+            if (detections.at(i).x != 0 || detections.at(i).y != 0 || detections.at(i).z != 0)
+            {
                 object.header.frame_id = "radar";
-                object.id = i+1;
+                object.id = i + 1;
                 object.label = "unknown";
                 object.score = 1;
                 object.valid = true;
@@ -92,24 +98,23 @@ private:
                 object.convex_hull.polygon.points.push_back(p2);
                 msg.objects.push_back(object);
             }
-
         }
         pub_radar_objects_.publish(msg);
     }
 
-
-public:
+  public:
     /*!
     * \brief Constructor
     * \param nh A reference to the ros::NodeHandle initialized in the main function.
     * \details The node subscribes to /radarDetections topic and advertise to /detection/radar_tracker/objects topic
     */
-    RadarBroadcaster(ros::NodeHandle &nh) : nh_(nh)
+    RadarBroadcaster(ros::NodeHandle& nh) : nh_(nh)
     {
         // Initialize the publishers and subscribers
-        sub_radar_detections_ = nh_.subscribe<std_msgs::Float32MultiArray>("/radarDetections", 1,
-                                                                           &RadarBroadcaster::radarDetectionsCallback, this);
-        pub_radar_objects_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("/Detection/radar_tracker/objects", 1, true);
+        sub_radar_detections_ = nh_.subscribe<std_msgs::Float32MultiArray>(
+            "/radarDetections", 1, &RadarBroadcaster::radarDetectionsCallback, this);
+        pub_radar_objects_ =
+            nh_.advertise<autoware_msgs::DetectedObjectArray>("/Detection/radar_tracker/objects", 1, true);
     }
 
     /*!
@@ -117,17 +122,17 @@ public:
     */
     void run()
     {
-      ros::Rate rate(20);
-      while(nh_.ok())
-      {
-          ros::spinOnce();
-          if(radar_detection_flag)
-          {
-              radar_detection_flag = false;
-              publish();
-          }
-          rate.sleep();
-      }
+        ros::Rate rate(20);
+        while (nh_.ok())
+        {
+            ros::spinOnce();
+            if (radar_detection_flag)
+            {
+                radar_detection_flag = false;
+                publish();
+            }
+            rate.sleep();
+        }
     }
 };
 

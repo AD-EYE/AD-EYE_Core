@@ -1,7 +1,6 @@
 #include "ros/ros.h"
 #include <scenario_manager_template.h>
 
-
 #include <std_msgs/Bool.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <geometry_msgs/Pose.h>
@@ -19,9 +18,9 @@
 /*!
  * \brief Scenario1 node : Manages start and stop of the recording & experiment for Scenario1
  */
-class FaultExperimentManager: public ScenarioManagerTemplate {
-
-private:
+class FaultExperimentManager : public ScenarioManagerTemplate
+{
+  private:
     ros::Subscriber speed_sub_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_autoware_global_plan_;
@@ -42,17 +41,15 @@ private:
     bool is_motion_start_time_set = false;
     ros::Time motion_stop_time;
 
-
     void speedCallback(geometry_msgs::TwistStamped msg)
     {
         ego_speed_ = msg.twist.linear.x;
-        if(!is_motion_start_time_set && ego_speed_ > 0)
+        if (!is_motion_start_time_set && ego_speed_ > 0)
         {
             motion_start_time = ros::Time::now();
             is_motion_start_time_set = true;
         }
     }
-
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -65,17 +62,16 @@ private:
         ego_pose_ = gnss.pose;
     }
 
-
     /*!
      * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
      * \param msg A smart pointer to the message from the topic.
      */
     void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
-        if(msg->lanes.size() > 0)
+        if (msg->lanes.size() > 0)
         {
             std::vector<PlannerHNS::WayPoint> m_temp_path;
-            for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
+            for (unsigned int i = 0; i < msg->lanes.size(); i++)
             {
                 PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
                 PlannerHNS::PlanningHelpers::CalcAngleAndCost(m_temp_path);
@@ -99,7 +95,6 @@ private:
         pub_autoware_goal_.publish(newGoal);
     }
 
-
     static void killSSDCamera1()
     {
         system("rosnode kill /camera_1/vision_ssd_detect");
@@ -117,25 +112,27 @@ private:
         system("rosnode kill /goalSequencer");
     }
 
-public:
+  public:
     /*!
     * \brief Constructor
     * \param nh ros::NodeHandle initialized in the main function.
     * \param frequency The frequency at which the main loop will be run.
     * \details Initializes the node and its components such the as subscribers.
     */
-    FaultExperimentManager(ros::NodeHandle nh, int frequency): ScenarioManagerTemplate(nh, frequency)
+    FaultExperimentManager(ros::NodeHandle nh, int frequency) : ScenarioManagerTemplate(nh, frequency)
     {
-        speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10, &FaultExperimentManager::speedCallback, this);
-        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &FaultExperimentManager::gnssCallback, this);
-        sub_autoware_global_plan_ = nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
+        speed_sub_ = ScenarioManagerTemplate::nh_.subscribe("/current_velocity", 10,
+                                                            &FaultExperimentManager::speedCallback, this);
+        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100,
+                                                              &FaultExperimentManager::gnssCallback, this);
+        sub_autoware_global_plan_ =
+            nh.subscribe("/lane_waypoints_array", 1, &FaultExperimentManager::autowareGlobalPlanCallback, this);
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
 
-        trigger_distance_ = 250 + 100 * (int) (getExpIndex() / 4);
+        trigger_distance_ = 250 + 100 * (int)(getExpIndex() / 4);
         fault_criticality_level_ = getExpIndex() % 4 + 1;
         // ScenarioManagerTemplate::nh_.param<float>("/simulink/rain_intensity", rain_intensity_, 0.0);
     }
-
 
     int getExpIndex()
     {
@@ -154,7 +151,7 @@ public:
     {
         std::cout << "FaultExperimentManager: started experiment" << std::endl;
 
-        switch(fault_criticality_level_)
+        switch (fault_criticality_level_)
         {
             case 1:
                 killGoalSequencer();
@@ -197,14 +194,13 @@ public:
     {
         std::cout << "FaultExperimentManager: stopped recording" << std::endl;
 
-
         double remaining_traj_length = getRemainingTrajectoryLength();
         std::cout << remaining_traj_length << " meters remaining to goal" << std::endl;
         std::ofstream results_file;
         results_file.open(RESULT_FILE_PATH, std::ios::app);
-        results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length <<
-        "," << motion_start_time.toSec() << "," << motion_stop_time.toSec() << "," <<
-        motion_stop_time.toSec() - motion_start_time.toSec() << "\n";
+        results_file << fault_criticality_level_ << "," << trigger_distance_ << "," << remaining_traj_length << ","
+                     << motion_start_time.toSec() << "," << motion_stop_time.toSec() << ","
+                     << motion_stop_time.toSec() - motion_start_time.toSec() << "\n";
         results_file.close();
     }
 
@@ -212,28 +208,32 @@ public:
     {
         PlannerHNS::WayPoint pose_wp(ego_pose_.position.x, ego_pose_.position.y, 0, 0);
         int current_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
-//        int current_wp_index = PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp, 0);
-        double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
+        //        int current_wp_index =
+        //        PlannerHNS::PlanningHelpers::GetClosestNextPointIndexFastV2(autoware_global_path_.front(), pose_wp,
+        //        0);
+        double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(
+            autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
         return remaining_traj_length;
     }
     double getGlobalPathLength()
     {
-        return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), 0, autoware_global_path_.front().back());
+        return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), 0,
+                                                                             autoware_global_path_.front().back());
     }
-
 
     static double getDistance(const PlannerHNS::WayPoint& P1, const PlannerHNS::WayPoint& P2)
     {
         return sqrt((P2.pos.x - P1.pos.x) * (P2.pos.x - P1.pos.x) + (P2.pos.y - P1.pos.y) * (P2.pos.y - P1.pos.y));
     }
 
-    static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
+    static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory,
+                                       const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
     {
         double min_dist = DBL_MAX;
         int min_index = 0;
-        for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
+        for (int wp_index = 0; wp_index < trajectory.size(); wp_index++)
         {
-            if(getDistance(p, trajectory.at(wp_index)) < min_dist)
+            if (getDistance(p, trajectory.at(wp_index)) < min_dist)
             {
                 min_dist = getDistance(p, trajectory.at(wp_index));
                 min_index = wp_index;
@@ -242,22 +242,17 @@ public:
         return min_index;
     }
 
-
     void displayRemainingDistance()
     {
-
-        if(has_received_global_plan_)
+        if (has_received_global_plan_)
         {
-
             PlannerHNS::WayPoint pose_wp(ego_pose_.position.x, ego_pose_.position.y, 0, 0);
             int current_wp_index = getClosestWaypointIndex(autoware_global_path_.front(), pose_wp, 0);
-            double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
+            double remaining_traj_length = PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(
+                autoware_global_path_.front(), current_wp_index, autoware_global_path_.front().back());
             std::cout << "    " << getRemainingTrajectoryLength() << "  " << current_wp_index << "\t\r" << std::flush;
         }
     }
-
-
-
 
     /*!
     * \brief Checks if the conditions to start recording are met
@@ -275,7 +270,7 @@ public:
     {
         displayRemainingDistance();
         return (ego_speed_ < SPEED_STOP_THRESHOLD_);
-//        return (has_received_global_plan_);
+        //        return (has_received_global_plan_);
     }
 
     /*!
@@ -295,14 +290,9 @@ public:
         displayRemainingDistance();
         return (ego_speed_ < SPEED_STOP_THRESHOLD_);
     }
-
-
-
-
 };
 
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     ros::init(argc, argv, "FaultExperimentManager");
     ros::NodeHandle private_nh("~");

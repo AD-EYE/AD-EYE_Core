@@ -5,24 +5,23 @@
 #ifndef ADEYE_OBSTACLES_IN_CRITICAL_AREA_CHECKER_H
 #define ADEYE_OBSTACLES_IN_CRITICAL_AREA_CHECKER_H
 
-
 #include <ros/ros.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <autoware_msgs/Lane.h>
 
-
 #include "safety_fault_monitor.h"
 
-class ObstaclesInCriticalAreaChecker: public SafetyFaultMonitor {
-private:
+class ObstaclesInCriticalAreaChecker : public SafetyFaultMonitor
+{
+  private:
     ros::NodeHandle nh_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_trajectory_;
     ros::Subscriber sub_current_velocity_;
-    ros::Publisher pub_critical_area_;  //Used for critical area visualization
+    ros::Publisher pub_critical_area_;  // Used for critical area visualization
     autoware_msgs::Lane autowareTrajectory_;
     geometry_msgs::Pose pose_;
     grid_map::GridMap gridmap_;
@@ -31,17 +30,15 @@ private:
     bool trajectory_flag_ = false;
     float current_velocity_ = 0;
 
-    //Critical area
+    // Critical area
     float car_length_ = 5;
     float car_width_ = 2;
     bool car_size_set_ = false;
-    float critical_area_length_ = car_length_; //Size of the critical Area
+    float critical_area_length_ = car_length_;  // Size of the critical Area
     float critical_area_width_ = car_width_ * 1.2;
     grid_map::Polygon critical_area_;
 
-
     bool hasTestFailed() override;
-
 
     /*!
      * \brief Check dynamic objects : Called at every iteration of the main loop
@@ -85,12 +82,9 @@ private:
 
     void publishCriticalAreaVisualization() const;
 
-
-public:
-
+  public:
     ObstaclesInCriticalAreaChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
     ~ObstaclesInCriticalAreaChecker();
 };
 
-
-#endif //ADEYE_OBSTACLES_IN_CRITICAL_AREA_CHECKER_H
+#endif  // ADEYE_OBSTACLES_IN_CRITICAL_AREA_CHECKER_H

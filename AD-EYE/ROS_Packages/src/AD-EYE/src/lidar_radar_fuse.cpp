@@ -12,9 +12,9 @@
  */
 class LidarRadarFuser
 {
-private:
+  private:
     // Node, publishers and subscribers
-    ros::NodeHandle &nh_;
+    ros::NodeHandle& nh_;
 
     ros::Subscriber sub1_;
     ros::Subscriber sub2_;
@@ -67,7 +67,7 @@ private:
     /*!
     * \brief Fuse the objects detected by lidar and radar and publish it
     * \details Give a personal id for each detected object, put it in a msg and then publish it.
-    * If the distance between one lidar object and one radar object is lower than RADAR_LIDAR_MAX_DISTANCE, 
+    * If the distance between one lidar object and one radar object is lower than RADAR_LIDAR_MAX_DISTANCE,
     * it means that they have detected the same object.
     */
     void publish()
@@ -79,52 +79,67 @@ private:
         // we add the unique "id" that will be used when merging the output from the
         // different range_vision_fusion nodes for the different cameras
         size_t i;
-        for (i = 0; i < fused_msg_.objects.size(); i++) {
+        for (i = 0; i < fused_msg_.objects.size(); i++)
+        {
             fused_msg_.objects.at(i).user_defined_info.push_back(std::to_string(i));
             fused_msg_.objects.at(i).user_defined_info.push_back("lidar");
         }
 
-        for (size_t j = 0; j < radar_msg_.objects.size(); j++) {
+        for (size_t j = 0; j < radar_msg_.objects.size(); j++)
+        {
             is_object_assigned = false;
-            for (size_t k = 0; k < fused_msg_.objects.size(); k++) {
-                if (distance(fused_msg_.objects.at(k).pose.position, radar_msg_.objects.at(j).pose.position) < RADAR_LIDAR_MAX_DISTANCE) {
-                    fused_msg_.objects.at(k).user_defined_info.push_back("radar"); // This object has been detected by the lidar. Now, we indicate that it has also been detected by radar
+            for (size_t k = 0; k < fused_msg_.objects.size(); k++)
+            {
+                if (distance(fused_msg_.objects.at(k).pose.position, radar_msg_.objects.at(j).pose.position) <
+                    RADAR_LIDAR_MAX_DISTANCE)
+                {
+                    fused_msg_.objects.at(k).user_defined_info.push_back("radar");  // This object has been detected by
+                                                                                    // the lidar. Now, we indicate that
+                                                                                    // it has also been detected by
+                                                                                    // radar
                     is_object_assigned = true;
                     break;
                 }
             }
-            if (!is_object_assigned) {
+            if (!is_object_assigned)
+            {
                 radar_msg_.objects.at(j).user_defined_info.push_back(std::to_string(i));
                 i++;
-                radar_msg_.objects.at(j).user_defined_info.push_back("radar"); // This object has been detected only by radar
+                radar_msg_.objects.at(j).user_defined_info.push_back(
+                    "radar");  // This object has been detected only by radar
                 fused_msg_.objects.push_back(radar_msg_.objects.at(j));
             }
         }
 
-        // Here we give a unique "id" that will be used when merging the output from the diferent range_vision_fusion nodes for the different cameras
-        //for (size_t k = 0; k < fused_msg_.objects.size(); k++) {
-        //    fused_msg_.objects.at(k).user_defined_info.push_back(std::to_string(k)); //std::to_string(fused_msg_.objects.at(k).id)
+        // Here we give a unique "id" that will be used when merging the output from the diferent range_vision_fusion
+        // nodes for the different cameras
+        // for (size_t k = 0; k < fused_msg_.objects.size(); k++) {
+        //    fused_msg_.objects.at(k).user_defined_info.push_back(std::to_string(k));
+        //    //std::to_string(fused_msg_.objects.at(k).id)
         //}
 
         // Publish the message
         pub_.publish(fused_msg_);
     }
 
-
-public:
+  public:
     /*!
      * \brief Constructor of the class
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \param lidar_topic Name of the topic that connect the lidar node
      * \param radar_topic Name of the topic that connect the radar node
      * \param fused_topic Name of the topic where the output list will be published
-     * \details Initialize the node and its components such as publishers and subscribers. It call lidarMsgCallback and radarMsgCallback
+     * \details Initialize the node and its components such as publishers and subscribers. It call lidarMsgCallback and
+     * radarMsgCallback
      */
-    LidarRadarFuser(ros::NodeHandle &nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic) : nh_(nh)
+    LidarRadarFuser(ros::NodeHandle& nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic)
+      : nh_(nh)
     {
         // Initialize the publishers and subscribers
-        sub1_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(lidar_topic, 1, &LidarRadarFuser::lidarMsgCallback, this);
-        sub2_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &LidarRadarFuser::radarMsgCallback, this);
+        sub1_ =
+            nh_.subscribe<autoware_msgs::DetectedObjectArray>(lidar_topic, 1, &LidarRadarFuser::lidarMsgCallback, this);
+        sub2_ =
+            nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &LidarRadarFuser::radarMsgCallback, this);
         pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(fused_topic, 1, true);
     }
 
@@ -133,15 +148,16 @@ public:
      */
     void run()
     {
-      ros::Rate rate(20);
-      while(nh_.ok())
-      {
-          ros::spinOnce();
-          if (lidar_msg_flag_ || radar_msg_flag_) {
-              publish();
-          }
-          rate.sleep();
-      }
+        ros::Rate rate(20);
+        while (nh_.ok())
+        {
+            ros::spinOnce();
+            if (lidar_msg_flag_ || radar_msg_flag_)
+            {
+                publish();
+            }
+            rate.sleep();
+        }
     }
 };
 
@@ -149,9 +165,10 @@ public:
 * \brief Exception
 * \details Exception raise if names of topics weren't given
 */
-void usage(std::string bin_name) {
-    ROS_FATAL_STREAM("\n" << "Usage : " << bin_name <<
-                          " <lidar_topic> <radar_topic> <fused_topic>");
+void usage(std::string bin_name)
+{
+    ROS_FATAL_STREAM("\n"
+                     << "Usage : " << bin_name << " <lidar_topic> <radar_topic> <fused_topic>");
 }
 
 /*!
@@ -159,7 +176,8 @@ void usage(std::string bin_name) {
 */
 int main(int argc, char** argv)
 {
-    if (argc < 4) {
+    if (argc < 4)
+    {
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
