@@ -1,4 +1,9 @@
 <!-- -->
 <launch>
+        <!-- Vehicle Model displayed in rviz -->
+    <param name="robot_description" textfile="/adeye/rviz/vehicle_model/model_path" />
+
+
+
     <node type="rviz" name="rviz" pkg="rviz" args="/adeye/rviz/rviz/args"/>
 </launch>

@@ -79,7 +79,7 @@
 
     <!-- objectsFrameAdapter -->
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch" ns="detection/radar">
-        <arg name="nodeName" value="radarObjectsFrameAdapter"/>
+        <arg name="nodeName" value="radar_objects_frame_adapter"/>
         <arg name="inputTopic" value="objects_radar_frame"/>
         <arg name="outputTopic" value="objects_velodyne_frame"/>
         <arg name="targetFrame" value="velodyne"/>
@@ -87,7 +87,7 @@
 
     <!-- lidar_radar_fusion -->
     <include file="$(find adeye)/launch/lidarRadarFuse.launch" ns="detection">
-        <arg name="nodeName" value="lidarRadarFuse"/>
+        <arg name="nodeName" value="lidar_radar_fuser"/>
         <arg name="lidar_topic" value="lidar/tracked_objects"/>
         <arg name="radar_topic" value="radar/objects_velodyne_frame"/>
         <arg name="fused_topic" value="lidar_radar_fusion/objects"/>

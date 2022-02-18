@@ -33,7 +33,7 @@
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
 
-    <node pkg="adeye" type="GridMapCreator" name="GridMapCreator" output="screen"
+    <node pkg="adeye" type="GridMapCreator" name="grid_map_creator" output="screen" ns="safety_channel"
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)">
         <param name="filePoint" value="$(arg Vector_Map_Folder)point.csv"/>
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
@@ -43,19 +43,20 @@
                value="$(arg Pex_Folder)/adeye/config/manager/WorldName.pex"/>
     </node>
 
-    <node pkg="adeye" type="flattening" name="flattening" output="screen"
+    <node pkg="adeye" type="flattening" name="flattening" output="screen" ns="safety_channel"
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
 
     <rosparam param="critical_nodes_level_one">["/goalSequencer"]</rosparam>
-    <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam>
-    <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
+    <rosparam param="critical_nodes_level_two">["/detection/camera_2/vision_ssd_detect"]</rosparam>
+    <rosparam param="critical_nodes_level_three">["/detection/camera_1/vision_ssd_detect"]</rosparam>
     <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/control_signal_forwarder", "/controlSwitch"]</rosparam>
     <node pkg="adeye"
-          type="safetySupervisor"
-          name="safetySupervisor"
-          output="screen"
-          launch-prefix="xterm -e"
-          args="/twist_gate"/>
+        type="safetySupervisor"
+        name="safety_supervisor"
+        output="screen"
+        launch-prefix="xterm -e"
+        ns="safety_channel"
+        args="/pure_pursuit /twist_filter /twist_gate /controlSwitch"/>
 
     <!--node pkg="adeye"
           type="collisionDetector"
@@ -63,21 +64,22 @@
           output="log" /-->
 
     <node pkg="ss_trajplanner"
-          type="ss_trajplanner_node"
-          name="ss_trajplanner_node"
-          output="screen"
-          launch-prefix="xterm -e">
+        type="ss_trajplanner_node"
+        name="ss_trajplanner_node"
+        output="screen"
+        ns="safety_channel"
+        launch-prefix="xterm -e">
         <param name="trajectory_set_filename"
                value="/adeye/SSMP/ss_trajplanner/trajectory_set_filename"/>
         <param name="costmap_base_topic" value="/costmap_base"/>
-        <remap from="/costmap_base/costmap" to="/safety_planner_occmap"/>
-        <remap from="/costmap_base/footprint" to="/SSMP_ego_footprint"/>
+        <remap from="/costmap_base/costmap" to="/safety_channel/safety_planner_occmap"/>
+        <remap from="/costmap_base/footprint" to="/safety_channel/SSMP_ego_footprint"/>
     </node>
 
 
     <node pkg="adeye"
         type="sensorMonitor"
-        name="sensorMonitor"
+        name="sensor_monitor"
         output="screen"/>
 
 </launch>

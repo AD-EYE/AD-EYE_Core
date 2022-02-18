@@ -106,6 +106,7 @@
 
     <!-- op_motion_predictor -->
     <include file="$(find op_local_planner)/launch/op_motion_predictor.launch">
+        <remap from="/tracked_objects"       to="/detection/objects_map_frame" />
     </include>
 
     <!-- op_trajectory_evaluator -->
