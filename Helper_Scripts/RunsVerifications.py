@@ -6,10 +6,10 @@ import csv
 
 
 # individual parameter values
-RAIN_INTENSITIES = [1, 5, 8, 10, 12, 15, 20, 30, 40]
+RAIN_INTENSITIES = [1.0, 5.0, 8.0, 10.0, 12.0, 15.0, 20.0, 30.0, 40.0]
 REFLECTIONS = [round(0.2 * i, 2) for i in range(1, 6)]
 TRIGGER_DISTANCES = [round(20 + 5 * i, 2) for i in range(0, 5)]
-EGO_SPEEDS = [round(8.8889 + 0.5555 * i, 2) for i in range(0, 7)]
+EGO_SPEEDS = [round(8.8889 + 0.5555 * i, 4) for i in range(0, 7)]
 
 
 parameter_set = {} # contains all the parameters configurations of the set (four dimensional dictionary)
@@ -31,11 +31,11 @@ for trigger_ditance in TRIGGER_DISTANCES:
 print(index)
 
 # update the counters based on the recorded data
-with open('/home/adeye/Downloads/ExperimentA_it1.csv', newline='') as csvfile:
+with open('/media/adeye/KINGSTON/ExperimentA_it2.csv') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
         # print(row)
-        speed = round(float(row[1]), 2)
+        speed = round(float(row[1]), 4)
         intensity = round(float(row[3]), 2)
         reflectivity = round(float(row[5]), 2)
         distance = round(float(row[7]), 2)
