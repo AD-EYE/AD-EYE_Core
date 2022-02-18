@@ -42,6 +42,8 @@ class SensorChecker : public SafetyFaultMonitor
 
     bool hasTestFailed() override;
 
+    std::string getMonitoredSensor();
+
     bool isSensorActive();
 };
 

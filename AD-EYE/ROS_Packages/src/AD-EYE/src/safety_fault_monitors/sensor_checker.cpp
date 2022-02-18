@@ -23,16 +23,36 @@ bool SensorChecker::hasTestFailed()
     return !isSensorActive();
 }
 
+std::string SensorChecker::getMonitoredSensor()
+{
+    switch (sensor_to_monitor_)
+    {
+        case SENSOR_TYPE::radar:
+            return "radar";
+        case SENSOR_TYPE::lidar:
+            return "lidar";
+        case SENSOR_TYPE::camera1:
+            return "camera1";
+        case SENSOR_TYPE::camera2:
+            return "camera2";
+        case SENSOR_TYPE::cameratl:
+            return "cameratl";
+    }
+}
+
 bool SensorChecker::isSensorActive()
 {
     if (!sensors_fov_flag_)
     {
+        ROS_WARN("Sensor monitor node is not publishing");
         return false;
     }
     else if (!sensors_fov_.polygons.at(sensor_to_monitor_).polygon.points.empty())
     {
         return true;
     }
+    ROS_WARN_STREAM("Sensor " << getMonitoredSensor() << " timed out");
+    return false;
 }
 
 SensorChecker::~SensorChecker()
