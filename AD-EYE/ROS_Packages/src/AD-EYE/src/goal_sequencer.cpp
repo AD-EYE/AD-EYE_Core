@@ -41,11 +41,10 @@ private:
     ros::Subscriber sub_goal_coordinates_;
     ros::Subscriber sub_position_;
     ros::Subscriber sub_autoware_state_;
-    ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_vector_map_;
     ros::Publisher pub_goal_;
+    ros::Publisher pub_overwrite_goal_;
     ros::Publisher pub_update_local_planner_;
-    ros::Publisher pub_clear_goal_list_bool_;
 
     
     // ROS rate
@@ -136,25 +135,6 @@ private:
         autoware_behavior_state_ =  msg -> twist.angular.y;
     }
     
-    /*!
-     * \brief Autoware global plan Callback : Called when the global plan from autoware has changed.
-     * \param msg A smart pointer to the message from the topic.
-     */
-    void autowareGlobalPlanCallback(const autoware_msgs::LaneArray::ConstPtr &msg)
-    {
-        // Local planner value
-        std_msgs::Int32 local_planner;
-
-        if(should_update_global_planner_)
-        {
-            // Update the local planner for the next goal
-            local_planner.data = 1;
-            pub_update_local_planner_.publish(local_planner);
-            should_update_global_planner_ = false;
-            ROS_INFO("Updated Local Planner!");
-        }
-    }
-
     /*!
      * \brief Autoware vector map Callback : Called when the vector map is received.
      * \param msg The message contains the data points of the vector map. 
@@ -367,11 +347,10 @@ public:
         sub_goal_coordinates_ = nh_.subscribe<geometry_msgs::PoseStamped>("/adeye/goals", 1, &GoalSequencer::storeGoalCoordinatesCallback, this);
         sub_position_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &GoalSequencer::positionCallback, this);
         sub_autoware_state_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_behavior", 1, &GoalSequencer::behaviorStateCallback, this);
-        sub_autoware_global_plan_ = nh_.subscribe<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, &GoalSequencer::autowareGlobalPlanCallback, this);
         sub_vector_map_ = nh_.subscribe<vector_map_msgs::PointArray>("/vector_map_info/point", 1, &GoalSequencer::vectorMapCallback, this);
         pub_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, true);
+        pub_overwrite_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("/adeye/overwriteGoal", 1, true);
         pub_update_local_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_local_planner", 1, true);
-        pub_clear_goal_list_bool_= nh_.advertise<std_msgs::Bool>("/adeye/clear_first_goal", 1, true);
     }   
 
     void run() 
@@ -397,24 +376,20 @@ public:
             // Publish the next goal when the car enters in end state (end state = 13.0) and condition for removing the previous goal and setting up the next goal 
             if(autoware_behavior_state_ == END_STATE_ && !has_global_planner_and_goal_been_reset_ && goal_coordinates_.size() >= MINIMUM_GOALS_)
             {
-                // Boolean for clearing the goal list in autoware op_global_planner
-                std_msgs::Bool clear_goal_list;
-                
-                // Publish true value to clear the goal list in autoware
-                clear_goal_list.data = true;
-                pub_clear_goal_list_bool_.publish(clear_goal_list);
-
                 // Remove the previous goal
                 goal_coordinates_.pop();
             
                 // Publish the real world map goal coordinates         
-                pub_goal_.publish(goal_coordinates_.front());
+                pub_overwrite_goal_.publish(goal_coordinates_.front());
 
                 ROS_INFO("The next goal has been published. Position:- x = %lf, y = %lf, z = %lf", goal_coordinates_.front().pose.position.x, goal_coordinates_.front().pose.position.y, goal_coordinates_.front().pose.position.z);
 
-                // Update the global planner boolean
-                should_update_global_planner_ = true;
-                
+                std_msgs::Int32 local_planner;
+
+                local_planner.data = 1;
+                pub_update_local_planner_.publish(local_planner);
+                ROS_INFO("Updated Local Planner!");
+
                 // Update the planner and goal boolean for end state
                 has_global_planner_and_goal_been_reset_ = true;
             }

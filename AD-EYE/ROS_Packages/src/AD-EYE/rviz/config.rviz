@@ -789,7 +789,7 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
       Topic: /initialpose
     - Class: rviz/SetGoal
-      Topic: /move_base_simple/goal
+      Topic: /adeye/goals
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
