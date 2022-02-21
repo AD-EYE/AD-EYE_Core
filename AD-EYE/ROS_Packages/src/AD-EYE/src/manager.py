@@ -199,7 +199,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     ENABLED_DEFAULT_FEATURES = [
         # "Recording",
@@ -213,7 +213,7 @@ class Manager:
         "Switch",
         # "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
         # "Recording",
@@ -227,7 +227,7 @@ class Manager:
         "Switch",
         "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
         # "Recording",
@@ -241,7 +241,7 @@ class Manager:
         "Switch",
         "SSMP",
         "Rviz",
-        "Experiment_specific_recording"
+        # "Experiment_specific_recording"
     ]
     INITIALIZING_ALLOWED_FEATURES = [
         # "Recording",
