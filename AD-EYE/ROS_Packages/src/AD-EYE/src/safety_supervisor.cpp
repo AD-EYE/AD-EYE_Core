@@ -7,6 +7,7 @@
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/LaneArray.h>
+#include <jsk_rviz_plugins/OverlayText.h>
 
 #include <cpp_utils/pose_datatypes.h>
 
@@ -47,6 +48,7 @@ private:
     ros::Publisher pub_autoware_goal_;
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_road_side_parking_viz_;
+    ros::Publisher pub_text_overlay_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_global_plan_;
@@ -78,7 +80,7 @@ private:
 
     geometry_msgs::Pose pose_;
     bool var_switch_;
-    int varoverwrite_behavior_;
+    int varoverwrite_behavior_{};
     bool gnss_flag_ = false;
     bool gridmap_flag_ = false;
     bool autoware_global_path_flag_ = false;
@@ -102,8 +104,8 @@ private:
     std::vector<int> decrements_fail_test_ = std::vector<int>(num_safety_tests_,-1);
    
     // result of the check functions
-    double distance_to_lane_;
-    double distance_to_road_edge_;
+    double distance_to_lane_{};
+    double distance_to_road_edge_{};
 
     struct CurvatureExtrema {
         double max;
@@ -113,14 +115,14 @@ private:
     // enum to identify critical level
     enum CRITICAL_LEVEL_ {INITIAL_GOAL, REST_AREA, ROAD_SIDE_PARKING, IMMEDIATE_STOP};
 
-    // Test for sensor coverage
-    enum SENSOR_TYPE_ {radar, lidar, camera1, camera2, cameratl}; // numbers of sensors have to fit with those defined in sensor monitor
-
     bool broke_at_least_once_ = false; // To know if there already is at least 1 anomaly
     bool is_anomaly_fixed_ = false; // To know if there already is an anomaly and if it is now fixed
     geometry_msgs::PoseStamped initial_goal_coordinates_;
 
     double current_speed_limit_ = 8.3;
+
+
+    CRITICAL_LEVEL_ current_fault_criticality_level_;
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -153,14 +155,14 @@ private:
      */
     void autowareGlobalPlanCallback(const autoware_msgs::LaneArrayConstPtr& msg)
     {
-      if(msg->lanes.size() > 0)
+      if(!msg->lanes.empty())
       {
           std::vector<PlannerHNS::WayPoint> m_temp_path;
           autoware_global_path_.clear();
           autoware_global_path_flag_ = true;
-          for(unsigned int i = 0 ; i < msg->lanes.size(); i++)
+          for(const auto & lane : msg->lanes)
           {
-              PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(msg->lanes.at(i), m_temp_path);
+              PlannerHNS::ROSHelpers::ConvertFromAutowareLaneToLocalLane(lane, m_temp_path);
               PlannerHNS::PlanningHelpers::CalcAngleAndCost(m_temp_path);
               autoware_global_path_.push_back(m_temp_path);
           }
@@ -200,7 +202,7 @@ private:
      * \brief Get distance to lane : Called at every iteration of the main loop
      * \return Distance to the center line of the lane
      */
-    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory)
+    double getDistanceToLane(const std::vector<PlannerHNS::WayPoint>& trajectory) const
     {
         PlannerHNS::WayPoint p0 = PlannerHNS::WayPoint(pose_.position.x, pose_.position.y, pose_.position.z, tf::getYaw(pose_.orientation));
         std::vector<int> two_closest_index = getTwoClosestIndices(trajectory, p0);
@@ -208,8 +210,8 @@ private:
         int second_closest_index = two_closest_index.at(1);
         PlannerHNS::WayPoint p1 = trajectory.at(closest_index);
         PlannerHNS::WayPoint p2 = trajectory.at(second_closest_index);
-        // the distance is the distance from the car's position to the line formed by the two points fron the path
-        double distance = double(fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2)));
+        // the distance is the distance from the car's position to the line formed by the two points from the path
+        double distance = fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y + p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x)/sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2));
         std::cout << "Closest index = " << closest_index << ". Second closest index: " << second_closest_index << ". Distance = " << distance << '\n';
         return distance;
     }
@@ -218,12 +220,12 @@ private:
      * \brief Get closest index : Called at every iteration of the main loop
      * Finds the closest point in a trajectory to a certain point
      */
-    std::vector<int> getTwoClosestIndices(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
+    static std::vector<int> getTwoClosestIndices(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p)
     {
         int closest_index = 0;
         int second_closest_index = 0;
-        double d_closest_index = DBL_MAX;
-        double d_second_closest_index = DBL_MAX;
+        double d_closest_index = std::numeric_limits<double>::max();
+        double d_second_closest_index = std::numeric_limits<double>::max();
         if(trajectory.size()>1){
             for(int i=0; i<trajectory.size(); i++){
                 double d = pow(trajectory[i].pos.x - p.pos.x, 2) + pow(trajectory[i].pos.y - p.pos.y, 2);
@@ -289,7 +291,7 @@ private:
      */
     static CurvatureExtrema getCurvatureExtrema(const std::vector<PlannerHNS::WayPoint>& trajectory)
     {
-        CurvatureExtrema curvature_extrema;
+        CurvatureExtrema curvature_extrema{};
         curvature_extrema.max = 0;
         curvature_extrema.min = 0;
         if(trajectory.size()>2){
@@ -403,6 +405,40 @@ private:
         // msgTriggerUpdateGlobalPlanner.data = 1;
         // pub_trigger_update_global_planner_.publish(msgTriggerUpdateGlobalPlanner);
 
+        publishTextOverlay();
+
+    }
+
+    void publishTextOverlay() {
+        jsk_rviz_plugins::OverlayText text_overlay;
+        text_overlay.left = 20;
+        text_overlay.top = 20;
+        text_overlay.width = 800;
+        text_overlay.height = 400;
+        text_overlay.fg_color.a = 1.0;
+        text_overlay.fg_color.r = 1.0;
+        text_overlay.fg_color.g = 1.0;
+        text_overlay.text_size = 16;
+        text_overlay.font = "Liberation Mono";
+        text_overlay.text = "Current safety channel decision:\n -";
+        switch(current_fault_criticality_level_)
+        {
+            case INITIAL_GOAL:
+                text_overlay.text += "go to initial goal";
+                break;
+            case REST_AREA:
+                text_overlay.text += "go to rest area";
+                break;
+            case ROAD_SIDE_PARKING:
+                text_overlay.text += "go to road side parking";
+                break;
+            case IMMEDIATE_STOP:
+                text_overlay.text += "perform immediate stop";
+                break;
+        }
+
+
+        pub_text_overlay_.publish(text_overlay);
     }
 
     
@@ -525,7 +561,7 @@ private:
      * \details The situation is evaluated and the state of the vehicle is
      * declared safe or unsafe.
      */
-    void performSafetyTests()
+    void performSafetyTestsAndDecision()
     {
         varoverwrite_behavior_ = NO_BEHAVIOR_OVERWRITE_;
 
@@ -542,7 +578,8 @@ private:
 
 
 
-        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();;
+        CRITICAL_LEVEL_ most_critical_level = takeDecisionBasedOnTestsResults();
+
         performAction(most_critical_level);
     }
 
@@ -580,6 +617,7 @@ private:
      * \param most_critical_level Decision taken
      */
     void performAction(const CRITICAL_LEVEL_ &most_critical_level) {// Make the decision according to the critical level
+        current_fault_criticality_level_ = most_critical_level;
         switch(most_critical_level)
         {
             case INITIAL_GOAL:
@@ -613,7 +651,8 @@ private:
                     }
                     else
                     {
-                        ROS_INFO("Decision: No rest area available, performing immediate stop");
+                        current_fault_criticality_level_ = CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
+                        ROS_INFO("Decision: No rest area available, performing stop in road side parking");
                     }
                 }
                 else{
@@ -626,12 +665,13 @@ private:
                 {
                     if(isThereAValidRoadSideParking())
                     {
-                    is_road_side_parking_chosen_ = true;
-                    road_side_parking_pose = findClosestRoadSideParking();
+                        is_road_side_parking_chosen_ = true;
+                        road_side_parking_pose = findClosestRoadSideParking();
                     }
                     else // if there is no valid parking we stop immediately (going one level up in term of criticality)
                     {
                         triggerSafetySwitch();
+                        current_fault_criticality_level_ = CRITICAL_LEVEL_::IMMEDIATE_STOP;
                         ROS_INFO("Decision: No road side parking available, performing immediate stop");
                     }
                 }
@@ -648,6 +688,7 @@ private:
                 break;
             case IMMEDIATE_STOP:
                 triggerSafetySwitch();
+                current_fault_criticality_level_ = CRITICAL_LEVEL_::IMMEDIATE_STOP;
                 ROS_INFO("Decision: Immediate stop");
                 break;
         }
@@ -739,7 +780,7 @@ private:
                 if(isRoadSideParkingValid(distance_ego_to_parking, remaining_traj_length, info.perp_distance) && distance_ego_to_parking < min_distance)
                 {
                     min_distance = distance_ego_to_parking;
-                    min_id = gridmap_.at("RoadSideParking", *map_iterator);
+                    min_id = static_cast<int>(gridmap_.at("RoadSideParking", *map_iterator));
                     min_wp = autoware_global_path_.front().at(considered_wp_index);
                 }
             }
@@ -760,7 +801,7 @@ private:
 
     static int getClosestWaypointIndex(const std::vector<PlannerHNS::WayPoint>& trajectory, const PlannerHNS::WayPoint& p, const int& prevIndex = 0)
     {
-        double min_dist = DBL_MAX;
+        double min_dist = std::numeric_limits<double>::max();
         int min_index = 0;
         for(int wp_index = 0; wp_index < trajectory.size(); wp_index++)
         {
@@ -795,7 +836,7 @@ private:
         return (DISTANCE_ON_TRAJ_LOW_THRESHOLD < distance_to_parking && distance_to_parking < remaining_traj_length && abs(perpendicular_distance) < PERP_DISTANCE_THRESHOLD);
     }
 
-    PlannerHNS::WayPoint gridmapIteratorToWaypint(grid_map::GridMapIterator it)
+    PlannerHNS::WayPoint gridmapIteratorToWaypint(const grid_map::GridMapIterator& it)
     {
         grid_map::Position pos;
         gridmap_.getPosition(*it, pos);
@@ -803,12 +844,12 @@ private:
         return wp;
     }
 
-    double getRemainingDistanceOnGlobalPlanTo(PlannerHNS::WayPoint wp)
+    double getRemainingDistanceOnGlobalPlanTo(const PlannerHNS::WayPoint& wp)
     {
         return PlannerHNS::PlanningHelpers::GetDistanceOnTrajectory_obsolete(autoware_global_path_.front(), getEgoWaypointIndexOnGlobalPlan(), wp);
     }
 
-    double getPerpendicularDistanceToGlobalPlanFrom(PlannerHNS::WayPoint wp)
+    double getPerpendicularDistanceToGlobalPlanFrom(const PlannerHNS::WayPoint& wp)
     {
         PlannerHNS::RelativeInfo info;
         PlannerHNS::PlanningHelpers::GetRelativeInfo(autoware_global_path_.front(), wp, info);
@@ -861,7 +902,7 @@ private:
                 if(isRestAreaValid(distance_ego_rest_area, remaining_traj_length, getPerpendicularDistanceToGlobalPlanFrom(wp)) && distance_ego_rest_area < min_distance)
                 {
                     min_distance = distance_ego_rest_area;
-                    min_id = gridmap_.at("RestArea", *map_iterator);
+                    min_id = static_cast<int>(gridmap_.at("RestArea", *map_iterator));
                     min_wp = autoware_global_path_.front().at(considered_wp_index);
                 }
             }
@@ -883,7 +924,7 @@ private:
     static geometry_msgs::Point getBarycenter(const std::vector<PlannerHNS::WayPoint>& positions_wp)
     {
         geometry_msgs::Point average_point;
-        for(auto wp: positions_wp)
+        for(const auto& wp: positions_wp)
         {
             average_point.x += wp.pos.x;
             average_point.y += wp.pos.y;
@@ -920,7 +961,7 @@ public:
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    SafetySupervisor(ros::NodeHandle &nh, int argc, char **argv) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_)
+    explicit SafetySupervisor(ros::NodeHandle &nh) : nh_(nh), var_switch_(SAFE), tf_listener_(tf_buffer_), current_fault_criticality_level_(CRITICAL_LEVEL_::INITIAL_GOAL)
     {   
         // Initialize the node, publishers and subscribers
         pub_switch_ = nh_.advertise<std_msgs::Int32>("/switch_command", 1, true);
@@ -930,6 +971,7 @@ public:
         pub_autoware_goal_ = nh_.advertise<geometry_msgs::PoseStamped>("adeye/overwriteGoal", 1, true);
         pub_trigger_update_global_planner_ = nh_.advertise<std_msgs::Int32>("/adeye/update_global_planner", 1, true);
         pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
+        pub_text_overlay_ = nh_.advertise<jsk_rviz_plugins::OverlayText>("safety_channel_text_overlay", 1, true);
 
         sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, &SafetySupervisor::gridmapCallback, this);
@@ -977,7 +1019,7 @@ public:
             ros::spinOnce();
 
 
-            performSafetyTests();
+            performSafetyTestsAndDecision();
             publish();
 
 
@@ -992,7 +1034,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "safetySupervisor");
     ros::NodeHandle nh;
-    SafetySupervisor safetySupervisor(nh, argc, argv);
+    SafetySupervisor safetySupervisor(nh);
     safetySupervisor.run();
     return 0;
 }
