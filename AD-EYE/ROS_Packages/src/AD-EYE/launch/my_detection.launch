@@ -17,12 +17,12 @@
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
-        <arg name="points_node" value="/points_raw"/><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
-        <arg name="remove_ground" value="true"/>
-        <arg name="downsample_cloud" value="true"/> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
-        <arg name="leaf_size" value="0.2"/><!-- Voxel Grid Filter leaf size-->
-        <arg name="cluster_size_min" value="7"/><!-- Minimum number of points to consider a cluster as valid-->
-        <arg name="cluster_size_max" value="100000"/><!-- Maximum number of points to allow inside a cluster-->
+        <arg name="points_node" value="/points_raw"/>
+        <arg name="remove_ground" value="false"/>
+        <arg name="downsample_cloud" value="false"/>
+        <arg name="leaf_size" value="0.2"/>
+        <arg name="cluster_size_min" value="3"/>
+        <arg name="cluster_size_max" value="100000"/>
         <arg name="sync" value="false"/>
         <arg name="use_diffnormals" value="false"/>
         <arg name="pose_estimation" value="true"/>
@@ -46,9 +46,9 @@
         <arg name="use_gpu" value="true"/>
 
         <arg name="use_multiple_thres" value="false"/>
-        <arg name="clustering_ranges" value="[15,30,45,60]"/><!-- Distances to segment pointcloud -->
+        <arg name="clustering_ranges" value="[15,30,45,60]"/>
         <arg name="clustering_distances"
-             value="[0.5,1.1,1.6,2.1,2.6]"/><!-- Euclidean Clustering threshold distance for each segment -->
+             value="[0.5,1.1,1.6,2.1,2.6]"/>
     </include>
 
     <!-- imm_ukf_pda_track -->
@@ -81,7 +81,7 @@
 
 
     <!-- radar_broadcaster -->
-    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+    <!-- <include file="$(find adeye)/launch/radar_broadcaster.launch"/> -->
 
     <!-- objectsFrameAdapter -->
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
@@ -112,7 +112,7 @@
     </include>
 
     <!-- camera_setup for camera_2-->
-    <include file="$(find adeye)/launch/camera_setup.launch">
+    <!-- <include file="$(find adeye)/launch/camera_setup.launch">
         <arg name="camera" value="camera_2"/>
         <arg name="tf_x" value="-0.95"/>
         <arg name="tf_y" value="0.0"/>
@@ -121,7 +121,7 @@
         <arg name="tf_qy" value="-0.5"/>
         <arg name="tf_qz" value="0.5"/>
         <arg name="tf_qw" value="0.5"/>
-    </include>
+    </include> -->
 
     <!-- Two_cameras_fusion -->
     <include file="$(find adeye)/launch/cameraObjectListFuse.launch">
@@ -136,6 +136,16 @@
       <param name="objects_src_topic" value="fusion/objects"/>
     </node>
 
+    <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="detected_objects_visualizer2" output="screen">
+      <param name="objects_src_topic" value="detection/lidar_radar_fusion/objects"/>
+      <remap from="/objects_markers"         to="/lidar_radar_fusion_objects" />
+    </node>
+
+    <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="detected_objects_visualizer3" output="screen">
+      <param name="objects_src_topic" value="camera_1/fusion/objects"/>
+      <remap from="/objects_markers"         to="/camera_1_fusion_objects" />
+    </node>
+
     <!-- objectsFrameAdapter -->
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
         <arg name="nodeName" value="objectsFrameAdapter"/>
@@ -145,19 +155,19 @@
     </include>
 
     <!-- feat_proj -->
-    <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">
+    <!-- <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch">
         <arg name="camera_id" value="/tl_camera"/>
         <arg name="camera_info_src" value="/camera_info"/>
-        <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
-    </include>
+        <arg name="use_path_info" value="false"/>
+    </include> -->
 
     <!-- traffic_light_recognition -->
-    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
+    <!-- <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
         <arg name="camera_id" default="/"/>
         <arg name="image_src" default="/tl/image_raw"/>
         <arg name="light_src" default="/light_color" />
         <arg name="camera_light_src" default="/camera_light_color" />
         <arg name="ams_light_src" default="/ams_light_color" />
-    </include>
+    </include> -->
 
 </launch>
