@@ -11,8 +11,9 @@
 #include <grid_map_msgs/GridMap.h>
 #include <geometry_msgs/PoseStamped.h>
 
-class GeofencingChecker: public SafetyFaultMonitor {
-private:
+class GeofencingChecker : public SafetyFaultMonitor
+{
+  private:
     ros::NodeHandle nh_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_gridmap_;
@@ -55,11 +56,10 @@ private:
  */
     void defineOperationalDesignDomain(std::vector<double> polygon_coordinates);
 
-public:
+  public:
     GeofencingChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold);
     ~GeofencingChecker();
-    void writeGeofencingOnGridmap(const std::vector<double> &polygon_coordinates);
+    void writeGeofencingOnGridmap(const std::vector<double>& polygon_coordinates);
 };
 
-
-#endif //ADEYE_GEOFENCING_CHECKER_H
+#endif  // ADEYE_GEOFENCING_CHECKER_H

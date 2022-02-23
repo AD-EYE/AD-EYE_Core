@@ -5,10 +5,9 @@
 #include "autoware_msgs/Lane.h"
 #include "autoware_msgs/LaneArray.h"
 
-class TrajectoryVisualizer {
-
-private:
-
+class TrajectoryVisualizer
+{
+  private:
     ros::NodeHandle nh_;
     ros::Publisher pub_trajectory_markers_;
     ros::Subscriber sub_trajectory_;
@@ -20,9 +19,10 @@ private:
      * \param y position of the marker to be created along y axis.
      * \param z position of the marker to be created along z axis.
      */
-    visualization_msgs::Marker createWaypointMarker(int marker_id, float x, float y, float z) const {
+    visualization_msgs::Marker createWaypointMarker(int marker_id, float x, float y, float z) const
+    {
         visualization_msgs::Marker marker;
-        marker.header.frame_id = "/map"; // might be to be changed later if frame can be different than map
+        marker.header.frame_id = "/map";  // might be to be changed later if frame can be different than map
         marker.header.stamp = ros::Time();
         marker.id = marker_id;
         marker.type = visualization_msgs::Marker::SPHERE;
@@ -41,7 +41,7 @@ private:
         marker.color.r = 0.0;
         marker.color.g = 1.0;
         marker.color.b = 0.0;
-        return(marker);
+        return (marker);
     }
 
     /*!
@@ -52,10 +52,12 @@ private:
     {
         int marker_id = 0;
         visualization_msgs::MarkerArray marker_array;
-        
-        for(auto waypoint : trajectory->waypoints)
+
+        for (auto waypoint : trajectory->waypoints)
         {
-            marker_array.markers.push_back(createWaypointMarker(marker_id, waypoint.pose.pose.position.x, waypoint.pose.pose.position.y, waypoint.pose.pose.position.z));
+            marker_array.markers.push_back(createWaypointMarker(marker_id, waypoint.pose.pose.position.x,
+                                                                waypoint.pose.pose.position.y,
+                                                                waypoint.pose.pose.position.z));
             marker_id++;
         }
         pub_trajectory_markers_.publish(marker_array);
@@ -70,45 +72,48 @@ private:
         int marker_id = 0;
         visualization_msgs::MarkerArray marker_array;
 
-        for(auto lane : trajectories->lanes)
+        for (auto lane : trajectories->lanes)
         {
-            for(auto waypoint : lane.waypoints)
+            for (auto waypoint : lane.waypoints)
             {
-                marker_array.markers.push_back(createWaypointMarker(marker_id, waypoint.pose.pose.position.x, waypoint.pose.pose.position.y, waypoint.pose.pose.position.z));
+                marker_array.markers.push_back(createWaypointMarker(marker_id, waypoint.pose.pose.position.x,
+                                                                    waypoint.pose.pose.position.y,
+                                                                    waypoint.pose.pose.position.z));
                 marker_id++;
             }
         }
         pub_trajectory_markers_.publish(marker_array);
-        
     }
 
-public:
-
+  public:
     /*!
      * \brief Constructor
      * \param nh ROS NodeHandle.
      * \param trajectory_topic The topic on which to find the trajectory/ies.
      */
-    TrajectoryVisualizer(ros::NodeHandle nh, std::string trajectory_topic): nh_(nh)
+    TrajectoryVisualizer(ros::NodeHandle nh, std::string trajectory_topic) : nh_(nh)
     {
         ros::master::V_TopicInfo master_topics;
         ros::master::getTopics(master_topics);
         std::string topic_data_type;
-        for (auto topic_info : master_topics) {
-            if(topic_info.name == trajectory_topic)
+        for (auto topic_info : master_topics)
+        {
+            if (topic_info.name == trajectory_topic)
             {
                 topic_data_type = topic_info.datatype;
                 break;
             }
         }
 
-        if(topic_data_type == "autoware_msgs/Lane")
-            sub_trajectory_ = nh_.subscribe<autoware_msgs::Lane>(trajectory_topic, 100, &TrajectoryVisualizer::trajectoryCallback, this);
-        else if(topic_data_type == "autoware_msgs/LaneArray")
-            sub_trajectory_ = nh_.subscribe<autoware_msgs::LaneArray>(trajectory_topic, 100, &TrajectoryVisualizer::trajectoriesCallback, this);
-        pub_trajectory_markers_ = nh_.advertise<visualization_msgs::MarkerArray>(trajectory_topic.append("_Rviz"), 1, true);
+        if (topic_data_type == "autoware_msgs/Lane")
+            sub_trajectory_ = nh_.subscribe<autoware_msgs::Lane>(trajectory_topic, 100,
+                                                                 &TrajectoryVisualizer::trajectoryCallback, this);
+        else if (topic_data_type == "autoware_msgs/LaneArray")
+            sub_trajectory_ = nh_.subscribe<autoware_msgs::LaneArray>(
+                trajectory_topic, 100, &TrajectoryVisualizer::trajectoriesCallback, this);
+        pub_trajectory_markers_ =
+            nh_.advertise<visualization_msgs::MarkerArray>(trajectory_topic.append("_Rviz"), 1, true);
     }
-
 
     /*!
      * \brief Main loop
@@ -116,7 +121,7 @@ public:
     void run()
     {
         ros::Rate rate(20);
-        while(nh_.ok())
+        while (nh_.ok())
         {
             ros::spinOnce();
             rate.sleep();
@@ -124,13 +129,12 @@ public:
     }
 };
 
-
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "trajectory_visuaizer");
     ros::NodeHandle nh;
-//    std::string trajectory_topic = "/local_weighted_trajectories";
-     std::string trajectory_topic = "/final_waypoints";
+    //    std::string trajectory_topic = "/local_weighted_trajectories";
+    std::string trajectory_topic = "/final_waypoints";
     TrajectoryVisualizer trajectory_visualizer(nh, trajectory_topic);
     trajectory_visualizer.run();
     return 0;

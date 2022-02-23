@@ -10,7 +10,7 @@
 
 #include <cpp_utils/pose_datatypes.h>
 
-#include <std_msgs/ColorRGBA.h>        //Used for ego footprint visualization
+#include <std_msgs/ColorRGBA.h>  //Used for ego footprint visualization
 
 /*!
   \brief A node that detect collision with other objects using the SSMP_gridMap
@@ -24,22 +24,22 @@
  */
 class CollisionDetector
 {
-private:
+  private:
     // node, publishers and subscribers
-    ros::NodeHandle &nh_;
+    ros::NodeHandle& nh_;
     ros::Subscriber sub_footprint_;
     ros::Subscriber sub_gnss_;
     ros::Subscriber sub_velocity_;
     ros::Subscriber sub_gridmap_;
     ros::Publisher pub_collision_;
 
-    //ros::Publisher pubArea;  //Used for ego footprint visualization
+    // ros::Publisher pubArea;  //Used for ego footprint visualization
 
-    //Ego footprint
-    const float car_length_ = 5; // These values should be calculated or taken from a
-    const float car_width_ = 2;  // msg, not hardcoded.
+    // Ego footprint
+    const float car_length_ = 5;  // These values should be calculated or taken from a
+    const float car_width_ = 2;   // msg, not hardcoded.
 
-    const float cog_offset_ = 1.69; // Offset between the gnss ego_pose_ and the center of the car
+    const float cog_offset_ = 1.69;  // Offset between the gnss ego_pose_ and the center of the car
     grid_map::Polygon ego_footprint_;
 
     // variables
@@ -47,23 +47,29 @@ private:
     geometry_msgs::TwistStamped ego_velocity_;
     bool gnss_flag_;
     bool gridmap_flag_;
-    grid_map::GridMap gridmap_; //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
+    grid_map::GridMap gridmap_;  //({"StaticObjects", "DrivableAreas", "DynamicObjects", "Lanes"});
     //! Used to determine the type of the collision
-    enum class CollisionType {None, staticObject, dynamicObject};
+    enum class CollisionType
+    {
+        None,
+        staticObject,
+        dynamicObject
+    };
 
-
-public:
+  public:
     /*!
      * \brief Constructor
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initialize the node and its components such as publishers and subscribers.
      */
-    CollisionDetector(ros::NodeHandle &nh) : nh_(nh)
+    CollisionDetector(ros::NodeHandle& nh) : nh_(nh)
     {
         // Initialize the node, publishers and subscribers
-        //pubArea = nh_.advertise<visualization_msgs::Marker>("/collision_ego_footprint", 1, true);  //Used for ego footprint visualization
+        // pubArea = nh_.advertise<visualization_msgs::Marker>("/collision_ego_footprint", 1, true);  //Used for ego
+        // footprint visualization
         pub_collision_ = nh_.advertise<std_msgs::Bool>("/collision", 10);
-        sub_gnss_ = nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnssCallback, this);
+        sub_gnss_ =
+            nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &CollisionDetector::gnssCallback, this);
         sub_velocity_ = nh_.subscribe<geometry_msgs::TwistStamped>("/current_velocity", 10,
                                                                    &CollisionDetector::velocityCallback, this);
 
@@ -73,7 +79,6 @@ public:
         // Initialize the flags
         gnss_flag_ = false;
         gridmap_flag_ = false;
-
     }
 
     /*!
@@ -87,7 +92,8 @@ public:
         gnss_flag_ = true;
     }
 
-    void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& vel) {
+    void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& vel)
+    {
         ego_velocity_ = *vel;
     }
 
@@ -101,7 +107,6 @@ public:
         grid_map::GridMapRosConverter::fromMessage(*msg, gridmap_);
         gridmap_flag_ = true;
     }
-
 
     /*!
      * \brief Check for collision using the SSMP_gridMap
@@ -138,15 +143,16 @@ public:
         ca_visu.header.stamp.fromNSec(gridmap_.getTimestamp());
         pubArea.publish(ca_visu); */
 
-        for(grid_map::PolygonIterator areaIt(gridmap, ego_footprint_) ; !areaIt.isPastEnd() ; ++areaIt) {
-            if(gridmap.at("DynamicObjects", *areaIt) > 0) { //If there is something inside the area
+        for (grid_map::PolygonIterator areaIt(gridmap, ego_footprint_); !areaIt.isPastEnd(); ++areaIt)
+        {
+            if (gridmap.at("DynamicObjects", *areaIt) > 0)
+            {  // If there is something inside the area
                 return CollisionType::dynamicObject;
             }
         }
 
         return CollisionType::None;
     }
-
 
     /*!
      * \brief The main loop of the Node
@@ -160,21 +166,25 @@ public:
         std_msgs::Bool collision_state;
         ros::Rate rate(20);
         ROS_INFO("Collision detector started !");
-        while(nh_.ok())
+        while (nh_.ok())
         {
             collision_state.data = false;
             ros::spinOnce();
 
-            if(gridmap_flag_ && gnss_flag_)
+            if (gridmap_flag_ && gnss_flag_)
             {
                 // Collision detection
                 collision = checkCollision(gridmap_, ego_pose_);
-                if(collision != CollisionType::None) {
+                if (collision != CollisionType::None)
+                {
                     std::stringstream msg;
                     std::string type;
-                    if(collision == CollisionType::dynamicObject) {
+                    if (collision == CollisionType::dynamicObject)
+                    {
                         type = "Static";
-                    } else if (collision == CollisionType::staticObject) {
+                    }
+                    else if (collision == CollisionType::staticObject)
+                    {
                         type = "Dynamic";
                     }
                     msg << "Collision detected ! [" << type << " Object]\n";
@@ -192,7 +202,7 @@ public:
     }
 };
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     ros::init(argc, argv, "CollisionDetector");
     ros::NodeHandle nh;
