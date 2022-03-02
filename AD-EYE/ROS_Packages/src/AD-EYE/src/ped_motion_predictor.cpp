@@ -4,90 +4,136 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/TwistStamped.h>
 #include <autoware_msgs/DetectedObjectArray.h>
+#include <vector>
+#include <visualization_msgs/Marker.h>
 
-
-void pose_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+// The node is predicting the position of a detected pedestrain within the next 5 steps.
+// Also, it visualizes the positions with sphere markers.
+// Details,the node reads the detected pedestrain from /fusion/objects topic, calculates the positons after 5 stpes, then publishs the markers on that positions
+class PedestrainMotionPredictor
 {
-  std::cout<<"x_position: " << msg-> pose.position.x << std::endl;
-  std::cout<<"y_position: " << msg-> pose.position.y << std::endl;
-  std::cout<<"z_position: " << msg-> pose.position.z << std::endl;
-  std::cout<< std::endl;
-  std::cout<< "x_orientation: "<< msg->pose.orientation.x << std::endl;
-  std::cout<< "y_orientation: "<< msg->pose.orientation.y << std::endl;
-  std::cout<< "z_orientation: "<< msg->pose.orientation.z << std::endl;
-  std::cout<< "w_orientation: "<< msg->pose.orientation.w << std::endl;
-  std::cout<< std::endl;
+ private: 
+        //Node, publisher and subscribers 
+         ros::NodeHandle &n_;
+         ros::Subscriber sub1;
+         ros::Publisher marker_pub;
+        // x, y postions and velocties, time and marking variables  
+        double position_x {0};
+        double position_y {0};
+        double velocity_x{0};
+        double velocity_y{0};
+        std::vector<double> positions{0,0,0};
+        uint32_t shape = visualization_msgs::Marker::SPHERE;
 
- }
-
-void velocity_Callback(const geometry_msgs::TwistStamped::ConstPtr& msg)
-{
-  std::cout << "x_linear_velocity: " << msg->twist.linear.x << std::endl;
-  std::cout << "y_linear_velocity: " << msg->twist.linear.y << std::endl;
-  std::cout << "z_linear_velocity: " << msg->twist.linear.z << std::endl;
-  std::cout<< std::endl;
-  std::cout << "x_angular_velocity: " << msg->twist.angular.x << std::endl;
-  std::cout << "y_angular_velocity: " << msg->twist.angular.y << std::endl;
-  std::cout << "z_angular_velocity: " << msg->twist.angular.z << std::endl;
-  std::cout << std::endl;
-  
-} 
-
+//Callback function receives the published pedestrain info from /fusion/objects topic, then it calls 
+// calculation function in order to calculate the next 5 steps positions.
 void trackedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
 {
-  std::cout<< "To be continued :)" << std::endl;
-  std::cout<< std::endl;
+               
+             for (int i = 0; i < msg->objects.size(); i++) {
+             if (msg->objects.at(i).label=="pedestrian" && msg-> objects.at(i).pose.position.x != 0) {
+                   position_x = msg-> objects.at(i).pose.position.x;
+                   position_y = msg-> objects.at(i).pose.position.y;
+                   velocity_x = msg-> objects.at(i).velocity.linear.x;
+                   velocity_y = msg-> objects.at(i).velocity.linear.y; 
+                   calculation(position_x, position_y, velocity_x, velocity_y); // call calculation function 
+               
+             
+            }
+        }
+ 
 }
 
 
+public:
+       //Constructor of the class 
+       PedestrainMotionPredictor(ros::NodeHandle &n): n_(n) {
+      sub1 = n_.subscribe("/fusion/objects", 1, &PedestrainMotionPredictor::trackedObj_Callback, this);
+      marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+   }
+     // Calculation function accepts x & y positions and velocities as parameters from the callback function.
+     // In each calculation step, it calls the marking function as well. 
+     void calculation(double x, double y, double vx , double vy){
+             double secs =ros::Time::now().toSec();
+             double time = secs;
+             for (int j = 0; j <= 5; j++){
+             position_x += (time-secs)*vx ; 
+             position_y += (time-secs)*vy ;
+             positions[0] = time;
+             positions[1] = position_x;
+             positions[2] = position_y;
+             marking(positions[1], positions[2]);// call marking function for each the new calculated x & y positions
+             ++time;
+             std::cout << "@time: " << positions[0] << " " << "x_position: " << positions[1] << " " << "y_position: " << positions[2] << std::endl; 
+             }
+           std::cout << "-------------------" << std::endl;
+    } 
 
+  // marking function, initiates the marker info, then publishes a marker based on the calculated x & y positions 
+  // it publishes the markers on visualization_marker topic 
+  void marking(double x , double y){
+     visualization_msgs::Marker marker;
+    // Set the frame ID and timestamp.  See the TF tutorials for information on these.
+    marker.header.frame_id = "/my_frame";
+    marker.header.stamp = ros::Time::now();
+
+    // Set the namespace and id for this marker.  This serves to create a unique ID
+    // Any marker sent with the same namespace and id will overwrite the old one
+    marker.ns = "basic_shapes";
+    marker.id = 0;
+
+    // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
+    marker.type = shape;
+
+    // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
+    marker.action = visualization_msgs::Marker::ADD;
+
+    // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
+    marker.pose.position.x = positions[1];
+    marker.pose.position.y = positions[2];
+    
+    
+
+    // Set the scale of the marker -- 1x1x1 here means 1m on a side
+    marker.scale.x = 1.0;
+    marker.scale.y = 1.0;
+    marker.scale.z = 1.0;
+
+    // Set the color -- be sure to set alpha to something non-zero!
+    marker.color.r = 0.0f;
+    marker.color.g = 1.0f;
+    marker.color.b = 0.0f;
+    marker.color.a = 1.0;
+
+    marker.lifetime = ros::Duration();
+    marker_pub.publish(marker); // publishing the markers 
+}
+
+
+void run()
+    {
+      ros::Rate rate(20);
+      while(n_.ok())
+      {
+          ros::spinOnce();
+       }
+          rate.sleep();
+    }
+   
+
+
+};
+
+// the main function 
 int main(int argc, char **argv)
 {
-  /**
-   * The ros::init() function needs to see argc and argv so that it can perform
-   * any ROS arguments and name remapping that were provided at the command line.
-   * For programmatic remappings you can use a different version of init() which takes
-   * remappings directly, but for most command-line programs, passing argc and argv is
-   * the easiest way to do it.  The third argument to init() is the name of the node.
-   *
-   * You must call one of the versions of ros::init() before using any other
-   * part of the ROS system.
-   */
-  ros::init(argc, argv, "ped_motion_predictor");
-
-  /**
-   * NodeHandle is the main access point to communications with the ROS system.
-   * The first NodeHandle constructed will fully initialize this node, and the last
-   * NodeHandle destructed will close down the node.
-   */
-  ros::NodeHandle n;
-
-  /**
-   * The subscribe() call is how you tell ROS that you want to receive messages
-   * on a given topic.  This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing.  Messages are passed to a callback function, here
-   * called chatterCallback.  subscribe() returns a Subscriber object that you
-   * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
-   * object go out of scope, this callback will automatically be unsubscribed from
-   * this topic.
-   *
-   * The second parameter to the subscribe() function is the size of the message
-   * queue.  If messages are arriving faster than they are being processed, this
-   * is the number of messages that will be buffered up before beginning to throw
-   * away the oldest ones.
-   */
-  ros::Subscriber pos = n.subscribe("/current_pose", 10, pose_Callback);
-  ros::Subscriber vel = n.subscribe("/current_velocity", 10, velocity_Callback);
-  ros::Subscriber tracked_obj = n.subscribe("/tracked_objects", 1, trackedObj_Callback);
  
+  ros::init(argc, argv, "PedestrainMotionPredictor");
 
-  /**
-   * ros::spin() will enter a loop, pumping callbacks.  With this version, all
-   * callbacks will be called from within this thread (the main one).  ros::spin()
-   * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
-   */
-  ros::spin();
-
+  
+  ros::NodeHandle n;
+  PedestrainMotionPredictor Ped(n); // define an object called Ped 
+  Ped.run();  // call the run function 
+  
   return 0;
 }
