@@ -22,8 +22,9 @@ class PedestrainMotionPredictor
         double position_y {0};
         double velocity_x{0};
         double velocity_y{0};
-        std::vector<double> positions{0,0,0};
+        std::vector<double> positions{0,0,0}; // {time,position_x,position_y}
         uint32_t shape = visualization_msgs::Marker::SPHERE;
+        double count_id {0};
 
 //Callback function receives the published pedestrain info from /fusion/objects topic, then it calls 
 // calculation function in order to calculate the next 5 steps positions.
@@ -55,7 +56,7 @@ public:
      // In each calculation step, it calls the marking function as well. 
      void calculation(double x, double y, double vx , double vy){
              double secs =ros::Time::now().toSec();
-             double time = secs;
+             double time  = secs;
              for (int j = 0; j <= 5; j++){
              position_x += (time-secs)*vx ; 
              position_y += (time-secs)*vy ;
@@ -65,6 +66,7 @@ public:
              marking(positions[1], positions[2]);// call marking function for each the new calculated x & y positions
              ++time;
              std::cout << "@time: " << positions[0] << " " << "x_position: " << positions[1] << " " << "y_position: " << positions[2] << std::endl; 
+             ++count_id;
              }
            std::cout << "-------------------" << std::endl;
     } 
@@ -74,13 +76,16 @@ public:
   void marking(double x , double y){
      visualization_msgs::Marker marker;
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-    marker.header.frame_id = "/my_frame";
+    marker.header.frame_id = "/velodyne"; 
     marker.header.stamp = ros::Time::now();
+    
 
     // Set the namespace and id for this marker.  This serves to create a unique ID
     // Any marker sent with the same namespace and id will overwrite the old one
     marker.ns = "basic_shapes";
-    marker.id = 0;
+    marker.id = count_id ;
+
+    std::cout << "id : " << marker.id << std::endl; 
 
     // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
     marker.type = shape;
@@ -106,13 +111,13 @@ public:
     marker.color.a = 1.0;
 
     marker.lifetime = ros::Duration();
-    marker_pub.publish(marker); // publishing the markers 
+    marker_pub.publish(marker); // publishing the markers  
 }
 
 
 void run()
     {
-      ros::Rate rate(20);
+      ros::Rate rate(5);
       while(n_.ok())
       {
           ros::spinOnce();

@@ -106,7 +106,7 @@ public:
                 }
             }
         }
-        pub.publish(msg3);
+     pub.publish(msg3);
     }
 
     /*!
