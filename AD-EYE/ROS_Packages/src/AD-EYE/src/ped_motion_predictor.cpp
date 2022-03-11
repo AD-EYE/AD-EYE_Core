@@ -25,20 +25,24 @@ class PedestrainMotionPredictor
         std::vector<double> positions{0,0,0}; // {time,position_x,position_y}
         uint32_t shape = visualization_msgs::Marker::SPHERE;
         double count_id {0};
+        //visualization_msgs::Marker marker;
 
 //Callback function receives the published pedestrain info from /fusion/objects topic, then it calls 
 // calculation function in order to calculate the next 5 steps positions.
 void trackedObj_Callback(const autoware_msgs::DetectedObjectArray::ConstPtr& msg)
 {
-               
+             
              for (int i = 0; i < msg->objects.size(); i++) {
-             if (msg->objects.at(i).label=="pedestrian" && msg-> objects.at(i).pose.position.x != 0) {
+             if (msg->objects.at(i).label!="unknown" && msg-> objects.at(i).pose.position.x != 0) {
                    position_x = msg-> objects.at(i).pose.position.x;
                    position_y = msg-> objects.at(i).pose.position.y;
                    velocity_x = msg-> objects.at(i).velocity.linear.x;
                    velocity_y = msg-> objects.at(i).velocity.linear.y; 
+                   std::cout << "label : " << msg->objects.at(i).label << std::endl; 
+                   removeMarkers();
+                   count_id = 0; 
                    calculation(position_x, position_y, velocity_x, velocity_y); // call calculation function 
-               
+                  //marker.action = visualization_msgs::Marker::DELETEALL;
              
             }
         }
@@ -58,23 +62,24 @@ public:
              double secs =ros::Time::now().toSec();
              double time  = secs;
              for (int j = 0; j <= 5; j++){
-             position_x += (time-secs)*vx ; 
-             position_y += (time-secs)*vy ;
+             x += (time-secs)*vx ; 
+             y += (time-secs)*vy ;
              positions[0] = time;
-             positions[1] = position_x;
-             positions[2] = position_y;
+             positions[1] = x;
+             positions[2] = y;
              marking(positions[1], positions[2]);// call marking function for each the new calculated x & y positions
              ++time;
              std::cout << "@time: " << positions[0] << " " << "x_position: " << positions[1] << " " << "y_position: " << positions[2] << std::endl; 
              ++count_id;
              }
-           std::cout << "-------------------" << std::endl;
+            std::cout << "-------------------" << std::endl;
+            //marker.action = visualization_msgs::Marker::DELETEALL;
     } 
 
   // marking function, initiates the marker info, then publishes a marker based on the calculated x & y positions 
   // it publishes the markers on visualization_marker topic 
   void marking(double x , double y){
-     visualization_msgs::Marker marker;
+    visualization_msgs::Marker marker;
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/velodyne"; 
     marker.header.stamp = ros::Time::now();
@@ -111,9 +116,18 @@ public:
     marker.color.a = 1.0;
 
     marker.lifetime = ros::Duration();
-    marker_pub.publish(marker); // publishing the markers  
+    marker_pub.publish(marker); // publishing the markers 
+     
 }
 
+//remove markers function , is removing what marking function was pubishing 
+ void removeMarkers(){
+  visualization_msgs::Marker marker;
+marker.header.frame_id = "/velodyne";
+marker.header.stamp = ros::Time::now();
+marker.action = visualization_msgs::Marker::DELETEALL;
+marker_pub.publish(marker);
+}
 
 void run()
     {
