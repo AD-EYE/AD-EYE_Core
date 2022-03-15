@@ -49,8 +49,8 @@ echo -e "\nInstalling ROS dependencies"
 if [ ! -f "/etc/ros/rosdep/sources.list.d/20-default.list" ]; then
 	sudo rosdep init
 fi
-rosdep update --include-eol-distros
-rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+rosdep update --rosdistro=kinetic
+rosdep install --from-paths src --ignore-src -r -y
 
 if [ "$WITH_CUDA" = "true" ]; then
     echo -e "\nBuilding Autoware with CUDA support"
@@ -72,8 +72,6 @@ echo -e "\nInstalling adeye dependencies"
 sudo apt-get install libhdf5-openmpi-dev
 sudo apt-get -y install ros-kinetic-costmap-2d ros-kinetic-navigation ros-kinetic-grid-map
 sudo apt-get install ros-kinetic-rosbridge-suite
-
-exec bash
 
 #build adeye
 echo -e "\nBuilding AD-EYE"
