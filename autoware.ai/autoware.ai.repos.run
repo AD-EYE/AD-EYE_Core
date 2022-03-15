@@ -8,82 +8,41 @@ mkdir -p drivers
 cd autoware
 
 ## common
-git clone https://gits-15.sys.kth.se/AD-EYE/common.git
+git clone https://github.com/AD-EYE/common.git
 cd common
 git checkout dev
 cd ..
 
 ## core_perception
-git clone https://gits-15.sys.kth.se/AD-EYE/core_perception.git
+git clone https://github.com/AD-EYE/core_perception.git
 cd core_perception
 git checkout dev
 cd ..
 
 ## core_planning
-git clone https://gits-15.sys.kth.se/AD-EYE/core_planning.git
+git clone https://github.com/AD-EYE/core_planning.git
 cd core_planning
 git checkout dev
 cd ..
 
-## documentation
-git clone https://gits-15.sys.kth.se/AD-EYE/documentation.git
-cd documentation
-git checkout 1.12.0
-cd ..
-
 ## messages
-git clone https://gits-15.sys.kth.se/AD-EYE/messages.git
+git clone https://github.com/AD-EYE/messages.git
 cd messages
 git checkout 1.12.0
 cd ..
 
-## simulation
-git clone https://gits-15.sys.kth.se/AD-EYE/simulation.git
-cd simulation
-git checkout 1.12.0
-cd ..
-
 ## utilities
-git clone https://gits-15.sys.kth.se/AD-EYE/utilities.git
+git clone https://github.com/AD-EYE/utilities.git
 cd utilities
 git checkout 1.12.0
 cd ..
 
 ## visualization
-git clone https://gits-15.sys.kth.se/AD-EYE/visualization.git
+git clone https://github.com/AD-EYE/visualization.git
 cd visualization
 git checkout 1.12.0
 cd ..
 
-cd ..
-
-# Drivers folder
-cd drivers
-
-## awf_drivers
-git clone https://gits-15.sys.kth.se/AD-EYE/drivers.git
-cd drivers
-git checkout 1.12.0
-cd ..
-
-## drivers/ds4
-git clone https://gits-15.sys.kth.se/AD-EYE/ds4.git
-cd ds4
-git checkout 
-cd ..
-
-cd ..
-
-## citysim
-git clone https://gits-15.sys.kth.se/AD-EYE/osrf_citysim.git
-cd osrf_citysim
-git checkout 
-cd ..
-
-## car_demo
-git clone https://gits-15.sys.kth.se/AD-EYE/car_demo.git
-cd car_demo
-git checkout 
 cd ..
 
 
