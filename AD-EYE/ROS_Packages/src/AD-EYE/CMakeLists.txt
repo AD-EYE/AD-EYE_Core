@@ -267,27 +267,47 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_library(cameraObjectListFuseLib
+  src/camera_object_list_fuse.cpp
+  )
+target_link_libraries(
+  cameraObjectListFuseLib
+  ${catkin_LIBRARIES}
+)
+add_executable(
+  CameraObjectListFuseTester
+  test/camera_object_list_fuse_tester.cpp
+)
+target_link_libraries(
+  CameraObjectListFuseTester
+  ${catkin_LIBRARIES}
+  cameraObjectListFuseLib
+)
+add_dependencies(
+  CameraObjectListFuseTester
+  ${catkin_EXPORTED_TARGETS}
+)
 
 add_library(SafetyFaultMonitors
-        src/safety_fault_monitors/safety_fault_monitor.cpp
-        src/safety_fault_monitors/active_nodes_checker.cpp
-        src/safety_fault_monitors/geofencing_checker.cpp
-        src/safety_fault_monitors/car_off_road_checker.cpp
-        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp
-        src/safety_fault_monitors/sensor_checker.cpp)
+  src/safety_fault_monitors/safety_fault_monitor.cpp
+  src/safety_fault_monitors/active_nodes_checker.cpp
+  src/safety_fault_monitors/geofencing_checker.cpp
+  src/safety_fault_monitors/car_off_road_checker.cpp
+  src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp
+  src/safety_fault_monitors/sensor_checker.cpp)
 target_link_libraries(
-        SafetyFaultMonitors
-        ${catkin_LIBRARIES}
+  SafetyFaultMonitors
+  ${catkin_LIBRARIES}
 )
 
 add_executable(
   TestFault
-        src/safety_fault_monitors/fault_monitors_unit_tests.cpp
+  src/safety_fault_monitors/fault_monitors_unit_tests.cpp
 )
 target_link_libraries(
   TestFault
   ${catkin_LIBRARIES}
-        SafetyFaultMonitors
+  SafetyFaultMonitors
 )
 add_dependencies(
   TestFault
@@ -299,7 +319,19 @@ add_dependencies(
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
+  TARGETS 
+  GridMapCreator
+  flattening 
+  controlSwitch 
+  safetySupervisor 
+  collisionDetector 
+  radar_broadcaster 
+  objectsFrameAdapter 
+  cameraObjectListFuse 
+  lidarRadarFuse 
+  safetyChannelPerception 
+  ExperimentC 
+  CameraObjectListFuseTester
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
