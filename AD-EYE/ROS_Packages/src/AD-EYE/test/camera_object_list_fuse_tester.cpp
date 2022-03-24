@@ -313,13 +313,13 @@ void testOverlapMsgsWithMoreObjects(ros::NodeHandle nh)
     msg2.pose.position.y = 2.5;
     msg2.pose.position.z = 5;
     msg2.label = "Bicycle";
-    in_msgs1.objects.push_back(msg2);
-    // third object
+    in_msgs2.objects.push_back(msg2);
+    // fourth object
     msg2.pose.position.x = 5;
     msg2.pose.position.y = -2.5;
     msg2.pose.position.z = 5;
     msg2.label = "Car";
-    in_msgs1.objects.push_back(msg2);
+    in_msgs2.objects.push_back(msg2);
 
     fuser.msg1Callback(in_msgs1);
     fuser.msg2Callback(in_msgs2);
