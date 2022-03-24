@@ -99,7 +99,7 @@ void CameraObjectListFuse::fuse()
             if (isSameObject(in_msg2_.objects.at(i), fused_msg_.objects.at(j)))
             {
                 object_from_fused_msg = true;
-                fused_msg_.objects.at(j) = getMostRelevantObject(fused_msg_.objects.at(j),in_msg2_.objects.at(i));
+                fused_msg_.objects.at(j) = getMostRelevantObject(fused_msg_.objects.at(j), in_msg2_.objects.at(i));
             }
         }
         if (!object_from_fused_msg)

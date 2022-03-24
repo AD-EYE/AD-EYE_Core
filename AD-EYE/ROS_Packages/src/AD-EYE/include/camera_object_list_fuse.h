@@ -28,7 +28,8 @@ class CameraObjectListFuse
     bool msg2_flag_ = false;
 
     bool isSameObject(autoware_msgs::DetectedObject msg1, autoware_msgs::DetectedObject msg2);
-    autoware_msgs::DetectedObject getMostRelevantObject(autoware_msgs::DetectedObject msg1, autoware_msgs::DetectedObject msg2);
+    autoware_msgs::DetectedObject getMostRelevantObject(autoware_msgs::DetectedObject msg1,
+                                                        autoware_msgs::DetectedObject msg2);
 
   public:
     /*!

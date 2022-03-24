@@ -229,7 +229,7 @@ void testOverlapMsgsWithoutSameLabel(ros::NodeHandle nh)
 void testOverlapMsgOneWithThreeObjects(ros::NodeHandle nh)
 {
     CameraObjectListFuse fuser(nh, "dummy_1", "dummy_2", "dummy_3");
-    
+
     autoware_msgs::DetectedObjectArray in_msgs1;
     autoware_msgs::DetectedObject msg1;
     // first object
@@ -272,7 +272,7 @@ void testOverlapMsgOneWithThreeObjects(ros::NodeHandle nh)
 void testOverlapMsgsWithMoreObjects(ros::NodeHandle nh)
 {
     CameraObjectListFuse fuser(nh, "dummy_1", "dummy_2", "dummy_3");
-    
+
     autoware_msgs::DetectedObjectArray in_msgs1;
     autoware_msgs::DetectedObject msg1;
     // first object
