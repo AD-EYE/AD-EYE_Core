@@ -14,14 +14,14 @@ CameraObjectListFuse::CameraObjectListFuse(ros::NodeHandle& nh, std::string inpu
 
 void CameraObjectListFuse::msg1Callback(autoware_msgs::DetectedObjectArray msg)
 {
-    msg1_ = msg;
+    in_msg1_ = msg;
 
     // Identify the objects that have been detected by camera_1
-    for (size_t i = 0; i < msg1_.objects.size(); i++)
+    for (size_t i = 0; i < in_msg1_.objects.size(); i++)
     {
-        if (msg1_.objects.at(i).label != "unknown" && msg1_.objects.at(i).label != "")
+        if (in_msg1_.objects.at(i).label != "unknown" && in_msg1_.objects.at(i).label != "")
         {
-            msg1_.objects.at(i).user_defined_info.push_back("camera_1");
+            in_msg1_.objects.at(i).user_defined_info.push_back("camera_1");
         }
     }
 
@@ -30,54 +30,93 @@ void CameraObjectListFuse::msg1Callback(autoware_msgs::DetectedObjectArray msg)
 
 void CameraObjectListFuse::msg2Callback(autoware_msgs::DetectedObjectArray msg)
 {
-    msg2_ = msg;
+    in_msg2_ = msg;
 
     // Identify the objects that have been detected by the camera_2
-    for (size_t i = 0; i < msg2_.objects.size(); i++)
+    for (size_t i = 0; i < in_msg2_.objects.size(); i++)
     {
-        if (msg2_.objects.at(i).label != "unknown" && msg2_.objects.at(i).label != "")
+        if (in_msg2_.objects.at(i).label != "unknown" && in_msg2_.objects.at(i).label != "")
         {
-            msg2_.objects.at(i).user_defined_info.push_back("camera_2");
+            in_msg2_.objects.at(i).user_defined_info.push_back("camera_2");
         }
     }
 
     msg2_flag_ = true;
 }
 
+bool CameraObjectListFuse::isSameObject(autoware_msgs::DetectedObject msg1, autoware_msgs::DetectedObject msg2)
+{
+    return (msg1.pose.position.x == msg2.pose.position.x && msg1.pose.position.y == msg2.pose.position.y &&
+            msg1.pose.position.z == msg2.pose.position.z);
+}
+
+autoware_msgs::DetectedObject CameraObjectListFuse::getMostRelevantObject(autoware_msgs::DetectedObject msg1,
+                                                                          autoware_msgs::DetectedObject msg2)
+{
+    autoware_msgs::DetectedObject fused_msg;
+
+    // empty messages
+    if (msg1.label.empty() || msg2.label.empty())
+    {
+        fused_msg = msg1;
+    }
+
+    // either messages is empty
+    if (!msg1.label.empty() && msg2.label.empty())
+    {
+        fused_msg = msg1;
+    }
+    if (msg1.label.empty() && !msg2.label.empty())
+    {
+        fused_msg = msg2;
+    }
+
+    // none messages are empty
+    if (!msg1.label.empty() && !msg2.label.empty())
+    {
+        if (msg1.label == msg2.label)
+        {
+            fused_msg = msg1;
+        }
+        else
+        {
+            fused_msg = msg1;  // TODO - more elaborate selection
+        }
+    }
+
+    return fused_msg;
+}
+
 void CameraObjectListFuse::fuse()
 {
-    msg3_ = msg1_;
-    // std::cout << "Size of msg1_: " << msg1_.objects.size() << '\n';
-    // std::cout << "Size of msg2_: " << msg2_.objects.size() << '\n';
+    fused_msg_ = in_msg1_;
 
-    for (size_t i = 0; i < msg2_.objects.size(); i++)
+    for (size_t i = 0; i < in_msg2_.objects.size(); i++)
     {
-        if (msg2_.objects.at(i).label != "unknown")
+        bool object_from_fused_msg = false;
+        for (size_t j = 0; j < fused_msg_.objects.size(); j++)
         {
-            for (size_t j = 0; j < msg3_.objects.size(); j++)
+            if (isSameObject(in_msg2_.objects.at(i), fused_msg_.objects.at(j)))
             {
-                if (msg3_.objects.at(j).user_defined_info.size() > 0 &&
-                    msg2_.objects.at(i).user_defined_info.size() > 0)
-                {
-                    if (msg3_.objects.at(j).user_defined_info.at(0) == msg2_.objects.at(i).user_defined_info.at(0))
-                    {
-                        msg3_.objects.at(j) = msg2_.objects.at(i);
-                        // std::cout << "label: " << msg2_.objects.at(i).label << '\n';
-                    }
-                }
+                object_from_fused_msg = true;
+                fused_msg_.objects.at(j) = getMostRelevantObject(fused_msg_.objects.at(j),in_msg2_.objects.at(i));
             }
+        }
+        if (!object_from_fused_msg)
+        {
+            fused_msg_.objects.push_back(in_msg2_.objects.at(i));
         }
     }
 }
 
 void CameraObjectListFuse::publish()
 {
-    pub_.publish(msg3_);
+    pub_.publish(fused_msg_);
 }
 
 autoware_msgs::DetectedObjectArray CameraObjectListFuse::getFusedMessage()
 {
-    return msg3_;
+    return fused_msg_;
 }
 
 void CameraObjectListFuse::run()

@@ -20,12 +20,15 @@ class CameraObjectListFuse
 
     ros::Publisher pub_;
 
-    autoware_msgs::DetectedObjectArray msg1_;
-    autoware_msgs::DetectedObjectArray msg2_;
-    autoware_msgs::DetectedObjectArray msg3_;
+    autoware_msgs::DetectedObjectArray in_msg1_;
+    autoware_msgs::DetectedObjectArray in_msg2_;
+    autoware_msgs::DetectedObjectArray fused_msg_;
 
     bool msg1_flag_ = false;
     bool msg2_flag_ = false;
+
+    bool isSameObject(autoware_msgs::DetectedObject msg1, autoware_msgs::DetectedObject msg2);
+    autoware_msgs::DetectedObject getMostRelevantObject(autoware_msgs::DetectedObject msg1, autoware_msgs::DetectedObject msg2);
 
   public:
     /*!
