@@ -90,10 +90,10 @@ torchtest_EXTERNAL_OBJECTS =
 
 torchtest: CMakeFiles/torchtest.dir/main_test.cpp.o
 torchtest: CMakeFiles/torchtest.dir/build.make
-torchtest: ../libtorch/lib/libtorch.so
-torchtest: ../libtorch/lib/libc10.so
-torchtest: ../libtorch/lib/libkineto.a
-torchtest: ../libtorch/lib/libc10.so
+torchtest: /home/adeye/Downloads/libtorch/lib/libtorch.so
+torchtest: /home/adeye/Downloads/libtorch/lib/libc10.so
+torchtest: /home/adeye/Downloads/libtorch/lib/libkineto.a
+torchtest: /home/adeye/Downloads/libtorch/lib/libc10.so
 torchtest: CMakeFiles/torchtest.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/version_cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable torchtest"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/torchtest.dir/link.txt --verbose=$(VERBOSE)

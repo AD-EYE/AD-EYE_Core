@@ -6,5 +6,5 @@ CXX_FLAGS =  -D_GLIBCXX_USE_CXX11_ABI=0   -D_GLIBCXX_USE_CXX11_ABI=0 -std=gnu++1
 
 CXX_DEFINES = -DUSE_C10D_GLOO -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE
 
-CXX_INCLUDES = -isystem /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/version_cpp/libtorch/include -isystem /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/version_cpp/libtorch/include/torch/csrc/api/include 
+CXX_INCLUDES = -isystem /home/adeye/Downloads/libtorch/include -isystem /home/adeye/Downloads/libtorch/include/torch/csrc/api/include 
 

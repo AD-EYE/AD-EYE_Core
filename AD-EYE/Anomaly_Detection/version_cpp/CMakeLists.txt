@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(torchtest)
 
-set (CMAKE_PREFIX_PATH /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/version_cpp/libtorch)
+set (CMAKE_PREFIX_PATH /home/adeye/Downloads/libtorch)
 
 find_package (Torch REQUIRED)
 
