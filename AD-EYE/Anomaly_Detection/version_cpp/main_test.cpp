@@ -61,7 +61,7 @@ void train(
             auto data = batch.data.to(device), targets = batch.target.to(device);
             optimizer.zero_grad();
             auto output = model.forward(data);
-            std::cout<<output<<std::endl;
+            // std::cout<<output<<std::endl;
             auto loss = torch::nll_loss(output, targets);
             AT_ASSERT(!std::isnan(loss.template item<float>()));
             loss.backward();

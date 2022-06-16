@@ -9,7 +9,7 @@ import sys
 sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 
 
-# In[2]:
+# In[139]:
 
 
 import numpy as np 
@@ -25,13 +25,13 @@ from sklearn.metrics import classification_report
 from imutils import paths
 
 
-# In[3]:
+# In[140]:
 
 
 print(tf.__version__)
 
 
-# In[1]:
+# In[141]:
 
 
 import sys
@@ -39,7 +39,7 @@ import sys
 sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 
 
-# In[2]:
+# In[142]:
 
 
 
@@ -65,15 +65,9 @@ get_ipython().system('jupyter nbconvert --to script ad_22032022.ipynb')
 get_ipython().system('pipreqs --force --encoding utf-8 "/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/" ')
 
 
-# In[ ]:
-
-
-parser = argparse.ArgumentParser()
-
-
 # ## Data Processing
 
-# In[9]:
+# In[4]:
 
 
 def showVideo(path_to_file):
@@ -93,7 +87,7 @@ def showVideo(path_to_file):
     cv2.destroyAllWindows()
 
 
-# In[65]:
+# In[5]:
 
 
 def createDirectories():
@@ -138,13 +132,7 @@ def createDirectories():
     return dataset_path, images_path, anomaly_images_path, models_path, autoencoder_path, supervised_model_path
 
 
-# In[66]:
-
-
-
-
-
-# In[67]:
+# In[6]:
 
 
 def getImagesFromVideo(path_to_clean_images, path_to_anomaly_images, dataset_path, images_path, anomaly_images_path):
@@ -169,7 +157,7 @@ def getImagesFromVideo(path_to_clean_images, path_to_anomaly_images, dataset_pat
     print("Done reading {} frames from file {}".format(count, path_to_anomaly_images))
 
 
-# In[16]:
+# In[7]:
 
 
 def getData(path_to_file, image_size, convert_color = 0):
@@ -191,7 +179,7 @@ def getData(path_to_file, image_size, convert_color = 0):
     return data
 
 
-# In[69]:
+# In[8]:
 
 
 path_video_clean_data = '/home/adeye/AD-EYE_Core/AD-EYE/Experiments/SimpleExperiment/clean_output.avi'
@@ -205,12 +193,17 @@ getImagesFromVideo(path_video_clean_data, path_video_anomaly_data, dataset_path,
 
 # ## Autoencoder
 
-# In[41]:
+# In[79]:
 
 
 class AnomalyDetector(Model):
     def __init__(self, image_size, hidden_layer_1, hidden_layer_2, channels):
         super(AnomalyDetector, self).__init__()
+        self.image_size = image_size
+        self.hidden_layer_1 = hidden_layer_1
+        self.hidden_layer_2 = hidden_layer_2
+        self.channels = channels
+
         self.encoder = tf.keras.Sequential([
             tf.keras.layers.InputLayer(input_shape = (image_size, image_size, channels)),
             tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same', strides = 2), 
@@ -228,7 +221,17 @@ class AnomalyDetector(Model):
             tf.keras.layers.LeakyReLU(),
             tf.keras.layers.Conv2DTranspose(channels, 3, padding = 'same', activation = 'sigmoid'),
             # tf.keras.layers.Conv2D(channels, (3, 3), activation = 'sigmoid', padding = 'same')
-        ]) 
+        ])
+
+    def get_config(self):
+        # config = super(AnomalyDetector, self).get_config()
+        config = {
+        "image_size": self.image_size, 
+        "hidden_layer_1": self.hidden_layer_1,
+        "hidden_layer_2": self.hidden_layer_2,
+        "channels": self.channels
+        }
+        return config 
 
     def call(self, x):
         encoded = self.encoder(x)
@@ -237,7 +240,7 @@ class AnomalyDetector(Model):
 
 
 
-# In[42]:
+# In[80]:
 
 
 def splitDataAutoencoder(data):
@@ -252,7 +255,7 @@ def splitDataAutoencoder(data):
     
 
 
-# In[43]:
+# In[106]:
 
 
 def trainModel(model, epochs, batch_size, optimizer, loss, metrics):
@@ -273,13 +276,13 @@ def trainModel(model, epochs, batch_size, optimizer, loss, metrics):
     plt.legend()
     plt.show()
 
-    print(model.encoder.summary())
-    print(model.decoder.summary())
-
+    # print(model.encoder.summary())
+    # print(model.decoder.summary())
+    print(model.summary())
     return history
 
 
-# In[44]:
+# In[82]:
 
 
 def plotDifferences(test_data, test_anomaly_data, n):
@@ -324,7 +327,7 @@ def plotDifferences(test_data, test_anomaly_data, n):
     plt.show()
 
 
-# In[45]:
+# In[83]:
 
 
 # structural similarity between two images in terms of luminance, contrast and structure./
@@ -333,7 +336,7 @@ def SSIMLoss(y_true, y_pred):
     return 1 - tf.reduce_mean(tf.image.ssim(y_true, y_pred, 1.0))
 
 
-# In[46]:
+# In[84]:
 
 
 def calculateLossesMEAN(data, show_plots):
@@ -353,7 +356,7 @@ def calculateLossesMEAN(data, show_plots):
     return train_loss_image
 
 
-# In[47]:
+# In[85]:
 
 
 def calculateLossesSSIM(data):
@@ -366,7 +369,7 @@ def calculateLossesSSIM(data):
     return array_losses
 
 
-# In[48]:
+# In[86]:
 
 
 def evaluateLossesMEAN(normal_train_data, anomalous_test_data, show_plots = 0):
@@ -383,7 +386,7 @@ def evaluateLossesMEAN(normal_train_data, anomalous_test_data, show_plots = 0):
     print("Correctly evaluated anomalous data: {} out of {}".format(tf.math.count_nonzero(preds_a).numpy(), len(anomalous_loss_image_mean)))
 
 
-# In[49]:
+# In[87]:
 
 
 def evaluateLossesSSIM(normal_train_data, anomalous_test_data): 
@@ -397,10 +400,10 @@ def evaluateLossesSSIM(normal_train_data, anomalous_test_data):
     print("Correctly evaluated anomalous data: {} out of {}".format(tf.math.count_nonzero(preds_a).numpy(), len(anomalous_loss_image_ssim)))
 
 
-# In[50]:
+# In[88]:
 
 
-image_size = 128
+image_size = 32
 data = getData(images_path, image_size, convert_color = 1)
 data_anomaly = getData(anomaly_images_path, image_size, convert_color = 1)
 
@@ -421,28 +424,116 @@ else:
 
 
 autoencoder_dir = os.listdir(autoencoder_path)
-train = False
+train = True
 if len(autoencoder_dir) == 0 or train == True:
     autoencoder = AnomalyDetector(image_size=image_size, hidden_layer_1 = hidden_layer_1, hidden_layer_2 = hidden_layer_2, channels=channels)
     history_autoencoder = trainModel(autoencoder, epochs=epochs, batch_size=batch_size, optimizer=optimizer, loss = loss, metrics = metrics)
     autoencoder.save(autoencoder_path)
+    # autoencoder.save_weights(autoencoder_path + "/autoencoder.h5")
 else:
     autoencoder = tf.keras.models.load_model(autoencoder_path, compile = False)
 
 
-# In[33]:
+# In[94]:
+
+
+image_size = 32
+data = getData(images_path, image_size, convert_color = 1)
+data_anomaly = getData(anomaly_images_path, image_size, convert_color = 1)
+
+normal_train_data, normal_test_data = splitDataAutoencoder(data)
+anomalous_train_data, anomalous_test_data = splitDataAutoencoder(data_anomaly)
+
+epochs = 10
+batch_size = 8
+hidden_layer_1 = 256
+hidden_layer_2 = 128
+optimizer = 'adam'
+loss = SSIMLoss
+metrics = ['mse']
+if data.shape[-1] != 3:
+    channels = 1
+else:
+    channels = 3
+
+
+autoencoder_dir = os.listdir(autoencoder_path)
+
+
+# In[137]:
+
+
+model_new = tf.keras.Sequential([
+            tf.keras.layers.InputLayer(input_shape = (image_size, image_size, channels)),
+            tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same', strides = 2), 
+            # tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.Conv2D(hidden_layer_2, (3, 3), padding = 'same', strides = 2), 
+            # tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.LeakyReLU(),
+            
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(hidden_layer_2, (3, 3), padding = 'same', strides = 2),
+            # tf.keras.layers.UpSampling2D((2,2)),
+              
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same'),
+            # tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(channels, (3, 3), padding = 'same', activation = 'sigmoid'),
+            # tf.keras.layers.UpSampling2D((2,2)),
+            # tf.keras.layers.UpSampling2D((2,2)),
+])
+
+# model_new = tf.keras.Sequential()
+
+
+# In[138]:
+
+
+
+train = True
+if len(autoencoder_dir) == 0 or train == True:
+    # autoencoder = AnomalyDetector(image_size=image_size, hidden_layer_1 = hidden_layer_1, hidden_layer_2 = hidden_layer_2, channels=channels)
+    history_autoencoder = trainModel(model_new, epochs=epochs, batch_size=batch_size, optimizer=optimizer, loss = loss, metrics = metrics)
+    model_new.save(autoencoder_path + "/model_new.h5")
+    # autoencoder.save_weights(autoencoder_path + "/autoencoder.h5")
+else:
+    autoencoder = tf.keras.models.load_model(autoencoder_path, compile = False)
+
+
+# In[89]:
+
+
+# model = tf.keras.Model(autoencoder)
+config = autoencoder.get_config()
+custom_objects = {"custom_loss": SSIMLoss}
+with tf.keras.utils.custom_object_scope(custom_objects):
+    new_model = tf.keras.Model.from_config(config)
+autoencoder.save(autoencoder_path + "/autoencoer_config_model.h5py")
+
+
+# In[91]:
+
+
+autoencoder.input_layers()
+
+
+# In[18]:
 
 
 plotDifferences(normal_test_data, anomalous_test_data, 10)
 
 
-# In[53]:
+# In[19]:
 
 
 evaluateLossesSSIM(normal_train_data, anomalous_test_data)
 
 
-# In[54]:
+# In[20]:
 
 
 evaluateLossesMEAN(normal_train_data, anomalous_test_data, show_plots=0)
@@ -450,24 +541,24 @@ evaluateLossesMEAN(normal_train_data, anomalous_test_data, show_plots=0)
 
 # ## Supervised Learning
 
-# In[57]:
+# In[21]:
 
 
 image_size = 128
-data = getData(path_clean_images, image_size, convert_color=0)
-data_anomaly = getData(path_anomalous_images, image_size, convert_color=0)
+data = getData(images_path, image_size, convert_color=0)
+data_anomaly = getData(anomaly_images_path, image_size, convert_color=0)
 X = np.concatenate((data, data_anomaly), axis = 0)
 y = np.concatenate((np.zeros((len(data))), np.ones((len(data_anomaly)))), axis = 0)
 
 
-# In[58]:
+# In[22]:
 
 
 X_train, X_aux, y_train, y_aux = train_test_split(X, y, shuffle=True, stratify=y, test_size=0.3, random_state = 42)
 X_val, X_test, y_val, y_test = train_test_split(X_aux, y_aux, shuffle=True, stratify=y_aux, test_size=0.2, random_state = 42)
 
 
-# In[59]:
+# In[23]:
 
 
 # def augmentImages(image, flip = False, rotation = False):
@@ -484,7 +575,7 @@ X_val, X_test, y_val, y_test = train_test_split(X_aux, y_aux, shuffle=True, stra
 # y_train = np.concatenate((np.zeros((len(data))), np.ones((len(data_anomaly)))), axis = 0) 
 
 
-# In[60]:
+# In[24]:
 
 
 def trainModelSL(hidden_convlayer_1, hidden_convlayer_2, hidden_denselayer_3, optimizer, loss, metrics, epochs, batch_size):
@@ -532,7 +623,7 @@ def trainModelSL(hidden_convlayer_1, hidden_convlayer_2, hidden_denselayer_3, op
     return history_sup, supervised_model
 
 
-# In[61]:
+# In[25]:
 
 
 def plotPredictions(X_test, y_test, n, width = 20, height = 4):
@@ -551,7 +642,7 @@ def plotPredictions(X_test, y_test, n, width = 20, height = 4):
     plt.show()
 
 
-# In[62]:
+# In[26]:
 
 
 hidden_convlayer_1 = 8 
@@ -566,28 +657,29 @@ channels = data.shape[-1]
 
 
 supervised_model_dir = os.listdir(supervised_model_path)
-train = False
+train = True
 
 
 if len(supervised_model_dir) == 0 or train == True:
     history_supervised, supervised_model = trainModelSL(hidden_convlayer_1, hidden_convlayer_2, hidden_denselayer_3, optimizer, loss, metrics, epochs, batch_size)
     supervised_model.save(supervised_model_path)
+    supervised_model.save_weights(supervised_model + "/supervised_model.h5")
 else:
     supervised_model = tf.keras.models.load_model(supervised_model_path)
 
 
-# In[63]:
+# In[27]:
 
 
 test_loss, test_acc = supervised_model.evaluate(X_test, y_test, verbose = 2)
 
 
-# In[64]:
+# In[28]:
 
 
 y_test_pred = supervised_model.predict(X_test)
 print(classification_report(y_test, np.round(y_test_pred)))
-plotPredictions(X_test, y_test, 10, 40, 6)
+plotPredictions(X_test, y_test, 5, 40, 6)
 
 
 # In[ ]:
