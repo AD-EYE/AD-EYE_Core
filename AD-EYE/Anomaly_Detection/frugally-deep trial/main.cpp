@@ -62,21 +62,21 @@ int main() {
 
             losses.push_back(1 - calcSSIM(resizedImg, image_reconstructed));
 
-            // imshow("image_input", images_input[i]);
-            // imshow("image_output", images_output[i]);
-            // std::cout <<"SSIM loss: "<<losses[i]<<std::endl;
-            // cv::waitKey();
-            // if (i == 5)
-            //     break;
-        }
-    int show_images = 5;
-    for (int i=0;i<=show_images;i++)
-        {
             imshow("image_input", images_input[i]);
             imshow("image_output", images_output[i]);
             std::cout <<"SSIM loss: "<<losses[i]<<std::endl;
             cv::waitKey();
+            if (i == 0)
+                break;
         }
+    // int show_images = 5;
+    // for (int i=0;i<=show_images;i++)
+    //     {
+    //         imshow("image_input", images_input[i]);
+    //         imshow("image_output", images_output[i]);
+    //         std::cout <<"SSIM loss: "<<losses[i]<<std::endl;
+    //         cv::waitKey();
+    //     }
 
 
 
