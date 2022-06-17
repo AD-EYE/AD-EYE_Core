@@ -1,58 +1,49 @@
 # Fault Injection and Anomaly Detection
 
-___
 
-1. [Create the dataset](#create_dataset)
-2. [Fault Injection](#fault_injection)
+___
+<!-- 2. [Fault Injection](#fault_injection) -->
+
+1. [Goal of the Project](#project_goal)
+2. [Creating the Datasets](#create_dataset)
 3. [Anomaly detection with tensorflow with Python](#anomaly_detection)
 4. [Use the trained model weights in C++](#model_weights)
 5. [Run the C++ file on ROS](#ros)
-
 ___
-## <a id="create_dataset"></a>1. Create the dataset
+## <a id ="project_goal"></a> 1. Goal of the project
 
-#### Data gathering
-For data generation I have used a custom build Prescan model, in which the world consists of several buildings and pedestrians viewed from the perspective of a camera mounted on a normal car. 
+Being given a constant flow of images viewed from a car mounted camera, if something abnormal is happening, can it be detected and cataloged as anomalous?
 
-![](readme_images/image.png)
-
-The world that I built is rather simple, and it consists of a car that has a front view camera, and follows a predefined path. To make the data more real, I have added pedestrians, buildings, road signs and other cars participating in the traffic. 
-
-![](readme_images/clean_data.gif)
+In order to answer this question two separate datasets were created. One that has normal/ clean data and the other one containing the anomalous/ noisy data. In order to create the normal data, Prescan will be used, and, to inject faulty images, Simulink and Matlab will be utilized. Then, for data processing and model implementation, Python will be the main programming language, with two approaches being taken into consideration:
+- autoencoders, where the dataset is decomposed in smaller dimensions and then reconstructed in order to "understand" how the normal/clean data looks like. Therefore, anything but the clean data will be labeled as being anomalous.
+- supervised learning, where the dataset is labeled containg both clean and abnormal data, and the model is built using Convolutional Neural Networks
 
 
-Having that said, 2 separate datasets were formed:
-One that has the normal/clean data
-The other one containing the anomalous/ noisy data
-The goal of the project is that being given a constant flow of images, if something abnormal is happening, can it be detected and cataloged as anomalous ?
-The proposed solution implies two distinct methods:
-Autoencoder. Where the data is decomposed in smaller dimensions and then reconstructed in order to “learn” how clean/normal data looks like
-Show image of an autoencoder
-Classification. Being given a dataset composed of both normal and anomalous data, each with the corresponding label, build a ml algorithm that manages to correctly differentiate them.
-Show image of classification
-Data processing 
-With respect to the data processing part, there is a common part, 
-where each video is split by frame
-Thus, the normal data has  221 images and the anomalous data has 161 images
-Each image is resized in a specific format (the chosen one being 128 x 128)
-Bigger images will imply more time for processing, with almost no improvement performance
-Smaller images would imply loss in information that will worsen the prediction 
-All images where normalized in the [0, 1] interval for easier use and faster computing power
-Since two approaches are made, some processing had to be made specifically for that approach. Therefore:
-Autoencoder: images were grayscale
-Classification: data augmentation was highly needed since the initial dataset had only 382 images, more data was created by rotating the images and by randomly flipping an image
+Autoencoders | Convolutional Neural Networks
+:---:|:---:
+![](readme_images/autoencoder.png) | ![](readme_images/cnn.jpeg)
 
-
+The trained weights will be converted in C++ and the model evaluation will be done in C++. Finally, in order for an intelligent car to make use of the written code, the entire project will be run in a ROS environment. 
 ___
-## <a id="fault_injection"></a>2. Fault Injection
+ ## <a id="create_dataset"></a>2. Creating the datasets
 
-![](readme_images/simulink_gaussian_noise.png)
+#### Clean data
+For data generation I have used a custom built Prescan model, in which the world consists of several buildings and pedestrians viewed from the perspective of a front view camera mounted on a normal car and follows a predifined path. To make the data more real, I have added road signs and other cars participating in the traffic. The video that was made can be visualized below. 
+
+Prescan Image | Prescan Video
+:------:|:------:
+![](readme_images/image.png) | ![](readme_images/clean_data.gif)
 
 
-To the images gathered by this camera a gaussian noise is applied, thus injecting the fault. The parameters that I have used to generate the gaussian noise are standard deviation: and mean: . The code used to generate this noise can be visualized below  By increasing the mean the brightness increases and by increasing the standard deviation the noise level increases
+#### Fault Injection
 
-![](readme_images/anomalous_data.gif)
+To the images gathered by this camera a gaussian noise is applied, thus injecting the fault. Therefore, I have created a custom Matlab function, which being given the RGB channels from the camera and the parameters standard deviation and mean, would apply the gaussian noise on the initial data. By increasing the mean the brightness increases and by increasing the standard deviation the noise level increases. The results can be visualized below. 
 
+Simulink Block | Anomalous Data
+:---:|:---:
+![](readme_images/simulink_gaussian_noise.png)|![](readme_images/anomalous_data.gif)
+
+Thus, the gaussian noise is applied on each of the RGB channels, the results being concatenated to form the anomalous data. The code used to generate this noise is presented as follows. 
 
 ```matlab
 function [image_processed, R_noise, G_noise, B_noise] = gaussianNoise(sigma, mu, R, G, B)
@@ -66,70 +57,229 @@ B_noise = B .* gaussian_noise;
 
 image_processed = cat(3, R_noise, G_noise, B_noise) ;
 ```
+
 ___
 ## <a id="anomaly_detection"></a>3. Anomaly detection with tensorflow with Python
 
-Model implementation
-Autoencoder
+#### Data processing 
 
-![](readme_images/autoencoder.png)
+With respect to the data processing part, there is a common part, 
+where each video is split by frame. Thus, the normal data has  221 images and the anomalous data has 161 images. Each image is resized in a specific format (the chosen one being 128 x 128). Bigger images will imply more time for processing, with small to no performance improvent. Smaller images would imply loss in information that will worsen the prediction. All images where normalized in the [0, 1] interval for easier use and faster computations.
 
-The autoencoder model consists of two parts:
- the encoder, where the dimensionality of the data is reduced
-One input layer 
-and 2 conv2d layers, both with leaky relu as activation function, having a 3x3 kernel and strides = 2 of size 256 and 128 respectively
-The decoder, where the image is reconstructed
-2 conv2dtranspose layers having the same structure of 3x3 kernel, strides=2 and leaky relu as activation function
-One output layer being given the number of output channels, in this case 2, and sigmoid as an activation function, since we are dealing with differentiating a class from another
-By calling them in a sequence, the model was finally built
-The next part consists of training the model:
-The chosen hyper parameters are:
-Epochs = 10, // number of times the model will be trained using 
-Batch_size = 8, // number of images fed at once to be trained
-Hidden_layer_1 = 256, // no of neurons in the first layer
-Hiddent_layer_2 = 128,  // no of neurons in the second layer
-Optimizer = ‘adam’ // optimization technique to reach the global minimum (difference between what it’s predicted and what it should predict)
-Metrics = ‘mse’ // mean squared error since the data consists of values between 0 and 1
-Loss = SSIMLoss // loss function that takes into account the structural similarly, in terms of luminance, contrast and structure. A value of 1 would indicate identical images, so, it’s calculated as 1 - SSIMLoss, which needs to be as close as possible to 0
-Being given the above described parameters, the model clearly performs excellent in terms of training, reducing the loss with each iteration. The graph also shows that both the training and validation losses are decreasing reaching a maximum slope after 4 iterations
-Two different performance evaluation methods are taken into account. 
-First is using the SSIMloss. By looking at the following image, the first row corresponds to a clean image, the second row corresponds to it’s reconstruction, the third row an anomalous image and the fourth row it’s reconstruction. As it can be seen, while evaluating the loss, we always compare the original image with its reconstruction. Thus, the second and fourth row will have a value different than 0. It can be observed that the reconstruction for the clean data has a very low loss (under 0.1), while the reconstruction of the anomalous data has a high loss, over 0.45. 
-By evaluating the losses taking the minimum loss value of the reconstructed anomalous data, we can perfectly categorize the two types of data
-The second method to evaluate the autoencoder’s performance is by calculating the distribution of the losses, taking its mean and adding 2 standard deviations and setting that value as a threshold. 
-With this method it manages to differentiate very well, but not as good as the previous method
-Classification:
-![](readme_images/supervised_learning.jpg)
-For this approach, the dataset was split into 70% train, 20% test and 10% validation and images were kept in the RGB format. 
-The processing part earlier described was done in the training part, where a random flip is initiated to the original image and a random rotation with a factor of 0.2 is also applied
-It consists of:
- an input layer,
- 2 conv2d layers, 
- 2 maxpooling2d layers, 
-a flatten layer, 
-a dense layer 
-and an output layer   
+Since two methods are being considered, some processing had to be made specifically for that approach. Therefore:
+- Autoencoder: images were grayscale, as RGB images will worsen the predictions
+- CNN: data augmentation was highly needed since the initial dataset had only 382 images, more data was created by rotating the images and by randomly flipping an image
 
-Models comparison 
+
+#### Model implementation
+
+##### A. Autoencoder
+
+
+The autoencoder model consists of two parts, which are called in sequence:
+- The encoder, where the dimensionality of the data is reduced and is composed of
+    - one input layer, having the dimension of the initial data
+    - and two conv2d layers, both with leaky relu as activation function, having a 3x3 kernel and strides = 2, the first one being of size 256 and the second one of size 128
+- The decoder, where the image is reconstructed, with
+    - two conv2dtranspose layers having the same structure of 3x3 kernel, strides=2 and leaky relu as activation function
+    - and one output layer being given the number of output channels, in this case 1, and sigmoid as an activation function
+
+```python
+class AnomalyDetector(Model):
+    def __init__(self, image_size, hidden_layer_1, hidden_layer_2, channels):
+        super(AnomalyDetector, self).__init__()
+        self.image_size = image_size
+        self.hidden_layer_1 = hidden_layer_1
+        self.hidden_layer_2 = hidden_layer_2
+        self.channels = channels
+
+        self.encoder = tf.keras.Sequential([
+            tf.keras.layers.InputLayer(input_shape = (image_size, image_size, channels)),
+            tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same', strides = 2), 
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.Conv2D(hidden_layer_2, (3, 3), padding = 'same', strides = 2), 
+            tf.keras.layers.LeakyReLU(), 
+        ])
+
+        self.decoder = tf.keras.Sequential([
+            tf.keras.layers.Conv2DTranspose(hidden_layer_2, kernel_size=3, padding = 'same', strides = 2), 
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.Conv2DTranspose(hidden_layer_1, kernel_size=3, padding = 'same', strides = 2),
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.Conv2DTranspose(channels, 3, padding = 'same', activation = 'sigmoid'),
+        ])
+
+    def get_config(self):
+        config = {
+        "image_size": self.image_size, 
+        "hidden_layer_1": self.hidden_layer_1,
+        "hidden_layer_2": self.hidden_layer_2,
+        "channels": self.channels
+        }
+        return config 
+
+    def call(self, x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
+```
+
+With respect to training the autoencoder, the following hyperparameters were used: 
+- Epochs = 10, // number of times the model will be trained using 
+- Batch_size = 8, // number of images fed at once to be trained
+- Hidden_layer_1 = 256, // no of neurons in the first layer
+- Hiddent_layer_2 = 128,  // no of neurons in the second layer
+- Optimizer = ‘adam’ // optimization technique to reach the global minimum (difference between what it’s predicted and what it should predict)
+- Metrics = ‘mse’ // mean squared error since the data consists of values between 0 and 1
+- Loss = SSIMLoss // loss function that takes into account the structural similarly, in terms of luminance, contrast and structure. A value of 1 would indicate identical images, so, it’s calculated as 1 - SSIMLoss, which needs to be as close as possible to 0
+
+Being given the above described parameters, the model clearly performs excellent in terms of training, reducing the loss with each iteration. The graph presented below also shows that both the training and validation losses are constantly decreasing. 
+
+![](readme_images/2022-06-17-11-02-35.png)
+
+```python
+Epoch 1/10
+22/22 [==============================] - 15s 647ms/step - loss: 0.3429 - mse: 0.0247 - val_loss: 0.2715 - val_mse: 0.0157
+Epoch 2/10
+22/22 [==============================] - 14s 636ms/step - loss: 0.1782 - mse: 0.0065 - val_loss: 0.1339 - val_mse: 0.0018
+Epoch 3/10
+22/22 [==============================] - 14s 653ms/step - loss: 0.1184 - mse: 0.0018 - val_loss: 0.1065 - val_mse: 0.0016
+Epoch 4/10
+22/22 [==============================] - 14s 645ms/step - loss: 0.0978 - mse: 0.0016 - val_loss: 0.0920 - val_mse: 0.0013
+Epoch 5/10
+22/22 [==============================] - 14s 644ms/step - loss: 0.0817 - mse: 0.0012 - val_loss: 0.0802 - val_mse: 0.0013
+Epoch 6/10
+22/22 [==============================] - 14s 636ms/step - loss: 0.0703 - mse: 0.0010 - val_loss: 0.0657 - val_mse: 9.4617e-04
+Epoch 7/10
+22/22 [==============================] - 14s 634ms/step - loss: 0.0584 - mse: 8.7248e-04 - val_loss: 0.0532 - val_mse: 8.3311e-04
+Epoch 8/10
+22/22 [==============================] - 15s 665ms/step - loss: 0.0524 - mse: 8.8492e-04 - val_loss: 0.0506 - val_mse: 8.6172e-04
+Epoch 9/10
+22/22 [==============================] - 14s 643ms/step - loss: 0.0457 - mse: 8.2360e-04 - val_loss: 0.0448 - val_mse: 9.1828e-04
+Epoch 10/10
+22/22 [==============================] - 14s 655ms/step - loss: 0.0393 - mse: 6.7595e-04 - val_loss: 0.0358 - val_mse: 6.2813e-04
+```
+
+Two different performance evaluation methods are taken into account. The first one is represented by the SSIMloss. By looking at the image belw, the first row corresponds to a clean image, the second row corresponds to its reconstruction, the third row an anomalous image and the fourth row to its reconstruction. While evaluating the loss, the original image is always compared to its reconstruction. Thus, the second and fourth row will have a value different than 0. It can be observed that the reconstruction for the clean data has a very low loss (under 0.1), while the reconstruction of the anomalous data has a high loss, over 0.45. Even though a human eye could not easily see the difference between the original image and its reconstruction, this evaluation method is capable of observing the contrast, the luminance and other structural disimilarities. By setting the evaluating threshold as the minimum loss value of the reconstructed anomalous data, we can perfectly categorize the two types of data and therefore identify all the anomalies.
+
+![](readme_images/2022-06-17-11-17-22.png)
+
+The second method to evaluate the autoencoder’s performance is by calculating the distribution of the losses, taking its mean and adding 2 standard deviations and setting that value as a threshold. With this method it manages to differentiate very well, but not as good as the previous method as somoe of the clean data is considered anomalous. 
+
+Loss Distribution | Setting Threshold
+:---:|:---:
+![](readme_images/2022-06-17-11-25-40.png) | ![](readme_images/2022-06-17-11-26-22.png)
+
+
+
+##### B. Classification:
+
+For this approach, the dataset was split into 70% train, 20% test and 10% validation and images were kept in the RGB format. The processing part earlier described was done in the training part, where a random flip is initiated to the original image and a random rotation with a factor of 0.2 is also applied. 
+
+The structure of the model is presented as follows: 
+- an input layer, with the dimensions of the initial images
+- 2 conv2d layers of size 8 and 4 respectively, having 3x3 kernel size, strides = 2 and RelU activation function
+- 2 maxpooling2d layers, 
+- a flatten layer, 
+- a dense layer of size 16, 
+- and an output layer having 1 value with activation sigmoid, since we are dealing with differentiating two different classes
+
+Note: the RandomFlip and RandomRotation layers were eliminated from the C++ implementation, as the experimental layers were not supported by the frugally-deep library. 
+
+```python
+supervised_model = tf.keras.Sequential([
+    # tf.keras.layers.experimental.preprocessing.RandomFlip(),
+    # tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
+    tf.keras.layers.InputLayer(input_shape=(
+        image_size, image_size, channels)),
+    tf.keras.layers.Conv2D(hidden_convlayer_1, 3,
+                            padding='same', strides=2, activation='relu'),
+    tf.keras.layers.MaxPooling2D(),
+    tf.keras.layers.Conv2D(hidden_convlayer_2, 3,
+                            padding='same', strides=2, activation='relu'),
+    tf.keras.layers.MaxPooling2D(),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(hidden_denselayer_3, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+```
+Loss | Accuracy
+:---:|:---:
+![](readme_images/2022-06-17-11-41-46.png) |![](readme_images/2022-06-17-11-42-26.png)
+
+
 Results 
-Conclusion
 
+|        |       precision   | recall | f1-score   |support |
+|--------|-----------------|---------|------|---------------|
+|          0.0      | 1.00    |  1.00     |1.00    |     13 |
+|          1.0   |    1.00   |   1.00   |   1.00   |     10 |
+|                                                           |
+|     accuracy       |    |        |        1.00   |     23 |
+|    macro avg       |1.00 |     1.00   |  1.00    |     23 |
+| weighted avg     |  1.00  |    1.00  |    1.00   |     23 |
+
+
+![](readme_images/2022-06-17-11-51-38.png)
+
+#### Models comparison 
+
+- autoencoders: the model trains for around 2 minutes, even though there are only 221 images fed into it, which implies that with more data the training period will increase exponentially. However, the very low train and validation loss, suggests that the model is very capable of detecting the anomalies and labeling them accordingly. 
+- CNN: the model trains very fast, so if more data were to be fed, it will not have such a great impact on the training period. This procedure is very fast and very accurate, however, the only downside, which is also a very important one, is that it learns how to distinguish the clean data from the data with the gaussian noise. If I were to give a different type of noise it will raise errors, as it will not know in which category it belongs to. However, achieving 100% accuracy implies that further research is needed in order to investigate weather the data is very easy to differentiate, or the model is overfitting.
+
+#### Conclusion
+
+- autoencoder manages to differentiate any kind of anomaly from the clean normal data
+- CNN manages to differentiate the clean data from the gaussian noise one only.
 ___
 ## <a id="model_weights"></a>4. Use the trained model weights in C++
 
-- used frugally deep library
-- used other libraries that frugally deep depended on (can be found in the includes files)
-- opencv to read the images
-- tensor from bytes
-- predict output based on input
-- from tensor to cv::Mat
-- call the SSIM loss function
-- !!!!!! important: in the convert_model.py file I have changed the load_model function to have ```python compile=False``` as parameter !!!! Because I am using a custom loss function, the parameter was necesarry for avoiding to call the loss function in C++ which would be cumbersome.  
+In order to convert the Python trained weights into C++, the [frugally-deep](https://github.com/Dobiasd/frugally-deep) library was used. During the instalation, other depeneding libraries were needed, which can be found in the includes file within each c++ folder. However, the fully conversion couldn't be made right away, as some changes were needed. First of all, the frugally-deep library does not support Conv2DTranspose layer, but as identified in their documentation, it can be replaced by an UpSampling2D() layer followed by a Conv2D layer. Nevertheless, the strides had to be eliminated, in order for the dimension to be kept correctly. Furthermore, the frugally-deep library works only with Sequential layers, therefore custom classes will not work. Thus, I had to change the AnomalyDetection class presented into the autoencoder description, in the following code: 
 
+```python
+model_new = tf.keras.Sequential([
+            tf.keras.layers.InputLayer(input_shape = (image_size, image_size, channels)),
+            tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same', strides = 2), 
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.Conv2D(hidden_layer_2, (3, 3), padding = 'same', strides = 2), 
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(hidden_layer_2, (3, 3), padding = 'same', strides = 2),
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(hidden_layer_1, (3, 3), padding = 'same'),
+            tf.keras.layers.LeakyReLU(),
+            tf.keras.layers.UpSampling2D((2,2)),
+            tf.keras.layers.Conv2D(channels, (3, 3), padding = 'same', activation = 'sigmoid'),
+])
+```
+
+With respect to the CNN, only the experimental layers concerning the data augmentation part had to be eliminated, everythin else remains the same. The weights for both models were saved as a ".h5" file and can be found in the models folder.
+
+An extra change had to be made in the function that converts the weights (convert_model.py with the keras_export subfolder). As I am using a custom loss function (SSIM loss), when loading the model, the ```compile = False``` parameter needs to be added, in order not to compile the model again which would avoid the usage of the custom function, and thus avoiding errors. 
+
+An example to convert the autoencoders weights are presented as follows. Note, the conversion for the CNN is done in a similar manner.
+- train in python the sequential model,
+- go to > tensorflow conversion > frugally-deep-master > keras_export, then run
+```python
+python convert_model.py /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/models/autoencoder/autoencoder_sequential.h5 /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/models/autoencoder/autoencoder_sequential.json
+```
+
+During the C++ model evaluation, each image was read, resized with the correct dimensions (128 x 128),  transformed into a tensor and then finally used for predictions. For the autoencoders, an extra step had to be made, consisting of transforming the tensors back to images in order to call the SSIM loss function. A C++ implementation of the SSIM function was used and linked to the project and can be found [here](https://github.com/fran6co/background_estimation/tree/master/segmenter)
+
+In order to run the C++ file, one needs to follow these steps (this is for the autoencoder, the corresponding file for the CNN is frugally-deep-supervised, and the executable is ```./supervised```):
+
+- go to the frugally-deep-trial > build
+- type ```cmake ..``` followed by ```make``` and lastly ```./frugally``` 
+
+The CMakeLists.txt files need to be linked to the OpenCV library, the CMAKE standard had to be 14, the path to the additional needed libraries for frugally-deep and the OpenCV_LIBS had to be given, and lastly the directories paths of the mentioned libraries and the binary directory had to be specified. The tutorial used to convert Python weights into C++ can be found [here](https://m-shaeri.ir/blog/tensorflow-keras-train-in-python-predict-use-in-c-plus/)
 ___
 ## <a id="ros"></a>5. Run the C++ file on ROS
 
-mkdir -p catkin_ws/src
-cd catkin_ws
+In order to create the ros environment nodes and packages, the following lines had to be written. Note: I faced some issues with ```catkin_make```, so ```catkin build``` was used instead.  
+```
+mkdir -p catkin_anomaly/src
+cd catkin_anomaly
 catkin build
 
 cd src
@@ -137,166 +287,151 @@ catkin_create_pkg autoencoder stdmsg rospy roscpp
 catkin_create_pkg supervised stdmsg rospy roscpp
 cd ..
 catkin build
-
-cd
-
-19.05
-Re-did the ros tutorial for the 3rd time
-Managed to make talker - listener working
-Managed to make simple hello world working
-Reflections:
-Catkin_make did not create the necessary “include” files, but catkin build solved the issue
-In the tutorial ros in trello, the points 9 and 10 are not put, which are essential for the C++ version. (we have to create the msg and srv files, which are created automatically in python)
-I cannot run the full tutorial now, I think I changed something within the computer. Runnin rosrun rqt_graph rqt_graph, raises eros such as PyQt5 module is not installed. If I try to install it, it says it is already installed. Yes, I deactivated conda and checked if everything is installed, and indeed it is, so I have no idea what’s wrong    
-
-20.05
-Managed to make the mnist working on ros
-Reflections: 
-Same problem as yesterday, catkin_make didn’t work, but catkin build did the trick
-$(PROJECT_NAME) in the CMakeLists.txt within the local folder, had to be changed to a predefined variable, different than the project name (idk why, it should have worked with it, since it should have taken the new project name)
-Had to put the libtorch file also in the catkin ws, maybe it works without it. I have to check if it works without libtorch being in the same folder. 
-These had to be included in the ros CMakeLists.txt
-find_package(catkin REQUIRED COMPONENTS
- roscpp
- rospy
- std_msgs
-)
- 
-catkin_package()
- 
-include_directories(
- ${catkin_INCLUDE_DIRS}
-)
- target_link_libraries and add_dependancies have to take into consideration both torch and catkin
-target_link_libraries (main_test
-"${TORCH_LIBRARIES}"
-${catkin_LIBRARIES}
-)
-set_property (TARGET main_test PROPERTY CXX_STANDARD 14)
-add_dependencies(main_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
- 
- 
-
-
-For mnist_tutorial, there was a problem with the path of the dataset in the the main_test.cpp file (it stores the data differently in a ros environment) 
-Managed to translate some tensorflow python to pytorch c++, but it is not working :(
-
-02.06
-
-Found a VAE implemented in C++ that might be useful: https://github.com/AD2605/Variational-Autoencoder/blob/master/Autoencoder.cpp
-For some reason I can’t link the pytorch lib to another destination path other than version_cpp/ libtorch
-I changed the cmakefiles path to another one and does not work
-Have the same dataset error, but I couldn't find any solution now, even though I repeated the above steps.
-I was running rosrun mnist_tutorial mnist_tutorial, because I thought that the project name has to be the one that needs to be running, I should have been running rosrun mnist_tutorial main_test, which is the name of the file that I want to run. *facepalm
-Regarding the anomaly detection model, there is something wrong with the input dimensions of the model
-I’ll try with the found variational autoencoder
-
-03.06
-I found a library that would transfer tensorflow trained models from python into C++ deployment. https://github.com/Dobiasd/frugally-deep. However, there are two problems that make it incompatible to this project:
-It does not support custom models, and there are a lot of workarounds that need to be made, which will take a lot of time
-After long tries to create some workarounds however, I have re-read the documentation and apparently, it does not support Conv2DTranspose layer (*facepalm again), which are the essential layers in the autoencoder. However, I’m gonna leave the link to the found tutorial here just in case. https://m-shaeri.ir/blog/tensorflow-keras-train-in-python-predict-use-in-c-plus/
-Managed to change the custom model to fit the requirements of the library (preserving as best as possible results, even though the new one performs a bit worse than the original)
-Managed to create a json file that could be read and called using C++
-
-09.06
-In the morning I continued with the tutorial, trying to load the libraries. Since the guy is using Windows and can just import them with just 2 clicks, I have to create CMakeLists.txt files. It was going very slowly, and at the end of the day I googled for some tutorials. 
-In the afternoon, I worked on the presentation
-
-10.06
-Followed the CMakeLists.txt tutorials. 
-With a bit of struggle, I was finally able to load the libraries, with no errors. Next step is to start loading the weights and install openCV for C++ to read the images and process them a bit, in order to be tested.   
-
-15.06
-Found a usable ssim loss implementation: https://github.com/fran6co/background_estimation/tree/master/segmenter 
-Got filesystem library working -> solution #include <experimental/filesystem> instead of #include <filesystem> 
-Added opencv to the project and to the CMakeLists.txt file
- 
-target_link_libraries(frugally PUBLIC ${OpenCV_LIBS})
-include_directories(${OpenCV_INCLUDE_DIRS})
-Added ssim.cpp file in the CMakeLists.txt file 
-add_executable(frugally main.cpp ssim.cpp)
-Successfully loaded the model
-Managed to read and resize the images (tip: for the reading part, the filesystem library doesnt work, but I used the cv::glob to get all the path images in a vector and then used a for to read each image)
-Managed to convert images in tensors
-Managed to predict the images
-Managed to convert tensors in images (tip: for the shapes part, it’s tensor.front().shape() not tensor.shape(), because the output is defined as an “internal tensor” after using predict, not a normal tensor) 
-Managed to calculate the loss between the initial image and the reconstructed one
-Managed to calculate the ssim loss for both clean and anomalous data, and it’s working as expected (low values for clean data, high values for anomalous data).
-Current CMakeLists.txt file: 
-```cmake
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-project(frugally)
- 
-find_package(OpenCV REQUIRED)
-set (CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
- 
-add_executable(frugally main.cpp ssim.cpp)
-target_link_libraries(frugally PUBLIC ${PROJECT_SOURCE_DIR}/includes)
- 
- 
-target_link_libraries(frugally PUBLIC ${OpenCV_LIBS})
-include_directories(${OpenCV_INCLUDE_DIRS})
- 
-target_include_directories(frugally PUBLIC
-                           "${PROJECT_BINARY_DIR}"
-                           "${PROJECT_SOURCE_DIR}/includes"
- 
-)
- ```
- 
-
-Conclusion: miracles do happen 
-Todo: retrain the model with higher resolution images
-Clean folders
-Add things to git and .gitignore
-Add the supervised model as well
-Run it on ros
-
-
-
-16.06
-Retrained the model with dim 128 x 128, but it’s very slow while testing using C++ (approx 6.5 sec per image tested)
-Current workflow: train in python the sequential model, in terminal go to the current folder > tensorflow conversion > frugally-deep-master > keras_export, then run  
-```python
-python convert_model.py /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/models/autoencoder/autoencoder_sequential.h5 /home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/models/autoencoder/autoencoder_sequential.json
 ```
 
-, then go to the frugally-deep-trial > build, then type ```cmake ..``` followed by ```make``` and lastly ```./frugally```
-For the supervised learning model the RandomFlip and RandomRotation are not implemented because in previous versions of tensorflow, they are implemented in the experimental layers, which are not supported by the deep library…. => in order to make it work, I have to delete those layers.
-Managed to get both autoencoder and supervised model running on ros environment
+After placing the C++ files in the corresponding subfolders, some changes were needed for the CMakeLists.txt files. Catkin library had to be added with find_package having  the required components: roscpp, rospy and std_msg, then the path to the includes file had to be changed in the target_link_libraries as they are stored differently. In the same place catkin_LIBRARIES had to be added also. The include_directories had to have the catkin_INCLUDE_DIRS, while the exported targets for both the project and the catkin had to be added in the add_dependencies.  
 
+After all these changes were made, in one terminal, one has to write ```roscore```, while in another terminal, one has to write the following lines
+```
+cd catkin_anomaly
+catkin build
+source devel/setup.bash
+rosrun autoencoder autoencoder
+```
+or equivalently
 
+```
+rosrun supervised supervised
+```
 ___
 
-Other stuff: 
+#### Requirements
 
-Complete project overview:
-
-Built a simulation world using Prescan
-Inject a fault using Simulink and Matlab
-Apply various ML algorithm on detecting the faults with Python
-Transfer the trained model from Python to C++ for faster computations and deployment and run it on ROS
-
-Building a simulation using prescan:
-
-The world that I built is rather simple, and it consists of a car that has a front view camera, and follows a predefined path. To make the data more real, I have added pedestrians, buildings, road signs and other cars participating in the traffic. 
-This is a sample of the created video. 
-
-Inject a fault using Simulink and Matlab
-The next step was to inject some sort of fault in the camera, in order to create the anomalous data. The chosen one was a gaussian noise, with user defined parameters, and the anomalous data looks like this in the end. 
-ML part:
-Now, the goal of my project is to detect anomalies, so the basic principle is to build a machine learning algorithm that learns the clean data, and in the case that a anomalous data is being fed into the system, it will raise an error saying that the data is anomalous. The objective is to detect any kind of anomaly, not just the gaussian one, as I have created it, but I used it in order to test the model's performance.
-Therefore I have used two techniques to differentiate the clean data from the anomalos one, the first one is autoencoder. What it does, it basically just shrings the data in a very low dimensional plane and then it reconstructs it. This way, it manages to learn the particularities of the clean data. By using a SSIM loss, which stands for Sturcutral Similarity in images and takes into account brightness, structures and contours, I was able to distinguish clean data from anomalous one
-
-The first row represents the clean data, and then the second row represents it's reconstruction. As it can be seen the value of the SSIM loss for the reconstruction is very low in each case. However, the 3rd row represents the anomalous data, and the 4th row represents it's reconstruction. Even if for the naked eye it might be very hard to observe the dissimilarities in the reconstruction, using that specific loss, I obtained high values, which indicates that the data is anomalous. 
-
-The second method used, is a supervised learning one, meaning that we know beforehand which data is clean and which is anomalous. This procedure is very fast and very accurate, however, the only downside, which is also a very important one, is that it learns how to distinguish the clean data from the data with the gaussian noice. If I were to give a different type of noise it will raise errors, as it will not know in which category it belongs to. 
+These libraries and packages are needed for Python 3.8 conda environment
+```
+conda install matplotlib
+conda install sckit-learn
+conda install tensorflow (check to be version 2.6)
+conda install pandas
+conda install numpy
+conda isntall -c conda-forge imutils
 
 
-Remaining tasks:
-Transfer the model weights in C++ so that they could be used in a ROS environment, I have been trying to do that in the past month, but I have only managed to do the ros tutorial, and make a mnist nn work on ros. And I've been struggling for the past weeks to find some relevant tutorial that would help me use the weight that I've already stored using Python in C++
+pip install pipreqs
+pip install opencv-python
+```
+___
 
+#### Folder Structure
 
-
+```
+📦Anomaly_Detection
+ ┣ 📂.ipynb_checkpoints                                     
+ ┣ 📂.vscode        
+ ┃ ┗ 📜settings.json
+ ┣ 📂Tensorflow Conversion                          # folder to include frugally-deep and dependencies
+ ┃ ┣ 📂frugally-deep-master                         # main conversion library 
+ ┃ ┃ ┣ 📂include
+ ┃ ┃ ┃ ┗ 📂fdeep
+ ┃ ┃ ┣ 📂keras_export
+ ┃ ┃ ┃ ┣ 📜convert_model.py                         # file used to convert the trained weights of the model
+ ┃ ┃ ┃ ┣ 📜generate_test_models.py
+ ┃ ┃ ┃ ┣ 📜model_new.json
+ ┃ ┃ ┃ ┣ 📜save_application_examples.py
+ ┃ ┃ ┃ ┗ 📜visualize_layers.py
+ ┃ ┃ ┣ 📂logo
+ ┃ ┃ ┗ 📂test
+ ┃ ┗ 📂includes
+ ┣ 📂anomaly_cpp                                    # failed attenpt to convert tensorflow model in pytorch c++
+ ┃ ┣ 📂build
+ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┣ 📜anomaly.cpp
+ ┃ ┗ 📜download_mnist.py
+ ┣ 📂catkin_anomaly                                 # ROS environement where both models can be run (autoencoder and CNN)
+ ┃ ┣ 📂.catkin_tools
+ ┃ ┣ 📂build
+ ┃ ┣ 📂devel
+ ┃ ┣ 📂logs
+ ┃ ┗ 📂src
+ ┃ ┃ ┣ 📂autoencoder
+ ┃ ┃ ┃ ┣ 📂include
+ ┃ ┃ ┃ ┃ ┗ 📂autoencoder
+ ┃ ┃ ┃ ┣ 📂src
+ ┃ ┃ ┃ ┃ ┣ 📂needed_includes                        # libraries and dependencies to run the code
+ ┃ ┃ ┃ ┃ ┣ 📜autoencoder.cpp
+ ┃ ┃ ┃ ┃ ┣ 📜ssim.cpp                               # SSIM loss function implemented in C++
+ ┃ ┃ ┃ ┃ ┗ 📜ssim.h
+ ┃ ┃ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┃ ┃ ┗ 📜package.xml
+ ┃ ┃ ┗ 📂supervised
+ ┃ ┃ ┃ ┣ 📂include
+ ┃ ┃ ┃ ┃ ┗ 📂supervised
+ ┃ ┃ ┃ ┣ 📂src
+ ┃ ┃ ┃ ┃ ┣ 📂needed_includes
+ ┃ ┃ ┃ ┃ ┗ 📜supervised.cpp
+ ┃ ┃ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┃ ┃ ┗ 📜package.xml
+ ┣ 📂cmake_tutorial                                 # CMake tutorial file where basic library addition were tried out
+ ┃ ┣ 📂MathFunctions
+ ┃ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┃ ┣ 📜MathFunctions.h
+ ┃ ┃ ┗ 📜mysqrt.cxx
+ ┃ ┣ 📂build
+ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┣ 📜TutorialConfig.h.in
+ ┃ ┗ 📜tutorial.cpp
+ ┣ 📂dataset                                        # Main folder for the dataset
+ ┃ ┣ 📂anomaly_images
+ ┃ ┗ 📂images
+ ┣ 📂frugally-deep trial                            # autoencoder C++ impementation
+ ┃ ┣ 📂build
+ ┃ ┣ 📂includes
+ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┣ 📜main.cpp
+ ┃ ┣ 📜ssim.cpp
+ ┃ ┗ 📜ssim.h
+ ┣ 📂frugally-deep-supervised                       # CNN C++ implementation
+ ┃ ┣ 📂build
+ ┃ ┣ 📂includes
+ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┗ 📜main_supervised.cpp
+ ┣ 📂models                                         # Model weights saved in Python for both models
+ ┃ ┣ 📂autoencoder
+ ┃ ┃ ┣ 📂assets
+ ┃ ┃ ┣ 📂variables
+ ┃ ┃ ┃ ┣ 📜variables.data-00000-of-00001
+ ┃ ┃ ┃ ┗ 📜variables.index
+ ┃ ┃ ┣ 📜autoencoder.h5
+ ┃ ┃ ┣ 📜autoencoder_sequential.h5
+ ┃ ┃ ┣ 📜autoencoder_sequential.json
+ ┃ ┃ ┣ 📜keras_metadata.pb
+ ┃ ┃ ┣ 📜model_new.h5
+ ┃ ┃ ┗ 📜saved_model.pb
+ ┃ ┗ 📂supervised_model
+ ┃ ┃ ┣ 📂assets
+ ┃ ┃ ┣ 📂variables
+ ┃ ┃ ┃ ┣ 📜variables.data-00000-of-00001
+ ┃ ┃ ┃ ┗ 📜variables.index
+ ┃ ┃ ┣ 📜keras_metadata.pb
+ ┃ ┃ ┣ 📜saved_model.pb
+ ┃ ┃ ┣ 📜supervised_model.h5
+ ┃ ┃ ┗ 📜supervised_model.json
+ ┣ 📂readme_images                                  # Images used for readme.md file
+ ┣ 📂version_cpp                                    # MNIST C++ PyTorch implementation 
+ ┃ ┣ 📂build
+ ┃ ┣ 📂libtorch
+ ┃ ┣ 📜CMakeLists.txt
+ ┃ ┣ 📜download_mnist.py
+ ┃ ┗ 📜main_test.cpp
+ ┣ 📜README.md
+ ┣ 📜ad_22032022.ipynb                              # main ipynb containing data processing visualization training etc
+ ┣ 📜ad_22032022.py
+ ┣ 📜autoencoder.py                                 # alternative to train autoencoder model, not to be used for C++ conversion
+ ┣ 📜dataset.py
+ ┣ 📜default-a6cf411d-7560-4962-aa42-b79cddfd3a60.ipynb
+ ┣ 📜environment.yml                                # conda freeze, but not useful
+ ┣ 📜requirements.txt                               # created using pipreqs, just informative, not to be used, install manually
+ ┣ 📜requirements_freeze.txt                        # created unsig pip freeze, not useful
+ ┗ 📜supervised.py                                  # alternative to train CNN model, not to be used for C++ conversion
+```
 <!-- need to include snippets of codes, clean the folders add images + instructions on how to use it. it's gonna take some time. -->
