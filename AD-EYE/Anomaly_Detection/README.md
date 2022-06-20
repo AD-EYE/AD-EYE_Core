@@ -208,7 +208,7 @@ Loss | Accuracy
 ![](readme_images/2022-06-17-11-41-46.png) |![](readme_images/2022-06-17-11-42-26.png)
 
 
-Results 
+##### Results 
 
 |        |       precision   | recall | f1-score   |support |
 |--------|-----------------|---------|------|---------------|
@@ -222,12 +222,12 @@ Results
 
 ![](readme_images/2022-06-17-11-51-38.png)
 
-#### Models comparison 
+##### Models comparison 
 
 - autoencoders: the model trains for around 2 minutes, even though there are only 221 images fed into it, which implies that with more data the training period will increase exponentially. However, the very low train and validation loss, suggests that the model is very capable of detecting the anomalies and labeling them accordingly. 
 - CNN: the model trains very fast, so if more data were to be fed, it will not have such a great impact on the training period. This procedure is very fast and very accurate, however, the only downside, which is also a very important one, is that it learns how to distinguish the clean data from the data with the gaussian noise. If I were to give a different type of noise it will raise errors, as it will not know in which category it belongs to. However, achieving 100% accuracy implies that further research is needed in order to investigate weather the data is very easy to differentiate, or the model is overfitting.
 
-#### Conclusion
+##### Conclusion
 
 - autoencoder manages to differentiate any kind of anomaly from the clean normal data
 - CNN manages to differentiate the clean data from the gaussian noise one only.
