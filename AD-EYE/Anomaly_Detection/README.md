@@ -57,7 +57,7 @@ B_noise = B .* gaussian_noise;
 
 image_processed = cat(3, R_noise, G_noise, B_noise) ;
 ```
-
+The required videos can be found in Experiments -> SimpleExperiment. That's the folder where both the clean_output.avi and anomalous_output.avi are.
 ___
 ## <a id="anomaly_detection"></a>3. Anomaly detection with tensorflow with Python
 
