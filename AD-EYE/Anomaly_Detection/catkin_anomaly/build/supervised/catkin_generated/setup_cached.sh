@@ -8,6 +8,8 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/devel/.private/supervised:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/devel/.private/supervised/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/devel/.private/supervised/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/build/supervised'
 export ROSLISP_PACKAGE_DIRECTORIES="/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/devel/.private/supervised/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/catkin_anomaly/src/supervised:$ROS_PACKAGE_PATH"

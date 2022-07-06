@@ -43,11 +43,11 @@ int main() {
     // std::vector<float> losses;
     size_t count = random_clean_array.size();
     const auto model = fdeep::load_model("/home/adeye/AD-EYE_Core/AD-EYE/Anomaly_Detection/models/supervised_model/supervised_model.json");
-    std::cout << count<<std::endl;
+    // std::cout << count<<std::endl;
     for (size_t i=0; i<count;i++)
         {
             
-            std::cout << i <<std::endl;
+            // std::cout << i <<std::endl;
             const cv::Mat image_clean = cv::imread(fc[i]);
             const cv::Mat image_anomalous = cv::imread(fa[i]);
             cv::Mat resizedImg_clean;
@@ -76,13 +76,13 @@ int main() {
             
             
             const auto output_anomalous = model.predict ({input_anomalous});
-            std::cout << "Predicted clean: "<<fdeep::show_tensors(output_clean)<<std::endl;
-            std::cout << "Predicted anomalous: "<<fdeep::show_tensors(output_anomalous)<<std::endl;
+            // std::cout << "Predicted clean: "<<fdeep::show_tensors(output_clean)<<std::endl;
+            // std::cout << "Predicted anomalous: "<<fdeep::show_tensors(output_anomalous)<<std::endl;
 
 
             std::vector<float> clean = output_clean.front().to_vector();
             std::vector<float> anomalous = output_anomalous.front().to_vector();
-            std::cout << "Predicted clean: "<<round(clean[0])<<std::endl;
+            std::cout << std::endl<<"Predicted clean: "<<round(clean[0])<<std::endl;
             std::cout << "Predicted anomalous: "<<round(anomalous[0])<<std::endl;
             
             // const auto output_tensor = fdeep::tensor_from_bytes(output)

@@ -47,12 +47,11 @@ int main() {
     for (size_t i=0; i<count;i++)
         {
             
-            std::cout << i <<std::endl;
+            // std::cout << i <<std::endl;
             const cv::Mat image_clean = cv::imread(fc[i]);
             const cv::Mat image_anomalous = cv::imread(fa[i]);
             cv::Mat resizedImg_clean;
             cv::resize(image_clean, resizedImg_clean, cv::Size(128, 128));
-            // imshow("Display window", resi)
             
             const auto input_clean = fdeep::tensor_from_bytes(resizedImg_clean.ptr(), 
             static_cast <std::size_t>(resizedImg_clean.rows), 
@@ -66,7 +65,6 @@ int main() {
 
             cv::Mat resizedImg_anomalous;
             cv::resize(image_anomalous, resizedImg_anomalous, cv::Size(128, 128));
-            // imshow("Display window", resi)
             
             const auto input_anomalous = fdeep::tensor_from_bytes(resizedImg_anomalous.ptr(), 
             static_cast <std::size_t>(resizedImg_anomalous.rows), 
@@ -76,13 +74,13 @@ int main() {
             
             
             const auto output_anomalous = model.predict ({input_anomalous});
-            std::cout << "Predicted clean: "<<fdeep::show_tensors(output_clean)<<std::endl;
-            std::cout << "Predicted anomalous: "<<fdeep::show_tensors(output_anomalous)<<std::endl;
+            // std::cout << "Predicted clean: "<<fdeep::show_tensors(output_clean)<<std::endl;
+            // std::cout << "Predicted anomalous: "<<fdeep::show_tensors(output_anomalous)<<std::endl;
 
 
             std::vector<float> clean = output_clean.front().to_vector();
             std::vector<float> anomalous = output_anomalous.front().to_vector();
-            std::cout << "Predicted clean: "<<round(clean[0])<<std::endl;
+            std::cout << std::endl<<"Predicted clean: "<<round(clean[0])<<std::endl;
             std::cout << "Predicted anomalous: "<<round(anomalous[0])<<std::endl;
             
             // const auto output_tensor = fdeep::tensor_from_bytes(output)
