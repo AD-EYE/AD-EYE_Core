@@ -1,0 +1,14 @@
+<!-- -->
+<launch>
+
+    <!-- base_link to radar tf -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
+          args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
+
+    <!-- traffic_light_recognition -->
+    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+
+    <!-- object frame adapter -->
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch"/>
+
+</launch>

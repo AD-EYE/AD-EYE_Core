@@ -16,6 +16,11 @@ find_package(catkin REQUIRED COMPONENTS
   rcv_common_msgs
   cpp_utils
   planner_utils
+  autoware_msgs
+  op_planner
+  op_ros_helpers
+  tf2_ros
+  adeye_utils
 )
 
 
@@ -31,6 +36,11 @@ catkin_package(
     nav_msgs
     std_msgs
     geometry_msgs
+    autoware_msgs
+    op_planner
+    op_ros_helpers
+    tf2_ros
+    adeye_utils
   DEPENDS
 )
 
@@ -47,13 +57,17 @@ include_directories(
 )
 
 
-#add_library(${PROJECT_NAME}
-#   include/vectormaploader.h
-#)
+add_library(
+  vectorMap src/vectormap.cpp
+)
+
+add_library(
+  experimentRecording src/experiment_recording.cpp
+)
 
 add_executable(
   GridMapCreator
-  src/GridMapCreator_node.cpp
+  src/grid_map_creator.cpp
 )
 
 add_executable(
@@ -63,13 +77,60 @@ add_executable(
 
 add_executable(
   controlSwitch
-  src/controlSwitch_node.cpp
+  src/control_switch.cpp
+)
+
+add_executable(
+  safetySupervisor
+  src/safety_supervisor.cpp
+)
+
+add_executable(
+  radar_broadcaster
+  src/radar_broadcaster.cpp
+)
+
+add_executable(
+  collisionDetector
+  src/collision_detector.cpp
+)
+
+add_executable(
+  objectsFrameAdapter
+  src/objects_frame_adapter.cpp
+)
+
+add_executable(
+  cameraObjectListFuse
+  src/camera_object_list_fuse.cpp
+)
+
+add_executable(
+  lidarRadarFuse
+  src/lidar_radar_fuse.cpp
+)
+
+add_executable(
+  safetyChannelPerception
+  src/safety_channel_perception.cpp
+)
+
+
+add_executable(
+  laneMapImager
+        src/lane_map_imager.cpp
+)
+
+add_executable(
+  goalSequencer
+  src/goal_sequencer.cpp
 )
 
 
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
+  vectorMap
 )
 
 target_link_libraries(
@@ -82,13 +143,163 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-#add_dependencies(${PROJECT_NAME}
-#  ${catkin_EXPORTED_TARGETS}
-#)
+target_link_libraries(
+  safetySupervisor
+  ${catkin_LIBRARIES}
+  SafetyFaultMonitors
+)
+
+target_link_libraries(
+  radar_broadcaster
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  collisionDetector
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  objectsFrameAdapter
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  cameraObjectListFuse
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  lidarRadarFuse
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  safetyChannelPerception
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  laneMapImager
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  goalSequencer
+  ${catkin_LIBRARIES}
+)
+
+
+add_dependencies(controlSwitch
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(GridMapCreator
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(safetySupervisor
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(radar_broadcaster
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(collisionDetector
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(objectsFrameAdapter
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(cameraObjectListFuse
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(lidarRadarFuse
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(safetyChannelPerception
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(laneMapImager
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(goalSequencer
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+# Add the executable, libraries and dependencies for sensor monitor node
+add_executable(
+  sensorMonitor
+  src/sensor_monitor.cpp
+)
+
+target_link_libraries(
+  sensorMonitor
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(sensorMonitor
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+
+add_executable(
+  ExperimentC
+  src/experimentC.cpp
+)
+target_link_libraries(
+  ExperimentC
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  experimentRecording
+)
+add_dependencies(
+  ExperimentC
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+add_library(SafetyFaultMonitors
+        src/safety_fault_monitors/safety_fault_monitor.cpp
+        src/safety_fault_monitors/active_nodes_checker.cpp
+        src/safety_fault_monitors/geofencing_checker.cpp
+        src/safety_fault_monitors/car_off_road_checker.cpp
+        src/safety_fault_monitors/obstacles_in_critical_area_checker.cpp
+        src/safety_fault_monitors/sensor_checker.cpp)
+target_link_libraries(
+        SafetyFaultMonitors
+        ${catkin_LIBRARIES}
+)
+
+add_executable(
+  TestFault
+        src/safety_fault_monitors/fault_monitors_unit_tests.cpp
+)
+target_link_libraries(
+  TestFault
+  ${catkin_LIBRARIES}
+        SafetyFaultMonitors
+)
+add_dependencies(
+  TestFault
+  ${catkin_EXPORTED_TARGETS}
+)
+
+
+
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -101,10 +312,3 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
 )
-
-
-
-
-
-
-

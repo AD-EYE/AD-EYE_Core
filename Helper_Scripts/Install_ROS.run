@@ -1,0 +1,25 @@
+#! /usr/bin/env bash
+
+#Exit the script if one of the command fails
+set -e
+
+echo "Adding the source.list entry for ros"
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+echo "Adding the ROS signing key"
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+echo -e "\nInstalling ros-kinetic"
+sudo apt-get update
+sudo apt-get install ros-kinetic-desktop-full
+
+echo -e "\nInitialize rosdep"
+sudo rosdep init
+rosdep update
+
+echo -e "\nUpdating the ~/.bashrc file"
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+echo -e "\nInstalling dependencies for building packages"
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential

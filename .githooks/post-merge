@@ -1,0 +1,35 @@
+#!/bin/sh
+command -v git-lfs >/dev/null 2>&1 || { echo >&2 "\nThis repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting .git/hooks/post-merge.\n"; exit 2; }
+git lfs post-merge "$@"
+
+#Check OS
+platform="$(uname | tr '[:upper:]' '[:lower:]')"
+if [ $platform != "linux" ]
+then
+	# Get the current branch name
+	branch_name=$(git branch | grep "*" | sed "s/\* //")
+	# if the current branch is dev - check for unzipped file else don't do anything
+	if [[ $branch_name = "dev" ]]
+	then
+		file_path="$(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul"
+		zip_file="$(git rev-parse --show-toplevel)\Prescan_models\KTH_3D_overhaul.zip"
+		unzip_file_path="$(git rev-parse --show-toplevel)\Prescan_models"
+
+		if [ -e "$file_path" ]
+		then
+			echo "unzip file exists"
+			# git hook to run this after `git pull` to check all the changed files
+			changed_files=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)
+			check_run() 
+			{
+				echo $changed_files | grep --quiet $1 && unzip -o $zip_file -d $unzip_file_path
+			}
+			check_run KTH_3D_overhaul.zip
+		else
+			unzip -o $zip_file -d $unzip_file_path
+		fi
+
+	else
+		exit 0
+	fi
+fi

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>adeye_utils</name>
+  <version>0.0.0</version>
+  <description>The AD-EYE_utils package</description>
+
+  <maintainer email="adeye@md.kth.se">AD-EYE team</maintainer>
+  <license>See AD-EYE_Core/LICENSE.md</license>
+  <url type="website">http://www.adeye.se</url>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>tf</depend>
+  <depend>op_ros_helpers</depend>
+  <!-- Support for gridmap  -->
+  <depend>grid_map_core</depend>
+  <depend>grid_map_ros</depend>
+  <depend>grid_map_msgs</depend>
+  <depend>nav_msgs</depend>
+
+
+  <export>  </export>
+</package>

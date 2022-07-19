@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LibraryElementDefinitionFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LibraryElementDefinition xsi:type="LibraryObjectDefinition">
+    <PreScanVersion>2020.4.0</PreScanVersion>
+    <UserTypeName>RCVE</UserTypeName>
+    <UserDefinedBaseType BaseTypeName="BasicActor" BaseTypeFullName="PreScan.BusinessObjects.BasicActor, PreScan.BusinessObjects" BaseTypeFactoryFullName="PreScan.Factory.ActorFactory, PreScan.Factory" BaseTypeDrawHelperFullName="PreScan.Factory.DrawerHelpers.ClampBitmapDrawHelper, PreScan.Factory" BaseTypeModelGeneratorHelperFullName="PreScan.Factory.ModelGenerationHelpers.StaticModelGeneratorHelper, PreScan.Factory" />
+    <MainTab>UL Elements</MainTab>
+    <TabName>Basic Actors</TabName>
+    <HelpIndex>Index</HelpIndex>
+    <IconPicture>RCVE\Images\RCVE_IconPicture.png</IconPicture>
+    <DynSidePicture>RCVE\Images\RCVE_DynSide.png</DynSidePicture>
+    <UnderlayAspectRatioValue>0</UnderlayAspectRatioValue>
+    <CompilationSheetPicture>Images\RCVE.jpg</CompilationSheetPicture>
+    <SourceCompilationSheetPicture>RCVE\Images\RCVE.jpg</SourceCompilationSheetPicture>
+    <ModelSize X="3.69599986076355" Y="1.7288000583648682" Z="1.9428845643997192" />
+    <Size X="3.69599986076355" Y="1.7288000583648682" Z="1.9428845643997192" />
+    <Scale X="1" Y="1" Z="1" />
+    <Rotation X="0" Y="0" Z="0" />
+    <OriginUI X="50.198532104492188" Y="49.782962799072266" Z="0" />
+    <Origin X="0.50198532104492188" Y="0.49782962799072267" Z="0" />
+    <CoGOffsetUI X="50" Y="50" Z="0" />
+    <CoGOffset X="-0.0073377463056021955" Y="0.003752139256312148" Z="0" />
+    <DefaultCameraSensorPosition X="0" Y="0" Z="0" />
+    <DefaultNamePrefix>RCVE</DefaultNamePrefix>
+    <Main3DFile>RCVE\Models\Visual\RCVE.osgb.osgb</Main3DFile>
+    <ORMFromBase>true</ORMFromBase>
+    <TopViewPicture>RCVE\Images\RCVE_TopView.png</TopViewPicture>
+    <SideViewPicture>RCVE\Images\RCVE_SideView.png</SideViewPicture>
+    <UnderlayAspectRatio>false</UnderlayAspectRatio>
+  </LibraryElementDefinition>
+</LibraryElementDefinitionFile>

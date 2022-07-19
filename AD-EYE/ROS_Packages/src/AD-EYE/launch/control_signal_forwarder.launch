@@ -1,0 +1,12 @@
+<!-- -->
+<launch>
+
+    <arg name="use_only_twist" default="true"/>
+
+    <node type="control_signal_forwarder.py"
+        pkg="adeye"
+        name="control_signal_forwarder"
+        respawn="true"
+        args="$(arg use_only_twist)"/>
+
+</launch>

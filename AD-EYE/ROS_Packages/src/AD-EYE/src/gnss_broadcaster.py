@@ -1,33 +1,29 @@
-#!/usr/bin/env python  
-import roslib
+#!/usr/bin/env python
 import rospy
-import tf
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 
+## A class to get the position of the car as a Pose message from simulink and 
+## to tranfer it to the topic /gnss_pose as a PoseStamped message.
+# This node is a placeholder for receiving and decoding gps strings in the future
+class GnssBroadcaster:
 
-def mycallback(data):
-    pub = rospy.Publisher('/gnss_pose', PoseStamped, queue_size=1)
-    car = PoseStamped()
-    car.pose.position = data.position
-    car.pose.orientation = data.orientation
-    car.header.stamp = rospy.Time.now()
-    car.header.frame_id = 'map'
-    br = tf.TransformBroadcaster()
-    br.sendTransform((data.position.x, data.position.y, data.position.z),
-                     (data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w),
-                     rospy.Time.now(),
-                     "gps",
-                     "world")
-    # br2 = tf.TransformBroadcaster()
-    # br2.sendTransform((2.0,0.0,1.32),tf.transformations.quaternion_from_euler(0,0,0),
-    #                rospy.Time.now(),
-    #	     "camera",
-    #            "base_link")
-    pub.publish(car)
+    ##The constructor
+    #
+    #@param self The object pointer
+    def __init__(self):
+        self.gnss_sub = rospy.Subscriber('/gnss_pose_simulink', PoseStamped, self.gnssCallback)
+        self.gnss_pub = rospy.Publisher('/gnss_pose', PoseStamped, queue_size=1)
+
+    ##A Method to publish the position of the ego car as a PoseStamped message to the /gnss_pose topic.
+    #@param self The object pointer
+    #@param msg A Pose message received from /gnss_pose_simulink
+    def gnssCallback(self, msg):
+        self.gnss_pub.publish(msg)
+
 
 
 if __name__ == '__main__':
-    rospy.init_node('tf_broadcaster')
-    rospy.Subscriber('/gnss_pose_simulink', Pose, mycallback)
+    rospy.init_node('GNSS_broadcaster')
+    GnssBroadcaster()
     rospy.spin()

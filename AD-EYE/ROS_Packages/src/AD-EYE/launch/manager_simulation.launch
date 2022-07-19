@@ -1,0 +1,19 @@
+<!-- -->
+<launch>
+    <arg name="test_automation" default="false"/>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <group if="$(arg test_automation)">
+        <rosparam>
+            test_automation: true
+        </rosparam>
+    </group>
+    <node
+            type="manager.py"
+            pkg="adeye"
+            name="manager"
+            respawn="false"
+            output="screen"
+    />
+</launch>

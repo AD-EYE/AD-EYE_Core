@@ -1,0 +1,45 @@
+<!-- -->
+<launch>
+    <arg name="world_name" default="W01_Base_World"/> 
+    <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Pointcloud_Files/"/>
+    <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Vector_Map_Files/"/>
+    <!-- world_to_map -->
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>
+
+    <!-- Point Cloud Map -->
+    <node pkg="map_file" type="points_map_loader" name="points_map_loader" args="noupdate
+    $(arg PointCloud_Files_Folder)">
+        <remap from="/points_map" to="/points_map_full" />
+    </node>
+
+    <!-- Point Cloud Map Filter -->
+    <node pkg="rostopic" type="rostopic" name="config_voxel_grid_filter_rostopic"
+        args="pub -l /config/map_voxel_grid_filter autoware_config_msgs/ConfigVoxelGridFilter
+        '{voxel_leaf_size: 1 , measurement_range: 200.0}' "
+    />
+
+    <node pkg="points_downsampler" name="map_voxel_grid_filter" type="voxel_grid_filter">
+        <param name="points_topic" value="points_map_full" />
+        <remap from="/filtered_points" to="/points_map" />
+        <remap from="/config/voxel_grid_filter" to="/config/map_voxel_grid_filter" />
+        <param name="output_log" value="false" />
+        <param name="latch" value="true" />
+    </node>
+
+    <!-- Vector Map -->
+    <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
+    $(arg VectorMap_Files_Folder)area.csv
+    $(arg VectorMap_Files_Folder)crosswalk.csv
+    $(arg VectorMap_Files_Folder)dtlane.csv
+    $(arg VectorMap_Files_Folder)lane.csv
+    $(arg VectorMap_Files_Folder)line.csv
+    $(arg VectorMap_Files_Folder)node.csv
+    $(arg VectorMap_Files_Folder)point.csv
+    $(arg VectorMap_Files_Folder)roadedge.csv
+    $(arg VectorMap_Files_Folder)whiteline.csv
+    $(arg VectorMap_Files_Folder)vector.csv
+    $(arg VectorMap_Files_Folder)signaldata.csv
+    $(arg VectorMap_Files_Folder)stopline.csv
+"/>
+
+</launch>
