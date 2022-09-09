@@ -84,6 +84,10 @@ add_executable(
   safetySupervisor
   src/safety_supervisor.cpp
 )
+add_executable(
+  ped_motion_prediction
+  src/ped_motion_prediction.cpp
+)
 
 add_executable(
   radar_broadcaster
@@ -155,6 +159,11 @@ target_link_libraries(
 )
 
 target_link_libraries(
+  ped_motion_prediction
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
   collisionDetector
   ${catkin_LIBRARIES}
 )
@@ -203,6 +212,10 @@ add_dependencies(safetySupervisor
 )
 
 add_dependencies(radar_broadcaster
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(ped_motion_prediction
   ${catkin_EXPORTED_TARGETS}
 )
 
@@ -299,7 +312,7 @@ add_dependencies(
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector ped_motion_prediction radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
