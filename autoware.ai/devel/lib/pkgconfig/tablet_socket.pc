@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: tablet_socket
+Description: Description of tablet_socket
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: tf tablet_socket_msgs autoware_can_msgs autoware_msgs gnss

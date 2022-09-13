@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: op_ros_helpers
+Description: Description of op_ros_helpers
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/op_ros_helpers/include
+Libs: -L${prefix}/lib -lop_ros_helpers
+Requires: roscpp geometry_msgs autoware_msgs map_file pcl_conversions pcl_ros sensor_msgs tf jsk_recognition_msgs op_utility op_planner op_simu waypoint_follower vector_map_msgs

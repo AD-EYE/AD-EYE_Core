@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: lattice_planner
+Description: Description of lattice_planner
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_planning/lattice_planner/include
+Libs: -L${prefix}/lib -llibtraj_gen
+Requires: roscpp std_msgs pcl_ros pcl_conversions sensor_msgs tf gnss waypoint_follower vector_map waypoint_planner autoware_can_msgs

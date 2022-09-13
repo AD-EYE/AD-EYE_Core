@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: sound_player
+Description: Description of sound_player
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs

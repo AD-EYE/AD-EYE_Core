@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: twist_generator
+Description: Description of twist_generator
+Version: 0.0.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_perception/twist_generator/include
+Libs: -L${prefix}/lib 
+Requires: autoware_build_flags roscpp std_msgs geometry_msgs autoware_msgs

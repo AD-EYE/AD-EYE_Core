@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: autoware_system_msgs
+Description: Description of autoware_system_msgs
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime std_msgs rosgraph_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: mqtt_socket
+Description: Description of mqtt_socket
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp roslib std_msgs autoware_msgs autoware_can_msgs tablet_socket_msgs

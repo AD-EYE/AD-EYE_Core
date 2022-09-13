@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: points_downsampler
+Description: Description of points_downsampler
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/devel/include
+Libs: -L${prefix}/lib 
+Requires: roscpp pcl_ros sensor_msgs pcl_conversions velodyne_pointcloud message_generation autoware_config_msgs

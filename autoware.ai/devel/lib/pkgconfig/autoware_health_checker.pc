@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: autoware_health_checker
+Description: Description of autoware_health_checker
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/autoware_health_checker/include
+Libs: -L${prefix}/lib -lnode_status_publisher
+Requires: autoware_system_msgs roscpp rosgraph_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: op_global_planner
+Description: Description of op_global_planner
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_planning/op_global_planner/include
+Libs: -L${prefix}/lib -lop_global_planner
+Requires: geometry_msgs vector_map_msgs roscpp rospy std_msgs waypoint_follower op_utility op_planner op_simu op_ros_helpers autoware_can_msgs

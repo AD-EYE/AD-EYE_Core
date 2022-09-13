@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: runtime_manager
+Description: Description of runtime_manager
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: rospy autoware_msgs autoware_config_msgs tablet_socket_msgs std_msgs

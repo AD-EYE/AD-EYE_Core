@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: vector_map
+Description: Description of vector_map
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/vector_map/include
+Libs: -L${prefix}/lib -lvector_map
+Requires: roscpp tf geometry_msgs visualization_msgs vector_map_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: lidar_kf_contour_track
+Description: Description of lidar_kf_contour_track
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp autoware_msgs tf jsk_recognition_msgs op_ros_helpers cv_bridge

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: autoware_config_msgs
+Description: Description of autoware_config_msgs
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime std_msgs

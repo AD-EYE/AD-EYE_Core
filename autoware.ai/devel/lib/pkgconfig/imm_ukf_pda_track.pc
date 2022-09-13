@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: imm_ukf_pda_track
+Description: Description of imm_ukf_pda_track
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp pcl_ros autoware_msgs tf vector_map
