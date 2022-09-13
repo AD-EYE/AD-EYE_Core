@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: vehicle_socket
+Description: Description of vehicle_socket
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs autoware_can_msgs autoware_msgs tablet_socket_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: state_machine_lib
+Description: Description of state_machine_lib
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_planning/state_machine_lib/include
+Libs: -L${prefix}/lib -lstate_machine_lib
+Requires: roscpp autoware_msgs

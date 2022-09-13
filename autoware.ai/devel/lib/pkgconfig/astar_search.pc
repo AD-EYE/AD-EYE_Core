@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: astar_search
+Description: Description of astar_search
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_planning/astar_search/include
+Libs: -L${prefix}/lib -lastar_search
+Requires: roscpp tf tf_conversions pcl_ros sensor_msgs geometry_msgs autoware_msgs

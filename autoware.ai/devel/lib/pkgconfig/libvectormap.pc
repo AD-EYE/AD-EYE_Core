@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: libvectormap
+Description: Description of libvectormap
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/libvectormap/include -I/usr/include/eigen3
+Libs: -L${prefix}/lib -llibvectormap
+Requires: vector_map

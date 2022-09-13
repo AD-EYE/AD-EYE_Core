@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: fastvirtualscan
+Description: Description of fastvirtualscan
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/visualization/fastvirtualscan/include
+Libs: -L${prefix}/lib -lfastvirtualscan
+Requires: roscpp sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: amathutils_lib
+Description: Description of amathutils_lib
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/amathutils_lib/include
+Libs: -L${prefix}/lib -lamathutils_lib
+Requires: roscpp autoware_msgs tf tf2

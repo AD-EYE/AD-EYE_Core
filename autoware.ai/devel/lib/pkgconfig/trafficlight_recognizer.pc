@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: trafficlight_recognizer
+Description: Description of trafficlight_recognizer
+Version: 1.11.0
+Cflags: -I/usr/include/eigen3
+Libs: -L${prefix}/lib -llibcontext
+Requires: autoware_msgs cmake_modules cv_bridge geometry_msgs libvectormap roscpp sensor_msgs std_msgs tf vector_map vector_map_server visualization_msgs

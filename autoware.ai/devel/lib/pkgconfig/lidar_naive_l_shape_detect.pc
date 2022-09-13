@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: lidar_naive_l_shape_detect
+Description: Description of lidar_naive_l_shape_detect
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp pcl_ros autoware_msgs tf

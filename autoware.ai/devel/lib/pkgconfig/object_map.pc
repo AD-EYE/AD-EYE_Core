@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: object_map
+Description: Description of object_map
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/object_map/include
+Libs: -L${prefix}/lib -lobject_map_utils_lib
+Requires: roscpp pcl_ros pcl_conversions tf sensor_msgs nav_msgs autoware_msgs vector_map

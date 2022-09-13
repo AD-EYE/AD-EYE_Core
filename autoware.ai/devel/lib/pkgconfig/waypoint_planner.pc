@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: waypoint_planner
+Description: Description of waypoint_planner
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs tf waypoint_follower autoware_msgs vector_map astar_search

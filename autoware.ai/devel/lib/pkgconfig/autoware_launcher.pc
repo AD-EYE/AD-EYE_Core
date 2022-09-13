@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: autoware_launcher
+Description: Description of autoware_launcher
+Version: 1.11.0
+Cflags: 
+Libs: -L${prefix}/lib -lautoware_launcher
+Requires: python_qt_binding

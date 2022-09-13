@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: waypoint_follower
+Description: Description of waypoint_follower
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/common/waypoint_follower/include
+Libs: -L${prefix}/lib -llibwaypoint_follower
+Requires: roscpp std_msgs tf tf2 geometry_msgs autoware_msgs autoware_config_msgs amathutils_lib pcl_ros pcl_conversions sensor_msgs tablet_socket_msgs autoware_health_checker gazebo_msgs

@@ -1,0 +1,8 @@
+prefix=/home/adeye/AD-EYE_Core/autoware.ai/devel
+
+Name: lane_planner
+Description: Description of lane_planner
+Version: 1.11.0
+Cflags: -I/home/adeye/AD-EYE_Core/autoware.ai/src/autoware/core_planning/lane_planner/include
+Libs: -L${prefix}/lib -llane_planner
+Requires: roscpp std_msgs waypoint_follower vector_map gnss autoware_msgs
