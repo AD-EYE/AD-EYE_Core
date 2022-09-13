@@ -115,7 +115,7 @@ class GoalSequencer
             ROS_INFO(
                 "No vector map received, please close the goal publisher and start vector map in another terminal by "
                 "typing for example:");
-            ROS_INFO("roslaunch adeye my_map.launch world_name:=W01_Base_Map");
+            ROS_INFO("roslaunch adeye my_map.launch world_name:=W16_ped_motion_prediction");
         }
         // Stores the goal if it is valid
         else if (isGoalValid(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, msg->pose.orientation))
