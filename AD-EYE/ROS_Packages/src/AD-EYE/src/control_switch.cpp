@@ -150,6 +150,7 @@ class ControlSwitch
         {
             ros::spinOnce();
 
+	/***   Comment out the original switch 
             switch (switch_command_)
             {
                 case AUTOWARE:
@@ -183,6 +184,25 @@ class ControlSwitch
                     }
                     break;
             }
+	***/
+
+	/**This part of code will keep the car follow the noinal channel**/
+
+			unlockSSMP();
+            if (ssmp_trajectory_locked)
+            {
+                ROS_INFO("Switched back to the nominal channel");
+                autowareLocalReplan();
+            }
+            ssmp_trajectory_locked = false;
+            if (new_command_message_)
+            {
+                out_twist_command_.header.stamp = ros::Time::now();
+                out_twist_command_.twist.linear.x = autoware_twist_lin_x_;
+                out_twist_command_.twist.angular.z = autoware_twist_ang_z_;
+            }
+
+
             new_command_message_ = false;
             pub_out_command_.publish(out_twist_command_);
             rate_.sleep();
