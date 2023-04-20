@@ -188,7 +188,7 @@ class ControlSwitch
 
 	/**This part of code will keep the car follow the noinal channel**/
 
-			unlockSSMP();
+	    unlockSSMP();
             if (ssmp_trajectory_locked)
             {
                 ROS_INFO("Switched back to the nominal channel");
