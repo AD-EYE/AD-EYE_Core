@@ -1,4 +1,4 @@
-/*-- Code to send a can mframe on bus A-D --*/
+/*-- Code to send one can frame on bus A-F --*/
 
 // Writen by Titouan Voisin and Anthony Dyck
 
