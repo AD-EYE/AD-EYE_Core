@@ -59,6 +59,7 @@ elseif(VIBRANTE)
     list(APPEND Driveworks_LIBRARIES ${vibrante_LIBRARIES} ${vibrante_Xlibs_LIBRARIES} nvmedia ${EGL_LIBRARIES})
 endif()
 
+
 #-------------------------------------------------------------------------------
 # Src
 #-------------------------------------------------------------------------------
