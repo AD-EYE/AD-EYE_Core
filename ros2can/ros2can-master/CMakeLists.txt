@@ -1,0 +1,110 @@
+#-------------------------------------------------------------------------------
+#Set the minimum required version of cmake for a project
+#-------------------------------------------------------------------------------
+
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+
+#-------------------------------------------------------------------------------
+# Set basic configurations
+#-------------------------------------------------------------------------------
+
+set(CMAKE_MODULE_PATH /usr/local/driveworks/samples/cmake)
+include(/usr/local/driveworks/samples/cmake/SamplesSetBuildType.cmake) # Set the build type before project is created
+
+set(SDK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(SDK_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
+
+#-------------------------------------------------------------------------------
+# Root project
+#-------------------------------------------------------------------------------
+
+project(ros2can-master C CXX)
+
+#-------------------------------------------------------------------------------
+# System packages
+#-------------------------------------------------------------------------------
+
+find_package(CUDA REQUIRED)
+
+#-------------------------------------------------------------------------------
+# Basic configuration
+#-------------------------------------------------------------------------------
+
+include(/usr/local/driveworks/samples/cmake/ArchConfiguration.cmake)
+include(/usr/local/driveworks/samples/cmake/CommonConfiguration.cmake)
+include(/usr/local/driveworks/samples/cmake/SamplesConfiguration.cmake)
+include(/usr/local/driveworks/samples/cmake/Samples3rdparty.cmake)
+
+include(/usr/local/driveworks/samples/cmake/SamplesInstallConfiguration.cmake)
+include(/usr/local/driveworks/samples/cmake/ExpandDependencyTree.cmake)
+include(/usr/local/driveworks/samples/cmake/IncludeTargetDirectories.cmake)
+include(/usr/local/driveworks/samples/cmake/UploadVibrante.cmake)
+set(/usr/local/driveworks/samples/cmake/SDK_BINARY_DIR ${CMAKE_BINARY_DIR})
+
+#-------------------------------------------------------------------------------
+# Driveworks SDK
+#-------------------------------------------------------------------------------
+
+find_package(Driveworks REQUIRED)
+include_directories(${Driveworks_INCLUDE_DIR})
+
+list(APPEND Driveworks_LIBRARIES ${CUDA_LIBRARIES} ${CUDA_cublas_LIBRARY})
+
+if(LINUX)
+    list(APPEND Driveworks_LIBRARIES)
+elseif(VIBRANTE)
+    list(APPEND Driveworks_LIBRARIES ${vibrante_LIBRARIES} ${vibrante_Xlibs_LIBRARIES} nvmedia ${EGL_LIBRARIES})
+endif()
+
+#-------------------------------------------------------------------------------
+# Samples
+#-------------------------------------------------------------------------------
+if(CMAKE_CROSSCOMPILING)
+  set(DRIVEWORKS_DATAPATH "/usr/local/driveworks/data")
+else()
+  set(DRIVEWORKS_DATAPATH "${CMAKE_CURRENT_LIST_DIR}../../../../usr/local/driveworks/data")
+endif()
+include_directories(${SDK_BINARY_DIR}/configured)
+configure_file(src/framework/DataPath.hpp.in
+               ${SDK_BINARY_DIR}/configured/src/framework/DataPath.hpp)
+
+#set(SAMPLES sensors;features;mapping;rigconfiguration;renderer;render_engine;sfm;dnn;laneDetection;colorcorrection;rectifier;ipc;hello_world;image;stereo;freespace;drivenet;maps;template;icp;lidar_accumulator;cameraBlindness;calibration;vehicleio;dataspeedBridge)
+#file(GLOB ADDITIONAL_SAMPLES "CMakeListsSamples*.txt")
+#foreach(ADDITIONAL_SAMPLE ${ADDITIONAL_SAMPLES})
+#  include(${ADDITIONAL_SAMPLE})
+#endforeach()
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/cansend_function)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/framework)
+#foreach(SAMPLE ${SAMPLES})
+    #add_subdirectory(/usr/local/driveworks/samples/src/${SAMPLE})
+
+#endforeach()
+
+
+#if(WIN32)
+  # Handle runtime library dependence
+  get_filename_component(DriveworksLibPath ${Driveworks_LIBRARY} DIRECTORY)
+  set(LIBRARY_DIR ${DriveworksLibPath}/../bin)
+  
+  file(GLOB dll_files "${LIBRARY_DIR}/*.dll")
+  foreach(file ${dll_files})
+        file(COPY "${file}" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
+        file(COPY "ssssssssss${file}" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release")
+        install(FILES ${LIBRARY_DIR}/${file}
+                DESTINATION "${CMAKE_INSTALL_PREFIXS}/${SDK_SAMPLE_DESTINATION}"
+        )
+  endforeach()
+#endif()
+
+#-------------------------------------------------------------------------------
+# Cuda dependencies
+#-------------------------------------------------------------------------------
+# Create a target to update cuda dependencies
+add_cuda_dependencies_target(update_cuda_deps ON)
+set_property(TARGET update_cuda_deps PROPERTY FOLDER "Support")
+
+
+
+

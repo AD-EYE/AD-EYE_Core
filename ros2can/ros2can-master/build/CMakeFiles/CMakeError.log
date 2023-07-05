@@ -1,0 +1,140 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_75248/fast"
+/usr/bin/make -f CMakeFiles/cmTC_75248.dir/build.make CMakeFiles/cmTC_75248.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_75248.dir/CheckSymbolExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC    -o CMakeFiles/cmTC_75248.dir/CheckSymbolExists.c.o   -c /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_75248
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_75248.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC   -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_75248.dir/CheckSymbolExists.c.o  -o cmTC_75248 -rdynamic 
+CMakeFiles/cmTC_75248.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x14): undefined reference to `pthread_create'
+CheckSymbolExists.c:(.text+0x18): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_75248.dir/build.make:97: recipe for target 'cmTC_75248' failed
+make[1]: *** [cmTC_75248] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_75248/fast' failed
+make: *** [cmTC_75248/fast] Error 2
+
+File /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bf3f6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bf3f6.dir/build.make CMakeFiles/cmTC_bf3f6.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bf3f6.dir/CheckFunctionExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_bf3f6.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_bf3f6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bf3f6.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create  -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_bf3f6.dir/CheckFunctionExists.c.o  -o cmTC_bf3f6 -rdynamic -lpthreads 
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_bf3f6.dir/build.make:97: recipe for target 'cmTC_bf3f6' failed
+make[1]: *** [cmTC_bf3f6] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_bf3f6/fast' failed
+make: *** [cmTC_bf3f6/fast] Error 2
+
+
+Determining if the function XOpenDisplay exists in the /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libX11.so;/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libXext.so failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_dc16d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_dc16d.dir/build.make CMakeFiles/cmTC_dc16d.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_dc16d.dir/CheckFunctionExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTC_dc16d.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_dc16d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dc16d.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC -DCHECK_FUNCTION_EXISTS=XOpenDisplay  -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_dc16d.dir/CheckFunctionExists.c.o  -o cmTC_dc16d  -L/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu -rdynamic /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libX11.so /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libXext.so -Wl,-rpath,/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu 
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /lib/aarch64-linux-gnu/libc.so.6
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /usr/lib/aarch64-linux-gnu/libc_nonshared.a
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_dc16d.dir/build.make:99: recipe for target 'cmTC_dc16d' failed
+make[1]: *** [cmTC_dc16d] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_dc16d/fast' failed
+make: *** [cmTC_dc16d/fast] Error 2
+
+
+Determining if the function dnet_ntoa exists in the dnet failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d447a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d447a.dir/build.make CMakeFiles/cmTC_d447a.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d447a.dir/CheckFunctionExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC -DCHECK_FUNCTION_EXISTS=dnet_ntoa   -o CMakeFiles/cmTC_d447a.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_d447a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d447a.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC -DCHECK_FUNCTION_EXISTS=dnet_ntoa  -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_d447a.dir/CheckFunctionExists.c.o  -o cmTC_d447a -rdynamic -ldnet 
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find -ldnet
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d447a.dir/build.make:97: recipe for target 'cmTC_d447a' failed
+make[1]: *** [cmTC_d447a] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d447a/fast' failed
+make: *** [cmTC_d447a/fast] Error 2
+
+
+Determining if the function dnet_ntoa exists in the dnet_stub failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_cabd6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cabd6.dir/build.make CMakeFiles/cmTC_cabd6.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_cabd6.dir/CheckFunctionExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC -DCHECK_FUNCTION_EXISTS=dnet_ntoa   -o CMakeFiles/cmTC_cabd6.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_cabd6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cabd6.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC -DCHECK_FUNCTION_EXISTS=dnet_ntoa  -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_cabd6.dir/CheckFunctionExists.c.o  -o cmTC_cabd6 -rdynamic -ldnet_stub 
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find -ldnet_stub
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_cabd6.dir/build.make:97: recipe for target 'cmTC_cabd6' failed
+make[1]: *** [cmTC_cabd6] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_cabd6/fast' failed
+make: *** [cmTC_cabd6/fast] Error 2
+
+
+Determining if the function IceConnectionNumber exists in the ICE failed with the following output:
+Change Dir: /home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e8838/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e8838.dir/build.make CMakeFiles/cmTC_e8838.dir/build
+make[1]: Entering directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e8838.dir/CheckFunctionExists.c.o
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -DVIBRANTE -DVIBRANTE_V5L -isystem /include  -fPIC -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTC_e8838.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e8838
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e8838.dir/link.txt --verbose=1
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/../toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/aarch64-gnu-linux-gcc  -fPIC -DCHECK_FUNCTION_EXISTS=IceConnectionNumber  -L/lib-target -L/targetfs/lib/aarch64-linux-gnu -Wl,-rpath,/lib-target   CMakeFiles/cmTC_e8838.dir/CheckFunctionExists.c.o  -o cmTC_e8838  -L/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu -rdynamic -lICE -Wl,-rpath,/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu 
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /lib/aarch64-linux-gnu/libc.so.6
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /usr/lib/aarch64-linux-gnu/libc_nonshared.a
+/home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/toolchains/tegra-4.9-nv/usr/bin/aarch64-gnu-linux/../../libexec/aarch64-gnu-linux/gcc/aarch64-gnu-linux/4.9.4/ld: cannot find /lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_e8838.dir/build.make:97: recipe for target 'cmTC_e8838' failed
+make[1]: *** [cmTC_e8838] Error 1
+make[1]: Leaving directory '/home/adeye08u/ros2can/ros2can-master/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_e8838/fast' failed
+make: *** [cmTC_e8838/fast] Error 2
+
+
