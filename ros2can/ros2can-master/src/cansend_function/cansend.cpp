@@ -130,7 +130,7 @@ int main() {
     cout << endl;
 
     // connection
-    if((connection("f",sdk,hal,canSensor))!=DW_SUCCESS) return 0;
+    if((connection("a",sdk,hal,canSensor))!=DW_SUCCESS) return 0;
 
     // send the frame
     can_send(&frame,canSensor);

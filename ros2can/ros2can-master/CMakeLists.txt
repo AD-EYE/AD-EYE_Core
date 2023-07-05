@@ -1,3 +1,5 @@
+#Writen by Anthony Dyck
+
 #-------------------------------------------------------------------------------
 #Set the minimum required version of cmake for a project
 #-------------------------------------------------------------------------------
@@ -58,7 +60,7 @@ elseif(VIBRANTE)
 endif()
 
 #-------------------------------------------------------------------------------
-# Samples
+# Src
 #-------------------------------------------------------------------------------
 if(CMAKE_CROSSCOMPILING)
   set(DRIVEWORKS_DATAPATH "/usr/local/driveworks/data")
@@ -69,21 +71,14 @@ include_directories(${SDK_BINARY_DIR}/configured)
 configure_file(src/framework/DataPath.hpp.in
                ${SDK_BINARY_DIR}/configured/src/framework/DataPath.hpp)
 
-#set(SAMPLES sensors;features;mapping;rigconfiguration;renderer;render_engine;sfm;dnn;laneDetection;colorcorrection;rectifier;ipc;hello_world;image;stereo;freespace;drivenet;maps;template;icp;lidar_accumulator;cameraBlindness;calibration;vehicleio;dataspeedBridge)
-#file(GLOB ADDITIONAL_SAMPLES "CMakeListsSamples*.txt")
-#foreach(ADDITIONAL_SAMPLE ${ADDITIONAL_SAMPLES})
-#  include(${ADDITIONAL_SAMPLE})
-#endforeach()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/cansend_function)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/framework)
-#foreach(SAMPLE ${SAMPLES})
-    #add_subdirectory(/usr/local/driveworks/samples/src/${SAMPLE})
 
-#endforeach()
+#-------------------------------------------------------------------------------
 
 
-#if(WIN32)
+if(WIN32)
   # Handle runtime library dependence
   get_filename_component(DriveworksLibPath ${Driveworks_LIBRARY} DIRECTORY)
   set(LIBRARY_DIR ${DriveworksLibPath}/../bin)
@@ -96,12 +91,12 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/framework)
                 DESTINATION "${CMAKE_INSTALL_PREFIXS}/${SDK_SAMPLE_DESTINATION}"
         )
   endforeach()
-#endif()
+endif()
 
 #-------------------------------------------------------------------------------
-# Cuda dependencies
+# Cuda dependencie : Create a target to update cuda dependencies
 #-------------------------------------------------------------------------------
-# Create a target to update cuda dependencies
+
 add_cuda_dependencies_target(update_cuda_deps ON)
 set_property(TARGET update_cuda_deps PROPERTY FOLDER "Support")
 
