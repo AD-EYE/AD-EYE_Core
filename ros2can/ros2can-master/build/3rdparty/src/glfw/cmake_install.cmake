@@ -1,8 +1,8 @@
-# Install script for directory: /home/adeye08u/AD-EYE_Core/ros2can/ros2can-master/3rdparty/src/glfw
+# Install script for directory: /home/adeye/AD-EYE_Core/ros2can/ros2can-master/3rdparty/src/glfw
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/adeye08u/AD-EYE_Core/ros2can/ros2can-master/build/install")
+  set(CMAKE_INSTALL_PREFIX "/home/adeye/AD-EYE_Core/ros2can/ros2can-master/build/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/adeye08u/AD-EYE_Core/ros2can/ros2can-master/build/3rdparty/src/glfw/3.2-screen/cmake_install.cmake")
+  include("/home/adeye/AD-EYE_Core/ros2can/ros2can-master/build/3rdparty/src/glfw/3.2-screen/cmake_install.cmake")
 
 endif()
 
