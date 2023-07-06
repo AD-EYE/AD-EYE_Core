@@ -69,7 +69,7 @@ else()
 endif()
 include_directories(${SDK_BINARY_DIR}/configured)
 configure_file(src/framework/DataPath.hpp.in
-               ${SDK_BINARY_DIR}/configured/src/framework/DataPath.hpp)
+               ${SDK_BINARY_DIR}/configured/samples/framework/DataPath.hpp)
 
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/cansend_function)
