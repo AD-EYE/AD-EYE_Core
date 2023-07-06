@@ -95,6 +95,12 @@ src/cansend_function/cansend_function: /usr/local/driveworks-1.2/targets/aarch64
 src/cansend_function/cansend_function: /usr/local/cuda/targets/aarch64-linux/lib/libcudart.so
 src/cansend_function/cansend_function: /usr/local/cuda/targets/aarch64-linux/lib/stubs/libcublas.so
 src/cansend_function/cansend_function: /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/lib-target/libEGL.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante/lib/libudev.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante/lib/libusb-1.0.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante_Xlibs/lib/libXrandr.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante_Xlibs/lib/libXinerama.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante_Xlibs/lib/libXi.so
+src/cansend_function/cansend_function: ../3rdparty/linux-aarch64/vibrante_Xlibs/lib/libXcursor.so
 src/cansend_function/cansend_function: 3rdparty/src/glfw/3.2-screen/src/libglfw3.a
 src/cansend_function/cansend_function: /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libX11.so
 src/cansend_function/cansend_function: /home/adeye08u/nvidia/nvidia_sdk/DRIVE_OS_5.0.10.3_SDK_with_DriveWorks_Linux_OS_PX2_AUTOCHAUFFEUR/DriveSDK/drive-t186ref-linux/targetfs/usr/lib/aarch64-linux-gnu/libXxf86vm.so

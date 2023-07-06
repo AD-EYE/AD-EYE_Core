@@ -2,7 +2,6 @@
 
 project(cansend_function C CXX)
 
-include(/usr/local/driveworks/samples/cmake/FindDriveworks.cmake)
 #-------------------------------------------------------------------------------
 # Project files
 #-------------------------------------------------------------------------------
@@ -16,22 +15,17 @@ set(SOURCES
 
 set(LIBRARIES
     dw_samples_framework
-  	${Driveworks_LIBRARIES}
+    ${Driveworks_LIBRARIES}
 )
 
 #-------------------------------------------------------------------------------
 # Final target
 #-------------------------------------------------------------------------------
-SET(CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH} ${DRIVEWORKS_DIR})
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARIES})
-set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "Ros2can-master")
-
+set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "Samples")
 
 # ------------------------------------------------------------------------------
 # Install target
 # ------------------------------------------------------------------------------
 sdk_add_sample(${PROJECT_NAME})
-
-
-
