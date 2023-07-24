@@ -185,7 +185,7 @@ def main() :
         left_msg = bridge.cv2_to_imgmsg(left_rect, "bgr8")
         right_msg = bridge.cv2_to_imgmsg(right_rect, "bgr8")
 
-        print("Publishing frame")
+        # Publishing both frames
 
         left_pub.publish(left_msg)
         right_pub.publish(right_msg)
