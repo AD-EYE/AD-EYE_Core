@@ -25,7 +25,7 @@ def start_node():
 
 
 def load_calibration_file(serial_number) :
-    calibration_file = "../AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/src/" + 'SN' + str(serial_number) + '.conf'
+    calibration_file = "../AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/src/camera_configs/" + 'SN' + str(serial_number) + '.conf'
 
     if os.path.isfile(calibration_file) == True:
         print("Calibration file found. Loading...")
