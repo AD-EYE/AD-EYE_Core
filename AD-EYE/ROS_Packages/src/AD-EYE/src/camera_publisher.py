@@ -4,7 +4,7 @@
 
 import numpy as np
 import os
-import configparser
+import ConfigParser
 import sys
 import cv2
 
@@ -25,14 +25,14 @@ def start_node():
 
 
 def load_calibration_file(serial_number) :
-    calibration_file = 'SN' + str(serial_number) + '.conf'
+    calibration_file = "../AD-EYE_Core/AD-EYE/ROS_Packages/src/AD-EYE/src/" + 'SN' + str(serial_number) + '.conf'
 
     if os.path.isfile(calibration_file) == True:
         print("Calibration file found. Loading...")
     
     else:
         print("Calibration file \"" + calibration_file + "\" not found.")
-        print("It can be downloaded from: calib.stereolabs.com/?SN=" + SERIAL_NUMBER)
+        print("It can be downloaded from: calib.stereolabs.com/?SN=" + str(SERIAL_NUMBER))
 
     return calibration_file
 
@@ -41,8 +41,9 @@ def init_calibration(calibration_file, image_size) :
 
     cameraMarix_left = cameraMatrix_right = map_left_y = map_left_x = map_right_y = map_right_x = np.array([])
 
-    config = configparser.ConfigParser()
+    config = ConfigParser.RawConfigParser()
     config.read(calibration_file)
+
 
     check_data = True
     resolution_str = ''
@@ -52,42 +53,43 @@ def init_calibration(calibration_file, image_size) :
         resolution_str = 'FHD'
     elif image_size.width == 1280 :
         resolution_str = 'HD'
-    elif image_size.width == 672 :
+    elif image_size.width == 672 : 
         resolution_str = 'VGA'
     else:
         resolution_str = 'HD'
         check_data = False
 
-    T_ = np.array([-float(config['STEREO']['Baseline'] if 'Baseline' in config['STEREO'] else 0),
-                   float(config['STEREO']['TY_'+resolution_str] if 'TY_'+resolution_str in config['STEREO'] else 0),
-                   float(config['STEREO']['TZ_'+resolution_str] if 'TZ_'+resolution_str in config['STEREO'] else 0)])
 
-    left_cam_cx = float(config['LEFT_CAM_'+resolution_str]['cx'] if 'cx' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_cy = float(config['LEFT_CAM_'+resolution_str]['cy'] if 'cy' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_fx = float(config['LEFT_CAM_'+resolution_str]['fx'] if 'fx' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_fy = float(config['LEFT_CAM_'+resolution_str]['fy'] if 'fy' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_k1 = float(config['LEFT_CAM_'+resolution_str]['k1'] if 'k1' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_k2 = float(config['LEFT_CAM_'+resolution_str]['k2'] if 'k2' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_p1 = float(config['LEFT_CAM_'+resolution_str]['p1'] if 'p1' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_p2 = float(config['LEFT_CAM_'+resolution_str]['p2'] if 'p2' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_p3 = float(config['LEFT_CAM_'+resolution_str]['p3'] if 'p3' in config['LEFT_CAM_'+resolution_str] else 0)
-    left_cam_k3 = float(config['LEFT_CAM_'+resolution_str]['k3'] if 'k3' in config['LEFT_CAM_'+resolution_str] else 0)
+    T_ = np.array([config.getfloat('STEREO', 'Baseline'),
+                   config.getfloat('STEREO', 'TY_' + resolution_str) if config.has_option('STEREO', 'TY_' + resolution_str) else 0.,
+                   config.getfloat('STEREO', 'TZ_' + resolution_str) if config.has_option('STEREO', 'TZ_' + resolution_str) else 0.])
 
+    left_cam_cx = config.getfloat('LEFT_CAM_' + resolution_str, 'cx') if config.has_option('LEFT_CAM_' + resolution_str, 'cx') else 0.
+    left_cam_cy = config.getfloat('LEFT_CAM_' + resolution_str, 'cy') if config.has_option('LEFT_CAM_' + resolution_str, 'cy') else 0.
+    left_cam_fx = config.getfloat('LEFT_CAM_' + resolution_str, 'fx') if config.has_option('LEFT_CAM_' + resolution_str, 'fx') else 0.
+    left_cam_fy = config.getfloat('LEFT_CAM_' + resolution_str, 'fy') if config.has_option('LEFT_CAM_' + resolution_str, 'fy') else 0.
+    left_cam_k1 = config.getfloat('LEFT_CAM_' + resolution_str, 'k1') if config.has_option('LEFT_CAM_' + resolution_str, 'k1') else 0.
+    left_cam_k2 = config.getfloat('LEFT_CAM_' + resolution_str, 'k2') if config.has_option('LEFT_CAM_' + resolution_str, 'k2') else 0.
+    left_cam_p1 = config.getfloat('LEFT_CAM_' + resolution_str, 'p1') if config.has_option('LEFT_CAM_' + resolution_str, 'p1') else 0.
+    left_cam_p2 = config.getfloat('LEFT_CAM_' + resolution_str, 'p2') if config.has_option('LEFT_CAM_' + resolution_str, 'p2') else 0.
+    left_cam_p3 = config.getfloat('LEFT_CAM_' + resolution_str, 'p3') if config.has_option('LEFT_CAM_' + resolution_str, 'p3') else 0.
+    left_cam_k3 = config.getfloat('LEFT_CAM_' + resolution_str, 'k3') if config.has_option('LEFT_CAM_' + resolution_str, 'k3') else 0.
 
-    right_cam_cx = float(config['RIGHT_CAM_'+resolution_str]['cx'] if 'cx' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_cy = float(config['RIGHT_CAM_'+resolution_str]['cy'] if 'cy' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_fx = float(config['RIGHT_CAM_'+resolution_str]['fx'] if 'fx' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_fy = float(config['RIGHT_CAM_'+resolution_str]['fy'] if 'fy' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_k1 = float(config['RIGHT_CAM_'+resolution_str]['k1'] if 'k1' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_k2 = float(config['RIGHT_CAM_'+resolution_str]['k2'] if 'k2' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_p1 = float(config['RIGHT_CAM_'+resolution_str]['p1'] if 'p1' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_p2 = float(config['RIGHT_CAM_'+resolution_str]['p2'] if 'p2' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_p3 = float(config['RIGHT_CAM_'+resolution_str]['p3'] if 'p3' in config['RIGHT_CAM_'+resolution_str] else 0)
-    right_cam_k3 = float(config['RIGHT_CAM_'+resolution_str]['k3'] if 'k3' in config['RIGHT_CAM_'+resolution_str] else 0)
+    right_cam_cx = config.getfloat('RIGHT_CAM_' + resolution_str, 'cx') if config.has_option('RIGHT_CAM_' + resolution_str, 'cx') else 0.
+    right_cam_cy = config.getfloat('RIGHT_CAM_' + resolution_str, 'cy') if config.has_option('RIGHT_CAM_' + resolution_str, 'cy') else 0.
+    right_cam_fx = config.getfloat('RIGHT_CAM_' + resolution_str, 'fx') if config.has_option('RIGHT_CAM_' + resolution_str, 'fx') else 0.
+    right_cam_fy = config.getfloat('RIGHT_CAM_' + resolution_str, 'fy') if config.has_option('RIGHT_CAM_' + resolution_str, 'fy') else 0.
+    right_cam_k1 = config.getfloat('RIGHT_CAM_' + resolution_str, 'k1') if config.has_option('RIGHT_CAM_' + resolution_str, 'k1') else 0.
+    right_cam_k2 = config.getfloat('RIGHT_CAM_' + resolution_str, 'k2') if config.has_option('RIGHT_CAM_' + resolution_str, 'k2') else 0.
+    right_cam_p1 = config.getfloat('RIGHT_CAM_' + resolution_str, 'p1') if config.has_option('RIGHT_CAM_' + resolution_str, 'p1') else 0.
+    right_cam_p2 = config.getfloat('RIGHT_CAM_' + resolution_str, 'p2') if config.has_option('RIGHT_CAM_' + resolution_str, 'p2') else 0.
+    right_cam_p3 = config.getfloat('RIGHT_CAM_' + resolution_str, 'p3') if config.has_option('RIGHT_CAM_' + resolution_str, 'p3') else 0.
+    right_cam_k3 = config.getfloat('RIGHT_CAM_' + resolution_str, 'k3') if config.has_option('RIGHT_CAM_' + resolution_str, 'k3') else 0.
 
-    R_zed = np.array([float(config['STEREO']['RX_'+resolution_str] if 'RX_' + resolution_str in config['STEREO'] else 0),
-                      float(config['STEREO']['CV_'+resolution_str] if 'CV_' + resolution_str in config['STEREO'] else 0),
-                      float(config['STEREO']['RZ_'+resolution_str] if 'RZ_' + resolution_str in config['STEREO'] else 0)])
+    R_zed = np.array([config.getfloat('STEREO', 'rx_' + resolution_str.lower()) if config.has_option('STEREO', 'rx_' + resolution_str.lower()) else 0.,
+                   config.getfloat('STEREO', 'cv_' + resolution_str.lower()) if config.has_option('STEREO', 'cv_' + resolution_str.lower()) else 0.,
+                   config.getfloat('STEREO', 'rz_' + resolution_str.lower()) if config.has_option('STEREO', 'rz_' + resolution_str.lower()) else 0.])
+
 
     R, _ = cv2.Rodrigues(R_zed)
     cameraMatrix_left = np.array([[left_cam_fx, 0, left_cam_cx],
@@ -175,7 +177,7 @@ def main() :
 
         # Raw images
         #cv2.imshow("left RAW", left_right_image[0])
-        #cv2.imshow("right RAW", left_right_image[0])
+        #cv2.imshow("right RAW", left_right_image[1])
 
         # Rectified images
         left_rect = cv2.remap(left_right_image[0], map_left_x, map_left_y, interpolation=cv2.INTER_LINEAR)
@@ -186,7 +188,6 @@ def main() :
         right_msg = bridge.cv2_to_imgmsg(right_rect, "bgr8")
 
         # Publishing both frames
-
         left_pub.publish(left_msg)
         right_pub.publish(right_msg)
 
