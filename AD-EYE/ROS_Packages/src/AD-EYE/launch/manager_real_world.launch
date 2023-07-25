@@ -7,4 +7,7 @@
             respawn="false"
             output="screen"
     />
+
+    <node pkg="adeye" name="camera_publisher" type="camera_publisher.py" output="screen" />
+
 </launch>
