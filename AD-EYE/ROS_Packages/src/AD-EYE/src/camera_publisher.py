@@ -191,7 +191,6 @@ def main() :
         left_pub.publish(left_msg)
         right_pub.publish(right_msg)
 
-    exit(0)
 
 if __name__ == "__main__":
     main()
