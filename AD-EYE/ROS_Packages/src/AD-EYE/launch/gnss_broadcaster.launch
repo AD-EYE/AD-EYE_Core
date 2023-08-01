@@ -3,5 +3,7 @@
     <node type="gnss_broadcaster.py"
           pkg="adeye"
           name="gnss_broadcaster"
-          respawn="true"/>
+          respawn="true"
+	  output="screen"
+    />
 </launch>
