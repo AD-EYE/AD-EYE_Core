@@ -10,11 +10,6 @@
 
     <node pkg="adeye" name="camera_publisher" type="camera_publisher.py" output="screen" />
 
-    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
-	  <param name="port" value="/dev/ttyACM0"/>
-	  <param name="baud" value="9600"/>
-    </node>
-
-    <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
+    <include file="$(find adeye)/launch/my_sensing.launch"/>
 
 </launch>
