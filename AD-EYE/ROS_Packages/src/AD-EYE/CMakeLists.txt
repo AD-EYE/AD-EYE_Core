@@ -294,8 +294,11 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(point_cloud_converter src/point_cloud_converter.cpp)
 
-
+target_link_libraries(point_cloud_converter
+  ${catkin_LIBRARIES}
+)
 
 # Mark executables and/or libraries for installation
 install(

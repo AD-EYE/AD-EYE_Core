@@ -9,4 +9,8 @@
 
     <!-- gnss_broadcaster -->
     <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/>
+    <include file="$(find adeye)/launch/point_cloud_converter.launch"/>
+     
 </launch>
