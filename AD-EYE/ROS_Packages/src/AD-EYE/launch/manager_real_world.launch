@@ -1,13 +1,14 @@
 <!-- -->
 <launch>
-	
-    <arg name="lidar_source" default="RealWorld"/>
+
+    <!-- RealWorld / Simulation -->
+    <arg name="lidar_source" default="Simulation"/>
     <arg name="gnss_source" default="RealWorld"/>
     <arg name="camera_source" default="Simulation"/>
 
     <param name="sensing/lidar_source" value="$(arg lidar_source)" />
     <param name="sensing/gnss_source" value="$(arg gnss_source)" />
-    <param name="sensing/camera_source" value="$(arg gnss_source)" />
+    <param name="sensing/camera_source" value="$(arg camera_source)" />
 
 
     <node
