@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
-    <node type="gnss_broadcaster.py"
-          pkg="adeye"
-          name="gnss_broadcaster"
-          respawn="true"/>
+    <node type="gnss_broadcaster.py" pkg="adeye" name="gnss_broadcaster" respawn="true" output="screen">
+	  <param name="standard_parallel" value="59.349689"/>
+  	  <param name="map_origin" value="18.063386 59.354040"/>
+    </node>
 </launch>

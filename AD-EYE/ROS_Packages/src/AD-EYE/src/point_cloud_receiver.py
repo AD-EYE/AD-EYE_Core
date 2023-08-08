@@ -8,7 +8,7 @@ import numpy as np
 
 ##A function to turn the raws points from floats to strings and publish them to the /points_raw topic
 #@param data A Float32MultiArray message 
-def mycallback(data):
+def callback_sim(data):
     msg = PointCloud2()
     msg.header.stamp = rospy.Time.now()
     msg.header.frame_id = "velodyne"  # MO "velodyne"
@@ -29,9 +29,18 @@ def mycallback(data):
     pub.publish(msg)
 
 
+def callback_realWorld(data):
+    pub.publish(data)
+
+
 if __name__ == '__main__':
     rospy.init_node('point_cloud_receiver', anonymous=True)
 
-    rospy.Subscriber("/points_raw_float32", Float32MultiArray, mycallback)
+    if rospy.get_param("sensing/lidar_source", "Simulation"):
+        rospy.Subscriber("/points_raw_float32", Float32MultiArray, callback_sim)
+    
+    if rospy.get_param("sensing/lidar_source", "RealWorld"):
+        rospy.Subscriber("/velodyne_points", PointCloud2, callback_realWorld)
+    
     pub = rospy.Publisher('/points_raw', PointCloud2, queue_size=1)
     rospy.spin()

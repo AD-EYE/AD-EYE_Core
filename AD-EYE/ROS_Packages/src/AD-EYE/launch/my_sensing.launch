@@ -5,11 +5,8 @@
         args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link gps 10"/>
     
     <!-- point_cloud_receiver -->
-    <!-- node pkg="adeye" type="point_cloud_receiver.py" name="point_cloud_receiver"/ -->
+    <node pkg="adeye" type="point_cloud_receiver.py" name="point_cloud_receiver"/>
 
     <!-- gnss_broadcaster -->
     <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
-	
-    <remap from="/velodyne_points" to="/points_raw"/>
-    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/>
 </launch>
