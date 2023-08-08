@@ -21,7 +21,7 @@
         <arg name="args_list" value="camera_info $(arg camera) 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
 
-    <!-- vision_ssd_detect-->
+    <!-- vision_ssd_detect -->
     <include file="$(find adeye)/launch/vision_ssd_detect.launch">
         <arg name="camera" value="$(arg camera)"/>
         <arg name="use_gpu" value="true"/>
@@ -34,6 +34,13 @@
         <arg name="image_src" value="image_raw"/>
         <arg name="image_out" value="image_rects"/>
         <arg name="object_src" value="image_detector/objects"/>
+    </include>
+
+    <!-- camera_raw -->
+    <include file="$(find adeye)/launch/new_image_raw.launch">
+        <arg name="camera" value="$(arg camera)"/>
+        <arg name="image_src" value="sim_image_raw"/>
+        <arg name="image_out" value="image_raw"/>
     </include>
 
     <!-- range_vision_fusion -->

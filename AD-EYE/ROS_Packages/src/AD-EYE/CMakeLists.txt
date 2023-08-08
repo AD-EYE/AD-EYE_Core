@@ -115,7 +115,6 @@ add_executable(
   src/safety_channel_perception.cpp
 )
 
-
 add_executable(
   laneMapImager
         src/lane_map_imager.cpp
@@ -125,7 +124,6 @@ add_executable(
   goalSequencer
   src/goal_sequencer.cpp
 )
-
 
 target_link_libraries(
   GridMapCreator
@@ -234,7 +232,6 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
-
 # Add the executable, libraries and dependencies for sensor monitor node
 add_executable(
   sensorMonitor
@@ -294,12 +291,30 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_executable(visualize_raw
+        include/new_image_raw.h
+        src/new_image_raw_main.cpp
+        src/new_image_raw.cpp
+        )
 
+target_include_directories(visualize_raw PRIVATE
+        ${OpenCV_INCLUDE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        include
+        )
 
+target_link_libraries(visualize_raw
+        ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+        )
+
+add_dependencies(visualize_raw
+        ${catkin_EXPORTED_TARGETS}
+        )
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC visualize_raw
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

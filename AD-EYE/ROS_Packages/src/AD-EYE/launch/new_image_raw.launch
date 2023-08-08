@@ -1,0 +1,15 @@
+<!-- -->
+<launch>
+  <!-- Camera that is going to be used -->
+  <arg name="camera" default="camera_1"/>
+
+	<!-- arguments list -->
+	<arg name="image_src" default="/sim_image_raw"/>
+	<arg name="image_out" default="/image_raw"/>
+
+	<node ns="$(arg camera)" pkg="adeye" type="visualize_raw" name="VisualizeRaw" output="screen">
+		<param name="image_src" value="/$(arg camera)/$(arg image_src)"/>
+		<param name="image_out" value="/$(arg image_out)"/>
+	</node>
+
+</launch>
