@@ -27,6 +27,8 @@
         <arg name="enableDynamicMapUpdate" value="$(arg enableDynamicMapUpdate)"/>
     </include>
 
+    <node pkg="adeye" type="sendgoal" name ="sendgoal" output="screen"/>
+
     <node pkg="adeye" type="goalSequencer" name="goalSequencer" output="screen"/>
 
 </launch>

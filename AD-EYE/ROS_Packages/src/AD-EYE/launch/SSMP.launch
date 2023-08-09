@@ -81,5 +81,7 @@
         output="screen"
         launch-prefix="xterm -e"/>
 
-
+    <node pkg="adeye" type="fullmap" name="fullmap" output="screen">
+        <param name="path" value="/home/adeye/AD-EYE-GUI/packages/studio-base/src/panels/Goal/WorldImage.png"/>
+    </node>
 </launch>

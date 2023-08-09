@@ -312,9 +312,50 @@ add_dependencies(visualize_raw
         ${catkin_EXPORTED_TARGETS}
         )
 
+add_executable(
+  fullmap
+  src/full_map.cpp
+)
+
+target_include_directories(fullmap PRIVATE
+        ${OpenCV_INCLUDE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        include
+        )
+
+target_link_libraries(fullmap
+        ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+        )
+
+add_dependencies(fullmap
+        ${catkin_EXPORTED_TARGETS}
+        )
+
+add_executable(
+  sendgoal
+  src/send_goal.cpp
+)
+
+target_include_directories(sendgoal PRIVATE
+        ${OpenCV_INCLUDE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        include
+        )
+
+target_link_libraries(sendgoal
+        ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+        )
+
+add_dependencies(sendgoal
+        ${catkin_EXPORTED_TARGETS}
+        )
+
+
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC visualize_raw
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC visualize_raw fullmap sendgoal
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
