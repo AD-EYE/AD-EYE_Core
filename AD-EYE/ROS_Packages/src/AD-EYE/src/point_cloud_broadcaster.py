@@ -34,7 +34,7 @@ def callback_realWorld(data):
 
 
 if __name__ == '__main__':
-    rospy.init_node('point_cloud_receiver', anonymous=True)
+    rospy.init_node('point_cloud_broadcaster', anonymous=True)
 
     if rospy.get_param("sensing/lidar_source", "Simulation"):
         rospy.Subscriber("/points_raw_float32", Float32MultiArray, callback_sim)
