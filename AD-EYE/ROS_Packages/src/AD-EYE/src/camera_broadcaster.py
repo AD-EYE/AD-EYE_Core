@@ -2,7 +2,6 @@
 
 import rospy
 from sensor_msgs.msg import Image
-import numpy as np
 
 
 def callback_1(data):
