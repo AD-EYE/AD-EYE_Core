@@ -166,8 +166,8 @@ def main() :
     print("Calibration initiated")
 
     bridge = CvBridge()
-    left_pub = rospy.Publisher('/camera_1/image_raw', Image, queue_size=10)
-    right_pub = rospy.Publisher('/camera_2/image_raw', Image, queue_size=10)
+    left_pub = rospy.Publisher('/camera_1/image_raw_zed', Image, queue_size=10)
+    right_pub = rospy.Publisher('/camera_2/image_raw_zed', Image, queue_size=10)
 
     while not rospy.is_shutdown():
         # Get a new frame from camera

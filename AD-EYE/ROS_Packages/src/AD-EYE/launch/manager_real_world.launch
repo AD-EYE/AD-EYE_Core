@@ -32,7 +32,7 @@
     </group>
 
     <group if="$(eval arg('camera_source') == 'RealWorld')">
-        <node pkg="adeye" name="camera_publisher" type="camera_publisher.py" output="screen" />
+        <node pkg="adeye" name="zed_driver" type="zed_driver.py" output="screen" />
     </group>
 
 </launch>

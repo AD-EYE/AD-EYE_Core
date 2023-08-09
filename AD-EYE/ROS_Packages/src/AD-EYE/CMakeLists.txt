@@ -311,6 +311,10 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
-catkin_install_python(PROGRAMS src/camera_publisher.py
+catkin_install_python(PROGRAMS src/camera_broadcaster.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS src/zed_driver.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
