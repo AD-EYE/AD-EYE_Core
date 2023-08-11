@@ -63,10 +63,10 @@ class GnssBroadcaster_RealWorld:
 if __name__ == '__main__':
     rospy.init_node('GNSS_broadcaster')
 
-    if rospy.get_param("sensing/gnss_source", "Simulation"):
+    if rospy.get_param("sensing/gnss_source") == "Simulation":
         GnssBroadcaster_Sim()
 
-    if rospy.get_param("sensing/gnss_source", "Simulation"):
+    if rospy.get_param("sensing/gnss_source") == "RealWorld":
         standard_parallel = float(rospy.get_param('~standard_parallel'))
         map_origin = [float(x) for x in rospy.get_param('~map_origin').split(' ')]
         GnssBroadcaster_RealWorld(standard_parallel, map_origin)
