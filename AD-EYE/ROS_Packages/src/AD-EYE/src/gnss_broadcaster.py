@@ -6,6 +6,7 @@ from sensor_msgs.msg import NavSatFix
 from math import cos
 from math import radians
 from math import sqrt
+import tf
 
 ## A class to get the position of the car as a Pose message from simulink and 
 ## to tranfer it to the topic /gnss_pose as a PoseStamped message.
@@ -49,6 +50,12 @@ class GnssBroadcaster_RealWorld:
         self.pose.header.stamp = rospy.Time.now()
         self.pose.pose.position.x = x_p
         self.pose.pose.position.y = y_p
+        self.pose.pose.position.z = 0
+        quaternion = tf.transformations.quaternion_from_euler(0, 0, 0)
+        self.pose.pose.orientation.x = quaternion[0]
+        self.pose.pose.orientation.y = quaternion[1]
+        self.pose.pose.orientation.z = quaternion[2]
+        self.pose.pose.orientation.w = quaternion[3]
         self.gnss_pub.publish(self.pose)
 
     # Equirectangular projection
