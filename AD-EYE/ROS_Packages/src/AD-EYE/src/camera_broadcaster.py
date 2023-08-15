@@ -12,10 +12,12 @@ class camera_broadcaster_RealWorld():
 
         self.cam1_pub = rospy.Publisher('/camera_1/image_raw', Image, queue_size=1)
         self.cam2_pub = rospy.Publisher('/camera_2/image_raw', Image, queue_size=1)
+        self.camtl_pub = rospy.Publisher('/tl/image_raw', Image, queue_size=1)
 
 
     def callback_1(self, data):
         self.cam1_pub.publish(data)
+        self.camtl_pub.publish(data)
 
 
     def callback_2(self, data):
@@ -27,9 +29,11 @@ class camera_broadcaster_Sim():
     def __init__(self):
         self.cam1_sub = rospy.Subscriber("/camera_1/image_raw_simulink", Image, self.callback_1)
         self.cam2_sub = rospy.Subscriber("/camera_2/image_raw_simulink", Image, self.callback_2)
+        self.camtl_sub = rospy.Subscriber("/tl/image_raw_simulink", Image, self.callback_tl)
 
         self.cam1_pub = rospy.Publisher('/camera_1/image_raw', Image, queue_size=1)
         self.cam2_pub = rospy.Publisher('/camera_2/image_raw', Image, queue_size=1)
+        self.camtl_pub = rospy.Publisher('/tl/image_raw', Image, queue_size=1)
 
 
     def callback_1(self, data):
@@ -38,6 +42,10 @@ class camera_broadcaster_Sim():
 
     def callback_2(self, data):
         self.cam2_pub.publish(data)
+
+
+    def callback_tl(self, data):
+        self.camtl_pub.publish(data)
 
 
 if __name__ == '__main__':
