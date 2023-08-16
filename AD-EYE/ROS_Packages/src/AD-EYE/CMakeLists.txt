@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   op_ros_helpers
   tf2_ros
   adeye_utils
+  canlib
 )
 
 
@@ -352,10 +353,29 @@ add_dependencies(sendgoal
         ${catkin_EXPORTED_TARGETS}
         )
 
+add_executable(
+  can
+  src/receiving_can_signals.cpp
+)
+
+target_include_directories(can PRIVATE
+        ${OpenCV_INCLUDE_DIR}
+        ${catkin_INCLUDE_DIRS}
+        include
+        )
+
+target_link_libraries(can
+        ${OpenCV_LIBRARIES}
+        ${catkin_LIBRARIES}
+        )
+
+add_dependencies(can
+        ${catkin_EXPORTED_TARGETS}
+        )
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC visualize_raw fullmap sendgoal
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC visualize_raw fullmap sendgoal can
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
