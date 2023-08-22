@@ -30,19 +30,21 @@ class Can
     CANSender can_sender_A { CANBus::A };
 
     // Signals name
-    std::string ADMode_Status = "ADMode_Status";
-    std::string Steering_DS = "Steering_DS";
-    std::string Steering_RDS = "Steering_RDS";
-    std::string Brake_DS = "Brake_DS";
-    std::string Brake_RDS = "Brake_RDS";
-    std::string SSM_DS = "SSM_DS";
-    std::string SSMB_DS = "SSMB_DS";
-    std::string PrimaryVolt_S = "PrimaryVolt_S";
-    std::string SecondaryVolt_S = "SecondaryVolt_S";
-    std::string EPB_S = "EPB_S";
-    std::string SEPB_S = "SEPB_S";
+    std::string ADMode_Status = "AdActvnOkFromVehDyn";
+    std::string Steering_DS = "AdPrimSteerStsSafeGroupAdSteerSts";
+    std::string Steering_RDS = "AdSecSteerStsSafeGroupAdSteerSts";
+    std::string Brake_DS = "BrkDegradedSts";
+    std::string Brake_RDS = "BrkDegradedssmdegraded";
+    std::string SSM_DS = "SSMDegradedssmdegraded";
+    std::string SSMB_DS = "SSMBDegradedSSMBDegraded";
+    std::string PrimaryVolt_S = "ClstrSts1ForAutnmsDrvClstr1Sts";
+    std::string SecondaryVolt_S = "ClstrSts2ForAutnmsDrvClstr2Sts";
+    std::string EPB_S = "WhlLockStsDegradedSts";
+    std::string SEPB_S = "SecWhlLockStsDegradedSts";
+    std::string DriverPr = "DrvrPrsnt";
+    std::string DriverPrQF = "DrvrPrsntQF";
 
-    std::vector<std::string> signals{ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S};
+    std::vector<std::string> signals{ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
 
     /*!
      * \brief Split Message : Split the message into a vector of two that contains the signal's name and its value.
