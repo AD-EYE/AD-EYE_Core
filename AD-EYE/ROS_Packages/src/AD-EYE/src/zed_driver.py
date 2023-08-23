@@ -167,7 +167,7 @@ def main() :
 
     bridge = CvBridge()
     left_pub = rospy.Publisher('/camera_1/image_raw_zed', Image, queue_size=10)
-    right_pub = rospy.Publisher('/camera_2/image_raw_zed', Image, queue_size=10)
+    #right_pub = rospy.Publisher('/camera_2/image_raw_zed', Image, queue_size=10)
 
     while not rospy.is_shutdown():
         # Get a new frame from camera
@@ -181,15 +181,15 @@ def main() :
 
         # Rectified images
         left_rect = cv2.remap(left_right_image[0], map_left_x, map_left_y, interpolation=cv2.INTER_LINEAR)
-        right_rect = cv2.remap(left_right_image[1], map_right_x, map_right_y, interpolation=cv2.INTER_LINEAR)
+        #right_rect = cv2.remap(left_right_image[1], map_right_x, map_right_y, interpolation=cv2.INTER_LINEAR)
 
         # Converting OpenCV image to ROS image message
         left_msg = bridge.cv2_to_imgmsg(left_rect, "bgr8")
-        right_msg = bridge.cv2_to_imgmsg(right_rect, "bgr8")
+        #right_msg = bridge.cv2_to_imgmsg(right_rect, "bgr8")
 
         # Publishing both frames
         left_pub.publish(left_msg)
-        right_pub.publish(right_msg)
+        #right_pub.publish(right_msg)
 
 
 if __name__ == "__main__":
