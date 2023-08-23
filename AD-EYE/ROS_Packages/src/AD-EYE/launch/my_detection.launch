@@ -151,13 +151,13 @@
         <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
     </include>
 
-    <!-- traffic_light_recognition -->
+    <!-- traffic_light_recognition 
     <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
         <arg name="camera_id" default="/"/>
         <arg name="image_src" default="/tl/image_raw"/>
         <arg name="light_src" default="/light_color" />
         <arg name="camera_light_src" default="/camera_light_color" />
         <arg name="ams_light_src" default="/ams_light_color" />
-    </include>
+    </include> -->
 
 </launch>

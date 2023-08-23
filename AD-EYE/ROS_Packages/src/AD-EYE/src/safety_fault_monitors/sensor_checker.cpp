@@ -35,8 +35,6 @@ std::string SensorChecker::getMonitoredSensor()
             return "camera1";
         case SENSOR_TYPE::camera2:
             return "camera2";
-        case SENSOR_TYPE::cameratl:
-            return "cameratl";
     }
 }
 
