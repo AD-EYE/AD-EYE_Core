@@ -531,9 +531,9 @@ class GridMapCreator
      * To iterate all the polygons from PolygonArray, a new polygon has to be created with Polygon type.
      * Each sector will be filled with the number of sensors there are in this sector.
      */
-    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
+   void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
     {
-        sensor_sectors_ = *msg;
+         /*!sensor_sectors_ = *msg;
 
         // These 2 polygons will keep in memory the sectors that have to be displayed in the gridmap. The difference
         // between the 2 is the type.
@@ -588,7 +588,8 @@ class GridMapCreator
                     map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
                 }
             }
-        }
+        }*/
+
     }
 
     /*!
@@ -869,7 +870,7 @@ class GridMapCreator
         // becomes to slow to make the frequency
         map_resolution_ = 0.5;  // 0.25 or lower number is the desired resolution, load time will significantly increase
                                 // when increasing mapresolution,
-        rate_ = ros::Rate(20);  // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately
+        rate_ = ros::Rate(2.5);  // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately
                                 // tracked, remember to allign this value with the flattening_node
 
         // height_ego = 2; //Height is not critical for now
