@@ -1,19 +1,20 @@
 <!-- -->
 <launch>
 
-    <!-- base_link to traffic_light_camera tf -->
+    <!-- base_link to traffic_light_camera tf 
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
           args="/adeye/detection/BaseLink_to_traffic_light_camera/tf_x /adeye/detection/BaseLink_to_traffic_light_camera/tf_y /adeye/detection/BaseLink_to_traffic_light_camera/tf_z /adeye/detection/BaseLink_to_traffic_light_camera/tf_a /adeye/detection/BaseLink_to_traffic_light_camera/tf_b /adeye/detection/BaseLink_to_traffic_light_camera/tf_c /adeye/detection/BaseLink_to_traffic_light_camera/tf_d base_link tl_camera 10"/>
-
+    -->
+    
     <!-- base_link to radar tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
           args="/adeye/detection/BaseLink_to_radar/tf_x /adeye/detection/BaseLink_to_radar/tf_y /adeye/detection/BaseLink_to_radar/tf_z /adeye/detection/BaseLink_to_radar/tf_a /adeye/detection/BaseLink_to_radar/tf_b /adeye/detection/BaseLink_to_radar/tf_c /adeye/detection/BaseLink_to_radar/tf_d base_link radar 10"/>
 
-    <!-- traffic_light_camera_info -->
+    <!-- traffic_light_camera_info 
     <include file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="/adeye/detection/traffic_light_camera_info/node_name"/>
         <arg name="args_list" value="/adeye/detection/traffic_light_camera_info/topic /adeye/detection/traffic_light_camera_info/frame_id /adeye/detection/traffic_light_camera_info/height /adeye/detection/traffic_light_camera_info/width /adeye/detection/traffic_light_camera_info/D1 /adeye/detection/traffic_light_camera_info/D2 /adeye/detection/traffic_light_camera_info/D3 /adeye/detection/traffic_light_camera_info/D4 /adeye/detection/traffic_light_camera_info/D5 /adeye/detection/traffic_light_camera_info/K1 /adeye/detection/traffic_light_camera_info/K2 /adeye/detection/traffic_light_camera_info/K3 /adeye/detection/traffic_light_camera_info/K4 /adeye/detection/traffic_light_camera_info/K5 /adeye/detection/traffic_light_camera_info/K6 /adeye/detection/traffic_light_camera_info/K7 /adeye/detection/traffic_light_camera_info/K8 /adeye/detection/traffic_light_camera_info/K9 /adeye/detection/traffic_light_camera_info/R1 /adeye/detection/traffic_light_camera_info/R2 /adeye/detection/traffic_light_camera_info/R3 /adeye/detection/traffic_light_camera_info/R4 /adeye/detection/traffic_light_camera_info/R5 /adeye/detection/traffic_light_camera_info/R6 /adeye/detection/traffic_light_camera_info/R7 /adeye/detection/traffic_light_camera_info/R8 /adeye/detection/traffic_light_camera_info/R9 /adeye/detection/traffic_light_camera_info/P1 /adeye/detection/traffic_light_camera_info/P2 /adeye/detection/traffic_light_camera_info/P3 /adeye/detection/traffic_light_camera_info/P4 /adeye/detection/traffic_light_camera_info/P5 /adeye/detection/traffic_light_camera_info/P6 /adeye/detection/traffic_light_camera_info/P7 /adeye/detection/traffic_light_camera_info/P8 /adeye/detection/traffic_light_camera_info/P9 /adeye/detection/traffic_light_camera_info/P10 /adeye/detection/traffic_light_camera_info/P11 /adeye/detection/traffic_light_camera_info/P12"/>
-    </include>
+    </include> -->
 
 
     <!-- lidar_euclidean_cluster_detect -->
