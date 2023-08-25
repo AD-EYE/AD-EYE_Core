@@ -33,8 +33,8 @@ std::string SensorChecker::getMonitoredSensor()
             return "lidar";
         case SENSOR_TYPE::camera1:
             return "camera1";
-        case SENSOR_TYPE::camera2:
-            return "camera2";
+        /* case SENSOR_TYPE::camera2:
+            return "camera2"; */
     }
 }
 

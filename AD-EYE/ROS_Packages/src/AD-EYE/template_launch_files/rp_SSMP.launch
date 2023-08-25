@@ -47,7 +47,7 @@
         args="$(arg area_width) $(arg area_height_front) $(arg area_height_back)"/>
 
     <rosparam param="critical_nodes_level_one">["/goalSequencer"]</rosparam>
-    <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam>
+    <!-- <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam> -->
     <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
     <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/control_signal_forwarder", "/controlSwitch"]</rosparam>
     <node pkg="adeye"

@@ -14,7 +14,6 @@ enum SENSOR_TYPE
     radar,
     lidar,
     camera1,
-    camera2,
     NB_SENSORS
 };  // sensors indices as defined in the sensor monitor
 

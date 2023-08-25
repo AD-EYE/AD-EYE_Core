@@ -36,7 +36,7 @@ class SensorFoV
     jsk_recognition_msgs::PolygonArray sensor_field_of_views_;
 
     // The number of sensors
-    static const int NB_SENSORS_ = 4;
+    static const int NB_SENSORS_ = 3;
 
     // Enumeration of all the sensors types.
     enum SENSOR_TYPE_
@@ -44,35 +44,35 @@ class SensorFoV
         RADAR,
         LIDAR,
         CAMERA1,
-        CAMERA2,
+        //CAMERA2,
         //CAMERATL
     };
 
     // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
-    const float SENSOR_RANGES_[NB_SENSORS_] = { 30, 100, 750, 750};  // Beam ranges of the sectors in meter,
+    const float SENSOR_RANGES_[NB_SENSORS_] = { 30, 100, 750};  // Beam ranges of the sectors in meter,
                                                                            // values obtained in PreScan.
-    const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = { 0, 0, 0, PI};  // Orientations of the sectors
+    const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = { 0, 0, 0};  // Orientations of the sectors
                                                                                       // compared to the ego car in rad,
                                                                                       // values obtained in PreScan.
     const float SENSOR_OPENING_ANGLES_[NB_SENSORS_] = {
-        45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0, 46.21 * PI / 180.0
+        45.0 * PI / 180.0, 2 * PI, 46.21 * PI / 180.0
     };  // Opening angles of the sectors in rad, values obtained in PreScan.
     const float SENSOR_POSITION_X_[NB_SENSORS_] = {
-        2.3, -0.66, 0.55, -2.21
+        2.3, -0.66, 0.55
     };  // x coordinates of the sensors positions in the ego car in meter, values obtained in PreScan.
-    const float SENSOR_POSITION_Y_[NB_SENSORS_] = { 0, 0, 0, 0};  // y coordinates of the sensors positions in
+    const float SENSOR_POSITION_Y_[NB_SENSORS_] = { 0, 0, 0};  // y coordinates of the sensors positions in
                                                                          // the ego car in meter, values obtained in
                                                                          // PreScan.
-    bool sensor_active_[NB_SENSORS_] = { false, false, false, false,
+    bool sensor_active_[NB_SENSORS_] = { false, false, false
                                         };  // Indicates if sensors information have changed.
     // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1), 0.05s (camera 2),
     // 0.1s (camera tl).
     // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of
     // error will be taken.
     // The time elapsed will be compared to 3 times the sensor timeouts.
-    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.15, 0.3, 0.15, 0.15
-                                                   };       // Time period in seconds, values obtained in PreScan.
-    float sensor_last_time_[NB_SENSORS_] = { 0, 0, 0, 0};  // The last time the callback function has been called.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.15, 0.3, 0.15
+    };       // Time period in seconds, values obtained in PreScan.
+    float sensor_last_time_[NB_SENSORS_] = { 0, 0, 0};  // The last time the callback function has been called.
     float sensor_current_time_[NB_SENSORS_];                   // The current time when the callback function is called.
     float sensor_time_elapsed_[NB_SENSORS_];                   // The time elapsed between two callbacks.
 
@@ -134,10 +134,10 @@ class SensorFoV
      * \brief Camera 2 Callback : called when information from the camera 2 changed.
      * \param msg A smart pointer to the message from the topic.
      */
-    void camera2Callback(const sensor_msgs::Image::ConstPtr& msg)
+/*     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg)
     {
         sensorUpdate(CAMERA2);
-    }
+    } */
 
     /*!
      * \brief camera tl Callback : called when information from the camera tl changed.
@@ -158,7 +158,7 @@ class SensorFoV
      */
     void polygonCreator()
     {
-        for (int type = RADAR; type <= CAMERA2; type++)
+        for (int type = RADAR; type <= CAMERA1; type++)
         {
             // For each sensor, the polygon is created if information about this sensor is sent. If not, there will be
             // an empty polygon for this sensor.
@@ -249,7 +249,7 @@ class SensorFoV
         sub_lidar_ =
             nh.subscribe<std_msgs::Float32MultiArray>("/points_raw_float32", 1, &SensorFoV::lidarCallback, this);
         sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &SensorFoV::camera1Callback, this);
-        sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &SensorFoV::camera2Callback, this);
+        //sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &SensorFoV::camera2Callback, this);
         //sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &SensorFoV::cameraTlCallback, this);
 
         // The sensor sectors are set on the same frame than the car.
@@ -264,7 +264,7 @@ class SensorFoV
     {
         // Initialize current time and the time elapsed between 2 callbacks for sensors.
         float first_time = ros::Time::now().toSec();
-        for (int i = RADAR; i <= CAMERA2; i++)
+        for (int i = RADAR; i <= CAMERA1; i++)
         {
             sensor_current_time_[i] = first_time;
         }
@@ -273,7 +273,7 @@ class SensorFoV
         sensor_time_elapsed_[RADAR] = 2 * SENSOR_TIMEOUTS_[RADAR];
         sensor_time_elapsed_[LIDAR] = 2 * SENSOR_TIMEOUTS_[LIDAR];
         sensor_time_elapsed_[CAMERA1] = 2 * SENSOR_TIMEOUTS_[CAMERA1];
-        sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
+        //sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
         //sensor_time_elapsed_[CAMERATL] = 2 * SENSOR_TIMEOUTS_[CAMERATL];
 
         // Main loop
@@ -284,10 +284,10 @@ class SensorFoV
             geometry_msgs::PolygonStamped radar_poly;
             geometry_msgs::PolygonStamped lidar_poly;
             geometry_msgs::PolygonStamped camera1_poly;
-            geometry_msgs::PolygonStamped camera2_poly;
+            //geometry_msgs::PolygonStamped camera2_poly;
             //geometry_msgs::PolygonStamped cameratl_poly;
             // The polygon array is filled with each sensor polygon.
-            sensor_field_of_views_.polygons = { radar_poly, lidar_poly, camera1_poly, camera2_poly };
+            sensor_field_of_views_.polygons = { radar_poly, lidar_poly, camera1_poly};
 
             ros::Time rostime = ros::Time::now();
             ros::spinOnce();
@@ -303,10 +303,10 @@ class SensorFoV
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the
             // sensor to have a margin of error.
-            for (int sensor_index = RADAR; sensor_index <= CAMERA2; sensor_index++)
+            for (int sensor_index = RADAR; sensor_index <= CAMERA1; sensor_index++)
             {
                 // Array that is useful to write the name in the warning message
-                std::string SENSOR_NAME[NB_SENSORS_] = { "Radar", "Lidar", "Camera 1", "Camera 2"};
+                std::string SENSOR_NAME[NB_SENSORS_] = { "Radar", "Lidar", "Camera 1"};
                 if (sensor_time_elapsed_[sensor_index] > SENSOR_TIMEOUTS_[sensor_index])
                 {
                     sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();

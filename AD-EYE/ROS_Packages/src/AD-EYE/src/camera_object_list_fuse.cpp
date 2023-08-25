@@ -35,15 +35,15 @@ class CameraObjectListFuse
      * \details Initialize the node and its components such as publishers and subscribers. It call msg1Callback and
      * msg2Callback
      */
-    CameraObjectListFuse(ros::NodeHandle& nh, std::string input_topic_1, std::string input_topic_2,
+    CameraObjectListFuse(ros::NodeHandle& nh, std::string input_topic_1,
                          std::string output_topic)
       : nh_(nh)
     {
         // Initialize the publishers and subscribers
         sub1_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic_1, 1, &CameraObjectListFuse::msg1Callback,
                                                                   this);
-        sub2_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic_2, 1, &CameraObjectListFuse::msg2Callback,
-                                                                  this);
+    /*         sub2_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic_2, 1, &CameraObjectListFuse::msg2Callback,
+                                                                  this); */
         pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(output_topic, 1, true);
     }
 
@@ -73,7 +73,7 @@ class CameraObjectListFuse
      * \param msg Contain the list of object detected by camera 2
      * \details Identify the objects that have been detected by camera 2
      */
-    void msg2Callback(autoware_msgs::DetectedObjectArray msg)
+    /*     void msg2Callback(autoware_msgs::DetectedObjectArray msg)
     {
         msg2_ = msg;
 
@@ -86,8 +86,8 @@ class CameraObjectListFuse
             }
         }
 
-        msg2_flag_ = true;
-    }
+        msg2_flag_ = true; 
+    }*/
 
     /*!
      * \brief Publish all the object detected
@@ -98,7 +98,7 @@ class CameraObjectListFuse
         msg3_ = msg1_;
         // std::cout << "Size of msg1_: " << msg1_.objects.size() << '\n';
         // std::cout << "Size of msg2_: " << msg2_.objects.size() << '\n';
-
+    /* 
         for (size_t i = 0; i < msg2_.objects.size(); i++)
         {
             if (msg2_.objects.at(i).label != "unknown")
@@ -116,7 +116,7 @@ class CameraObjectListFuse
                     }
                 }
             }
-        }
+        } */
         pub_.publish(msg3_);
     }
 
@@ -129,7 +129,7 @@ class CameraObjectListFuse
         while (nh_.ok())
         {
             ros::spinOnce();
-            if (msg1_flag_ || msg2_flag_)
+            if (msg1_flag_)
             {
                 publish();
             }
@@ -160,14 +160,13 @@ int main(int argc, char** argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    std::string input_topic_1, input_topic_2, output_topic;
+    std::string input_topic_1,  output_topic;
     input_topic_1 = argv[1];
-    input_topic_2 = argv[2];
     output_topic = argv[3];
 
     ros::init(argc, argv, "CameraObjectListFuse");
     ros::NodeHandle nh;
-    CameraObjectListFuse camera_object_fuser(nh, input_topic_1, input_topic_2, output_topic);
+    CameraObjectListFuse camera_object_fuser(nh, input_topic_1, output_topic);
     camera_object_fuser.run();
     return 0;
 }

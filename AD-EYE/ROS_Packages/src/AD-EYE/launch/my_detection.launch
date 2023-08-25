@@ -111,7 +111,7 @@
         <arg name="tf_qw" value="0.5"/>
     </include>
 
-    <!-- camera_setup for camera_2-->
+    <!-- camera_setup for camera_2
     <include file="$(find adeye)/launch/camera_setup.launch">
         <arg name="camera" value="camera_2"/>
         <arg name="tf_x" value="-0.95"/>
@@ -120,8 +120,8 @@
         <arg name="tf_qx" value="-0.5"/>
         <arg name="tf_qy" value="-0.5"/>
         <arg name="tf_qz" value="0.5"/>
-        <arg name="tf_qw" value="0.5"/>
-    </include>
+        <arg name="tf_qw" value="0.5"/> 
+    </include> -->
 
     <!-- Two_cameras_fusion -->
     <include file="$(find adeye)/launch/cameraObjectListFuse.launch">
