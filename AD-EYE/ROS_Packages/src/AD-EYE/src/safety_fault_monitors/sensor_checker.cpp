@@ -27,8 +27,6 @@ std::string SensorChecker::getMonitoredSensor()
 {
     switch (sensor_to_monitor_)
     {
-        case SENSOR_TYPE::radar:
-            return "radar";
         case SENSOR_TYPE::lidar:
             return "lidar";
         case SENSOR_TYPE::camera1:

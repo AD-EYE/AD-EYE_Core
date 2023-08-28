@@ -1,8 +1,10 @@
 <!-- -->
 <launch>
-    <!-- base_link to radar tf -->
+
+
+    <!-- base_link to radar tf
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
-          args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
+          args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/> -->
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
@@ -69,22 +71,21 @@
     </node>
 
 
-    <!-- radar_broadcaster -->
-    <include file="$(find adeye)/launch/radar_broadcaster.launch"/>
+    <!-- radar_broadcaster 
+    <include file="$(find adeye)/launch/radar_broadcaster.launch"/> -->
 
-    <!-- objectsFrameAdapter -->
+    <!-- objectsFrameAdapter 
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
         <arg name="nodeName" value="objectsFrameAdapter2"/>
         <arg name="inputTopic" value="detection/radar_tracker/objects"/>
         <arg name="outputTopic" value="detection/radar_tracker/objects2"/>
         <arg name="targetFrame" value="velodyne"/>
-    </include>
+    </include> -->
 
     <!-- lidar_radar_fusion -->
     <include file="$(find adeye)/launch/lidarRadarFuse.launch">
         <arg name="nodeName" value="objectsListFuse1"/>
         <arg name="lidar_topic" value="detection/lidar_tracker/objects"/>
-        <arg name="radar_topic" value="detection/radar_tracker/objects2"/>
         <arg name="fused_topic" value="detection/lidar_radar_fusion/objects"/>
     </include>
 

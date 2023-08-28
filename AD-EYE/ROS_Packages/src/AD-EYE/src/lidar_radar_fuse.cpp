@@ -44,11 +44,11 @@ class LidarRadarFuser
     * \param msg The msg received by the topic
     * \details Put the message received into a private variable
     */
-    void radarMsgCallback(autoware_msgs::DetectedObjectArray msg)
+    /* void radarMsgCallback(autoware_msgs::DetectedObjectArray msg)
     {
         radar_msg_ = msg;
         radar_msg_flag_ = true;
-    }
+    } */
 
     /*!
     * \brief Calculate the distance bewteen tow points
@@ -75,7 +75,7 @@ class LidarRadarFuser
         bool is_object_assigned;
         fused_msg_ = lidar_msg_;
 
-        // Here we indicate that all these objects have been detected by lidar and
+       /*  // Here we indicate that all these objects have been detected by lidar and
         // we add the unique "id" that will be used when merging the output from the
         // different range_vision_fusion nodes for the different cameras
         size_t i;
@@ -109,7 +109,7 @@ class LidarRadarFuser
                     "radar");  // This object has been detected only by radar
                 fused_msg_.objects.push_back(radar_msg_.objects.at(j));
             }
-        }
+        } */
 
         // Here we give a unique "id" that will be used when merging the output from the diferent range_vision_fusion
         // nodes for the different cameras
@@ -132,14 +132,14 @@ class LidarRadarFuser
      * \details Initialize the node and its components such as publishers and subscribers. It call lidarMsgCallback and
      * radarMsgCallback
      */
-    LidarRadarFuser(ros::NodeHandle& nh, std::string lidar_topic, std::string radar_topic, std::string fused_topic)
+    LidarRadarFuser(ros::NodeHandle& nh, std::string lidar_topic, std::string fused_topic)
       : nh_(nh)
     {
         // Initialize the publishers and subscribers
         sub1_ =
             nh_.subscribe<autoware_msgs::DetectedObjectArray>(lidar_topic, 1, &LidarRadarFuser::lidarMsgCallback, this);
-        sub2_ =
-            nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &LidarRadarFuser::radarMsgCallback, this);
+/*         sub2_ =
+            nh_.subscribe<autoware_msgs::DetectedObjectArray>(radar_topic, 1, &LidarRadarFuser::radarMsgCallback, this); */
         pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(fused_topic, 1, true);
     }
 
@@ -152,7 +152,7 @@ class LidarRadarFuser
         while (nh_.ok())
         {
             ros::spinOnce();
-            if (lidar_msg_flag_ || radar_msg_flag_)
+            if (lidar_msg_flag_)
             {
                 publish();
             }
@@ -181,14 +181,13 @@ int main(int argc, char** argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    std::string lidar_topic, radar_topic, fused_topic;
+    std::string lidar_topic, fused_topic;
     lidar_topic = argv[1];
-    radar_topic = argv[2];
     fused_topic = argv[3];
 
     ros::init(argc, argv, "LidarRadarFuser");
     ros::NodeHandle nh;
-    LidarRadarFuser Lidar_radar_fuser(nh, lidar_topic, radar_topic, fused_topic);
+    LidarRadarFuser Lidar_radar_fuser(nh, lidar_topic, fused_topic);
     Lidar_radar_fuser.run();
     return 0;
 }

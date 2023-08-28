@@ -11,7 +11,6 @@
 
 enum SENSOR_TYPE
 {
-    radar,
     lidar,
     camera1,
     NB_SENSORS
