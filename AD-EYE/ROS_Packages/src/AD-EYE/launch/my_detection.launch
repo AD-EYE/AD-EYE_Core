@@ -1,19 +1,8 @@
 <!-- -->
 <launch>
-
-    <!-- base_link to traffic_light_camera tf 
-    <node pkg="tf" type="static_transform_publisher" name="base_link_to_tl_camera"
-          args="1.1 -0.7 1.8 -0.3706 0.483 -0.6294 0.483 base_link tl_camera 10"/> -->
-
     <!-- base_link to radar tf -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_radar"
           args="3.75 0.0 0.4 0.0 0.0 0.0 1.0 base_link radar 10"/>
-
-    <!-- traffic_light_camera_info 
-    <include file="$(find adeye)/launch/camera_info_publisher.launch">
-        <arg name="node_name" value="traffic_light_camera_info_publisher"/>
-        <arg name="args_list" value="/tl_camera/camera_info tl_camera 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
-    </include> -->
 
     <!-- lidar_euclidean_cluster_detect -->
     <include file="$(find lidar_euclidean_cluster_detect)/launch/lidar_euclidean_cluster_detect.launch">
@@ -111,18 +100,6 @@
         <arg name="tf_qw" value="0.5"/>
     </include>
 
-    <!-- camera_setup for camera_2
-    <include file="$(find adeye)/launch/camera_setup.launch">
-        <arg name="camera" value="camera_2"/>
-        <arg name="tf_x" value="-0.95"/>
-        <arg name="tf_y" value="0.0"/>
-        <arg name="tf_z" value="1.32"/>
-        <arg name="tf_qx" value="-0.5"/>
-        <arg name="tf_qy" value="-0.5"/>
-        <arg name="tf_qz" value="0.5"/>
-        <arg name="tf_qw" value="0.5"/> 
-    </include> -->
-
     <!-- Two_cameras_fusion -->
     <include file="$(find adeye)/launch/cameraObjectListFuse.launch">
         <arg name="nodeName" value="cameraObjectsListFuse"/>
@@ -150,14 +127,5 @@
         <arg name="camera_info_src" value="/camera_info"/>
         <arg name="use_path_info" value="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
     </include>
-
-    <!-- traffic_light_recognition 
-    <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition.launch">
-        <arg name="camera_id" default="/"/>
-        <arg name="image_src" default="/tl/image_raw"/>
-        <arg name="light_src" default="/light_color" />
-        <arg name="camera_light_src" default="/camera_light_color" />
-        <arg name="ams_light_src" default="/ams_light_color" />
-    </include> -->
 
 </launch>

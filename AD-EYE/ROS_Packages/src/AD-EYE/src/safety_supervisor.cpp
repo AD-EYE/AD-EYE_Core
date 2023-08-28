@@ -1074,13 +1074,11 @@ class SafetySupervisor
         safety_monitors_level_one_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 1));
 
         safety_monitors_level_two_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 2));
-        //safety_monitors_level_two_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera2));
 
         safety_monitors_level_three_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 3));
         safety_monitors_level_three_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::camera1));
 
         safety_monitors_level_four_.emplace_back(make_shared<ActiveNodeChecker>(1, 1, 4, -4, 4));
-        //safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::cameratl));
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::lidar));
         safety_monitors_level_four_.emplace_back(make_shared<SensorChecker>(1, 1, 4, -4, SENSOR_TYPE::radar));
         safety_monitors_level_four_.emplace_back(make_shared<CarOffRoadChecker>(1, 1, 15, -15));

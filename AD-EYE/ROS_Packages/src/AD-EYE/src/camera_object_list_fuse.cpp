@@ -42,8 +42,6 @@ class CameraObjectListFuse
         // Initialize the publishers and subscribers
         sub1_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic_1, 1, &CameraObjectListFuse::msg1Callback,
                                                                   this);
-    /*         sub2_ = nh_.subscribe<autoware_msgs::DetectedObjectArray>(input_topic_2, 1, &CameraObjectListFuse::msg2Callback,
-                                                                  this); */
         pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>(output_topic, 1, true);
     }
 
@@ -69,27 +67,6 @@ class CameraObjectListFuse
     }
 
     /*!
-     * \brief Callback call in the constructor
-     * \param msg Contain the list of object detected by camera 2
-     * \details Identify the objects that have been detected by camera 2
-     */
-    /*     void msg2Callback(autoware_msgs::DetectedObjectArray msg)
-    {
-        msg2_ = msg;
-
-        // Identify the objects that have been detected by the camera_2
-        for (size_t i = 0; i < msg2_.objects.size(); i++)
-        {
-            if (msg2_.objects.at(i).label != "unknown" && msg2_.objects.at(i).label != "")
-            {
-                msg2_.objects.at(i).user_defined_info.push_back("camera_2");
-            }
-        }
-
-        msg2_flag_ = true; 
-    }*/
-
-    /*!
      * \brief Publish all the object detected
      * \details Publish the list of all the object detected by camera 1 and 2 to outputTopic.
      */
@@ -98,25 +75,6 @@ class CameraObjectListFuse
         msg3_ = msg1_;
         // std::cout << "Size of msg1_: " << msg1_.objects.size() << '\n';
         // std::cout << "Size of msg2_: " << msg2_.objects.size() << '\n';
-    /* 
-        for (size_t i = 0; i < msg2_.objects.size(); i++)
-        {
-            if (msg2_.objects.at(i).label != "unknown")
-            {
-                for (size_t j = 0; j < msg3_.objects.size(); j++)
-                {
-                    if (msg3_.objects.at(j).user_defined_info.size() > 0 &&
-                        msg2_.objects.at(i).user_defined_info.size() > 0)
-                    {
-                        if (msg3_.objects.at(j).user_defined_info.at(0) == msg2_.objects.at(i).user_defined_info.at(0))
-                        {
-                            msg3_.objects.at(j) = msg2_.objects.at(i);
-                            // std::cout << "label: " << msg2_.objects.at(i).label << '\n';
-                        }
-                    }
-                }
-            }
-        } */
         pub_.publish(msg3_);
     }
 

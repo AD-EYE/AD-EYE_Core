@@ -52,7 +52,6 @@
 
 
     <rosparam param="critical_nodes_level_one">["/voxel_grid_filter"]</rosparam>
-    <!-- <rosparam param="critical_nodes_level_two">["/camera_2/vision_ssd_detect"]</rosparam> -->
     <rosparam param="critical_nodes_level_three">["/camera_1/vision_ssd_detect"]</rosparam>
     <rosparam param="critical_nodes_level_four">["/pure_pursuit", "/twist_filter", "/twist_gate", "/control_signal_forwarder", "/controlSwitch"]</rosparam>
     <node pkg="adeye"

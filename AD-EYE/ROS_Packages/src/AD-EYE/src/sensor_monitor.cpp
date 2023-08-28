@@ -43,12 +43,10 @@ class SensorFoV
     {
         RADAR,
         LIDAR,
-        CAMERA1,
-        //CAMERA2,
-        //CAMERATL
+        CAMERA1
     };
 
-    // The following arrays contain information about sensors in this order [radar, lidar, camera1, camera2, cameratl].
+    // The following arrays contain information about sensors in this order [radar, lidar, camera1].
     const float SENSOR_RANGES_[NB_SENSORS_] = { 30, 100, 750};  // Beam ranges of the sectors in meter,
                                                                            // values obtained in PreScan.
     const float SENSOR_ORIENTATIONS_[NB_SENSORS_] = { 0, 0, 0};  // Orientations of the sectors
@@ -65,8 +63,7 @@ class SensorFoV
                                                                          // PreScan.
     bool sensor_active_[NB_SENSORS_] = { false, false, false
                                         };  // Indicates if sensors information have changed.
-    // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1), 0.05s (camera 2),
-    // 0.1s (camera tl).
+    // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1).
     // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of
     // error will be taken.
     // The time elapsed will be compared to 3 times the sensor timeouts.
@@ -83,8 +80,6 @@ class SensorFoV
     // called once on 2
     bool even_loop_lidar_;
     bool odd_loop_lidar_;
-    //bool even_loop_cameratl_;
-    //bool odd_loop_cameratl_;
 
     /*!
      * \brief Sensor Update: called when a sensor is activated
@@ -131,27 +126,6 @@ class SensorFoV
     }
 
     /*!
-     * \brief Camera 2 Callback : called when information from the camera 2 changed.
-     * \param msg A smart pointer to the message from the topic.
-     */
-/*     void camera2Callback(const sensor_msgs::Image::ConstPtr& msg)
-    {
-        sensorUpdate(CAMERA2);
-    } */
-
-    /*!
-     * \brief camera tl Callback : called when information from the camera tl changed.
-     * \param msg A smart pointer to the message from the topic.
-     */
-/*     void cameraTlCallback(const sensor_msgs::Image::ConstPtr& msg)
-    {
-        sensorUpdate(CAMERATL);
-        // initialize the value of the parity loop
-        even_loop_cameratl_ = false;
-        odd_loop_cameratl_ = true;
-    } */
-
-    /*!
      * \brief Polygon Creator : called when at least one sensor send information.
      * \details This function creates polygons corresponding to the sensor that send information, and stores them into
      * the sensor_fov_ array.
@@ -178,15 +152,6 @@ class SensorFoV
                     even_loop_lidar_ = odd_loop_lidar_;
                     odd_loop_lidar_ = parity_storage;
                 }
-/* 
-                if (type == CAMERATL)
-                {
-                    bool parity_storage;
-                    // exchange the value of parity loop for camera tl
-                    parity_storage = even_loop_cameratl_;
-                    even_loop_cameratl_ = odd_loop_cameratl_;
-                    odd_loop_cameratl_ = parity_storage;
-                } */
             }
         }
     }
@@ -249,9 +214,6 @@ class SensorFoV
         sub_lidar_ =
             nh.subscribe<std_msgs::Float32MultiArray>("/points_raw_float32", 1, &SensorFoV::lidarCallback, this);
         sub_camera_1_ = nh.subscribe<sensor_msgs::Image>("/camera_1/image_raw", 1, &SensorFoV::camera1Callback, this);
-        //sub_camera_2_ = nh.subscribe<sensor_msgs::Image>("/camera_2/image_raw", 1, &SensorFoV::camera2Callback, this);
-        //sub_camera_tl_ = nh.subscribe<sensor_msgs::Image>("/tl/image_raw", 1, &SensorFoV::cameraTlCallback, this);
-
         // The sensor sectors are set on the same frame than the car.
         sensor_field_of_views_.header.frame_id = "SSMP_base_link";
     }
@@ -273,8 +235,6 @@ class SensorFoV
         sensor_time_elapsed_[RADAR] = 2 * SENSOR_TIMEOUTS_[RADAR];
         sensor_time_elapsed_[LIDAR] = 2 * SENSOR_TIMEOUTS_[LIDAR];
         sensor_time_elapsed_[CAMERA1] = 2 * SENSOR_TIMEOUTS_[CAMERA1];
-        //sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
-        //sensor_time_elapsed_[CAMERATL] = 2 * SENSOR_TIMEOUTS_[CAMERATL];
 
         // Main loop
         while (nh_.ok())
