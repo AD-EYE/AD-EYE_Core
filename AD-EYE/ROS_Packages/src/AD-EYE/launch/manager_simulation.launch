@@ -1,5 +1,12 @@
 <!-- -->
 <launch>
+
+    <!-- RealWorld / Simulation -->
+    <arg name="camera_source" default="Simulation"/>
+	
+    <param name="sensing/camera_source" value="$(arg camera_source)" />
+
+
     <arg name="test_automation" default="false"/>
     <rosparam>
         use_sim_time: true

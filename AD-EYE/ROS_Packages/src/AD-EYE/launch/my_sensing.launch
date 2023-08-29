@@ -9,4 +9,7 @@
 
     <!-- gnss_broadcaster -->
     <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
+
+    <!-- camera_broadcaster -->
+    <node pkg="adeye" type="camera_broadcaster.py" name="camera_broadcaster"/>
 </launch>
