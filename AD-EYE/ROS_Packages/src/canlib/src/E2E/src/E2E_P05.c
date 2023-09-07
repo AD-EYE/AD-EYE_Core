@@ -160,7 +160,7 @@ static INLINE uint16 computeCRCP05(const uint8* DataPtr, uint16 length, uint16 o
     dataIdNibble = ((dataId>>8) & 0xFFu);
     crc = Crc_CalculateCRC16(&dataIdNibble, 1, crc, FALSE);
 
-    return crc;
+    return crc;// ^ 0xFFFF;
 }
 
 

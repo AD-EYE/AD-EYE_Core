@@ -6,6 +6,7 @@ namespace dbc {
 
 
 void VIMMid3CanFr11_Init(
+    map<uint, string>& frame_ids,
     map<std::string, FrameInfo>& frames_info,
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info

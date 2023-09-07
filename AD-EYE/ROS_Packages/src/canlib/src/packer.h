@@ -90,6 +90,8 @@ public:
             val |= t << bits_copied;
         }
 
+        val &= ~static_cast<uint64_t>(0) >> (64 - length);
+
         return val;
     }
 };

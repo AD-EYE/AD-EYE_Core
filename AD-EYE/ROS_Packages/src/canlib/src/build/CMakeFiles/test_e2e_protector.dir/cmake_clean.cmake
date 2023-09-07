@@ -1,0 +1,42 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr01.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMMid3CanFr07.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid3CanFr14.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMBMid6CanFdFr03.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid3CanFr11.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid3CanFr15.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMBMid6CanFdFr01.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMBMid6CanFdFr28.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr08.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid5CanFdFr12.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr03.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMBMid6CanFdFr04.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr36.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid5CanFdFr11.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr25.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMMid5CanFdFr03.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMMid3CanFr11.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr13.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid5CanFdFr02.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMMid3CanFr13.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr12.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VCU1Mid3CanFr30.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/SSMMid5CanFdFr06.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/DBC/VIMBMid6CanFdFr14.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/HAL/can_socketcan.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/e2e_protector.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/dbc_reader.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/can_frame.cpp.o"
+  "CMakeFiles/test_e2e_protector.dir/E2E/src/E2E_P01.c.o"
+  "CMakeFiles/test_e2e_protector.dir/E2E/src/E2E_P05.c.o"
+  "CMakeFiles/test_e2e_protector.dir/Crc/src/Crc_8.c.o"
+  "CMakeFiles/test_e2e_protector.dir/Crc/src/Crc_16.c.o"
+  "CMakeFiles/test_e2e_protector.dir/tests/test_e2e_protector.cpp.o"
+  "test_e2e_protector.pdb"
+  "test_e2e_protector"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C CXX)
+  include(CMakeFiles/test_e2e_protector.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

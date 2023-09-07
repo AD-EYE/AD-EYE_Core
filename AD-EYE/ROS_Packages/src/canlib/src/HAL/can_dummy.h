@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <unistd.h>
 
 #include "can_interface.h"
 
@@ -24,11 +25,12 @@ public:
     int send(CANFrame* fptr) {
         stringstream buffer_str;
         fptr->print(buffer_str);
-        cout << "Sending frame " << fptr->getId() << ": " << buffer_str.str() << std::endl;
+        cout << "Sending frame " << fptr->getFrameInfo().id << ": " << buffer_str.str() << std::endl;
     }
 
     int receive(CANFrame* fptr) {
         std::cout << "Receiving frame" << std::endl;
+        sleep(2);
     }
 private:
     

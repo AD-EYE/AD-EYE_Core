@@ -4,7 +4,7 @@
 namespace kcan {
 
 
-CANSender::CANSender(CANBus bus): can_controller_(bus) { }
+CANSender::CANSender(CANInterface& can_controller): can_controller_(can_controller) { }
 
 
 void CANSender::sendSignalGroup(const string& name, SignalValues& sv) {
@@ -39,18 +39,24 @@ void CANSender::sendSignals(SignalValues& sv) {
 
 
 void CANSender::sendSignal(const string& name, uint64_t val) {
+    SignalValues sv;
+    sv.addSignal(name, val);
     const SignalInfo& si = DBCReader::getSignalInfo(name);
-    FrameCtrl* fc_ptr = getScheduled(si.parent_name);
-    if (fc_ptr == nullptr) {
-        if (si.parent_name == dbc::NO_NAME) {
-            // scedule frame
+    try {
+        DBCReader::getSignalGroupInfo(si.parent_name);
+        sendSignals(sv);
+    } catch (invalid_argument) {
+        FrameCtrl* fc_ptr = getScheduled(si.parent_name);
+        if (fc_ptr != nullptr) {
+            lock_guard<mutex> lock { fc_ptr->frame_mutex };
+            fc_ptr->fptr->setSignal(name, val);
         }
         else {
-            throw "Signal is part of signal group, send signal group first";
+            CANFrame* fptr = new CANFrame(si.parent_name);
+            fptr->setSignal(name, val);
+            scheduleFrame(fptr);
         }
     }
-    lock_guard<mutex> lock { fc_ptr->frame_mutex };
-    fc_ptr->fptr->setSignal(name, val);
 }
 
 
@@ -115,14 +121,20 @@ void CANSender::sendCyclicly(FrameCtrl* fc_ptr) {
         if (fc_ptr->status != FrameStatus::SUSPENDED) {
             lock_guard<mutex> lock { fc_ptr->frame_mutex };   
             can_controller_.send(fc_ptr->fptr);
+            if (!fc_ptr->e2e_auto_counter) {
+                SignalValues sv { SVMode::EXCEPTION };
+                for (auto sg_name : fc_ptr->fptr->getFrameInfo().signal_groups) {
+                    fc_ptr->fptr->setSignalGroup(sg_name, sv);
+                }
+            }
         }
-        this_thread::sleep_for(std::chrono::milliseconds(fc_ptr->fptr->getPeriod()));
+        this_thread::sleep_for(std::chrono::milliseconds(fc_ptr->fptr->getFrameInfo().period));
     }
 }
 
 
-void CANSender::sendOnce(CANFrame* fptr) {
-    can_controller_.send(fptr);
+void CANSender::sendOnce(const CANFrame& fptr) {
+    can_controller_.send(const_cast<CANFrame*>(&fptr));
 }
 
 

@@ -10,6 +10,7 @@
 
 #include "can_controller.h"
 #include "can_sender.h"
+#include "can_receiver.h"
 #include "e2e_protector.h"
 #include "can_frame.h"
 #include "dbc.h"
@@ -27,14 +28,16 @@ class Can
 
     ros::Rate rate_;
 
-    CANSender can_sender_A { CANBus::A };
+    CANController ctrl {  CANBus::A };
+    CANSender can_sender_A { ctrl };
+    CANReceiver can_receiver_A { ctrl };
 
     // Signals name
     std::string ADMode_Status = "AdActvnOkFromVehDyn";
     std::string Steering_DS = "AdPrimSteerStsSafeGroupAdSteerSts";
     std::string Steering_RDS = "AdSecSteerStsSafeGroupAdSteerSts";
     std::string Brake_DS = "BrkDegradedSts";
-    std::string Brake_RDS = "BrkDegradedssmdegraded";
+    std::string Brake_RDS = "BrkDegradedRdntSts";
     std::string SSM_DS = "SSMDegradedssmdegraded";
     std::string SSMB_DS = "SSMBDegradedSSMBDegraded";
     std::string PrimaryVolt_S = "ClstrSts1ForAutnmsDrvClstr1Sts";
@@ -42,9 +45,9 @@ class Can
     std::string EPB_S = "WhlLockStsDegradedSts";
     std::string SEPB_S = "SecWhlLockStsDegradedSts";
     std::string DriverPr = "DrvrPrsnt";
-    std::string DriverPrQF = "DrvrPrsntQF";
+    std::string DriverPrQF = "DrvrPrsntQf";
 
-    std::vector<std::string> signals{ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
+    std::vector<std::string> signals{ADMode_Status,Steering_DS ,Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
 
     /*!
      * \brief Split Message : Split the message into a vector of two that contains the signal's name and its value.
@@ -86,28 +89,36 @@ class Can
         std::string signal_message = msg->data;
         std::map<string, int> signal_message_split = StringToMap(signal_message);
         SignalValues sv(SVMode::ZERO);
+        std::string signal_group;
         for (map<string, int>::iterator it = signal_message_split.begin(); it != signal_message_split.end(); it++)
         {
             std::cout << it->first << ":" << it->second << std::endl;
             sv.addSignal(it->first, it->second);
+            signal_group = DBCReader::getSignalInfo(it->first).parent_name;
+            ROS_WARN_STREAM(signal_group << it->first);
         }
-        can_sender_A.sendSignals(sv);
+        // can_sender_A.sendSignals(sv);
+        can_sender_A.sendSignalGroup(signal_group, sv);
     }
 
     /*!
      * \brief CanReceiving.
      */
-    std::string CanReceiving () {
+    void CanReceiving () {
         std::string message = "{";
         int signals_size = signals.size();
-        
-        for (int i = 0; i < signals_size; i++) {
-            message.append('"' + signals[i] + '"' + ":" + std::to_string(rand() % 5) + ", ");
+        SignalValues signal;
+        std_msgs::String signals_;
+
+        for (int i = 1; i < signals_size; i++) {
+            signal = can_receiver_A.getSignal(signals[i]);
+            message.append('"' + signals[i] + '"' + ":" + std::to_string(signal.getValue(signals[i])) + ", ");
         }
         message = message.substr(0, message.size()-2);
         message.append("}");
-        ROS_WARN_STREAM(message);
-        return message;
+
+        signals_.data = message;
+        pub_signals_.publish(signals_);
     }
 
   public:
@@ -118,17 +129,37 @@ class Can
     }
     
     void run() {
-        bool test = true;
-        std_msgs::String signals_;
+        can_receiver_A.monitorSignal(AdActvnOkFromVehDyn);
+        can_receiver_A.monitorSignal(AdPrimSteerStsSafeGroupAdSteerSts);
+        can_receiver_A.monitorSignal(AdSecSteerStsSafeGroupAdSteerSts);
+        can_receiver_A.monitorSignal(BrkDegradedSts);
+        can_receiver_A.monitorSignal(BrkDegradedRdntSts);
+        can_receiver_A.monitorSignal(SSMDegradedssmdegraded);
+        can_receiver_A.monitorSignal(SSMBDegradedSSMBDegraded);
+        can_receiver_A.monitorSignal(ClstrSts1ForAutnmsDrvClstr1Sts);
+        can_receiver_A.monitorSignal(ClstrSts2ForAutnmsDrvClstr2Sts);
+        can_receiver_A.monitorSignal(WhlLockStsDegradedSts);
+        can_receiver_A.monitorSignal(SecWhlLockStsDegradedSts);
+        can_receiver_A.monitorSignal(DrvrPrsnt);
+        can_receiver_A.monitorSignal(DrvrPrsntQf);
         while (nh_.ok()) {
-            rate_.sleep();
             ros::spinOnce();
-            if (test) {
-                test = false;
-                signals_.data = CanReceiving();
-                pub_signals_.publish(signals_);
-            }
+            CanReceiving();
+            rate_.sleep();
         }
+        
+        
+        // bool test = true;
+        // std_msgs::String signals_;
+        // while (nh_.ok()) {
+        //     rate_.sleep();
+        //     ros::spinOnce();
+        //     if (test) {
+        //         test = false;
+        //         signals_.data = CanReceiving();
+        //         pub_signals_.publish(signals_);
+        //     }
+        // }
     }
 };
 

@@ -53,10 +53,6 @@ configure_file(/usr/local/driveworks/samples/src/framework/DataPath.hpp.in
                ${SDK_BINARY_DIR}/DataPath.hpp)
 
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-add_definitions("-Wfatal-errors")
-
-
 include_directories(
     ${SDK_BINARY_DIR}/configured
     /usr/local/driveworks/include
@@ -65,19 +61,14 @@ include_directories(
     ./E2E/inc
 )
 
-  
-add_executable(main
-    main.cpp
-    dbc.cpp
-    dbc_reader.cpp
-    can_frame.cpp
-    can_sender.cpp
-    e2e_protector.cpp
-    HAL/can_px2.cpp
-    E2E/src/E2E_P01.c
-    E2E/src/E2E_P05.c
-    Crc/src/Crc_8.c
-    Crc/src/Crc_16.c
+
+target_sources(main
+    PUBLIC HAL/can_px2.cpp
+)
+
+
+target_sources(receiver
+    PUBLIC HAL/can_px2.cpp
 )
 
 
@@ -86,19 +77,6 @@ target_link_libraries(main
 )
 
 
-enable_testing()
-
-add_subdirectory(googletest)
-
-#add_executable(test_can_controller tests/test_can_controller.cpp)
-add_executable(test_can_sender tests/test_can_sender.cpp)
-
-target_link_libraries(test_can_sender
-  GTest::gtest_main
+target_link_libraries(receiver
+  ${Driveworks_LIBRARIES}
 )
-
-add_test(NAME CANSenderTest.Test1 COMMAND test_can_sender)
-
-
-
-

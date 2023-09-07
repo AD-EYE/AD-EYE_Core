@@ -25,12 +25,13 @@ struct FrameCtrl {
     mutex frame_mutex;
     CANFrame* fptr;
     FrameStatus status;
+    bool e2e_auto_counter;
 };
 
 
 class CANSender {
 public:
-    CANSender(CANBus bus);
+    CANSender(CANInterface& can_controller);
 
     void sendSignalGroup(const string& name, SignalValues& sv);
 
@@ -40,7 +41,7 @@ public:
 
     void stopSignalGroup(const string& name);
 
-    void sendOnce(CANFrame* fptr);
+    void sendOnce(const CANFrame& fptr);
 
     void suspendFrame(const string& name);
 
@@ -63,7 +64,7 @@ private:
 
     map<string, FrameCtrl*> scheduled_;
     vector<FrameCtrl*> unscheduled_;
-    CANController can_controller_;
+    CANInterface& can_controller_;
 };
 
 

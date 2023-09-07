@@ -1,15 +1,18 @@
 #ifndef __E2E_PROTECTOR_H__
 #define __E2E_PROTECTOR_H__
 
+
+#include <utility>
+
 extern "C" {
-
-#include "E2E/inc/E2E_P01.h"
-#include "E2E/inc/E2E_P05.h"
-
+    #include "E2E/inc/E2E_P01.h"
+    #include "E2E/inc/E2E_P05.h"
 }
 
 #include "dbc.h"
 #include "dbc_reader.h"
+#include "basic_types.h"
+
 
 namespace kcan {
 
@@ -31,20 +34,29 @@ struct E2E_P05State: E2E_State {
 };
 
 
+struct E2EResult {
+    uint checksum;
+    uint counter;
+};
+
+
 class E2EProtector {
 public:
-    E2EProtector(const string& sg_name);
+    E2EProtector(const string& sg_name, uint cntr_init = 0);
+    E2EProtector(E2EProfileType profile, uint cntr_init = 0);
 
-    void applyProfile(vector<uint8_t>& data);
+    E2EResult applyProfile(const SignalValues& sv);
+    E2EResult applyProfile01(const SignalValues& sv, const E2E_P01ConfigType* config = nullptr);
+    E2EResult applyProfile05(const SignalValues& sv, const E2E_P05ConfigType* config = nullptr);
     //Std_ReturnType checkProfile(vector<uint8_t>& data);
 
 private:
     void calculateGroupParams();
+    void initProfile(E2EProfileType profile, uint cntr_init);
     void validateData(const vector<uint8_t>& data);
-    Std_ReturnType applyProfile05(vector<uint8_t>& data);
-    Std_ReturnType applyProfile01(vector<uint8_t>& data);
+    void packSignals(const SignalValues& sv, vector<uint8_t>& signals, uint counter_pos);
 
-    const kcan::SignalGroupInfo sgi_;
+    SignalGroupInfo sgi_;
     uint sg_length_;
     uint sg_start_byte_;
     uint cntr_offset_;

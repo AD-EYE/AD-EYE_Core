@@ -19,55 +19,18 @@
 namespace kcan {
 
 
-enum class SVMode { EXCEPTION, ZERO };
-
-
-class SignalValues {
-public:
-    SignalValues(SVMode mode = SVMode::EXCEPTION) {
-        mode_ = mode;
-    }
-    void addSignal(const string& name, uint64_t val) {
-        auto res = values_.insert({ name, val });
-        if (!res.second) {
-            (*res.first).second = val;
-        }
-    }
-    uint64_t getValue(const string& name) {
-            auto found = values_.find(name);
-            if (found == values_.end()) {
-                if (mode_ == SVMode::EXCEPTION) {
-                    throw invalid_argument("Value is not found!");
-                }
-                return 0;
-            }
-            auto i = found->second;
-            auto s = found->first;
-            return i;
-    }
-
-    const map<string, uint64_t>::iterator begin() {
-        return values_.begin();
-    }
-
-    const map<string, uint64_t>::iterator end() {
-        return values_.end();
-    }
-
-private:
-    map<string, uint64_t> values_;
-    SVMode mode_;
-};
-
-
 class CANFrame {
     public:
+        CANFrame() = default;
         CANFrame(const string& name)
         : name_ { name } {
             frame_info_ = DBCReader::getFrameInfo(name_);
             data_.resize(frame_info_.length);
             for (auto sg_name : frame_info_.signal_groups) {
-                e2e_protectors_.insert({ sg_name, new E2EProtector(sg_name) });
+                const SignalGroupInfo& sgi { DBCReader::getSignalGroupInfo(sg_name) };
+                if (sgi.e2e_settings.type != E2EProfileType::None) {
+                    e2e_protectors_.insert({ sg_name, new E2EProtector(sg_name) });
+                }
             }
         }
 
@@ -78,13 +41,48 @@ class CANFrame {
             }
         }
 
-        void setSignalGroup(const string& name, SignalValues& values) {
+        void setSignalGroup(const string& name, const SignalValues& values) {
             kcan::SignalGroupInfo sgi = DBCReader::getSignalGroupInfo(name);
-            for (auto s_name : sgi.signals) {
-                setSignal(s_name, values.getValue(s_name));
+/*
+            if (signals_group_values_.find(sgi.name) == signals_group_values_.end()) {
+                signals_group_values_.emplace(sgi.name, SignalValues(SVMode::ZERO));
             }
-            
-            e2e_protectors_.find(sgi.name)->second->applyProfile(data_);
+*/
+            auto& sgv = signals_group_values_[sgi.name];
+            for (auto s_name : sgi.signals) {
+                try {
+                    sgv.addSignal(s_name, values.getValue(s_name));
+                }
+                catch (invalid_argument) {
+                    try {
+                        sgv.getValue(s_name, true);
+                    }
+                    catch (invalid_argument) {
+                        auto& si = DBCReader::getSignalInfo(s_name);
+                        if (si.type == SignalType::APP_UNSIGNED || si.type == SignalType::APP_SIGNED) {
+                            sgv.addSignal(s_name, 0x0);
+                        }
+                    }
+                }
+            }
+
+            auto e2e_protector = e2e_protectors_.find(sgi.name);
+            if (e2e_protector != e2e_protectors_.end()) {
+                E2EResult res = e2e_protector->second->applyProfile(sgv);
+                sgv.addSignal(sgi.e2e_settings.checksum_name, res.checksum);
+                sgv.addSignal(sgi.e2e_settings.counter_name, res.counter);
+            }
+
+            for (auto &group_el : signals_group_values_) {
+                SignalValues& svs = group_el.second;
+                for (auto &signal_el : svs) {
+                    const SignalInfo &si = DBCReader::getSignalInfo(signal_el.first);
+                    Packer::pack(data_, si.start_bit, si.length, signal_el.second);
+                }
+            }
+
+            sgv.removeSignal(sgi.e2e_settings.counter_name);
+
         }
 
         void setSignals(SignalValues& values) {
@@ -94,7 +92,7 @@ class CANFrame {
             for (auto el : values) {
                 setSignal(el.first, el.second);
             }
-            e2e_protectors_.find(sgi.name)->second->applyProfile(data_);
+            //e2e_protectors_.find(sgi.name)->second->applyProfile(data_);
         }
 
         void setSignal(const string& name, uint64_t val) {
@@ -103,16 +101,47 @@ class CANFrame {
             active_signals_.insert(si.name);
         }
 
+        void setRawData(const vector<uint8_t> &data) {
+            if (data_.size() != data.size()) {
+                throw invalid_argument("Data size doesn't match frame size!");
+            }
+            data_ = data;
+        }
+
+        void setRawData(const uint8_t* data, size_t size) {
+            data_.resize(size);
+            data_.assign(data, data + size);
+        }
+
+        void setId(uint32_t id) {
+            frame_info_ = DBCReader::getFrameInfo(id);
+        }
+
+        SignalValues getSignalGroup(const string& name) {
+            SignalValues sv;
+            auto& sgi = DBCReader::getSignalGroupInfo(name);
+            for (auto& s_name : sgi.signals) {
+                auto& si = DBCReader::getSignalInfo(s_name);
+                uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length);
+                sv.addSignal(s_name, s_value);
+            }
+            return sv;
+        }
+
+        SignalValues getSignal(const string& name) {
+            SignalValues sv;
+            auto& si = DBCReader::getSignalInfo(name);
+            uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length);
+            sv.addSignal(name, s_value);
+            return sv;
+        }
+
         const string& getName() {
             return name_;
         }
 
-        uint32_t getId() {
-            return frame_info_.id;
-        }
-
-        time_t getPeriod() {
-            return frame_info_.period;
+        const FrameInfo& getFrameInfo() {
+            return frame_info_;
         }
 
         const uint8_t* getData() {
@@ -124,6 +153,7 @@ class CANFrame {
         }
 
         void print(ostream& o=cout) {
+            o << hex << setfill('0') << setw(3) << frame_info_.id << ": ";
             for (int i = 0; i < data_.size(); i++) {
                 o << hex << setfill('0') << setw(2) << (int)data_[i] << " ";
             }
@@ -144,6 +174,7 @@ class CANFrame {
         bool alive_ { true };
         bool suspended_ { false };
         vector<uint8_t> data_;
+        map<string, SignalValues> signals_group_values_;
         map<std::string, E2EProtector*> e2e_protectors_;
 };
 

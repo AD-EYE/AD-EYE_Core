@@ -311,10 +311,10 @@ public:
     CANE2EProtector(string& sg_name) : sg_name_ { sg_name } {
         SignalGroupInfo const& sgi = getSignalGroupInfo(sg_name_);
         switch (sgi.e2e_profile) {
-            case E2EProfile::P05: 
+            case E2EProfileType::P05: 
                 e2e_state_ = new E2E_P05State;
                 break;
-            case E2EProfile::P01a: 
+            case E2EProfileType::P01a: 
                 e2e_state_ = new E2E_P01State;
                 break;
         }

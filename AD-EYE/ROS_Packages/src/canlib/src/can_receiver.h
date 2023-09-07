@@ -1,20 +1,37 @@
 #ifndef __CAN_RECEIVER_H__
 #define __CAN_RECEIVER_H__
 
+#include <map>
 
-#include <maap>
-
+#include "can_controller.h"
 
 namespace kcan {
 
 
+struct FrameReceiveCtrl {
+    mutex frame_mutex;
+    CANFrame* fptr;
+};
+
+
 class CANReceiver {
 public:
-    CANReceiver();
+    CANReceiver(CANInterface& can_controller): can_controller_(can_controller) {
+        start();        
+    }
+    void monitorSignal(const string& name);
+    SignalValues getSignalGroup(const string& name);
+    SignalValues getSignal(const string& name);
+
 private:
-    map<uint32_t> frame_ids_;
-        
-}
+    void start();
+    void receive();
+    FrameReceiveCtrl* getMonitored(const string& name);
+
+    thread* th_;
+    map<string, FrameReceiveCtrl*> monitored_;
+    CANInterface& can_controller_;
+};
 
 
 }

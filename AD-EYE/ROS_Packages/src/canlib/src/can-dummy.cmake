@@ -16,6 +16,7 @@ add_executable(main
   src/main.cpp
   src/dbc_reader.cpp
   src/can_frame.cpp
+  src/can_receiver.cpp
   src/can_sender.cpp
   src/e2e_protector.cpp
   src/E2E/src/E2E_P01.c
@@ -32,21 +33,4 @@ target_link_libraries(
 target_link_libraries(main
   pthread
 )
-
-
-# enable_testing()
-
-# add_subdirectory(src/googletest)
-
-# #add_executable(test_can_controller tests/test_can_controller.cpp)
-# add_executable(test_can_sender tests/test_can_sender.cpp)
-
-# target_link_libraries(test_can_sender
-#   GTest::gtest_main
-# )
-
-# add_test(NAME CANSenderTest.Test1 COMMAND test_can_sender)
-
-
-
 
