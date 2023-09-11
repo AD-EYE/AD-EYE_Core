@@ -53,7 +53,7 @@ class Can
     std::string DriverPr = "DrvrPrsnt";
     std::string DriverPrQF = "DrvrPrsntQf";
 
-    std::vector<std::string> signals{ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
+    std::vector<std::string> signals{AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
     // std::map<std::string, CANSender> can_senders;
 
     // std::map<std::string, CANReceiver> signals { {AdActvnOkFromVehDyn, can_receiver_A} ,{AdPrimSteerStsSafeGroupAdSteerSts, can_receiver_A} ,{AdSecSteerStsSafeGroupAdSteerSts, can_receiver_C}, {BrkDegradedSts, can_receiver_A}, {BrkDegradedRdntSts, can_receiver_C}, {SSMDegradedssmdegraded, can_receiver_B}, {SSMBDegradedSSMBDegraded, can_receiver_C}, {ClstrSts1ForAutnmsDrvClstr1Sts, can_receiver_A}, {ClstrSts2ForAutnmsDrvClstr2Sts, can_receiver_A}, {WhlLockStsDegradedSts, can_receiver_A}, {SecWhlLockStsDegradedSts, can_receiver_C}, {DrvrPrsnt, can_receiver_A}, {DrvrPrsntQf, can_receiver_A} };

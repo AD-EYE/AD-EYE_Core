@@ -52,6 +52,7 @@ void DBCReader::init() {
     VIMBMid6CanFdFr14_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMBMid6CanFdFr28_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr08_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VIMMid3CanFr07_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
 }
 
 

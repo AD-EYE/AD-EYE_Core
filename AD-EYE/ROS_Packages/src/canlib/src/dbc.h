@@ -31,6 +31,7 @@
 #include "DBC/VIMMid3CanFr15.h"
 #include "DBC/VIMBMid6CanFdFr28.h"
 #include "DBC/VIMMid3CanFr08.h"
+#include "DBC/VIMMid3CanFr07.h"
 
 
 namespace kcan {
