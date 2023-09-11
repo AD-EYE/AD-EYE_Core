@@ -1,4 +1,5 @@
 #include <map>
+#include <iostream>
 #include <stdexcept>
 
 #include "dbc_reader.h"
@@ -50,6 +51,7 @@ void DBCReader::init() {
 
     VIMBMid6CanFdFr14_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMBMid6CanFdFr28_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VIMMid3CanFr08_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
 }
 
 
@@ -92,7 +94,8 @@ const SignalInfo& DBCReader::getSignalInfo(const string& name) {
     using namespace dbc;
     auto found = g_signals_info.find(name);
     if (found == g_signals_info.end()) {
-        throw invalid_argument("Signal not found!");
+        std::cout << "name: " << name << std::endl;
+        throw invalid_argument("Signal not found: " + name);
     }
     return found->second;
 }
