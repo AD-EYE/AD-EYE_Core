@@ -17,7 +17,7 @@ void VIMMid3CanFr07_Init(
 const string VIMMid3CanFr07 { "VIMMid3CanFr07" };
 
 // Groups
-const string AutnmsDrvStReq { "VehOperStReq" };
+const string AutnmsDrvStReq { "AutnmsDrvStReq" };
 
 // Signals
 const string AutnmsDrvStReq_UB { "AutnmsDrvStReq_UB" };

@@ -91,7 +91,7 @@ class Can
         return dictionary_signals;
     }
 
-    CANSender getBusSender(const string& name) {
+    CANSender& getBusSender(const string& name) {
         using namespace dbc;
         string parent_name = DBCReader::getSignalInfo(name).parent_name;
         string frame_name;
@@ -133,11 +133,11 @@ class Can
         }
         ROS_WARN_STREAM(signal_message_split.begin()->first);
         // getBusSender(signal_message_split.begin()->first).sendSignals(sv);
-        // getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv);
-        can_sender_A.sendSignalGroup(signal_group, sv);
+        getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv);
+        // can_sender_A.sendSignalGroup(signal_group, sv);
     }
 
-    CANReceiver getBusReceiver(const string& name) {
+    CANReceiver& getBusReceiver(const string& name) {
         using namespace dbc;
         string parent_name = DBCReader::getSignalInfo(name).parent_name;
         string frame_name;

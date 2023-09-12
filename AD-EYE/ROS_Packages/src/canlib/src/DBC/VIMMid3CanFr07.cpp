@@ -12,9 +12,9 @@ void VIMMid3CanFr07_Init(
     map<string, SignalInfo>& signals_info
 ) {
     signals_info.insert({ AutnmsDrvStReq_UB, { AutnmsDrvStReq_UB, 31, 1, SignalType::APP_UNSIGNED, VIMMid3CanFr07 } });
-    signals_info.insert({ AutnmsDrvStReqAutnmsDrvStReq, { AutnmsDrvStReqAutnmsDrvStReq, 15, 2, SignalType::APP_UNSIGNED, AutnmsDrvStReq } });
-    signals_info.insert({ AutnmsDrvStReqChecksum, { AutnmsDrvStReqChecksum, 7, 8, SignalType::E2E_CHKS, AutnmsDrvStReq } });
-    signals_info.insert({ AutnmsDrvStReqCounter, { AutnmsDrvStReqCounter, 5, 4, SignalType::E2E_CNTR, AutnmsDrvStReq } });
+    signals_info.insert({ AutnmsDrvStReqAutnmsDrvStReq, { AutnmsDrvStReqAutnmsDrvStReq, 16, 2, SignalType::APP_UNSIGNED, AutnmsDrvStReq } });
+    signals_info.insert({ AutnmsDrvStReqChecksum, { AutnmsDrvStReqChecksum, 0, 8, SignalType::E2E_CHKS, AutnmsDrvStReq } });
+    signals_info.insert({ AutnmsDrvStReqCounter, { AutnmsDrvStReqCounter, 8, 4, SignalType::E2E_CNTR, AutnmsDrvStReq } });
 
     signalgroups_info.insert(
     {

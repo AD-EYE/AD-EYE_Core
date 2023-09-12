@@ -11,10 +11,10 @@ void VIMMid3CanFr08_Init(
     map<string, SignalGroupInfo>& signalgroups_info,
     map<string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ VehOperStReq_UB, { VehOperStReq_UB, 4, 1, SignalType::APP_UNSIGNED, VIMMid3CanFr08 } });
-    signals_info.insert({ VehOperStReqChecksum, { VehOperStReqChecksum, 8, 12, SignalType::APP_UNSIGNED, VehOperStReq } });
-    signals_info.insert({ VehOperStReqCounter, { VehOperStReqCounter, 8, 12, SignalType::APP_UNSIGNED, VehOperStReq } });
-    signals_info.insert({ VehOperStReqVehOperStReq, { VehOperStReqVehOperStReq, 32, 8, SignalType::E2E_CHKS, VehOperStReq } });
+    signals_info.insert({ VehOperStReq_UB, { VehOperStReq_UB, 31, 1, SignalType::APP_UNSIGNED, VIMMid3CanFr08 } });
+    signals_info.insert({ VehOperStReqChecksum, { VehOperStReqChecksum, 0, 8, SignalType::E2E_CHKS, VehOperStReq } });
+    signals_info.insert({ VehOperStReqCounter, { VehOperStReqCounter, 8, 4, SignalType::E2E_CNTR, VehOperStReq } });
+    signals_info.insert({ VehOperStReqVehOperStReq, { VehOperStReqVehOperStReq, 16, 2, SignalType::APP_UNSIGNED, VehOperStReq } });
 
     signalgroups_info.insert(
     {
