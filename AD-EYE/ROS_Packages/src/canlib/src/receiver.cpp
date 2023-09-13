@@ -1,11 +1,11 @@
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 #include <unistd.h>
 
 #include "can_controller.h"
-#include "can_receiver.h"
 #include "can_frame.h"
+#include "can_receiver.h"
 #include "dbc.h"
 
 
@@ -25,7 +25,7 @@ void test3() {
 }
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     DBCReader::init();
     test3();
 }

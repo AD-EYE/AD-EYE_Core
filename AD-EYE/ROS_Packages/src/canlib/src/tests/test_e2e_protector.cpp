@@ -4,6 +4,21 @@
 #include "../dbc.h"
 
 
+class SetupEnvironment : public ::testing::Environment {
+public:
+    void SetUp() {
+        kcan::DBCReader::init();
+    }
+};
+
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    testing::AddGlobalTestEnvironment(new SetupEnvironment);
+    return RUN_ALL_TESTS();
+}
+
+
 namespace {
 
 
@@ -12,8 +27,6 @@ using namespace kcan::dbc;
 
 
 TEST(E2EProtectorTest, AdpLiReqFromAPI) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdpLiReqFromAPIHzrdLiDeactnReq, 0);
     sv.addSignal(AdpLiReqFromAPIHzrdLiActvnReq, 0);
@@ -28,8 +41,6 @@ TEST(E2EProtectorTest, AdpLiReqFromAPI) {
 }
 
 TEST(E2EProtectorTest, AdSecSteerStsSafeGroup) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdSecSteerStsSafeGroupAdSteerPerf, 20);
     sv.addSignal(AdSecSteerStsSafeGroupAdSteerSts, 4);
@@ -43,8 +54,6 @@ TEST(E2EProtectorTest, AdSecSteerStsSafeGroup) {
 
 
 TEST(E2EProtectorTest, SSMBDegraded) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(SSMBDegradedSSMBDegraded, 0x0);
     sv.addSignal(SSMBDegradedcntr, 0x2);
@@ -58,8 +67,6 @@ TEST(E2EProtectorTest, SSMBDegraded) {
 
 
 TEST(E2EProtectorTest, BrkDegradedRdnt) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(BrkDegradedRdntSts, 0);
     sv.addSignal(BrkDegradedRdntCntr, 0xA);
@@ -72,8 +79,6 @@ TEST(E2EProtectorTest, BrkDegradedRdnt) {
 
 
 TEST(E2EProtectorTest, SSMDegraded) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(SSMDegradedssmdegraded, 0);
     sv.addSignal(SSMDegradedcntr, 0xE);
@@ -87,8 +92,6 @@ TEST(E2EProtectorTest, SSMDegraded) {
 
 
 TEST(E2EProtectorTest, AdPrimSteerStsSafeGroup) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimSteerStsSafeGroupAdSteerPerf, 20);
     sv.addSignal(AdPrimSteerStsSafeGroupAdSteerSts, 4);
@@ -101,8 +104,6 @@ TEST(E2EProtectorTest, AdPrimSteerStsSafeGroup) {
 }
 
 TEST(E2EProtectorTest, ClstrSts1ForAutnmsDrv) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(ClstrSts1ForAutnmsDrvClstr1Sts, 3);
     sv.addSignal(ClstrSts1ForAutnmsDrvClstr1Cnt, 0xA);
@@ -114,8 +115,6 @@ TEST(E2EProtectorTest, ClstrSts1ForAutnmsDrv) {
 }
 
 TEST(E2EProtectorTest, ClstrSts2ForAutnmsDrv) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(ClstrSts2ForAutnmsDrvClstr2Sts, 3);
     sv.addSignal(ClstrSts2ForAutnmsDrvClstr2Cnt, 0xA);
@@ -128,8 +127,6 @@ TEST(E2EProtectorTest, ClstrSts2ForAutnmsDrv) {
 
 
 TEST(E2EProtectorTest, AutnmsDrvModMngtGlbSafe1) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, 2);
     sv.addSignal(AutnmsDrvModMngtGlbSafe1AutnmsLowSpdModSts1, 0);
@@ -145,8 +142,6 @@ TEST(E2EProtectorTest, AutnmsDrvModMngtGlbSafe1) {
 
 
 TEST(E2EProtectorTest, BrkDegraded) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(BrkDegradedSts, 0);
     sv.addSignal(BrkDegradedCntr, 0xE);
@@ -158,8 +153,6 @@ TEST(E2EProtectorTest, BrkDegraded) {
 }
 
 TEST(E2EProtectorTest, WhlLockSts) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(WhlLockStsDegradedSts, 1);
     sv.addSignal(WhlLockStsLockSts, 4);
@@ -172,8 +165,6 @@ TEST(E2EProtectorTest, WhlLockSts) {
 }
 
 TEST(E2EProtectorTest, AdPrimPose) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimPoseAX, 0x80002);
     sv.addSignal(AdPrimPoseAXConf, 0);
@@ -214,8 +205,6 @@ TEST(E2EProtectorTest, AdPrimPose) {
 
 
 TEST(E2EProtectorTest, AdPrimPSSGroupSafe8) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimPSSGroupSafe8Cntr, 0xb8);
     sv.addSignal(AdPrimPSSGroupSafe8DataID, 0);
@@ -253,8 +242,6 @@ TEST(E2EProtectorTest, AdPrimPSSGroupSafe8) {
 }
 
 TEST(E2EProtectorTest, AdSecSteerActvnGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdSecSteerActvnGroupSafeAdSteerActvnReq, 0);
     sv.addSignal(AdSecSteerActvnGroupSafeAdSteerDeActvnReq, 1);
@@ -267,8 +254,6 @@ TEST(E2EProtectorTest, AdSecSteerActvnGroupSafe) {
 }
 
 TEST(E2EProtectorTest, PrpsnTqDir) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrpsnTqDirAct, 0);
     sv.addSignal(PrpsnTqDirCntr, 1);
@@ -280,8 +265,6 @@ TEST(E2EProtectorTest, PrpsnTqDir) {
 }
 
 TEST(E2EProtectorTest, DrvrPrsntGroup) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(DrvrPrsntQf, 3);
     sv.addSignal(DrvrPrsnt, 2);
@@ -294,8 +277,6 @@ TEST(E2EProtectorTest, DrvrPrsntGroup) {
 }
 
 TEST(E2EProtectorTest, PrimVehSpdGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimVehSpdGroupSafeCntr, 9);
     sv.addSignal(PrimVehSpdGroupSafeMax, 0xA);
@@ -313,8 +294,6 @@ TEST(E2EProtectorTest, PrimVehSpdGroupSafe) {
 }
 
 TEST(E2EProtectorTest, PrimALgtDataRawSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimALgtDataRawSafeCntr, 0xB);
     sv.addSignal(PrimALgtDataRawSafeMax, 0x40D0);
@@ -330,8 +309,6 @@ TEST(E2EProtectorTest, PrimALgtDataRawSafe) {
 }
 
 TEST(E2EProtectorTest, AdPrimWhlAgEstimdGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimWhlAgEstimdGroupSafeCntr, 0xE);
     sv.addSignal(AdPrimWhlAgEstimdGroupSafeQf1, 3);
@@ -345,8 +322,6 @@ TEST(E2EProtectorTest, AdPrimWhlAgEstimdGroupSafe) {
 }
 
 TEST(E2EProtectorTest, PrimALatDataRawSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimALatDataRawSafeCntr, 0xE);
     sv.addSignal(PrimALatDataRawSafeMax, 0x40E8);
@@ -362,8 +337,6 @@ TEST(E2EProtectorTest, PrimALatDataRawSafe) {
 }
 
 TEST(E2EProtectorTest, PrimVLatSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimVLatSafeCntr, 0xE);
     sv.addSignal(PrimVLatSafeMax, 0);
@@ -379,8 +352,6 @@ TEST(E2EProtectorTest, PrimVLatSafe) {
 }
 
 TEST(E2EProtectorTest, PrimWhlRotDirReSafe1) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimWhlRotDirReSafe1Cntr, 0xC);
     sv.addSignal(PrimWhlRotDirReSafe1Le, 1);
@@ -394,31 +365,28 @@ TEST(E2EProtectorTest, PrimWhlRotDirReSafe1) {
     EXPECT_EQ(0xC, res.counter);
 }
 
-// This one is really weird
 
-// TEST(E2EProtectorTest, PrimWhlRotToothCntr) {
-//     DBCReader::init();
+TEST(E2EProtectorTest, PrimWhlRotToothCntr) {
+    SignalValues sv;
+    sv.addSignal(PrimWhlRotToothCntrCntr, 0xE);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrFrntLe, 0);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrFrntLeQf, 3);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrFrntRi, 0);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrFrntRiQf, 3);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrReLe, 0);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrReLeQf, 3);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrReRi, 0);
+    sv.addSignal(PrimWhlRotToothCntrWhlRotToothCntrReRiQf, 3);
 
-//     SignalValues sv;
-//     sv.addSignal(PrimWhlRotToothCntrCntr, 0xE);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotToothCn, 0);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0000, 0);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0001, 3);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0002, 0);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0003, 3);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0004, 3);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0005, 0);
-//     sv.addSignal(PrimWhlRotToothCntrWhlRotTo_0006, 3);
+    E2EProtector e2e(PrimWhlRotToothCntr);
+    E2EResult res = e2e.applyProfile(sv);
 
-//     E2EProtector e2e(PrimWhlRotToothCntr);
-//     E2EResult res = e2e.applyProfile(sv);
-//     EXPECT_EQ(0xDE, res.checksum);
-//     EXPECT_EQ(0xE, res.counter);
-// }
+    EXPECT_EQ(0xE, res.counter);
+    EXPECT_EQ(0xAF, res.checksum);
+}
+
 
 TEST(E2EProtectorTest, PrimYawRateSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(PrimYawRateSafeCntr, 0xE);
     sv.addSignal(PrimYawRateSafeMax, 0x106);
@@ -434,8 +402,6 @@ TEST(E2EProtectorTest, PrimYawRateSafe) {
 }
 
 TEST(E2EProtectorTest, AdFreeDst) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdFreeDstCntr, 0x1);
     sv.addSignal(AdFreeDstFreeDstFwd, 0);
@@ -448,8 +414,6 @@ TEST(E2EProtectorTest, AdFreeDst) {
 }
 
 TEST(E2EProtectorTest, AdWhlLockReq) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdWhlLockReqCntr, 1);
     sv.addSignal(AdWhlLockReqNoReqApplyRel, 0);
@@ -461,8 +425,6 @@ TEST(E2EProtectorTest, AdWhlLockReq) {
 }
 
 TEST(E2EProtectorTest, AdPrimWhlAgReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimWhlAgReqGroupSafeCntr, 0xD);
     sv.addSignal(AdPrimWhlAgReqGroupSafeWhlAgReq, 0x3F42);
@@ -474,8 +436,6 @@ TEST(E2EProtectorTest, AdPrimWhlAgReqGroupSafe) {
 }
 
 TEST(E2EProtectorTest, AdSecWhlAgReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdSecWhlAgReqGroupSafeCntr, 0xE);
     sv.addSignal(AdSecWhlAgReqGroupSafeWhlAgReq, 0x3F42);
@@ -487,8 +447,6 @@ TEST(E2EProtectorTest, AdSecWhlAgReqGroupSafe) {
 }
 
 TEST(E2EProtectorTest, AdNomALgtReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdNomALgtReqGroupSafeALgtNomReqMax, 0xF00);
     sv.addSignal(AdNomALgtReqGroupSafeALgtNomReqMin, 0);
@@ -503,8 +461,6 @@ TEST(E2EProtectorTest, AdNomALgtReqGroupSafe) {
 }
 
 TEST(E2EProtectorTest, AdPrimALgtLimReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdPrimALgtLimReqGroupSafeALgtMaxReq, 0xF00);
     sv.addSignal(AdPrimALgtLimReqGroupSafeALgtMinReq, 0);
@@ -517,8 +473,6 @@ TEST(E2EProtectorTest, AdPrimALgtLimReqGroupSafe) {
 }
 
 TEST(E2EProtectorTest, AdSecALgtLimReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(AdSecALgtLimReqGroupSafeALgtMaxReq, 0xF00);
     sv.addSignal(AdSecALgtLimReqGroupSafeALgtMinReq, 0);
@@ -531,8 +485,6 @@ TEST(E2EProtectorTest, AdSecALgtLimReqGroupSafe) {
 }
 
 TEST(E2EProtectorTest, SecAdNomALgtReqGroupSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(SecAdNomALgtReqGroupSafeALgtNomReqMax, 0x780);
     sv.addSignal(SecAdNomALgtReqGroupSafeALgtNomReqMin, 0x780);
@@ -548,8 +500,6 @@ TEST(E2EProtectorTest, SecAdNomALgtReqGroupSafe) {
 
 
 TEST(E2EProtectorTest, SecYawRateSafe) {
-    DBCReader::init();
-
     SignalValues sv;
     sv.addSignal(SecYawRateSafeCntr, 0x7);
     sv.addSignal(SecYawRateSafeMax, 0x105);

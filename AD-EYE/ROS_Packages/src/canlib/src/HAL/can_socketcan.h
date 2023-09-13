@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <net/if.h>
 
+#include "spdlog/spdlog.h"
+
 #include "can_interface.h"
 
 
@@ -23,10 +25,12 @@ using namespace std;
 
 class SOCKETCANController: public CANInterface {
 public:
-    SOCKETCANController(string device_name, bool fd_on) {
-        cout << "Creating SOCKETCANController" << std::endl;
+    SOCKETCANController(string device_name, bool fd_on, bool receiving_log_on, bool sending_log_on) {
+        spdlog::debug("Creating SOCKETCANController");
         device_name_ = device_name;
         is_can_fd_ = fd_on;
+        receiving_log_on_ = receiving_log_on;
+        sending_log_on_ = sending_log_on;
 
         socket_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
 
@@ -36,6 +40,11 @@ public:
                 socket_, SOL_CAN_RAW, CAN_RAW_FD_FRAMES, &enable_canfd, sizeof(enable_canfd)
             );
         }
+
+        struct timeval tv;
+        tv.tv_sec = 0;
+        tv.tv_usec = 500000;
+        setsockopt(socket_, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 
         ifreq ifr;
         strcpy(ifr.ifr_name, device_name_.c_str());
@@ -48,10 +57,9 @@ public:
     }
 
     int send(CANFrame* fptr) {
-        stringstream buffer_str;
-        fptr->print(buffer_str);
-        cout << "Sending frame " << fptr->getFrameInfo().id << ": " << buffer_str.str() << std::endl;
-
+        if (sending_log_on_) {
+            fptr->log("Sending frame ");
+        }
         canfd_frame frame;
         frame.len = fptr->getDataSize();
         frame.can_id = fptr->getFrameInfo().id;
@@ -70,17 +78,19 @@ public:
                 return 0;
             }
             fptr->setRawData(frame.data, frame.len);
+            if (receiving_log_on_) {
+                fptr->log("Receiving frame ");
+            }
             return frame.len;
         }
-
-        stringstream buffer_str;
-        fptr->print(buffer_str);
-        cout << "Receiving frame " << fptr->getFrameInfo().id << ": " << buffer_str.str() << std::endl;
+        return nbytes;
     }
 
 private:
     int socket_;
     bool is_can_fd_;
+    bool receiving_log_on_;
+    bool sending_log_on_;
     string device_name_;
 };
 

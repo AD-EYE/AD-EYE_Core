@@ -54,7 +54,6 @@ class Can
     std::string DriverPrQF = "DrvrPrsntQf";
 
     std::vector<std::string> signals{AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
-    // std::map<std::string, CANSender> can_senders;
 
     // std::map<std::string, CANReceiver> signals { {AdActvnOkFromVehDyn, can_receiver_A} ,{AdPrimSteerStsSafeGroupAdSteerSts, can_receiver_A} ,{AdSecSteerStsSafeGroupAdSteerSts, can_receiver_C}, {BrkDegradedSts, can_receiver_A}, {BrkDegradedRdntSts, can_receiver_C}, {SSMDegradedssmdegraded, can_receiver_B}, {SSMBDegradedSSMBDegraded, can_receiver_C}, {ClstrSts1ForAutnmsDrvClstr1Sts, can_receiver_A}, {ClstrSts2ForAutnmsDrvClstr2Sts, can_receiver_A}, {WhlLockStsDegradedSts, can_receiver_A}, {SecWhlLockStsDegradedSts, can_receiver_C}, {DrvrPrsnt, can_receiver_A}, {DrvrPrsntQf, can_receiver_A} };
     // std::map<std::string, string> signals { {AdActvnOkFromVehDyn, "A"} ,{AdPrimSteerStsSafeGroupAdSteerSts, "A"} ,{AdSecSteerStsSafeGroupAdSteerSts, "C"}, {BrkDegradedSts, "A"}, {BrkDegradedRdntSts, "C"}, {SSMDegradedssmdegraded, "B"}, {SSMBDegradedSSMBDegraded, "C"}, {ClstrSts1ForAutnmsDrvClstr1Sts, "A"}, {ClstrSts2ForAutnmsDrvClstr2Sts, "A"}, {WhlLockStsDegradedSts, "A"}, {SecWhlLockStsDegradedSts, "C"}, {DrvrPrsnt, "A"}, {DrvrPrsntQf, "A"} };
@@ -101,7 +100,6 @@ class Can
             frame_name = parent_name;
         }
         if (frame_name.find("Mid3") != string::npos) {
-            ROS_WARN_STREAM("AAAA");
             return can_sender_A;
         }
         else if (frame_name.find("Mid5") != string::npos) {
@@ -121,19 +119,27 @@ class Can
         std::string signal_message = msg->data;
         std::map<string, int> signal_message_split = StringToMap(signal_message);
         SignalValues sv(SVMode::ZERO);
+        std::string sv_UB;
         std::string signal_group;
         for (map<string, int>::iterator it = signal_message_split.begin(); it != signal_message_split.end(); it++)
         {
             std::cout << it->first << ":" << it->second << std::endl;
             std::cout << "name: " << it->first << std::endl;
             std::cout << "value: " << it->second << std::endl;
-            sv.addSignal(it->first, it->second);
-            signal_group = DBCReader::getSignalInfo(it->first).parent_name;
-            ROS_WARN_STREAM(signal_group << it->first);
+            if (it->first.find("_UB") != string::npos) {
+                // sv_UB.addSignal(it->first, it->second);
+                sv_UB = it->first;
+            }
+            else {
+                sv.addSignal(it->first, it->second);
+                signal_group = DBCReader::getSignalInfo(it->first).parent_name;
+                ROS_WARN_STREAM(signal_group << it->first);
+            }
         }
         ROS_WARN_STREAM(signal_message_split.begin()->first);
         // getBusSender(signal_message_split.begin()->first).sendSignals(sv);
-        getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv);
+        getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv, true);
+        getBusSender(signal_message_split.begin()->first).sendSignal(sv_UB, 1);
         // can_sender_A.sendSignalGroup(signal_group, sv);
     }
 
@@ -171,29 +177,6 @@ class Can
             signal = getBusReceiver(signals[i]).getSignal(signals[i]);
             message.append('"' + signals[i] + '"' + ":" + std::to_string(signal.getValue(signals[i])) + ", ");
         }
-
-        // for (map<string, CANReceiver>::iterator it = signals.begin(); it != signals.end(); it++) {
-        //     string signal_name = it->first;
-        //     ROS_WARN_STREAM(signal_name);
-        //     CANReceiver can_receiver = it->second;
-        //     signal = can_receiver_A.getSignal(signal_name);
-        //     message.append('"' + signal_name + '"' + ":" + std::to_string(signal.getValue(signal_name)) + ", ");
-        // }
-
-        // for (map<string, string>::iterator it = signals.begin(); it != signals.end(); it++) {
-        //     string signal_name = it->first;
-        //     ROS_WARN_STREAM(signal_name);
-        //     switch (it->second) {
-        //         case "A":
-        //             signal = can_receiver_A.getSignal(signal_name);
-        //         case "B":
-        //             signal = can_receiver_B.getSignal(signal_name);
-        //         case "C":
-        //             signal = can_receiver_C.getSignal(signal_name);
-        //     }
-        //     message.append('"' + signal_name + '"' + ":" + std::to_string(signal.getValue(signal_name)) + ", ");
-        // }
-
         message = message.substr(0, message.size()-2);
         message.append("}");
 
@@ -222,24 +205,12 @@ class Can
         can_receiver_C.monitorSignal(SecWhlLockStsDegradedSts);
         can_receiver_A.monitorSignal(DrvrPrsnt);
         can_receiver_A.monitorSignal(DrvrPrsntQf);
+        
         while (nh_.ok()) {
             ros::spinOnce();
             CanReceiving();
             rate_.sleep();
         }
-        
-        
-        // bool test = true;
-        // std_msgs::String signals_;
-        // while (nh_.ok()) {
-        //     rate_.sleep();
-        //     ros::spinOnce();
-        //     if (test) {
-        //         test = false;
-        //         signals_.data = CanReceiving();
-        //         pub_signals_.publish(signals_);
-        //     }
-        // }
     }
 };
 

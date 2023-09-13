@@ -6,6 +6,8 @@
 #include <string>
 #include <iomanip>
 #include <unistd.h>
+#include <queue>
+#include <chrono>
 
 #include "can_interface.h"
 
@@ -23,21 +25,23 @@ public:
     }
 
     int send(CANFrame* fptr) {
-        stringstream buffer_str;
-        fptr->print(buffer_str);
-        cout << "Sending frame " << fptr->getFrameInfo().id << ": " << buffer_str.str() << std::endl;
+        fptr->print("Sending frame:\n");
+        frames_.push(*fptr);
     }
 
     int receive(CANFrame* fptr) {
-        std::cout << "Receiving frame" << std::endl;
-        sleep(2);
+        if (frames_.empty()) {
+            std::chrono::milliseconds(500);
+            return -1;
+        }
+        *fptr = frames_.front();
+        frames_.pop();
+        fptr->print("Receiving frame:\n");
     }
 private:
+    queue<CANFrame> frames_;
     
 };
-
-
-typedef DUMMYCANController PlatformCANConnroller;
 
 
 }

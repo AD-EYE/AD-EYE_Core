@@ -34,6 +34,40 @@ include_directories(
 )
 
 file(GLOB DBC_FILES src/DBC/*.cpp )
+file(GLOB FMT_SRC src/fmt/src/*.cc)
+
+set(COMMON_SRC
+ src/can_receiver.cpp
+ src/can_sender.cpp
+ ${FMT_SRC}
+)
+
+include_directories(
+    ${SDK_BINARY_DIR}/configured
+    /usr/local/driveworks/include
+    /usr/local/cuda/include
+    src/HAL
+    src/E2E/inc
+    src/fmt/include
+    src/spdlog/include
+    src/inih/include
+    src/bitpacker/include
+)
+
+add_executable(main
+  ${DBC_FILES}
+  ${COMMON_SRC}
+  src/main.cpp
+  src/dbc_reader.cpp
+  src/can_frame.cpp
+  src/can_receiver.cpp
+  src/can_sender.cpp
+  src/e2e_protector.cpp
+  src/E2E/src/E2E_P01.c
+  src/E2E/src/E2E_P05.c
+  src/Crc/src/Crc_8.c
+  src/Crc/src/Crc_16.c
+)
 
 if (${CAN} STREQUAL CAN_DRIVE)
   add_definitions(-DCAN_DRIVE)
@@ -46,28 +80,7 @@ else()
   add_definitions(-DCAN_DUMMY)
 endif()
 
-include_directories(
-    ${SDK_BINARY_DIR}/configured
-    /usr/local/driveworks/include
-    /usr/local/cuda/include
-    ./HAL
-    ./E2E/inc
-)
 
-message(${DBC_FILES})
-add_executable(main
-  ${DBC_FILES}
-  src/main.cpp
-  src/dbc_reader.cpp
-  src/can_frame.cpp
-  src/can_receiver.cpp
-  src/can_sender.cpp
-  src/e2e_protector.cpp
-  src/E2E/src/E2E_P01.c
-  src/E2E/src/E2E_P05.c
-  src/Crc/src/Crc_8.c
-  src/Crc/src/Crc_16.c
-)
 
 target_link_libraries(
   main

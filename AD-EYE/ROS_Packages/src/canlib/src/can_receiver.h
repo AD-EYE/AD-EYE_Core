@@ -10,30 +10,33 @@ namespace kcan {
 
 struct FrameReceiveCtrl {
     mutex frame_mutex;
-    CANFrame* fptr;
+    CANFrame *fptr;
 };
 
 
 class CANReceiver {
-public:
-    CANReceiver(CANInterface& can_controller): can_controller_(can_controller) {
-        start();        
+  public:
+    CANReceiver(CANInterface &can_controller) : can_controller_(can_controller) {
+        active_ = true;
+        start();
     }
-    void monitorSignal(const string& name);
-    SignalValues getSignalGroup(const string& name);
-    SignalValues getSignal(const string& name);
+    ~CANReceiver();
+    void monitorSignal(const string &name);
+    SignalValues getSignalGroup(const string &name);
+    SignalValues getSignal(const string &name);
 
-private:
+  private:
     void start();
     void receive();
-    FrameReceiveCtrl* getMonitored(const string& name);
+    FrameReceiveCtrl *getMonitored(const string &name);
 
-    thread* th_;
-    map<string, FrameReceiveCtrl*> monitored_;
-    CANInterface& can_controller_;
+    thread *th_;
+    bool active_;
+    map<string, FrameReceiveCtrl *> monitored_;
+    CANInterface &can_controller_;
 };
 
 
-}
+} // namespace kcan
 
 #endif
