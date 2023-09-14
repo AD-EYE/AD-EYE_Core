@@ -308,18 +308,20 @@ TEST(E2EProtectorTest, PrimALgtDataRawSafe) {
     EXPECT_EQ(0xB, res.counter);
 }
 
+
 TEST(E2EProtectorTest, AdPrimWhlAgEstimdGroupSafe) {
     SignalValues sv;
     sv.addSignal(AdPrimWhlAgEstimdGroupSafeCntr, 0xE);
     sv.addSignal(AdPrimWhlAgEstimdGroupSafeQf1, 3);
     sv.addSignal(AdPrimWhlAgEstimdGroupSafeWhlAg, 0x3F26);
-    sv.addSignal(AdPrimWhlAgEstimdGroupSafeWhlAgR, 0x36AF);
+    sv.addSignal(AdPrimWhlAgEstimdGroupSafeWhlAgRate, 0x36AF);
 
     E2EProtector e2e(AdPrimWhlAgEstimdGroupSafe);
     E2EResult res = e2e.applyProfile(sv);
     EXPECT_EQ(0x27, res.checksum);
     EXPECT_EQ(0xE, res.counter);
 }
+
 
 TEST(E2EProtectorTest, PrimALatDataRawSafe) {
     SignalValues sv;
@@ -400,6 +402,7 @@ TEST(E2EProtectorTest, PrimYawRateSafe) {
     EXPECT_EQ(0xE2, res.checksum);
     EXPECT_EQ(0xE, res.counter);
 }
+
 
 TEST(E2EProtectorTest, AdFreeDst) {
     SignalValues sv;

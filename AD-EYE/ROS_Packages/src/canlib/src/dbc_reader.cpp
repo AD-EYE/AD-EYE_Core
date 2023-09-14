@@ -37,10 +37,12 @@ void DBCReader::init() {
     VCU1Mid3CanFr13_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VCU1Mid3CanFr25_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VCU1Mid3CanFr30_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VCU1Mid3CanFr34_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VCU1Mid3CanFr36_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
 
     VIMMid3CanFr07_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr08_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VIMMid3CanFr09_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr11_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr13_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr14_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);

@@ -20,11 +20,10 @@
 #include "DBC/VCU1Mid3CanFr13.h"
 #include "DBC/VCU1Mid3CanFr25.h"
 #include "DBC/VCU1Mid3CanFr30.h"
+#include "DBC/VCU1Mid3CanFr34.h"
 #include "DBC/VCU1Mid3CanFr36.h"
 #include "DBC/VIMBMid6CanFdFr14.h"
 #include "DBC/VIMBMid6CanFdFr28.h"
-#include "DBC/VIMMid3CanFr07.h"
-#include "DBC/VIMMid3CanFr08.h"
 #include "DBC/VIMMid3CanFr11.h"
 #include "DBC/VIMMid3CanFr13.h"
 #include "DBC/VIMMid3CanFr14.h"
@@ -32,6 +31,9 @@
 #include "DBC/VIMMid5CanFdFr02.h"
 #include "DBC/VIMMid5CanFdFr11.h"
 #include "DBC/VIMMid5CanFdFr12.h"
+#include "DBC/VIMMid3CanFr09.h"
+#include "DBC/VIMMid3CanFr08.h"
+#include "DBC/VIMMid3CanFr07.h"
 
 
 namespace kcan {

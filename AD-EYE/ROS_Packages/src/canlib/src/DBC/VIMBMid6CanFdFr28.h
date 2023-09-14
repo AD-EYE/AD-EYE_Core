@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,25 +13,28 @@ void VIMBMid6CanFdFr28_Init(
 
 
 // Frame
-const string VIMBMid6CanFdFr28 { "VIMBMid6CanFdFr28" };
+const std::string VIMBMid6CanFdFr28 { "VIMBMid6CanFdFr28" };
+
 
 // Groups
-const string AdSecALgtLimReqGroupSafe { "AdSecALgtLimReqGroupSafe" };
-const string SecAdNomALgtReqGroupSafe { "SecAdNomALgtReqGroupSafe" };
+const std::string AdSecALgtLimReqGroupSafe { "AdSecALgtLimReqGroupSafe" };
+const std::string SecAdNomALgtReqGroupSafe { "SecAdNomALgtReqGroupSafe" };
+
 
 // Signals
-const string AdSecALgtLimReqGroupSafe_UB { "AdSecALgtLimReqGroupSafe_UB" };
-const string AdSecALgtLimReqGroupSafeALgtMaxReq { "AdSecALgtLimReqGroupSafeALgtMaxReq" };
-const string AdSecALgtLimReqGroupSafeALgtMinReq { "AdSecALgtLimReqGroupSafeALgtMinReq" };
-const string AdSecALgtLimReqGroupSafeChks { "AdSecALgtLimReqGroupSafeChks" };
-const string AdSecALgtLimReqGroupSafeCntr { "AdSecALgtLimReqGroupSafeCntr" };
-const string SecAdNomALgtReqGroupSafe_UB { "SecAdNomALgtReqGroupSafe_UB" };
-const string SecAdNomALgtReqGroupSafeALgtNomReqMax { "SecAdNomALgtReqGroupSafeALgtNomReqMax" };
-const string SecAdNomALgtReqGroupSafeALgtNomReqMin { "SecAdNomALgtReqGroupSafeALgtNomReqMin" };
-const string SecAdNomALgtReqGroupSafeChks { "SecAdNomALgtReqGroupSafeChks" };
-const string SecAdNomALgtReqGroupSafeCntr { "SecAdNomALgtReqGroupSafeCntr" };
-const string SecAdNomALgtReqGroupSafeNegLimForJerk { "SecAdNomALgtReqGroupSafeNegLimForJerk" };
-const string SecAdNomALgtReqGroupSafePosLimForJerk { "SecAdNomALgtReqGroupSafePosLimForJerk" };
+const std::string SecAdNomALgtReqGroupSafe_UB { "SecAdNomALgtReqGroupSafe_UB" };
+const std::string AdSecALgtLimReqGroupSafe_UB { "AdSecALgtLimReqGroupSafe_UB" };
+const std::string AdSecALgtLimReqGroupSafeALgtMaxReq { "AdSecALgtLimReqGroupSafeALgtMaxReq" };
+const std::string AdSecALgtLimReqGroupSafeCntr { "AdSecALgtLimReqGroupSafeCntr" };
+const std::string AdSecALgtLimReqGroupSafeALgtMinReq { "AdSecALgtLimReqGroupSafeALgtMinReq" };
+const std::string AdSecALgtLimReqGroupSafeChks { "AdSecALgtLimReqGroupSafeChks" };
+const std::string SecAdNomALgtReqGroupSafeALgtNomReqMax { "SecAdNomALgtReqGroupSafeALgtNomReqMax" };
+const std::string SecAdNomALgtReqGroupSafeCntr { "SecAdNomALgtReqGroupSafeCntr" };
+const std::string SecAdNomALgtReqGroupSafeALgtNomReqMin { "SecAdNomALgtReqGroupSafeALgtNomReqMin" };
+const std::string SecAdNomALgtReqGroupSafeChks { "SecAdNomALgtReqGroupSafeChks" };
+const std::string SecAdNomALgtReqGroupSafeNegLimForJerk { "SecAdNomALgtReqGroupSafeNegLimForJerk" };
+const std::string SecAdNomALgtReqGroupSafePosLimForJerk { "SecAdNomALgtReqGroupSafePosLimForJerk" };
+
 
 }
 }

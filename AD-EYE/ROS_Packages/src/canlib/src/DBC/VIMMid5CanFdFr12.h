@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,16 +13,19 @@ void VIMMid5CanFdFr12_Init(
 
 
 // Frame
-const string VIMMid5CanFdFr12 { "VIMMid5CanFdFr12" };
+const std::string VIMMid5CanFdFr12 { "VIMMid5CanFdFr12" };
+
 
 // Groups
-const string AdPrimWhlAgReqGroupSafe { "AdPrimWhlAgReqGroupSafe" };
+const std::string AdPrimWhlAgReqGroupSafe { "AdPrimWhlAgReqGroupSafe" };
+
 
 // Signals
-const string AdPrimWhlAgReqGroupSafe_UB { "AdPrimWhlAgReqGroupSafe_UB" };
-const string AdPrimWhlAgReqGroupSafeChks { "AdPrimWhlAgReqGroupSafeChks" };
-const string AdPrimWhlAgReqGroupSafeCntr { "AdPrimWhlAgReqGroupSafeCntr" };
-const string AdPrimWhlAgReqGroupSafeWhlAgReq { "AdPrimWhlAgReqGroupSafeWhlAgReq" };
+const std::string AdPrimWhlAgReqGroupSafe_UB { "AdPrimWhlAgReqGroupSafe_UB" };
+const std::string AdPrimWhlAgReqGroupSafeCntr { "AdPrimWhlAgReqGroupSafeCntr" };
+const std::string AdPrimWhlAgReqGroupSafeChks { "AdPrimWhlAgReqGroupSafeChks" };
+const std::string AdPrimWhlAgReqGroupSafeWhlAgReq { "AdPrimWhlAgReqGroupSafeWhlAgReq" };
+
 
 }
 }

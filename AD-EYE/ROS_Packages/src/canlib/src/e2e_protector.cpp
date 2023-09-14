@@ -23,7 +23,7 @@ E2EProtector::E2EProtector(E2EProfileType profile, uint cntr_init) {
 
 void E2EProtector::calculateGroupParams() {
     SignalInfo hs{};
-    SignalInfo ls{"", 0xFFFF, 0x0, SignalType::APP_UNSIGNED, ""};
+    SignalInfo ls{"", 0xFFFF, 0x0, SignalType::APP_UNSIGNED, 0x0, ""};
     for (auto sname : sgi_.signals) {
         SignalInfo candidate = DBCReader::getSignalInfo(sname);
         if (hs.start_bit < candidate.start_bit) {
