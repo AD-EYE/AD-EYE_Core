@@ -47,7 +47,7 @@ SignalValues CANReceiver::getSignalGroup(const string &name) {
 }
 
 
-SignalValues CANReceiver::getSignal(const string &name) {
+uint64_t CANReceiver::getSignal(const string &name) {
     const SignalInfo &si = DBCReader::getSignalInfo(name);
     bool isInSignalGroup = false;
     SignalGroupInfo sgi;
@@ -61,7 +61,7 @@ SignalValues CANReceiver::getSignal(const string &name) {
 
     FrameReceiveCtrl *fc_ptr = getMonitored(frame_name);
     if (fc_ptr != nullptr) {
-        return fc_ptr->fptr->getSignal(name);
+        return fc_ptr->fptr->getSignal(name).getValue(name);
     }
     throw invalid_argument("Singal is not monitored!");
 }

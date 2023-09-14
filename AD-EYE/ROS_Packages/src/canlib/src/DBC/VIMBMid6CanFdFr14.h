@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,16 +13,19 @@ void VIMBMid6CanFdFr14_Init(
 
 
 // Frame
-const string VIMBMid6CanFdFr14 { "VIMBMid6CanFdFr14" };
+const std::string VIMBMid6CanFdFr14 { "VIMBMid6CanFdFr14" };
+
 
 // Groups
-const string AdSecWhlAgReqGroupSafe { "AdSecWhlAgReqGroupSafe" };
+const std::string AdSecWhlAgReqGroupSafe { "AdSecWhlAgReqGroupSafe" };
+
 
 // Signals
-const string AdSecWhlAgReqGroupSafe_UB { "AdSecWhlAgReqGroupSafe_UB" };
-const string AdSecWhlAgReqGroupSafeChks { "AdSecWhlAgReqGroupSafeChks" };
-const string AdSecWhlAgReqGroupSafeCntr { "AdSecWhlAgReqGroupSafeCntr" };
-const string AdSecWhlAgReqGroupSafeWhlAgReq { "AdSecWhlAgReqGroupSafeWhlAgReq" };
+const std::string AdSecWhlAgReqGroupSafe_UB { "AdSecWhlAgReqGroupSafe_UB" };
+const std::string AdSecWhlAgReqGroupSafeCntr { "AdSecWhlAgReqGroupSafeCntr" };
+const std::string AdSecWhlAgReqGroupSafeWhlAgReq { "AdSecWhlAgReqGroupSafeWhlAgReq" };
+const std::string AdSecWhlAgReqGroupSafeChks { "AdSecWhlAgReqGroupSafeChks" };
+
 
 }
 }

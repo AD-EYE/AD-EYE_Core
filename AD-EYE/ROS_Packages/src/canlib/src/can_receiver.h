@@ -23,7 +23,7 @@ class CANReceiver {
     ~CANReceiver();
     void monitorSignal(const string &name);
     SignalValues getSignalGroup(const string &name);
-    SignalValues getSignal(const string &name);
+    uint64_t getSignal(const string &name);
 
   private:
     void start();

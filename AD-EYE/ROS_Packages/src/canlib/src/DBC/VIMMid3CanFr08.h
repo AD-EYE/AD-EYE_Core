@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,16 +13,19 @@ void VIMMid3CanFr08_Init(
 
 
 // Frame
-const string VIMMid3CanFr08 { "VIMMid3CanFr08" };
+const std::string VIMMid3CanFr08 { "VIMMid3CanFr08" };
+
 
 // Groups
-const string VehOperStReq { "VehOperStReq" };
+const std::string VehOperStReq { "VehOperStReq" };
+
 
 // Signals
-const string VehOperStReq_UB { "VehOperStReq_UB" };
-const string VehOperStReqChecksum { "VehOperStReqChecksum" };
-const string VehOperStReqCounter { "VehOperStReqCounter" };
-const string VehOperStReqVehOperStReq { "VehOperStReqVehOperStReq" };
+const std::string VehOperStReqChecksum { "VehOperStReqChecksum" };
+const std::string VehOperStReqCounter { "VehOperStReqCounter" };
+const std::string VehOperStReqVehOperStReq { "VehOperStReqVehOperStReq" };
+const std::string VehOperStReq_UB { "VehOperStReq_UB" };
+
 
 }
 }

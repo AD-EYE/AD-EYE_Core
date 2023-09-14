@@ -170,12 +170,12 @@ class Can
     void CanReceiving () {
         std::string message = "{";
         int signals_size = signals.size();
-        SignalValues signal;
+        uint64_t signal_value;
         std_msgs::String signals_;
 
         for (int i = 1; i < signals_size; i++) {
-            signal = getBusReceiver(signals[i]).getSignal(signals[i]);
-            message.append('"' + signals[i] + '"' + ":" + std::to_string(signal.getValue(signals[i])) + ", ");
+            signal_value = getBusReceiver(signals[i]).getSignal(signals[i]);
+            message.append('"' + signals[i] + '"' + ":" + std::to_string(signal_value) + ", ");
         }
         message = message.substr(0, message.size()-2);
         message.append("}");

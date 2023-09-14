@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -16,14 +15,17 @@ void SSMBMid6CanFdFr04_Init(
 // Frame
 const std::string SSMBMid6CanFdFr04 { "SSMBMid6CanFdFr04" };
 
+
 // Groups
 const std::string BrkDegradedRdnt { "BrkDegradedRdnt" };
 
+
 // Signals
-const std::string BrkDegradedRdnt_UB {"BrkDegradedRdnt_UB"};
-const std::string BrkDegradedRdntChks {"BrkDegradedRdntChks"};
-const std::string BrkDegradedRdntCntr {"BrkDegradedRdntCntr"};
-const std::string BrkDegradedRdntSts {"BrkDegradedRdntSts"};
+const std::string BrkDegradedRdnt_UB { "BrkDegradedRdnt_UB" };
+const std::string BrkDegradedRdntCntr { "BrkDegradedRdntCntr" };
+const std::string BrkDegradedRdntChks { "BrkDegradedRdntChks" };
+const std::string BrkDegradedRdntSts { "BrkDegradedRdntSts" };
+
 
 }
 }

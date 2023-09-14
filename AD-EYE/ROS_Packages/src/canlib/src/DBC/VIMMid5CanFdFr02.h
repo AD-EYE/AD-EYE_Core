@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,44 +13,46 @@ void VIMMid5CanFdFr02_Init(
 
 
 // Frame
-const string VIMMid5CanFdFr02 { "VIMMid5CanFdFr02" };
+const std::string VIMMid5CanFdFr02 { "VIMMid5CanFdFr02" };
+
 
 // Groups
-const string AdPrimPose { "AdPrimPose" };
+const std::string AdPrimPose { "AdPrimPose" };
+
 
 // Signals
-const string AdPrimPose_UB { "AdPrimPose_UB" };
-const string AdPrimPoseAX { "AdPrimPoseAX" };
-const string AdPrimPoseAXConf { "AdPrimPoseAXConf" };
-const string AdPrimPoseAY { "AdPrimPoseAY" };
-const string AdPrimPoseAYConf { "AdPrimPoseAYConf" };
-const string AdPrimPoseAZ { "AdPrimPoseAZ" };
-const string AdPrimPoseAZConf { "AdPrimPoseAZConf" };
-const string AdPrimPoseChks { "AdPrimPoseChks" };
-const string AdPrimPoseCntr { "AdPrimPoseCntr" };
-const string AdPrimPoseDataID { "AdPrimPoseDataID" };
-const string AdPrimPosePitch { "AdPrimPosePitch" };
-const string AdPrimPosePitchConf { "AdPrimPosePitchConf" };
-const string AdPrimPosePitchRate { "AdPrimPosePitchRate" };
-const string AdPrimPosePitchRateConf { "AdPrimPosePitchRateConf" };
-const string AdPrimPosePosX { "AdPrimPosePosX" };
-const string AdPrimPosePosXConf { "AdPrimPosePosXConf" };
-const string AdPrimPosePosY { "AdPrimPosePosY" };
-const string AdPrimPosePosYConf { "AdPrimPosePosYConf" };
-const string AdPrimPoseRoll { "AdPrimPoseRoll" };
-const string AdPrimPoseRollConf { "AdPrimPoseRollConf" };
-const string AdPrimPoseRollRate { "AdPrimPoseRollRate" };
-const string AdPrimPoseRollRateConf { "AdPrimPoseRollRateConf" };
-const string AdPrimPoseTiStampNanoSec { "AdPrimPoseTiStampNanoSec" };
-const string AdPrimPoseTiStampSec { "AdPrimPoseTiStampSec" };
-const string AdPrimPoseVX { "AdPrimPoseVX" };
-const string AdPrimPoseVXConf { "AdPrimPoseVXConf" };
-const string AdPrimPoseVY { "AdPrimPoseVY" };
-const string AdPrimPoseVYConf { "AdPrimPoseVYConf" };
-const string AdPrimPoseYaw { "AdPrimPoseYaw" };
-const string AdPrimPoseYawConf { "AdPrimPoseYawConf" };
-const string AdPrimPoseYawRate { "AdPrimPoseYawRate" };
-const string AdPrimPoseYawRateConf { "AdPrimPoseYawRateConf" };
+const std::string AdPrimPoseChks { "AdPrimPoseChks" };
+const std::string AdPrimPoseCntr { "AdPrimPoseCntr" };
+const std::string AdPrimPoseAX { "AdPrimPoseAX" };
+const std::string AdPrimPoseAY { "AdPrimPoseAY" };
+const std::string AdPrimPoseAZ { "AdPrimPoseAZ" };
+const std::string AdPrimPoseDataID { "AdPrimPoseDataID" };
+const std::string AdPrimPosePitch { "AdPrimPosePitch" };
+const std::string AdPrimPosePitchRate { "AdPrimPosePitchRate" };
+const std::string AdPrimPosePosX { "AdPrimPosePosX" };
+const std::string AdPrimPosePosY { "AdPrimPosePosY" };
+const std::string AdPrimPoseRoll { "AdPrimPoseRoll" };
+const std::string AdPrimPoseRollRate { "AdPrimPoseRollRate" };
+const std::string AdPrimPoseTiStampNanoSec { "AdPrimPoseTiStampNanoSec" };
+const std::string AdPrimPoseTiStampSec { "AdPrimPoseTiStampSec" };
+const std::string AdPrimPoseVX { "AdPrimPoseVX" };
+const std::string AdPrimPoseVY { "AdPrimPoseVY" };
+const std::string AdPrimPoseYaw { "AdPrimPoseYaw" };
+const std::string AdPrimPoseYawRate { "AdPrimPoseYawRate" };
+const std::string AdPrimPoseAXConf { "AdPrimPoseAXConf" };
+const std::string AdPrimPoseAYConf { "AdPrimPoseAYConf" };
+const std::string AdPrimPoseAZConf { "AdPrimPoseAZConf" };
+const std::string AdPrimPosePitchConf { "AdPrimPosePitchConf" };
+const std::string AdPrimPosePitchRateConf { "AdPrimPosePitchRateConf" };
+const std::string AdPrimPosePosXConf { "AdPrimPosePosXConf" };
+const std::string AdPrimPosePosYConf { "AdPrimPosePosYConf" };
+const std::string AdPrimPoseRollConf { "AdPrimPoseRollConf" };
+const std::string AdPrimPoseRollRateConf { "AdPrimPoseRollRateConf" };
+const std::string AdPrimPoseVXConf { "AdPrimPoseVXConf" };
+const std::string AdPrimPoseVYConf { "AdPrimPoseVYConf" };
+const std::string AdPrimPoseYawConf { "AdPrimPoseYawConf" };
+const std::string AdPrimPoseYawRateConf { "AdPrimPoseYawRateConf" };
+const std::string AdPrimPose_UB { "AdPrimPose_UB" };
 
 
 }

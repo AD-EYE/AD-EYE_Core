@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,17 +13,20 @@ void VIMMid3CanFr15_Init(
 
 
 // Frame
-const string VIMMid3CanFr15 { "VIMMid3CanFr15" };
+const std::string VIMMid3CanFr15 { "VIMMid3CanFr15" };
+
 
 // Groups
-const string AdPrimALgtLimReqGroupSafe { "AdPrimALgtLimReqGroupSafe" };
+const std::string AdPrimALgtLimReqGroupSafe { "AdPrimALgtLimReqGroupSafe" };
+
 
 // Signals
-const string AdPrimALgtLimReqGroupSafe_UB { "AdPrimALgtLimReqGroupSafe_UB" };
-const string AdPrimALgtLimReqGroupSafeALgtMaxReq { "AdPrimALgtLimReqGroupSafeALgtMaxReq" };
-const string AdPrimALgtLimReqGroupSafeALgtMinReq { "AdPrimALgtLimReqGroupSafeALgtMinReq" };
-const string AdPrimALgtLimReqGroupSafeChks { "AdPrimALgtLimReqGroupSafeChks" };
-const string AdPrimALgtLimReqGroupSafeCntr { "AdPrimALgtLimReqGroupSafeCntr" };
+const std::string AdPrimALgtLimReqGroupSafe_UB { "AdPrimALgtLimReqGroupSafe_UB" };
+const std::string AdPrimALgtLimReqGroupSafeALgtMaxReq { "AdPrimALgtLimReqGroupSafeALgtMaxReq" };
+const std::string AdPrimALgtLimReqGroupSafeCntr { "AdPrimALgtLimReqGroupSafeCntr" };
+const std::string AdPrimALgtLimReqGroupSafeALgtMinReq { "AdPrimALgtLimReqGroupSafeALgtMinReq" };
+const std::string AdPrimALgtLimReqGroupSafeChks { "AdPrimALgtLimReqGroupSafeChks" };
+
 
 }
 }

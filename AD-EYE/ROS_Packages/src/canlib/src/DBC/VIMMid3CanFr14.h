@@ -1,6 +1,5 @@
 #include "../basic_types.h"
 
-
 namespace kcan {
 namespace dbc {
 
@@ -14,19 +13,22 @@ void VIMMid3CanFr14_Init(
 
 
 // Frame
-const string VIMMid3CanFr14 { "VIMMid3CanFr14" };
+const std::string VIMMid3CanFr14 { "VIMMid3CanFr14" };
+
 
 // Groups
-const string AdNomALgtReqGroupSafe { "AdNomALgtReqGroupSafe" };
+const std::string AdNomALgtReqGroupSafe { "AdNomALgtReqGroupSafe" };
+
 
 // Signals
-const string AdNomALgtReqGroupSafe_UB { "AdNomALgtReqGroupSafe_UB" };
-const string AdNomALgtReqGroupSafeALgtNomReqMax { "AdNomALgtReqGroupSafeALgtNomReqMax" };
-const string AdNomALgtReqGroupSafeALgtNomReqMin { "AdNomALgtReqGroupSafeALgtNomReqMin" };
-const string AdNomALgtReqGroupSafeChks { "AdNomALgtReqGroupSafeChks" };
-const string AdNomALgtReqGroupSafeCntr { "AdNomALgtReqGroupSafeCntr" };
-const string AdNomALgtReqGroupSafeNegLimForJerk { "AdNomALgtReqGroupSafeNegLimForJerk" };
-const string AdNomALgtReqGroupSafePosLimForJerk { "AdNomALgtReqGroupSafePosLimForJerk" };
+const std::string AdNomALgtReqGroupSafe_UB { "AdNomALgtReqGroupSafe_UB" };
+const std::string AdNomALgtReqGroupSafeALgtNomReqMax { "AdNomALgtReqGroupSafeALgtNomReqMax" };
+const std::string AdNomALgtReqGroupSafeChks { "AdNomALgtReqGroupSafeChks" };
+const std::string AdNomALgtReqGroupSafeCntr { "AdNomALgtReqGroupSafeCntr" };
+const std::string AdNomALgtReqGroupSafeALgtNomReqMin { "AdNomALgtReqGroupSafeALgtNomReqMin" };
+const std::string AdNomALgtReqGroupSafeNegLimForJerk { "AdNomALgtReqGroupSafeNegLimForJerk" };
+const std::string AdNomALgtReqGroupSafePosLimForJerk { "AdNomALgtReqGroupSafePosLimForJerk" };
+
 
 }
 }

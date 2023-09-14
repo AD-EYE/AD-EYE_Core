@@ -16,7 +16,7 @@ enum class E2EProfileType { None, P01a, P05 };
 enum class SignalType { APP_UNSIGNED, APP_SIGNED, E2E_CHKS, E2E_CNTR };
 
 
-enum class ParentType { SIGNAL_GROUP, FRAME };
+enum class ParentType { GROUP, FRAME };
 
 
 struct E2EProfileSettings {
@@ -31,6 +31,7 @@ struct SignalInfo {
     uint16_t start_bit;
     uint16_t length;
     SignalType type;
+    uint64_t initial;
     string parent_name;
     ParentType parent_type;
 };
