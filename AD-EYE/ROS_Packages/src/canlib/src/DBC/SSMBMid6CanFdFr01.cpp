@@ -11,11 +11,11 @@ void SSMBMid6CanFdFr01_Init(
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ AdSecSteerStsSafeGroupAdSteerPerf, { AdSecSteerStsSafeGroupAdSteerPerf, 16, 5, SignalType::APP_UNSIGNED, 20, AdSecSteerStsSafeGroup, ParentType::GROUP } });
-    signals_info.insert({ AdSecSteerStsSafeGroupAdSteerSts, { AdSecSteerStsSafeGroupAdSteerSts, 21, 3, SignalType::APP_UNSIGNED, 4, AdSecSteerStsSafeGroup, ParentType::GROUP } });
-    signals_info.insert({ AdSecSteerStsSafeGroupChks, { AdSecSteerStsSafeGroupChks, 8, 8, SignalType::E2E_CHKS, 0, AdSecSteerStsSafeGroup, ParentType::GROUP } });
-    signals_info.insert({ AdSecSteerStsSafeGroupCntr, { AdSecSteerStsSafeGroupCntr, 0, 4, SignalType::E2E_CNTR, 0, AdSecSteerStsSafeGroup, ParentType::GROUP } });
-    signals_info.insert({ AdSecSteerStsSafeGroup_UB, { AdSecSteerStsSafeGroup_UB, 4, 1, SignalType::APP_UNSIGNED, 0, SSMBMid6CanFdFr01, ParentType::FRAME } });
+    signals_info.insert({ AdSecSteerStsSafeGroupAdSteerPerf, { AdSecSteerStsSafeGroupAdSteerPerf, 16, 5, true, SignalType::APP_UNSIGNED, 20, AdSecSteerStsSafeGroup, ParentType::GROUP } });
+    signals_info.insert({ AdSecSteerStsSafeGroupAdSteerSts, { AdSecSteerStsSafeGroupAdSteerSts, 21, 3, true, SignalType::APP_UNSIGNED, 4, AdSecSteerStsSafeGroup, ParentType::GROUP } });
+    signals_info.insert({ AdSecSteerStsSafeGroupChks, { AdSecSteerStsSafeGroupChks, 8, 8, true, SignalType::E2E_CHKS, 0, AdSecSteerStsSafeGroup, ParentType::GROUP } });
+    signals_info.insert({ AdSecSteerStsSafeGroupCntr, { AdSecSteerStsSafeGroupCntr, 0, 4, true, SignalType::E2E_CNTR, 0, AdSecSteerStsSafeGroup, ParentType::GROUP } });
+    signals_info.insert({ AdSecSteerStsSafeGroup_UB, { AdSecSteerStsSafeGroup_UB, 4, 1, true, SignalType::APP_UNSIGNED, 0, SSMBMid6CanFdFr01, ParentType::FRAME } });
 
     signalgroups_info.insert({ AdSecSteerStsSafeGroup, { AdSecSteerStsSafeGroup, 0x1A1, { AdSecSteerStsSafeGroupAdSteerPerf, AdSecSteerStsSafeGroupAdSteerSts, AdSecSteerStsSafeGroupChks, AdSecSteerStsSafeGroupCntr }, { E2EProfileType::P01a, AdSecSteerStsSafeGroupChks, AdSecSteerStsSafeGroupCntr }, SSMBMid6CanFdFr01 } } );
 

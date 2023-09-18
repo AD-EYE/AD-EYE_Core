@@ -54,7 +54,7 @@ def generateCpp(db, frame_name):
                 sig_start += 16
             else:
                 try:
-                    if (sig.minimum < 0 and -sig.minimum == sig.maximum and sig.offset == sig.minimum):
+                    if (sig.minimum < 0 and sig.offset == sig.minimum):
                         sig_start += 16
                 except:
                     pass
@@ -71,17 +71,18 @@ def generateCpp(db, frame_name):
 
         sig_initial = sig.initial if sig.initial else 0
 
-        signals_output.write('    signals_info.insert({{ {name}, {{ {name}, {start}, {length}, {signal_type}, {initial}, {parent}, {parent_type} }} }});\n'
-            .format(name=sig.name, start=sig_start, length=sig.length, signal_type=signal_type, initial=sig_initial, parent=parent, parent_type=parent_type))
+        big_endian = "true" if sig.byte_order == "big_endian" else "false"
+        signals_output.write('    signals_info.insert({{ {name}, {{ {name}, {start}, {length}, {big_endian}, {signal_type}, {initial}, {parent}, {parent_type} }} }});\n'
+            .format(name=sig.name, start=sig_start, length=sig.length, big_endian=big_endian, signal_type=signal_type, initial=sig_initial, parent=parent, parent_type=parent_type))
 
     ############################################################################################
 
     checksum_signals = set()
     counter_signals = set()
 
-    for group in msg.signal_groups:
-        data_id = checksum_sig = counter_sig = None
-        for sig_name in group.signal_names:
+    for group in sorted(msg.signal_groups, key=lambda x: x.name):
+        data_id = checksum_sig = probably_checksum_sig = counter_sig = None
+        for sig_name in sorted(group.signal_names):
             try:
                 sig = msg.get_signal_by_name(sig_name)
             except KeyError:
@@ -92,15 +93,24 @@ def generateCpp(db, frame_name):
                 checksum_sig = sig
             except KeyError:
                 pass
+
+            lname = sig.name.lower()
+            if lname.endswith("checksum") or lname.endswith("chks") or lname.endswith("crc"):
+                probably_checksum_sig = sig
             
-            if sig.name.endswith("ntr") or sig.name.endswith("ounter"):
+            if lname.endswith("cntr") or lname.endswith("counter") or lname.endswith("cnt"):
                 counter_sig = sig
 
         profile_detected = False
         if (checksum_sig or data_id or counter_sig):
             if not (checksum_sig and data_id and counter_sig):
-                print("Can't detect profile for frame " + frame_name)
-                # print(checksum_sig, data_id, counter_sig)
+                if (counter_sig and probably_checksum_sig and not checksum_sig and not data_id):
+                    profile_detected = True
+                    checksum_sig = probably_checksum_sig
+                    checksum_signals.add(checksum_sig.name)
+                    counter_signals.add(counter_sig.name)
+                else:
+                    print("Can't detect profile for frame " + frame_name)
             else:
                 profile_detected = True
                 checksum_signals.add(checksum_sig.name)
@@ -134,7 +144,7 @@ def generateCpp(db, frame_name):
 
     msg_signal_names = set(sig.name for sig in msg.signals)
     
-    for group in msg.signal_groups:
+    for group in sorted(msg.signal_groups, key=lambda x: x.name):
         for sig_name in group.signal_names:
             try:
                 msg_signal_names.remove(sig_name)
@@ -148,7 +158,7 @@ def generateCpp(db, frame_name):
             except KeyError:
                 print(frame_name + ": Problem with signal " + sig_name)
             
-    for sig_name in msg_signal_names:
+    for sig_name in sorted(msg_signal_names):
         try:
             if sig_name in checksum_signals:
                 sig_type = "SignalType::E2E_CHKS"
@@ -207,6 +217,7 @@ for dbc_file in glob.glob("*.dbc"):
         try:
             generateCpp(db, frame.name)
         except Exception:
+            raise
             print("Not generated: " + frame.name)
             os.remove("./DBC/" + frame.name + ".h")
             continue

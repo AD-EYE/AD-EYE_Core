@@ -6,6 +6,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 
 set(CMAKE_BUILD_TYPE Debug)
 
+if(NOT CAN)
+    set(CAN CAN_DUMMY)
+endif()
 
 if (${CAN} STREQUAL CAN_DRIVE)
     set(CMAKE_TOOLCHAIN_FILE "/usr/local/driveworks/samples/cmake/Toolchain-V5L.cmake")
@@ -20,7 +23,6 @@ project(canlib VERSION 1.0)
 find_package(catkin REQUIRED COMPONENTS
     roscpp
 )
-
 
 catkin_package(
   CATKIN_DEPENDS
@@ -57,11 +59,10 @@ include_directories(
 add_executable(main
   ${DBC_FILES}
   ${COMMON_SRC}
+  src/HAL/can_socketcan.cpp
   src/main.cpp
   src/dbc_reader.cpp
   src/can_frame.cpp
-  src/can_receiver.cpp
-  src/can_sender.cpp
   src/e2e_protector.cpp
   src/E2E/src/E2E_P01.c
   src/E2E/src/E2E_P05.c

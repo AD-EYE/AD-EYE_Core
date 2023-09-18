@@ -14,6 +14,7 @@
 
 #include "spdlog/spdlog.h"
 
+#include "dbc.h"
 #include "dbc_reader.h"
 #include "e2e_protector.h"
 #include "packer.h"
@@ -25,9 +26,9 @@ namespace kcan {
 class CANFrame {
   public:
     CANFrame() = default;
-    CANFrame(const string &name) : name_{name} {
+    CANFrame(const string &name, uint8_t filling = 0x0) : name_{name} {
         frame_info_ = DBCReader::getFrameInfo(name_);
-        data_.resize(frame_info_.length);
+        data_.assign(frame_info_.length, filling);
         for (auto sg_name : frame_info_.signal_groups) {
             const SignalGroupInfo &sgi{DBCReader::getSignalGroupInfo(sg_name)};
             if (sgi.e2e_settings.type != E2EProfileType::None) {
@@ -40,6 +41,33 @@ class CANFrame {
         if (th_ != nullptr) {
             th_->join();
             delete th_;
+        }
+    }
+
+    void setFrame(const string &name, const SignalValues& sv, bool override_ub) {
+        for (auto &group_name : frame_info_.signal_groups) {
+            SignalValues sv;
+            auto &sgi = DBCReader::getSignalGroupInfo(group_name);
+            for (auto &sig_name : sgi.signals) {
+                auto &si = DBCReader::getSignalInfo(sig_name);
+                sv.addSignal(sig_name, si.initial);
+            }
+            setSignalGroup(group_name, sv);
+        }
+
+        for (auto &sig_name : frame_info_.signals) {
+            auto &si = DBCReader::getSignalInfo(sig_name);
+            if (override_ub && sig_name.size() > 3) {
+                if (sig_name.substr(sig_name.size() - 3, 3) == "_UB") {
+                    setSignal(sig_name, 1);
+                    continue;
+                }
+            }
+            try {
+                setSignal(sig_name, sv.getValue(sig_name));
+            } catch (invalid_argument) {
+                setSignal(sig_name, si.initial);
+            }
         }
     }
 
@@ -66,7 +94,7 @@ class CANFrame {
 
         for (auto &signal_el : sv) {
             const SignalInfo &si = DBCReader::getSignalInfo(signal_el.first);
-            Packer::pack(data_, si.start_bit, si.length, signal_el.second);
+            Packer::pack(data_, signal_el.second, si.start_bit, si.length, si.big_endian);
         }
     }
 
@@ -81,7 +109,7 @@ class CANFrame {
 
     void setSignal(const string &name, uint64_t val) {
         const SignalInfo &si = DBCReader::getSignalInfo(name);
-        Packer::pack(data_, si.start_bit, si.length, val);
+        Packer::pack(data_, val, si.start_bit, si.length, si.big_endian);
         active_signals_.insert(si.name);
     }
 
@@ -104,7 +132,7 @@ class CANFrame {
         auto &sgi = DBCReader::getSignalGroupInfo(name);
         for (auto &s_name : sgi.signals) {
             auto &si = DBCReader::getSignalInfo(s_name);
-            uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length);
+            uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length, si.big_endian);
             sv.addSignal(s_name, s_value);
         }
         return sv;
@@ -113,7 +141,7 @@ class CANFrame {
     SignalValues getSignal(const string &name) {
         SignalValues sv;
         auto &si = DBCReader::getSignalInfo(name);
-        uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length);
+        uint64_t s_value = Packer::unpack(data_, si.start_bit, si.length, si.big_endian);
         sv.addSignal(name, s_value);
         return sv;
     }
@@ -152,7 +180,9 @@ class CANFrame {
         }
     }
 
-    uint64_t getSignal(const SignalInfo &si) { Packer::unpack(data_, si.start_bit, si.length); }
+    uint64_t getSignal(const SignalInfo &si) { 
+        Packer::unpack(data_, si.start_bit, si.length, si.big_endian); 
+    }
 
     string name_;
     FrameInfo frame_info_;

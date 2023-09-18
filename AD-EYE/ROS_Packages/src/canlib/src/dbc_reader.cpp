@@ -80,6 +80,7 @@ void DBCReader::init() {
     VIMBMid6CanFdFr27_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMBMid6CanFdFr28_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMBMid6CanFdFr29_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VimbMid6CanFdCanNmFr_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr01_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr02_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr03_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
@@ -95,6 +96,7 @@ void DBCReader::init() {
     VIMMid3CanFr13_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr14_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid3CanFr15_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VimMid3CanNmFr_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid5CanFdFr02_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid5CanFdFr03_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid5CanFdFr04_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
@@ -107,6 +109,7 @@ void DBCReader::init() {
     VIMMid5CanFdFr11_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid5CanFdFr12_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMMid5CanFdFr13_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
+    VimMid5CanFdCanNmFr_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VIMPrototypeMid5CanFdFr13_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     Vcu1ToAllFuncMid3DiagReqFrame_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);
     VimMid5CanFdTimeSynchFr_Init(g_frame_ids, g_frames_info, g_signalgroups_info, g_signals_info);

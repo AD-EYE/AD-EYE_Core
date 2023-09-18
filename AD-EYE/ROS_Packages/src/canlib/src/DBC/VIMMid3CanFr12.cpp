@@ -11,11 +11,11 @@ void VIMMid3CanFr12_Init(
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvr, { ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvr, 6, 1, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
-    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvrRe, { ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvrRe, 5, 1, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
-    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiPass, { ActvnOfHndlDoorLiFromAPIHndlDoorLiPass, 4, 1, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
-    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiPassRe, { ActvnOfHndlDoorLiFromAPIHndlDoorLiPassRe, 3, 1, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
-    signals_info.insert({ ActvnOfHndlDoorLiFromAPI_UB, { ActvnOfHndlDoorLiFromAPI_UB, 7, 1, SignalType::APP_UNSIGNED, 0, VIMMid3CanFr12, ParentType::FRAME } });
+    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvr, { ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvr, 6, 1, true, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
+    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvrRe, { ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvrRe, 5, 1, true, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
+    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiPass, { ActvnOfHndlDoorLiFromAPIHndlDoorLiPass, 4, 1, true, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
+    signals_info.insert({ ActvnOfHndlDoorLiFromAPIHndlDoorLiPassRe, { ActvnOfHndlDoorLiFromAPIHndlDoorLiPassRe, 3, 1, true, SignalType::APP_UNSIGNED, 0, ActvnOfHndlDoorLiFromAPI, ParentType::GROUP } });
+    signals_info.insert({ ActvnOfHndlDoorLiFromAPI_UB, { ActvnOfHndlDoorLiFromAPI_UB, 7, 1, true, SignalType::APP_UNSIGNED, 0, VIMMid3CanFr12, ParentType::FRAME } });
 
     signalgroups_info.insert({ ActvnOfHndlDoorLiFromAPI, { ActvnOfHndlDoorLiFromAPI, 0x0, { ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvr, ActvnOfHndlDoorLiFromAPIHndlDoorLiDrvrRe, ActvnOfHndlDoorLiFromAPIHndlDoorLiPass, ActvnOfHndlDoorLiFromAPIHndlDoorLiPassRe }, { E2EProfileType::None, "", "" }, VIMMid3CanFr12 } } );
 

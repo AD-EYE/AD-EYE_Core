@@ -34,6 +34,8 @@ class CANSender {
     CANSender(CANInterface &can_controller);
     ~CANSender();
 
+    void sendFrame(const string &name, const SignalValues& sv, bool override_ub, bool auto_counter, uint8_t filling = 0x00);
+
     void sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter = false);
 
     void sendSignal(const string &name, uint64_t val);

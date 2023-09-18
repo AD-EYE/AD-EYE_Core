@@ -30,6 +30,7 @@ struct SignalInfo {
     string name;
     uint16_t start_bit;
     uint16_t length;
+    bool big_endian;
     SignalType type;
     uint64_t initial;
     string parent_name;

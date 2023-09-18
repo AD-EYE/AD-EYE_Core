@@ -33,16 +33,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <cstdint>
 #include <vector>
+#include <iostream>
 
 class Packer {
 public:
-    static void pack(std::vector<uint8_t>& data, unsigned int start_bit, unsigned int length, uint64_t val) {
+    static void pack(std::vector<uint8_t>& data, uint64_t val, unsigned int start_bit, unsigned int length, bool big_endian = false) {
         if (sizeof(val) * 8 < length) {
             throw;
         }
+        val &= ~static_cast<uint64_t>(0) >> (64 - length);
+
         int start_byte = start_bit / 8;
         int first_bit_offset = start_bit % 8;
-        val &= ~static_cast<uint64_t>(0) >> (64 - length);
+        
         uint8_t b = data[start_byte];
         int bits_in_byte = 8 - first_bit_offset;
         uint8_t mask = 0xFF >> bits_in_byte;
@@ -55,20 +58,20 @@ public:
         val >>= 8 - first_bit_offset;
         int rix = 1;
         for (; rix < length / 8; rix++) {
-            data[start_byte + rix] = static_cast<uint8_t>(val);
+            data[getByteIndex(start_byte, rix, big_endian)] = static_cast<uint8_t>(val);
             val >>= 8;
         }
 
         int last_bits = length - (rix * 8 - first_bit_offset);
         if (last_bits > 0) {
-            uint8_t b = data[start_byte + rix];
+            uint8_t b = data[getByteIndex(start_byte, rix, big_endian)];
             b &= 0xFF << last_bits;
             b |= static_cast<uint8_t>(val);
-            data[start_byte + rix] = b;
+            data[getByteIndex(start_byte, rix, big_endian)] = b;
         }
     }
 
-    static uint64_t unpack(std::vector<uint8_t>& data, unsigned int start_bit, unsigned int length) {
+    static uint64_t unpack(std::vector<uint8_t>& data, unsigned int start_bit, unsigned int length, bool big_endian = false) {
         uint64_t val = 0;
         int start_byte = start_bit / 8;
         int first_bit_offset = start_bit % 8;
@@ -80,13 +83,13 @@ public:
             rix++;
         }
         for (; rix < length / 8; rix++) {
-            uint64_t t = data[start_byte + rix];
+            uint64_t t = data[getByteIndex(start_byte, rix, big_endian)];
             val |= t << bits_copied;
             bits_copied += 8;
         }
 
         if (bits_copied < length) {
-            uint64_t t = data[start_byte + rix] & ~(0xFF << (length - bits_copied));
+            uint64_t t = data[getByteIndex(start_byte, rix, big_endian)] & ~(0xFF << (length - bits_copied));
             val |= t << bits_copied;
         }
 
@@ -94,4 +97,10 @@ public:
 
         return val;
     }
+
+private:
+    static uint getByteIndex(uint start, uint ix, bool big_endian) {
+        return big_endian ? start - ix : start + ix;
+    }
+
 };

@@ -11,9 +11,9 @@ void VCU1Mid3CanFr24_Init(
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ PrimSteerMotTqSteerMotTq, { PrimSteerMotTqSteerMotTq, 8, 14, SignalType::APP_SIGNED, 0, PrimSteerMotTq, ParentType::GROUP } });
-    signals_info.insert({ PrimSteerMotTqSteerMotTqQf, { PrimSteerMotTqSteerMotTqQf, 6, 2, SignalType::APP_UNSIGNED, 1, PrimSteerMotTq, ParentType::GROUP } });
-    signals_info.insert({ PrimSteerMotTq_UB, { PrimSteerMotTq_UB, 23, 1, SignalType::APP_UNSIGNED, 0, VCU1Mid3CanFr24, ParentType::FRAME } });
+    signals_info.insert({ PrimSteerMotTqSteerMotTq, { PrimSteerMotTqSteerMotTq, 8, 14, true, SignalType::APP_SIGNED, 0, PrimSteerMotTq, ParentType::GROUP } });
+    signals_info.insert({ PrimSteerMotTqSteerMotTqQf, { PrimSteerMotTqSteerMotTqQf, 6, 2, true, SignalType::APP_UNSIGNED, 1, PrimSteerMotTq, ParentType::GROUP } });
+    signals_info.insert({ PrimSteerMotTq_UB, { PrimSteerMotTq_UB, 23, 1, true, SignalType::APP_UNSIGNED, 0, VCU1Mid3CanFr24, ParentType::FRAME } });
 
     signalgroups_info.insert({ PrimSteerMotTq, { PrimSteerMotTq, 0x0, { PrimSteerMotTqSteerMotTq, PrimSteerMotTqSteerMotTqQf }, { E2EProfileType::None, "", "" }, VCU1Mid3CanFr24 } } );
 

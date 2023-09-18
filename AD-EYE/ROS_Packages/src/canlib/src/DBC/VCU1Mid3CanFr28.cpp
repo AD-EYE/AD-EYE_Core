@@ -11,11 +11,11 @@ void VCU1Mid3CanFr28_Init(
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ AsySftyDecelReq, { AsySftyDecelReq, 0, 8, SignalType::APP_UNSIGNED, 0, SftyDecelGroupSafe, ParentType::GROUP } });
-    signals_info.insert({ AsySftyEnaDecel, { AsySftyEnaDecel, 20, 1, SignalType::APP_UNSIGNED, 0, SftyDecelGroupSafe, ParentType::GROUP } });
-    signals_info.insert({ SftyDecelGroupSafeChks, { SftyDecelGroupSafeChks, 8, 8, SignalType::E2E_CHKS, 0, SftyDecelGroupSafe, ParentType::GROUP } });
-    signals_info.insert({ SftyDecelGroupSafeCntr, { SftyDecelGroupSafeCntr, 16, 4, SignalType::E2E_CNTR, 0, SftyDecelGroupSafe, ParentType::GROUP } });
-    signals_info.insert({ SftyDecelGroupSafe_UB, { SftyDecelGroupSafe_UB, 31, 1, SignalType::APP_UNSIGNED, 0, VCU1Mid3CanFr28, ParentType::FRAME } });
+    signals_info.insert({ AsySftyDecelReq, { AsySftyDecelReq, 0, 8, true, SignalType::APP_UNSIGNED, 0, SftyDecelGroupSafe, ParentType::GROUP } });
+    signals_info.insert({ AsySftyEnaDecel, { AsySftyEnaDecel, 20, 1, true, SignalType::APP_UNSIGNED, 0, SftyDecelGroupSafe, ParentType::GROUP } });
+    signals_info.insert({ SftyDecelGroupSafeChks, { SftyDecelGroupSafeChks, 8, 8, true, SignalType::E2E_CHKS, 0, SftyDecelGroupSafe, ParentType::GROUP } });
+    signals_info.insert({ SftyDecelGroupSafeCntr, { SftyDecelGroupSafeCntr, 16, 4, true, SignalType::E2E_CNTR, 0, SftyDecelGroupSafe, ParentType::GROUP } });
+    signals_info.insert({ SftyDecelGroupSafe_UB, { SftyDecelGroupSafe_UB, 31, 1, true, SignalType::APP_UNSIGNED, 0, VCU1Mid3CanFr28, ParentType::FRAME } });
 
     signalgroups_info.insert({ SftyDecelGroupSafe, { SftyDecelGroupSafe, 0x4C, { AsySftyDecelReq, AsySftyEnaDecel, SftyDecelGroupSafeChks, SftyDecelGroupSafeCntr }, { E2EProfileType::P01a, SftyDecelGroupSafeChks, SftyDecelGroupSafeCntr }, VCU1Mid3CanFr28 } } );
 

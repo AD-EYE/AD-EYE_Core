@@ -66,7 +66,7 @@ TEST(DBCReaderTest, getFrameInfo) {
     EXPECT_EQ("VCU1Mid3CanFr03", fi.name);
     EXPECT_EQ(20, fi.period);
     vector<string> signal_groups { "AdSecSteerActvnGroupSafe", "PrpsnTqDir", "SteerWhlTqGroup" };
-    vector<string> signals { "AdSecSteerActvnGroupSafe_UB", "PrpsnTqDir_UB", "SteerWhlTqGroup_UB" };
+    vector<string> signals { "PrpsnTqDir_UB", "SteerWhlTqGroup_UB", "AdSecSteerActvnGroupSafe_UB" };
     EXPECT_EQ(signal_groups, fi.signal_groups);
     EXPECT_EQ(signals, fi.signals);
  }

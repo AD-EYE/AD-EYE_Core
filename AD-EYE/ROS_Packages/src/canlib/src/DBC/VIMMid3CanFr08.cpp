@@ -11,10 +11,10 @@ void VIMMid3CanFr08_Init(
     map<std::string, SignalGroupInfo>& signalgroups_info,
     map<std::string, SignalInfo>& signals_info
 ) {
-    signals_info.insert({ VehOperStReqChecksum, { VehOperStReqChecksum, 0, 8, SignalType::E2E_CHKS, 0, VehOperStReq, ParentType::GROUP } });
-    signals_info.insert({ VehOperStReqCounter, { VehOperStReqCounter, 8, 4, SignalType::E2E_CNTR, 0, VehOperStReq, ParentType::GROUP } });
-    signals_info.insert({ VehOperStReqVehOperStReq, { VehOperStReqVehOperStReq, 16, 2, SignalType::APP_UNSIGNED, 0, VehOperStReq, ParentType::GROUP } });
-    signals_info.insert({ VehOperStReq_UB, { VehOperStReq_UB, 31, 1, SignalType::APP_UNSIGNED, 0, VIMMid3CanFr08, ParentType::FRAME } });
+    signals_info.insert({ VehOperStReqChecksum, { VehOperStReqChecksum, 0, 8, false, SignalType::E2E_CHKS, 0, VehOperStReq, ParentType::GROUP } });
+    signals_info.insert({ VehOperStReqCounter, { VehOperStReqCounter, 8, 4, false, SignalType::E2E_CNTR, 0, VehOperStReq, ParentType::GROUP } });
+    signals_info.insert({ VehOperStReqVehOperStReq, { VehOperStReqVehOperStReq, 16, 2, false, SignalType::APP_UNSIGNED, 0, VehOperStReq, ParentType::GROUP } });
+    signals_info.insert({ VehOperStReq_UB, { VehOperStReq_UB, 31, 1, true, SignalType::APP_UNSIGNED, 0, VIMMid3CanFr08, ParentType::FRAME } });
 
     signalgroups_info.insert({ VehOperStReq, { VehOperStReq, 0x1F6, { VehOperStReqChecksum, VehOperStReqCounter, VehOperStReqVehOperStReq }, { E2EProfileType::P01a, VehOperStReqChecksum, VehOperStReqCounter }, VIMMid3CanFr08 } } );
 

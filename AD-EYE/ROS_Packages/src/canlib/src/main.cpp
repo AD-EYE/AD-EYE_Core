@@ -7,6 +7,7 @@
 #include <cmath>
 #include <stdlib.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Float64.h>
 
 #include "can_controller.h"
 #include "can_sender.h"
@@ -25,6 +26,9 @@ class Can
     ros::NodeHandle& nh_;
     ros::Subscriber sub_signals_;
     ros::Publisher pub_signals_;
+    ros::Subscriber sub_steering_;
+    ros::Subscriber sub_lockwheel_;
+    ros::Publisher pub_signals_2_;
 
     ros::Rate rate_;
 
@@ -121,14 +125,19 @@ class Can
         SignalValues sv(SVMode::ZERO);
         std::string sv_UB;
         std::string signal_group;
+        bool test = true;
+
         for (map<string, int>::iterator it = signal_message_split.begin(); it != signal_message_split.end(); it++)
         {
             std::cout << it->first << ":" << it->second << std::endl;
             std::cout << "name: " << it->first << std::endl;
             std::cout << "value: " << it->second << std::endl;
             if (it->first.find("_UB") != string::npos) {
-                // sv_UB.addSignal(it->first, it->second);
                 sv_UB = it->first;
+            }
+            else if (it->first.find("POWER") != string::npos) {
+                startVIM();
+                test = false;
             }
             else {
                 sv.addSignal(it->first, it->second);
@@ -136,11 +145,25 @@ class Can
                 ROS_WARN_STREAM(signal_group << it->first);
             }
         }
-        ROS_WARN_STREAM(signal_message_split.begin()->first);
-        // getBusSender(signal_message_split.begin()->first).sendSignals(sv);
-        getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv, true);
-        getBusSender(signal_message_split.begin()->first).sendSignal(sv_UB, 1);
-        // can_sender_A.sendSignalGroup(signal_group, sv);
+        if (test) {
+            ROS_WARN_STREAM(signal_message_split.begin()->first);
+            getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv, true);
+            getBusSender(signal_message_split.begin()->first).sendSignal(sv_UB, 1);
+        }
+    }
+
+    void startVIM() {
+        SignalValues empty_sv;
+        ROS_WARN_STREAM("VIIIIIIIIM");
+        can_sender_A.sendFrame(VIMMid3CanFr07, empty_sv, true, true);
+        can_sender_A.sendFrame(VIMMid3CanFr08, empty_sv, true, true);
+        can_sender_A.sendFrame(VIMMid3CanFr15, empty_sv, true, true);
+
+        can_sender_B.sendFrame(VIMMid5CanFdFr12, empty_sv, true, true);
+
+        can_sender_C.sendFrame(VIMBMid6CanFdFr04, empty_sv, true, true);
+        can_sender_C.sendFrame(VIMBMid6CanFdFr14, empty_sv, true, true);
+        can_sender_C.sendFrame(VIMBMid6CanFdFr28, empty_sv, true, true);
     }
 
     CANReceiver& getBusReceiver(const string& name) {
@@ -184,11 +207,89 @@ class Can
         pub_signals_.publish(signals_);
     }
 
+    float offset = -0.85;
+    float scalling = 5.249e-5;
+
+    void steering(const std_msgs::Float64::ConstPtr& msg) {
+        float steer_val = msg->data;
+        float a_lat_req;
+
+        SignalValues sv_prim(SVMode::ZERO);
+        SignalValues sv_sec(SVMode::ZERO);
+
+        a_lat_req = (steer_val - offset) / scalling;
+
+        std::cout << a_lat_req << std::endl;
+
+        sv_prim.addSignal(AdPrimWhlAgReqGroupSafeWhlAgReq, a_lat_req);
+        sv_sec.addSignal(AdSecWhlAgReqGroupSafeWhlAgReq, a_lat_req);
+        can_sender_B.sendSignalGroup(AdPrimWhlAgReqGroupSafe, sv_prim, true);
+        can_sender_C.sendSignalGroup(AdSecWhlAgReqGroupSafe, sv_sec, true);
+        can_sender_B.sendSignal(AdPrimWhlAgReqGroupSafe_UB, 1);
+        can_sender_C.sendSignal(AdSecWhlAgReqGroupSafe_UB, 1);
+    }
+
+    void wheelLock(const std_msgs::Float64::ConstPtr& msg) {
+        float lock = msg->data;
+
+        uint64_t hstatus_val;
+        uint64_t wstatus_val;
+        uint64_t pstatus_val;
+        uint64_t mstatus_val;
+
+        if (lock == 1) {
+            SignalValues sv(SVMode::ZERO);
+            sv.addSignal(AdStandStillReqReq, 1);
+            can_sender_A.sendSignalGroup(AdStandStillReq, sv, true);
+            do {
+                hstatus_val = can_receiver_A.getSignal(StandStillMgrStsForHldSafeStandStillSts);
+                ROS_WARN_STREAM(StandStillMgrStsForHldSafeStandStillSts << hstatus_val);
+                sleep(1);
+            } while (hstatus_val != 3);
+            SignalValues sv1(SVMode::ZERO);
+            sv1.addSignal(AdWhlLockReqNoReqApplyRel, 2);
+            can_sender_A.sendSignalGroup(AdWhlLockReq, sv1, true);
+            do {
+                wstatus_val = can_receiver_A.getSignal(WhlLockStsLockSts);
+                ROS_WARN_STREAM(WhlLockStsLockSts << wstatus_val);
+                sleep(1);
+            } while (wstatus_val != 1);
+            SignalValues sv2(SVMode::ZERO);
+            sv2.addSignal(AdDirReqDirReq, 1);
+            can_sender_A.sendSignalGroup(AdDirReq, sv2, true);
+            do {
+                pstatus_val = can_receiver_A.getSignal(PrpsnTqDirAct);
+                ROS_WARN_STREAM(PrpsnTqDirAct << pstatus_val);
+                sleep(1);
+            } while (pstatus_val != 1);
+            SignalValues sv3(SVMode::ZERO);
+            sv3.addSignal(AdStandStillReqReq, 2);
+            can_sender_A.sendSignalGroup(AdStandStillReq, sv3, true);
+            do {
+                mstatus_val = can_receiver_A.getSignal(PrimVehSpdGroupSafeMovDir);
+                ROS_WARN_STREAM(PrimVehSpdGroupSafeMovDir << mstatus_val);
+                sleep(1);
+            } while (mstatus_val != 2);
+        }
+    }
+
+    void wheelReceiving () {
+        SignalValues signal;
+        std_msgs::Float64 wheel_angle_;
+
+        wheel_angle_.data = can_receiver_B.getSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
+
+        pub_signals_2_.publish(wheel_angle_);
+    }
+
   public:
     Can(ros::NodeHandle& nh) : nh_(nh), rate_(1)
     {
         pub_signals_ = nh_.advertise<std_msgs::String>("/receiving_signals", 1, true);
         sub_signals_ = nh_.subscribe<std_msgs::String>("/sending_signals", 1, &Can::SignalsCallback, this);
+        pub_signals_2_ = nh_.advertise<std_msgs::Float64>("/sending_angle", 1, true);
+        sub_steering_ = nh_.subscribe<std_msgs::Float64>("/receiving_angle", 1, &Can::steering, this);
+        sub_lockwheel_ = nh_.subscribe<std_msgs::Float64>("/receiving_lockwheel", 1, &Can::wheelLock, this);
     }
     
     void run() {
@@ -205,10 +306,16 @@ class Can
         can_receiver_C.monitorSignal(SecWhlLockStsDegradedSts);
         can_receiver_A.monitorSignal(DrvrPrsnt);
         can_receiver_A.monitorSignal(DrvrPrsntQf);
+
+        can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMax);
+        can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMin);
+        can_receiver_B.monitorSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
+        can_receiver_A.monitorSignal(StandStillMgrStsForHldSafeStandStillSts);
         
         while (nh_.ok()) {
             ros::spinOnce();
             CanReceiving();
+            wheelReceiving();
             rate_.sleep();
         }
     }

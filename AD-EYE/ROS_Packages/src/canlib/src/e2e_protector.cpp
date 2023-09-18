@@ -21,39 +21,13 @@ E2EProtector::E2EProtector(E2EProfileType profile, uint cntr_init) {
     initProfile(profile, cntr_init);
 }
 
-void E2EProtector::calculateGroupParams() {
-    SignalInfo hs{};
-    SignalInfo ls{"", 0xFFFF, 0x0, SignalType::APP_UNSIGNED, 0x0, ""};
-    for (auto sname : sgi_.signals) {
-        SignalInfo candidate = DBCReader::getSignalInfo(sname);
-        if (hs.start_bit < candidate.start_bit) {
-            hs = candidate;
-        }
-        if (ls.start_bit > candidate.start_bit) {
-            ls = candidate;
-        }
-    }
-    // Signals total length with holes between them
-    sg_length_ = (hs.start_bit + hs.length) - ls.start_bit;
-    // Add left hole (lowest bits)
-    sg_length_ += ls.start_bit % 8;
-    // Add right hole (highest bits)
-    uint right_hole_size = (hs.start_bit + hs.length) % 8;
-    if (right_hole_size > 0) {
-        sg_length_ += 8 - right_hole_size;
-    }
-
-    sg_start_byte_ = ls.start_bit / 8;
-
-    cntr_offset_ = DBCReader::getSignalInfo(sgi_.name + "Cntr").start_bit - ls.start_bit;
-    chks_offset_ = DBCReader::getSignalInfo(sgi_.name + "Chks").start_bit - ls.start_bit;
-}
 
 void E2EProtector::validateData(const vector<uint8_t> &data) {
     if (data.size() < sg_start_byte_ + sg_length_ / 8) {
         throw invalid_argument("data is too short!");
     }
 }
+
 
 E2EResult E2EProtector::applyProfile(const SignalValues &sv) {
     Std_ReturnType status = E2E_E_OK;
@@ -72,6 +46,7 @@ E2EResult E2EProtector::applyProfile(const SignalValues &sv) {
     }
     */
 }
+
 
 E2EResult E2EProtector::applyProfile01(const SignalValues &sv, const E2E_P01ConfigType *config) {
     // validateData(data);
@@ -220,7 +195,9 @@ void E2EProtector::packSignals(const SignalValues &sv, vector<uint8_t> &signals,
                     }
                     cout  << endl;
         */
-        Packer::pack(signal, 0, si.length, sig_value);
+
+        // Here we pack little-endian independently of what SignalInfo says
+        Packer::pack(signal, sig_value, 0, si.length); 
         signals.insert(signals.end(), signal.begin(), signal.end());
     }
 }

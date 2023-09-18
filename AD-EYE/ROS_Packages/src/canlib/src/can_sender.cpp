@@ -19,6 +19,28 @@ CANSender::~CANSender() {
 }
 
 
+void CANSender::sendFrame(const string &name, const SignalValues& sv, bool override_ub, bool auto_counter, uint8_t filling) {
+    const FrameInfo &fi = DBCReader::getFrameInfo(name);
+    FrameCtrl *fc_ptr = getScheduled(fi.name);
+    if (fc_ptr != nullptr) {
+        lock_guard<mutex> lock{fc_ptr->frame_mutex};
+        fc_ptr->fptr->setFrame(fi.name, sv, override_ub);
+    } else {
+        CANFrame *fptr = new CANFrame(fi.name, filling);
+        fptr->setFrame(fi.name, sv, override_ub);
+        fc_ptr = scheduleFrame(fptr);
+    }
+    
+    for (auto &sg_name : fi.signal_groups) {
+        if (auto_counter) {
+            fc_ptr->auto_counter_groups.insert(sg_name);
+        } else {
+            fc_ptr->auto_counter_groups.erase(name);
+        }
+    }
+}
+
+
 void CANSender::sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter) {
     const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(name);
     FrameCtrl *fc_ptr = getScheduled(sgi.parent_name);
