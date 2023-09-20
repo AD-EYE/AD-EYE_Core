@@ -23,6 +23,8 @@ using namespace kcan::dbc;
 class Can
 {
   private:
+    
+    // ROS Subscriber and publisher
     ros::NodeHandle& nh_;
     ros::Subscriber sub_signals_;
     ros::Publisher pub_signals_;
@@ -32,6 +34,7 @@ class Can
 
     ros::Rate rate_;
 
+    // CAN Variable
     CANController ctrl_A {  CANBus::A };
     CANController ctrl_B {  CANBus::B };
     CANController ctrl_C {  CANBus::C };
@@ -94,10 +97,15 @@ class Can
         return dictionary_signals;
     }
 
+    /*!
+     * \brief Get Bus Sender : Return the correct can sender variable of the signal. 
+     * \param name The signal's name.
+     */
     CANSender& getBusSender(const string& name) {
         using namespace dbc;
         string parent_name = DBCReader::getSignalInfo(name).parent_name;
         string frame_name;
+        // Get the signal's frame name 
         try {
             frame_name = DBCReader::getSignalGroupInfo(parent_name).parent_name;
         } catch (invalid_argument) {
@@ -154,7 +162,7 @@ class Can
 
     void startVIM() {
         SignalValues empty_sv;
-        ROS_WARN_STREAM("VIIIIIIIIM");
+
         can_sender_A.sendFrame(VIMMid3CanFr07, empty_sv, true, true);
         can_sender_A.sendFrame(VIMMid3CanFr08, empty_sv, true, true);
         can_sender_A.sendFrame(VIMMid3CanFr15, empty_sv, true, true);
@@ -166,6 +174,10 @@ class Can
         can_sender_C.sendFrame(VIMBMid6CanFdFr28, empty_sv, true, true);
     }
 
+    /*!
+     * \brief Get Bus Sender : Return the correct can receiver variable of the signal. 
+     * \param name The signal's name.
+     */
     CANReceiver& getBusReceiver(const string& name) {
         using namespace dbc;
         string parent_name = DBCReader::getSignalInfo(name).parent_name;
@@ -188,8 +200,8 @@ class Can
 
 
     /*!
-     * \brief CanReceiving.
-     */
+     * \brief Can Receiving : Send signals' value to the /receiving_signals topic.
+    */
     void CanReceiving () {
         std::string message = "{";
         int signals_size = signals.size();
