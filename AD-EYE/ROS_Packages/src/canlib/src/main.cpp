@@ -26,9 +26,9 @@ class Can
     
     // ROS Subscriber and publisher
     ros::NodeHandle& nh_;
-    ros::Subscriber sub_signals_;
-    ros::Publisher pub_signals_;
-    ros::Publisher pub_signals_2_;
+    ros::Subscriber sub_commands_;
+    ros::Publisher pub_status_;
+    ros::Publisher pub_angle_;
 
     ros::Rate rate_;
 
@@ -43,11 +43,13 @@ class Can
     CANReceiver can_receiver_B { ctrl_B };
     CANReceiver can_receiver_C { ctrl_C };
 
+    // Convert signal name to a user friendly name
     std::map<std::string, std::string> signals_friendly_map{{AdActvnOkFromVehDyn, "ADMode_Status"}, {AdPrimSteerStsSafeGroupAdSteerSts, "Steering_DS"}, {AdSecSteerStsSafeGroupAdSteerSts, "Steering_RDS"},
         {BrkDegradedSts, "Brake_DS"}, {BrkDegradedRdntSts, "Brake_RDS"}, {SSMDegradedssmdegraded, "SSM_DS"},
         {SSMBDegradedSSMBDegraded, "SSMB_DS"}, {ClstrSts1ForAutnmsDrvClstr1Sts, "PrimaryVolt_S"}, {ClstrSts2ForAutnmsDrvClstr2Sts, "SecondaryVolt_S"},
         {WhlLockStsDegradedSts, "EPB_S"}, {SecWhlLockStsDegradedSts, "SEPB_S"}, {DrvrPrsnt, "DriverPr"}, {DrvrPrsntQf, "DriverPrQF"}, {AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, "ADMode_Act"}};
 
+    // Define a structure to associate signal and its CANBus
     struct signal_bus {
         std::string signal_name;
         CANBus can_bus;
@@ -61,18 +63,21 @@ class Can
         }
     };
 
+    // Define a map which associate a signal to its good value
     std::map<signal_bus, std::vector<int>> signals{{{AdActvnOkFromVehDyn, CANBus::A}, {1}}, {{AdPrimSteerStsSafeGroupAdSteerSts, CANBus::A}, {0}}, {{AdSecSteerStsSafeGroupAdSteerSts, CANBus::C}, {0}},
         {{BrkDegradedSts, CANBus::A}, {0}}, {{BrkDegradedRdntSts, CANBus::C}, {0}}, {{SSMDegradedssmdegraded, CANBus::B}, {2,3,4}},
         {{SSMBDegradedSSMBDegraded, CANBus::C}, {2,3,4}}, {{ClstrSts1ForAutnmsDrvClstr1Sts, CANBus::A}, {3}}, {{ClstrSts2ForAutnmsDrvClstr2Sts, CANBus::A}, {3}},
-        {{WhlLockStsDegradedSts, CANBus::A}, {1}}, {{SecWhlLockStsDegradedSts, CANBus::C}, {1}}, {{DrvrPrsnt, CANBus::A}, {3}}, {{DrvrPrsntQf, CANBus::A}, {2}},
+        {{WhlLockStsDegradedSts, CANBus::A}, {1}}, {{SecWhlLockStsDegradedSts, CANBus::C}, {1}}, {{DrvrPrsnt, CANBus::A}, {2}}, {{DrvrPrsntQf, CANBus::A}, {2}},
         {{AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, CANBus::A}, {1}}};
 
+    /// List of commands use by the GUI
     enum Commands { ADMode_command, HL_command, VIM_command, VEHOP_command, STEERING_command, WLOCK_command };
     std::map<std::string, Commands> commands {{"ADMode_command", ADMode_command}, {"HL_command", HL_command}, {"VIM_command", VIM_command}, {"VEHOP_command", VEHOP_command}, 
         {"STEERING_command", STEERING_command}, {"WLOCK_command", WLOCK_command}};
 
     /*!
      * \brief Get Bus Sender : Return the correct can receiver variable of the signal. 
+     * \param bus The signal's bus.
      * \param name The signal's name.
      */
     CANReceiver& getBusReceiver(const CANBus bus, const string& name) {
@@ -96,7 +101,7 @@ class Can
     }
 
     /*!
-     * \brief Can Receiving : Send signals' value to the /receiving_signals topic.
+     * \brief Can Receiving : Send status to the /receiving_status topic.
     */
     void CanReceiving () {
         std::string message = "{";
@@ -124,16 +129,24 @@ class Can
         message.append("}");
 
         signals_.data = message;
-        pub_signals_.publish(signals_);
+        pub_status_.publish(signals_);
     }
 
+    /*!
+     * \brief wheelReceiving : Send the current wheel angle to the GUI.
+    */
     void wheelReceiving () {
         SignalValues signal;
         std_msgs::Float64 wheel_angle_;
 
-        wheel_angle_.data = can_receiver_B.getSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
+        float offset = -0.85;
+        float scalling = 5.249e-5;
 
-        pub_signals_2_.publish(wheel_angle_);
+        float wheel_data = can_receiver_B.getSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
+
+        wheel_angle_.data = wheel_data * scalling + offset;
+
+        pub_angle_.publish(wheel_angle_);
     }
 
     /*!
@@ -207,14 +220,24 @@ class Can
         }
     }
 
+    /*!
+     * \brief ADMode function : (De-)Activate the ADMode of the car.
+     * \param value Command value that defines (de-)activation of the ADMode.
+     */
     void ADMode_function(int value) {
         SignalValues sv;
+
+        value = value == 0 ? 2 : 1;
 
         sv.addSignal(AutnmsDrvStReqAutnmsDrvStReq, value);
         can_sender_A.sendSignalGroup(AutnmsDrvStReq, sv, true);
         can_sender_A.sendSignal(AutnmsDrvStReq_UB, 1);
     }
 
+    /*!
+     * \brief HazardLights function : (De-)Activate the Hazard Lights of the car.
+     * \param value Command value that defines (de-)activation of the Hazard Lights.
+     */
     void HL_function(int value) {
         SignalValues sv;
 
@@ -231,6 +254,9 @@ class Can
         can_sender_A.sendSignal(AdpLiReqFromAPI_UB, 1);
     }
 
+    /*!
+     * \brief VIM function : Send the basic frames to the car to have the possibility to go to ADMode.
+     */
     void VIM_function() {
         SignalValues empty_sv;
 
@@ -245,6 +271,10 @@ class Can
         can_sender_C.sendFrame(VIMBMid6CanFdFr28, empty_sv, true, true);
     }
 
+    /*!
+     * \brief VehOperator function : Change the Vehicle Operator value of the car.
+     * \param value Command value that defines the Vehicle Operator of the car.
+     */
     void VEHOP_function(int value) {
         SignalValues sv;
 
@@ -253,6 +283,10 @@ class Can
         can_sender_A.sendSignal(VehOperStReq_UB, 1);
     }
 
+    /*!
+     * \brief Steering function : Change the wheel angle of the car.
+     * \param value Command value that defines new angle of the wheel's car.
+     */
     void STEERING_function(float value) {
         float offset = -0.85;
         float scalling = 5.249e-5;
@@ -275,6 +309,10 @@ class Can
         can_sender_C.sendSignal(AdSecWhlAgReqGroupSafe_UB, 1);
     }
 
+    /*!
+     * \brief WheelLock function : Releasing the Wheel Lock and Hold.
+     * \param value Command value that defines activation of the release.
+     */
     void WLOCK_function(int value) {
         float lock = value;
 
@@ -322,12 +360,13 @@ class Can
   public:
     Can(ros::NodeHandle& nh) : nh_(nh), rate_(1)
     {
-        pub_signals_ = nh_.advertise<std_msgs::String>("/receiving_status", 1, true);
-        sub_signals_ = nh_.subscribe<std_msgs::String>("/sending_commands", 1, &Can::SignalsCallback, this);
-        pub_signals_2_ = nh_.advertise<std_msgs::Float64>("/sending_angle", 1, true);
+        pub_status_ = nh_.advertise<std_msgs::String>("/receiving_status", 1, true);
+        sub_commands_ = nh_.subscribe<std_msgs::String>("/sending_commands", 1, &Can::SignalsCallback, this);
+        pub_angle_ = nh_.advertise<std_msgs::Float64>("/sending_angle", 1, true);
     }
     
     void run() {
+        // Status Signals
         can_receiver_A.monitorSignal(AdActvnOkFromVehDyn);
         can_receiver_A.monitorSignal(AdPrimSteerStsSafeGroupAdSteerSts);
         can_receiver_C.monitorSignal(AdSecSteerStsSafeGroupAdSteerSts);
@@ -343,6 +382,7 @@ class Can
         can_receiver_A.monitorSignal(DrvrPrsntQf);
         can_receiver_A.monitorSignal(AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1);
 
+        // WheelLock Signals
         can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMax);
         can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMin);
         can_receiver_B.monitorSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
