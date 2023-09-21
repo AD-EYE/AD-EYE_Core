@@ -12,10 +12,11 @@
 namespace kcan {
 using namespace std;
 
-E2EProtector::E2EProtector(const string &sg_name, uint cntr_init)
-    : sgi_(DBCReader::getSignalGroupInfo(sg_name)) {
+
+E2EProtector::E2EProtector(const SignalGroupInfo &sgi, uint cntr_init) : sgi_(sgi) {
     initProfile(sgi_.e2e_settings.type, cntr_init);
 }
+
 
 E2EProtector::E2EProtector(E2EProfileType profile, uint cntr_init) {
     initProfile(profile, cntr_init);
@@ -103,6 +104,7 @@ E2EResult E2EProtector::applyProfile01(const SignalValues &sv, const E2E_P01Conf
     // return st;
 }
 
+
 E2EResult E2EProtector::applyProfile05(const SignalValues &sv, const E2E_P05ConfigType *config) {
     // validateData(data);
     E2E_P05State *state = dynamic_cast<E2E_P05State *>(e2e_state_);
@@ -156,12 +158,13 @@ void E2EProtector::initProfile(E2EProfileType profile, uint cntr_init) {
     }
 }
 
+
 void E2EProtector::packSignals(const SignalValues &sv, vector<uint8_t> &signals,
                                uint counter_pos) {
     for (auto &el : sv) {
         const string &sig_name = el.first;
         uint64_t sig_value = el.second;
-        const SignalInfo &si{DBCReader::getSignalInfo(sig_name)};
+        const SignalInfo &si { DBCReader::getSignalInfo(sv.getBus(), sig_name) };
         if (si.type == SignalType::E2E_CHKS) {
             continue;
         }
@@ -200,5 +203,7 @@ void E2EProtector::packSignals(const SignalValues &sv, vector<uint8_t> &signals,
         Packer::pack(signal, sig_value, 0, si.length); 
         signals.insert(signals.end(), signal.begin(), signal.end());
     }
+
+
 }
 } // namespace kcan

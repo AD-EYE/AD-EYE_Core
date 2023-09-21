@@ -1,6 +1,7 @@
 #ifndef __CAN_SOCKETCAN_H__
 #define __CAN_SOCKETCAN_H__
 
+#include <atomic>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -50,7 +51,7 @@ public:
         strcpy(ifr.ifr_name, device_name_.c_str());
         ioctl(socket_, SIOCGIFINDEX, &ifr);
 
-        sockaddr_can addr {};
+        sockaddr_can addr { };
         addr.can_family = AF_CAN;
         addr.can_ifindex = ifr.ifr_ifindex;
         bind(socket_, (struct sockaddr *)&addr, sizeof(addr));
@@ -60,6 +61,7 @@ public:
         if (sending_log_on_) {
             fptr->log("Sending frame ");
         }
+        sent_counter_++;
         canfd_frame frame;
         frame.len = fptr->getDataSize();
         frame.can_id = fptr->getFrameInfo().id;
@@ -71,19 +73,23 @@ public:
     int receive(CANFrame* fptr) {
         canfd_frame frame;
         size_t nbytes = read(socket_, &frame, sizeof(frame));
-        if (nbytes > 0) {
-            try {
-                fptr->setId(frame.can_id);
-            } catch (invalid_argument) {
-                return 0;
-            }
+        if (nbytes != -1 && nbytes > 0) {
+            received_counter_++;
+            fptr->setId(frame.can_id);
             fptr->setRawData(frame.data, frame.len);
             if (receiving_log_on_) {
                 fptr->log("Receiving frame ");
             }
             return frame.len;
         }
-        return nbytes;
+        return nbytes == -1 ? 0 : nbytes;
+    }
+
+    CANStatistics statistics() {
+        CANStatistics s;
+        s.frames_received = received_counter_;
+        s.frames_sent = sent_counter_;
+        return s;
     }
 
 private:
@@ -92,6 +98,8 @@ private:
     bool receiving_log_on_;
     bool sending_log_on_;
     string device_name_;
+    atomic<uint64_t> received_counter_ { 0 };
+    atomic<uint64_t> sent_counter_ { 0 };
 };
 
 

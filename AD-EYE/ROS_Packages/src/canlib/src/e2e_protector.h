@@ -12,6 +12,7 @@ extern "C" {
 #include "basic_types.h"
 #include "dbc.h"
 #include "dbc_reader.h"
+#include "signal_values.h"
 
 
 namespace kcan {
@@ -42,7 +43,7 @@ struct E2EResult {
 
 class E2EProtector {
   public:
-    E2EProtector(const string &sg_name, uint cntr_init = 0);
+    E2EProtector(const SignalGroupInfo &sgi, uint cntr_init = 0);
     E2EProtector(E2EProfileType profile, uint cntr_init = 0);
 
     E2EResult applyProfile(const SignalValues &sv);
@@ -64,6 +65,8 @@ class E2EProtector {
     E2E_State *e2e_state_;
 };
 
+
 } // namespace kcan
+
 
 #endif

@@ -104,7 +104,7 @@ namespace dbc {
 using std::string;
 
 
-const string NoName{"NoName"};
+const string NoName { "NoName" };
 
 
 } // namespace dbc

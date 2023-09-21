@@ -4,6 +4,7 @@
 #include <map>
 
 #include "can_controller.h"
+#include "signal_values.h"
 
 namespace kcan {
 
@@ -16,7 +17,7 @@ struct FrameReceiveCtrl {
 
 class CANReceiver {
   public:
-    CANReceiver(CANInterface &can_controller) : can_controller_(can_controller) {
+    CANReceiver(CANController &can_controller) : can_controller_(can_controller) {
         active_ = true;
         start();
     }
@@ -33,7 +34,7 @@ class CANReceiver {
     thread *th_;
     bool active_;
     map<string, FrameReceiveCtrl *> monitored_;
-    CANInterface &can_controller_;
+    CANController &can_controller_;
 };
 
 

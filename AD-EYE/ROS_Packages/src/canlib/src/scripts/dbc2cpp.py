@@ -3,6 +3,10 @@ import glob
 import os
 import io
 
+
+DBC2BUS = { 'Mid3Can': 'CANBus::A', 'Mid5CANFD': 'CANBus::B', 'Mid6CANFD': 'CANBus::C' }
+
+
 def generateH(db, frame_name):
     output = io.StringIO()
 
@@ -208,6 +212,7 @@ def generateCpp(db, frame_name):
 
 for dbc_file in glob.glob("*.dbc"):
     db = cantools.database.load_file(dbc_file)
+    # db.dbc.attributes["DBName"].value
     for frame in db.messages:
         try:
             generateH(db, frame.name)

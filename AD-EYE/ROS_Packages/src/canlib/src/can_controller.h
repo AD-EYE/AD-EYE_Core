@@ -21,7 +21,7 @@ namespace kcan {
 
 class CANController : public CANInterface {
   public:
-    CANController(CANBus bus) {
+    CANController(CANBus bus, const string &config_path = "can_config.ini") {
         /*
         Example of INI file:
 
@@ -32,10 +32,11 @@ class CANController : public CANInterface {
         [CAN_B]
         type=drive
         */
-        string section = busToIniSection(bus);
-        INIReader reader("can_config.ini");
+        bus_ = bus;
+        string section = busToIniSection(bus_);
+        INIReader reader(config_path);
         if (reader.ParseError() != 0) {
-            throw runtime_error("Can't load can_config.ini");
+            throw runtime_error("Can't load " + config_path);
         }
         string type = reader.Get(section, "type", "");
         if (type == "socketcan") {
@@ -47,24 +48,35 @@ class CANController : public CANInterface {
                 new SOCKETCANController(device_name, fd_on, receiving_log_on, sending_log_on));
         } else if (type == "drive") {
 #if defined(DRIVEWORKS)
-            can_controller_ = std::unique_ptr<PX2CANController>(new PX2CANController(bus));
+            can_controller_ = std::unique_ptr<PX2CANController>(new PX2CANController(bus_));
 #else
             throw invalid_argument("Unsupported CAN controller!");
 #endif
         } else if (type == "dummy") {
-            can_controller_ = std::unique_ptr<DUMMYCANController>(new DUMMYCANController(bus));
+            can_controller_ = std::unique_ptr<DUMMYCANController>(new DUMMYCANController(bus_));
         }
     }
+
     int send(CANFrame *fptr) {
         std::lock_guard<std::mutex> lock{send_mutex_};
         return can_controller_->send(fptr);
     }
+
     int receive(CANFrame *fptr) {
         std::lock_guard<std::mutex> lock{receive_mutex_};
         return can_controller_->receive(fptr);
     }
 
+    CANStatistics statistics() {
+        return can_controller_->statistics();
+    }
+
+    CANBus getBus() {
+        return bus_;
+    }
+
   private:
+    CANBus bus_;
     std::unique_ptr<CANInterface> can_controller_;
     std::mutex send_mutex_;
     std::mutex receive_mutex_;

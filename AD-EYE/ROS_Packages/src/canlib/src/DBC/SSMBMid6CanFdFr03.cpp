@@ -31,7 +31,7 @@ void SSMBMid6CanFdFr03_Init(
     signals_info.insert({ SecSteerMotTq_UB, { SecSteerMotTq_UB, 23, 1, true, SignalType::APP_UNSIGNED, 0, SSMBMid6CanFdFr03, ParentType::FRAME } });
     signals_info.insert({ SecWhlLockSts_UB, { SecWhlLockSts_UB, 58, 1, true, SignalType::APP_UNSIGNED, 0, SSMBMid6CanFdFr03, ParentType::FRAME } });
 
-    signalgroups_info.insert({ SSMBDegraded, { SSMBDegraded, 0x0, { SSMBDegradedchks, SSMBDegradedcntr, SSMBDegradedSSMBDegraded }, { E2EProfileType::P01a, SSMBDegradedchks, SSMBDegradedcntr }, SSMBMid6CanFdFr03 } } );
+    signalgroups_info.insert({ SSMBDegraded, { SSMBDegraded, 0xEF, { SSMBDegradedchks, SSMBDegradedcntr, SSMBDegradedSSMBDegraded }, { E2EProfileType::P01a, SSMBDegradedchks, SSMBDegradedcntr }, SSMBMid6CanFdFr03 } } );
     signalgroups_info.insert({ SecPoseMonSafe, { SecPoseMonSafe, 0x80C, { SecPoseMonSafeChks, SecPoseMonSafeCntr, SecPoseMonSafeLatErr, SecPoseMonSafeLgtErr, SecPoseMonSafeSafeQf, SecPoseMonSafeYawErr }, { E2EProfileType::P01a, SecPoseMonSafeChks, SecPoseMonSafeCntr }, SSMBMid6CanFdFr03 } } );
     signalgroups_info.insert({ SecSteerMotTq, { SecSteerMotTq, 0x0, { SecSteerMotTqSteerMotTq, SecSteerMotTqSteerMotTqQf }, { E2EProfileType::None, "", "" }, SSMBMid6CanFdFr03 } } );
     signalgroups_info.insert({ SecWhlLockSts, { SecWhlLockSts, 0x80F, { SecWhlLockStsChks, SecWhlLockStsCntr, SecWhlLockStsDegradedSts, SecWhlLockStsLockSts }, { E2EProfileType::P01a, SecWhlLockStsChks, SecWhlLockStsCntr }, SSMBMid6CanFdFr03 } } );

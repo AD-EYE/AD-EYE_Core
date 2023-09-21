@@ -104,4 +104,12 @@ int PX2CANController::receive(CANFrame* fptr) {
 }
 
 
+CANStatistics statistics() {
+    CANStatistics s;
+    s.frames_received = 0;
+    s.frames_sent = 0;
+    return s;
+}
+
+
 }

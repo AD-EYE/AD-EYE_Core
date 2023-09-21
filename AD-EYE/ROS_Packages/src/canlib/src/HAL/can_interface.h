@@ -9,13 +9,18 @@
 namespace kcan {
 
 
-enum class CANBus { A, B, C, D, E, F };
+struct CANStatistics {
+    uint64_t frames_received;
+    uint64_t frames_sent;
+};
+
 
 
 class CANInterface {
 public:
     virtual int send(CANFrame* fptr) = 0;
     virtual int receive(CANFrame* fptr) = 0;
+    virtual CANStatistics statistics() = 0;
 };
 
 

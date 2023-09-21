@@ -10,10 +10,10 @@ namespace kcan {
 class DBCReader {
   public:
     static void init();
-    static const FrameInfo &getFrameInfo(uint id);
-    static const FrameInfo &getFrameInfo(const string &name);
-    static const SignalGroupInfo &getSignalGroupInfo(const string &name);
-    static const SignalInfo &getSignalInfo(const string &name);
+    static const FrameInfo &getFrameInfo(CANBus bus, uint id);
+    static const FrameInfo &getFrameInfo(CANBus bus, const string &name);
+    static const SignalGroupInfo &getSignalGroupInfo(CANBus bus, const string &name);
+    static const SignalInfo &getSignalInfo(CANBus bus, const string &name);
 };
 
 

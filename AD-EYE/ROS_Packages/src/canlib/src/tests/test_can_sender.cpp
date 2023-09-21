@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "../HAL/can_dummy.h"
+#include "../can_controller.h"
 #include "../can_sender.h"
 #include "../dbc.h"
 
@@ -32,7 +32,7 @@ using namespace kcan::dbc;
 
 
 TEST(CANSenderTest, sendSignalGroup) {
-    DUMMYCANController ctrl(CANBus::A);
+    CANController ctrl(CANBus::A, "can_config_test.ini");
     CANSender can_sender(ctrl);
     SignalValues sv;
     sv.addSignal(AdpLiReqFromAPIHzrdLiDeactnReq, 1);
@@ -40,7 +40,8 @@ TEST(CANSenderTest, sendSignalGroup) {
     can_sender.sendSignalGroup(AdpLiReqFromAPI, sv);
 
     CANFrame frame;
-    while (ctrl.receive(&frame) == -1) { }
+    while (ctrl.receive(&frame) == 0) { }
+    frame.resolveFrameInfo(CANBus::A);
     EXPECT_EQ(288,  frame.getFrameInfo().id);
     sv = frame.getSignalGroup(AdpLiReqFromAPI);
     EXPECT_EQ(1, sv.getValue(AdpLiReqFromAPIHzrdLiDeactnReq));
@@ -50,7 +51,8 @@ TEST(CANSenderTest, sendSignalGroup) {
     sv.addSignal(AdpLiReqFromAPIHzrdLiActvnReq, 1);
     can_sender.sendSignalGroup(AdpLiReqFromAPI, sv);
 
-    while (ctrl.receive(&frame) == -1) { }
+    while (ctrl.receive(&frame) == 0) { }
+    frame.resolveFrameInfo(CANBus::A);
     EXPECT_EQ(288, frame.getFrameInfo().id);
     sv = frame.getSignalGroup(AdpLiReqFromAPI);
     EXPECT_EQ(0, sv.getValue(AdpLiReqFromAPIHzrdLiDeactnReq));

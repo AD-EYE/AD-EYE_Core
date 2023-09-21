@@ -4,29 +4,22 @@
 namespace kcan {
 
 
-CANSender::CANSender(CANInterface &can_controller) : can_controller_(can_controller) {}
+CANSender::CANSender(CANController &can_controller) : can_controller_(can_controller) {}
 
 
 CANSender::~CANSender() {
-    for (auto el : scheduled_) {
-        FrameCtrl *fc_ptr = el.second;
-        deleteFrameCtrl(fc_ptr);
-    }
-
-    for (FrameCtrl *fc_ptr : unscheduled_) {
-        deleteFrameCtrl(fc_ptr);
-    }
+    stopAndFreeResources();
 }
 
 
 void CANSender::sendFrame(const string &name, const SignalValues& sv, bool override_ub, bool auto_counter, uint8_t filling) {
-    const FrameInfo &fi = DBCReader::getFrameInfo(name);
+    const FrameInfo &fi = DBCReader::getFrameInfo(can_controller_.getBus(), name);
     FrameCtrl *fc_ptr = getScheduled(fi.name);
     if (fc_ptr != nullptr) {
         lock_guard<mutex> lock{fc_ptr->frame_mutex};
         fc_ptr->fptr->setFrame(fi.name, sv, override_ub);
     } else {
-        CANFrame *fptr = new CANFrame(fi.name, filling);
+        CANFrame *fptr = new CANFrame(can_controller_.getBus(), fi.name, filling);
         fptr->setFrame(fi.name, sv, override_ub);
         fc_ptr = scheduleFrame(fptr);
     }
@@ -41,15 +34,21 @@ void CANSender::sendFrame(const string &name, const SignalValues& sv, bool overr
 }
 
 
-void CANSender::sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter) {
-    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(name);
+void CANSender::sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter, const string &ub) {
+    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(can_controller_.getBus(), name);
     FrameCtrl *fc_ptr = getScheduled(sgi.parent_name);
     if (fc_ptr != nullptr) {
         lock_guard<mutex> lock{fc_ptr->frame_mutex};
         fc_ptr->fptr->setSignalGroup(sgi.name, sv);
+        if (ub != dbc::NoName) {
+            fc_ptr->fptr->setSignal(ub, 1);
+        }
     } else {
-        CANFrame *fptr = new CANFrame(sgi.parent_name);
+        CANFrame *fptr = new CANFrame(can_controller_.getBus(), sgi.parent_name);
         fptr->setSignalGroup(sgi.name, sv);
+        if (ub != dbc::NoName) {
+            fptr->setSignal(ub, 1);
+        }
         fc_ptr = scheduleFrame(fptr);
     }
 
@@ -63,14 +62,14 @@ void CANSender::sendSignalGroup(const string &name, SignalValues &sv, bool auto_
 
 void CANSender::sendSignals(SignalValues &sv) {
     const string signal_name = sv.begin()->first;
-    const SignalInfo &si = DBCReader::getSignalInfo(signal_name);
-    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(si.parent_name);
+    const SignalInfo &si = DBCReader::getSignalInfo(can_controller_.getBus(), signal_name);
+    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(can_controller_.getBus(), si.parent_name);
     FrameCtrl *fc_ptr = getScheduled(sgi.parent_name);
     if (fc_ptr != nullptr) {
         lock_guard<mutex> lock{fc_ptr->frame_mutex};
         fc_ptr->fptr->setSignals(sv);
     } else {
-        CANFrame *fptr = new CANFrame(sgi.parent_name);
+        CANFrame *fptr = new CANFrame(can_controller_.getBus(), sgi.parent_name);
         fptr->setSignals(sv);
         scheduleFrame(fptr);
     }
@@ -80,9 +79,9 @@ void CANSender::sendSignals(SignalValues &sv) {
 void CANSender::sendSignal(const string &name, uint64_t val) {
     SignalValues sv;
     sv.addSignal(name, val);
-    const SignalInfo &si = DBCReader::getSignalInfo(name);
+    const SignalInfo &si = DBCReader::getSignalInfo(can_controller_.getBus(), name);
     try {
-        DBCReader::getSignalGroupInfo(si.parent_name);
+        DBCReader::getSignalGroupInfo(can_controller_.getBus(), si.parent_name);
         sendSignals(sv);
     } catch (invalid_argument) {
         FrameCtrl *fc_ptr = getScheduled(si.parent_name);
@@ -90,7 +89,7 @@ void CANSender::sendSignal(const string &name, uint64_t val) {
             lock_guard<mutex> lock{fc_ptr->frame_mutex};
             fc_ptr->fptr->setSignal(name, val);
         } else {
-            CANFrame *fptr = new CANFrame(si.parent_name);
+            CANFrame *fptr = new CANFrame(can_controller_.getBus(), si.parent_name);
             fptr->setSignal(name, val);
             scheduleFrame(fptr);
         }
@@ -99,11 +98,31 @@ void CANSender::sendSignal(const string &name, uint64_t val) {
 
 
 void CANSender::stopSignalGroup(const string &name) {
-    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(name);
+    const SignalGroupInfo &sgi = DBCReader::getSignalGroupInfo(can_controller_.getBus(), name);
     FrameCtrl *fc_ptr = getScheduled(sgi.parent_name);
     if (fc_ptr != nullptr) {
         unscheduleFrame(fc_ptr);
     }
+}
+
+
+void CANSender::stopAll() {
+    stopAndFreeResources();
+}
+
+
+void CANSender::stopAndFreeResources() {
+    for (auto el : scheduled_) {
+        FrameCtrl *fc_ptr = el.second;
+        deleteFrameCtrl(fc_ptr);
+    }
+
+    for (FrameCtrl *fc_ptr : unscheduled_) {
+        deleteFrameCtrl(fc_ptr);
+    }
+
+    scheduled_.clear();
+    unscheduled_.clear();
 }
 
 
@@ -155,7 +174,7 @@ void CANSender::clearUnscheduled() {}
 
 
 void CANSender::sendCyclicly(FrameCtrl *fc_ptr) {
-    while (fc_ptr->status == FrameStatus::ACTIVE || fc_ptr->status == FrameStatus::SUSPENDED) {
+    while (fc_ptr->isActive()) {
         if (fc_ptr->status != FrameStatus::SUSPENDED) {
             lock_guard<mutex> lock{fc_ptr->frame_mutex};
             can_controller_.send(fc_ptr->fptr);
@@ -166,7 +185,18 @@ void CANSender::sendCyclicly(FrameCtrl *fc_ptr) {
                 }
             }
         }
-        this_thread::sleep_for(std::chrono::milliseconds(fc_ptr->fptr->getFrameInfo().period));
+
+        auto period = fc_ptr->fptr->getFrameInfo().period;
+        if (period <= 100) {
+            this_thread::sleep_for(chrono::milliseconds(period));
+        } else {
+            uint64_t nap = 100;
+            while (period > 0 && fc_ptr->isActive()) {
+                this_thread::sleep_for(chrono::milliseconds(nap));
+                period -= nap;
+                nap = period < 100 ? period : 100;
+            }
+        }
     }
 }
 

@@ -19,26 +19,26 @@ CANReceiver::~CANReceiver() {
 
 
 void CANReceiver::monitorSignal(const string &name) {
-    const SignalInfo &si = DBCReader::getSignalInfo(name);
+    const SignalInfo &si = DBCReader::getSignalInfo(can_controller_.getBus(), name);
     FrameInfo fi;
     try {
-        auto &sgi = DBCReader::getSignalGroupInfo(si.parent_name);
-        fi = DBCReader::getFrameInfo(sgi.parent_name);
+        auto &sgi = DBCReader::getSignalGroupInfo(can_controller_.getBus(), si.parent_name);
+        fi = DBCReader::getFrameInfo(can_controller_.getBus(), sgi.parent_name);
     } catch (invalid_argument &e) {
-        fi = DBCReader::getFrameInfo(si.parent_name);
+        fi = DBCReader::getFrameInfo(can_controller_.getBus(), si.parent_name);
     }
 
     FrameReceiveCtrl *fc_ptr = getMonitored(fi.name);
     if (fc_ptr == nullptr) {
         FrameReceiveCtrl *fc_ptr = new FrameReceiveCtrl;
-        fc_ptr->fptr = new CANFrame(fi.name);
+        fc_ptr->fptr = new CANFrame(can_controller_.getBus(), fi.name);
         monitored_.insert({fi.name, fc_ptr});
     }
 }
 
 
 SignalValues CANReceiver::getSignalGroup(const string &name) {
-    const string &f_name = DBCReader::getSignalGroupInfo(name).parent_name;
+    const string &f_name = DBCReader::getSignalGroupInfo(can_controller_.getBus(), name).parent_name;
     FrameReceiveCtrl *fc_ptr = getMonitored(f_name);
     if (fc_ptr != nullptr) {
         return fc_ptr->fptr->getSignalGroup(name);
@@ -48,11 +48,11 @@ SignalValues CANReceiver::getSignalGroup(const string &name) {
 
 
 uint64_t CANReceiver::getSignal(const string &name) {
-    const SignalInfo &si = DBCReader::getSignalInfo(name);
+    const SignalInfo &si = DBCReader::getSignalInfo(can_controller_.getBus(), name);
     bool isInSignalGroup = false;
     SignalGroupInfo sgi;
     try {
-        sgi = DBCReader::getSignalGroupInfo(si.parent_name);
+        sgi = DBCReader::getSignalGroupInfo(can_controller_.getBus(), si.parent_name);
         isInSignalGroup = true;
     } catch (invalid_argument) {
     }
@@ -72,8 +72,11 @@ void CANReceiver::receive() {
     for (; active_;) {
         if (can_controller_.receive(&frame) > 0) {
             try {
+                frame.resolveFrameInfo(can_controller_.getBus());
                 FrameReceiveCtrl *fc_ptr = monitored_.at(frame.getFrameInfo().name);
                 fc_ptr->fptr->setRawData(frame.getData(), frame.getDataSize());
+            } catch (invalid_argument) {
+                continue;
             } catch (out_of_range) {
                 continue;
             }

@@ -12,6 +12,7 @@
 #include "can_controller.h"
 #include "can_frame.h"
 #include "dbc_reader.h"
+#include "signal_values.h"
 
 
 namespace kcan {
@@ -26,23 +27,29 @@ struct FrameCtrl {
     CANFrame *fptr;
     FrameStatus status;
     set<string> auto_counter_groups;
+
+    bool isActive() {
+        return this->status == FrameStatus::ACTIVE || this->status == FrameStatus::SUSPENDED;
+    }
 };
 
 
 class CANSender {
   public:
-    CANSender(CANInterface &can_controller);
+    CANSender(CANController &can_controller);
     ~CANSender();
 
     void sendFrame(const string &name, const SignalValues& sv, bool override_ub, bool auto_counter, uint8_t filling = 0x00);
 
-    void sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter = false);
+    void sendSignalGroup(const string &name, SignalValues &sv, bool auto_counter = false, const string &ub = dbc::NoName);
 
     void sendSignal(const string &name, uint64_t val);
 
     void sendSignals(SignalValues &sv);
 
     void stopSignalGroup(const string &name);
+
+    void stopAll();
 
     void sendOnce(const CANFrame &fptr);
 
@@ -61,6 +68,8 @@ class CANSender {
 
     void resume(const string &name);
 
+    void stopAndFreeResources();
+
     void clearUnscheduled();
 
     void deleteFrameCtrl(FrameCtrl *fc_ptr);
@@ -69,7 +78,7 @@ class CANSender {
 
     map<string, FrameCtrl *> scheduled_;
     vector<FrameCtrl *> unscheduled_;
-    CANInterface &can_controller_;
+    CANController &can_controller_;
 };
 
 

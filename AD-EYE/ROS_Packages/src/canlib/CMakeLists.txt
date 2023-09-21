@@ -72,12 +72,12 @@ add_executable(main
 
 if (${CAN} STREQUAL CAN_DRIVE)
   add_definitions(-DCAN_DRIVE)
-  include(can-px2.cmake NO_POLICY_SCOPE) 
+  include(src/cmake/can-px2.cmake NO_POLICY_SCOPE) 
 elseif (${CAN} STREQUAL CAN_SOCKET)
   add_definitions(-DCAN_SOCKET)
   set(CAN_SRC src/HAL/can_socketcan.cpp)
 else()
-  include(can-dummy.cmake NO_POLICY_SCOPE)
+  include(src/cmake/can-dummy.cmake NO_POLICY_SCOPE)
   add_definitions(-DCAN_DUMMY)
 endif()
 

@@ -11,7 +11,7 @@ using namespace kcan;
 
 TEST(DBCReaderTest, getSignalInfo) {
     DBCReader::init();
-    auto& si = DBCReader::getSignalInfo("PrpsnTqDirAct");
+    auto& si = DBCReader::getSignalInfo(CANBus::A, "PrpsnTqDirAct");
     EXPECT_EQ("PrpsnTqDirAct", si.name);
     EXPECT_EQ(52, si.start_bit);
     EXPECT_EQ(2, si.length);
@@ -23,7 +23,7 @@ TEST(DBCReaderTest, getSignalInfo) {
 TEST(DBCReaderTest, getSignalInfo_Exception) {
     bool exception_caught = false;
     try {
-        DBCReader::getSignalInfo("--fs-");
+        DBCReader::getSignalInfo(CANBus::A, "--fs-");
     } catch(invalid_argument& e) {
         exception_caught = true;
         EXPECT_STREQ("Signal [--fs-] not found!", e.what());
@@ -34,7 +34,7 @@ TEST(DBCReaderTest, getSignalInfo_Exception) {
 
 TEST(DBCReaderTest, getSignalGroupInfo) {
     DBCReader::init();
-    auto& sgi = DBCReader::getSignalGroupInfo("PrpsnTqDir");
+    auto& sgi = DBCReader::getSignalGroupInfo(CANBus::A, "PrpsnTqDir");
     EXPECT_EQ("PrpsnTqDir", sgi.name);
     EXPECT_EQ(0xA4, sgi.dataId);
     E2EProfileSettings settings { E2EProfileType::P01a, "PrpsnTqDirChks", "PrpsnTqDirCntr" };
@@ -50,7 +50,7 @@ TEST(DBCReaderTest, getSignalGroupInfo) {
 TEST(DBCReaderTest, getSignalGroupInfo_Exception) {
     bool exception_caught = false;
     try {
-        DBCReader::getSignalGroupInfo("--fs-");
+        DBCReader::getSignalGroupInfo(CANBus::A, "--fs-");
     } catch(invalid_argument& e) {
         exception_caught = true;
         EXPECT_STREQ("Signal group [--fs-] not found!", e.what());
@@ -60,13 +60,13 @@ TEST(DBCReaderTest, getSignalGroupInfo_Exception) {
 
 
 TEST(DBCReaderTest, getFrameInfo) {
-    auto& fi = DBCReader::getFrameInfo("VCU1Mid3CanFr03");
+    auto& fi = DBCReader::getFrameInfo(CANBus::A, "VCU1Mid3CanFr03");
     EXPECT_EQ(85, fi.id);
     EXPECT_EQ(8, fi.length);
     EXPECT_EQ("VCU1Mid3CanFr03", fi.name);
     EXPECT_EQ(20, fi.period);
     vector<string> signal_groups { "AdSecSteerActvnGroupSafe", "PrpsnTqDir", "SteerWhlTqGroup" };
-    vector<string> signals { "PrpsnTqDir_UB", "SteerWhlTqGroup_UB", "AdSecSteerActvnGroupSafe_UB" };
+    vector<string> signals { "AdSecSteerActvnGroupSafe_UB", "SteerWhlTqGroup_UB", "PrpsnTqDir_UB" };
     EXPECT_EQ(signal_groups, fi.signal_groups);
     EXPECT_EQ(signals, fi.signals);
  }
@@ -75,7 +75,7 @@ TEST(DBCReaderTest, getFrameInfo) {
 TEST(DBCReaderTest, getFrameInfo_Exception) {
     bool exception_caught = false;
     try {
-        DBCReader::getFrameInfo("--fs-");
+        DBCReader::getFrameInfo(CANBus::A, "--fs-");
     } catch(invalid_argument& e) {
         exception_caught = true;
         EXPECT_STREQ("Frame [--fs-] not found!", e.what());

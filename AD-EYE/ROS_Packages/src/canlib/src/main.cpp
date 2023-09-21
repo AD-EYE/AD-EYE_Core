@@ -28,8 +28,6 @@ class Can
     ros::NodeHandle& nh_;
     ros::Subscriber sub_signals_;
     ros::Publisher pub_signals_;
-    ros::Subscriber sub_steering_;
-    ros::Subscriber sub_lockwheel_;
     ros::Publisher pub_signals_2_;
 
     ros::Rate rate_;
@@ -45,26 +43,98 @@ class Can
     CANReceiver can_receiver_B { ctrl_B };
     CANReceiver can_receiver_C { ctrl_C };
 
-    // Signals name
-    std::string ADMode_Status = "AdActvnOkFromVehDyn";
-    std::string Steering_DS = "AdPrimSteerStsSafeGroupAdSteerSts";
-    std::string Steering_RDS = "AdSecSteerStsSafeGroupAdSteerSts";
-    std::string Brake_DS = "BrkDegradedSts";
-    std::string Brake_RDS = "BrkDegradedRdntSts";
-    std::string SSM_DS = "SSMDegradedssmdegraded";
-    std::string SSMB_DS = "SSMBDegradedSSMBDegraded";
-    std::string PrimaryVolt_S = "ClstrSts1ForAutnmsDrvClstr1Sts";
-    std::string SecondaryVolt_S = "ClstrSts2ForAutnmsDrvClstr2Sts";
-    std::string EPB_S = "WhlLockStsDegradedSts";
-    std::string SEPB_S = "SecWhlLockStsDegradedSts";
-    std::string DriverPr = "DrvrPrsnt";
-    std::string DriverPrQF = "DrvrPrsntQf";
+    std::map<std::string, std::string> signals_friendly_map{{AdActvnOkFromVehDyn, "ADMode_Status"}, {AdPrimSteerStsSafeGroupAdSteerSts, "Steering_DS"}, {AdSecSteerStsSafeGroupAdSteerSts, "Steering_RDS"},
+        {BrkDegradedSts, "Brake_DS"}, {BrkDegradedRdntSts, "Brake_RDS"}, {SSMDegradedssmdegraded, "SSM_DS"},
+        {SSMBDegradedSSMBDegraded, "SSMB_DS"}, {ClstrSts1ForAutnmsDrvClstr1Sts, "PrimaryVolt_S"}, {ClstrSts2ForAutnmsDrvClstr2Sts, "SecondaryVolt_S"},
+        {WhlLockStsDegradedSts, "EPB_S"}, {SecWhlLockStsDegradedSts, "SEPB_S"}, {DrvrPrsnt, "DriverPr"}, {DrvrPrsntQf, "DriverPrQF"}, {AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, "ADMode_Act"}};
 
-    std::vector<std::string> signals{AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, ADMode_Status, Steering_DS, Steering_RDS, Brake_DS, Brake_RDS, SSM_DS, SSMB_DS, PrimaryVolt_S, SecondaryVolt_S, EPB_S, SEPB_S, DriverPr, DriverPrQF};
+    struct signal_bus {
+        std::string signal_name;
+        CANBus can_bus;
 
-    // std::map<std::string, CANReceiver> signals { {AdActvnOkFromVehDyn, can_receiver_A} ,{AdPrimSteerStsSafeGroupAdSteerSts, can_receiver_A} ,{AdSecSteerStsSafeGroupAdSteerSts, can_receiver_C}, {BrkDegradedSts, can_receiver_A}, {BrkDegradedRdntSts, can_receiver_C}, {SSMDegradedssmdegraded, can_receiver_B}, {SSMBDegradedSSMBDegraded, can_receiver_C}, {ClstrSts1ForAutnmsDrvClstr1Sts, can_receiver_A}, {ClstrSts2ForAutnmsDrvClstr2Sts, can_receiver_A}, {WhlLockStsDegradedSts, can_receiver_A}, {SecWhlLockStsDegradedSts, can_receiver_C}, {DrvrPrsnt, can_receiver_A}, {DrvrPrsntQf, can_receiver_A} };
-    // std::map<std::string, string> signals { {AdActvnOkFromVehDyn, "A"} ,{AdPrimSteerStsSafeGroupAdSteerSts, "A"} ,{AdSecSteerStsSafeGroupAdSteerSts, "C"}, {BrkDegradedSts, "A"}, {BrkDegradedRdntSts, "C"}, {SSMDegradedssmdegraded, "B"}, {SSMBDegradedSSMBDegraded, "C"}, {ClstrSts1ForAutnmsDrvClstr1Sts, "A"}, {ClstrSts2ForAutnmsDrvClstr2Sts, "A"}, {WhlLockStsDegradedSts, "A"}, {SecWhlLockStsDegradedSts, "C"}, {DrvrPrsnt, "A"}, {DrvrPrsntQf, "A"} };
+        bool operator==(const signal_bus& s) const {
+            return can_bus == s.can_bus && signal_name == s.signal_name;
+        }
 
+        bool operator<(const signal_bus& s) const {
+            return signal_name < s.signal_name;
+        }
+    };
+
+    std::map<signal_bus, std::vector<int>> signals{{{AdActvnOkFromVehDyn, CANBus::A}, {1}}, {{AdPrimSteerStsSafeGroupAdSteerSts, CANBus::A}, {0}}, {{AdSecSteerStsSafeGroupAdSteerSts, CANBus::C}, {0}},
+        {{BrkDegradedSts, CANBus::A}, {0}}, {{BrkDegradedRdntSts, CANBus::C}, {0}}, {{SSMDegradedssmdegraded, CANBus::B}, {2,3,4}},
+        {{SSMBDegradedSSMBDegraded, CANBus::C}, {2,3,4}}, {{ClstrSts1ForAutnmsDrvClstr1Sts, CANBus::A}, {3}}, {{ClstrSts2ForAutnmsDrvClstr2Sts, CANBus::A}, {3}},
+        {{WhlLockStsDegradedSts, CANBus::A}, {1}}, {{SecWhlLockStsDegradedSts, CANBus::C}, {1}}, {{DrvrPrsnt, CANBus::A}, {3}}, {{DrvrPrsntQf, CANBus::A}, {2}},
+        {{AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1, CANBus::A}, {1}}};
+
+    enum Commands { ADMode_command, HL_command, VIM_command, VEHOP_command, STEERING_command, WLOCK_command };
+    std::map<std::string, Commands> commands {{"ADMode_command", ADMode_command}, {"HL_command", HL_command}, {"VIM_command", VIM_command}, {"VEHOP_command", VEHOP_command}, 
+        {"STEERING_command", STEERING_command}, {"WLOCK_command", WLOCK_command}};
+
+    /*!
+     * \brief Get Bus Sender : Return the correct can receiver variable of the signal. 
+     * \param name The signal's name.
+     */
+    CANReceiver& getBusReceiver(const CANBus bus, const string& name) {
+        using namespace dbc;
+        string parent_name = DBCReader::getSignalInfo(bus, name).parent_name;
+        string frame_name;
+        try {
+            frame_name = DBCReader::getSignalGroupInfo(bus, parent_name).parent_name;
+        } catch (invalid_argument) {
+            frame_name = parent_name;
+        }
+        if (frame_name.find("Mid3") != string::npos) {
+            return can_receiver_A;
+        }
+        else if (frame_name.find("Mid5") != string::npos) {
+            return can_receiver_B;
+        }
+        else if (frame_name.find("Mid6") != string::npos) {
+            return can_receiver_C;
+        }
+    }
+
+    /*!
+     * \brief Can Receiving : Send signals' value to the /receiving_signals topic.
+    */
+    void CanReceiving () {
+        std::string message = "{";
+        uint64_t signal_value;
+        std_msgs::String signals_;
+        std::string status;
+
+        for (map<signal_bus, std::vector<int>>::iterator it = signals.begin(); it != signals.end(); it++) {
+            signal_bus signal_properties = it->first;
+            std::string signal_name = signal_properties.signal_name;
+            signal_value = getBusReceiver(signal_properties.can_bus, signal_name).getSignal(signal_name);
+            std::vector<int> good_values = it->second;
+            std::string friendly_signal_name = signals_friendly_map[signal_name];
+
+            if (std::find(good_values.begin(), good_values.end(), signal_value) != good_values.end()) {
+                status = "good";
+            }
+            else {
+                status = "bad";
+            }
+
+            message.append('"' + friendly_signal_name + '"' + ":[" + std::to_string(signal_value) + "," + '"' + status + '"' + "], ");
+        }
+        message = message.substr(0, message.size()-2);
+        message.append("}");
+
+        signals_.data = message;
+        pub_signals_.publish(signals_);
+    }
+
+    void wheelReceiving () {
+        SignalValues signal;
+        std_msgs::Float64 wheel_angle_;
+
+        wheel_angle_.data = can_receiver_B.getSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
+
+        pub_signals_2_.publish(wheel_angle_);
+    }
 
     /*!
      * \brief Split Message : Split the message into a vector of two that contains the signal's name and its value.
@@ -83,43 +153,18 @@ class Can
      * \brief String To Map : Return a map of signals and their value. 
      * \param msg The message contains signals' name and their value.
      */
-    std::map<string, int> StringToMap (std::string msg) {
+    std::map<string, float> StringToMap (std::string msg) {
         int j = msg.find(",");
-        std::map<string, int> dictionary_signals;
+        std::map<string, float> dictionary_signals;
         while (j != string::npos) {
             std::vector<std::string> msg_split = SplitMessage(msg.substr(0, j), ":");
-            dictionary_signals[msg_split[0]] = std::stoi(msg_split[1]);
+            dictionary_signals[msg_split[0]] = std::stof(msg_split[1]);
             msg.erase(msg.begin(), msg.begin() + j + 1);
             j = msg.find(",");
         }
         std::vector<std::string> msg_split = SplitMessage(msg.substr(0, j), ":");
-        dictionary_signals[msg_split[0]] = std::stoi(msg_split[1]);
+        dictionary_signals[msg_split[0]] = std::stof(msg_split[1]);
         return dictionary_signals;
-    }
-
-    /*!
-     * \brief Get Bus Sender : Return the correct can sender variable of the signal. 
-     * \param name The signal's name.
-     */
-    CANSender& getBusSender(const string& name) {
-        using namespace dbc;
-        string parent_name = DBCReader::getSignalInfo(name).parent_name;
-        string frame_name;
-        // Get the signal's frame name 
-        try {
-            frame_name = DBCReader::getSignalGroupInfo(parent_name).parent_name;
-        } catch (invalid_argument) {
-            frame_name = parent_name;
-        }
-        if (frame_name.find("Mid3") != string::npos) {
-            return can_sender_A;
-        }
-        else if (frame_name.find("Mid5") != string::npos) {
-            return can_sender_B;
-        }
-        else if (frame_name.find("Mid6") != string::npos) {
-            return can_sender_C;
-        }
     }
 
     /*!
@@ -129,38 +174,64 @@ class Can
      */
     void SignalsCallback (const std_msgs::String::ConstPtr& msg) {
         std::string signal_message = msg->data;
-        std::map<string, int> signal_message_split = StringToMap(signal_message);
-        SignalValues sv(SVMode::ZERO);
-        std::string sv_UB;
-        std::string signal_group;
-        bool test = true;
+        std::map<string, float> signal_message_split = StringToMap(signal_message);
 
-        for (map<string, int>::iterator it = signal_message_split.begin(); it != signal_message_split.end(); it++)
+        for (map<string, float>::iterator it = signal_message_split.begin(); it != signal_message_split.end(); it++)
         {
-            std::cout << it->first << ":" << it->second << std::endl;
-            std::cout << "name: " << it->first << std::endl;
+            std::cout << "command_name: " << it->first << std::endl;
             std::cout << "value: " << it->second << std::endl;
-            if (it->first.find("_UB") != string::npos) {
-                sv_UB = it->first;
+
+            switch(commands[it->first]) {
+                case ADMode_command:
+                    ADMode_function(it->second);
+                    ROS_WARN_STREAM("ADMODE");
+                    break;
+                case HL_command:
+                    HL_function(it->second);
+                    ROS_WARN_STREAM("HL");
+                    break;
+                case VIM_command:
+                    VIM_function();
+                    break;
+                case VEHOP_command:
+                    VEHOP_function(it->second);
+                    break;
+                case STEERING_command:
+                    STEERING_function(it->second);
+                    break;
+                case WLOCK_command:
+                    WLOCK_function(it->second);
+                    break;
+
             }
-            else if (it->first.find("POWER") != string::npos) {
-                startVIM();
-                test = false;
-            }
-            else {
-                sv.addSignal(it->first, it->second);
-                signal_group = DBCReader::getSignalInfo(it->first).parent_name;
-                ROS_WARN_STREAM(signal_group << it->first);
-            }
-        }
-        if (test) {
-            ROS_WARN_STREAM(signal_message_split.begin()->first);
-            getBusSender(signal_message_split.begin()->first).sendSignalGroup(signal_group, sv, true);
-            getBusSender(signal_message_split.begin()->first).sendSignal(sv_UB, 1);
         }
     }
 
-    void startVIM() {
+    void ADMode_function(int value) {
+        SignalValues sv;
+
+        sv.addSignal(AutnmsDrvStReqAutnmsDrvStReq, value);
+        can_sender_A.sendSignalGroup(AutnmsDrvStReq, sv, true);
+        can_sender_A.sendSignal(AutnmsDrvStReq_UB, 1);
+    }
+
+    void HL_function(int value) {
+        SignalValues sv;
+
+        if (value == 1) {
+            sv.addSignal(AdpLiReqFromAPIHzrdLiActvnReq, 1);
+            sv.addSignal(AdpLiReqFromAPIHzrdLiDeactnReq, 0);
+        }
+        else {
+            sv.addSignal(AdpLiReqFromAPIHzrdLiActvnReq, 0);
+            sv.addSignal(AdpLiReqFromAPIHzrdLiDeactnReq, 1);
+        }
+
+        can_sender_A.sendSignalGroup(AdpLiReqFromAPI, sv, true);
+        can_sender_A.sendSignal(AdpLiReqFromAPI_UB, 1);
+    }
+
+    void VIM_function() {
         SignalValues empty_sv;
 
         can_sender_A.sendFrame(VIMMid3CanFr07, empty_sv, true, true);
@@ -174,56 +245,19 @@ class Can
         can_sender_C.sendFrame(VIMBMid6CanFdFr28, empty_sv, true, true);
     }
 
-    /*!
-     * \brief Get Bus Sender : Return the correct can receiver variable of the signal. 
-     * \param name The signal's name.
-     */
-    CANReceiver& getBusReceiver(const string& name) {
-        using namespace dbc;
-        string parent_name = DBCReader::getSignalInfo(name).parent_name;
-        string frame_name;
-        try {
-            frame_name = DBCReader::getSignalGroupInfo(parent_name).parent_name;
-        } catch (invalid_argument) {
-            frame_name = parent_name;
-        }
-        if (frame_name.find("Mid3") != string::npos) {
-            return can_receiver_A;
-        }
-        else if (frame_name.find("Mid5") != string::npos) {
-            return can_receiver_B;
-        }
-        else if (frame_name.find("Mid6") != string::npos) {
-            return can_receiver_C;
-        }
+    void VEHOP_function(int value) {
+        SignalValues sv;
+
+        sv.addSignal(VehOperStReqVehOperStReq, value);
+        can_sender_A.sendSignalGroup(VehOperStReq, sv, true);
+        can_sender_A.sendSignal(VehOperStReq_UB, 1);
     }
 
-
-    /*!
-     * \brief Can Receiving : Send signals' value to the /receiving_signals topic.
-    */
-    void CanReceiving () {
-        std::string message = "{";
-        int signals_size = signals.size();
-        uint64_t signal_value;
-        std_msgs::String signals_;
-
-        for (int i = 1; i < signals_size; i++) {
-            signal_value = getBusReceiver(signals[i]).getSignal(signals[i]);
-            message.append('"' + signals[i] + '"' + ":" + std::to_string(signal_value) + ", ");
-        }
-        message = message.substr(0, message.size()-2);
-        message.append("}");
-
-        signals_.data = message;
-        pub_signals_.publish(signals_);
-    }
-
-    float offset = -0.85;
-    float scalling = 5.249e-5;
-
-    void steering(const std_msgs::Float64::ConstPtr& msg) {
-        float steer_val = msg->data;
+    void STEERING_function(float value) {
+        float offset = -0.85;
+        float scalling = 5.249e-5;
+        
+        float steer_val = value;
         float a_lat_req;
 
         SignalValues sv_prim(SVMode::ZERO);
@@ -241,8 +275,8 @@ class Can
         can_sender_C.sendSignal(AdSecWhlAgReqGroupSafe_UB, 1);
     }
 
-    void wheelLock(const std_msgs::Float64::ConstPtr& msg) {
-        float lock = msg->data;
+    void WLOCK_function(int value) {
+        float lock = value;
 
         uint64_t hstatus_val;
         uint64_t wstatus_val;
@@ -285,23 +319,12 @@ class Can
         }
     }
 
-    void wheelReceiving () {
-        SignalValues signal;
-        std_msgs::Float64 wheel_angle_;
-
-        wheel_angle_.data = can_receiver_B.getSignal(AdPrimWhlAgEstimdGroupSafeWhlAg);
-
-        pub_signals_2_.publish(wheel_angle_);
-    }
-
   public:
     Can(ros::NodeHandle& nh) : nh_(nh), rate_(1)
     {
-        pub_signals_ = nh_.advertise<std_msgs::String>("/receiving_signals", 1, true);
-        sub_signals_ = nh_.subscribe<std_msgs::String>("/sending_signals", 1, &Can::SignalsCallback, this);
+        pub_signals_ = nh_.advertise<std_msgs::String>("/receiving_status", 1, true);
+        sub_signals_ = nh_.subscribe<std_msgs::String>("/sending_commands", 1, &Can::SignalsCallback, this);
         pub_signals_2_ = nh_.advertise<std_msgs::Float64>("/sending_angle", 1, true);
-        sub_steering_ = nh_.subscribe<std_msgs::Float64>("/receiving_angle", 1, &Can::steering, this);
-        sub_lockwheel_ = nh_.subscribe<std_msgs::Float64>("/receiving_lockwheel", 1, &Can::wheelLock, this);
     }
     
     void run() {
@@ -318,6 +341,7 @@ class Can
         can_receiver_C.monitorSignal(SecWhlLockStsDegradedSts);
         can_receiver_A.monitorSignal(DrvrPrsnt);
         can_receiver_A.monitorSignal(DrvrPrsntQf);
+        can_receiver_A.monitorSignal(AutnmsDrvModMngtGlbSafe1AutnmsDrvModSts1);
 
         can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMax);
         can_receiver_A.monitorSignal(PrimVehSpdGroupSafeMin);
