@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W16_Jammer_Safe_Stop" UniqueId="0" Authors="Adeye" TotalSimulationTime="116.55000000000001" Built="false" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="false" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="2CAB65CF28FB8E8814714B12E06A5791A320EC705CE9C7FB06D26EF139BD0D5D" UniqueExperimentIdentifier="786d1b8e-162d-4103-9bda-c22c6161b7b6" UniqueIdCounter="31901" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="W16_Jammer_Safe_Stop" UniqueId="0" Authors="Adeye" TotalSimulationTime="116.55000000000001" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" ExperimentDescription="" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="A23CCA80D3E7D1A3358EFFB8EFECA1493189C26D8B94EF105DC9A4F9E3D5301C" UniqueExperimentIdentifier="786d1b8e-162d-4103-9bda-c22c6161b7b6" UniqueIdCounter="31932" VisuAidMaxRenderingDistance="1000" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <TestAutomationProperties>
     <TestAutomationTag PropertyName="WeatherTypeName" Tag="weather_type" />
   </TestAutomationProperties>
@@ -398,7 +398,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31890" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31925" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -423,7 +423,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31891" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31926" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -448,7 +448,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31892" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31927" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -473,7 +473,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31893" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31928" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -511,7 +511,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31894" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31929" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -546,7 +546,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31895" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31930" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -608,7 +608,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="31896" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="31931" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -2632,7 +2632,7 @@
             <Location X="0" Y="0" Z="0" />
             <Orientation Bank="0" Tilt="0" Heading="0" />
             <Origin X="0.5" Y="0.5" Z="0" />
-            <Size X="0" Y="0" Z="0" />
+            <Size X="14.568084716796875" Y="14.51947021484375" Z="0" />
             <CoGOffset X="0" Y="0" Z="0" />
             <SensorInfo>
               <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
@@ -2642,6 +2642,53 @@
             <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
               <VisualizationActuators />
             </ObjectSimulatorInfo>
+            <LinePlacedPath>
+              <Point3DProperty X="365.92692010803762" Y="295.01031413465466" Z="0" />
+              <Point3DProperty X="366.47441874862994" Y="295.01005271646773" Z="0" />
+              <Point3DProperty X="366.97192006520964" Y="295.00981517086939" Z="0" />
+              <Point3DProperty X="367.42691993704921" Y="295.0095979187472" Z="0" />
+              <Point3DProperty X="367.84691996546638" Y="295.00939737825666" Z="0" />
+              <Point3DProperty X="368.23691931065792" Y="295.00921116241216" Z="0" />
+              <Point3DProperty X="368.60692010771407" Y="295.00903449542096" Z="0" />
+              <Point3DProperty X="369.31441953115393" Y="295.00869668048807" Z="0" />
+              <Point3DProperty X="370.01941937449544" Y="295.008360059048" Z="0" />
+              <Point3DProperty X="370.38941921787739" Y="295.00818339251214" Z="0" />
+              <Point3DProperty X="370.77941951674313" Y="295.00799717621226" Z="0" />
+              <Point3DProperty X="371.19941954516031" Y="295.00779663572177" Z="0" />
+              <Point3DProperty X="371.65441941699987" Y="295.00757938359959" Z="0" />
+              <Point3DProperty X="372.15191882623117" Y="295.00734183891194" Z="0" />
+              <Point3DProperty X="372.6994193741719" Y="295.00708041981432" Z="0" />
+              <Point3DProperty X="378.44941871871629" Y="295.00433492550246" Z="0" />
+              <Point3DProperty X="378.65441384428578" Y="294.99423705337483" Z="0" />
+              <Point3DProperty X="378.85189924951248" Y="294.9641427837621" Z="0" />
+              <Point3DProperty X="379.04437546805525" Y="294.91405068429742" Z="0" />
+              <Point3DProperty X="379.22684429687462" Y="294.84896373335761" Z="0" />
+              <Point3DProperty X="379.40180388207449" Y="294.7638801462864" Z="0" />
+              <Point3DProperty X="379.56675607743716" Y="294.66380146932141" Z="0" />
+              <Point3DProperty X="379.86164033183314" Y="294.42116057437579" Z="0" />
+              <Point3DProperty X="380.10649957205112" Y="294.12604354971882" Z="0" />
+              <Point3DProperty X="380.20642187527335" Y="293.96349591592838" Z="0" />
+              <Point3DProperty X="380.29133834511737" Y="293.78845515955589" Z="0" />
+              <Point3DProperty X="380.35875107389785" Y="293.60592306514371" Z="0" />
+              <Point3DProperty X="380.40616048128868" Y="293.41590034934768" Z="0" />
+              <Point3DProperty X="380.43856501083087" Y="293.21588504485595" Z="0" />
+              <Point3DProperty X="380.44846831084277" Y="293.01337994984851" Z="0" />
+              <Point3DProperty X="380.47071073365265" Y="287.238368575923" Z="0" />
+              <Point3DProperty X="380.47295056543868" Y="286.69336736803439" Z="0" />
+              <Point3DProperty X="380.47521307768648" Y="286.1958667650826" Z="0" />
+              <Point3DProperty X="380.47499701905713" Y="285.74336647334138" Z="0" />
+              <Point3DProperty X="380.4772977294503" Y="285.32586578497626" Z="0" />
+              <Point3DProperty X="380.47961133166734" Y="284.93586429250388" Z="0" />
+              <Point3DProperty X="380.47943466513146" Y="284.56586444912193" Z="0" />
+              <Point3DProperty X="380.48409935105519" Y="283.86336179843784" Z="0" />
+              <Point3DProperty X="380.48626517399157" Y="283.16336087524672" Z="0" />
+              <Point3DProperty X="380.48608850745575" Y="282.79336103186478" Z="0" />
+              <Point3DProperty X="380.48840210967279" Y="282.4033595393924" Z="0" />
+              <Point3DProperty X="380.49070282006591" Y="281.98585885102727" Z="0" />
+              <Point3DProperty X="380.49048676098124" Y="281.53335760561185" Z="0" />
+              <Point3DProperty X="380.49274927322904" Y="281.03585700266012" Z="0" />
+              <Point3DProperty X="380.49498910501507" Y="280.49085579477145" Z="0" />
+            </LinePlacedPath>
           </LinePlacementBase>
         </LinePlacements>
         <CentralLineDefinition Description="" id="XCrossing_1_Line_5" UniqueId="29808" Label="2">
@@ -3759,7 +3806,7 @@
       <Slots>
         <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot3834" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="4">
           <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
-          <EndState Distance="138.5832848548886983" Situation="Reached" Speed="15" Time="9.238885656992579886666666667" />
+          <EndState Distance="0" Situation="Reached" Speed="0" Time="0" />
         </Slot>
       </Slots>
       <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
