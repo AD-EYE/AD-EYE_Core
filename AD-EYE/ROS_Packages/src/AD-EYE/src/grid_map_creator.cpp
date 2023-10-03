@@ -254,6 +254,9 @@ class GridMapCreator
         }
 
         // Road Side Parking objects are always considered to be rectangles
+        std::cout << "==================================================================================" << std::endl;
+        std::cout << (int)pexObjects.roadSideParkingObjects.size() << std::endl;
+        std::cout << "==================================================================================" << std::endl;
         for (int i = 0; i < (int)pexObjects.roadSideParkingObjects.size(); i++)
         {
             grid_map::Polygon polygon = createRectangle(

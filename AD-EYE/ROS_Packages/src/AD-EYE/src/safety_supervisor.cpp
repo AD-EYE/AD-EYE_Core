@@ -1,9 +1,13 @@
+#include <string>
+#include <cmath>
+
 #include <ros/ros.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
 
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseArray.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float32.h>
 #include <autoware_msgs/LaneArray.h>
@@ -54,6 +58,7 @@ class SafetySupervisor
     ros::Subscriber sub_sensor_fov_;
     ros::Subscriber sub_goal_coordinates_;
     ros::Subscriber sub_ssmp_endposes_;
+    ros::Subscriber sub_pose_other_car_;
 
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
@@ -146,6 +151,11 @@ class SafetySupervisor
 
     CRITICAL_LEVEL_ current_fault_criticality_level_;
 
+    bool jammer_zone_ = false;
+
+    float x_other_car_ = 0;
+    float y_other_car_ = 0;
+
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
      * \param msg A smart pointer to the message from the topic.
@@ -217,6 +227,17 @@ class SafetySupervisor
             }
         }
     }
+
+    void pose_otherCarCallback(const geometry_msgs::PoseArray::ConstPtr& msg)
+    {
+        x_other_car_ = msg->poses.at(0).position.x;
+        y_other_car_ = msg->poses.at(0).position.y;
+        std::cout << "other car x: " << x_other_car_ << std::endl;
+        if (x_other_car_ > 245) {
+            jammer_zone_ = true;
+        }
+    }
+
 
     /*!
      * \brief Get distance to lane : Called at every iteration of the main loop
@@ -459,8 +480,16 @@ class SafetySupervisor
         text_overlay.fg_color.r = 1.0;
         text_overlay.fg_color.g = 1.0;
         text_overlay.text_size = 16;
+
         text_overlay.font = "Liberation Mono";
-        text_overlay.text = "Current safety channel decision:\n -";
+        if (jammer_zone_) {
+            text_overlay.text = "Status: CAM message missed!\n -coordintates: -----";
+        } else {
+            auto ll = lat_long(x_other_car_, y_other_car_);
+            string coord = std::to_string(ll.first) + " " + std::to_string(ll.second);
+            text_overlay.text = "Status: CAM message received\n -coordintates: " + coord;
+        }
+        text_overlay.text += "\nCurrent safety channel decision:\n -";
         switch (current_fault_criticality_level_)
         {
             case INITIAL_GOAL:
@@ -478,6 +507,38 @@ class SafetySupervisor
         }
 
         pub_text_overlay_.publish(text_overlay);
+    }
+
+    std::pair<float, float> lat_long(float x, float y) {
+        float oring_lat = 40.762568;
+        float oring_long = -73.992611;
+            
+        // ellipsoid planet defined by flattening (WGS84). 
+        float f = 1/298.257223563;
+        
+        // planetary equatorial radius (WGS84)
+        float Re = 6378137;
+        
+        float psi = 305 * (3.14159 / 180);
+        float mu0 = oring_lat * (3.14159 / 180);
+
+        float m_per_deg_lat = 111132.92 - 559.82 * std::cos(2*mu0) + 1.175 * std::cos(4*mu0) -0.0023 * std::cos(6*mu0);
+        float m_per_deg_long = 111412.84 * std::cos(mu0) -93.5* std::cos(3*mu0) + 0.118 * std::cos(5*mu0);
+        
+        // rotate
+        // begin by transforming the flat Earth x and y coordinates to North and East coordinates, through a simple rotation.  
+        // (These will still be in meters.)
+        float N = std::cos(psi) * y - std::sin(psi) * x;
+        float E = std::sin(psi) * y + std::cos(psi) * x;
+        
+        float Ndeg = N / m_per_deg_lat;
+        float Edeg = E / m_per_deg_long;
+        
+        // translate
+        float lat = oring_lat + Ndeg;
+        float lon = oring_long + Edeg;
+                                        
+        return { lat,lon };
     }
 
     /*!
@@ -581,6 +642,11 @@ class SafetySupervisor
             if (i->isFaultConfirmed())
                 return CRITICAL_LEVEL_::INITIAL_GOAL;
         }
+
+        if (jammer_zone_) {
+            return CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
+        }
+
         return CRITICAL_LEVEL_::INITIAL_GOAL;
     }
 
@@ -1062,6 +1128,9 @@ class SafetySupervisor
             "/move_base_simple/goal", 1, &SafetySupervisor::storeGoalCoordinatesCallback, this);
         sub_ssmp_endposes_ = nh_.subscribe<visualization_msgs::MarkerArray>(
             "/safe_stop_endposes_vis", 1, &SafetySupervisor::ssmpEndposesCallback, this);
+
+        sub_pose_other_car_ = nh_.subscribe<geometry_msgs::PoseArray>(
+            "/pose_otherCar", 1, &SafetySupervisor::pose_otherCarCallback, this);
 
         createFaultMonitors();
 
