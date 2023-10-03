@@ -173,10 +173,13 @@ class GoalSequencer
     double getOrientation(const double& x_one, const double& x_two, const double& y_one, const double& y_two)
     {
         double angle = atan2(y_two - y_one, x_two - x_one);
+        std::cout << "angle: " << angle << std::endl;
+        /*
         if (angle < 0)
         {
             angle += 2 * M_PI;
         }
+        */
         return angle * (180.0 / M_PI);
     }
 
@@ -270,6 +273,8 @@ class GoalSequencer
 
         // Get the orientation of the closest point of the VM
         double vmap_orientation = findOrientationOfVM(index);
+        std::cout << "vmap_orientation: " << vmap_orientation << std::endl;
+        //double yaw_angle_positive = yaw_angle < 0 ? yaw_angle + 360 : yaw_angle;
 
         // Check goal validity for the first goal by checking if the goal is close enough to the VM with large
         // orientation.
@@ -325,6 +330,7 @@ class GoalSequencer
 
         // Transform quaternion to euler angles
         double yaw_angle = tf::getYaw(goal_orientation) * (180.0 / M_PI);
+        std::cout << "yaw_angle: " << yaw_angle << std::endl;
 
         // find the cloest point and its distance and orientation.
         is_goal_valid = isGoalValidAccordingToVM(x, y, yaw_angle);

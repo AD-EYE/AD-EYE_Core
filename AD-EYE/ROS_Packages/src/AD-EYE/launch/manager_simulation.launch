@@ -1,6 +1,7 @@
 <!-- -->
 <launch>
     <arg name="test_automation" default="false"/>
+    <arg name="world_name" default="W01_Base_World"/>
     <rosparam>
         use_sim_time: true
     </rosparam>
