@@ -305,9 +305,11 @@ class OccMapCreator
         while (nh_.ok())
         {
             rostime = ros::Time::now().toSec();
-
+            std::cout << "1" << std::endl;
             ros::spinOnce();
+            std::cout << "2" << std::endl;
             pub_occ_grid_.publish(occ_grid_);
+            std::cout << "3" << std::endl;
 
             // Time control
             rostime = ros::Time::now().toSec() - rostime;
@@ -338,6 +340,7 @@ int main(int argc, char** argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
+    std::cout << "a" << std::endl;
 
     // Convert cli args into float (with error handling)
     float area_width, area_height_front, area_height_back;
@@ -357,11 +360,14 @@ int main(int argc, char** argv)
         ROS_FATAL("GridMapCreator:\nUndefined error when parsing arguments..\n");
         exit(EXIT_FAILURE);
     }
-
+    std::cout << "b" << std::endl;
     // Initialize node
+    std::cout << "c" << std::endl;
     ros::init(argc, argv, "flattening");
     ros::NodeHandle nh;
+    std::cout << "d" << std::endl;
     OccMapCreator omc(nh, area_width, area_height_front, area_height_back);
+    std::cout << "e" << std::endl;
     omc.run();
     return 0;
 }
