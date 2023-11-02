@@ -233,7 +233,7 @@ class SafetySupervisor
         x_other_car_ = msg->poses.at(0).position.x;
         y_other_car_ = msg->poses.at(0).position.y;
         std::cout << "other car x: " << x_other_car_ << std::endl;
-        if (x_other_car_ > 245) {
+        if (x_other_car_ > 310) {
             jammer_zone_ = true;
         }
     }
@@ -473,7 +473,7 @@ class SafetySupervisor
     {
         jsk_rviz_plugins::OverlayText text_overlay;
         text_overlay.left = 20;
-        text_overlay.top = 20;
+        text_overlay.top = 70;
         text_overlay.width = 800;
         text_overlay.height = 400;
         text_overlay.fg_color.a = 1.0;
@@ -483,11 +483,12 @@ class SafetySupervisor
 
         text_overlay.font = "Liberation Mono";
         if (jammer_zone_) {
-            text_overlay.text = "Status: CAM message missed!\n -coordintates: -----";
+            text_overlay.text = "Status: CAM message missed!\n -coordintates: -----\n -speed: -----";
         } else {
             auto ll = lat_long(x_other_car_, y_other_car_);
             string coord = std::to_string(ll.first) + " " + std::to_string(ll.second);
             text_overlay.text = "Status: CAM message received\n -coordintates: " + coord;
+            text_overlay.text += "\n -speed: 4 m/s";
         }
         text_overlay.text += "\nCurrent safety channel decision:\n -";
         switch (current_fault_criticality_level_)
