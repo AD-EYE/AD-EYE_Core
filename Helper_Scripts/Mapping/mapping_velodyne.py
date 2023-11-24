@@ -163,7 +163,7 @@ class ProcessManager():
             self.tf_process.terminate()
             self.relay_process.terminate()
             self.rosbag_process.terminate()
-            self.ndt_mapping_process.terminate()
+            #self.ndt_mapping_process.terminate()
             self.topic_pub_process.terminate()
             if self.start_rviz:
                 self.rviz_process.terminate()
