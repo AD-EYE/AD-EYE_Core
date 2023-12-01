@@ -198,7 +198,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         # "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     ENABLED_DEFAULT_FEATURES = [
@@ -212,7 +212,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         # "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
@@ -226,7 +226,7 @@ class Manager:
         "Motion_Planning",
         "Switch",
         "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
@@ -240,7 +240,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     INITIALIZING_ALLOWED_FEATURES = [
@@ -254,7 +254,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         # "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     ENABLED_ALLOWED_FEATURES = [
@@ -268,7 +268,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         # "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     ENGAGED_ALLOWED_FEATURES = [
@@ -282,7 +282,7 @@ class Manager:
         "Motion_Planning",
         "Switch",
         "SSMP",
-        "Rviz",
+        #"Rviz",
         "Experiment_specific_recording"
     ]
     FAULT_ALLOWED_FEATURES = [
@@ -296,7 +296,7 @@ class Manager:
         # "Motion_Planning",
         "Switch",
         "SSMP",
-        "Rviz",
+        #"Rviz",
         # "Experiment_specific_recording"
     ]
     previous_features = []
