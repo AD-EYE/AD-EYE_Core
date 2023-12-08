@@ -173,10 +173,13 @@ class GoalSequencer
     double getOrientation(const double& x_one, const double& x_two, const double& y_one, const double& y_two)
     {
         double angle = atan2(y_two - y_one, x_two - x_one);
-        if (angle < 0)
-        {
-            angle += 2 * M_PI;
-        }
+        /*
+         commenting out conversion to 0-360 range to be compatiable with road orientation angle range
+         if (angle < 0)
+         {
+             angle += 2 * M_PI;
+         }
+        */
         return angle * (180.0 / M_PI);
     }
 
@@ -241,8 +244,13 @@ class GoalSequencer
     */
     bool isPointAlignedWithVM(const int& vmap_orientation, const double& yaw_angle)
     {
+        
         // Check if the difference between goal and vector map orientation is small enough.
-        if (abs(yaw_angle - vmap_orientation) < ORIENTAION_TOLERANCE_)
+        // if the car is moving in the opposite direction, there can be a 180 degree difference 
+        // between goal and vector map orientation
+        double abs_angle_diff = abs(yaw_angle - vmap_orientation);
+        if ( abs_angle_diff < ORIENTAION_TOLERANCE_  || 
+            abs(abs_angle_diff - 180) < ORIENTAION_TOLERANCE_ )
         {
             return true;
         }
