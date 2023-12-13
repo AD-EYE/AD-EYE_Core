@@ -27,7 +27,7 @@ class ManagerStateMachine:
         ENGAGED_STATE = 2
         FAULT_STATE = 3
 
-    current_state = States.INITIALIZING_STATE  # this is the current state of the state machine
+    current_state = States.ENGAGED_STATE  # this is the current state of the state machine
 
     ## The constructor
     #
