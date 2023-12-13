@@ -1,5 +1,7 @@
 <!-- -->
 <launch>
+    <node pkg="tf" type="static_transform_publisher" name="os_sensor_tf" args="0 0 0 0 0 0 velodyne os_sensor 100" />
+
     <arg name="test_automation" default="false"/>
     <rosparam>
         use_sim_time: true

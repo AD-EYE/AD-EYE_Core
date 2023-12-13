@@ -26,7 +26,7 @@ def mycallback(data):
     msg.is_dense = False
     msg.data = np.asarray(data.data, np.float32).tostring()
 
-    pub.publish(msg)
+#    pub.publish(msg)
 
 
 if __name__ == '__main__':
