@@ -2,6 +2,8 @@
   
 This repository contains code for the _**AD-EYE testbed for Automated Driving and Intelligent Transportation Systems**_, located at KTH Campus Valhallavägen, designed and developed by Naveen Mohan and others. <br><br>
 
+This particular respository contains the core code for the AD-EYE testbed, and baselines the versions other related respositories that are used in the testbed. <br><br>
+
 -------------------------------------------------
 <br>
 
