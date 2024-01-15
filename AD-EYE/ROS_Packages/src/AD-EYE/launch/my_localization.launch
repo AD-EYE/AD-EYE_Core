@@ -1,6 +1,6 @@
 <!-- -->
 <launch>
-    <arg name="lidar_frame_id" default="velodyne" />
+    <arg name="lidar_frame_id" default="os_sensor" />
 
     <!-- Set localization method: -->
     <arg name="topic_pose_stamped" default="/ndt_pose"/> <!-- ndt_pose | icp_pose | gnss_pose -->
