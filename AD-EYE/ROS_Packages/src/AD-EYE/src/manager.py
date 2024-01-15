@@ -219,8 +219,8 @@ class Manager:
         # "Recording",
         "Map",
         "Sensing",
-        # "Localization",
-        "Fake_Localization",
+        "Localization",
+        #  "Fake_Localization",
         "Detection",
         "Mission_Planning",
         "Motion_Planning",
@@ -301,7 +301,7 @@ class Manager:
     ]
     previous_features = []
     current_features = INITIALIZING_DEFAULT_FEATURES
-    
+
     # Rosbag related constants
     ROSBAG_PATH = "/recording" + str(time.time()) + ".bag"  # ~ is added as a prefix, name of the bag
     ROSBAG_COMMAND = "rosbag record -a -O ~" + ROSBAG_PATH + " __name:=rosbag_recorder"  # command to start the rosbag
@@ -317,15 +317,15 @@ class Manager:
     def __init__(self):
         self.manager_state_machine = ManagerStateMachine()
         self.current_state = self.manager_state_machine.States.INITIALIZING_STATE
-        
+
         self.manager_features_handler = ManagerFeaturesHandler()
-        
+
         rospy.Subscriber("/Features_state", Int32MultiArray, self.featuresRequestCallback)
         rospy.Subscriber("/switch_command", Int32, self.switchCallback)  # to check if safety channel is still alive
         self.state_pub = rospy.Publisher('manager/state', Int8, queue_size=1)  # for GUI
         self.features_pub = rospy.Publisher('manager/features', Int32MultiArray, queue_size=1)  # for GUI
         self.switch_request_pub = rospy.Publisher('/safety_channel/switch_request', Int32, queue_size=1)  # for GUI
-        
+
 
     ##The main loop
     #@param self The object pointer
