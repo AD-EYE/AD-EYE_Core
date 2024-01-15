@@ -1,10 +1,11 @@
 <!-- -->
 <launch>
+    <arg name="lidar_frame_id" default="velodyne" />
 
     <!-- Set localization method: -->
     <arg name="topic_pose_stamped" default="/ground_truth_pose"/>
 
-    <!-- Set args defining tf_transform: base_link to velodyne-->
+    <!-- Set args defining tf_transform: base_link to lidar-->
     <arg name="tf_x" default="0.6"/>
     <arg name="tf_y" default="0.0"/>
     <arg name="tf_z" default="2.0"/>
@@ -12,7 +13,7 @@
     <arg name="tf_pitch" default="0.0"/>
     <arg name="tf_roll" default="0.0"/>
 
-    <!-- tf_transform: base_link to velodyne -->
+    <!-- tf_transform: base_link to lidar -->
     <include file="$(find runtime_manager)/launch_files/setup_tf.launch">
         <arg name="x" value="$(arg tf_x)"/>
         <arg name="y" value="$(arg tf_y)"/>
@@ -21,7 +22,7 @@
         <arg name="pitch" value="$(arg tf_pitch)"/>
         <arg name="roll" value="$(arg tf_roll)"/>
         <arg name="frame_id" value="base_link"/>
-        <arg name="child_frame_id" value="/velodyne"/>
+        <arg name="child_frame_id" value="$(arg lidar_frame_id)"/>
         <arg name="period_in_ms" value="10"/>
     </include>
 
