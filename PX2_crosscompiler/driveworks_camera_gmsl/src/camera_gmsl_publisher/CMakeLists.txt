@@ -1,4 +1,4 @@
-# Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
+
 
 project(camera_gmsl_publisher C CXX)
 
