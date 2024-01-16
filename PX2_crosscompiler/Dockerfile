@@ -12,3 +12,4 @@ ADD ./cuda-9.2 /usr/local/cuda
 RUN sudo apt install g++-aarch64-linux-gnu -y
 RUN sudo apt install gcc-aarch64-linux-gnu -y
 RUN sudo apt install cmake -y
+RUN sudo apt install vim -y
