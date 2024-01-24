@@ -2,6 +2,7 @@
 To build docker image:
 
 - Copy cuda 9.2, driveworks1.2 and nvidia folder into this directory (needs around 33GB) 
+    folder location: https://kth-my.sharepoint.com/personal/naveenm_ug_kth_se/_layouts/15/onedrive.aspx?fromShare=true&ga=1&id=%2Fpersonal%2Fnaveenm%5Fug%5Fkth%5Fse%2FDocuments%2FADEYE%5FOD%2FWork%2FRevathy%5FSeptember%5F2023%2Fcross%5Fcompile%5Ffolders%2Etar%2Egz&parent=%2Fpersonal%2Fnaveenm%5Fug%5Fkth%5Fse%2FDocuments%2FADEYE%5FOD%2FWork%2FRevathy%5FSeptember%5F2023
 - Open terminal in the folder containing dockerfile and execute:
     docker build -t ubuntu16_crosscompile:latest .
 - To run generated image:
