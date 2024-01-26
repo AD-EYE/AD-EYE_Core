@@ -1,6 +1,6 @@
 <!-- -->
 <launch>
-    <arg name="lidar" default="os_sensor"/>
+    <arg name="lidar" default="ouster"/>
 
     <node
             type="manager.py"
@@ -17,6 +17,8 @@
     <group if="$(eval arg('lidar') == 'ouster')">
         <include file="$(find ouster_ros)/launch/driver.launch">
             <arg name="sensor_hostname" value="os-122226000469.local"/>
+            <arg name="timestamp_mode" value="TIME_FROM_ROS_TIME"/>
+            <arg name="point_cloud_frame" value="os_sensor"/>
             <arg name="viz" value="false"/>
         </include>
     </group>
@@ -29,5 +31,7 @@
     <group if="false">
         <node pkg="adeye" name="zed_driver" type="zed_driver.py" output="screen" />
     </group>
+
+    <node pkg="topic_tools" type="relay" name="pointclouds_republisher" output="log" args="/ouster/points /points_raw"/>
 
 </launch>
