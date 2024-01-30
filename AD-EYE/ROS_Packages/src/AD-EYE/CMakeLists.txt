@@ -27,6 +27,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS
     include
+    src
   LIBRARIES
     ${PROJECT_NAME}
   CATKIN_DEPENDS
@@ -63,6 +64,10 @@ add_library(
 
 add_library(
   experimentRecording src/experiment_recording.cpp
+)
+
+add_library(sensorMonitor
+  src/sensor_monitor.cpp
 )
 
 add_executable(
@@ -189,6 +194,10 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  sensorMonitor
+  ${catkin_LIBRARIES}
+)
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -237,19 +246,14 @@ add_dependencies(goalSequencer
 
 # Add the executable, libraries and dependencies for sensor monitor node
 add_executable(
-  sensorMonitor
+  sensorMonitor_node
   src/sensor_monitor.cpp
 )
 
 target_link_libraries(
-  sensorMonitor
+  sensorMonitor_node
   ${catkin_LIBRARIES}
 )
-
-add_dependencies(sensorMonitor
-  ${catkin_EXPORTED_TARGETS}
-)
-
 
 
 add_executable(
@@ -316,3 +320,8 @@ install(
 catkin_install_python(PROGRAMS src/camera_publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+## Add gtest based cpp test target and link libraries
+catkin_add_gtest(sensorMonitor-test tests/test_2.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+target_link_libraries(sensorMonitor-test sensorMonitor)
