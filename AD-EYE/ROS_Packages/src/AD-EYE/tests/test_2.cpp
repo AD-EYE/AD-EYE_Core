@@ -21,10 +21,10 @@
 static int argc_;
 static char** argv_;
 
-
-void SensorFoV::sensorUpdate(SENSOR_TYPE_ sensor_index){
-    sensor_active_[sensor_index] = true;
-}
+ /*!
+* \brief SensorFoVTest: this class will test class SensorFoV.
+* \details Use TEST_F(test fixture) to setup and tear down object and run several tests with one object.
+*/
 
 class SensorFoVTest : public::testing::Test
 {
@@ -36,15 +36,10 @@ public:
         my_sfv = new SensorFoV(nh_);
     };
     void TearDown(){
-
         delete my_sfv;
     };
 };
 
-//TEST_F(SensorFoVTest, test_sensor_update){
-//    my_sfv->sensorUpdate(SensorFoV::SENSOR_TYPE_::RADAR);
-//    ASSERT_TRUE(my_sfv->sensor_active_[SensorFoV::SENSOR_TYPE_::RADAR]);
-//}
 
 TEST_F(SensorFoVTest, test_sensor_update){
     my_sfv->sensorUpdate(SensorFoV::SENSOR_TYPE_::RADAR);
@@ -54,9 +49,6 @@ TEST_F(SensorFoVTest, test_sensor_update){
 int main(int argc, char** argv){
     argc_ = argc;
     argv_ = argv;
-    //ros::init(argc, argv, "SensorFoV_Test");
     testing::InitGoogleTest(&argc, argv);
-    //testing::GTEST_FLAG(filter)="SensorFoVTest";
     return RUN_ALL_TESTS();
-
 }
