@@ -235,8 +235,8 @@ class OccMapCreator
             occValue = REST_AREA_VALUE;
         }
 
-        if (angleToPosition > 0)  // applying a malus for positions that are on the left side of the ego vehicle
-            occValue += CROSSING_ROAD_MALUS;
+        // if (angleToPosition > 0)  // applying a malus for positions that are on the left side of the ego vehicle
+        //     occValue += CROSSING_ROAD_MALUS;
 
         if (staticObjectValue > DANGEROUS_HEIGHT_ || dynamicObjectValue > DANGEROUS_HEIGHT_)
         {
