@@ -1,4 +1,4 @@
 <!-- -->
 <launch>
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find adeye)/rviz/config.rviz"/>
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find adeye)/rviz/config_gridmap.rviz"/>
 </launch>
