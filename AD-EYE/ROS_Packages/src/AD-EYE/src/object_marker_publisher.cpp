@@ -14,7 +14,6 @@ private:
     ros::Publisher pub_markers_;
     int marker_id_ = 0;
     std_msgs::ColorRGBA label_color_;
-    // std_msgs::ColorRGBA centroid_color_;
     float label_height_ = 1.0;
     std::string markers_out_topic = "/test_label_markers";
     float marker_display_duration_ = 0.2;
@@ -22,6 +21,12 @@ private:
     visualization_msgs::MarkerArray centroid_markers_;
     std::string ros_namespace_;
 
+
+    /*!
+    * \brief To extract label from autoware object, convert it into ROS Marker message 
+    * and push it to label_markers_ array
+    * \param in_object: the object from which label need to be extracted
+   */
     void addLabelMarker( const autoware_msgs::DetectedObject &in_object)
     {
         visualization_msgs::Marker label_marker;
@@ -46,6 +51,11 @@ private:
         label_markers_.markers.push_back(label_marker);
     }
 
+    /*!
+    * \brief To extract location and pose from autoware object, convert it into ROS Marker message 
+    * of type sphere and push it to label_markers_ array
+    * \param in_object: the object for which a centroid shold be displayed
+   */
     void addCentroidMarker(const autoware_msgs::DetectedObject &in_object)
     {
         visualization_msgs::Marker centroid_marker;
@@ -73,6 +83,7 @@ private:
         centroid_markers_.markers.push_back(centroid_marker);
     }
 
+
     bool isObjectValid(const autoware_msgs::DetectedObject &in_object)
     {
         if (!in_object.valid ||
@@ -95,6 +106,13 @@ private:
         return true;
     }//end isObjectValid
 
+    
+    /*!
+    * \brief checks if the detected object is relevant for visualization i.e whether
+    * it is a car?person etc that the driver needs to lookout for. 
+    * \param current_label label of the detected object
+    * \return true if object is relevant false if not
+   */
     bool isObjectRelevant(std::string current_label)
     {
         std::string relevant_labels [5] = {"car" , "person", 
@@ -112,7 +130,11 @@ private:
     }
 
 
-
+    /*!
+    * \brief Callback function for /fusion/objects topic. It will process objects detected
+    * by autoware and publish labels and spheres for relevant objects onto  test_label_markers topic
+    * \param in_objects array of objects detected by autoware
+   */
     void detectedObjectsCallback(const autoware_msgs::DetectedObjectArray &in_objects)
     {
         label_markers_.markers.clear();
@@ -149,16 +171,6 @@ public:
         label_color_.a = 1.0;
         ros_namespace_ = ros::this_node::getNamespace();
     }
-
-    void run()
-    {
-        while (nh_.ok())
-            {
-                ros::Time rostime = ros::Time::now();
-                ros::spinOnce();
-                rate_.sleep();
-            }
-    }
 };
 
 int main(int argc, char** argv)
@@ -166,7 +178,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "ObjectMarkerPublisher");
     ros::NodeHandle nh;
     ObjectMarkerPublisher omc(nh);
-    omc.run();
+    ros::spin();
     return 0;
 }
 
