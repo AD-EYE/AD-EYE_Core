@@ -67,9 +67,9 @@ private:
         centroid_marker.pose = in_object.pose;
         centroid_marker.ns = ros_namespace_ + "/centroid_markers";
 
-        centroid_marker.scale.x = 0.5;
-        centroid_marker.scale.y = 0.5;
-        centroid_marker.scale.z = 0.5;
+        centroid_marker.scale.x = 1;
+        centroid_marker.scale.y = 1;
+        centroid_marker.scale.z = 1;
 
         if (in_object.color.a == 0)
         {
@@ -115,9 +115,8 @@ private:
    */
     bool isObjectRelevant(std::string current_label)
     {
-        std::string relevant_labels [5] = {"car" , "person", 
-                                        "bicycle", "bus",
-                                        "truck"};
+        std::string relevant_labels [4] = {"car" , "pedestrian" , "truck/bus" ,
+            "motorbike"};
         bool is_relevant = false;
         for (std::string label : relevant_labels)
         {
