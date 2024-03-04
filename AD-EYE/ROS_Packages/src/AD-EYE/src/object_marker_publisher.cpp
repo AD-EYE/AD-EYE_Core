@@ -13,21 +13,30 @@ private:
     ros::Subscriber sub_detected_objects_;
     ros::Publisher pub_markers_;
     int marker_id_ = 0;
-    std_msgs::ColorRGBA label_color_;
+    std_msgs::ColorRGBA label_color_ = parseColor({0, 0, 0, 1.0}); //black
     float label_height_ = 1.0;
     std::string markers_out_topic = "/test_label_markers";
     float marker_display_duration_ = 0.2;
-    visualization_msgs::MarkerArray label_markers_;
-    visualization_msgs::MarkerArray centroid_markers_;
     std::string ros_namespace_;
-
+    
+    enum Sensor{
+        Fusion,
+        Camera1,
+        Camera2,
+        Lidar_Radar
+    };
+    std_msgs::ColorRGBA sensor_colors_[4] = {
+        parseColor({255, 0, 0, 1.0}), // Fusion color:red
+        parseColor({0, 255, 0, 1.0}), // Camera1 color:green
+        parseColor({0, 0, 255, 1.0}), // Camera2 color:blue
+        parseColor({255, 255, 0, 1.0})  // Lidar_Radar color:yellow
+    };
 
     /*!
     * \brief To extract label from autoware object, convert it into ROS Marker message 
-    * and push it to label_markers_ array
     * \param in_object: the object from which label need to be extracted
    */
-    void addLabelMarker( const autoware_msgs::DetectedObject &in_object)
+    visualization_msgs::Marker getLabelMarker( const autoware_msgs::DetectedObject &in_object)
     {
         visualization_msgs::Marker label_marker;
         label_marker.lifetime = ros::Duration(marker_display_duration_);
@@ -47,16 +56,16 @@ private:
         label_marker.pose.position.y = in_object.pose.position.y;
         label_marker.pose.position.z = label_height_;
         label_marker.scale.z = 1.0;
-
-        label_markers_.markers.push_back(label_marker);
+        return label_marker;
     }
 
     /*!
     * \brief To extract location and pose from autoware object, convert it into ROS Marker message 
-    * of type sphere and push it to label_markers_ array
+    * of type sphere 
     * \param in_object: the object for which a centroid shold be displayed
+    * \param color: required color of the sphere
    */
-    void addCentroidMarker(const autoware_msgs::DetectedObject &in_object)
+    visualization_msgs::Marker getCentroidMarker(const autoware_msgs::DetectedObject &in_object, std_msgs::ColorRGBA color)
     {
         visualization_msgs::Marker centroid_marker;
         centroid_marker.lifetime = ros::Duration(marker_display_duration_);
@@ -70,17 +79,9 @@ private:
         centroid_marker.scale.x = 1;
         centroid_marker.scale.y = 1;
         centroid_marker.scale.z = 1;
-
-        if (in_object.color.a == 0)
-        {
-            centroid_marker.color = label_color_;
-        }
-        else
-        {
-            centroid_marker.color = in_object.color;
-        }
+        centroid_marker.color = color;
         centroid_marker.id = marker_id_++;
-        centroid_markers_.markers.push_back(centroid_marker);
+        return centroid_marker;
     }
 
 
@@ -128,31 +129,54 @@ private:
         return is_relevant;
     }
 
-
     /*!
-    * \brief Callback function for /fusion/objects topic. It will process objects detected
-    * by autoware and publish labels and spheres for relevant objects onto  test_label_markers topic
-    * \param in_objects array of objects detected by autoware
+    * \brief It will process objects detected by a particular sensor
+    * and publish labels and spheres for relevant objects onto  test_label_markers topic
+    * color of spheres is determined by sensor_colors_ array 
+    * \param in_objects array of objects detected by a particular sensor
+    * \param sensor type of sensor
    */
-    void detectedObjectsCallback(const autoware_msgs::DetectedObjectArray &in_objects)
+    void publishSensorDetectedObjects(const autoware_msgs::DetectedObjectArray &in_objects, Sensor sensor)
     {
-        label_markers_.markers.clear();
-        centroid_markers_.markers.clear();
+        
+        visualization_msgs::MarkerArray markers;
         for (auto const &object: in_objects.objects)
         {
             if (isObjectValid(object))
-            {
-                
+            {   
                 if(!object.label.empty() && isObjectRelevant(object.label))
                 {
-
-                    addLabelMarker(object);
-                    addCentroidMarker(object);
+                    markers.markers.push_back(getLabelMarker(object));
+                    markers.markers.push_back(getCentroidMarker(object, sensor_colors_[sensor]));
                 }
             }
         }
-        pub_markers_.publish(label_markers_);
-        pub_markers_.publish(centroid_markers_);
+        pub_markers_.publish(markers);
+    }
+
+
+
+    void detectedObjectsFusionCallback(const autoware_msgs::DetectedObjectArray &in_objects)
+    {
+       publishSensorDetectedObjects (in_objects, Fusion);
+    }
+
+    /*!
+    * \brief function to create color of type ROS  std_msgs::ColorRGBA from RGBA values
+    * \param in_color vector of size 4  containing RGBA values of color 
+   */
+    static std_msgs::ColorRGBA parseColor(const std::vector<double> in_color)
+    {
+        std_msgs::ColorRGBA color;
+        float r,g,b,a;
+        if (in_color.size() == 4) //r,g,b,a
+        {
+            color.r = in_color[0]/255.f;
+            color.g = in_color[1]/255.f;
+            color.b = in_color[2]/255.f;
+            color.a = in_color[3];
+        }
+        return color;
     }
 
 
@@ -161,13 +185,10 @@ public:
     {
         sub_detected_objects_ =
         nh_.subscribe("/fusion/objects", 1,
-                           &ObjectMarkerPublisher::detectedObjectsCallback, this);
+                           &ObjectMarkerPublisher::detectedObjectsFusionCallback, this);
         pub_markers_ = nh_.advertise<visualization_msgs::MarkerArray>(
                             markers_out_topic, 1);
-        label_color_.r = 255;
-        label_color_.g = 0;
-        label_color_.b = 0;
-        label_color_.a = 1.0;
+        
         ros_namespace_ = ros::this_node::getNamespace();
     }
 };
