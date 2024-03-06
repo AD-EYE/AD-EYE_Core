@@ -6,6 +6,12 @@ from visualization_msgs.msg import MarkerArray
 from geometry_msgs.msg import Pose
 import sys
 
+def parseColor(marker_msg, rgba_list):
+    marker_msg.color.r = rgba_list[0]
+    marker_msg.color.g = rgba_list[1]
+    marker_msg.color.b = rgba_list[2]
+    marker_msg.color.a = rgba_list[3]
+
 p = Pose()
 p.position.x = 84.599590301513672
 p.position.y = 171.27021789550781
@@ -22,14 +28,13 @@ marker_msg.type = Marker.CUBE
 marker_msg.action = Marker.ADD
 marker_msg.pose = p
 
-marker_msg.scale.x = 5
-marker_msg.scale.y = 5
-marker_msg.scale.z = 5
+marker_msg.scale.x = 3
+marker_msg.scale.y = 3
+marker_msg.scale.z = 3
 
-marker_msg.color.r = 255
-marker_msg.color.g = 1
-marker_msg.color.b = 1
-marker_msg.color.a = 0.5
+parseColor(marker_msg , [255, 0, 0, 0.5]) #red color
+
+
 
 marker_array_msg.markers.append(marker_msg)
 

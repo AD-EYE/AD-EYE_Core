@@ -1,11 +1,15 @@
 <!-- -->
 <launch>
     <!--launch vector & point cloud maps -->
-    <include file="$(find adeye)/launch/my_map.launch">
+    <include file="$(find adeye)/launch/my_map.launch"/>
     
     <!--launch node to display vector map center lines  -->
     <node pkg="way_planner" type="way_planner" name="way_planner"/>
 
     <!--launch node to publish demo objects-->
-
+    <node type="publish_detected_objects.py"
+            pkg="adeye"
+            name="DetectedObjectsPublisher"
+            respawn="false"
+            output="screen"/>
 </launch>
