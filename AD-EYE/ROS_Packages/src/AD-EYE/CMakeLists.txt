@@ -126,6 +126,16 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+add_executable(
+  DetectedObjectsPublisher
+  src/publish_detected_objects.cpp
+)
+
+target_link_libraries(
+  DetectedObjectsPublisher
+  ${catkin_LIBRARIES}
+)
+
 
 target_link_libraries(
   GridMapCreator

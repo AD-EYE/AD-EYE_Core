@@ -26,6 +26,7 @@ marker_array_msg = MarkerArray()
 marker_msg.header.frame_id= "world"
 marker_msg.type = Marker.CUBE
 marker_msg.action = Marker.ADD
+marker_msg.ns = "/detected_object_markers"
 marker_msg.pose = p
 
 marker_msg.scale.x = 3
