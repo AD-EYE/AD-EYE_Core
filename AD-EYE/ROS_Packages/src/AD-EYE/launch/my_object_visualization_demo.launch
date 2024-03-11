@@ -7,7 +7,7 @@
     <node pkg="way_planner" type="way_planner" name="way_planner"/>
 
     <!--launch node to publish demo objects-->
-    <node type="publish_detected_objects.py"
+    <node type="DetectedObjectsPublisher"
             pkg="adeye"
             name="DetectedObjectsPublisher"
             respawn="false"
