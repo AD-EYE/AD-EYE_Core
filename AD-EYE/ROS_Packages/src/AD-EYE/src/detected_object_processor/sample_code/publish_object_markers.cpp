@@ -3,7 +3,7 @@
 #include <visualization_msgs/Marker.h>
 #include <std_msgs/ColorRGBA.h>
 
-class DetectedObjectsPublisher
+class DemoMarkerPublisher
 {
     private:
         ros::NodeHandle nh_;
@@ -31,7 +31,7 @@ class DetectedObjectsPublisher
             return color;
         }
     public:
-        DetectedObjectsPublisher(ros::NodeHandle& nh): nh_(nh)
+        DemoMarkerPublisher(ros::NodeHandle& nh): nh_(nh)
         {
             pub_markers_ = nh_.advertise<visualization_msgs::MarkerArray>(
                                 markers_out_topic, 1);
@@ -91,9 +91,9 @@ class DetectedObjectsPublisher
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "DetectedObjectsPublisher");
+    ros::init(argc, argv, "DemoMarkerPublisher");
     ros::NodeHandle nh;
-    DetectedObjectsPublisher dop(nh);
-    dop.run();
+    DemoMarkerPublisher dmp(nh);
+    dmp.run();
     return 0;
 }

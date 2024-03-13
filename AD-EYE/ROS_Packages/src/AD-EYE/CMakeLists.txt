@@ -128,8 +128,19 @@ add_executable(
 
 add_executable(
   DetectedObjectsPublisher
-  src/publish_detected_objects.cpp
+  src/detected_object_processor/detected_objects_sample_publisher.cpp
 )
+
+add_executable(
+  DetectedObjectsProcessor
+  src/detected_object_processor/detected_objects_processor.cpp
+)
+
+target_link_libraries(
+  DetectedObjectsProcessor
+  ${catkin_LIBRARIES}
+)
+
 
 target_link_libraries(
   DetectedObjectsPublisher
