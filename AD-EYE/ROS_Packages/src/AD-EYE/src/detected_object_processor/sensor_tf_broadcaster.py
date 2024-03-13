@@ -24,8 +24,17 @@ class SensorBroadcaster:
 
         # define camera position in world frame
         pose = Pose()
-        pose.position.x = 380
-        pose.position.y = -480
+        
+        # # intersection position start
+        # pose.position.x = 345
+        # pose.position.y = -470
+        # # intersection position end
+        
+        # building camera position start
+        pose.position.x = 100
+        pose.position.y = -15
+        # building camera position end
+
         pose.position.z = 5
         pose.orientation.x = 0.0
         pose.orientation.y = 0.0

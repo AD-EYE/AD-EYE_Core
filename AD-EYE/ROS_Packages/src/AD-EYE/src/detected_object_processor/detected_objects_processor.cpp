@@ -18,9 +18,10 @@ class DetectedObjectsProcessor
 
         std::string in_topic_ = "/sensor_detected_objects";
         std::string out_topic_ = "/objects_markers";
-        float marker_display_duration_ = 0.2;
+        float marker_display_duration_ = 0.1;
         std::string world_frame_ = "/world";
         std::string sensor_frame_ = "/external_sensor_tf";
+        int id_ = 0;
 
         std_msgs::ColorRGBA parseColor(const std::vector<double> in_color)
         {
@@ -41,9 +42,10 @@ class DetectedObjectsProcessor
             visualization_msgs::Marker marker;
 
             marker.lifetime = ros::Duration(marker_display_duration_);
+            marker.id = id_++;
             marker.header.frame_id= "world";
             marker.header.stamp = ros::Time::now();
-            marker.type = visualization_msgs::Marker::CUBE;
+            marker.type = visualization_msgs::Marker::SPHERE;
             marker.action = visualization_msgs::Marker::ADD;
             marker.ns = "/detected_object_markers";
             marker.pose = pose_msg.pose;

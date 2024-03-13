@@ -16,31 +16,46 @@ class DetectedObjectsPublisher
             pub_objects_ = nh_.advertise<geometry_msgs::PoseArray>(
                                 out_topic, 1);
         }
-        void run()
+
+        geometry_msgs::Pose getPose(float x, float y)
         {
             geometry_msgs::Pose pose;
-            pose.position.x = 10.0;
-            pose.position.y = 4.0;
+            pose.position.x = x;
+            pose.position.y = y;
             pose.position.z = 2.0;
             pose.orientation.x = 0.0;
             pose.orientation.y = 0.0;
             pose.orientation.z = 0.0;
             pose.orientation.w = 1.0;
+            return pose;
+        }
+        void run()
+        {
+            geometry_msgs::Pose pose1, pose2;
+            // // start of intersection pose
+            // pose1 = getPose(15.0, 0.0);
+            // pose2 = getPose(-25, 5);
+            // // end of intersection pose
+
+            // start of building camera pose
+            pose1 = getPose(15.0, 0.0);
+            pose2 = getPose(-2, 15);
+            // end of building camera pose
 
             ros::Rate loop_rate(10);
             int count = 0;
             while (ros::ok())
             {
-
                 geometry_msgs::PoseArray poses;
                 poses.header.frame_id = "external_sensor_tf";
-                if (count%10 == 0)
+                if (count%5 == 0)
                 {
-                    if(pose.position.x > 100)
-                        pose.position.x = 10.0;
-                    pose.position.x += 10;
+                    if(pose1.position.x > 30)
+                        pose1.position.x = 15.0;
+                    pose1.position.x += 5;
                 }
-                poses.poses.push_back(pose);
+                poses.poses.push_back(pose1);
+                poses.poses.push_back(pose2);
                 pub_objects_.publish(poses);
 
                 ros::spinOnce();
