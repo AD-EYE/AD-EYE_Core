@@ -1,0 +1,43 @@
+<!-- -->
+<launch>
+    <node
+            type="manager.py"
+            pkg="adeye"
+            name="manager"
+            respawn="false"
+            output="screen"
+    />
+
+    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
+        <param name="port" value="/dev/ttyACM0"/>
+        <param name="baud" value="9600"/>
+    </node>
+
+    <!--
+    <node
+        type="launchDemo.sh"
+        name="launchScript"
+        pkg="adeye"
+    />
+    -->
+    
+    <node
+        pkg="rostopic"
+        type="rostopic"
+        name="initial_checks_faker"
+        args='pub /initial_checks std_msgs/Bool "data: true" -r 1'
+        output="screen"
+    />
+
+    <node
+        pkg="rostopic"
+        type="rostopic"
+        name="activation_request_faker"
+        args='pub /activation_request std_msgs/Bool "data: true" -r 1'
+        output="screen"
+    />
+
+
+
+
+</launch>

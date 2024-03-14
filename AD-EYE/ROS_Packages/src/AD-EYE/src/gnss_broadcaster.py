@@ -28,6 +28,9 @@ class GnssBroadcaster:
         self.gnss_sub = rospy.Subscriber('/gnss_pose_simulink', PoseStamped, self.gnssSimulinkCallback)
         self.gnss_sub = rospy.Subscriber('/fix', NavSatFix, self.gnssCallback)
         self.gnss_pub = rospy.Publisher('/gnss_pose', PoseStamped, queue_size=1)
+        #self.initialpose_pub = rospy.Publisher('/initialpose', PoseStamped, queue_size=1)
+
+        self.publish_initial_pose = True
 
     ##A Method to publish the position of the ego car as a PoseStamped message to the /gnss_pose topic.
     #@param self The object pointer
@@ -43,13 +46,17 @@ class GnssBroadcaster:
         self.pose.header.stamp = rospy.Time.now()
         self.pose.pose.position.x = x_p
         self.pose.pose.position.y = y_p
-        self.pose.pose.position.z = 0
+        self.pose.pose.position.z = fix.altitude - 59.3
         quaternion = tf.transformations.quaternion_from_euler(0, 0, 0)
         self.pose.pose.orientation.x = quaternion[0]
         self.pose.pose.orientation.y = quaternion[1]
         self.pose.pose.orientation.z = quaternion[2]
         self.pose.pose.orientation.w = quaternion[3]
         self.gnss_pub.publish(self.pose)
+
+        if self.publish_initial_pose:
+            self.publish_initial_pose = False
+            #self.initialpose_pub.publish(self.pose)
 
     # Equirectangular projection
     # phi_c : standard parallel, 0 : origin of the map, P : point to convert.
