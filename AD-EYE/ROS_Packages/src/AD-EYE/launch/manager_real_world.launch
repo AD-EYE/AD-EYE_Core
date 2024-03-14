@@ -23,10 +23,12 @@
         </include>
     </group>
 
+
     <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
         <param name="port" value="/dev/ttyACM0"/>
         <param name="baud" value="9600"/>
     </node>
+
 
     <group if="false">
         <node pkg="adeye" name="zed_driver" type="zed_driver.py" output="screen" />

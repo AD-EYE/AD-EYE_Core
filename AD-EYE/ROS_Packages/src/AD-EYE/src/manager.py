@@ -220,12 +220,12 @@ class Manager:
         "Map",
         "Sensing",
         "Localization",
-        #  "Fake_Localization",
-        "Detection",
+        "Fake_Localization",
+        #"Detection",
         "Mission_Planning",
         "Motion_Planning",
-        "Switch",
-        "SSMP",
+        #"Switch",
+        #"SSMP",
         "Rviz",
         # "Experiment_specific_recording"
     ]
@@ -426,6 +426,7 @@ class Manager:
                     self.stopRecording()
             else:  # "normal" features
                 try:  # to not kill the manager when a launch is malformed (in that case an exception is thrown)
+                    rospy.loginfo(feature_name)
                     if self.isFeatureJustActivated(feature_name):
                         self.manager_features_handler.features[feature_name].featureControl.start()
                     elif self.isFeatureJustDeactivated(feature_name):
