@@ -37,7 +37,14 @@
         output="screen"
     />
 
-
+ <!-- uncomment when  "Can't Generate Global Path for Start.." error is fixed-->
+    <!-- <node
+            type="sample_goal_publisher.py"
+            pkg="adeye"
+            name="goal_publisher"
+            respawn="false"
+            output="screen"
+    /> -->
 
 
 </launch>
