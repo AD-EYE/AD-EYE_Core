@@ -195,9 +195,11 @@ class GoalSequencer
         double closest_vm_distance = std::numeric_limits<double>::max();
         double vm_distance;
         int index;
+        printf("------ %f , %f\n", x, y);
         for (unsigned int i = 0; i < file_size_; i++)
         {
             vm_distance = getDistance(x, vector_map_data_.data[i].bx, y, vector_map_data_.data[i].ly);
+            printf("%f , %f\n", vector_map_data_.data[i].bx, vector_map_data_.data[i].ly);
 
             // Update the point and distance until we find the shortest distance-
             if (vm_distance < closest_vm_distance)
@@ -226,6 +228,7 @@ class GoalSequencer
     */
     bool isPointCloseToVM(const double& distance)
     {
+        printf("distance = %f\n", distance);
         if (distance <= VMAP_DISTANCE_TOLERANCE_)
         {
             return true;
@@ -244,12 +247,12 @@ class GoalSequencer
     */
     bool isPointAlignedWithVM(const int& vmap_orientation, const double& yaw_angle)
     {
-        
         // Check if the difference between goal and vector map orientation is small enough.
-        // if the car is moving in the opposite direction, there can be a 180 degree difference 
+        // if the car is moving in the opposite direction, there can be a 180 degree difference
         // between goal and vector map orientation
+        printf("orie:  %f - %d\n", yaw_angle, vmap_orientation);
         double abs_angle_diff = abs(yaw_angle - vmap_orientation);
-        if ( abs_angle_diff < ORIENTAION_TOLERANCE_  || 
+        if ( abs_angle_diff < ORIENTAION_TOLERANCE_  ||
             abs(abs_angle_diff - 180) < ORIENTAION_TOLERANCE_ )
         {
             return true;

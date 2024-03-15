@@ -4,9 +4,16 @@
             name="DetectedObjectsPublisher"
             respawn="false"
             output="screen"/>
+
 <node type="sensor_tf_broadcaster.py"
             pkg="adeye"
             name="SensorFramePublisher"
+            respawn="false"
+            output="screen"/>
+
+<node type="DetectedObjectsProcessor"
+            pkg="adeye"
+            name="DetectedObjectsProcessor"
             respawn="false"
             output="screen"/>
 </launch>
