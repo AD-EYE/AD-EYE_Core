@@ -195,11 +195,11 @@ class GoalSequencer
         double closest_vm_distance = std::numeric_limits<double>::max();
         double vm_distance;
         int index;
-        printf("------ %f , %f\n", x, y);
+        // ROS_INFO("------ %f , %f\n", x, y);
         for (unsigned int i = 0; i < file_size_; i++)
         {
-            vm_distance = getDistance(x, vector_map_data_.data[i].bx, y, vector_map_data_.data[i].ly);
-            printf("%f , %f\n", vector_map_data_.data[i].bx, vector_map_data_.data[i].ly);
+            vm_distance = getDistance(x, vector_map_data_.data[i].ly, y, vector_map_data_.data[i].bx);
+            // ROS_INFO("%f , %f\n", vector_map_data_.data[i].bx, vector_map_data_.data[i].ly);
 
             // Update the point and distance until we find the shortest distance-
             if (vm_distance < closest_vm_distance)
@@ -228,7 +228,7 @@ class GoalSequencer
     */
     bool isPointCloseToVM(const double& distance)
     {
-        printf("distance = %f\n", distance);
+        //ROS_INFO("distance = %f\n", distance);
         if (distance <= VMAP_DISTANCE_TOLERANCE_)
         {
             return true;
@@ -250,12 +250,12 @@ class GoalSequencer
         // Check if the difference between goal and vector map orientation is small enough.
         // if the car is moving in the opposite direction, there can be a 180 degree difference
         // between goal and vector map orientation
-        printf("orie:  %f - %d\n", yaw_angle, vmap_orientation);
+        //ROS_INFO("orie:  %f - %d\n", yaw_angle, vmap_orientation);
         double abs_angle_diff = abs(yaw_angle - vmap_orientation);
         if ( abs_angle_diff < ORIENTAION_TOLERANCE_  ||
             abs(abs_angle_diff - 180) < ORIENTAION_TOLERANCE_ )
         {
-            return true;
+            return true; 
         }
         else
         {
@@ -278,6 +278,7 @@ class GoalSequencer
         int index;
         // Get the closest distance to a point of VM and corresponding index of that point.
         std::tie(closest_vm_distance, index) = findClosestVMDistance(x, y);
+        //ROS_INFO("point x: %f y: %f", x,y);
 
         // Get the orientation of the closest point of the VM
         double vmap_orientation = findOrientationOfVM(index);
@@ -336,6 +337,7 @@ class GoalSequencer
 
         // Transform quaternion to euler angles
         double yaw_angle = tf::getYaw(goal_orientation) * (180.0 / M_PI);
+        //ROS_INFO("yaw angle: %f, qtrn %f ", yaw_angle, goal_orientation.x);
 
         // find the cloest point and its distance and orientation.
         is_goal_valid = isGoalValidAccordingToVM(x, y, yaw_angle);
