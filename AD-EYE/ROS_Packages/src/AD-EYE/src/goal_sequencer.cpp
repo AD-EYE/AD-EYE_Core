@@ -197,7 +197,7 @@ class GoalSequencer
         int index;
         for (unsigned int i = 0; i < file_size_; i++)
         {
-            vm_distance = getDistance(x, vector_map_data_.data[i].ly, y, vector_map_data_.data[i].bx);
+            vm_distance = getDistance(x, vector_map_data_.data[i].bx, y, vector_map_data_.data[i].ly);
 
             // Update the point and distance until we find the shortest distance-
             if (vm_distance < closest_vm_distance)
