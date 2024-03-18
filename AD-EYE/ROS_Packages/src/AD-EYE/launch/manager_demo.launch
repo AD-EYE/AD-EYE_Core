@@ -7,12 +7,12 @@
             respawn="false"
             output="screen"
     />
-
+<!--
     <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
         <param name="port" value="/dev/ttyACM0"/>
         <param name="baud" value="9600"/>
     </node>
-
+-->
     <!--
     <node
         type="launchDemo.sh"
@@ -20,7 +20,7 @@
         pkg="adeye"
     />
     -->
-    
+
     <node
         pkg="rostopic"
         type="rostopic"
@@ -44,7 +44,10 @@
             name="goal_publisher"
             respawn="false"
             output="screen"
-    /> -->
+    />
+-->
+
+    <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>
 
 
 </launch>
