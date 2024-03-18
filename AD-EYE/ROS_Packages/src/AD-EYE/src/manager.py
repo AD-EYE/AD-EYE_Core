@@ -220,7 +220,7 @@ class Manager:
         "Map",
         "Sensing",
         "Localization",
-        "Fake_Localization",
+        #"Fake_Localization",
         #"Detection",
         "Mission_Planning",
         "Motion_Planning",
