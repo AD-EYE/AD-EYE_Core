@@ -55,5 +55,13 @@
 
 <!--    <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>  -->
 
+    <node
+        type="interfacing_node.py"
+        pkg="adeye"
+        name="interfacing_node"
+        respawn="true"
+        output="screen"
+    />
+
 
 </launch>
