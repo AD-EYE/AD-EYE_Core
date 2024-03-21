@@ -2,8 +2,9 @@
 
 import rospy
 from std_msgs.msg import UInt8, Float64, Bool
-from geometry_msgs.msg import PoseArray, TwistStamped
+from geometry_msgs.msg import PoseArray, TwistStamped, Pose
 from sensor_msgs.msg import NavSatFix
+from visualization_msgs.msg import MarkerArray, Marker
 
 class bounding_box:
     def __init__(self, point1, point2):
@@ -39,11 +40,9 @@ class bounding_box:
 class Mocker:
     def __init__(self):
         rospy.init_node("tecosa_mocker")
-        self.ext_publisher = rospy.Publisher("/sensor_detected_objects", PoseArray, queue_size=1)
         self.rec_speed_publisher = rospy.Publisher("/suggested_speed", UInt8, queue_size=1)
+        self.marker_publisher = rospy.Publisher('/objects_markers', MarkerArray, queue_size=1)
         
-        self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.gps_callback, queue_size=1)
-
         self.speed_zones = {
             bounding_box((59.353074,18.063190),(59.353522,18.066228)) : 15, # Exp. Nord
             bounding_box((59.352560,18.066822),(59.351220,18.070233)) : 30, # Brinellvagen
@@ -53,8 +52,20 @@ class Mocker:
 
         self.max_speed = 50
 
-    def external_objects_callback(self, external_objects):
-        self.ext_publisher.publish(external_objects)
+        self.mock_trajectory = [
+            (300, -410),
+            (305, -420),
+            (310, -430),
+            (315, -440),
+            (320, -450),
+            (325, -460),
+            (330, -470),
+            (335, -480),
+            (340, -490),
+            (345, -500)
+        ]
+
+        self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.gps_callback, queue_size=1)
 
     def gps_callback(self, gps_fix):
         for zone, speed in self.speed_zones.items():
@@ -62,7 +73,47 @@ class Mocker:
                 self.rec_speed_publisher.publish(speed)
                 break
         self.rec_speed_publisher.publish(self.max_speed)
+    
+    def publish_marker(self, n):
+        p = Pose()
+        p.position.x = self.mock_trajectory[n][0]
+        p.position.y = self.mock_trajectory[n][1]
+        p.position.z = -2.22
+
+        marker_msg = Marker()
+        marker_msg.header.frame_id= "world"
+        marker_msg.type = Marker.CUBE
+        marker_msg.action = Marker.ADD
+        marker_msg.pose = p
+
+        marker_msg.scale.x = 5
+        marker_msg.scale.y = 5
+        marker_msg.scale.z = 5
+
+        marker_msg.color.r = 255
+        marker_msg.color.g = 1
+        marker_msg.color.b = 1
+        marker_msg.color.a = 0.5
+
+        marker_array_msg = MarkerArray()
+
+        marker_array_msg.markers.append(marker_msg)
+
+        self.marker_publisher.publish(marker_array_msg)
 
 if __name__ == '__main__':
     node = Mocker()
-    rospy.spin()
+    r = rospy.Rate(10)
+    counter = 0
+    dot_counter = 0
+    while not rospy.is_shutdown():
+        counter += 1
+        if counter == 10:
+            counter = 0
+            if dot_counter < len(node.mock_trajectory):
+                node.publish_marker(dot_counter)
+                dot_counter += 1
+            else:
+                dot_counter = 0
+                node.publish_marker(dot_counter)
+        r.sleep()
