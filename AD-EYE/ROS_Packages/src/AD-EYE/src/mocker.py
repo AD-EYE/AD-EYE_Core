@@ -106,9 +106,9 @@ class Mocker:
         marker_msg.action = Marker.ADD
         marker_msg.pose = p
 
-        marker_msg.scale.x = 4
-        marker_msg.scale.y = 4
-        marker_msg.scale.z = 4
+        marker_msg.scale.x = 3
+        marker_msg.scale.y = 3
+        marker_msg.scale.z = 3
 
         marker_msg.color.r = 255
         marker_msg.color.g = 1
