@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import UInt8, Float64, Bool
+from std_msgs.msg import UInt8, Float64, Bool, String
 from geometry_msgs.msg import PoseArray, TwistStamped, Pose
 from sensor_msgs.msg import NavSatFix
 from visualization_msgs.msg import MarkerArray, Marker
@@ -27,26 +27,22 @@ class bounding_box:
     
     def check_if_inside(self, latitude, longitude):
         if latitude < self.lat1:
-            rospy.loginfo("latitude < self.lat1")
             return False
         elif latitude > self.lat2:
-            rospy.loginfo("latitude > self.lat2")
             return False
         elif longitude < self.long1:
-            rospy.loginfo("longitude < self.long1")
             return False
         elif longitude > self.long2:
-            rospy.loginfo("longitude > self.long2")
             return False
         else:
-            rospy.loginfo("inside a zone")
             return True
 
 class Mocker:
     def __init__(self):
         rospy.init_node("tecosa_mocker")
         self.rec_speed_publisher = rospy.Publisher("/suggested_speed", UInt8, queue_size=1)
-        self.marker_publisher = rospy.Publisher('/objects_markers', MarkerArray, queue_size=1)
+        self.marker_publisher = rospy.Publisher("/objects_markers", MarkerArray, queue_size=1)
+        self.warning_publisher = rospy.Publisher("/warning", String, queue_size=1)
         
         self.speed_zones = {
             bounding_box((59.35428925605726, 18.062568116840684),(59.352861872471244, 18.068072009804272)) : 15, # Exp. Nord
@@ -70,14 +66,30 @@ class Mocker:
             (345, -500)
         ]
 
+        self.warning_zones = {
+            bounding_box((59.349974682491286, 18.066240227535655),(59.34809162160392, 18.072613251875843)) : "Incoming Vehicle" # Intersection area
+        }
+
         self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.gps_callback, queue_size=1)
 
     def gps_callback(self, gps_fix):
+        in_zone = False
         for zone, speed in self.speed_zones.items():
             if zone.check_if_inside(gps_fix.latitude, gps_fix.longitude):
+                in_zone = True
                 self.rec_speed_publisher.publish(speed)
-                return
-        self.rec_speed_publisher.publish(self.max_speed)
+                break
+        if in_zone == False:
+            self.rec_speed_publisher.publish(self.max_speed)
+
+        in_zone = False
+        for zone, message in self.warning_zones.items():
+            if zone.check_if_inside(gps_fix.latitude, gps_fix.longitude):
+                in_zone = True
+                self.warning_publisher.publish(message)
+                break
+        if in_zone == False:
+            self.warning_publisher.publish("")
     
     def publish_marker(self, n):
         p = Pose()
@@ -85,15 +97,18 @@ class Mocker:
         p.position.y = self.mock_trajectory[n][1]
         p.position.z = -2.22
 
+        p.orientation.z = 0.2297529
+        p.orientation.w = 0.973249
+
         marker_msg = Marker()
         marker_msg.header.frame_id= "world"
         marker_msg.type = Marker.CUBE
         marker_msg.action = Marker.ADD
         marker_msg.pose = p
 
-        marker_msg.scale.x = 5
-        marker_msg.scale.y = 5
-        marker_msg.scale.z = 5
+        marker_msg.scale.x = 4
+        marker_msg.scale.y = 4
+        marker_msg.scale.z = 4
 
         marker_msg.color.r = 255
         marker_msg.color.g = 1
