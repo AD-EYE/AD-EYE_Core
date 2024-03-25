@@ -27,14 +27,19 @@ class bounding_box:
     
     def check_if_inside(self, latitude, longitude):
         if latitude < self.lat1:
+            rospy.loginfo("latitude < self.lat1")
             return False
         elif latitude > self.lat2:
+            rospy.loginfo("latitude > self.lat2")
             return False
         elif longitude < self.long1:
+            rospy.loginfo("longitude < self.long1")
             return False
         elif longitude > self.long2:
+            rospy.loginfo("longitude > self.long2")
             return False
         else:
+            rospy.loginfo("inside a zone")
             return True
 
 class Mocker:
@@ -44,7 +49,7 @@ class Mocker:
         self.marker_publisher = rospy.Publisher('/objects_markers', MarkerArray, queue_size=1)
         
         self.speed_zones = {
-            bounding_box((59.353074,18.063190),(59.353522,18.066228)) : 15, # Exp. Nord
+            bounding_box((59.35428925605726, 18.062568116840684),(59.352861872471244, 18.068072009804272)) : 15, # Exp. Nord
             bounding_box((59.352560,18.066822),(59.351220,18.070233)) : 30, # Brinellvagen
             bounding_box((59.350717,18.069385),(59.349820,18.070190)) : 20, # 
             bounding_box((59.349974682491286, 18.066240227535655),(59.34809162160392, 18.072613251875843)) : 10  # Intersection area
@@ -71,7 +76,7 @@ class Mocker:
         for zone, speed in self.speed_zones.items():
             if zone.check_if_inside(gps_fix.latitude, gps_fix.longitude):
                 self.rec_speed_publisher.publish(speed)
-                break
+                return
         self.rec_speed_publisher.publish(self.max_speed)
     
     def publish_marker(self, n):
