@@ -53,21 +53,12 @@ class Mocker:
 
         self.max_speed = 50
 
-        self.mock_trajectory = [
-            (300, -410),
-            (305, -420),
-            (310, -430),
-            (315, -440),
-            (320, -450),
-            (325, -460),
-            (330, -470),
-            (335, -480),
-            (340, -490),
-            (345, -500)
-        ]
+        self.mock_trajectory_start = (300, -410)
+        self.mock_trajectory_end = (345, -500)
+        self.marker_position = [self.mock_trajectory_start[0], self.mock_trajectory_start[1]]
 
         self.warning_zones = {
-            bounding_box((59.349974682491286, 18.066240227535655),(59.34809162160392, 18.072613251875843)) : "Incoming Vehicle" # Intersection area
+            bounding_box((59.34958370584376, 18.069064853993567),(59.34865660520373, 18.070920942491256)) : "Incoming Vehicle" # Intersection area
         }
 
         self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.gps_callback, queue_size=1)
@@ -91,10 +82,13 @@ class Mocker:
         if in_zone == False:
             self.warning_publisher.publish("")
     
-    def publish_marker(self, n):
+    def publish_marker(self, offset_x, offset_y):
+        self.marker_position[0] += offset_x
+        self.marker_position[1] += offset_y
+
         p = Pose()
-        p.position.x = self.mock_trajectory[n][0]
-        p.position.y = self.mock_trajectory[n][1]
+        p.position.x = self.marker_position[0]
+        p.position.y = self.marker_position[1]
         p.position.z = -2.22
 
         p.orientation.z = 0.2297529
@@ -121,6 +115,9 @@ class Mocker:
 
         self.marker_publisher.publish(marker_array_msg)
 
+    def reset_marker(self):
+        self.marker_position = [self.mock_trajectory_start[0], self.mock_trajectory_start[1]]
+
 if __name__ == '__main__':
     node = Mocker()
     r = rospy.Rate(10)
@@ -128,12 +125,8 @@ if __name__ == '__main__':
     dot_counter = 0
     while not rospy.is_shutdown():
         counter += 1
-        if counter == 10:
+        node.publish_marker(0.167, -0.333)
+        if counter == 285:
             counter = 0
-            if dot_counter < len(node.mock_trajectory):
-                node.publish_marker(dot_counter)
-                dot_counter += 1
-            else:
-                dot_counter = 0
-                node.publish_marker(dot_counter)
+            node.reset_marker()
         r.sleep()
