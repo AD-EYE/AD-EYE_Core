@@ -8,6 +8,7 @@ add_message_files(
   FILES
   categorized_pose.msg  
   categorized_poses.msg
+  NewTwistS.msg #added by gökce
 )
 
 ## Generate added messages and services with any dependencies listed here

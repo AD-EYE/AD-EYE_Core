@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   op_ros_helpers
   tf2_ros
   adeye_utils
+  message_generation #added by gökce
 )
 
 
