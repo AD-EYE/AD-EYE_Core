@@ -1,5 +1,11 @@
 <!-- -->
 <launch>
+
+    <!-- RealWorld / Simulation -->
+    <arg name="camera_source" default="RealWorld"/>
+	
+    <param name="sensing/camera_source" value="$(arg camera_source)" />
+
     <node
             type="manager.py"
             pkg="adeye"
@@ -7,4 +13,9 @@
             respawn="false"
             output="screen"
     />
+
+    <group if="$(eval arg('camera_source') == 'RealWorld')">
+        <node pkg="adeye" name="zed_driver" type="zed_driver.py" output="screen" />
+    </group>
+
 </launch>
