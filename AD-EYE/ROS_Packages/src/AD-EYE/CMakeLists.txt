@@ -136,17 +136,25 @@ add_executable(
   src/detected_object_processor/detected_objects_processor.cpp
 )
 
+add_executable(
+  ObjectMarkerPublisher
+  src/object_marker_publisher.cpp
+)
+
 target_link_libraries(
   DetectedObjectsProcessor
   ${catkin_LIBRARIES}
 )
-
 
 target_link_libraries(
   DetectedObjectsPublisher
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  ObjectMarkerPublisher
+  ${catkin_LIBRARIES}
+)
 
 target_link_libraries(
   GridMapCreator
