@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
 
-    <arg name="world_name" value="W01_Base_World"/>
+    <arg name="world_name" value="World_CANoe"/>
 
 
     <rosparam>
@@ -33,7 +33,7 @@
 
 
     <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Simulation/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/"/>
     <arg name="area_width" value="35" />
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
