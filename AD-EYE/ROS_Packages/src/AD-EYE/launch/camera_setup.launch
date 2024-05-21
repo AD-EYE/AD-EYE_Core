@@ -15,12 +15,12 @@
     <node ns="$(arg camera)" pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
           args="$(arg tf_x) $(arg tf_y) $(arg tf_z) $(arg tf_qx) $(arg tf_qy) $(arg tf_qz) $(arg tf_qw) base_link $(arg camera) 10"/>
 
-    <!-- camera_info -->
+<!-- camera_info
     <include ns="$(arg camera)" file="$(find adeye)/launch/camera_info_publisher.launch">
         <arg name="node_name" value="camera_info_publisher"/>
         <arg name="args_list" value="camera_info $(arg camera) 720 960 0.0 0.0 0.0 0.0 0.0 1125 0.0 480 0.0 1125 360 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 1125 0.0 480 0.0 0.0 1125 360 0.0 0.0 0.0 1.0 0.0"/>
     </include>
-
+-->
     <!-- vision_ssd_detect-->
     <include file="$(find adeye)/launch/vision_ssd_detect.launch">
         <arg name="camera" value="$(arg camera)"/>

@@ -1,0 +1,29 @@
+<!-- -->
+<launch>
+
+    <!-- camera_setup for camera_1-->
+    <include file="$(find adeye)/launch/camera_setup.launch">
+        <arg name="camera" value="camera_1"/>
+        <arg name="tf_x" value="2.0"/>
+        <arg name="tf_y" value="0.0"/>
+        <arg name="tf_z" value="1.32"/>
+        <arg name="tf_qx" value="-0.5"/>
+        <arg name="tf_qy" value="0.5"/>
+        <arg name="tf_qz" value="-0.5"/>
+        <arg name="tf_qw" value="0.5"/>
+    </include>
+
+    <!-- detected_objects_visualizer -->
+    <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="detected_objects_visualizer" output="screen">
+      <param name="objects_src_topic" value="fusion/objects"/>
+    </node>
+
+    <!-- objectsFrameAdapter -->
+    <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
+        <arg name="nodeName" value="objectsFrameAdapter"/>
+        <arg name="inputTopic" value="fusion/objects"/>
+        <arg name="outputTopic" value="tracked_objects"/>
+        <arg name="targetFrame" value="map"/>
+    </include>
+
+</launch>

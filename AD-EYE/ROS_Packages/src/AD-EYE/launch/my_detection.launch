@@ -71,10 +71,10 @@
     </node>
 
 
-    <!-- radar_broadcaster 
+    <!-- radar_broadcaster
     <include file="$(find adeye)/launch/radar_broadcaster.launch"/> -->
 
-    <!-- objectsFrameAdapter 
+    <!-- objectsFrameAdapter
     <include file="$(find adeye)/launch/objectsFrameAdapter.launch">
         <arg name="nodeName" value="objectsFrameAdapter2"/>
         <arg name="inputTopic" value="detection/radar_tracker/objects"/>
