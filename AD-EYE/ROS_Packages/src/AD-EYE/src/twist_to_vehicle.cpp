@@ -214,7 +214,7 @@ int main(int argc, char** argv)
 class TwistToVehicle {
 public:
     TwistToVehicle(ros::NodeHandle *nh)
-        : P_(10.0), I_(0.0), D_(0.0), accelPIDController(P_, I_, D_, std::bind(&TwistToVehicle::pidSource, this), std::bind(&TwistToVehicle::pidOutput, this, std::placeholders::_1)) {
+        : P_(150.0), I_(0.0), D_(0.0), accelPIDController(P_, I_, D_, std::bind(&TwistToVehicle::pidSource, this), std::bind(&TwistToVehicle::pidOutput, this, std::placeholders::_1)) {
         
         linear_speed_target_ = 0.0;
         angular_speed_target_ = 0.0;
