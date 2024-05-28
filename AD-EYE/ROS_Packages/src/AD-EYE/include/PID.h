@@ -7,6 +7,7 @@ template <class T>
 class PIDController
 {
 public:
+  PIDController(){}; //Constructeur par défaut (ADDED)
   PIDController(double p, double i, double d, std::function<T()> pidSource, std::function<void(T output)> pidOutput);
   T tick();
   void setTarget(T t);

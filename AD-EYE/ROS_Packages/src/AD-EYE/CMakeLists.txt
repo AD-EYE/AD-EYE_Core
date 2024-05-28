@@ -62,6 +62,11 @@ add_library(
 )
 
 add_library(
+  PID src/PID.cpp
+  #src/twist_to_vehicle.cpp
+)
+
+add_library(
   experimentRecording src/experiment_recording.cpp
 )
 
@@ -126,10 +131,10 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
-add_executable(
-  PID_controller
-  src/PID.cpp
-)
+# add_executable(
+#   PID_controller
+#   src/PID.cpp
+# )
 
 add_executable(
   TwistToVehicle
@@ -157,6 +162,12 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   SafetyFaultMonitors
 )
+
+# target_link_libraries(
+#   PID
+#   ${catkin_LIBRARIES}
+#   PIDController
+# )
 
 target_link_libraries(
   radar_broadcaster
@@ -198,14 +209,15 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(
-  PID_controller
-  ${catkin_LIBRARIES}
-)
+# target_link_libraries(
+#   PID_controller
+#   ${catkin_LIBRARIES}
+# )
 
 target_link_libraries(
   TwistToVehicle
   ${catkin_LIBRARIES}
+  PID
 )
 
 add_dependencies(controlSwitch
@@ -252,9 +264,9 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_dependencies(PID_controller
-  ${catkin_EXPORTED_TARGETS}
-)
+# add_dependencies(PID_controller
+#   ${catkin_EXPORTED_TARGETS}
+# )
 
 add_dependencies(TwistToVehicle
   ${catkin_EXPORTED_TARGETS}
@@ -322,7 +334,7 @@ add_dependencies(
 
 # Mark executables and/or libraries for installation
 install(
-  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC PID_controller
+  TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
