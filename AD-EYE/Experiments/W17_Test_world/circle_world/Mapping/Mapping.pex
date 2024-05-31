@@ -1,9 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Simulation" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="B854EBE79E5B9432239D6180AE4594F8ED7CD7BABEBE7B9F5D3A23EB3F01C88E" UniqueExperimentIdentifier="ee4aa50a-51d1-4f38-a7a7-f77751f9b682" UniqueIdCounter="349" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Mapping" UniqueId="0" TotalSimulationTime="48.900000000000006" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="7A99306B5E3CA42559D621F54FC0683D39715E2AEC65512DF30309071F3C8943" UniqueExperimentIdentifier="c2f18e4f-a210-4ed0-9d50-16bf33391f79" UniqueIdCounter="290" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
-    <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="113" SensorDetectability="Invisible" NumericalID="9" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="-573.36154174804688" Y="78.42926025390625" Z="-2.2204460492503131E-16" />
-      <Orientation Bank="0" Tilt="0" Heading="0.46961237355690089" />
+    <Actor xsi:type="GenericModel" Description="A model of a tall green office building" id="OfficeGreenTall_1" UniqueId="201" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeGreenTall" AnimatedActor="false" CompilationSheetPicture="OfficeGreenTall_HighPoly.png" HashCode="8514829fbfadc661ea63b92bcd0275f8" ModelFile="Buildings\OfficeGreenTall\OfficeGreenTall.osgb" GenericModelSourceFile="Buildings\OfficeGreenTall\OfficeGreenTall.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-122.10861206054688" Y="170.52510070800781" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.5" Y="0.5" Z="0" />
+      <Size X="50.540000915527344" Y="41.959999084472656" Z="36.7400016784668" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A model of a Canal House." id="HouseOld4_1" UniqueId="202" SensorDetectability="Occluding" NumericalID="14" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="HouseOld4" AnimatedActor="false" CompilationSheetPicture="HouseOld4_HighPoly.png" HashCode="5813a55e15f77d66748d2b46bee783f8" ModelFile="Buildings\HouseOld4\HouseOld4.osgb" GenericModelSourceFile="Buildings\HouseOld4\HouseOld4.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-266.32891845703125" Y="207.40335083007813" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.5" Y="0.5" Z="0" />
+      <Size X="8" Y="7.2100000381469727" Z="13.619999885559082" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="A model of a Dutch Church." id="DutchChurch_1" UniqueId="203" SensorDetectability="Occluding" NumericalID="15" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="DutchChurch" AnimatedActor="false" CompilationSheetPicture="Church_HighPoly.png" HashCode="c456ae2c187d90a5895639c7917575ff" ModelFile="Buildings\Church\Church.osgb" GenericModelSourceFile="Buildings\Church\Church.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+      <Location X="-239.98728942871094" Y="154.72012329101563" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="180.65108915741692" />
+      <Origin X="0.5" Y="0.5" Z="0" />
+      <Size X="18.639999389648438" Y="35.060001373291016" Z="26.110000610351563" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <SensorInfo>
+        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
+          <UserSpecifiedModels />
+        </TISSensorInfo>
+      </SensorInfo>
+      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
+        <VisualizationActuators>
+          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
+            <LightMeshPositions />
+            <VisuPortElements />
+          </VisualizationActuator>
+        </VisualizationActuators>
+      </ObjectSimulatorInfo>
+      <DriverModel DriverModelType="None">
+        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
+        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
+      </DriverModel>
+      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <Sensors />
+      <ConnectionPoints />
+      <Trajectories />
+      <Cameras />
+      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
+      <RecolorRegions />
+      <MaterialRegions />
+      <SimpleTDConfiguration>
+        <StiffnessRearXValues>
+          <X>0</X>
+        </StiffnessRearXValues>
+        <StiffnessRearYValues>
+          <Y>0</Y>
+        </StiffnessRearYValues>
+        <StiffnessFrontXValues>
+          <X>0</X>
+        </StiffnessFrontXValues>
+        <StiffnessFrontYValues>
+          <Y>0</Y>
+        </StiffnessFrontYValues>
+        <DampingFrontXValues>
+          <X>0</X>
+        </DampingFrontXValues>
+        <DampingFrontYValues>
+          <Y>0</Y>
+        </DampingFrontYValues>
+        <DampingRearXValues>
+          <X>0</X>
+        </DampingRearXValues>
+        <DampingRearYValues>
+          <Y>0</Y>
+        </DampingRearYValues>
+        <RadialStiffNess>500000</RadialStiffNess>
+        <RadialDamping>300</RadialDamping>
+      </SimpleTDConfiguration>
+      <AttachmentPointIds />
+      <AttachmentPoints />
+      <DefaultSensorPositions />
+      <DefaultVisuAidPositions />
+      <Animation />
+      <LightElements />
+      <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
+      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
+      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
+      <WheelDefinitions />
+      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
+    </Actor>
+    <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="278" SensorDetectability="Invisible" NumericalID="17" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
+      <Location X="-332.1416015625" Y="188.68310546875" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
       <CoGOffset X="0" Y="0" Z="0" />
@@ -382,20 +643,20 @@
       </DriverModel>
       <Physics Drag="0.360000014305115" Mass="2220" MaxAcceleration="0.300000011920929" MaxDeceleration="1" ReferenceArea="2.826251745224" RollFriction="0.00999999977648258" />
       <Sensors>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="114" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="10" SweepRateScaleFactor="2" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_1" UniqueId="279" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="0" />
           <Origin X="0" Y="1" Z="0" />
           <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FovAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
+            <TestAutomationVariable VariableName="Location" VariableState="true" />
+            <TestAutomationVariable VariableName="Orientation" VariableState="true" />
+            <TestAutomationVariable VariableName="FovAzimuth" VariableState="true" />
+            <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="342" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6305" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -407,20 +668,20 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="115" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="10" SweepRateScaleFactor="2" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_2" UniqueId="280" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="90" />
           <Origin X="0" Y="1" Z="0" />
           <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FovAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
+            <TestAutomationVariable VariableName="Location" VariableState="true" />
+            <TestAutomationVariable VariableName="Orientation" VariableState="true" />
+            <TestAutomationVariable VariableName="FovAzimuth" VariableState="true" />
+            <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="343" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6306" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -432,20 +693,20 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="116" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="10" SweepRateScaleFactor="2" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_3" UniqueId="281" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="180" />
           <Origin X="0" Y="1" Z="0" />
           <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FovAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
+            <TestAutomationVariable VariableName="Location" VariableState="true" />
+            <TestAutomationVariable VariableName="Orientation" VariableState="true" />
+            <TestAutomationVariable VariableName="FovAzimuth" VariableState="true" />
+            <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="344" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6307" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -457,155 +718,20 @@
           <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
           <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
         </Sensor>
-        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="117" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="10" SweepRateScaleFactor="2" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="Range" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="true" IntegerOutput="false">
+        <Sensor xsi:type="PointCloudSensor" Description="" id="PointCloudSensor_4" UniqueId="282" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="DarkCyan (FF008B8B)" FovAzimuth="90" FovElevation="30" HorizontalResolution="225" VerticalResolution="16" OutputCameraImage="true" ColorAssignment="Color" FrameRate="1" SweepRateScaleFactor="20" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="100" CurrentEffect="default" AzimuthSampleAccuracy="0.05" ElevationSampleAccuracy="0.05" ExtrapolateRange="true" OutputMode="WorldPosition" OutputDopplerVelocity="false" OutputIntensity="true" OutputObjectID="false" OutputAngles="false" IntegerOutput="false">
           <Location X="0.6" Y="0" Z="2" />
           <Orientation Bank="0" Tilt="0" Heading="270" />
           <Origin X="0" Y="1" Z="0" />
           <Size X="13.04079532623291" Y="1.6562497615814209" Z="0.10000000149011612" />
           <CoGOffset X="0" Y="0" Z="0" />
           <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FovAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FovElevation" VariableState="false" />
+            <TestAutomationVariable VariableName="Location" VariableState="true" />
+            <TestAutomationVariable VariableName="Orientation" VariableState="true" />
+            <TestAutomationVariable VariableName="FovAzimuth" VariableState="true" />
+            <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="345" SubCamPosition="Center">
-              <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-              <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <TestAutomationVariables />
-            </CameraSensorCamera>
-          </CameraSensorCameras>
-          <IntensityFactorRGBMono IntensityFactorR="0.3" IntensityFactorG="0.59" IntensityFactorB="0.11" />
-          <NoiseMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-          <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-          <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-        </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_1" UniqueId="118" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="750" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
-          <TestAutomationProperties>
-            <TestAutomationTag PropertyName="FocalLength" Tag="fl" />
-          </TestAutomationProperties>
-          <Location X="2" Y="0" Z="1.32000005245209" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <Origin X="0" Y="1" Z="0" />
-          <Size X="6.855250358581543" Y="1.6562497615814209" Z="0.10000000149011612" />
-          <CoGOffset X="0" Y="0" Z="0" />
-          <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVElevation" VariableState="false" />
-            <TestAutomationVariable VariableName="IntensityFactorRGBMono" VariableState="false" />
-            <TestAutomationVariable VariableName="StereoDistance" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosZ" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientZ" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountPos" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
-          </TestAutomationVariables>
-          <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="346" SubCamPosition="Center">
-              <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-              <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <TestAutomationVariables />
-            </CameraSensorCamera>
-          </CameraSensorCameras>
-          <IntensityFactorRGBMono IntensityFactorR="0.3" IntensityFactorG="0.59" IntensityFactorB="0.11" />
-          <NoiseMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-          <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-          <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-        </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_tl" UniqueId="119" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="10" SweepRateScaleFactor="2" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="750" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
-          <Location X="1.1" Y="-0.7" Z="1.8" />
-          <Orientation Bank="0" Tilt="345" Heading="345" />
-          <Origin X="0" Y="1" Z="0" />
-          <Size X="6.7784276008605957" Y="1.6562497615814209" Z="0.10000000149011612" />
-          <CoGOffset X="0" Y="0" Z="0" />
-          <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVElevation" VariableState="false" />
-            <TestAutomationVariable VariableName="IntensityFactorRGBMono" VariableState="false" />
-            <TestAutomationVariable VariableName="StereoDistance" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosZ" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientZ" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountPos" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
-          </TestAutomationVariables>
-          <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="347" SubCamPosition="Center">
-              <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-              <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-              <TestAutomationVariables />
-            </CameraSensorCamera>
-          </CameraSensorCameras>
-          <IntensityFactorRGBMono IntensityFactorR="0.3" IntensityFactorG="0.59" IntensityFactorB="0.11" />
-          <NoiseMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-          <DriftMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
-          <MisalignmentMount PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
-        </Sensor>
-        <Sensor xsi:type="RadarSensor" Description="" id="Radar_1" UniqueId="120" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="GreenYellow (FFADFF2F)" FovAzimuth="45" FovElevation="45" HorizontalResolution="31" VerticalResolution="31" OutputCameraImage="true" ImplicitAtmAttenuation="false" BeamCountHor="1" BeamCountVert="1" BeamType="Elliptical_Cone" ScanPattern="LineMode" AtmAttenuation="0" MaxDetectableObjects="7" BeamWidth="45" BeamHeight="30" ORMFiltered="false" ORMPorts="false" ORMTechnologyFilter="" OverrideBeams="false" ActualBeamCount="1" CaptureFrequency="20" SweepRateScaleFactor="1" SweepDirectionLine="Left to Right / Top to Bottom" SweepDirectionGrid="TopLeft to BottomRight" SensorSweepDirectionOrientation="Horizontal" ScanManner="BeamWise" DriftAzimuthType="None" DriftElevationType="None" DriftRangeType="None" DriftAzimuthGaussianSigma="0" DriftAzimuthUnidirectionalRate="0" DriftElevationGaussianSigma="0" DriftElevationUnidirectionalRate="0" DriftRangeGaussianSigma="0" DriftRangeUnidirectionalRate="0" NoiseAngularAzimuthResolutionCellSize="0" NoiseAngularElevationResolutionCellSize="0" NoiseAzimuthIllumination="0" NoiseElevationIllumination="0" NoiseAzimuthReflection="0" NoiseElevationReflection="0" NoiseRange="0" NoiseRangeCellSize="0" SourceType="Single" MSourceHorizontalGridSpacing="5" MSourceVerticalGridSpacing="5" PencilBeamAngle="1E-05" NoiseAziIlluType="Additive" NoiseElevIlluType="Additive" NoiseAziReflectType="Additive" NoiseElevReflectType="Additive" NoiseRangeType="Multiplicative" BeamLength="30" FoVAzimuthL="22.5" FoVAzimuthR="22.5" FoVElevationB="22.5" FoVElevationT="22.5" AntennaPatternType="sinXDivX" ThreeDbBeamWidth="0.5" ApertureRadius="0.01" OperatingFrequency="25000000000">
-          <Location X="3.75" Y="0" Z="0.400000005960464" />
-          <Orientation Bank="0" Tilt="0" Heading="0" />
-          <Origin X="0" Y="1" Z="0" />
-          <Size X="5.7113704681396484" Y="1.6562497615814209" Z="0.10000000149011612" />
-          <CoGOffset X="0" Y="0" Z="0" />
-          <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="Range" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseAzimuthIllumination" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseAziIlluType" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseElevationIllumination" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseElevIlluType" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseAzimuthReflection" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseAziReflectType" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseElevationReflection" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseElevReflectType" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseRange" VariableState="false" />
-            <TestAutomationVariable VariableName="NoiseRangeType" VariableState="false" />
-          </TestAutomationVariables>
-          <UserSpecifiedAGM_Model File="UserSpecified\AGM\SENSOR_AGM__ad032193-dbf2-4ce6-8d2a-738c7014a78b.txt" Name="" />
-          <TIS_SpecSensorCustomBeams />
-        </Sensor>
-        <Sensor xsi:type="CameraSensor" Description="" id="Camera_2" UniqueId="121" PreventDragging="true" CurrentAttachmentPoint="Actor" Visualize="false" VisualizedAlpha="25" Annotate="false" BeamColor="Yellow (FFFFFF00)" FovAzimuth="46.2126541" FovElevation="35.4893456" HorizontalResolution="960" VerticalResolution="720" OutputCameraImage="true" ColorAssignment="Color" FrameRate="20" SweepRateScaleFactor="1" FocalLength="7.5" NearClippingDistance="0.1" FarClippingDistance="750" CurrentEffect="default" StereoDistance="0.2" IsStereoVision="false" UsesCCDspec="true" SensorCCDType="HalfInch" CustomCCDWidth="2.5" CustomCCDHeight="2.5">
-          <TestAutomationProperties>
-            <TestAutomationTag PropertyName="FocalLength" Tag="fl" />
-          </TestAutomationProperties>
-          <Location X="-0.95" Y="0" Z="1.32000005245209" />
-          <Orientation Bank="0" Tilt="0" Heading="180" />
-          <Origin X="0" Y="1" Z="0" />
-          <Size X="6.855250358581543" Y="1.6562497615814209" Z="0.10000000149011612" />
-          <CoGOffset X="0" Y="0" Z="0" />
-          <TestAutomationVariables>
-            <TestAutomationVariable VariableName="Location" VariableState="false" />
-            <TestAutomationVariable VariableName="Orientation" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVAzimuth" VariableState="false" />
-            <TestAutomationVariable VariableName="FoVElevation" VariableState="false" />
-            <TestAutomationVariable VariableName="IntensityFactorRGBMono" VariableState="false" />
-            <TestAutomationVariable VariableName="StereoDistance" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountPosZ" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientX" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientY" VariableState="false" />
-            <TestAutomationVariable VariableName="DriftMountOrientZ" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountPos" VariableState="false" />
-            <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="false" />
-          </TestAutomationVariables>
-          <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="348" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="6308" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -619,7 +745,17 @@
         </Sensor>
       </Sensors>
       <ConnectionPoints />
-      <Trajectories />
+      <Trajectories>
+        <TrajectoryBase xsi:type="Trajectory" Description="" id="Trajectory_1" UniqueId="289" IsActive="true" ReferencePathName="InheritedPath_1" SampleFrequency="20" SpeedProfileName="SpeedProfile_1" SyncTimePoint="0" TrajectoryColor="FF996600" CompareActorToTrajectory="false">
+          <Location X="0" Y="0" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <Origin X="0.5" Y="0.5" Z="0" />
+          <Size X="0" Y="0" Z="0" />
+          <CoGOffset X="0" Y="0" Z="0" />
+          <StartLocation X="-332.1416015625" Y="188.68310546875" Z="0" />
+          <StartOrientation Bank="0" Tilt="0" Heading="0" />
+        </TrajectoryBase>
+      </Trajectories>
       <Cameras />
       <UserSpecDyn Jxx="303" Jyy="3669" M="2220" Jzz="4193" Krear="148091" Kfront="90943" SteeringRatio="25" MaxSwa="500" L="2.82" A="1.12999988" />
       <RecolorRegions>
@@ -1471,536 +1607,14 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.6469999551773071" TrackWidthRear="1.6469999551773071" TyreRadius="0.37000000476837158" Wheelbase="2.8199999332427979" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a tall brown office building" id="OfficeBrownTall1_1" UniqueId="217" SensorDetectability="Occluding" NumericalID="13" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="OfficeBrownTall1" AnimatedActor="false" CompilationSheetPicture="OfficeBrownTall1_HighPoly.png" HashCode="0353195e7008c41e36491d4551a8ee94" ModelFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.osgb" GenericModelSourceFile="Buildings\OfficeBrownTall1\OfficeBrownTall1.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-462.64364624023438" Y="103.96702575683594" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="0" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="81.55999755859375" Y="22.149999618530273" Z="60.040000915527344" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a row of 1930's houses." id="Houses1930s_1" UniqueId="218" SensorDetectability="Occluding" NumericalID="14" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Houses1930s" AnimatedActor="false" CompilationSheetPicture="HousesY30_HighPoly.png" HashCode="0137a13652f4ca29825b20097ac29208" ModelFile="Buildings\HousesY30\HousesY30.osgb" GenericModelSourceFile="Buildings\HousesY30\HousesY30.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-384.35165405273438" Y="65.149978637695313" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="0" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="80.870002746582031" Y="8.8000001907348633" Z="13.510000228881836" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a Canal House." id="HouseOld3_1" UniqueId="219" SensorDetectability="Occluding" NumericalID="15" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="HouseOld3" AnimatedActor="false" CompilationSheetPicture="HouseOld3_HighPoly.png" HashCode="61c6c18a61da65f150c3e95ea836c84f" ModelFile="Buildings\HouseOld3\HouseOld3.osgb" GenericModelSourceFile="Buildings\HouseOld3\HouseOld3.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-300.138427734375" Y="86.861190795898438" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="0" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="8.15999984741211" Y="7.0799999237060547" Z="11.0600004196167" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a modern school building" id="School_1" UniqueId="220" SensorDetectability="Occluding" NumericalID="16" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="School" AnimatedActor="false" CompilationSheetPicture="SchoolModern_HighPoly.png" HashCode="91b34a9ff2a34db994239d8178594040" ModelFile="Buildings\SchoolModern\SchoolModern.osgb" GenericModelSourceFile="Buildings\SchoolModern\SchoolModern.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-246.84722900390625" Y="15.806289672851563" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="0" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="36.419998168945313" Y="36.080001831054688" Z="14.609999656677246" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a warehouse" id="Warehouse_1" UniqueId="221" SensorDetectability="Occluding" NumericalID="17" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Warehouse" AnimatedActor="false" CompilationSheetPicture="Warehouse_HighPoly.png" HashCode="cb468d598cc7cedcf651886d59ff5ea6" ModelFile="Buildings\Warehouse\Warehouse.osgb" GenericModelSourceFile="Buildings\Warehouse\Warehouse.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-96.8424072265625" Y="-9.19451904296875" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="305.34817133036438" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="44.7400016784668" Y="56.290000915527344" Z="16.409999847412109" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="A model of a car dealership" id="CarDealer_1" UniqueId="223" SensorDetectability="Occluding" NumericalID="18" ObjectTypeID="12" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="CarDealer" AnimatedActor="false" CompilationSheetPicture="Cardealer_HighPoly.png" HashCode="c0714643782813fcd92505dd91c6d47d" ModelFile="Buildings\CarDealer\Cardealer.osgb" GenericModelSourceFile="Buildings\CarDealer\CarDealer.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-124.474853515625" Y="-124.32977294921875" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="300.86086777484468" />
-      <Origin X="0.5" Y="0.5" Z="0" />
-      <Size X="52.580001831054688" Y="41.369998931884766" Z="14.9399995803833" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions />
-      <MaterialRegions />
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <VehicleUiConfig>
-        <RearTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </RearTyreCentre>
-        <FrontTyreCentre>
-          <X>0</X>
-          <Y>0</Y>
-        </FrontTyreCentre>
-      </VehicleUiConfig>
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
-      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
-        <Emap />
-        <Tr_out />
-        <UpShiftStrategies />
-        <DownShiftStrategies />
-      </DefaultVehicleDynamics>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
   </Actors>
-  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="Simulation" />
+  <CompilationSheetInfo Description="" id="CompilationSheetInfo" UniqueId="1" InterpretedSimulink="Mapping" />
   <ModelGenerationSettings Description="" id="ModelGenerationSettings" UniqueId="2" RoadErrorDistance="0.15" RoadErrorAngleDeg="3" TrajectoryErrorDistance="0.15" TrajectoryErrorAngleDeg="0.005" />
   <ObjectListProviderDetectableTypes />
   <Environment Description="" id="Environment" UniqueId="3">
     <Underlays>
       <Underlay xsi:type="Grass" Description="" id="Grass_1" UniqueId="15" SensorDetectability="Occluding" NumericalID="3" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="38.435756683349695" Y="71.508384705193009" Z="0" />
+        <Location X="72.39738464355456" Y="80.807128897715742" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="2000" Y="2000" Z="0.0099999997764825821" />
@@ -2012,8 +1626,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="1.242987396708211" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="2.3281200173394723" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="2.3412843776703376" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="2.6308620324601693" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>true</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -2033,9 +1647,9 @@
   </GlobalPlacement>
   <InfraStructure Description="" id="Infrastructure" UniqueId="4">
     <RoadSegments>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_1" UniqueId="16" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="23" SidewalkUniqueId="24" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-458.1719095778646" Y="80.093432868323873" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_1" UniqueId="16" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="204" SidewalkUniqueId="205" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-332.1416015625" Y="190.43310546875" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2049,20 +1663,20 @@
         </ObjectSimulatorInfo>
         <LinePlacements />
         <CentralLineDefinition Description="" id="StraightRoad_1_Line_2" UniqueId="17" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_3" UniqueId="25" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <MarkerAppearance Description="" id="MarkerAppearance_3" UniqueId="75" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
           <LaneLineDefinition Description="" id="StraightRoad_1_Line_3" UniqueId="18" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_4" UniqueId="26" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerAppearance Description="" id="MarkerAppearance_4" UniqueId="76" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
           <LaneLineDefinition Description="" id="StraightRoad_1_Line_4" UniqueId="19" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_5" UniqueId="27" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerAppearance Description="" id="MarkerAppearance_5" UniqueId="77" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2070,7 +1684,7 @@
         </CurbLineDefinitions>
         <LaneLineDefinitions>
           <LaneLineDefinition Description="" id="StraightRoad_1_Line_1" UniqueId="20" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_6" UniqueId="28" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerAppearance Description="" id="MarkerAppearance_6" UniqueId="78" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2082,8 +1696,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_1" UniqueId="29" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_2" UniqueId="30" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_1" UniqueId="73" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_2" UniqueId="74" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2093,9 +1707,9 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_2" UniqueId="31" SensorDetectability="Occluding" NumericalID="4" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="77" SidewalkUniqueId="78" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-428.17190957787574" Y="80.093457533818821" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_2" UniqueId="23" SensorDetectability="Occluding" NumericalID="6" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="206" SidewalkUniqueId="207" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-302.1416015625" Y="190.43310546875" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2108,29 +1722,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_2_Line_2" UniqueId="32" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_11" UniqueId="44" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="StraightRoad_2_Line_2" UniqueId="24" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_10" UniqueId="85" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_2_Line_3" UniqueId="33" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_13" UniqueId="45" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_2_Line_3" UniqueId="25" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_11" UniqueId="86" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_2_Line_4" UniqueId="34" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_15" UniqueId="46" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_2_Line_4" UniqueId="26" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_12" UniqueId="87" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_2_Line_1" UniqueId="35" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_17" UniqueId="47" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_2_Line_1" UniqueId="27" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_13" UniqueId="88" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2142,8 +1756,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_8" UniqueId="42" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_9" UniqueId="43" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_8" UniqueId="83" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_9" UniqueId="84" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2153,9 +1767,9 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_3" UniqueId="52" SensorDetectability="Occluding" NumericalID="6" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="79" SidewalkUniqueId="80" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-398.17190957788563" Y="80.093482199313939" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_3" UniqueId="30" SensorDetectability="Occluding" NumericalID="7" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="208" SidewalkUniqueId="209" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-272.1416015625" Y="190.43310546875" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2168,29 +1782,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_3_Line_2" UniqueId="53" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_16" UniqueId="61" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="StraightRoad_3_Line_2" UniqueId="31" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_18" UniqueId="95" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_3_Line_3" UniqueId="54" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_19" UniqueId="62" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_3_Line_3" UniqueId="32" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_19" UniqueId="96" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_3_Line_4" UniqueId="55" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_22" UniqueId="63" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_3_Line_4" UniqueId="33" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_20" UniqueId="97" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_3_Line_1" UniqueId="56" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_24" UniqueId="64" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_3_Line_1" UniqueId="34" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_21" UniqueId="98" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2202,8 +1816,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_10" UniqueId="59" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_12" UniqueId="60" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_16" UniqueId="93" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_17" UniqueId="94" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2213,11 +1827,11 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="BendRoad" Description="" id="BendRoad_1" UniqueId="70" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="81" SidewalkUniqueId="82" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" CenterlineRadius="297.75857543945313" RelativeHeading="89.441323914854735">
-        <Location X="-70.42724609375" Y="-214.76150512695313" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="90.558723192771112" />
-        <Origin X="0" Y="0.012556848177945187" Z="0" />
-        <Size X="301.49424230648714" Y="298.64182053156378" Z="0" />
+      <RoadSegment xsi:type="ClothoidRoad" Description="" id="ClothoidRoad_1" UniqueId="44" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="155" SidewalkUniqueId="156" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5">
+        <Location X="-242.1416015625" Y="190.43310546875" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
+        <Origin X="0" Y="0.14348830282688141" Z="0" />
+        <Size X="57.426971435546875" Y="24.392232894897461" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -2228,29 +1842,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="BendRoad_1_Line_2" UniqueId="71" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_20" UniqueId="83" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="ClothoidRoad_1_Line_2" UniqueId="45" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_26" UniqueId="105" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="BendRoad_1_Line_3" UniqueId="72" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_23" UniqueId="84" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="ClothoidRoad_1_Line_3" UniqueId="46" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_27" UniqueId="106" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="BendRoad_1_Line_4" UniqueId="73" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_26" UniqueId="85" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="ClothoidRoad_1_Line_4" UniqueId="47" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_28" UniqueId="107" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="BendRoad_1_Line_1" UniqueId="74" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_27" UniqueId="86" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="ClothoidRoad_1_Line_1" UniqueId="48" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_29" UniqueId="108" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2262,8 +1876,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_14" UniqueId="87" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_18" UniqueId="88" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_24" UniqueId="103" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_25" UniqueId="104" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2272,10 +1886,13 @@
         <RoadJointsEnd>
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
+        <ClothoidSection R0="INF" R1="30">
+          <ClothoidCurve L="60" R="30" FlippedCurve="false" />
+        </ClothoidSection>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_4" UniqueId="146" SensorDetectability="Occluding" NumericalID="7" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="224" SidewalkUniqueId="225" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-488.171909577855" Y="80.093408202828812" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_4" UniqueId="51" SensorDetectability="Occluding" NumericalID="9" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="58" SidewalkUniqueId="59" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-272.07519531249983" Y="182.04650878906247" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2288,29 +1905,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_4_Line_2" UniqueId="147" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_28" UniqueId="155" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="StraightRoad_4_Line_2" UniqueId="52" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_34" UniqueId="60" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_4_Line_3" UniqueId="148" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_30" UniqueId="156" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_4_Line_3" UniqueId="53" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_35" UniqueId="61" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_4_Line_4" UniqueId="149" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_32" UniqueId="157" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_4_Line_4" UniqueId="54" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_36" UniqueId="62" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_4_Line_1" UniqueId="150" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_34" UniqueId="158" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_4_Line_1" UniqueId="55" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_37" UniqueId="63" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2322,8 +1939,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_7" UniqueId="153" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_21" UniqueId="154" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_32" UniqueId="64" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_33" UniqueId="65" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2333,9 +1950,9 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_5" UniqueId="163" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="226" SidewalkUniqueId="227" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-518.17190957784464" Y="80.093383537333409" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_5" UniqueId="66" SensorDetectability="Occluding" NumericalID="4" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="210" SidewalkUniqueId="211" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-302.0751953125" Y="182.04650878906256" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2348,29 +1965,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_5_Line_2" UniqueId="164" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_33" UniqueId="172" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="StraightRoad_5_Line_2" UniqueId="67" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_42" UniqueId="119" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_5_Line_3" UniqueId="165" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_36" UniqueId="173" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_5_Line_3" UniqueId="68" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_43" UniqueId="120" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_5_Line_4" UniqueId="166" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_39" UniqueId="174" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_5_Line_4" UniqueId="69" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_44" UniqueId="121" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_5_Line_1" UniqueId="167" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_41" UniqueId="175" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_5_Line_1" UniqueId="70" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_45" UniqueId="122" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2382,8 +1999,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_25" UniqueId="170" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_29" UniqueId="171" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_40" UniqueId="117" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_41" UniqueId="118" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2393,9 +2010,9 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_6" UniqueId="181" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="228" SidewalkUniqueId="229" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-548.1719095778335" Y="80.093358871838" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_6" UniqueId="130" SensorDetectability="Occluding" NumericalID="10" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="212" SidewalkUniqueId="213" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
+        <Location X="-332.0751953125" Y="182.04650878906253" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0" Y="0.5" Z="0" />
         <Size X="30" Y="7.5" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
@@ -2408,29 +2025,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_6_Line_2" UniqueId="182" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_40" UniqueId="190" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="StraightRoad_6_Line_2" UniqueId="131" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_50" UniqueId="139" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_6_Line_3" UniqueId="183" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_44" UniqueId="191" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_6_Line_3" UniqueId="132" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_51" UniqueId="140" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_6_Line_4" UniqueId="184" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_47" UniqueId="192" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_6_Line_4" UniqueId="133" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_52" UniqueId="141" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_6_Line_1" UniqueId="185" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_49" UniqueId="193" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="StraightRoad_6_Line_1" UniqueId="134" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_53" UniqueId="142" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2442,8 +2059,8 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_31" UniqueId="188" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_35" UniqueId="189" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_48" UniqueId="137" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_49" UniqueId="138" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2453,11 +2070,11 @@
           <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_7" UniqueId="199" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="230" SidewalkUniqueId="231" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RoadLength="30">
-        <Location X="-578.171909577824" Y="80.09333420634249" Z="0" />
-        <Orientation Bank="0" Tilt="0" Heading="4.7107625846365409E-05" />
-        <Origin X="0" Y="0.5" Z="0" />
-        <Size X="30" Y="7.5" Z="0" />
+      <RoadSegment xsi:type="BendRoad" Description="" id="BendRoad_1" UniqueId="148" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="214" SidewalkUniqueId="215" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" CenterlineRadius="79.7318344116211" RelativeHeading="-318.8139199647112">
+        <Location X="-187.87014728848368" Y="209.04920357215286" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="57.295779513082323" />
+        <Origin X="0.5" Y="0.977540023967909" Z="0" />
+        <Size X="166.96366882324219" Y="166.96366882324219" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -2468,29 +2085,29 @@
           <VisualizationActuators />
         </ObjectSimulatorInfo>
         <LinePlacements />
-        <CentralLineDefinition Description="" id="StraightRoad_7_Line_2" UniqueId="200" Label="2">
-          <MarkerAppearance Description="" id="MarkerAppearance_48" UniqueId="208" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <CentralLineDefinition Description="" id="BendRoad_1_Line_2" UniqueId="149" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_58" UniqueId="166" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
           <MarkerPatterns>
             <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
           </MarkerPatterns>
         </CentralLineDefinition>
         <CurbLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_7_Line_3" UniqueId="201" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_52" UniqueId="209" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="BendRoad_1_Line_3" UniqueId="150" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_59" UniqueId="167" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
-          <LaneLineDefinition Description="" id="StraightRoad_7_Line_4" UniqueId="202" Label="3">
-            <MarkerAppearance Description="" id="MarkerAppearance_55" UniqueId="210" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="BendRoad_1_Line_4" UniqueId="151" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_60" UniqueId="168" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
           </LaneLineDefinition>
         </CurbLineDefinitions>
         <LaneLineDefinitions>
-          <LaneLineDefinition Description="" id="StraightRoad_7_Line_1" UniqueId="203" Label="1">
-            <MarkerAppearance Description="" id="MarkerAppearance_57" UniqueId="211" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <LaneLineDefinition Description="" id="BendRoad_1_Line_1" UniqueId="152" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_61" UniqueId="169" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
             <MarkerPatterns>
               <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
             </MarkerPatterns>
@@ -2502,8 +2119,68 @@
         </Asphalt>
         <RoadOffset>0.25</RoadOffset>
         <PriorityLineOffset>0</PriorityLineOffset>
-        <RoadSignalAppearance Description="" id="MarkerAppearance_37" UniqueId="206" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
-        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_43" UniqueId="207" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadSignalAppearance Description="" id="MarkerAppearance_56" UniqueId="164" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_57" UniqueId="165" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadMarkings />
+        <DirtSpots />
+        <RoadJointsStart>
+          <RoadJoint JointId="0" NumberOfLanes="2" StartLane="1" />
+        </RoadJointsStart>
+        <RoadJointsEnd>
+          <RoadJoint JointId="1" NumberOfLanes="2" StartLane="1" />
+        </RoadJointsEnd>
+      </RoadSegment>
+      <RoadSegment xsi:type="BezierRoad" Description="" id="CurvedRoad_1" UniqueId="193" SensorDetectability="Occluding" NumericalID="13" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="216" SidewalkUniqueId="217" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="2" LaneWidth="3.5" RelativeHeading="-81.518140451628881" Xoffset="42.437301782711614" Yoffset="-27.836745991764456" Zoffset="0" ControlPoint1Distance="20" ControlPoint2Distance="20" EntryTilt="0" ExitTilt="0">
+        <Location X="-242.07519531249983" Y="182.04650878906247" Z="0" />
+        <Orientation Bank="0" Tilt="0" Heading="0" />
+        <Origin X="0" Y="0.89110094308853149" Z="0" />
+        <Size X="46.146286010742188" Y="32.139862060546875" Z="0" />
+        <CoGOffset X="0" Y="0" Z="0" />
+        <SensorInfo>
+          <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
+            <UserSpecifiedModels />
+          </TISSensorInfo>
+        </SensorInfo>
+        <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="false" SelfSensor="false" AlwaysOnCompilationSheet="false">
+          <VisualizationActuators />
+        </ObjectSimulatorInfo>
+        <LinePlacements />
+        <CentralLineDefinition Description="" id="CurvedRoad_1_Line_2" UniqueId="194" Label="2">
+          <MarkerAppearance Description="" id="MarkerAppearance_66" UniqueId="218" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+          <MarkerPatterns>
+            <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+          </MarkerPatterns>
+        </CentralLineDefinition>
+        <CurbLineDefinitions>
+          <LaneLineDefinition Description="" id="CurvedRoad_1_Line_3" UniqueId="195" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_67" UniqueId="219" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+          <LaneLineDefinition Description="" id="CurvedRoad_1_Line_4" UniqueId="196" Label="3">
+            <MarkerAppearance Description="" id="MarkerAppearance_68" UniqueId="220" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="0" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+        </CurbLineDefinitions>
+        <LaneLineDefinitions>
+          <LaneLineDefinition Description="" id="CurvedRoad_1_Line_1" UniqueId="197" Label="1">
+            <MarkerAppearance Description="" id="MarkerAppearance_69" UniqueId="221" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+            <MarkerPatterns>
+              <MarkerPatterns Width="0.2" Marker="1" Spacing="3" LateralOffset="0" LongitudinalOffset="0" />
+            </MarkerPatterns>
+          </LaneLineDefinition>
+        </LaneLineDefinitions>
+        <Asphalt xsi:type="StandardAsphalt">
+          <TextureScale>10</TextureScale>
+          <Tone>Standard</Tone>
+        </Asphalt>
+        <RoadOffset>0.25</RoadOffset>
+        <PriorityLineOffset>0</PriorityLineOffset>
+        <RoadSignalAppearance Description="" id="MarkerAppearance_64" UniqueId="222" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
+        <RoadPriorityLineAppearance Description="" id="MarkerAppearance_65" UniqueId="223" Color="White (FFFFFFFF)" Fade="0" Holes="0" />
         <RoadMarkings />
         <DirtSpots />
         <RoadJointsStart>
@@ -2516,20 +2193,269 @@
     </RoadSegments>
     <GraphBasedElements />
     <RoadSegmentConnections>
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_1" UniqueId="69" Road_A_UniqueId="StraightRoad_2" Road_B_UniqueId="StraightRoad_1" Joint_A_Id="0" Joint_B_Id="1" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_2" UniqueId="89" Road_A_UniqueId="StraightRoad_3" Road_B_UniqueId="StraightRoad_2" Joint_A_Id="0" Joint_B_Id="1" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_3" UniqueId="90" Road_A_UniqueId="BendRoad_1" Road_B_UniqueId="StraightRoad_3" Joint_A_Id="1" Joint_B_Id="1" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_4" UniqueId="180" Road_A_UniqueId="StraightRoad_4" Road_B_UniqueId="StraightRoad_1" Joint_A_Id="1" Joint_B_Id="0" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_5" UniqueId="198" Road_A_UniqueId="StraightRoad_5" Road_B_UniqueId="StraightRoad_4" Joint_A_Id="1" Joint_B_Id="0" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_6" UniqueId="216" Road_A_UniqueId="StraightRoad_6" Road_B_UniqueId="StraightRoad_5" Joint_A_Id="1" Joint_B_Id="0" />
-      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_7" UniqueId="239" Road_A_UniqueId="StraightRoad_7" Road_B_UniqueId="StraightRoad_6" Joint_A_Id="1" Joint_B_Id="0" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_1" UniqueId="127" Road_A_UniqueId="StraightRoad_2" Road_B_UniqueId="StraightRoad_1" Joint_A_Id="0" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_2" UniqueId="128" Road_A_UniqueId="StraightRoad_3" Road_B_UniqueId="StraightRoad_2" Joint_A_Id="0" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_3" UniqueId="129" Road_A_UniqueId="ClothoidRoad_1" Road_B_UniqueId="StraightRoad_3" Joint_A_Id="0" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_4" UniqueId="147" Road_A_UniqueId="StraightRoad_5" Road_B_UniqueId="StraightRoad_4" Joint_A_Id="1" Joint_B_Id="0" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_5" UniqueId="184" Road_A_UniqueId="StraightRoad_6" Road_B_UniqueId="StraightRoad_5" Joint_A_Id="1" Joint_B_Id="0" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_6" UniqueId="185" Road_A_UniqueId="BendRoad_1" Road_B_UniqueId="ClothoidRoad_1" Joint_A_Id="0" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_7" UniqueId="224" Road_A_UniqueId="CurvedRoad_1" Road_B_UniqueId="StraightRoad_4" Joint_A_Id="0" Joint_B_Id="1" />
+      <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_8" UniqueId="225" Road_A_UniqueId="CurvedRoad_1" Road_B_UniqueId="BendRoad_1" Joint_A_Id="1" Joint_B_Id="1" />
     </RoadSegmentConnections>
     <AbstractObjects />
     <TrafficSigns />
     <InfraOthers />
     <SensorHolders />
   </InfraStructure>
-  <Paths />
+  <Paths>
+    <Path xsi:type="InheritedPath" Description="" id="InheritedPath_1" UniqueId="287" PreventDragging="true" StartHeading="0">
+      <Location X="-332.1416015625" Y="188.68310546875" Z="0" />
+      <Orientation Bank="0" Tilt="0" Heading="0" />
+      <Origin X="0.5" Y="0.5" Z="0" />
+      <Size X="0" Y="0" Z="0" />
+      <CoGOffset X="0" Y="0" Z="0" />
+      <Segments>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link0" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-332.1416015625" Y="190.43310546875" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <Length>30</Length>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link1" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-302.1416015625" Y="190.43310546875" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <Length>30</Length>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link2" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-272.1416015625" Y="190.43310546875" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <Length>30</Length>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Clothoid" ID="Link3" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="59.030120966164283" Height="0" AngleDeg="19.207740900872878" CurvatureDeg="57.295779513082323" />
+          <RelativeSupportPoints />
+          <Location X="-242.1416015625" Y="190.43310546875" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <R0Bigger>false</R0Bigger>
+          <ClothoidSection R0="INF" R1="30">
+            <ClothoidCurve L="60" R="30" FlippedCurve="false" />
+          </ClothoidSection>
+          <OffsetFromClothoid>-1.75</OffsetFromClothoid>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Bend" ID="Link4" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="54.856780918131967" Height="0" AngleDeg="200.59303868740625" CurvatureDeg="-318.8139199647112" />
+          <RelativeSupportPoints />
+          <Location X="-187.87014728848368" Y="209.04920357215286" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="57.295779513082323" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>-1.75</OffsetStart>
+          <OffsetEnd>-1.75</OffsetEnd>
+          <Invert>false</Invert>
+          <CenterlineRadius>79.7318344116211</CenterlineRadius>
+          <RelativeHeading>-318.8139199647112</RelativeHeading>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Bezier" ID="Link5" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="53.018813058394372" Height="0" AngleDeg="407.9330983971858" CurvatureDeg="81.518140451628881" />
+          <RelativeSupportPoints>
+            <PolarPointF Length="20" Height="-0" AngleDeg="98.481859548371119" />
+            <PolarPointF Length="20" Height="0" AngleDeg="0" />
+          </RelativeSupportPoints>
+          <Location X="-242.07519531249983" Y="182.04650878906247" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>1.75</OffsetStart>
+          <OffsetEnd>1.75</OffsetEnd>
+          <Invert>true</Invert>
+          <RelativeHeading>-81.518140451628881</RelativeHeading>
+          <EndHeading>278.48185954837112</EndHeading>
+          <ControlPoint1Distance>20</ControlPoint1Distance>
+          <ControlPoint2Distance>20</ControlPoint2Distance>
+          <EntryTilt>0</EntryTilt>
+          <ExitTilt>0</ExitTilt>
+          <Xoffset>42.437301782711614</Xoffset>
+          <Yoffset>-27.836745991764456</Yoffset>
+          <Zoffset>0</Zoffset>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link6" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30.000003750000033" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-272.07519531249983" Y="182.04650878906247" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>1.75</OffsetStart>
+          <OffsetEnd>1.75</OffsetEnd>
+          <Invert>true</Invert>
+          <Length>30</Length>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link7" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30.000003750000204" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-302.0751953125" Y="182.04650878906256" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>1.75</OffsetStart>
+          <OffsetEnd>1.75</OffsetEnd>
+          <Invert>true</Invert>
+          <Length>30</Length>
+        </Segment>
+        <Segment xsi:type="CenterLineLink_Straight" ID="Link8" MaxSpeedLimit="13.888888888888889">
+          <RelativeEndPoint Length="30.000003750000204" Height="0" AngleDeg="-0" CurvatureDeg="0" />
+          <RelativeSupportPoints />
+          <Location X="-332.0751953125" Y="182.04650878906253" Z="0" />
+          <Orientation Bank="0" Tilt="0" Heading="0" />
+          <BankAngleDegStart>0</BankAngleDegStart>
+          <BankAngleDegEnd>0</BankAngleDegEnd>
+          <LaneWidth>3.5</LaneWidth>
+          <NumberOfLanes>2</NumberOfLanes>
+          <OffsetStart>1.75</OffsetStart>
+          <OffsetEnd>1.75</OffsetEnd>
+          <Invert>true</Invert>
+          <Length>30</Length>
+        </Segment>
+      </Segments>
+      <LinePlacements />
+      <PathShapes>
+        <Spline StartPointX="-332.1416015625" StartPointY="188.68310546875" StartPointZ="0" StartControlPointX="-322.14160156250006" StartControlPointY="188.68310546875" StartControlPointZ="0" EndControlPointX="-312.14160156249994" EndControlPointY="188.68310546875" EndControlPointZ="0" EndPointX="-302.1416015625" EndPointY="188.68310546875" EndPointZ="0" />
+        <Spline StartPointX="-302.1416015625" StartPointY="188.68310546875" StartPointZ="0" StartControlPointX="-292.14160156250006" StartControlPointY="188.68310546875" StartControlPointZ="0" EndControlPointX="-282.1416015625" EndControlPointY="188.68310546875" EndControlPointZ="0" EndPointX="-272.1416015625" EndPointY="188.68310546875" EndPointZ="0" />
+        <Spline StartPointX="-272.1416015625" StartPointY="188.68310546875" StartPointZ="0" StartControlPointX="-262.1416015625" StartControlPointY="188.68310546875" StartControlPointZ="0" EndControlPointX="-252.1416015625" EndControlPointY="188.68310546875" EndControlPointZ="0" EndPointX="-242.1416015625" EndPointY="188.68310546875" EndPointZ="0" />
+        <Spline StartPointX="-242.1416015625" StartPointY="188.68310546875" StartPointZ="0" StartControlPointX="-227.17370200146584" StartControlPointY="188.68310546875" StartControlPointZ="0" EndControlPointX="-211.23554749801079" EndControlPointY="188.8403318206218" EndControlPointZ="0" EndPointX="-198.05406891926569" EndPointY="196.92628119586078" EndPointZ="0" />
+        <Spline StartPointX="-198.05406891926569" StartPointY="196.92628119586078" StartPointZ="0" StartControlPointX="-193.42865588605866" StartControlPointY="199.76366058411779" StartControlPointZ="0" EndControlPointX="-189.33866840957435" EndControlPointY="203.52319087774097" EndControlPointZ="0" EndPointX="-186.39757348166432" EndPointY="208.1036748374114" EndPointZ="0" />
+        <Spline StartPointX="-186.39757348166432" StartPointY="208.1036748374114" StartPointZ="0" StartControlPointX="-182.81491246033258" StartControlPointY="213.68333878685348" StartControlPointZ="0" EndControlPointX="-178.49639695397138" EndControlPointY="218.66468638708264" EndControlPointZ="0" EndPointX="-173.70295217884484" EndPointY="223.22890273748459" EndPointZ="0" />
+        <Spline StartPointX="-173.70295217884484" StartPointY="223.22890273748459" StartPointZ="0" StartControlPointX="-168.67673133177618" StartControlPointY="228.01476352177124" StartControlPointZ="0" EndControlPointX="-162.82850541478351" EndControlPointY="231.87351906268663" EndControlPointZ="0" EndPointX="-156.74232904062416" EndPointY="235.16155415019969" EndPointZ="0" />
+        <Spline StartPointX="-156.74232904062416" StartPointY="235.16155415019969" StartPointZ="0" StartControlPointX="-151.77798242456745" StartControlPointY="237.84352471048038" StartControlPointZ="0" EndControlPointX="-146.35842330139243" EndControlPointY="239.81790028018233" EndControlPointZ="0" EndPointX="-140.92616975768726" EndPointY="241.30337358539381" EndPointZ="0" />
+        <Spline StartPointX="-140.92616975768726" StartPointY="241.30337358539381" StartPointZ="0" StartControlPointX="-135.48868207755041" StartControlPointY="242.7902781879265" StartControlPointZ="0" EndControlPointX="-129.78825667221881" EndControlPointY="243.66091798119237" EndControlPointZ="0" EndPointX="-124.15571772943078" EndPointY="243.87805743547744" EndPointZ="0" />
+        <Spline StartPointX="-124.15571772943078" StartPointY="243.87805743547744" StartPointZ="0" StartControlPointX="-114.34473275807851" StartControlPointY="244.25627975126031" StartControlPointZ="0" EndControlPointX="-104.63104862875377" EndControlPointY="242.80800369278742" EndControlPointZ="0" EndPointX="-95.335728073884169" EndPointY="239.66684575067649" EndPointZ="0" />
+        <Spline StartPointX="-95.335728073884169" StartPointY="239.66684575067649" StartPointZ="0" StartControlPointX="-84.564337122016951" StartControlPointY="236.02688088488017" StartControlPointZ="0" EndControlPointX="-74.805376590080556" EndControlPointY="229.84392043509757" EndControlPointZ="0" EndPointX="-66.590941515690076" EndPointY="222.02717579052282" EndPointZ="0" />
+        <Spline StartPointX="-66.590941515690076" StartPointY="222.02717579052282" StartPointZ="0" StartControlPointX="-57.555127229482224" StartControlPointY="213.42881786432935" StartControlPointZ="0" EndControlPointX="-50.92164403746628" EndControlPointY="202.54618728376272" EndControlPointZ="0" EndPointX="-46.869384229742849" EndPointY="190.79289350630063" EndPointZ="0" />
+        <Spline StartPointX="-46.869384229742849" StartPointY="190.79289350630063" StartPointZ="0" StartControlPointX="-43.8818338481203" StartControlPointY="182.12771432819022" StartControlPointZ="0" EndControlPointX="-42.694623968160428" EndControlPointY="172.97541901278365" EndControlPointZ="0" EndPointX="-42.838637092832244" EndPointY="163.83724553759652" EndPointZ="0" />
+        <Spline StartPointX="-42.838637092832244" StartPointY="163.83724553759652" StartPointZ="0" StartControlPointX="-42.931493207968323" StartControlPointY="157.94517639265464" StartControlPointZ="0" EndControlPointX="-43.871953903924187" EndControlPointY="152.05547759331645" EndControlPointZ="0" EndPointX="-45.305838982191119" EndPointY="146.34932236923936" EndPointZ="0" />
+        <Spline StartPointX="-45.305838982191119" StartPointY="146.34932236923936" StartPointZ="0" StartControlPointX="-47.205236790158274" StartControlPointY="138.7906561352396" StartControlPointZ="0" EndControlPointX="-50.455661795849316" EndControlPointY="131.67924533782997" EndControlPointZ="0" EndPointX="-54.432559480930422" EndPointY="125.00573523711316" EndPointZ="0" />
+        <Spline StartPointX="-54.432559480930422" StartPointY="125.00573523711316" StartPointZ="0" StartControlPointX="-58.520226820696493" StartControlPointY="118.14634597431326" StartControlPointZ="0" EndControlPointX="-63.952769257056481" EndControlPointY="112.19147817067523" EndControlPointZ="0" EndPointX="-69.8822127480244" EndPointY="106.89493609817686" EndPointZ="0" />
+        <Spline StartPointX="-69.8822127480244" StartPointY="106.89493609817686" StartPointZ="0" StartControlPointX="-74.145173426502751" StartControlPointY="103.08699853685928" StartControlPointZ="0" EndControlPointX="-79.0340709825749" EndControlPointY="99.9211882130879" EndControlPointZ="0" EndPointX="-84.037929065534371" EndPointY="97.186423530567239" EndPointZ="0" />
+        <Spline StartPointX="-84.037929065534371" StartPointY="97.186423530567239" StartPointZ="0" StartControlPointX="-91.809699915248416" StartControlPointY="92.938908095862672" StartControlPointZ="0" EndControlPointX="-100.36175412565622" EndControlPointY="90.324398332120168" EndControlPointZ="0" EndPointX="-109.06866643768194" EndPointY="88.883971088086184" EndPointZ="0" />
+        <Spline StartPointX="-109.06866643768194" StartPointY="88.883971088086184" StartPointZ="0" StartControlPointX="-117.99821736889054" StartControlPointY="87.406711644398342" StartControlPointZ="0" EndControlPointX="-127.158647581899" EndControlPointY="87.8567514913593" EndControlPointZ="0" EndPointX="-136.02242904628949" EndPointY="89.5047139187987" EndPointZ="0" />
+        <Spline StartPointX="-136.02242904628949" StartPointY="89.5047139187987" StartPointZ="0" StartControlPointX="-144.95855701335375" StartControlPointY="91.166127074760908" StartControlPointZ="0" EndControlPointX="-153.4358167458968" EndControlPointY="94.729820484542273" EndControlPointZ="0" EndPointX="-161.23950369744307" EndPointY="99.3188595554144" EndPointZ="0" />
+        <Spline StartPointX="-161.23950369744307" StartPointY="99.3188595554144" StartPointZ="0" StartControlPointX="-167.23381916809626" StartControlPointY="102.84387895570059" StartControlPointZ="0" EndControlPointX="-172.64406155097865" EndControlPointY="107.40587413124523" EndControlPointZ="0" EndPointX="-177.4528725692206" EndPointY="112.40688176534222" EndPointZ="0" />
+        <Spline StartPointX="-177.4528725692206" StartPointY="112.40688176534222" StartPointZ="0" StartControlPointX="-185.095348005355" StartControlPointY="120.35480857188986" StartControlPointZ="0" EndControlPointX="-190.73552261736029" EndControlPointY="130.06807499809705" EndControlPointZ="0" EndPointX="-194.43703100421558" EndPointY="140.41158317677474" EndPointZ="0" />
+        <Spline StartPointX="-194.43703100421558" StartPointY="140.41158317677474" StartPointZ="0" StartControlPointX="-196.05998384236457" StartControlPointY="144.94676835009921" StartControlPointZ="0" EndControlPointX="-197.19684479057213" EndControlPointY="149.70554387972197" EndControlPointZ="0" EndPointX="-197.90703929972096" EndPointY="154.46788012219747" EndPointZ="0" />
+        <Spline StartPointX="-197.90704320785693" StartPointY="154.46787778384785" StartPointZ="0" StartControlPointX="-199.1595582870435" StartControlPointY="162.86684155928788" StartControlPointZ="0" EndControlPointX="-203.78611402682429" EndControlPointY="170.52918556288446" EndControlPointZ="0" EndPointX="-210.85399915541123" EndPointY="175.31120780707943" EndPointZ="0" />
+        <Spline StartPointX="-210.85399915541123" StartPointY="175.31120780707943" StartPointZ="0" StartControlPointX="-217.05103424820129" StartControlPointY="179.50402632671256" StartControlPointZ="0" EndControlPointX="-224.15365434486878" EndControlPointY="181.92574237572396" EndControlPointZ="0" EndPointX="-231.53005308237596" EndPointY="183.02285680260684" EndPointZ="0" />
+        <Spline StartPointX="-231.53005308237596" StartPointY="183.02285680260684" StartPointZ="0" StartControlPointX="-235.01757080464816" StartControlPointY="183.54156601875309" StartControlPointZ="0" EndControlPointX="-238.54857265037907" EndControlPointY="183.79650930992696" EndControlPointZ="0" EndPointX="-242.07520277853871" EndPointY="183.79650930992696" EndPointZ="0" />
+        <Spline StartPointX="-242.07520105451073" StartPointY="183.79650782442891" StartPointZ="0" StartControlPointX="-252.0752010545107" StartControlPointY="183.79650782442891" StartControlPointZ="0" EndControlPointX="-262.07520105451073" EndControlPointY="183.79650782442891" EndControlPointZ="0" EndPointX="-272.07520105451073" EndPointY="183.79650782442891" EndPointZ="0" />
+        <Spline StartPointX="-272.07520105451073" StartPointY="183.79650782442891" StartPointZ="0" StartControlPointX="-282.07520105451073" StartControlPointY="183.79650782442891" StartControlPointZ="0" EndControlPointX="-292.07520105451073" EndControlPointY="183.79650782442891" EndControlPointZ="0" EndPointX="-302.07520105451073" EndPointY="183.79650782442891" EndPointZ="0" />
+        <Spline StartPointX="-302.07520105451073" StartPointY="183.79650782442891" StartPointZ="0" StartControlPointX="-312.07520105451073" StartControlPointY="183.79650782442891" StartControlPointZ="0" EndControlPointX="-322.07520105451073" EndControlPointY="183.79650782442891" EndControlPointZ="0" EndPointX="-332.07520105451073" EndPointY="183.79650782442891" EndPointZ="0" />
+      </PathShapes>
+      <PathOrientations>
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+        <Spline StartPointX="0" StartPointY="0" StartPointZ="0" StartControlPointX="0" StartControlPointY="0" StartControlPointZ="0" EndControlPointX="0" EndControlPointY="0" EndControlPointZ="0" EndPointX="0" EndPointY="0" EndPointZ="0" />
+      </PathOrientations>
+      <SelectionPoints>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="0" Lane="2" RoadSegmentId="StraightRoad_1" CrossSectionIndex="0">
+          <AbsoluteLocation X="-332.1416015625" Y="188.68310546875" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="StraightRoad_2" CrossSectionIndex="0">
+          <AbsoluteLocation X="-302.1416015625" Y="188.68310546875" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="StraightRoad_3" CrossSectionIndex="0">
+          <AbsoluteLocation X="-272.1416015625" Y="188.68310546875" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="ClothoidRoad_1" CrossSectionIndex="0">
+          <AbsoluteLocation X="-242.1416015625" Y="188.68310546875" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="BendRoad_1" CrossSectionIndex="0">
+          <AbsoluteLocation X="-186.39757306506985" Y="208.10367453688363" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="CurvedRoad_1" CrossSectionIndex="1">
+          <AbsoluteLocation X="-197.90703395910643" Y="154.46788127121891" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="StraightRoad_4" CrossSectionIndex="1">
+          <AbsoluteLocation X="-242.07519531249983" Y="183.79650878906247" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="StraightRoad_5" CrossSectionIndex="1">
+          <AbsoluteLocation X="-272.0751953125" Y="183.79650878906256" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="2" RoadSegmentId="StraightRoad_6" CrossSectionIndex="1">
+          <AbsoluteLocation X="-302.0751953125" Y="183.79650878906253" Z="0" />
+        </SelectionPointBase>
+        <SelectionPointBase xsi:type="SelectionPoint" NumberSegments="1" Lane="1" RoadSegmentId="StraightRoad_6" CrossSectionIndex="0">
+          <AbsoluteLocation X="-332.0751953125" Y="183.79650878906253" Z="0" />
+        </SelectionPointBase>
+      </SelectionPoints>
+      <SubStatePath>AddSegment</SubStatePath>
+    </Path>
+  </Paths>
   <ArticulatedActors />
   <PhysicsEnvironment AirDensity="1.28" Gravitation="9.81" AirTemperature="293.15" AtmPressure="101.325" AirHumidityPercentage="10" />
   <UsedPreScanBuilds>
@@ -2539,7 +2465,7 @@
   <SceneLightSource Description="" id="SceneLightSource" UniqueId="5" UseShadows="true" UseSoftShadows="false" UseReflectiveTexture="true" UseNormalMapTexture="true" GlobalAmbientR="0" GlobalAmbientG="0" GlobalAmbientB="0" AmbientR="150" AmbientG="150" AmbientB="150" AmbientA="255" DiffuseR="105" DiffuseG="105" DiffuseB="105" DiffuseA="255" SpecularR="150" SpecularG="150" SpecularB="150" SpecularA="255" PositionX="1" PositionY="-1" PositionZ="1" Intensity="1" AtmTurbFactor="2" Altitude="0" UseExplicitLightPositioning="true" UseCurrentGPSLocation="true" Hours="12" Minutes="0" Seconds="0" UTCoffset="0" SceneShadowTextureSize="4096" SpotLightShadowTextureSize="1024">
     <Latitude Degrees="0" Minutes="0" Seconds="0" Heading="N" />
     <Longitude Degrees="0" Minutes="0" Seconds="0" Heading="E" />
-    <Date>2024-05-29T00:00:00</Date>
+    <Date>2024-05-31T00:00:00</Date>
   </SceneLightSource>
   <SensorSettings Description="" id="SensorSettings" UniqueId="6" CamSensorFarClippingDistance="300" CamSensorNearClippingDistance="0.1" LaneMarkerResolutionFactor="1" IROBUheight="0.1" IROBUlength="0.1" IROBUwidth="0.1" LidarDesiredAccuracy="5" LidarFarClippingDistance="10000" LidarNearClippingDistance="1" RadarDesiredAccuracy="5" RadarFarClippingDistance="10000" RadarNearClippingDistance="1" TISDesiredAccuracy="5" TISFarClippingDistance="1000" TISNearClippingDistance="1" UltraSonicDesiredAccuracy="5" UltraSonicFarClippingDistance="10000" UltraSonicNearClippingDistance="0.01" LegacySensorsSupport="false">
     <IRBeaconPorts>
@@ -2614,7 +2540,7 @@
   <UserObjectTypes>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Car" HasSeparateColors="false" Color="FFFFFFFF" PredefinedEnumType="Car">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="113" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="278" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Motor" HasSeparateColors="false" Color="FFFF0000" PredefinedEnumType="Motor">
@@ -2648,93 +2574,101 @@
             <int>22</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="31" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="31">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="23" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_2.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="23">
           <Aliases>
+            <int>24</int>
+            <int>25</int>
+            <int>26</int>
+            <int>27</int>
+            <int>28</int>
+            <int>29</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="30" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="30">
+          <Aliases>
+            <int>31</int>
             <int>32</int>
             <int>33</int>
             <int>34</int>
             <int>35</int>
             <int>36</int>
-            <int>37</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="52" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_3.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="52">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="ClothoidRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="44" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="ClothoidRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="44">
           <Aliases>
+            <int>45</int>
+            <int>46</int>
+            <int>47</int>
+            <int>48</int>
+            <int>49</int>
+            <int>50</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="51" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="51">
+          <Aliases>
+            <int>52</int>
             <int>53</int>
             <int>54</int>
             <int>55</int>
             <int>56</int>
             <int>57</int>
-            <int>58</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="BendRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="70" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="BendRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="70">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="66" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="66">
           <Aliases>
+            <int>67</int>
+            <int>68</int>
+            <int>69</int>
+            <int>70</int>
             <int>71</int>
             <int>72</int>
-            <int>73</int>
-            <int>74</int>
-            <int>75</int>
-            <int>76</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="146" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_4.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="146">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="130" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="130">
           <Aliases>
-            <int>147</int>
-            <int>148</int>
+            <int>131</int>
+            <int>132</int>
+            <int>133</int>
+            <int>134</int>
+            <int>135</int>
+            <int>136</int>
+          </Aliases>
+        </SemanticItem>
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="BendRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="148" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="BendRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="148">
+          <Aliases>
             <int>149</int>
             <int>150</int>
             <int>151</int>
             <int>152</int>
+            <int>153</int>
+            <int>154</int>
           </Aliases>
         </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="163" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_5.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="163">
+        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="193" />
+        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="CurvedRoad_1.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="193">
           <Aliases>
-            <int>164</int>
-            <int>165</int>
-            <int>166</int>
-            <int>167</int>
-            <int>168</int>
-            <int>169</int>
-          </Aliases>
-        </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="181" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_6.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="181">
-          <Aliases>
-            <int>182</int>
-            <int>183</int>
-            <int>184</int>
-            <int>185</int>
-            <int>186</int>
-            <int>187</int>
-          </Aliases>
-        </SemanticItem>
-        <SemanticItem xsi:type="RoadSegmentSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="199" />
-        <SemanticItem xsi:type="ChildObjectSemanticItem" Name="StraightRoad_7.Markers" Color="Black (FF000000)" HasSeparateColor="false" ParentUniqueId="199">
-          <Aliases>
-            <int>200</int>
-            <int>201</int>
-            <int>202</int>
-            <int>203</int>
-            <int>204</int>
-            <int>205</int>
+            <int>194</int>
+            <int>195</int>
+            <int>196</int>
+            <int>197</int>
+            <int>198</int>
+            <int>199</int>
           </Aliases>
         </SemanticItem>
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="Building" HasSeparateColors="false" Color="FF7F0000" PredefinedEnumType="Building">
       <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="217" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Houses1930s_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="218" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="HouseOld3_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="219" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="220" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="221" />
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CarDealer_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="223" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="201" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="HouseOld4_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="202" />
+        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="DutchChurch_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="203" />
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="NatureElement" HasSeparateColors="false" Color="FF007F00" PredefinedEnumType="NatureElement">
@@ -2785,46 +2719,40 @@
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="16" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="31" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_2" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="23" />
     </ObjectColorID>
     <ObjectColorID Color="FF0000FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="52" />
-    </ObjectColorID>
-    <ObjectColorID Color="FFFFFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BendRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="70" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="30" />
     </ObjectColorID>
     <ObjectColorID Color="FFFF00FF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="113" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="ClothoidRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="44" />
     </ObjectColorID>
     <ObjectColorID Color="FF00FFFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="146" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_4" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="51" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F7F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="163" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_5" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="66" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F0000">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="181" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_6" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="130" />
     </ObjectColorID>
     <ObjectColorID Color="FF007F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="StraightRoad_7" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="199" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF00007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeBrownTall1_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="217" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF7F7F00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Houses1930s_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="218" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BendRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="148" />
     </ObjectColorID>
     <ObjectColorID Color="FF7F007F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="HouseOld3_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="219" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF007F7F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="School_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="220" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CurvedRoad_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="193" />
     </ObjectColorID>
     <ObjectColorID Color="FF7FFF00">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="Warehouse_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="221" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="OfficeGreenTall_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="201" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFFF007F">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="HouseOld4_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="202" />
     </ObjectColorID>
     <ObjectColorID Color="FF007FFF">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="CarDealer_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="223" />
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="DutchChurch_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="203" />
+    </ObjectColorID>
+    <ObjectColorID Color="FFFFFF00">
+      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="BMW_X5_SUV_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="278" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
@@ -3119,9 +3047,21 @@
       </item>
     </ObjectProperties>
   </PreScanObjectTypeSettings>
-  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="10" IntegrationFrequency="20" VisualizationUpdateRatio="20" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\Simulation.swi" TerminationVisScriptFile="Temp\Simulation.swt" />
+  <SimulationConfiguration Description="" id="SimulationConfiguration" UniqueId="10" IntegrationFrequency="20" VisualizationUpdateRatio="20" DisableVisualWorld="true" SimulationUpdateRatio="1" SimulationTimescale="0" VisScriptFile="Temp\Mapping.swi" TerminationVisScriptFile="Temp\Mapping.swt" />
   <Sky Description="Sky" id="Sky" UniqueId="7" SkyBoxName="SKY_Air" UseImageBasedSky="true" GenerateSkyAlbedo="0.5" GeneratedSkyTurbidity="4" ObjectTypeID="50" NumericalID="1" />
-  <SpeedProfiles />
+  <SpeedProfiles>
+    <SpeedProfileBase xsi:type="SpeedProfile" Description="" id="SpeedProfile_1" UniqueId="288">
+      <Physics Drag="0.360000014305115" Mass="2220" MaxAcceleration="0.300000011920929" MaxDeceleration="1" ReferenceArea="2.826251745224" RollFriction="0.00999999977648258" />
+      <PhysicsEnvironment AirDensity="1.28" Gravitation="9.81" AirTemperature="293.15" AtmPressure="101.325" AirHumidityPercentage="10" />
+      <Slots>
+        <Slot xsi:type="UserDefinedSlot" EndStateChange="false" ID="Slot0" CalculationType1="Speed" CalculationType2="EndOfSegmentID" CalculationValue1="15" CalculationValue2="9">
+          <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
+          <EndState Distance="733.7416768191172" Situation="Reached" Speed="15" Time="48.916111787941146666666666667" />
+        </Slot>
+      </Slots>
+      <StartState Distance="0" Situation="Reached" Speed="15" Time="0" />
+    </SpeedProfileBase>
+  </SpeedProfiles>
   <Terrain Description="Terrain" id="Terrain" UniqueId="8" TerrainColor="FF0080FF" TerrainTexture="Air_Terrain_Diffuse_Color.png" UseTerrain="true" ObjectTypeID="51" NumericalID="2">
     <TerrainTextureSize>
       <Width>1</Width>
