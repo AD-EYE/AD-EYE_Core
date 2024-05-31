@@ -2,7 +2,7 @@
 <launch>
 
     <!-- Set localization method: -->
-    <arg name="topic_pose_stamped" default="/ground_truth_pose"/>
+    <arg name="topic_pose_stamped" default="/gnss_pose"/>
 
     <!-- Set args defining tf_transform: base_link to velodyne-->
     <arg name="tf_x" default="0.6"/>
@@ -41,8 +41,9 @@
     <!-- Fake Localizer, publishes the transform from map to base link base on gnss data -->
     <node type="fake_localizer.py"
         pkg="adeye"
-        name="ground_truth_localizer"
-        args="ground_truth_localizer /map /base_link"/>
+        name="fake_localizer"
+        args="fake_localizer /map /base_link"
+	output="screen"/>
 
     <!-- Pose Connect -->
     <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>

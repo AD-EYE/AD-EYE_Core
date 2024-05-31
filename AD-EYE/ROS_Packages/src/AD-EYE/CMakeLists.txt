@@ -62,6 +62,11 @@ add_library(
 )
 
 add_library(
+  PID src/PID.cpp
+  #src/twist_to_vehicle.cpp
+)
+
+add_library(
   experimentRecording src/experiment_recording.cpp
 )
 
@@ -126,6 +131,15 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+# add_executable(
+#   PID_controller
+#   src/PID.cpp
+# )
+
+add_executable(
+  TwistToVehicle
+  src/twist_to_vehicle.cpp
+)
 
 target_link_libraries(
   GridMapCreator
@@ -148,6 +162,12 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   SafetyFaultMonitors
 )
+
+# target_link_libraries(
+#   PID
+#   ${catkin_LIBRARIES}
+#   PIDController
+# )
 
 target_link_libraries(
   radar_broadcaster
@@ -189,6 +209,16 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+# target_link_libraries(
+#   PID_controller
+#   ${catkin_LIBRARIES}
+# )
+
+target_link_libraries(
+  TwistToVehicle
+  ${catkin_LIBRARIES}
+  PID
+)
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -234,6 +264,13 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
+# add_dependencies(PID_controller
+#   ${catkin_EXPORTED_TARGETS}
+# )
+
+add_dependencies(TwistToVehicle
+  ${catkin_EXPORTED_TARGETS}
+)
 
 # Add the executable, libraries and dependencies for sensor monitor node
 add_executable(
@@ -295,8 +332,6 @@ add_dependencies(
 )
 
 
-
-
 # Mark executables and/or libraries for installation
 install(
   TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
@@ -313,6 +348,10 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
-catkin_install_python(PROGRAMS src/camera_publisher.py
+catkin_install_python(PROGRAMS src/camera_broadcaster.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS src/zed_driver.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
