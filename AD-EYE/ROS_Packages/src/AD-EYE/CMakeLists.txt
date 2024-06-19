@@ -21,6 +21,8 @@ find_package(catkin REQUIRED COMPONENTS
   op_ros_helpers
   tf2_ros
   adeye_utils
+  adeye_msgs
+  message_generation 
 )
 
 
@@ -41,6 +43,8 @@ catkin_package(
     op_ros_helpers
     tf2_ros
     adeye_utils
+    adeye_msgs
+    message_runtime 
   DEPENDS
 )
 
@@ -126,6 +130,11 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+add_executable(
+  mock_NewTwistS_publisher
+  src/mock_NewTwistS_publisher.cpp
+)
+
 
 target_link_libraries(
   GridMapCreator
@@ -189,6 +198,11 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  mock_NewTwistS_publisher
+  ${catkin_LIBRARIES}
+)
+
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -232,6 +246,11 @@ add_dependencies(laneMapImager
 
 add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(mock_NewTwistS_publisher
+ ${adeye_msgs_EXPORTED_TARGETS}
+ ${catkin_EXPORTED_TARGETS}
 )
 
 
@@ -293,7 +312,6 @@ add_dependencies(
   TestFault
   ${catkin_EXPORTED_TARGETS}
 )
-
 
 
 
