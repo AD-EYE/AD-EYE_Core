@@ -32,7 +32,13 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& input)
 
     output = *input; //Copy the input message to the output message
 
-    output.header.stamp = ros::Time(float_time_value); //Change the timestamp of the output message
+    uint32_t second = (uint32_t)float_time_value; //Extract the seconds from the global variable
+
+    uint32_t nanosecond = (uint32_t)((float_time_value - (double)second) * 1000000000); //Extract the nanoseconds from the global variable
+
+    output.header.stamp.sec = second; //Change the seconds of the timestamp of the output message   
+
+    output.header.stamp.nsec = nanosecond; //Change the nanoseconds of the timestamp of the output message
 
     pub.publish(output); //Publish the output message
 
