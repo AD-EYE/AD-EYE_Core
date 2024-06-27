@@ -8,17 +8,17 @@
 // #include <PID.h>
 #include <functional>
 
-class TwistToVehicle {
+class VehicleController {
 public:
-    TwistToVehicle(ros::NodeHandle *nh)
-        : P_(0.1), I_(0.0), D_(0.0), accelPIDController(P_, I_, D_, std::bind(&TwistToVehicle::pidSource, this), std::bind(&TwistToVehicle::pidOutput, this, std::placeholders::_1)) {
+    VehicleController(ros::NodeHandle *nh)
+        : P_(0.1), I_(0.0), D_(0.0), accelPIDController(P_, I_, D_, std::bind(&VehicleController::pidSource, this), std::bind(&VehicleController::pidOutput, this, std::placeholders::_1)) {
 
         linear_speed_target_ = 0.0;
         angular_speed_target_ = 0.0;
         linear_speed_current_ = 0.0;
         angular_speed_current_ = 0.0;
 
-        accelPIDController.registerTimeFunction(&TwistToVehicle::pidTimeFunction);
+        accelPIDController.registerTimeFunction(&VehicleController::pidTimeFunction);
         pub_acceleration = nh->advertise<std_msgs::Float64>("vehicle_acceleration_requested", 1);
         pub_steering_angle = nh->advertise<std_msgs::Float64>("steering_angle_command", 1);
     }
@@ -99,11 +99,11 @@ private:
 };
 
 int main(int argc, char** argv) {
-    ros::init(argc, argv, "twist_to_vehicle");
+    ros::init(argc, argv, "vehicle_controller");
     ros::NodeHandle nh;
-    TwistToVehicle ttv(&nh);
-    ros::Subscriber sub_velocity_requested = nh.subscribe("vehice_velocity_requested", 2, &TwistToVehicle::velocityRequestedCallback, &ttv);
-    ros::Subscriber sub_velocity_current = nh.subscribe("vehicle_velocity_current", 2, &TwistToVehicle::velocityCurrentCallback, &ttv);
+    VehicleController ttv(&nh);
+    ros::Subscriber sub_velocity_requested = nh.subscribe("TwistS", 2, &VehicleController::velocityRequestedCallback, &ttv);
+    ros::Subscriber sub_velocity_current = nh.subscribe("current_velocity", 2, &VehicleController::velocityCurrentCallback, &ttv);
     ros::Rate r(10);
     while (ros::ok()) {
         ros::spinOnce();
