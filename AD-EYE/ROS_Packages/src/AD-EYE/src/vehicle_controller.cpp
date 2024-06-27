@@ -10,10 +10,10 @@
 
 class VehicleController {
 public:
-    VehicleController(ros::NodeHandle *nh)
-        : P_(0.1), I_(0.0), D_(0.0), accelPIDController(P_, I_, D_, std::bind(&VehicleController::pidSource, this), std::bind(&VehicleController::pidOutput, this, std::placeholders::_1)) {
+    VehicleController(ros::NodeHandle *nh, double P = 0.1, double I = 0.0, double D = 0.0)
+        : P_(P), I_(I), D_(D), accelPIDController(P_, I_, D_, std::bind(&VehicleController::pidSource, this), std::bind(&VehicleController::pidOutput, this, std::placeholders::_1)) {
 
-        linear_speed_target_ = 0.0;
+        linear_speed_target_ = 0.0,
         angular_speed_target_ = 0.0;
         linear_speed_current_ = 0.0;
         angular_speed_current_ = 0.0;
@@ -99,9 +99,24 @@ private:
 };
 
 int main(int argc, char** argv) {
+
     ros::init(argc, argv, "vehicle_controller");
     ros::NodeHandle nh;
-    VehicleController ttv(&nh);
+    double P;
+    double I;
+    double D;
+    if (argc > 3 )
+    {
+        P = atof(argv[1]);
+        I = atof(argv[2]);
+        D = atof(argv[3]);
+    }
+    else {
+        P = 0.1;
+        I = 0.0;
+        D = 0.0;
+    }
+    VehicleController ttv(&nh,P,I,D);
     ros::Subscriber sub_velocity_requested = nh.subscribe("TwistS", 2, &VehicleController::velocityRequestedCallback, &ttv);
     ros::Subscriber sub_velocity_current = nh.subscribe("current_velocity", 2, &VehicleController::velocityCurrentCallback, &ttv);
     ros::Rate r(10);
