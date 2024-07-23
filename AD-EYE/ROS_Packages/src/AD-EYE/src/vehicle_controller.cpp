@@ -102,6 +102,15 @@ int main(int argc, char** argv) {
 
     ros::init(argc, argv, "vehicle_controller");
     ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
+
+    std::string topic_velocity_requested;
+    std::string topic_velocity_current;
+
+    private_nh.getParam("topic_velocity_current", topic_velocity_current);
+
+
+
     double P;
     double I;
     double D;
@@ -118,7 +127,7 @@ int main(int argc, char** argv) {
     }
     VehicleController ttv(&nh,P,I,D);
     ros::Subscriber sub_velocity_requested = nh.subscribe("TwistS", 2, &VehicleController::velocityRequestedCallback, &ttv);
-    ros::Subscriber sub_velocity_current = nh.subscribe("current_velocity", 2, &VehicleController::velocityCurrentCallback, &ttv);
+    ros::Subscriber sub_velocity_current = nh.subscribe(topic_velocity_current, 2, &VehicleController::velocityCurrentCallback, &ttv);
     ros::Rate r(10);
     while (ros::ok()) {
         ros::spinOnce();
