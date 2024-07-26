@@ -76,6 +76,11 @@ add_executable(
 )
 
 add_executable(
+  FloatToString
+  src/floatToString.cpp
+)
+
+add_executable(
   flattening
   src/flattening_node.cpp
 )
@@ -145,6 +150,11 @@ target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
   vectorMap
+)
+
+target_link_libraries(
+  FloatToString
+  ${catkin_LIBRARIES}
 )
 
 target_link_libraries(
