@@ -1,0 +1,47 @@
+<!-- -->
+<launch>
+
+    <arg name="lidar_source" default="Simulation"/>
+    <arg name="gnss_source" default="Simulation"/>
+    <arg name="camera_source" default="Simulation"/>
+
+    <param name="sensing/lidar_source" value="$(arg lidar_source)" />
+    <param name="sensing/gnss_source" value="$(arg gnss_source)" />
+    <param name="sensing/camera_source" value="$(arg gnss_source)" />
+
+
+    <arg name="test_automation" default="false"/>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <group if="$(arg test_automation)">
+        <rosparam>
+            test_automation: true
+        </rosparam>
+    </group>
+    <node
+            type="manager.py"
+            pkg="adeye"
+            name="manager"
+            respawn="false"
+            output="screen"
+    />
+
+    <node
+            type="vehicle_controller"
+            pkg="adeye"
+            name="vehicle_controller_simulated"
+            respawn="false"
+            output="screen">
+        <param name="topic_velocity_current" value="/current_velocity"/>
+    </node>
+
+    <node
+            type="vehicle_controller"
+            pkg="adeye"
+            name="vehicle_controller_real"
+            respawn="false"
+            output="screen">
+        <param name="topic_velocity_current" value="/vehicle_parameters/velocity_current"/>
+    </node>
+</launch>
