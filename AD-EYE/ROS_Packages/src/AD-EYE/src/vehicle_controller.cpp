@@ -109,8 +109,6 @@ int main(int argc, char** argv) {
 
     private_nh.getParam("topic_velocity_current", topic_velocity_current);
 
-
-
     double P;
     double I;
     double D;
