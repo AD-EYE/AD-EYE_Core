@@ -78,7 +78,9 @@ private:
     }
 
     void pidOutput(double acceleration) {
-        sendAcceleration(acceleration);
+        if (! std::isnan(acceleration)) {
+            sendAcceleration(acceleration);
+        }
     }
 
     static unsigned long pidTimeFunction() {
