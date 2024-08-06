@@ -9,6 +9,7 @@
 #include <functional>
 
 std::string topic_acceleration_request;
+std::string topic_steering_request;
 
 class VehicleController {
 public:
@@ -22,7 +23,7 @@ public:
 
         accelPIDController.registerTimeFunction(&VehicleController::pidTimeFunction);
         pub_acceleration = nh->advertise<std_msgs::Float64>(topic_acceleration_request, 1);
-        pub_steering_angle = nh->advertise<std_msgs::Float64>("steering_angle_command", 1);
+        pub_steering_angle = nh->advertise<std_msgs::Float64>(topic_steering_request, 1);
     }
 
     void velocityRequestedCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
@@ -112,6 +113,7 @@ int main(int argc, char** argv) {
 
     private_nh.getParam("topic_velocity_current", topic_velocity_current);
     private_nh.getParam("topic_acceleration_request", topic_acceleration_request);
+    private_nh.getParam("topic_steering_request", topic_steering_request);
 
     double P;
     double I;
