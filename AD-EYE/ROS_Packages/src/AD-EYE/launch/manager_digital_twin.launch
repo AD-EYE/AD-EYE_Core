@@ -34,6 +34,7 @@
             respawn="false"
             output="screen">
         <param name="topic_velocity_current" value="/current_velocity"/>
+        <param name="topic_acceleration_request" value="/vehicle_acceleration_requested"/>
     </node>
 
     <node
@@ -42,6 +43,7 @@
             name="vehicle_controller_real"
             respawn="false"
             output="screen">
-        <param name="topic_velocity_current" value="/vehicle_parameters/velocity_current"/>
+        <param name="topic_velocity_current" value="/current_velocity_phy"/>
+        <param name="topic_acceleration_request" value="/acceleration_requested_phy"/>
     </node>
 </launch>

@@ -8,6 +8,8 @@
 // #include <PID.h>
 #include <functional>
 
+std::string topic_acceleration_request;
+
 class VehicleController {
 public:
     VehicleController(ros::NodeHandle *nh, double P = 0.1, double I = 0.0, double D = 0.0)
@@ -19,7 +21,7 @@ public:
         angular_speed_current_ = 0.0;
 
         accelPIDController.registerTimeFunction(&VehicleController::pidTimeFunction);
-        pub_acceleration = nh->advertise<std_msgs::Float64>("vehicle_acceleration_requested", 1);
+        pub_acceleration = nh->advertise<std_msgs::Float64>(topic_acceleration_request, 1);
         pub_steering_angle = nh->advertise<std_msgs::Float64>("steering_angle_command", 1);
     }
 
@@ -106,10 +108,10 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh;
     ros::NodeHandle private_nh("~");
 
-    std::string topic_velocity_requested;
     std::string topic_velocity_current;
 
     private_nh.getParam("topic_velocity_current", topic_velocity_current);
+    private_nh.getParam("topic_acceleration_request", topic_acceleration_request);
 
     double P;
     double I;

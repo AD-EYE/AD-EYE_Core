@@ -27,8 +27,8 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "float64_to_string_converter");
     ros::NodeHandle nh;
-    ros::Subscriber float64_sub = nh.subscribe("/vehicle_acceleration_requested", 10, float64Callback);
-    string_pub = nh.advertise<std_msgs::String>("/vehicle_commands", 10);
+    ros::Subscriber float64_sub = nh.subscribe("/acceleration_requested_phy", 1, float64Callback);
+    string_pub = nh.advertise<std_msgs::String>("/vehicle_commands", 1);
     ros::spin();
 
     return 0;
