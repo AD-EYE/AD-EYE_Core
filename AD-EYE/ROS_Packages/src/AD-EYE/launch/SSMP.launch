@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
 
-    <arg name="world_name" value="W17_Test_world"/>
+    <arg name="world_name" value="W01_Base_World"/>
 
 
     <rosparam>
@@ -32,8 +32,8 @@
         args="0 0 0 0 0 0 /world SSMP_map 10"/>
 
 
-    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/straight_line_world/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/straight_line_world/Simuation"/>
+    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Simuation"/>
     <arg name="area_width" value="35" />
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
