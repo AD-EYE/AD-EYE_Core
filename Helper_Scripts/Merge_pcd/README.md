@@ -41,98 +41,98 @@ python pcd_modifier.py
 - % Total saving: Percentage of lines saved after filtering.
 <br>
 <br>
-## Output and Statistics
-------------------------------------------------------------------------------------------------------------------
->&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 0 decimal {:.0f} OUTPUT:__
+## Output and Statistics  
+------------------------------------------------------------------------------------------------------------------  
+>&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 0 decimal {:.0f} OUTPUT:__  
 >
->##############
->
->- Total line number before modification: 1716071
->- Total line number after modification: 137282
->- Total saving: 1578789
->- Total NaN : 439059
->- Total similar lines: 1139730
->
->##############
->
->- % NaN : 25.59%
->- % Similar lines: 66.42%
->- % Total saving: 92.00%
->
->##############
->
->- SIZE_BEFORE = 61,8MB
->- SIZE_AFTER = 1,6MB
->
-------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------
->&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 1 decimal {:.1f} OUTPUT:__
->
->
->##############
->
->- Total line number before modification: 1716071
->- Total line number after modification: 1133551
->- Total saving: 582520
->- Total NaN : 439059
->- Total similar lines: 143461
->
->##############
->
->- % NaN : 25.59%
->- % Similar lines: 8.36%
->- % Total saving: 33.94%
->
->##############
->
->- SIZE_BEFORE = 61,8MB
->- SIZE_AFTER = 22,5MB
->
-------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------
->&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 2 decimal {:.2f} OUTPUT:__
->
->
->
->- Total line number before modification: 1716071
->- Total line number after modification: 1276372
->- Total saving: 439699
->- Total NaN : 439059
->- Total similar lines: 640
->
->##############
->
->- % NaN : 25.59%
->- % Similar lines: 0.04%
->- % Total saving: 25.62%
->
->##############
->
->- SIZE_BEFORE = 61,8MB
->- SIZE_AFTER = 30,5MB
->
-------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------
->&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 3 decimal {:.3f} OUTPUT:__
->
->
->##############
+>##############  
 >
 >- Total line number before modification: 1716071  
+>- Total line number after modification: 137282  
+>- Total saving: 1578789  
+>- Total NaN : 439059  
+>- Total similar lines: 1139730  
+>
+>##############  
+>
+>- % NaN : 25.59%  
+>- % Similar lines: 66.42%  
+>- % Total saving: 92.00%  
+>
+>##############  
+>
+>- SIZE_BEFORE = 61,8MB  
+>- SIZE_AFTER = 1,6MB  
+>
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------  
+>&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 1 decimal {:.1f} OUTPUT:__  
+>
+>
+>##############  
+>
+>- Total line number before modification: 1716071  
+>- Total line number after modification: 1133551  
+>- Total saving: 582520  
+>- Total NaN : 439059  
+>- Total similar lines: 143461  
+>
+>##############  
+>
+>- % NaN : 25.59%  
+>- % Similar lines: 8.36%  
+>- % Total saving: 33.94%  
+>
+>##############  
+>
+>- SIZE_BEFORE = 61,8MB  
+>- SIZE_AFTER = 22,5MB  
+>
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------  
+>&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 2 decimal {:.2f} OUTPUT:__  
+>
+>
+>
+>- Total line number before modification: 1716071  
+>- Total line number after modification: 1276372  
+>- Total saving: 439699  
+>- Total NaN : 439059  
+>- Total similar lines: 640  
+>
+>##############  
+>
+>- % NaN : 25.59%  
+>- % Similar lines: 0.04%  
+>- % Total saving: 25.62%  
+>
+>##############  
+>
+>- SIZE_BEFORE = 61,8MB  
+>- SIZE_AFTER = 30,5MB  
+>
+------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+>&nbsp;&nbsp;&nbsp;&nbsp;__ROUNDIND to 3 decimal {:.3f} OUTPUT:__  
+>
+>
+>##############  
+>
+>- Total line number before modification: 1716071   
 >- Total line number after modification: 1277010  
 >- Total saving: 439061  
 >- Total NaN : 439059  
 >- Total similar lines: 2  
 >
->##############
+>##############  
 >
->- % NaN : 25.59%
->- % Similar lines: 0.00%
->- % Total saving: 25.59%
+>- % NaN : 25.59%  
+>- % Similar lines: 0.00%  
+>- % Total saving: 25.59%  
 >
->##############
+>##############  
 >
->- SIZE_BEFORE = 61,8MB
->- SIZE_AFTER = 35,6MB
+>- SIZE_BEFORE = 61,8MB  
+>- SIZE_AFTER = 35,6MB  
 >
-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------  
