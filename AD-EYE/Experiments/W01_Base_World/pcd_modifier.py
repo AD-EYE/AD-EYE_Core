@@ -3,7 +3,7 @@
 import os
 
 pcd_folder = 'Pointcloud_Files' 
-new_pcd_file = 'Pointcloud_Files/new_pcd_file.pcd' 
+new_pcd_file = 'Pointcloud_Files/pcd_file.pcd' 
 
 set_of_pcd = set()
 total_length = 0

@@ -7,6 +7,16 @@
 This script processes a folder of PCD files filters out lines containing 'NaN' or similar values. 
 Then it write the remaining unique lines into a new PCD file. 
 The script also allows to customize the rounding precision of the point cloud values (see 'Statistics' section).
+Use this code to merge all the pcd files into one big one. It deletes similar values as well as nan values, which saves space.
+
+    - Steps to run the code:
+Use this code to merge all the pcd files into one big one.
+Run the python script on the inside of the world folder but on the outside of the 'Pointcloud_Files' folder. Ex: run in /home/adeye08u/AD-EYE_Core/AD-EYE/Experiments/W01_Base_World.
+	###############################################
+	## COMMAND TO RUN: >> python pcd_modifier.py ##
+	###############################################
+Check if there is now only one pcd file named 'pcd_file.pcd'
+!! After that, make sure YOU CREATE a 'tar.gz' file names 'pcd_file.pcd.tar.gz' inside 'Pointcloud_Files' folder !!
 
     - Usage:
 >> Total line number before modification: Total number of lines read from all input files.
