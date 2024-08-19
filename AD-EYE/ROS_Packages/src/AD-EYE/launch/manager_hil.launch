@@ -1,6 +1,8 @@
 <!-- -->
 <launch>
 
+    <include file="$(find can_vehicle)/launch/vic.launch"/>
+
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
 
     <arg name="lidar_source" default="Simulation"/>
@@ -52,7 +54,5 @@
         <param name="topic_acceleration_request" value="/acceleration_requested_phy"/>
         <param name="topic_steering_request" value="/steering_requested_phy"/>
     </node>
-
-     <node type="vi_controller" pkg="can_vehicle" name="vi_controller" output="screen"/>
 
 </launch>
