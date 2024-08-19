@@ -1,5 +1,6 @@
 <!-- -->
 <launch>
+
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
 
     <arg name="lidar_source" default="Simulation"/>
@@ -31,9 +32,10 @@
     <node
             type="vehicle_controller"
             pkg="adeye"
-            name="vehicle_controller_simulated"
+            name="vehicle_controller_sim"
             respawn="false"
-            output="screen">
+            output="screen"
+    >
         <param name="topic_velocity_current" value="/current_velocity"/>
         <param name="topic_acceleration_request" value="/vehicle_acceleration_requested"/>
         <param name="topic_steering_request" value="/steering_angle_command"/>
@@ -42,11 +44,15 @@
     <node
             type="vehicle_controller"
             pkg="adeye"
-            name="vehicle_controller_real"
+            name="vehicle_controller_phy"
             respawn="false"
-            output="screen">
+            output="screen"
+    >
         <param name="topic_velocity_current" value="/current_velocity_phy"/>
         <param name="topic_acceleration_request" value="/acceleration_requested_phy"/>
         <param name="topic_steering_request" value="/steering_requested_phy"/>
     </node>
+
+     <node type="vi_controller" pkg="can_vehicle" name="vi_controller" output="screen"/>
+
 </launch>
