@@ -29,7 +29,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     pub = rospy.Publisher('/adeye/goals', PoseStamped, queue_size=1)
 
-    file_path = '/home/adeye/AD-EYE_Core/AD-EYE/Experiments/KTH_Demo/Vector_Map_Files/VECTORMAP_FILE/point.csv' 
+    file_path = '/home/adeye/AD-EYE_Core/AD-EYE/Experiments/KTH_Demo/Vector_Map_Files/point.csv' 
 
     with open(file_path, 'r') as file:
         csv_reader = csv.reader(file)
