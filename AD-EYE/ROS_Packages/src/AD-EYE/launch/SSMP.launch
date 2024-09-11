@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
 
-    <arg name="world_name" value="World_CANoe"/>
+    <arg name="world_name" value="W17_Test_world"/>
 
 
     <rosparam>
@@ -32,8 +32,8 @@
         args="0 0 0 0 0 0 /world SSMP_map 10"/>
 
 
-    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/Vector_Map_Files/"/>
-    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/"/>
+    <arg name="Vector_Map_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/straight_line_world/Vector_Map_Files/"/>
+    <arg name="Pex_Folder" value="$(find adeye)/../../../Experiments/$(arg world_name)/straight_line_world/Simuation"/>
     <arg name="area_width" value="35" />
     <arg name="area_height_front" value="50" />
     <arg name="area_height_back" value="25" />
@@ -44,7 +44,7 @@
         <param name="fileLane" value="$(arg Vector_Map_Folder)lane.csv"/>
         <param name="fileNode" value="$(arg Vector_Map_Folder)node.csv"/>
         <param name="fileDtlane" value="$(arg Vector_Map_Folder)dtlane.csv"/>
-        <param name="filePex" value="$(arg Pex_Folder)$(arg world_name).pex"/>
+        <param name="filePex" value="Simulation.pex"/>
     </node>
 
     <node pkg="adeye" type="flattening" name="flattening" output="screen"

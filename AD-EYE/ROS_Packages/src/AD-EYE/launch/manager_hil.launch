@@ -1,0 +1,58 @@
+<!-- -->
+<launch>
+
+    <include file="$(find can_vehicle)/launch/vic.launch"/>
+
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
+
+    <arg name="lidar_source" default="Simulation"/>
+    <arg name="gnss_source" default="Simulation"/>
+    <arg name="camera_source" default="Simulation"/>
+
+    <param name="sensing/lidar_source" value="$(arg lidar_source)" />
+    <param name="sensing/gnss_source" value="$(arg gnss_source)" />
+    <param name="sensing/camera_source" value="$(arg gnss_source)" />
+
+
+    <arg name="test_automation" default="false"/>
+    <rosparam>
+        use_sim_time: true
+    </rosparam>
+    <group if="$(arg test_automation)">
+        <rosparam>
+            test_automation: true
+        </rosparam>
+    </group>
+    <node
+            type="manager.py"
+            pkg="adeye"
+            name="manager"
+            respawn="false"
+            output="screen"
+    />
+
+    <node
+            type="vehicle_controller"
+            pkg="adeye"
+            name="vehicle_controller_sim"
+            respawn="false"
+            output="screen"
+    >
+        <param name="topic_velocity_current" value="/current_velocity"/>
+        <param name="topic_acceleration_request" value="/vehicle_acceleration_requested"/>
+        <param name="topic_steering_request" value="/steering_angle_command"/>
+    </node>
+
+    <node
+            type="vehicle_controller"
+            pkg="adeye"
+            name="vehicle_controller_phy"
+            respawn="false"
+            output="screen"
+    >
+        <param name="topic_velocity_current" value="/current_velocity_phy"/>
+        <param name="topic_acceleration_request" value="/acceleration_requested_phy"/>
+        <param name="topic_steering_request" value="/steering_requested_phy"/>
+    </node>
+
+</launch>

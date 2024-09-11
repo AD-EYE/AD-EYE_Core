@@ -63,7 +63,7 @@ add_library(
 
 add_library(
   PID src/PID.cpp
-  #src/twist_to_vehicle.cpp
+  #src/vehicle_controller.cpp
 )
 
 add_library(
@@ -73,6 +73,11 @@ add_library(
 add_executable(
   GridMapCreator
   src/grid_map_creator.cpp
+)
+
+add_executable(
+  FloatToString
+  src/floatToString.cpp
 )
 
 add_executable(
@@ -137,14 +142,19 @@ add_executable(
 # )
 
 add_executable(
-  TwistToVehicle
-  src/twist_to_vehicle.cpp
+  vehicle_controller
+  src/vehicle_controller.cpp
 )
 
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
   vectorMap
+)
+
+target_link_libraries(
+  FloatToString
+  ${catkin_LIBRARIES}
 )
 
 target_link_libraries(
@@ -215,7 +225,7 @@ target_link_libraries(
 # )
 
 target_link_libraries(
-  TwistToVehicle
+  vehicle_controller
   ${catkin_LIBRARIES}
   PID
 )
@@ -268,7 +278,7 @@ add_dependencies(goalSequencer
 #   ${catkin_EXPORTED_TARGETS}
 # )
 
-add_dependencies(TwistToVehicle
+add_dependencies(vehicle_controller
   ${catkin_EXPORTED_TARGETS}
 )
 
