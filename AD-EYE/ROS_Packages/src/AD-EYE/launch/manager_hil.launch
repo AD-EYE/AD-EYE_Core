@@ -88,4 +88,6 @@
             output="screen"
     />
 
+    <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>
+
 </launch>
