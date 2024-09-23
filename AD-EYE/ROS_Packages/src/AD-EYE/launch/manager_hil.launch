@@ -55,4 +55,12 @@
         <param name="topic_steering_request" value="/steering_requested_phy"/>
     </node>
 
+    <node
+            type="sample_goal_publisher.py"
+            pkg="adeye"
+            name="goal_publisher"
+            respawn="false"
+            output="screen"
+    />
+
 </launch>
