@@ -16,7 +16,7 @@
 
     <arg name="test_automation" default="false"/>
     <rosparam>
-        use_sim_time: true
+        use_sim_time: false
     </rosparam>
     <group if="$(arg test_automation)">
         <rosparam>
