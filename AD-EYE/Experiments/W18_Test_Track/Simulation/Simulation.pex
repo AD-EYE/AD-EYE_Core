@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Simulation" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="C131475DBAFD3A58796F6A7F7C3960754787D5F008A2F9B9CF07FF35A0DE5835" UniqueExperimentIdentifier="59885f38-c631-42af-9ee1-b814db2b7922" UniqueIdCounter="325" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Simulation" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="58EFCF1BB8751843BB57F6AFB260CBBF343066894639E979FEF4C6AD9CBB1E98" UniqueExperimentIdentifier="1da54308-9fbe-45a2-940e-7a3cd33a70bd" UniqueIdCounter="362" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="158" SensorDetectability="Invisible" NumericalID="10" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
       <Location X="-434.54409790039063" Y="513.0635986328125" Z="-2.2204460492503131E-16" />
@@ -395,7 +395,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="318" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="355" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -420,7 +420,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="319" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="356" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -445,7 +445,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="320" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="357" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -470,7 +470,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="321" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="358" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -508,7 +508,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="322" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="359" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -543,7 +543,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="323" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="360" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -605,7 +605,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="324" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="361" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -1471,7 +1471,7 @@
       </WheelDefinitions>
       <VehicleGeometry TrackWidthFront="1.6469999551773071" TrackWidthRear="1.6469999551773071" TyreRadius="0.37000000476837158" Wheelbase="2.8199999332427979" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_1" UniqueId="272" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_1" UniqueId="272" SensorDetectability="Detectable" NumericalID="8" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-433.1229248046875" Y="539.489990234375" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1558,7 +1558,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_2" UniqueId="273" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_2" UniqueId="273" SensorDetectability="Detectable" NumericalID="12" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-417.400634765625" Y="538.87103271484375" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1645,7 +1645,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_3" UniqueId="274" SensorDetectability="Occluding" NumericalID="13" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_3" UniqueId="274" SensorDetectability="Detectable" NumericalID="13" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-398.33575439453125" Y="539.489990234375" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1732,7 +1732,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_4" UniqueId="275" SensorDetectability="Occluding" NumericalID="14" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_4" UniqueId="275" SensorDetectability="Detectable" NumericalID="14" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-408.11578369140625" Y="544.44189453125" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1819,7 +1819,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_5" UniqueId="276" SensorDetectability="Occluding" NumericalID="15" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_5" UniqueId="276" SensorDetectability="Detectable" NumericalID="15" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-383.72763061523438" Y="535.5284423828125" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1906,7 +1906,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_6" UniqueId="277" SensorDetectability="Occluding" NumericalID="16" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_6" UniqueId="277" SensorDetectability="Detectable" NumericalID="16" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-394.37423706054688" Y="500.8651123046875" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -1993,7 +1993,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_7" UniqueId="278" SensorDetectability="Occluding" NumericalID="17" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_7" UniqueId="278" SensorDetectability="Detectable" NumericalID="17" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-434.36090087890625" Y="502.35067749023438" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -2080,7 +2080,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_8" UniqueId="279" SensorDetectability="Occluding" NumericalID="18" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_8" UniqueId="279" SensorDetectability="Detectable" NumericalID="18" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-420.12417602539063" Y="521.16790771484375" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -2167,7 +2167,7 @@
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
-    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_9" UniqueId="280" SensorDetectability="Occluding" NumericalID="19" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
+    <Actor xsi:type="GenericModel" Description="Magnolia 20 years old" id="Magnolia20y_9" UniqueId="280" SensorDetectability="Detectable" NumericalID="19" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia20y" AnimatedActor="false" CompilationSheetPicture="Magnolia20.png" HashCode="756fb3b8af99935fdb1ead9df940f39a" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
       <Location X="-394.25042724609375" Y="521.16790771484375" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.52999997138977051" Y="0.50999999046325684" Z="0" />
@@ -2261,7 +2261,7 @@
   <Environment Description="" id="Environment" UniqueId="3">
     <Underlays>
       <Underlay xsi:type="Concrete" Description="" id="Concrete_1" UniqueId="34" SensorDetectability="Occluding" NumericalID="3" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="-402.4268188476554" Y="521.65112300500243" Z="0" />
+        <Location X="-402.42681884765528" Y="521.651123000768" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
         <Size X="80" Y="25" Z="0.0099999997764825821" />
@@ -2273,8 +2273,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="13.01422185353986" Heading="W" />
-          <Latitude Degrees="0" Minutes="0" Seconds="16.983552693004963" Heading="N" />
+          <Longitude Degrees="0" Minutes="0" Seconds="13.014221853539858" Heading="W" />
+          <Latitude Degrees="0" Minutes="0" Seconds="16.983552692867566" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
