@@ -31,32 +31,7 @@
             output="screen"
     />
 
-    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
-        <param name="port" value="/dev/ttyACM0"/>
-        <param name="baud" value="9600"/>
-    </node>
-
-    <include file="$(find ouster_ros)/launch/driver.launch">
-        <arg name="sensor_hostname" value="os-122226000469.local"/>
-    </include>
-
     <node
-        pkg="rostopic"
-        type="rostopic"
-        name="initial_checks_faker"
-        args='pub /initial_checks std_msgs/Bool "data: true" -r 1'
-        output="screen"
-    />
-
-    <node
-        pkg="rostopic"
-        type="rostopic"
-        name="activation_request_faker"
-        args='pub /activation_request std_msgs/Bool "data: true" -r 1'
-        output="screen"
-    />
-
-    <!--<node
             type="vehicle_controller"
             pkg="adeye"
             name="vehicle_controller_sim"
@@ -66,7 +41,7 @@
         <param name="topic_velocity_current" value="/current_velocity"/>
         <param name="topic_acceleration_request" value="/vehicle_acceleration_requested"/>
         <param name="topic_steering_request" value="/steering_angle_command"/>
-    </node>-->
+    </node>
 
     <node
             type="vehicle_controller"
@@ -80,14 +55,5 @@
         <param name="topic_steering_request" value="/steering_requested_phy"/>
     </node>
 
-    <node
-            type="sample_goal_publisher.py"
-            pkg="adeye"
-            name="goal_publisher"
-            respawn="false"
-            output="screen"
-    />
-
-    <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>
 
 </launch>
