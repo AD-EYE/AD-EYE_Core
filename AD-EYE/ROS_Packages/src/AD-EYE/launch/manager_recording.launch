@@ -1,0 +1,19 @@
+<!-- -->
+<launch>
+
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
+
+    <rosparam>
+        use_sim_time: false
+    </rosparam>
+
+    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
+        <param name="port" value="/dev/ttyACM0"/>
+        <param name="baud" value="9600"/>
+    </node>
+
+    <include file="$(find ouster_ros)/launch/driver.launch">
+        <arg name="sensor_hostname" value="os-122226000469.local"/>
+    </include>
+
+</launch>
