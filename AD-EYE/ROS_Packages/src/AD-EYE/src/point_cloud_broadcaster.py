@@ -42,10 +42,15 @@ class point_cloud_broadcaster_RealWorld():
     def __init__(self):
         self.sub = rospy.Subscriber("/velodyne_points", PointCloud2, self.callback)
         self.pub = rospy.Publisher('/points_raw', PointCloud2, queue_size=1)
+        self.sub2 = rospy.Subscriber("/ouster/points", PointCloud2, self.pointsCallback)
 
 
     def callback(self, data):
         self.pub.publish(data)
+
+    def pointsCallback(self, msg):
+        msg.header.stamp = rospy.Time.now()
+        self.pub.publish(msg)
 
 
 if __name__ == '__main__':
