@@ -16,10 +16,10 @@ class point_cloud_broadcaster_Sim():
         self.msg = PointCloud2()
 
     ##A function to turn the raws points from floats to strings and publish them to the /points_raw topic
-    #@param data A Float32MultiArray message 
+    #@param data A Float32MultiArray message
     def callback(self, data):
         self.msg.header.stamp = rospy.Time.now()
-        self.msg.header.frame_id = "velodyne"  # MO "velodyne"
+        self.msg.header.frame_id = "os_sensor"  # MO "velodyne"
         self.msg.height = 1
         self.msg.width = len(data.data) / 4  # ADD data.size # ??
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     if rospy.get_param("sensing/lidar_source") == "Simulation":
         point_cloud_broadcaster_Sim()
-    
+
     if rospy.get_param("sensing/lidar_source") == "RealWorld":
         point_cloud_broadcaster_RealWorld()
 
