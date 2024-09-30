@@ -5,8 +5,8 @@
 
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
 
-    <arg name="lidar_source" default="Simulation"/>
-    <arg name="gnss_source" default="Simulation"/>
+    <arg name="lidar_source" default="RealWorld"/>
+    <arg name="gnss_source" default="RealWorld"/>
     <arg name="camera_source" default="Simulation"/>
 
     <param name="sensing/lidar_source" value="$(arg lidar_source)" />
@@ -88,6 +88,6 @@
             output="screen"
     />
 
-    <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>
+    <!--<node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>-->
 
 </launch>
