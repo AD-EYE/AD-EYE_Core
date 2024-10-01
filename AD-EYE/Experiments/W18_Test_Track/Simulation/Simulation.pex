@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Simulation" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="EEC917801C4AEEC4CEE116DD61A54E394BD2E09F5E1D783A53630398F1EB4ED0" UniqueExperimentIdentifier="ec6dc90e-6563-455d-9331-6a2ebecbc159" UniqueIdCounter="729" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
+<Experiment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Description="" id="Simulation" UniqueId="0" TotalSimulationTime="0" Built="true" EnableCollisionDetection="false" MaxNumberOfCollisions="5" EnableObjectListProvider="false" EnableTestAutomation="false" Generate3DTrajectories="false" VisualizeSensorBeams="false" VisualizeBoundingBoxes="false" Parsed="true" PrecipitationRandomSeed="0" PRESCANVersion="2020.4.0" ResourcesDir="Resources" SensorRandomSeed="0" SimulationGenerationHash="3A8F0BF776F96C099D187486F323EE72DB4D09CD591B295374A714E82DF43AC3" UniqueExperimentIdentifier="8f83b17d-db8e-4df7-ba01-9082bc64c14b" UniqueIdCounter="855" VisuAidMaxRenderingDistance="750" VisuAidMinRenderingDistance="0.1" WeatherTypeName="None">
   <Actors>
     <Actor xsi:type="GenericModel" Description="EGO_VEHICLE" id="BMW_X5_SUV_1" UniqueId="158" SensorDetectability="Invisible" NumericalID="10" ObjectTypeID="1" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BMW_X5_SUV" AnimatedActor="false" CompilationSheetPicture="BMW_X5_HighPoly.png" HashCode="bfeb1c11467705ab888b3011684c848b" ModelFile="Vehicles\BMW_X5\BMW_X5.osgb" GenericModelSourceFile="Vehicles\BMW_X5\BMW_X5.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None Simple SimpleTD UserSpecified">
-      <Location X="6.5230293273925781" Y="-2.3157157897949219" Z="-2.2204460492503131E-16" />
+      <Location X="8.382228927612303" Y="56.828032684326175" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="270" />
       <Origin X="0.2199999988079071" Y="0.5" Z="0" />
       <Size X="4.7899999618530273" Y="2.1700000762939453" Z="1.7200000286102295" />
@@ -395,7 +395,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="716" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="848" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -420,7 +420,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="717" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="849" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -445,7 +445,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="718" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="850" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -470,7 +470,7 @@
             <TestAutomationVariable VariableName="FovElevation" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="719" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="851" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -508,7 +508,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="720" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="852" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -543,7 +543,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="721" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="853" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -605,7 +605,7 @@
             <TestAutomationVariable VariableName="MisAlignMountOrient" VariableState="true" />
           </TestAutomationVariables>
           <CameraSensorCameras>
-            <CameraSensorCamera Description="" id="" UniqueId="722" SubCamPosition="Center">
+            <CameraSensorCamera Description="" id="" UniqueId="854" SubCamPosition="Center">
               <DriftCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" DriftTypePosX="None" DriftTypePosY="None" DriftTypePosZ="None" DriftTypeOrientX="None" DriftTypeOrientY="None" DriftTypeOrientZ="None" />
               <NoiseCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
               <MisAlignCamera PosX="0" PosY="0" PosZ="0" OrientX="0" OrientY="0" OrientZ="0" />
@@ -1472,7 +1472,7 @@
       <VehicleGeometry TrackWidthFront="1.6469999551773071" TrackWidthRear="1.6469999551773071" TyreRadius="0.37000000476837158" Wheelbase="2.8199999332427979" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Ash 20 years old" id="Ash20y_1" UniqueId="689" SensorDetectability="Occluding" NumericalID="8" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ash20y" AnimatedActor="false" CompilationSheetPicture="Ash20.png" HashCode="7493d1cf284b9c02c95dcc30229c5d50" ModelFile="Environment\NatureElements\Trees\Ash\Ash20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Ash\Ash20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="37.279930114746094" Y="-1.2659454345703125" Z="0" />
+      <Location X="38.116743087768555" Y="54.709451675415039" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.49000000953674316" Z="0" />
       <Size X="6.53000020980835" Y="6.2300000190734863" Z="11.119999885559082" />
@@ -1537,13 +1537,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 20 years old" id="Birch20y_1" UniqueId="690" SensorDetectability="Occluding" NumericalID="9" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch20y" AnimatedActor="false" CompilationSheetPicture="Birch20.png" HashCode="289762ab7d73bc00178feaa909be8ac3" ModelFile="Environment\NatureElements\Trees\Birch\Birch20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="37.873298645019531" Y="-9.2171707153320313" Z="0" />
+      <Location X="38.710111618041992" Y="46.75822639465332" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.47999998927116394" Z="0" />
       <Size X="5.6500000953674316" Y="5.179999828338623" Z="9.8599996566772461" />
@@ -1608,13 +1624,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Dogwood 10 years old" id="Dogwood10y_1" UniqueId="691" SensorDetectability="Occluding" NumericalID="11" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Dogwood10y" AnimatedActor="false" CompilationSheetPicture="Dogwood10.png" HashCode="82a2d19d25115b6c28bb0bd9505c3243" ModelFile="Environment\NatureElements\Trees\Dogwood\Dogwood10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Dogwood\Dogwood10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="37.873298645019531" Y="-17.524417877197266" Z="0" />
+      <Location X="38.710111618041992" Y="38.450979232788086" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.56000000238418579" Z="0" />
       <Size X="6.5399999618530273" Y="6.53000020980835" Z="6.440000057220459" />
@@ -1679,13 +1711,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Lilac 20 years old" id="Lilac20y_1" UniqueId="692" SensorDetectability="Occluding" NumericalID="12" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Lilac20y" AnimatedActor="false" CompilationSheetPicture="Lilac20.png" HashCode="1aaac8720dd190268813f6baccee6217" ModelFile="Environment\NatureElements\Trees\Lilac\Lilac20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Lilac\Lilac20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="37.754623413085938" Y="-26.069015502929688" Z="0" />
+      <Location X="38.5914363861084" Y="29.906381607055664" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.54000002145767212" Y="0.51999998092651367" Z="0" />
       <Size X="5.1700000762939453" Y="4.190000057220459" Z="4.440000057220459" />
@@ -1750,13 +1798,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Magnolia 10 years old" id="Magnolia10y_1" UniqueId="693" SensorDetectability="Occluding" NumericalID="13" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia10y" AnimatedActor="false" CompilationSheetPicture="Magnolia10.png" HashCode="6c53d3a32de1e00d6a36438e3328b1be" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="37.51727294921875" Y="-34.376262664794922" Z="0" />
+      <Location X="38.354085922241211" Y="21.59913444519043" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.50999999046325684" Z="0" />
       <Size X="4.2300000190734863" Y="4.059999942779541" Z="5.929999828338623" />
@@ -1821,13 +1885,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Serviceberry 10 years old" id="Serviceberry10y_1" UniqueId="694" SensorDetectability="Occluding" NumericalID="14" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Serviceberry10y" AnimatedActor="false" CompilationSheetPicture="ServiceBerry10.png" HashCode="6cfda8a3458d87064eee7ad6e06cca19" ModelFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="36.805221557617188" Y="-40.547355651855469" Z="0" />
+      <Location X="37.642034530639648" Y="15.428041458129883" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.44999998807907104" Y="0.5" Z="0" />
       <Size X="1.9199999570846558" Y="2.0499999523162842" Z="2.059999942779541" />
@@ -1892,13 +1972,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Serviceberry 10 years old" id="Serviceberry10y_2" UniqueId="695" SensorDetectability="Occluding" NumericalID="15" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Serviceberry10y" AnimatedActor="false" CompilationSheetPicture="ServiceBerry10.png" HashCode="6cfda8a3458d87064eee7ad6e06cca19" ModelFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="36.567878723144531" Y="-22.152740478515625" Z="0" />
+      <Location X="37.404691696166992" Y="33.822656631469727" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.44999998807907104" Y="0.5" Z="0" />
       <Size X="1.9199999570846558" Y="2.0499999523162842" Z="2.059999942779541" />
@@ -1963,13 +2059,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Turkish Hazel 20 years old" id="TurkishHazel20y_1" UniqueId="696" SensorDetectability="Occluding" NumericalID="16" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TurkishHazel20y" AnimatedActor="false" CompilationSheetPicture="TurkishHazel20.png" HashCode="405f27d7bc3512189a8b39da50ca13fc" ModelFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="38.347999572753906" Y="-47.905204772949219" Z="0" />
+      <Location X="39.184812545776367" Y="8.0701923370361328" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.47999998927116394" Y="0.49000000953674316" Z="0" />
       <Size X="8.1800003051757813" Y="8.0600004196167" Z="14.1899995803833" />
@@ -2034,13 +2146,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Magnolia 10 years old" id="Magnolia10y_2" UniqueId="697" SensorDetectability="Occluding" NumericalID="17" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia10y" AnimatedActor="false" CompilationSheetPicture="Magnolia10.png" HashCode="6c53d3a32de1e00d6a36438e3328b1be" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="33.838348388671875" Y="14.87384033203125" Z="0" />
+      <Location X="34.675161361694336" Y="70.8492374420166" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.50999999046325684" Z="0" />
       <Size X="4.2300000190734863" Y="4.059999942779541" Z="5.929999828338623" />
@@ -2105,13 +2233,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 10  years old" id="BlueSpruce10y_1" UniqueId="698" SensorDetectability="Occluding" NumericalID="18" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce10y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce10.png" HashCode="f6321ee1b8c7377bc0e8eb6488cb1bdf" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="22.682907104492188" Y="14.636489868164063" Z="0" />
+      <Location X="23.519720077514648" Y="70.611886978149414" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.47999998927116394" Y="0.47999998927116394" Z="0.029999999329447746" />
       <Size X="4.5" Y="4.1999998092651367" Z="5.570000171661377" />
@@ -2176,13 +2320,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Austrian Pine 20 years old" id="AustrianPine20y_1" UniqueId="699" SensorDetectability="Occluding" NumericalID="19" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="AustrianPine20y" AnimatedActor="false" CompilationSheetPicture="AustrianPine20.png" HashCode="47f0b297d3552f74d3e7cfa59ab6a0b9" ModelFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="9.628662109375" Y="16.179267883300781" Z="0" />
+      <Location X="10.465475082397461" Y="72.154664993286133" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="5.869999885559082" Y="5.809999942779541" Z="15.350000381469727" />
@@ -2247,13 +2407,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Austrian Pine 10 years old" id="AustrianPine10y_1" UniqueId="700" SensorDetectability="Occluding" NumericalID="20" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="AustrianPine10y" AnimatedActor="false" CompilationSheetPicture="AustrianPine10.png" HashCode="d9e0191571273a781cad405656627642" ModelFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="28.735328674316406" Y="19.97686767578125" Z="0" />
+      <Location X="29.572141647338867" Y="75.9522647857666" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.5" Z="0" />
       <Size X="3.369999885559082" Y="3.4600000381469727" Z="10.619999885559082" />
@@ -2318,13 +2494,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Ash 20 years old" id="Ash20y_2" UniqueId="701" SensorDetectability="Occluding" NumericalID="21" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Ash20y" AnimatedActor="false" CompilationSheetPicture="Ash20.png" HashCode="7493d1cf284b9c02c95dcc30229c5d50" ModelFile="Environment\NatureElements\Trees\Ash\Ash20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Ash\Ash20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="-3.662933349609375" Y="17.959388732910156" Z="0" />
+      <Location X="-2.8261203765869141" Y="73.934785842895508" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.49000000953674316" Z="0" />
       <Size X="6.53000020980835" Y="6.2300000190734863" Z="11.119999885559082" />
@@ -2389,13 +2581,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 20 years old" id="Birch20y_2" UniqueId="702" SensorDetectability="Occluding" NumericalID="22" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch20y" AnimatedActor="false" CompilationSheetPicture="Birch20.png" HashCode="289762ab7d73bc00178feaa909be8ac3" ModelFile="Environment\NatureElements\Trees\Birch\Birch20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="4.5256385803222656" Y="21.875663757324219" Z="0" />
+      <Location X="5.3624515533447266" Y="77.85106086730957" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.47999998927116394" Z="0" />
       <Size X="5.6500000953674316" Y="5.179999828338623" Z="9.8599996566772461" />
@@ -2460,13 +2668,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Dogwood 10 years old" id="Dogwood10y_2" UniqueId="703" SensorDetectability="Occluding" NumericalID="23" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Dogwood10y" AnimatedActor="false" CompilationSheetPicture="Dogwood10.png" HashCode="82a2d19d25115b6c28bb0bd9505c3243" ModelFile="Environment\NatureElements\Trees\Dogwood\Dogwood10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Dogwood\Dogwood10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="15.918434143066406" Y="20.332893371582031" Z="0" />
+      <Location X="16.755247116088867" Y="76.308290481567383" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.56000000238418579" Z="0" />
       <Size X="6.5399999618530273" Y="6.53000020980835" Z="6.440000057220459" />
@@ -2531,13 +2755,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Austrian Pine 20 years old" id="AustrianPine20y_2" UniqueId="704" SensorDetectability="Occluding" NumericalID="24" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="AustrianPine20y" AnimatedActor="false" CompilationSheetPicture="AustrianPine20.png" HashCode="47f0b297d3552f74d3e7cfa59ab6a0b9" ModelFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\AustrianPine\AustrianPine20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="39.178726196289063" Y="10.008171081542969" Z="0" />
+      <Location X="40.015539169311523" Y="65.98356819152832" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="5.869999885559082" Y="5.809999942779541" Z="15.350000381469727" />
@@ -2602,13 +2842,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 20 years old" id="BlueSpruce20y_1" UniqueId="705" SensorDetectability="Occluding" NumericalID="25" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce20y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce20.png" HashCode="fdc294b090138b28142c3575922a28e9" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="24.344352722167969" Y="23.18109130859375" Z="0" />
+      <Location X="25.18116569519043" Y="79.1564884185791" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.4699999988079071" Y="0.50999999046325684" Z="0" />
       <Size X="4.71999979019165" Y="4.75" Z="10.229999542236328" />
@@ -2673,13 +2929,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 20 years old" id="Birch20y_3" UniqueId="706" SensorDetectability="Occluding" NumericalID="26" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch20y" AnimatedActor="false" CompilationSheetPicture="Birch20.png" HashCode="289762ab7d73bc00178feaa909be8ac3" ModelFile="Environment\NatureElements\Trees\Birch\Birch20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="41.552223205566406" Y="-13.370796203613281" Z="0" />
+      <Location X="42.389036178588867" Y="42.60460090637207" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.47999998927116394" Z="0" />
       <Size X="5.6500000953674316" Y="5.179999828338623" Z="9.8599996566772461" />
@@ -2744,13 +3016,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Lilac 10 years old" id="Lilac10y_1" UniqueId="707" SensorDetectability="Occluding" NumericalID="27" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Lilac10y" AnimatedActor="false" CompilationSheetPicture="Lilac10.png" HashCode="0de20957d2c5cff213b5737efa02af24" ModelFile="Environment\NatureElements\Trees\Lilac\Lilac10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Lilac\Lilac10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="43.332344055175781" Y="-23.814189910888672" Z="0" />
+      <Location X="44.169157028198242" Y="32.16120719909668" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.50999999046325684" Y="0.5" Z="0" />
       <Size X="2.0499999523162842" Y="1.6799999475479126" Z="2.059999942779541" />
@@ -2815,13 +3103,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Turkish Hazel 10 years old" id="TurkishHazel10y_1" UniqueId="708" SensorDetectability="Occluding" NumericalID="28" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="TurkishHazel10y" AnimatedActor="false" CompilationSheetPicture="TurkishHazel10.png" HashCode="83ce6e4cdf03504a3b8684bc879685f3" ModelFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\TurkishHazel\TurkishHazel10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="44.756446838378906" Y="-38.292533874511719" Z="0" />
+      <Location X="45.593259811401367" Y="17.682863235473633" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.5" Z="0" />
       <Size X="6.6100001335144043" Y="7.309999942779541" Z="9.7399997711181641" />
@@ -2886,13 +3190,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Magnolia 10 years old" id="Magnolia10y_3" UniqueId="709" SensorDetectability="Occluding" NumericalID="29" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Magnolia10y" AnimatedActor="false" CompilationSheetPicture="Magnolia10.png" HashCode="6c53d3a32de1e00d6a36438e3328b1be" ModelFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Magnolia\Magnolia10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="42.62030029296875" Y="-29.629264831542969" Z="0" />
+      <Location X="43.457113265991211" Y="26.346132278442383" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.5" Y="0.50999999046325684" Z="0" />
       <Size X="4.2300000190734863" Y="4.059999942779541" Z="5.929999828338623" />
@@ -2957,13 +3277,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 20 years old" id="BlueSpruce20y_2" UniqueId="710" SensorDetectability="Occluding" NumericalID="30" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce20y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce20.png" HashCode="fdc294b090138b28142c3575922a28e9" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="43.451019287109375" Y="-5.0635452270507813" Z="0" />
+      <Location X="44.287832260131836" Y="50.91185188293457" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.4699999988079071" Y="0.50999999046325684" Z="0" />
       <Size X="4.71999979019165" Y="4.75" Z="10.229999542236328" />
@@ -3028,13 +3364,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 10 years old" id="Birch10y_1" UniqueId="711" SensorDetectability="Occluding" NumericalID="31" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch10y" AnimatedActor="false" CompilationSheetPicture="Birch10.png" HashCode="84fc4abcd9c22b63530330152ef54b7d" ModelFile="Environment\NatureElements\Trees\Birch\Birch10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="2.1521415710449219" Y="16.416618347167969" Z="0" />
+      <Location X="2.9889545440673828" Y="72.39201545715332" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.49000000953674316" Y="0.49000000953674316" Z="0" />
       <Size X="3.3599998950958252" Y="3.4700000286102295" Z="6.6399998664855957" />
@@ -3099,13 +3451,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 10  years old" id="BlueSpruce10y_2" UniqueId="712" SensorDetectability="Occluding" NumericalID="32" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce10y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce10.png" HashCode="f6321ee1b8c7377bc0e8eb6488cb1bdf" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="12.120834350585938" Y="24.249160766601563" Z="0" />
+      <Location X="12.957647323608398" Y="80.224557876586914" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.47999998927116394" Y="0.47999998927116394" Z="0.029999999329447746" />
       <Size X="4.5" Y="4.1999998092651367" Z="5.570000171661377" />
@@ -3170,13 +3538,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 10  years old" id="BlueSpruce10y_3" UniqueId="713" SensorDetectability="Occluding" NumericalID="33" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce10y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce10.png" HashCode="f6321ee1b8c7377bc0e8eb6488cb1bdf" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="40.365470886230469" Y="5.1424942016601563" Z="0" />
+      <Location X="41.20228385925293" Y="61.117891311645508" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.47999998927116394" Y="0.47999998927116394" Z="0.029999999329447746" />
       <Size X="4.5" Y="4.1999998092651367" Z="5.570000171661377" />
@@ -3241,13 +3625,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Serviceberry 10 years old" id="Serviceberry10y_3" UniqueId="714" SensorDetectability="Occluding" NumericalID="34" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Serviceberry10y" AnimatedActor="false" CompilationSheetPicture="ServiceBerry10.png" HashCode="6cfda8a3458d87064eee7ad6e06cca19" ModelFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\ServiceBerry\ServiceBerry10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="42.145599365234375" Y="2.4129714965820313" Z="0" />
+      <Location X="42.982412338256836" Y="58.388368606567383" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.44999998807907104" Y="0.5" Z="0" />
       <Size X="1.9199999570846558" Y="2.0499999523162842" Z="2.059999942779541" />
@@ -3312,13 +3712,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 10 years old" id="Birch10y_2" UniqueId="723" SensorDetectability="Occluding" NumericalID="35" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch10y" AnimatedActor="false" CompilationSheetPicture="Birch10.png" HashCode="84fc4abcd9c22b63530330152ef54b7d" ModelFile="Environment\NatureElements\Trees\Birch\Birch10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="32.903190612792969" Y="-63.484848022460938" Z="0" />
+      <Location X="33.820646286010742" Y="-5.7351903915405273" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.49000000953674316" Y="0.49000000953674316" Z="0" />
       <Size X="3.3599998950958252" Y="3.4700000286102295" Z="6.6399998664855957" />
@@ -3383,13 +3799,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Birch 10 years old" id="Birch10y_3" UniqueId="724" SensorDetectability="Occluding" NumericalID="37" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Birch10y" AnimatedActor="false" CompilationSheetPicture="Birch10.png" HashCode="84fc4abcd9c22b63530330152ef54b7d" ModelFile="Environment\NatureElements\Trees\Birch\Birch10.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Birch\Birch10.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="26.523223876953125" Y="-63.684223175048828" Z="0" />
+      <Location X="25.827718734741211" Y="-6.2571587562561035" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.49000000953674316" Y="0.49000000953674316" Z="0" />
       <Size X="3.3599998950958252" Y="3.4700000286102295" Z="6.6399998664855957" />
@@ -3454,13 +3886,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Blue Spruce 20 years old" id="BlueSpruce20y_3" UniqueId="725" SensorDetectability="Occluding" NumericalID="38" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="BlueSpruce20y" AnimatedActor="false" CompilationSheetPicture="BlueSpruce20.png" HashCode="fdc294b090138b28142c3575922a28e9" ModelFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\BlueSpruce\BlueSpruce20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="38.884407043457031" Y="-59.397682189941406" Z="0" />
+      <Location X="37.301778793334961" Y="-0.51894950866699219" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.4699999988079071" Y="0.50999999046325684" Z="0" />
       <Size X="4.71999979019165" Y="4.75" Z="10.229999542236328" />
@@ -3525,13 +3973,29 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
     <Actor xsi:type="GenericModel" Description="Lilac 20 years old" id="Lilac20y_2" UniqueId="726" SensorDetectability="Occluding" NumericalID="39" ObjectTypeID="13" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="Lilac20y" AnimatedActor="false" CompilationSheetPicture="Lilac20.png" HashCode="1aaac8720dd190268813f6baccee6217" ModelFile="Environment\NatureElements\Trees\Lilac\Lilac20.osgb" GenericModelSourceFile="Environment\NatureElements\Trees\Lilac\Lilac20.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="29.414146423339844" Y="-63.58453369140625" Z="0" />
+      <Location X="30.412252426147461" Y="-5.3509869575500488" Z="0" />
       <Orientation Bank="0" Tilt="0" Heading="0" />
       <Origin X="0.54000002145767212" Y="0.51999998092651367" Z="0" />
       <Size X="5.1700000762939453" Y="4.190000057220459" Z="4.440000057220459" />
@@ -3596,111 +4060,24 @@
       <Animation />
       <LightElements />
       <JointAxis />
+      <VehicleUiConfig>
+        <RearTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </RearTyreCentre>
+        <FrontTyreCentre>
+          <X>0</X>
+          <Y>0</Y>
+        </FrontTyreCentre>
+      </VehicleUiConfig>
       <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
       <PhysicsOnly>false</PhysicsOnly>
-      <WheelDefinitions />
-      <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
-    </Actor>
-    <Actor xsi:type="GenericModel" Description="Rectangular White/Red Guardrail Reflector" id="GuardrailReflector_RectWR_1" UniqueId="728" SensorDetectability="Occluding" NumericalID="40" ObjectTypeID="19" ParticipateInCollisionDetection="false" DynamicsConfiguration="None" DiscreteModeActivated="false" Reference="false" UserSpecifiedControl="false" PhysicsSimpleDynamicsInteraction="PhysicsInheritsFromSD" ActorKind="GuardrailReflector_RectWR" AnimatedActor="false" CompilationSheetPicture="GuardrailReflector_RectWR.png" HashCode="39c417dddd248f7864fc080a3d16d35f" ModelFile="Reflectors\GuardrailReflectors\GuardrailReflector_Rect2.osgb" GenericModelSourceFile="Reflectors\GuardrailReflectors\GuardrailReflector_RectWR.pgmb" FileLocationType="ModelDepo" ContactWorldDetectable="false" SupportedDynamics="None">
-      <Location X="79.023147583007813" Y="-43.587722778320313" Z="0" />
-      <Orientation Bank="0" Tilt="0" Heading="0" />
-      <Origin X="0.5" Y="0.5" Z="0.5" />
-      <Size X="0.0099999997764825821" Y="0.039999999105930328" Z="0.18000000715255737" />
-      <CoGOffset X="0" Y="0" Z="0" />
-      <SensorInfo>
-        <TISSensorInfo DefaultORMFile="dfltORM_InfraOther.txt">
-          <UserSpecifiedModels />
-        </TISSensorInfo>
-      </SensorInfo>
-      <ObjectSimulatorInfo RealObjectShape="BLOCKSHAPE" StateActuator="true" SelfSensor="true" AlwaysOnCompilationSheet="false">
-        <VisualizationActuators>
-          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Recolor_ReflectorFront" RegionName="ReflectorFront" TargetColor="00EA0001">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_ReflectorBack" RegionName="ReflectorBack" TargetColor="FFFFFFFF">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="ColorRegionActuator" ActuatorName="ColorRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Recolor_Body" RegionName="Body" TargetColor="FFFFFFFF">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Material_ReflectorFront" RegionName="ReflectorFront" TargetMaterial="4">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="true" ShowInAnimationList="false" ID="Material_ReflectorBack" RegionName="ReflectorBack" TargetMaterial="4">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="MaterialRegionActuator" ActuatorName="MaterialRegionActuator" EnableActuator="false" ShowInAnimationList="false" ID="Material_Body" RegionName="Body" TargetMaterial="6">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-          <VisualizationActuator xsi:type="GhostingActuator" ActuatorName="VisuGhostColor" EnableActuator="false" ShowInAnimationList="false" ID="Actuator_Ghosting" GhostColor="64646464">
-            <LightMeshPositions />
-            <VisuPortElements />
-          </VisualizationActuator>
-        </VisualizationActuators>
-      </ObjectSimulatorInfo>
-      <DriverModel DriverModelType="None">
-        <PathFollowerSettings PreviewTime="1" DelayTime="0.1" LowSpeedLimit="20" MaxSteeringRate="1200" FrequencyFactor="1" />
-        <GameControllerSettings EnableForceFeedback="true" GameControllerType="LogitechG29" ShiftStrategyType="Automatic" />
-      </DriverModel>
-      <Physics Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <Sensors />
-      <ConnectionPoints />
-      <Trajectories />
-      <Cameras />
-      <UserSpecDyn Jxx="0" Jyy="0" M="0" Jzz="0" Krear="0" Kfront="0" SteeringRatio="0" MaxSwa="0" L="0" A="0" />
-      <RecolorRegions>
-        <RecolorRegion Name="ReflectorFront" ChannelIndex="0" IntensityMultiplier="1.2" RegionMapNode="" />
-        <RecolorRegion Name="ReflectorBack" ChannelIndex="1" IntensityMultiplier="1.2" RegionMapNode="" />
-        <RecolorRegion Name="Body" ChannelIndex="2" IntensityMultiplier="1" RegionMapNode="" />
-      </RecolorRegions>
-      <MaterialRegions>
-        <MaterialRegion Name="ReflectorFront" ChannelIndex="0" RegionMapNode="ReflectorFront" />
-        <MaterialRegion Name="ReflectorBack" ChannelIndex="1" RegionMapNode="ReflectorBack" />
-        <MaterialRegion Name="Body" ChannelIndex="1" RegionMapNode="" />
-      </MaterialRegions>
-      <SimpleTDConfiguration>
-        <StiffnessRearXValues>
-          <X>0</X>
-        </StiffnessRearXValues>
-        <StiffnessRearYValues>
-          <Y>0</Y>
-        </StiffnessRearYValues>
-        <StiffnessFrontXValues>
-          <X>0</X>
-        </StiffnessFrontXValues>
-        <StiffnessFrontYValues>
-          <Y>0</Y>
-        </StiffnessFrontYValues>
-        <DampingFrontXValues>
-          <X>0</X>
-        </DampingFrontXValues>
-        <DampingFrontYValues>
-          <Y>0</Y>
-        </DampingFrontYValues>
-        <DampingRearXValues>
-          <X>0</X>
-        </DampingRearXValues>
-        <DampingRearYValues>
-          <Y>0</Y>
-        </DampingRearYValues>
-        <RadialStiffNess>500000</RadialStiffNess>
-        <RadialDamping>300</RadialDamping>
-      </SimpleTDConfiguration>
-      <AttachmentPointIds />
-      <AttachmentPoints />
-      <DefaultSensorPositions />
-      <DefaultVisuAidPositions />
-      <Animation />
-      <LightElements />
-      <JointAxis />
-      <PhysicsBody Drag="0.27" Mass="1820" MaxAcceleration="0.3" MaxDeceleration="1" ReferenceArea="2.93" RollFriction="0.03" />
-      <PhysicsOnly>false</PhysicsOnly>
+      <DefaultVehicleDynamics Kcorr="0" B="0" BumperHeightFront="0" BumperHeightRear="0" Cf="0" Cr="0" Cw="0" DefaultValues="true" Df="0" DownShiftTimeDelays="1" Dr="0" GroundClearance="0" Hcog="0" Height="0" Jxx="0" Jyy="0" Jzz="0" Kfront="0" Kgfront="0" Kgrear="0" Krear="0" L="0" M="0" PBrakeMax="0" RearOffsetX="0" Rfd="0" Rw="0" UpShiftTimeDelays="1" Width="0" SteeringRatio="-1" MaxSteeringWheelAngle="-1">
+        <Emap />
+        <Tr_out />
+        <UpShiftStrategies />
+        <DownShiftStrategies />
+      </DefaultVehicleDynamics>
       <WheelDefinitions />
       <VehicleGeometry TrackWidthFront="0" TrackWidthRear="0" TyreRadius="0" Wheelbase="0" />
     </Actor>
@@ -3711,10 +4088,10 @@
   <Environment Description="" id="Environment" UniqueId="3">
     <Underlays>
       <Underlay xsi:type="Pavement" Description="" id="Pavement_1" UniqueId="654" SensorDetectability="Occluding" NumericalID="4" ObjectTypeID="17" ParticipateInCollisionDetection="false" MapDistance="1" RealDistance="1">
-        <Location X="14.755764007568359" Y="-26.904327494222123" Z="0" />
+        <Location X="15.558434486389126" Y="30.026486451235474" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0" />
-        <Size X="31" Y="58" Z="0.0099999997764825821" />
+        <Size X="31" Y="60" Z="0.0099999997764825821" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Pavement.txt">
@@ -3723,8 +4100,8 @@
         </SensorInfo>
         <IsAbsolutePosition>false</IsAbsolutePosition>
         <GpsLocation Altitude="0">
-          <Longitude Degrees="0" Minutes="0" Seconds="0.47719182012886047" Heading="E" />
-          <Latitude Degrees="0" Minutes="0" Seconds="0.8759322930981821" Heading="S" />
+          <Longitude Degrees="0" Minutes="0" Seconds="0.50314966186199728" Heading="E" />
+          <Latitude Degrees="0" Minutes="0" Seconds="0.97758136256320116" Heading="N" />
         </GpsLocation>
         <PreserveAspectRatio>false</PreserveAspectRatio>
         <AlphaThreshold>0.5</AlphaThreshold>
@@ -3744,11 +4121,11 @@
   </GlobalPlacement>
   <InfraStructure Description="" id="Infrastructure" UniqueId="4">
     <RoadSegments>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_1" UniqueId="35" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="57" SidewalkUniqueId="58" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="2.5" RoadLength="44">
-        <Location X="6.5799659772770784" Y="1.207834015734683" Z="0" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_1" UniqueId="35" SensorDetectability="Occluding" NumericalID="5" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="57" SidewalkUniqueId="58" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="2.5" RoadLength="39">
+        <Location X="8.270662819846315" Y="58.150714735805138" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="270" />
         <Origin X="0" Y="0.5" Z="0" />
-        <Size X="44" Y="3" Z="0" />
+        <Size X="39" Y="3" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -3797,11 +4174,11 @@
           <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="BendRoad" Description="" id="BendRoad_1" UniqueId="481" SensorDetectability="Occluding" NumericalID="6" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="541" SidewalkUniqueId="542" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="2.5" CenterlineRadius="8" RelativeHeading="180.38098384842743">
-        <Location X="6.5799659772770696" Y="-42.7921659842653" Z="0" />
+      <RoadSegment xsi:type="BendRoad" Description="" id="BendRoad_1" UniqueId="481" SensorDetectability="Occluding" NumericalID="6" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="541" SidewalkUniqueId="542" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="0" NumberOfLanes="1" LaneWidth="2.5" CenterlineRadius="7" RelativeHeading="180.38098384842743">
+        <Location X="8.2706628198463079" Y="19.150714735805156" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="270" />
-        <Origin X="0.0066054514374976319" Y="0.078947368421052627" Z="0" />
-        <Size X="9.5631690487400327" Y="19" Z="0" />
+        <Origin X="0.0066054514374974688" Y="0.088235294117647065" Z="0" />
+        <Size X="8.5565196751884489" Y="17" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -3850,11 +4227,11 @@
           <RoadJoint JointId="1" NumberOfLanes="1" StartLane="1" />
         </RoadJointsEnd>
       </RoadSegment>
-      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_2" UniqueId="524" SensorDetectability="Occluding" NumericalID="3" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="543" SidewalkUniqueId="544" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="2.5" RoadLength="44">
-        <Location X="22.287216682378" Y="1.2600562816853724" Z="0" />
+      <RoadSegment xsi:type="StraightRoad" Description="" id="StraightRoad_2" UniqueId="524" SensorDetectability="Occluding" NumericalID="3" ObjectTypeID="11" ParticipateInCollisionDetection="false" EmbankmentUniqueId="543" SidewalkUniqueId="544" CenterLineMarkerEnabled="true" CurbLineMarkerEnabled="true" LaneLineMarkerEnabled="true" UseGlossFadeMap="false" LaneLineMarkerDistributeEvenly="false" EmbankmentEnabled="false" EmbankmentWidth="1" RoadThickness="0.1" SidewalkEnabled="false" SidewalkHeight="0.2" SidewalkWidth="3" MaxSpeed="50" BankAngleDegStart="0" BankAngleDegEnd="0" DirectionChangeAfterLane="1" NumberOfLanes="1" LaneWidth="2.5" RoadLength="39">
+        <Location X="22.011182500033826" Y="58.19639816484765" Z="0" />
         <Orientation Bank="0" Tilt="0" Heading="270.38098384842743" />
         <Origin X="0" Y="0.5" Z="0" />
-        <Size X="44" Y="3" Z="0" />
+        <Size X="39" Y="3" Z="0" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_Concrete.txt">
@@ -3910,11 +4287,11 @@
       <Connection xsi:type="RoadJointConnection" Description="" id="RoadJointConnection_2" UniqueId="552" Road_A_UniqueId="StraightRoad_2" Road_B_UniqueId="BendRoad_1" Joint_A_Id="1" Joint_B_Id="1" />
     </RoadSegmentConnections>
     <AbstractObjects>
-      <AbstractObject xsi:type="RectangularBox" Description="" id="RectangularBox_1" UniqueId="662" SensorDetectability="Occluding" NumericalID="7" ObjectTypeID="16" ParticipateInCollisionDetection="false" Color="DodgerBlue (FF1E90FF)" UserSpecifiedControl="false" RectangularBoxLength="0.4" RectangularBoxWidth="42" RectangularBoxHeight="1">
-        <Location X="14.657466888427734" Y="-25.092737197875977" Z="0.5" />
+      <AbstractObject xsi:type="RectangularBox" Description="" id="RectangularBox_1" UniqueId="662" SensorDetectability="Occluding" NumericalID="7" ObjectTypeID="16" ParticipateInCollisionDetection="false" Color="DodgerBlue (FF1E90FF)" UserSpecifiedControl="false" RectangularBoxLength="0.4" RectangularBoxWidth="24" RectangularBoxHeight="1">
+        <Location X="15.379068374633789" Y="41.530242919921875" Z="0.5" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0.5" />
-        <Size X="0.4" Y="42" Z="1" />
+        <Size X="0.4" Y="24" Z="1" />
         <CoGOffset X="0" Y="0" Z="0" />
         <SensorInfo>
           <TISSensorInfo DefaultORMFile="dfltORM_BasicInfra.txt">
@@ -3928,7 +4305,7 @@
         <Cameras />
       </AbstractObject>
       <AbstractObject xsi:type="RectangularBox" Description="" id="RectangularBox_2" UniqueId="715" SensorDetectability="Occluding" NumericalID="36" ObjectTypeID="16" ParticipateInCollisionDetection="false" Color="DodgerBlue (FF1E90FF)" UserSpecifiedControl="false" RectangularBoxLength="0.4" RectangularBoxWidth="42" RectangularBoxHeight="1">
-        <Location X="29.898340225219727" Y="-27.839651107788086" Z="0.5" />
+        <Location X="30.735153198242188" Y="28.135746002197266" Z="0.5" />
         <Orientation Bank="0" Tilt="0" Heading="0" />
         <Origin X="0.5" Y="0.5" Z="0.5" />
         <Size X="0.4" Y="42" Z="1" />
@@ -3945,7 +4322,7 @@
         <Cameras />
       </AbstractObject>
       <AbstractObject xsi:type="RectangularBox" Description="" id="RectangularBox_3" UniqueId="727" SensorDetectability="Occluding" NumericalID="41" ObjectTypeID="16" ParticipateInCollisionDetection="false" Color="DodgerBlue (FF1E90FF)" UserSpecifiedControl="false" RectangularBoxLength="0.4" RectangularBoxWidth="20" RectangularBoxHeight="1">
-        <Location X="11.2711181640625" Y="-55.609580993652344" Z="0.5" />
+        <Location X="11.704689025878906" Y="4.55952262878418" Z="0.5" />
         <Orientation Bank="0" Tilt="0" Heading="90" />
         <Origin X="0.5" Y="0.5" Z="0.5" />
         <Size X="0.4" Y="20" Z="1" />
@@ -4162,9 +4539,7 @@
       </CategorizedObjects>
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="InfraOther" HasSeparateColors="false" Color="FF7FFF00" PredefinedEnumType="InfraOther">
-      <CategorizedObjects>
-        <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GuardrailReflector_RectWR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="728" />
-      </CategorizedObjects>
+      <CategorizedObjects />
     </UserObjectType>
     <UserObjectType xsi:type="PredefinedSemanticCategory" Name="StaticOther" HasSeparateColors="false" Color="FFFF007F" PredefinedEnumType="StaticOther">
       <CategorizedObjects />
@@ -4300,9 +4675,6 @@
     </ObjectColorID>
     <ObjectColorID Color="FF007FBF">
       <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="RectangularBox_3" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="727" />
-    </ObjectColorID>
-    <ObjectColorID Color="FF3F3F3F">
-      <SemanticItem xsi:type="SimulationObjectSemanticItem" Name="GuardrailReflector_RectWR_1" Color="Black (FF000000)" HasSeparateColor="false" UniqueId="728" />
     </ObjectColorID>
   </ObjectColorIDs>
   <PreScanObjectTypeSettings Description="" id="PreScanObjectTypeSettings" UniqueId="9">
