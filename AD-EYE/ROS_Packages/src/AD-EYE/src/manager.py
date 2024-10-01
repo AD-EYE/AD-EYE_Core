@@ -457,7 +457,7 @@ class Manager:
                 state_array.data.append(1)
             else:
                 state_array.data.append(0)
-	return state_array
+        return state_array
 
 
     def publishBooleanListActiveFeatures(self):

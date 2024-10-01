@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
-    <arg name="world_name" default="W01_Base_World"/> 
-    <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Pointcloud_Files/"/>
+    <arg name="world_name" default="W18_Test_Track"/>
+    <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Real_Pointcloud/"/>
     <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Vector_Map_Files/"/>
     <!-- world_to_map -->
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10"/>

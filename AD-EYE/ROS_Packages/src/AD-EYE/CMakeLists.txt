@@ -62,12 +62,22 @@ add_library(
 )
 
 add_library(
+  PID src/PID.cpp
+  #src/vehicle_controller.cpp
+)
+
+add_library(
   experimentRecording src/experiment_recording.cpp
 )
 
 add_executable(
   GridMapCreator
   src/grid_map_creator.cpp
+)
+
+add_executable(
+  FloatToString
+  src/floatToString.cpp
 )
 
 add_executable(
@@ -126,11 +136,25 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
+# add_executable(
+#   PID_controller
+#   src/PID.cpp
+# )
+
+add_executable(
+  vehicle_controller
+  src/vehicle_controller.cpp
+)
 
 target_link_libraries(
   GridMapCreator
   ${catkin_LIBRARIES}
   vectorMap
+)
+
+target_link_libraries(
+  FloatToString
+  ${catkin_LIBRARIES}
 )
 
 target_link_libraries(
@@ -148,6 +172,12 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   SafetyFaultMonitors
 )
+
+# target_link_libraries(
+#   PID
+#   ${catkin_LIBRARIES}
+#   PIDController
+# )
 
 target_link_libraries(
   radar_broadcaster
@@ -189,6 +219,16 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
+# target_link_libraries(
+#   PID_controller
+#   ${catkin_LIBRARIES}
+# )
+
+target_link_libraries(
+  vehicle_controller
+  ${catkin_LIBRARIES}
+  PID
+)
 
 add_dependencies(controlSwitch
   ${catkin_EXPORTED_TARGETS}
@@ -234,6 +274,13 @@ add_dependencies(goalSequencer
   ${catkin_EXPORTED_TARGETS}
 )
 
+# add_dependencies(PID_controller
+#   ${catkin_EXPORTED_TARGETS}
+# )
+
+add_dependencies(vehicle_controller
+  ${catkin_EXPORTED_TARGETS}
+)
 
 # Add the executable, libraries and dependencies for sensor monitor node
 add_executable(
@@ -295,8 +342,6 @@ add_dependencies(
 )
 
 
-
-
 # Mark executables and/or libraries for installation
 install(
   TARGETS GridMapCreator flattening controlSwitch safetySupervisor collisionDetector radar_broadcaster objectsFrameAdapter cameraObjectListFuse lidarRadarFuse safetyChannelPerception ExperimentC
@@ -313,6 +358,10 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
-catkin_install_python(PROGRAMS src/camera_publisher.py
+catkin_install_python(PROGRAMS src/camera_broadcaster.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS src/zed_driver.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
