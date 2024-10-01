@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
 
-    <include file="$(find can_vehicle)/launch/vic.launch"/>
+    <!-- <include file="$(find can_vehicle)/launch/vic.launch"/> -->
 
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
 
@@ -31,14 +31,15 @@
             output="screen"
     />
 
-    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
+
+    <!-- <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
         <param name="port" value="/dev/ttyACM0"/>
         <param name="baud" value="9600"/>
     </node>
 
     <include file="$(find ouster_ros)/launch/driver.launch">
         <arg name="sensor_hostname" value="os-122226000469.local"/>
-    </include>
+    </include> -->
 
     <node
         pkg="rostopic"
@@ -87,7 +88,13 @@
             respawn="false"
             output="screen"
     />
-
+    <node
+            type="camera_gmsl_publisher"
+            pkg="adeye"
+            name="camera_gmsl"
+            respawn="false"
+            output="screen"
+    />
     <!--<node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/ouster/points /points_raw"/>-->
 
 </launch>
