@@ -963,9 +963,9 @@ class GridMapCreator
             ros::Duration rostime_elapsed = ros::Time::now() - rostime;
             if (rostime_elapsed > rate_.expectedCycleTime())
             {
-                ROS_WARN("GridMapCreator : frequency is not met!");
+                ROS_WARN("GridMapCreator : frequency is not met [%.2f > %.2f]!",
+                            rostime_elapsed.toSec(), rate_.expectedCycleTime().toSec());
             }
-
             rate_.sleep();
         }
     }
