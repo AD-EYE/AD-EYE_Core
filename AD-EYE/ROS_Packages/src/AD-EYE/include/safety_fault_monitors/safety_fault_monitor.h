@@ -5,6 +5,10 @@
 #ifndef ADEYE_SAFETY_FAULT_MONITOR_H
 #define ADEYE_SAFETY_FAULT_MONITOR_H
 
+
+#include <string>
+
+
 /*!
      * \brief Mother class for safety fault detection
      * \details The class has a method that should be called periodically. That method updates a counter based on
@@ -14,6 +18,9 @@
      */
 class SafetyFaultMonitor
 {
+  protected:
+    std::string name_ = "unknown";
+
   private:
     const int INCREMENT_VALUE_;
     const int DECREMENT_VALUE_;
@@ -58,6 +65,8 @@ class SafetyFaultMonitor
      * \brief Returns the conclusion of the fault detector
      */
     bool isFaultConfirmed() const;
+
+    std::string const & name() { return name_; }
 };
 
 #endif  // ADEYE_SAFETY_FAULT_MONITOR_H

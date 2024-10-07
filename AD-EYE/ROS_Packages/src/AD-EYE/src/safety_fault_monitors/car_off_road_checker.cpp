@@ -7,6 +7,7 @@
 CarOffRoadChecker::CarOffRoadChecker(int increment_value, int decrement_value, int high_threshold, int low_threshold)
   : SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
+    name_ = "CarOffRoadChecker";
     sub_gnss_ =
         nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &CarOffRoadChecker::gnssCallback, this);
     sub_gridmap_ =
