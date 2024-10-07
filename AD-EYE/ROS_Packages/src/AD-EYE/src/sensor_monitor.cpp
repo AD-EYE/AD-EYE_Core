@@ -169,7 +169,6 @@ class SensorFoV
                 sensor_field_of_views_.polygons.at(type) =
                     createCircleSection(SENSOR_POSITION_X_[type], SENSOR_POSITION_Y_[type], SENSOR_RANGES_[type],
                                         SENSOR_ORIENTATIONS_[type], SENSOR_OPENING_ANGLES_[type]);
-                sensor_active_[type] = false;
 
                 if (type == LIDAR)
                 {
@@ -311,6 +310,7 @@ class SensorFoV
                                                          "Camera traffic light" };
                 if (sensor_time_elapsed_[sensor_index] > SENSOR_TIMEOUTS_[sensor_index])
                 {
+                    sensor_active_[sensor_index] = false;
                     sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();
                     ROS_WARN_STREAM("No message received from sensor " << SENSOR_NAME[sensor_index]);
                 }
