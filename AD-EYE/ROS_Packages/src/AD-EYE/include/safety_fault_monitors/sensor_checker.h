@@ -5,6 +5,9 @@
 #ifndef ADEYE_SENSOR_CHECKER_H
 #define ADEYE_SENSOR_CHECKER_H
 
+
+#include <string>
+
 #include <ros/ros.h>
 #include <jsk_recognition_msgs/PolygonArray.h>
 #include "safety_fault_monitor.h"

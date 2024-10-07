@@ -1,3 +1,5 @@
+#include <string>
+
 #include <ros/ros.h>
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_msgs/GridMap.h>
@@ -145,6 +147,7 @@ class SafetySupervisor
     double current_speed_limit_ = 8.3;
 
     CRITICAL_LEVEL_ current_fault_criticality_level_;
+    std::shared_ptr<SafetyFaultMonitor> current_fault_monitor_;
 
     /*!
      * \brief Gnss Callback : Called when the gnss information has changed.
@@ -467,13 +470,13 @@ class SafetySupervisor
                 text_overlay.text += "go to initial goal";
                 break;
             case REST_AREA:
-                text_overlay.text += "go to rest area";
+                text_overlay.text += "go to rest area\nFault monitor: " + current_fault_monitor_->name();
                 break;
             case ROAD_SIDE_PARKING:
-                text_overlay.text += "go to road side parking";
+                text_overlay.text += "go to road side parking\nFault monitor: " + current_fault_monitor_->name();
                 break;
             case IMMEDIATE_STOP:
-                text_overlay.text += "perform immediate stop";
+                text_overlay.text += "perform immediate stop\nFault monitor: " + current_fault_monitor_->name();
                 break;
         }
 
@@ -560,26 +563,34 @@ class SafetySupervisor
         for (auto& i : safety_monitors_level_four_)
         {
             // Update the counter value based on instantaneous test results
-            if (i->isFaultConfirmed())
+            if (i->isFaultConfirmed()) {
+                current_fault_monitor_ = i;
                 return CRITICAL_LEVEL_::IMMEDIATE_STOP;
+            }
         }
         for (auto& i : safety_monitors_level_three_)
         {
             // Update the counter value based on instantaneous test results
-            if (i->isFaultConfirmed())
+            if (i->isFaultConfirmed()) {
+                current_fault_monitor_ = i;
                 return CRITICAL_LEVEL_::ROAD_SIDE_PARKING;
+            }
         }
         for (auto& i : safety_monitors_level_two_)
         {
             // Update the counter value based on instantaneous test results
-            if (i->isFaultConfirmed())
+            if (i->isFaultConfirmed()) {
+                current_fault_monitor_ = i;
                 return CRITICAL_LEVEL_::REST_AREA;
+            }
         }
         for (auto& i : safety_monitors_level_one_)
         {
             // Update the counter value based on instantaneous test results
-            if (i->isFaultConfirmed())
+            if (i->isFaultConfirmed()) {
+                current_fault_monitor_ = i;
                 return CRITICAL_LEVEL_::INITIAL_GOAL;
+            }
         }
         return CRITICAL_LEVEL_::INITIAL_GOAL;
     }

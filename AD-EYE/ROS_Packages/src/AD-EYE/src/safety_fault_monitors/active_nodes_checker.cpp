@@ -9,6 +9,7 @@ ActiveNodeChecker::ActiveNodeChecker(int increment_value, int decrement_value, i
                                      int criticality_level)
   : SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
 {
+    name_ = "ActiveNodeChecker";
     switch (criticality_level)
     {
         case 1:

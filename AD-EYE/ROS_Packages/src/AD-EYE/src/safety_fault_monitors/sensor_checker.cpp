@@ -9,6 +9,7 @@ SensorChecker::SensorChecker(int increment_value, int decrement_value, int high_
   : SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
   , sensor_to_monitor_(sensor_to_monitor)
 {
+    name_ = "SensorChecker: " + getMonitoredSensor();
     sub_sensor_fov_ = nh_.subscribe("/sensor_fov", 1, &SensorChecker::sensorFovCallback, this);
 }
 

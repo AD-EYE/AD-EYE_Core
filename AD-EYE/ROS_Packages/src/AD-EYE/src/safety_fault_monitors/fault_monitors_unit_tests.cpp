@@ -24,6 +24,7 @@ void TestSafetyFaultDetector()
         SafetyFaultDetectorTester(int increment_value, int decrement_value, int high_threshold, int low_threshold)
           : SafetyFaultMonitor(increment_value, decrement_value, high_threshold, low_threshold)
         {
+            name_ = "SafetyFaultDetectorTester";
         }
 
       private:
