@@ -241,7 +241,7 @@ class SensorFoV
      * \param nh A reference to the ros::NodeHandle initialized in the main function.
      * \details Initializes the node and its components such as publishers and subscribers.
      */
-    SensorFoV(ros::NodeHandle& nh) : nh_(nh), rate_(20)
+    SensorFoV(ros::NodeHandle& nh) : nh_(nh), rate_(10)
     {
         // Initialize node and publishers/subscribers
         pub_sensor_fovs_ = nh.advertise<jsk_recognition_msgs::PolygonArray>("/sensor_fov", 1);

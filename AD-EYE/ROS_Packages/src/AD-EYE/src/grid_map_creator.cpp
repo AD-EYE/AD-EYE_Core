@@ -869,7 +869,7 @@ class GridMapCreator
         // becomes to slow to make the frequency
         map_resolution_ = 0.5;  // 0.25 or lower number is the desired resolution, load time will significantly increase
                                 // when increasing mapresolution,
-        rate_ = ros::Rate(20);  // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately
+        rate_ = ros::Rate(10);  // 20 Hz is the minimum desired rate_ to make sure dynamic objects are accurately
                                 // tracked, remember to allign this value with the flattening_node
 
         // height_ego = 2; //Height is not critical for now

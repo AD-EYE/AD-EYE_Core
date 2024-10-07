@@ -59,7 +59,7 @@ class OccMapCreator
     const float OCCMAP_HEIGHT_;
     float submap_dimensions_;
     GridMap grid_map_;
-    float frequency_ = 20;  // this value should be aligned with the frequency value used in the GridMapCreator_node
+    float frequency_ = 10;  // this value should be aligned with the frequency value used in the GridMapCreator_node
     ros::Rate rate_;
     float car_offset_;
 
