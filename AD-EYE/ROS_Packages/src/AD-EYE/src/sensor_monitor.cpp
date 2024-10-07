@@ -71,8 +71,7 @@ class SensorFoV
     // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of
     // error will be taken.
     // The time elapsed will be compared to 3 times the sensor timeouts.
-    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.15, 0.3, 0.15, 0.15,
-                                                  0.3 };       // Time period in seconds, values obtained in PreScan.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.9, 0.9, 0.9, 0.9, 0.9 };  // Time period in seconds, values obtained in PreScan.
     float sensor_last_time_[NB_SENSORS_] = { 0, 0, 0, 0, 0 };  // The last time the callback function has been called.
     float sensor_current_time_[NB_SENSORS_];                   // The current time when the callback function is called.
     float sensor_time_elapsed_[NB_SENSORS_];                   // The time elapsed between two callbacks.
