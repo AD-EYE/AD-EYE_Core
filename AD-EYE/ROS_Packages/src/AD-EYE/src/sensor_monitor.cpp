@@ -311,7 +311,12 @@ class SensorFoV
                 {
                     sensor_active_[sensor_index] = false;
                     sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();
-                    ROS_WARN_STREAM("No message received from sensor " << SENSOR_NAME[sensor_index]);
+                    ROS_WARN_STREAM("No message received from sensor "
+                                        << SENSOR_NAME[sensor_index]
+                                        << " within "
+                                        << sensor_time_elapsed_[sensor_index]
+                                        << " seconds"
+                    );
                 }
             }
 
