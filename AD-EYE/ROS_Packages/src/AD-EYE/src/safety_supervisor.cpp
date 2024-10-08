@@ -1107,7 +1107,7 @@ class SafetySupervisor
      */
     void run()
     {
-        ros::Rate rate(20);
+        ros::Rate rate(10);
         while (nh_.ok())
         {
             ros::spinOnce();
