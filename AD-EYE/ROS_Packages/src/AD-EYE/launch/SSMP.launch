@@ -59,14 +59,12 @@
           type="safetySupervisor"
           name="safetySupervisor"
           output="screen"
-          launch-prefix="xterm -e"
           args="/pure_pursuit /twist_filter /twist_gate /controlSwitch"/>
 
     <node pkg="ss_trajplanner"
           type="ss_trajplanner_node"
           name="ss_trajplanner_node"
           output="screen"
-          launch-prefix="xterm -e"
           >
         <param name="trajectory_set_filename"
                value="$(find ss_trajplanner)/data/SSMP_trajectories/SSMPset_2018-1-3--11-58-48.csv"/>
@@ -78,8 +76,7 @@
     <node pkg="adeye"
         type="sensorMonitor"
         name="sensorMonitor"
-        output="screen"
-        launch-prefix="xterm -e"/>
+        output="screen" />
 
 
 </launch>

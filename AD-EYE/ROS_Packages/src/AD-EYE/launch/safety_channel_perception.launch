@@ -54,35 +54,13 @@
             <remap from="/points_ground" to="/safetyChannelPerception/detection/lidar_detector/points_ground"/>
             <remap from="/points_lanes" to="/safetyChannelPerception/detection/lidar_detector/points_lanes"/>
             <remap from="/detection/lidar_detector/cloud_clusters" to="/safetyChannelPerception/detection/lidar_detector/cloud_clusters"/>
-        </node>            
-        
+        </node>
+
         <node pkg="adeye"
             type="safetyChannelPerception"
             name="safetyChannelPerception"
             output="screen"
-            launch-prefix="xterm -e"/>
+            />
 
     </group>
 </launch>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

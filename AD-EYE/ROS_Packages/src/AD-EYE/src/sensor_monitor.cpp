@@ -315,7 +315,9 @@ class SensorFoV
                                         << SENSOR_NAME[sensor_index]
                                         << " within "
                                         << sensor_time_elapsed_[sensor_index]
-                                        << " seconds"
+                                        << " seconds,"
+                                        << " timeout threshold: "
+                                        << SENSOR_TIMEOUTS_[sensor_index]
                     );
                 }
             }
