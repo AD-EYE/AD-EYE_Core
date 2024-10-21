@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include <ros/ros.h>                      // ROS
 #include <grid_map_ros/grid_map_ros.hpp>  // for ROS gridmap support
 #include <string>                         // for string support
@@ -7,7 +9,6 @@
 
 #include <vectormap.h>
 #include <prescanmodel.h>
-#include <chrono>
 
 #include <cpp_utils/pose_datatypes.h>  // for cpp_utils::extract_yaw
 
@@ -522,64 +523,64 @@ class GridMapCreator
 
         sensor_sectors_ = *msg;
 
-        // These 2 polygons will keep in memory the sectors that have to be displayed in the gridmap. The difference
-        // between the 2 is the type.
-        geometry_msgs::PolygonStamped sensor_jsk_polygon;
+        // These 1 polygon will keep in memory the sectors that have to be displayed in the gridmap.
         grid_map::Polygon sensor_gridmap_polygon;
         sensor_gridmap_polygon.setFrameId(map_.getFrameId());
 
-        // Position of the sensors compared to the ego car.
-        float x_sensor_ego_frame;
-        float y_sensor_ego_frame;
         // Position of the sensor in the gridmap.
         float x_sensor_map_frame;
         float y_sensor_map_frame;
 
+        grid_map::Matrix & sensor_layer = map_.get("SensorSectors");
+
         // Remmove all old polygons
         for (GridMapIterator it(map_); !it.isPastEnd(); ++it)
         {
-            map_.at("SensorSectors", *it) = 0;
+            grid_map::Index const & index = *it;
+            sensor_layer(index(0), index(1)) = 0;
         }
+
+        float yaw_ego_cos = cos(yaw_ego_);
+        float yaw_ego_sin = sin(yaw_ego_);
 
         // A loop that goes through all sensors polygons.
         for (int sensor_index = 0; sensor_index < sensor_sectors_.polygons.size(); sensor_index++)
         {
-            // Reset the polygon that stores information from sensors
-            sensor_gridmap_polygon.removeVertices();
-
-            sensor_jsk_polygon = sensor_sectors_.polygons.at(sensor_index);  // Extract the sensor polygon.
-            size_t nb_points;                                                // the number of points in the polygon.
-            nb_points = sensor_jsk_polygon.polygon.points.size();  // Extract the number of points in the polygon.
+            // Extract the sensor polygon
+            geometry_msgs::PolygonStamped & sensor_jsk_polygon = sensor_sectors_.polygons.at(sensor_index);
+            // the number of points in the polygon
+            size_t nb_points = sensor_jsk_polygon.polygon.points.size();
 
             // If the polygon is empty, the loop for can't be run. It means that no information is received from the
             // sensor, nothing is displayed in the gridmap.
             if (nb_points != 0)
             {
+                // Reset the polygon that stores information from sensors
+                sensor_gridmap_polygon.removeVertices();
+
                 // A loop that goes through the sensor polygon to create the new polygon with the correct position in
                 // the gridmap
                 for (int vertex_index = 0; vertex_index < (int)nb_points; vertex_index++)
                 {
                     // Define the position of the sensor in the gridmap.
-                    x_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).x;
-                    y_sensor_ego_frame = sensor_jsk_polygon.polygon.points.at(vertex_index).y;
-                    x_sensor_map_frame =
-                        x_sensor_ego_frame * cos(yaw_ego_) - y_sensor_ego_frame * sin(yaw_ego_) + x_ego_;
-                    y_sensor_map_frame =
-                        x_sensor_ego_frame * sin(yaw_ego_) + y_sensor_ego_frame * cos(yaw_ego_) + y_ego_;
+                    auto const & point = sensor_jsk_polygon.polygon.points.at(vertex_index);
+                    x_sensor_map_frame = point.x * yaw_ego_cos - point.y * yaw_ego_sin + x_ego_;
+                    y_sensor_map_frame = point.x * yaw_ego_sin + point.y * yaw_ego_cos + y_ego_;
                     // Complete the polygon to then display it in the gridmap.
                     sensor_gridmap_polygon.addVertex(Position(x_sensor_map_frame, y_sensor_map_frame));
                 }
                 // Add 1 to the layer
                 for (grid_map::PolygonIterator it(map_, sensor_gridmap_polygon); !it.isPastEnd(); ++it)
                 {
-                    map_.at("SensorSectors", *it) = map_.at("SensorSectors", *it) + 1;
+                    grid_map::Index const & index = *it;
+                    sensor_layer(index(0), index(1)) += 1;
                 }
             }
         }
 
         auto end = std::chrono::high_resolution_clock::now();
         auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-        std::cout<<"MILL: "<<dur.count()<<std::endl;
+        std::cout<<"////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
