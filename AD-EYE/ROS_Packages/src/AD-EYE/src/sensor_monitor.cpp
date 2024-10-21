@@ -64,17 +64,15 @@ class SensorFoV
     const float SENSOR_POSITION_Y_[NB_SENSORS_] = { 0, 0, 0, 0, -0.7 };  // y coordinates of the sensors positions in
                                                                          // the ego car in meter, values obtained in
                                                                          // PreScan.
-    bool sensor_active_[NB_SENSORS_] = { false, false, false, false,
-                                         false };  // Indicates if sensors information have changed.
+    // Indicates if sensors information have changed.
+    bool sensor_active_[NB_SENSORS_] = { false, false, false, false, false };
     // The timeouts of the sensors are the following : 0.05s (radar), 0.1s (lidar), 0.05s (camera 1), 0.05s (camera 2),
-    // 0.1s (camera tl).
+    // 0.1s (camera tl).points
     // When the time between 2 messages received from the sensors will be compared to the sensor timeouts, a margin of
     // error will be taken.
     // The time elapsed will be compared to 3 times the sensor timeouts.
-    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.9, 0.9, 0.9, 0.9, 0.9 };  // Time period in seconds, values obtained in PreScan.
+    const float SENSOR_TIMEOUTS_[NB_SENSORS_] = { 0.1, 0.1, 0.1, 0.1, 0.1 };  // Time period in seconds, values obtained in PreScan.
     float sensor_last_time_[NB_SENSORS_] = { 0, 0, 0, 0, 0 };  // The last time the callback function has been called.
-    float sensor_current_time_[NB_SENSORS_];                   // The current time when the callback function is called.
-    float sensor_time_elapsed_[NB_SENSORS_];                   // The time elapsed between two callbacks.
 
     // Ros utils
     ros::Rate rate_;
@@ -95,9 +93,7 @@ class SensorFoV
     void sensorUpdate(SENSOR_TYPE_ sensor_index)
     {
         sensor_active_[sensor_index] = true;
-        sensor_last_time_[sensor_index] = sensor_current_time_[sensor_index];
-        sensor_current_time_[sensor_index] = ros::Time::now().toSec();
-        sensor_time_elapsed_[sensor_index] = sensor_current_time_[sensor_index] - sensor_last_time_[sensor_index];
+        sensor_last_time_[sensor_index] = ros::Time::now().toSec();
     }
 
     /*!
@@ -212,14 +208,14 @@ class SensorFoV
         geometry_msgs::Point32 apex;
         apex.x = x;
         apex.y = y;
-        polygon.polygon.points.emplace_back(apex);
+        polygon.polygon.points.push_back(apex);
         for (float i = (orientation - (angle / 2.0)); i <= (orientation + (angle / 2.0)); i = i + d_angle)
         {  // Approximate circle section by a succession of points
             // Definition of the points that will be added to the polygon.
             geometry_msgs::Point32 point;
             point.x = x + radius * cos(i);
             point.y = y + radius * sin(i);
-            polygon.polygon.points.emplace_back(point);
+            polygon.polygon.points.push_back(point);
         }
 
         if (fmodf(angle, d_angle) != 0)
@@ -229,7 +225,7 @@ class SensorFoV
             geometry_msgs::Point32 last_point;
             last_point.x = x + radius * cos(orientation + (angle / 2.0));
             last_point.y = y + radius * sin(orientation + (angle / 2.0));
-            polygon.polygon.points.emplace_back(last_point);
+            polygon.polygon.points.push_back(last_point);
         }
 
         return polygon;
@@ -261,19 +257,11 @@ class SensorFoV
      */
     void run()
     {
-        // Initialize current time and the time elapsed between 2 callbacks for sensors.
         float first_time = ros::Time::now().toSec();
         for (int i = RADAR; i <= CAMERATL; i++)
         {
-            sensor_current_time_[i] = first_time;
+            sensor_last_time_[i] = first_time;
         }
-        // time elapsed is initialize this way because if a sensor is broken, the callback function will never be called
-        // and no warning message will be sent.
-        sensor_time_elapsed_[RADAR] = 2 * SENSOR_TIMEOUTS_[RADAR];
-        sensor_time_elapsed_[LIDAR] = 2 * SENSOR_TIMEOUTS_[LIDAR];
-        sensor_time_elapsed_[CAMERA1] = 2 * SENSOR_TIMEOUTS_[CAMERA1];
-        sensor_time_elapsed_[CAMERA2] = 2 * SENSOR_TIMEOUTS_[CAMERA2];
-        sensor_time_elapsed_[CAMERATL] = 2 * SENSOR_TIMEOUTS_[CAMERATL];
 
         // Main loop
         while (nh_.ok())
@@ -302,19 +290,20 @@ class SensorFoV
 
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the
             // sensor to have a margin of error.
+            float curr_time = ros::Time::now().toSec();
             for (int sensor_index = RADAR; sensor_index <= CAMERATL; sensor_index++)
             {
                 // Array that is useful to write the name in the warning message
                 std::string SENSOR_NAME[NB_SENSORS_] = { "Radar", "Lidar", "Camera 1", "Camera 2",
                                                          "Camera traffic light" };
-                if (sensor_time_elapsed_[sensor_index] > SENSOR_TIMEOUTS_[sensor_index])
+                if (curr_time - sensor_last_time_[sensor_index] > SENSOR_TIMEOUTS_[sensor_index])
                 {
                     sensor_active_[sensor_index] = false;
                     sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();
                     ROS_WARN_STREAM("No message received from sensor "
                                         << SENSOR_NAME[sensor_index]
                                         << " within "
-                                        << sensor_time_elapsed_[sensor_index]
+                                        << curr_time - sensor_last_time_[sensor_index]
                                         << " seconds,"
                                         << " timeout threshold: "
                                         << SENSOR_TIMEOUTS_[sensor_index]
