@@ -72,7 +72,6 @@ class GridMapCreator
     geometry_msgs::PoseArray other_actors_old_;
     geometry_msgs::PolygonStamped footprint_ego_;
     jsk_recognition_msgs::PolygonArray detected_objects_;
-    jsk_recognition_msgs::PolygonArray detected_objects_old_;
 
     // Parameters
     bool dynamic_objects_ground_truth_active_ = false;
@@ -397,8 +396,6 @@ class GridMapCreator
      */
     void dynamicActorsUpdate()
     {
-        auto start = std::chrono::high_resolution_clock::now();
-
         grid_map::Matrix & static_objects_layer_ = map_.get("StaticObjects");
         for(auto const & index : static_objects_cache_){
             static_objects_layer_(index(0), index(1)) = 0;
@@ -442,12 +439,6 @@ class GridMapCreator
                 dynamic_objects_cache_.push_back(index);
             }
         }
-
-        detected_objects_old_ = detected_objects_;
-        auto end = std::chrono::high_resolution_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-        std::cout<<"MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
@@ -527,6 +518,8 @@ class GridMapCreator
      */
     void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
     {
+        auto start = std::chrono::high_resolution_clock::now();
+
         sensor_sectors_ = *msg;
 
         // These 2 polygons will keep in memory the sectors that have to be displayed in the gridmap. The difference
@@ -583,6 +576,10 @@ class GridMapCreator
                 }
             }
         }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout<<"MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
