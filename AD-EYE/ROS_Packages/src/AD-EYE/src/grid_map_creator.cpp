@@ -7,6 +7,7 @@
 
 #include <vectormap.h>
 #include <prescanmodel.h>
+#include <chrono>
 
 #include <cpp_utils/pose_datatypes.h>  // for cpp_utils::extract_yaw
 
@@ -78,7 +79,6 @@ class GridMapCreator
     bool connection_established_ = false;
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
-    bool dynamic_objects_initialized_ = false;
 
     // For the sensor sectors layer
     jsk_recognition_msgs::PolygonArray sensor_sectors_;
@@ -90,8 +90,11 @@ class GridMapCreator
     const float occmap_height_;
     const float submap_dimensions_;
 
+    std::vector<grid_map::Index> static_objects_cache_;
+    std::vector<grid_map::Index> dynamic_objects_cache_;
+
     // Ros utils
-    ros::Rate rate_;
+    ros::Rate rate_ {10};
     bool use_pex_file_ = false;
     bool use_ground_truth_dynamic_objects_ = false;
 
@@ -394,66 +397,57 @@ class GridMapCreator
      */
     void dynamicActorsUpdate()
     {
-        size_t N_actors = detected_objects_.polygons.size();
-        for (int i = 0; i < (int)N_actors; i++)
-        {
-            if (dynamic_objects_initialized_)
-            {
-                for (auto poly : detected_objects_old_.polygons)
-                {
-                    bool first_point = true;
-                    Position previous_point;
-                    grid_map::Polygon polygon;
-                    polygon.setFrameId("SSMP_map");
-                    for (auto pt : poly.polygon.points)
-                    {
-                        polygon.addVertex(Position(pt.x, pt.y));
-                        if (!first_point)
-                        {
-                            for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y));
-                                 !iterator.isPastEnd(); ++iterator)
-                            {
-                                map_.at("StaticObjects", *iterator) = 0;
-                            }
-                        }
-                        first_point = false;
-                        previous_point = Position(pt.x, pt.y);
-                    }
-                    for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator)
-                    {
-                        map_.at("DynamicObjects", *iterator) = 0;
-                    }
-                }
-            }
+        auto start = std::chrono::high_resolution_clock::now();
 
-            for (auto poly : detected_objects_.polygons)
-            {
-                bool first_point = true;
-                float z = poly.polygon.points.front().z;
-                Position previous_point;
-                grid_map::Polygon polygon;
-                polygon.setFrameId("SSMP_map");
-                for (auto pt : poly.polygon.points)
-                {
-                    polygon.addVertex(Position(pt.x, pt.y));
-                    if (!first_point)
-                    {
-                        for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y));
-                             !iterator.isPastEnd(); ++iterator)
-                        {
-                            map_.at("StaticObjects", *iterator) = height_other_;
-                        }
-                    }
-                    first_point = false;
-                    previous_point = Position(pt.x, pt.y);
-                }
-                for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator)
-                {
-                    map_.at("DynamicObjects", *iterator) = height_other_;
-                }
-            }
-            detected_objects_old_ = detected_objects_;
+        grid_map::Matrix & static_objects_layer_ = map_.get("StaticObjects");
+        for(auto const & index : static_objects_cache_){
+            static_objects_layer_(index(0), index(1)) = 0;
         }
+
+        grid_map::Matrix & dynamic_objects_layer_ = map_.get("DynamicObjects");
+        for(auto const & index : dynamic_objects_cache_){
+            static_objects_layer_(index(0), index(1)) = 0;
+        }
+
+        static_objects_cache_.clear();
+        dynamic_objects_cache_.clear();
+
+        for (auto poly : detected_objects_.polygons)
+        {
+            bool first_point = true;
+            float z = poly.polygon.points.front().z;
+            Position previous_point;
+            grid_map::Polygon polygon;
+            polygon.setFrameId("SSMP_map");
+            for (auto pt : poly.polygon.points)
+            {
+                polygon.addVertex(Position(pt.x, pt.y));
+                if (!first_point)
+                {
+                    for (grid_map::LineIterator iterator(map_, previous_point, Position(pt.x, pt.y));
+                            !iterator.isPastEnd(); ++iterator)
+                    {
+                        auto const & index = *iterator;
+                        static_objects_layer_(index(0), index(1)) = height_other_;
+                        static_objects_cache_.push_back(index);
+                    }
+                }
+                first_point = false;
+                previous_point = Position(pt.x, pt.y);
+            }
+            for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator)
+            {
+                auto const & index = *iterator;
+                dynamic_objects_layer_(index(0), index(1)) = height_other_;
+                dynamic_objects_cache_.push_back(index);
+            }
+        }
+
+        detected_objects_old_ = detected_objects_;
+        auto end = std::chrono::high_resolution_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        std::cout<<"MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
@@ -825,15 +819,12 @@ class GridMapCreator
     GridMapCreator(ros::NodeHandle& nh, const float area_width, const float area_height_front,
                    const float area_height_back)
       : nh_(nh)
-      , rate_(1)
       , occmap_width_(area_width)
-      ,  // The width in meter...
-      occmap_height_(area_height_front + area_height_back)
-      ,  // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
-
-      submap_dimensions_(sqrt(std::pow(occmap_width_, 2) +  // The submap that will be extracted is aligned with the
-                                                            // global grid_map and contains the occmap.
-                              std::pow(occmap_height_, 2)))
+        // The width in meter...
+      , occmap_height_(area_height_front + area_height_back)
+        // ... and the height in meter of the occupancy grid map that will be produced by the flattening node.
+        // The submap that will be extracted is aligned with the global grid_map and contains the occmap.
+      , submap_dimensions_(sqrt(std::pow(occmap_width_, 2) + std::pow(occmap_height_, 2)))
     {
         nh.getParam("use_pex_file", use_pex_file_);
         nh.getParam("use_ground_truth_dynamic_objects", use_ground_truth_dynamic_objects_);
@@ -947,7 +938,6 @@ class GridMapCreator
                 if (dynamic_objects_active_)
                 {
                     dynamicActorsUpdate();
-                    dynamic_objects_initialized_ = true;
                     dynamic_objects_active_ = false;
                 }
             }
