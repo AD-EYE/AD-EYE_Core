@@ -24,6 +24,7 @@
 		<param name="gpu_device_id" type="int" value="$(arg gpu_device_id)"/>
 		<param name="image_raw_node" type="str" value="$(arg image_src)"/>
 		<remap from="/detection/image_detector/objects" to="$(arg object_src)"/>
+		<env name="GLOG_minloglevel" value="1"/>
 	</node>
 
 	<node ns="$(arg camera)" pkg="detected_objects_visualizer" type="visualize_rects" name="ssd_rects"
