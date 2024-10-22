@@ -443,7 +443,6 @@ class GridMapCreator
      */
     void positionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     {
-        auto start = std::chrono::high_resolution_clock::now();
         connection_established_ = true;
 
         x_ego_ = msg->pose.position.x;
@@ -474,10 +473,6 @@ class GridMapCreator
             last_y_ego_center_ = y_ego_center;
             last_yaw_ego_ = yaw_ego_;
         }
-
-        auto end = std::chrono::high_resolution_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        std::cout<<"POS --------------------------------MICR: "<<dur.count()<<std::endl;
     }
 
     /*!
@@ -513,11 +508,6 @@ class GridMapCreator
      */
     void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& sensor_sectors)
     {
-        auto start1 = std::chrono::high_resolution_clock::now();
-        auto start = std::chrono::high_resolution_clock::now();
-        auto end = std::chrono::high_resolution_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
         // These 1 polygon will keep in memory the sectors that have to be displayed in the gridmap.
         grid_map::Polygon sensor_gridmap_polygon;
         sensor_gridmap_polygon.setFrameId(map_.getFrameId());
@@ -548,8 +538,6 @@ class GridMapCreator
                 // Reset the polygon that stores information from sensors
                 sensor_gridmap_polygon.removeVertices();
 
-                start = std::chrono::high_resolution_clock::now();
-
                 // A loop that goes through the sensor polygon to create the new polygon with the correct position in
                 // the gridmap
                 for (int vertex_index = 0; vertex_index < (int)nb_points; vertex_index++)
@@ -562,27 +550,14 @@ class GridMapCreator
                     sensor_gridmap_polygon.addVertex(Position(x_sensor_map_frame, y_sensor_map_frame));
                 }
 
-                end = std::chrono::high_resolution_clock::now();
-                dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout<<"1 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
-
-                start = std::chrono::high_resolution_clock::now();
                 // Add 1 to the layer
                 for (grid_map::PolygonIterator it(map_, sensor_gridmap_polygon); !it.isPastEnd(); ++it)
                 {
                     grid_map::Index const & index = *it;
                     sensor_layer(index(0), index(1)) += 1;
                 }
-
-                end = std::chrono::high_resolution_clock::now();
-                dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout<<"2 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
             }
         }
-
-        end = std::chrono::high_resolution_clock::now();
-        dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start1);
-        std::cout<<"3 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
