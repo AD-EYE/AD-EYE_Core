@@ -27,7 +27,7 @@ public:
     }
 
     void velocityRequestedCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
-        ROS_INFO("Desired TwistS: Long. Vel. = %f, Rot. Spd. = %f", msg->twist.linear.x, msg->twist.angular.z);
+        ROS_DEBUG("Desired TwistS: Long. Vel. = %f, Rot. Spd. = %f", msg->twist.linear.x, msg->twist.angular.z);
         linear_speed_target_ = msg->twist.linear.x;
         angular_speed_target_ = msg->twist.angular.z;
 
@@ -35,7 +35,7 @@ public:
     }
 
     void velocityCurrentCallback(const geometry_msgs::TwistStamped::ConstPtr& msg) {
-        ROS_INFO("Current velocity: Long. Vel. = %f, Rot. Spd. = %f", msg->twist.linear.x, msg->twist.angular.z);
+        ROS_DEBUG("Current velocity: Long. Vel. = %f, Rot. Spd. = %f", msg->twist.linear.x, msg->twist.angular.z);
         linear_speed_current_ = msg->twist.linear.x;
         angular_speed_current_ = msg->twist.angular.z;
     }
