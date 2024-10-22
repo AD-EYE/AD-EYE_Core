@@ -238,8 +238,8 @@ class SafetySupervisor
         double distance = fabs((p2.pos.y - p1.pos.y) * p0.pos.x - (p2.pos.x - p1.pos.x) * p0.pos.y +
                                p2.pos.x * p1.pos.y - p2.pos.y * p1.pos.x) /
                           sqrt(pow(p2.pos.y - p1.pos.y, 2) + pow(p2.pos.x - p1.pos.x, 2));
-        std::cout << "Closest index = " << closest_index << ". Second closest index: " << second_closest_index
-                  << ". Distance = " << distance << '\n';
+        ROS_DEBUG_STREAM("Closest index = " << closest_index << ". Second closest index: " << second_closest_index
+                         << ". Distance = " << distance << '\n');
         return distance;
     }
 
@@ -316,8 +316,8 @@ class SafetySupervisor
                 right_distance = d;
             }
         }
-        std::cout << "The distance to the right road edge is: " << right_distance << '\n';
-        std::cout << "The distance to the left road edge is: " << left_distance << '\n';
+        ROS_DEBUG_STREAM("The distance to the right road edge is: " << right_distance << '\n');
+        ROS_DEBUG_STREAM("The distance to the left road edge is: " << left_distance << '\n');
         return std::min(right_distance, left_distance);
     }
 
@@ -345,8 +345,8 @@ class SafetySupervisor
                 }
             }
         }
-        std::cout << "The max curvature_extrema is: " << curvature_extrema.max << '\n';
-        std::cout << "The min curvature_extrema is: " << curvature_extrema.min << '\n';
+        ROS_DEBUG_STREAM("The max curvature_extrema is: " << curvature_extrema.max << '\n');
+        ROS_DEBUG_STREAM("The min curvature_extrema is: " << curvature_extrema.min << '\n');
         return curvature_extrema;
     }
 
