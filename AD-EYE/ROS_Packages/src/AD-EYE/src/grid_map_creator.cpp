@@ -56,10 +56,9 @@ class GridMapCreator
     float y_ego_old_;
 
     // for the ego footprint layer
-    float last_x_ego_center_;
-    float last_y_ego_center_;
-    float last_yaw_ego_;
-    bool first_position_callback_ = true;
+    float last_x_ego_center_ {0};
+    float last_y_ego_center_ {0};
+    float last_yaw_ego_ {0};
 
     // Dimensions
     float length_ego_ = 4.6;
@@ -80,9 +79,6 @@ class GridMapCreator
     bool dynamic_objects_ground_truth_initialized_ = false;
     bool dynamic_objects_active_ = false;
 
-    // For the sensor sectors layer
-    jsk_recognition_msgs::PolygonArray sensor_sectors_;
-
     // GridMap
     GridMap map_;
     float map_resolution_;
@@ -92,6 +88,7 @@ class GridMapCreator
 
     std::vector<grid_map::Index> static_objects_cache_;
     std::vector<grid_map::Index> dynamic_objects_cache_;
+    std::vector<grid_map::Index> ego_vehicle_cache_;
 
     // Ros utils
     ros::Rate rate_ {10};
@@ -113,26 +110,23 @@ class GridMapCreator
         findGridMapBoundary(vector_map, lowest_x, lowest_y, maplength_x, maplength_y);
 
         // Create grid map consisting of four layers
-        map_ = GridMap({ "StaticObjects", "DrivableAreas", "DynamicObjects", "EgoVehicle", "Lanes", "RoadSideParking",
-                         "RestArea", "SensorSectors" });
+        map_ = GridMap();
         map_.setFrameId("SSMP_map");
         map_.setGeometry(Length(maplength_x, maplength_y), map_resolution_,
                          Position(lowest_x + 0.5 * maplength_x, lowest_y + 0.5 * maplength_y));
-        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(),
-                 map_.getSize()(0), map_.getSize()(1));
 
         // All cells in all layers must first be initialized to 0
-        for (GridMapIterator it(map_); !it.isPastEnd(); ++it)
-        {
-            map_.at("DrivableAreas", *it) = 0;
-            map_.at("StaticObjects", *it) = 0;
-            map_.at("DynamicObjects", *it) = 0;
-            map_.at("Lanes", *it) = 0;
-            map_.at("EgoVehicle", *it) = 0;
-            map_.at("SensorSectors", *it) = 0;
-            map_.at("RoadSideParking", *it) = 0;
-            map_.at("RestArea", *it) = 0;
-        }
+        map_.add("StaticObjects", 0);
+        map_.add("DrivableAreas", 0);
+        map_.add("DynamicObjects", 0);
+        map_.add("EgoVehicle", 0);
+        map_.add("Lanes", 0);
+        map_.add("RoadSideParking", 0);
+        map_.add("RestArea", 0);
+        map_.add("SensorSectors", 0);
+
+        ROS_INFO("Created map with size %f x %f m (%i x %i cells).", map_.getLength().x(), map_.getLength().y(),
+                 map_.getSize()(0), map_.getSize()(1));
     }
 
     /*!
@@ -449,41 +443,41 @@ class GridMapCreator
      */
     void positionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     {
+        auto start = std::chrono::high_resolution_clock::now();
+        connection_established_ = true;
+
         x_ego_ = msg->pose.position.x;
         y_ego_ = msg->pose.position.y;
         yaw_ego_ = cpp_utils::extract_yaw(msg->pose.orientation);
+
         float x_ego_center = x_ego_ + cos(yaw_ego_) * 0.3 * length_ego_;  // center of the car's rectangular footprint
         float y_ego_center = y_ego_ + sin(yaw_ego_) * 0.3 * length_ego_;  // center of the car's rectangular footprint
-        connection_established_ = true;
-        // Creating footprint for Ego vehicle
-        if (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_)
+
+        if (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)
         {
-            grid_map::Polygon egoCar =
-                createRectangle(last_x_ego_center_, last_y_ego_center_, length_ego_, width_ego_, last_yaw_ego_);
-            for (grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator)
-            {
-                map_.at("EgoVehicle", *iterator) = 0;
+            auto & ego_vehicle_layer = map_.get("EgoVehicle");
+
+            // Clear previous position
+            for (auto const & index : ego_vehicle_cache_){
+                ego_vehicle_layer(index(0), index(1)) = 0;
             }
-        }
-        if (first_position_callback_ ||
-            (!first_position_callback_ &&
-             (x_ego_center != last_x_ego_center_ || y_ego_center != last_y_ego_center_ || yaw_ego_ != last_yaw_ego_)))
-        {
-            if (first_position_callback_)
-            {
-                last_x_ego_center_ = x_ego_center;
-                last_y_ego_center_ = y_ego_center;
-                first_position_callback_ = false;
-            }
+            ego_vehicle_cache_.clear();
+
+            // Fill current position
             grid_map::Polygon egoCar = createRectangle(x_ego_center, y_ego_center, length_ego_, width_ego_, yaw_ego_);
             for (grid_map::PolygonIterator iterator(map_, egoCar); !iterator.isPastEnd(); ++iterator)
             {
-                map_.at("EgoVehicle", *iterator) = height_other_;
+                ego_vehicle_layer((*iterator)(0), (*iterator)(1)) = height_other_;
+                ego_vehicle_cache_.push_back(*iterator);
             }
             last_x_ego_center_ = x_ego_center;
             last_y_ego_center_ = y_ego_center;
             last_yaw_ego_ = yaw_ego_;
         }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        std::cout<<"POS --------------------------------MICR: "<<dur.count()<<std::endl;
     }
 
     /*!
@@ -517,11 +511,12 @@ class GridMapCreator
      * To iterate all the polygons from PolygonArray, a new polygon has to be created with Polygon type.
      * Each sector will be filled with the number of sensors there are in this sector.
      */
-    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& msg)
+    void sensorSectorsCallback(const jsk_recognition_msgs::PolygonArray::ConstPtr& sensor_sectors)
     {
+        auto start1 = std::chrono::high_resolution_clock::now();
         auto start = std::chrono::high_resolution_clock::now();
-
-        sensor_sectors_ = *msg;
+        auto end = std::chrono::high_resolution_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
         // These 1 polygon will keep in memory the sectors that have to be displayed in the gridmap.
         grid_map::Polygon sensor_gridmap_polygon;
@@ -532,31 +527,28 @@ class GridMapCreator
         float y_sensor_map_frame;
 
         grid_map::Matrix & sensor_layer = map_.get("SensorSectors");
-
         // Remmove all old polygons
-        for (GridMapIterator it(map_); !it.isPastEnd(); ++it)
-        {
-            grid_map::Index const & index = *it;
-            sensor_layer(index(0), index(1)) = 0;
-        }
+        sensor_layer.setConstant(0);
 
         float yaw_ego_cos = cos(yaw_ego_);
         float yaw_ego_sin = sin(yaw_ego_);
 
         // A loop that goes through all sensors polygons.
-        for (int sensor_index = 0; sensor_index < sensor_sectors_.polygons.size(); sensor_index++)
+        for (int sensor_index = 0; sensor_index < sensor_sectors->polygons.size(); sensor_index++)
         {
             // Extract the sensor polygon
-            geometry_msgs::PolygonStamped & sensor_jsk_polygon = sensor_sectors_.polygons.at(sensor_index);
+            geometry_msgs::PolygonStamped const & sensor_jsk_polygon = sensor_sectors->polygons.at(sensor_index);
             // the number of points in the polygon
             size_t nb_points = sensor_jsk_polygon.polygon.points.size();
 
             // If the polygon is empty, the loop for can't be run. It means that no information is received from the
             // sensor, nothing is displayed in the gridmap.
-            if (nb_points != 0)
+            if (nb_points > 0)
             {
                 // Reset the polygon that stores information from sensors
                 sensor_gridmap_polygon.removeVertices();
+
+                start = std::chrono::high_resolution_clock::now();
 
                 // A loop that goes through the sensor polygon to create the new polygon with the correct position in
                 // the gridmap
@@ -569,18 +561,28 @@ class GridMapCreator
                     // Complete the polygon to then display it in the gridmap.
                     sensor_gridmap_polygon.addVertex(Position(x_sensor_map_frame, y_sensor_map_frame));
                 }
+
+                end = std::chrono::high_resolution_clock::now();
+                dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                std::cout<<"1 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
+
+                start = std::chrono::high_resolution_clock::now();
                 // Add 1 to the layer
                 for (grid_map::PolygonIterator it(map_, sensor_gridmap_polygon); !it.isPastEnd(); ++it)
                 {
                     grid_map::Index const & index = *it;
                     sensor_layer(index(0), index(1)) += 1;
                 }
+
+                end = std::chrono::high_resolution_clock::now();
+                dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                std::cout<<"2 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
             }
         }
 
-        auto end = std::chrono::high_resolution_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-        std::cout<<"////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
+        end = std::chrono::high_resolution_clock::now();
+        dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start1);
+        std::cout<<"3 ////////////////--------------------------------MILL: "<<dur.count()<<std::endl;
     }
 
     /*!
