@@ -154,7 +154,7 @@ class SensorFoV
      */
     void polygonCreator()
     {
-        for (int type = RADAR; type <= CAMERATL; type++)
+        for (int type = LIDAR; type <= CAMERA1; type++)
         {
             // For each sensor, the polygon is created if information about this sensor is sent. If not, there will be
             // an empty polygon for this sensor.
@@ -258,7 +258,7 @@ class SensorFoV
     void run()
     {
         float first_time = ros::Time::now().toSec();
-        for (int i = RADAR; i <= CAMERATL; i++)
+        for (int i = LIDAR; i <= CAMERA1; i++)
         {
             sensor_last_time_[i] = first_time;
         }
@@ -291,7 +291,7 @@ class SensorFoV
             // Check if messages from sensors are received. Time elapsed is compared to 2 times the time period of the
             // sensor to have a margin of error.
             float curr_time = ros::Time::now().toSec();
-            for (int sensor_index = RADAR; sensor_index <= CAMERATL; sensor_index++)
+            for (int sensor_index = LIDAR; sensor_index <= CAMERA1; sensor_index++)
             {
                 // Array that is useful to write the name in the warning message
                 std::string SENSOR_NAME[NB_SENSORS_] = { "Radar", "Lidar", "Camera 1", "Camera 2",

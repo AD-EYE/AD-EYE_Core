@@ -54,7 +54,7 @@
         <arg name="use_odom" value="false" />
         <arg name="use_imu" value="1" />
         <arg name="imu_upside_down" value="false" />
-        <arg name="imu_topic" value="/ouster/imu" />
+        <arg name="imu_topic" value="/os_cloud_node/imu" />
         <arg name="queue_size" value="1" />
         <arg name="offset" value="linear" />
         <arg name="get_height" value="true" />

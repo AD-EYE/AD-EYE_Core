@@ -40,21 +40,18 @@ class point_cloud_broadcaster_Sim():
 class point_cloud_broadcaster_RealWorld():
 
     def __init__(self):
-        self.sub = rospy.Subscriber("/velodyne_points", PointCloud2, self.callback)
+        self.sub = rospy.Subscriber("/os_cloud_node/points", PointCloud2, self.callback)
         self.pub = rospy.Publisher('/points_raw', PointCloud2, queue_size=1)
 
 
-    def callback(self, data):
-        self.pub.publish(data)
+    def callback(self, msg):
+        msg.header.stamp = rospy.Time.now()
+        self.pub.publish(msg)
 
 
 if __name__ == '__main__':
     rospy.init_node('point_cloud_broadcaster', anonymous=True)
 
-    if rospy.get_param("sensing/lidar_source") == "Simulation":
-        point_cloud_broadcaster_Sim()
-
-    if rospy.get_param("sensing/lidar_source") == "RealWorld":
-        point_cloud_broadcaster_RealWorld()
+    point_cloud_broadcaster_RealWorld()
 
     rospy.spin()
