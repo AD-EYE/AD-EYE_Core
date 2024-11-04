@@ -3,9 +3,7 @@ import rospy
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import NavSatFix
-from math import cos
-from math import radians
-from math import sqrt
+from math import cos, radians, sqrt, isnan
 import tf
 
 
@@ -39,6 +37,10 @@ class GnssBroadcaster:
         self.gnss_pub.publish(msg)
 
     def gnssCallback(self, fix):
+        # Do not spread false coordinates
+        if isnan(fix.latitude) or isnan(fix.longitude):
+            return
+
         x_p, y_p = self.world_to_map_transform(self.standard_parallel, self.map_origin[0], self.map_origin[1], fix.longitude, fix.latitude)
         print('Coords : (' + str(x_p) + " " + str(y_p) + "), Distance to the maps origin : " + str(sqrt(x_p**2 + y_p**2)) + 'm')
 
