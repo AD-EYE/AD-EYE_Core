@@ -300,12 +300,11 @@ class OccMapCreator
      */
     void run()
     {
-        float rostime;
+        long rostime;
 
         while (nh_.ok())
         {
             rostime = ros::Time::now().toSec();
-
             ros::spinOnce();
             pub_occ_grid_.publish(occ_grid_);
 
@@ -313,7 +312,7 @@ class OccMapCreator
             rostime = ros::Time::now().toSec() - rostime;
             if (rostime > 1 / frequency_)
             {
-                ROS_WARN("Flatening Node : Frequency is not met!");
+                ROS_WARN_STREAM("Flatening Node : Frequency is not met!");
             }
 
             rate_.sleep();

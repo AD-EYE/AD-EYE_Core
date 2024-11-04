@@ -84,6 +84,8 @@ class SensorFoV
     bool even_loop_cameratl_;
     bool odd_loop_cameratl_;
 
+    time_t last_warning_ts_ = 0;
+
     /*!
      * \brief Sensor Update: called when a sensor is activated
      * \param sensor_index The type of sensor that needs to be updated.
@@ -300,14 +302,18 @@ class SensorFoV
                 {
                     sensor_active_[sensor_index] = false;
                     sensor_field_of_views_.polygons.at(sensor_index).polygon.points.clear();
-                    ROS_WARN_STREAM("No message received from sensor "
-                                        << SENSOR_NAME[sensor_index]
-                                        << " within "
-                                        << curr_time - sensor_last_time_[sensor_index]
-                                        << " seconds,"
-                                        << " timeout threshold: "
-                                        << SENSOR_TIMEOUTS_[sensor_index]
-                    );
+                    // Throw warnings but not too often
+                    if(curr_time - last_warning_ts_ > 5){
+                        last_warning_ts_ = curr_time;
+                        ROS_WARN_STREAM("No message received from sensor "
+                                            << SENSOR_NAME[sensor_index]
+                                            << " within "
+                                            << curr_time - sensor_last_time_[sensor_index]
+                                            << " seconds,"
+                                            << " timeout threshold: "
+                                            << SENSOR_TIMEOUTS_[sensor_index]
+                        );
+                    }
                 }
             }
 

@@ -42,7 +42,7 @@ class GnssBroadcaster:
             return
 
         x_p, y_p = self.world_to_map_transform(self.standard_parallel, self.map_origin[0], self.map_origin[1], fix.longitude, fix.latitude)
-        print('Coords : (' + str(x_p) + " " + str(y_p) + "), Distance to the maps origin : " + str(sqrt(x_p**2 + y_p**2)) + 'm')
+        # print('Coords : (' + str(x_p) + " " + str(y_p) + "), Distance to the maps origin : " + str(sqrt(x_p**2 + y_p**2)) + 'm')
 
         self.pose.header.frame_id = "map"
         self.pose.header.stamp = rospy.Time.now()
