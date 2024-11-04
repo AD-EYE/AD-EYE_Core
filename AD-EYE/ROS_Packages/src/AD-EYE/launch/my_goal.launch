@@ -1,0 +1,25 @@
+<!-- -->
+<launch>
+
+<node
+    pkg="rostopic"
+    type="rostopic"
+    name="initial_checks_faker"
+    args='pub /initial_checks std_msgs/Bool "data: true" -r 1'
+    output="screen"
+/>
+
+<node
+    pkg="rostopic"
+    type="rostopic"
+    name="activation_request_faker"
+    args='pub /activation_request std_msgs/Bool "data: true" -r 1'
+    output="screen"
+/>
+
+<node type="goal_publisher.py" pkg="adeye" name="goal_publisher" respawn="true" output="screen">
+    <param name="x" value="-122"/>
+    <param name="y" value="266"/>
+</node>
+
+</launch>
