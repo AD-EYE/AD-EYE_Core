@@ -190,14 +190,14 @@ class Manager:
     INITIALIZING_DEFAULT_FEATURES = [
         # "Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
+        "Sensing",
+        "Localization",
         # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
+        "Detection",
+        "Mission_Planning",
         # "Motion_Planning",
         "Switch",
-        # "SSMP",
+        "SSMP",
         # "Rviz",
         # "Experiment_specific_recording"
     ]
@@ -207,16 +207,16 @@ class Manager:
         "Sensing",
         "Localization",
         # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
+        "Detection",
+        "Mission_Planning",
         # "Motion_Planning",
         "Switch",
-        # "SSMP",
+        "SSMP",
         # "Rviz",
         # "Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
-        # "Recording",
+        "Recording",
         "Map",
         "Sensing",
         "Localization",
@@ -227,7 +227,7 @@ class Manager:
         "Switch",
         "SSMP",
         # "Rviz",
-        # "Experiment_specific_recording"
+        "Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
         # "Recording",
@@ -246,14 +246,14 @@ class Manager:
     INITIALIZING_ALLOWED_FEATURES = [
         # "Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
+        "Sensing",
+        "Localization",
         # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
+        "Detection",
+        "Mission_Planning",
         # "Motion_Planning",
         "Switch",
-        # "SSMP",
+        "SSMP",
         # "Rviz",
         # "Experiment_specific_recording"
     ]
@@ -263,11 +263,11 @@ class Manager:
         "Sensing",
         "Localization",
         # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
+        "Detection",
+        "Mission_Planning",
         # "Motion_Planning",
         "Switch",
-        # "SSMP",
+        "SSMP",
         # "Rviz",
         # "Experiment_specific_recording"
     ]
