@@ -136,10 +136,10 @@ add_executable(
   src/goal_sequencer.cpp
 )
 
-# add_executable(
-#   PID_controller
-#   src/PID.cpp
-# )
+add_executable(
+  goalViewer
+  src/goal_viewer.cpp
+)
 
 add_executable(
   vehicle_controller
@@ -219,10 +219,10 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-# target_link_libraries(
-#   PID_controller
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(
+  goalViewer
+  ${catkin_LIBRARIES}
+)
 
 target_link_libraries(
   vehicle_controller
@@ -271,6 +271,10 @@ add_dependencies(laneMapImager
 )
 
 add_dependencies(goalSequencer
+  ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(goalViewer
   ${catkin_EXPORTED_TARGETS}
 )
 

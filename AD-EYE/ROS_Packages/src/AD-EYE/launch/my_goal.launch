@@ -1,6 +1,12 @@
 <!-- -->
 <launch>
-
+    <arg name="x" default="0" />
+    <arg name="y" default="0" />
+    <arg name="z" default="0" />
+    <arg name="qx" default="0" />
+    <arg name="qy" default="0" />
+    <arg name="qz" default="0" />
+    <arg name="qw" default="0" />
 <node
     pkg="rostopic"
     type="rostopic"
@@ -18,8 +24,13 @@
 />
 
 <node type="goal_publisher.py" pkg="adeye" name="goal_publisher" respawn="true" output="screen">
-    <param name="x" value="-122"/>
-    <param name="y" value="266"/>
+    <param name="x" value="$(arg x)"/>
+    <param name="y" value="$(arg y)"/>
+    <param name="z" value="$(arg z)"/>
+    <param name="qx" value="$(arg qx)"/>
+    <param name="qy" value="$(arg qy)"/>
+    <param name="qz" value="$(arg qz)"/>
+    <param name="qw" value="$(arg qw)"/>
 </node>
 
 </launch>

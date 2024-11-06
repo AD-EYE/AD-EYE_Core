@@ -150,11 +150,38 @@ class GoalSequencer
      */
     void vectorMapCallback(const vector_map_msgs::PointArray::ConstPtr& msg)
     {
-        ROS_INFO("Recived vector mapper");
-        received_vector_mapper_ = true;
         vector_map_data_ = *msg;
         // extra -1 since we need to calculate data point of i+1 in the loop
         file_size_ = vector_map_data_.data.size() - 2;
+
+        for (unsigned int i = 0; i < file_size_; i++)
+        {
+            vector_map_data_.data[i].ly, vector_map_data_.data[i].bx;
+            double o = getOrientation(vector_map_data_.data[i].ly, vector_map_data_.data[i + 1].ly,
+                                      vector_map_data_.data[i].bx, vector_map_data_.data[i + 1].bx
+            );
+
+            double o_rad = (o / 180) * M_PI;
+
+            tf::Quaternion q = tf::createQuaternionFromYaw(o_rad);
+            double yaw_angle = tf::getYaw(q) * (180.0 / M_PI);
+
+
+            ROS_INFO_STREAM(
+                vector_map_data_.data[i].bx
+                << " "
+                << vector_map_data_.data[i].ly
+                <<
+                " "
+                << o
+                << " ("
+                << q.getW() << ", "
+                << q.getX() << ", "
+                << q.getY() << ", "
+                << q.getZ()
+                << ")"
+            );
+        }
     }
 
     /*!
@@ -197,6 +224,7 @@ class GoalSequencer
         int index;
         for (unsigned int i = 0; i < file_size_; i++)
         {
+            //ROS_INFO_STREAM(x << " " << )
             vm_distance = getDistance(x, vector_map_data_.data[i].ly, y, vector_map_data_.data[i].bx);
 
             // Update the point and distance until we find the shortest distance-
@@ -427,7 +455,7 @@ class GoalSequencer
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "GoalSequencer");
+    ros::init(argc, argv, "GoalViewer");
     ros::NodeHandle nh;
     GoalSequencer sequence_goal_node(nh);
     sequence_goal_node.run();
