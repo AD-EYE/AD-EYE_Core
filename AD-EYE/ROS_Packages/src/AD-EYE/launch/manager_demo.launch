@@ -11,21 +11,22 @@
 
     <include file="$(find can_vehicle)/launch/vic.launch"/>
 
-    <node pkg="adeye" type="camera_gmsl_publisher" name="camera_gmsl_publisher" respawn="true"/>
 
     <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
         <param name="port" value="/dev/ttyACM0"/>
         <param name="baud" value="9600"/>
     </node>
+<!--
+    <node pkg="adeye" type="camera_gmsl_publisher" name="camera_gmsl_publisher" respawn="true"/>
 
+-->
     <include file="$(find ouster_ros)/ouster.launch">
         <arg name="sensor_hostname" value="os-122226000469.local"/>
         <arg name="viz" value="false"/>
         <arg name="metadata" value="/home/adeye/ouster-metadata.json"/>
-        <!--launch-prefix="bash -c 'sleep 20; $0 $@'"-->
     </include>
 
-
+<!--
 
     <node
         pkg="rostopic"
@@ -42,7 +43,7 @@
         args='pub /activation_request std_msgs/Bool "data: true" -r 1'
         output="screen"
     />
-
+-->
     <node
             type="vehicle_controller"
             pkg="adeye"
@@ -67,18 +68,8 @@
         <param name="topic_steering_request" value="/steering_requested_phy"/>
     </node>
 
-
- <!-- uncomment when  "Can't Generate Global Path for Start.." error is fixed-->
-    <!-- <node
-            type="sample_goal_publisher.py"
-            pkg="adeye"
-            name="goal_publisher"
-            respawn="false"
-            output="screen"
-    />
--->
  <!--
-   <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/os_cloud_node/points /points_raw"/>  
+   <node pkg="topic_tools" type="relay" name="points_raw_relay" output="log" args="/os_cloud_node/points /points_raw"/>
 -->
 
 
