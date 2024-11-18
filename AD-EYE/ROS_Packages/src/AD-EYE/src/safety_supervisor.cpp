@@ -49,7 +49,8 @@ class SafetySupervisor
     ros::Publisher pub_trigger_update_global_planner_;
     ros::Publisher pub_road_side_parking_viz_;
     ros::Publisher pub_text_overlay_;
-    ros::Subscriber sub_gnss_;
+    ros::Subscriber sub_gnss_simulation_;
+    ros::Subscriber sub_gnss_real_;
     ros::Subscriber sub_gridmap_;
     ros::Subscriber sub_autoware_global_plan_;
     ros::Subscriber sub_switch_request_;
@@ -1061,8 +1062,10 @@ class SafetySupervisor
         pub_road_side_parking_viz_ = nh_.advertise<visualization_msgs::Marker>("selected_road_side_parking", 1, true);
         pub_text_overlay_ = nh_.advertise<jsk_rviz_plugins::OverlayText>("safety_channel_text_overlay", 1, true);
 
-        sub_gnss_ =
+        sub_gnss_simulation_ =
             nh_.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 100, &SafetySupervisor::gnssCallback, this);
+        sub_gnss_real_ =
+            nh_.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 100, &SafetySupervisor::gnssCallback, this);
         sub_gridmap_ = nh_.subscribe<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1,
                                                              &SafetySupervisor::gridmapCallback, this);
         sub_autoware_global_plan_ =

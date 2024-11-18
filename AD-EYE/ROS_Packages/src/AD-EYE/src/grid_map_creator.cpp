@@ -43,7 +43,8 @@ class GridMapCreator
     ros::Publisher pub_grid_map_;
     ros::Publisher pub_footprint_ego_;
     ros::Publisher pub_SSMP_control_;
-    ros::Subscriber sub_position_;
+    ros::Subscriber sub_position_simulation_;
+    ros::Subscriber sub_position_real_;
     ros::Subscriber sub_dynamic_objects_ground_truth_;
     ros::Subscriber sub_dynamic_objects_;
     ros::Subscriber sub_sensor_fov_;
@@ -817,8 +818,10 @@ class GridMapCreator
         pub_grid_map_ = nh.advertise<grid_map_msgs::GridMap>("/safety_planner_gridmap", 1, true);
         pub_footprint_ego_ = nh.advertise<geometry_msgs::PolygonStamped>("/SSMP_ego_footprint", 1, true);
         pub_SSMP_control_ = nh.advertise<rcv_common_msgs::SSMP_control>("/SSMP_control", 1, true);
-        sub_position_ =
+        sub_position_simulation_ =
             nh.subscribe<geometry_msgs::PoseStamped>("/ground_truth_pose", 10, &GridMapCreator::positionCallback, this);
+        sub_position_real_ =
+            nh.subscribe<geometry_msgs::PoseStamped>("/gnss_pose", 10, &GridMapCreator::positionCallback, this);
 
         if (use_ground_truth_dynamic_objects_)
             sub_dynamic_objects_ground_truth_ = nh.subscribe<geometry_msgs::PoseArray>(
