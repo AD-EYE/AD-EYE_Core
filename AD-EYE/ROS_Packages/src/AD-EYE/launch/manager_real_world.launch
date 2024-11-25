@@ -1,5 +1,16 @@
 <!-- -->
 <launch>
+
+    <!-- RealWorld / Simulation -->
+    <arg name="lidar_source" default="Simulation"/>
+    <arg name="gnss_source" default="RealWorld"/>
+    <arg name="camera_source" default="Simulation"/>
+
+    <param name="sensing/lidar_source" value="$(arg lidar_source)" />
+    <param name="sensing/gnss_source" value="$(arg gnss_source)" />
+    <param name="sensing/camera_source" value="$(arg camera_source)" />
+
+
     <node
             type="manager.py"
             pkg="adeye"
@@ -8,6 +19,20 @@
             output="screen"
     />
 
-    <node pkg="adeye" name="camera_publisher" type="camera_publisher.py" output="screen" />
+
+    <group if="$(eval arg('lidar_source') == 'RealWorld')">
+        <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/>
+    </group>
+
+    <group if="$(eval arg('gnss_source') == 'RealWorld')">
+        <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat_driver" respawn="true">
+	    <param name="port" value="/dev/ttyACM0"/>
+	    <param name="baud" value="9600"/>
+        </node>
+    </group>
+
+    <group if="$(eval arg('camera_source') == 'RealWorld')">
+        <node pkg="adeye" name="zed_driver" type="zed_driver.py" output="screen" />
+    </group>
 
 </launch>

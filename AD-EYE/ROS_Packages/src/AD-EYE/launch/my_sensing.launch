@@ -4,9 +4,12 @@
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_gps"
         args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link gps 10"/>
     
-    <!-- point_cloud_receiver -->
-    <node pkg="adeye" type="point_cloud_receiver.py" name="point_cloud_receiver"/>
+    <!-- point_cloud_broadcaster -->
+    <node pkg="adeye" type="point_cloud_broadcaster.py" name="point_cloud_broadcaster"/>
 
     <!-- gnss_broadcaster -->
     <include file="$(find adeye)/launch/gnss_broadcaster.launch"/>
+
+    <!-- camera_broadcaster -->
+    <node pkg="adeye" type="camera_broadcaster.py" name="camera_broadcaster"/>
 </launch>

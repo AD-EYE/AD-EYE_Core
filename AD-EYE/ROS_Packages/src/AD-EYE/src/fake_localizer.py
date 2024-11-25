@@ -15,7 +15,7 @@ class FakeLocalizer:
     #@param map_frame The map frame
     #@param base_link_frame The base_link frame
     def __init__(self, map_frame, base_link_frame):
-        self.gnss_sub = rospy.Subscriber('/ground_truth_pose', PoseStamped, self.gnssCallback)
+        self.gnss_sub = rospy.Subscriber('/gnss_pose', PoseStamped, self.gnssCallback)
         self.br = tf.TransformBroadcaster()
         self.map_frame = map_frame
         self.base_link_frame = base_link_frame
