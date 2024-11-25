@@ -20,7 +20,7 @@
         <arg name="max_boundingbox_side" value="30"/>
         <arg name="cluster_merge_threshold" value="0.6"/>
         <arg name="clustering_distance" value="1.0"/>
-        <arg name="output_frame" value="velodyne"/>
+        <arg name="output_frame" value="os_sensor"/>
         <arg name="use_gpu" value="true"/>
 
 
@@ -54,8 +54,8 @@
             <remap from="/points_ground" to="/safetyChannelPerception/detection/lidar_detector/points_ground"/>
             <remap from="/points_lanes" to="/safetyChannelPerception/detection/lidar_detector/points_lanes"/>
             <remap from="/detection/lidar_detector/cloud_clusters" to="/safetyChannelPerception/detection/lidar_detector/cloud_clusters"/>
-        </node>            
-        
+        </node>
+
         <node pkg="adeye"
             type="safetyChannelPerception"
             name="safetyChannelPerception"
@@ -64,25 +64,3 @@
 
     </group>
 </launch>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

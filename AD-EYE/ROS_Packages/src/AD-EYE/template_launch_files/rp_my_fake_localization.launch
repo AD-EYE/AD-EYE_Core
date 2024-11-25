@@ -21,7 +21,7 @@
         <arg name="pitch" value="$(arg tf_pitch)"/>
         <arg name="roll" value="$(arg tf_roll)"/>
         <arg name="frame_id" value="base_link"/>
-        <arg name="child_frame_id" value="/velodyne"/>
+        <arg name="child_frame_id" value="/os_sensor"/>
         <arg name="period_in_ms" value="10"/>
     </include>
 
