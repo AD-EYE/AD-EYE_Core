@@ -20,9 +20,12 @@ class GnssBroadcaster_Sim:
 
     ##The constructor
     #@param self The object pointer
-    def __init__(self, standard_parallel, map_origin):
+    def __init__(self, standard_parallel=59.349689, map_origin=None):
         self.standard_parallel = standard_parallel
-        self.map_origin = map_origin
+        if map_origin is None:
+            self.map_origin = [18.065291, 59.353781]
+        else:
+            self.map_origin = map_origin
         self.pose = PoseStamped()
 
         self.gnss_sub = rospy.Subscriber('/gnss_pose_simulink', PoseStamped, self.gnssSimulinkCallback)
@@ -75,9 +78,12 @@ class GnssBroadcaster_RealWorld:
     ##The constructor
     #
     #@param self The object pointer
-    def __init__(self, standard_parallel, map_origin):
+    def __init__(self, standard_parallel=59.349689, map_origin=None):
         self.standard_parallel = standard_parallel
-        self.map_origin = map_origin
+        if map_origin is None:
+            self.map_origin = [18.065291, 59.353781]
+        else:
+            self.map_origin = map_origin
         self.gnss_sub = rospy.Subscriber('/fix', NavSatFix, self.gnssCallback)
         self.gnss_pub = rospy.Publisher('/gnss_pose', PoseStamped, queue_size=1)
         self.pose = PoseStamped()
@@ -111,7 +117,9 @@ if __name__ == '__main__':
     rospy.init_node('GNSS_broadcaster')
 
     if rospy.get_param("sensing/gnss_source") == "Simulation":
-        GnssBroadcaster_Sim()
+        standard_parallel = float(rospy.get_param('~standard_parallel'))
+        map_origin = [float(x) for x in rospy.get_param('~map_origin').split(' ')]
+        GnssBroadcaster_Sim(standard_parallel, map_origin)
 
     if rospy.get_param("sensing/gnss_source") == "RealWorld":
         standard_parallel = float(rospy.get_param('~standard_parallel'))
