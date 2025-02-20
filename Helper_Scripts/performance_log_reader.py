@@ -102,7 +102,7 @@ def plot_log_dataframe(args: argparse.Namespace):
 
 if __name__ == "__main__":
 
-    PARSER = argparse.ArgumentParser(description="Performance logging for AD-EYE.")
+    PARSER = argparse.ArgumentParser()
 
     PARSER.add_argument("-f", "--filename", type=str, required=True, help="Path to logfile to be read.")
     PARSER.add_argument("-m", "--max_traces", type=int, required=False, default=5, help="Amount of traces to plot per frame.")
@@ -110,4 +110,5 @@ if __name__ == "__main__":
     PARSER.add_argument("-r", "--plot_rest", action="store_true", help="Also plot a trace for the sum of other cpu/mem load.")
 
     ARGS = PARSER.parse_args()
+
     plot_log_dataframe(ARGS)
