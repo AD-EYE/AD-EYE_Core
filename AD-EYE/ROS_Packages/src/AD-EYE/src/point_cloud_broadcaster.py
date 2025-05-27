@@ -19,7 +19,7 @@ class point_cloud_broadcaster_Sim():
     #@param data A Float32MultiArray message 
     def callback(self, data):
         self.msg.header.stamp = rospy.Time.now()
-        self.msg.header.frame_id = "velodyne"  # MO "velodyne"
+        self.msg.header.frame_id = "os_sensor"  # MO "os_sensor"
         self.msg.height = 1
         self.msg.width = len(data.data) / 4  # ADD data.size # ??
 
