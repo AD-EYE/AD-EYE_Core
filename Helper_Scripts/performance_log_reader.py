@@ -87,18 +87,17 @@ def log_to_dataframe(filename: str, simple_names: bool = False) -> pd.DataFrame:
             if out_list[0] not in trace_list:
                 trace_list[out_list[0]] = 0.0
                 pid_lut[out_list[0]] = out_list[3]
-            trace_list[out_list[0]] += out_list[1]
+            trace_list[out_list[0]] += out_list[2]
 
-            all_lists.append([current_time] + out_list[0:2])
+            all_lists.append([current_time] + out_list[0:3])
             total_trace[1] += out_list[1]
             total_trace[2] += out_list[2]
 
     all_lists.append([current_time] + total_trace) # last frame total
-    columns_list = ["frame", "pid", "cpu", "mem"]
+    columns_list = ["time", "pid", "cpu", "mem"]
     log_data_df = pd.DataFrame(data=all_lists, columns=columns_list)
 
     trace_list = sorted(trace_list.items(), reverse=True, key=lambda kv: kv[1])
-
     return log_data_df, trace_list, pid_lut
 
 
@@ -111,7 +110,7 @@ def plot_log_dataframe(filename: str, max_traces: int, plot_total: bool = False,
 
     if plot_total:
         temp_df = log_data_df.loc[log_data_df["pid"] == "total"]
-        x_axis = temp_df["frame"]
+        x_axis = temp_df["time"]
         y1_axis = temp_df["cpu"]
         axs[0].plot(x_axis, y1_axis, label="total")
         y2_axis = temp_df["mem"]
@@ -122,7 +121,7 @@ def plot_log_dataframe(filename: str, max_traces: int, plot_total: bool = False,
         pid = trace[0]
         command = pid_lut[pid]
         temp_df = log_data_df.loc[log_data_df["pid"] == pid]
-        x_axis = temp_df["frame"]
+        x_axis = temp_df["time"]
         y1_axis = temp_df["cpu"]
         axs[0].plot(x_axis, y1_axis, label=command)
         y2_axis = temp_df["mem"]
