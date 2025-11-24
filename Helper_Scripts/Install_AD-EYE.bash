@@ -3,6 +3,47 @@
 #Exit the script if one of the command fails
 set -e
 
+#Check gcc, g++ and cpp versions
+echo -e "\nChecking dependencies:"
+IFS=" /"
+
+echo -n " - gcc: "
+read -ra new_arr <<< "$(ls -la /usr/bin/gcc)"
+gcc_version=${new_arr[-1]}
+#If pointing to the symlinked /etc/alternatives/gcc, check where that link leads
+if [ "$gcc_version" = "gcc" ]; then
+    read -ra new_arr <<< "$(ls -la /etc/alternatives/gcc)"
+    gcc_version=${new_arr[-1]}
+fi
+echo "$gcc_version"
+
+echo -n " - g++: "
+read -ra new_arr <<< "$(ls -la /usr/bin/g++)"
+gpp_version=${new_arr[-1]}
+if [ "$gpp_version" = "g++" ]; then
+    read -ra new_arr <<< "$(ls -la /etc/alternatives/g++)"
+    gpp_version=${new_arr[-1]}
+fi
+echo "$gpp_version"
+
+echo -n " - cpp: "
+read -ra new_arr <<< "$(ls -la /usr/bin/cpp)"
+cpp_version=${new_arr[-1]}
+if [ "$cpp_version" = "cpp" ]; then
+    read -ra new_arr <<< "$(ls -la /etc/alternatives/cpp)"
+    cpp_version=${new_arr[-1]}
+fi
+echo "$cpp_version"
+
+if [ "$gcc_version" != "gcc-5" ] || [ "$gpp_version" != "g++-5" ] || [ "$cpp_version" != "cpp-5" ]; then
+    echo "ERROR: gcc, g++ and cpp all need to be version 5. Make sure the dependecies are met. Aborting."
+    exit
+else
+    echo "OK!"
+fi
+
+exit
+
 #Ask if the program should be installed with CUDA
 while true; do
     read -p "Do you wish to install this program with CUDA? (y/n)" yn
