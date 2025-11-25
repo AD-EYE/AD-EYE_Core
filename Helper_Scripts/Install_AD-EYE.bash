@@ -42,8 +42,6 @@ else
     echo "OK!"
 fi
 
-exit
-
 #Ask if the program should be installed with CUDA
 while true; do
     read -p "Do you wish to install this program with CUDA? (y/n)" yn
