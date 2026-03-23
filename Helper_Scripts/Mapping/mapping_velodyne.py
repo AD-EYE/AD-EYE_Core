@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-#import tf
 import math
 import rospy
 import subprocess
