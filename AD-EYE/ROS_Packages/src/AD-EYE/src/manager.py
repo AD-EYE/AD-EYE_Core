@@ -188,35 +188,35 @@ class ManagerFeaturesHandler:
 #Publishes the current active features (for GUI)
 class Manager:
     INITIALIZING_DEFAULT_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
-        # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Sensing",
+        #"Localization",
+        #"Fake_Localization",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
-        # "SSMP",
+        #"SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     ENABLED_DEFAULT_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
-        # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Sensing",
+        #"Localization",
+        #"Fake_Localization",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
-        # "SSMP",
+        #"SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     ENGAGED_DEFAULT_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
         "Sensing",
         "Localization",
@@ -227,49 +227,49 @@ class Manager:
         #"Switch",
         #"SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     FAULT_DEFAULT_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
         "Sensing",
-        # "Localization",
+        #"Localization",
         "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
         "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     INITIALIZING_ALLOWED_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
-        # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Sensing",
+        #"Localization",
+        #"Fake_Localization",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
-        # "SSMP",
+        #"SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     ENABLED_ALLOWED_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
-        # "Sensing",
-        # "Localization",
-        # "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Sensing",
+        #"Localization",
+        #"Fake_Localization",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
-        # "SSMP",
+        #"SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     ENGAGED_ALLOWED_FEATURES = [
         "Recording",
@@ -286,18 +286,18 @@ class Manager:
         "Experiment_specific_recording"
     ]
     FAULT_ALLOWED_FEATURES = [
-        # "Recording",
+        #"Recording",
         "Map",
         "Sensing",
         "Localization",
         "Fake_Localization",
-        # "Detection",
-        # "Mission_Planning",
-        # "Motion_Planning",
+        #"Detection",
+        #"Mission_Planning",
+        #"Motion_Planning",
         "Switch",
         "SSMP",
         "Rviz",
-        # "Experiment_specific_recording"
+        #"Experiment_specific_recording"
     ]
     previous_features = []
     current_features = INITIALIZING_DEFAULT_FEATURES
