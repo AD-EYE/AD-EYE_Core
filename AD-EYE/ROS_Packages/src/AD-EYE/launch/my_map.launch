@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
 
-    <arg name="world_name" default="W01_Base_World"/> 
+    <arg name="world_name" default="W18_Test_Track"/> 
     <arg name="PointCloud_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Pointcloud_Files/"/>
     <arg name="VectorMap_Files_Folder" value="$(find adeye)/../../../../AD-EYE/Experiments/$(arg world_name)/Vector_Map_Files/"/>
 
